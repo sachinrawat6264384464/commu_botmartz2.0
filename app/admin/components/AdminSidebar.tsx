@@ -17,7 +17,8 @@ import {
   Mail,
   Users,
   LogOut,
-  ShieldCheck
+  ShieldCheck,
+  Trophy
 } from "lucide-react";
 import { UserRole, ROLE_PERMISSIONS } from "@/lib/rbac";
 
@@ -36,6 +37,7 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
     { label: "Deep Analytics", href: "/admin/analytics", icon: BarChart3, allowed: permissions.canViewAnalytics },
     { label: "Newsletters & Broadcasts", href: "/admin/newsletter", icon: Mail, allowed: permissions.canSendNewsletters },
     { label: "Events & Summits", href: "/admin/events", icon: Calendar, allowed: permissions.canManageEvents },
+    { label: "Challenges & Arena", href: "/admin/challenges", icon: Trophy, allowed: permissions.canManageEvents },
     { label: "AI Bootcamps", href: "/admin/bootcamps", icon: BookOpen, allowed: permissions.canManageEvents },
     { label: "Payments & Ledger", href: "/admin/payments", icon: CreditCard, allowed: permissions.canManageFinance },
     { label: "Coupons & Promo Codes", href: "/admin/coupons", icon: Tag, allowed: permissions.canManageCoupons },
@@ -99,12 +101,25 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
           </span>
         </div>
 
-        <Link
-          href="/"
-          className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors"
-        >
-          <span>← Back to Public Site</span>
-        </Link>
+        <div className="flex items-center justify-between px-3 pt-2">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 transition-colors"
+          >
+            <span>← Public Site</span>
+          </Link>
+
+          {onLogout && (
+            <button
+              onClick={onLogout}
+              className="flex items-center gap-1 text-xs font-mono font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+              title="End session and log out"
+            >
+              <LogOut size={12} />
+              <span>Exit</span>
+            </button>
+          )}
+        </div>
       </div>
     </aside>
   );

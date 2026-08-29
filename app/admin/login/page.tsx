@@ -14,34 +14,35 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const normalizedEmail = email.trim().toLowerCase();
-    const cleanPass = password.trim();
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, role }),
+      });
 
-    // Verify Admin Credentials
-    const isSuperAdmin = (normalizedEmail === "soham@botmartz.com" && cleanPass === "Soham@271093") ||
-                         (normalizedEmail === "botmartz@gmail.com" && cleanPass === "Admin@2026##");
+      const data = await res.json();
 
-    // Verify Manager Credentials
-    const isManager = (normalizedEmail === "manager@botmartz.com" && cleanPass === "Manager@2026##") ||
-                      (normalizedEmail.endsWith("@botmartz.com") && cleanPass.length >= 6);
-
-    if (isSuperAdmin || (role === "manager" && isManager) || (role === "volunteer" && cleanPass.length >= 6)) {
-      const finalRole = isSuperAdmin ? "super-admin" : role;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("botmartz_admin_role", finalRole);
-        localStorage.setItem("botmartz_admin_email", normalizedEmail);
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Invalid admin credentials.");
       }
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("botmartz_admin_role", data.role);
+        localStorage.setItem("botmartz_admin_email", data.email);
+      }
+
       setTimeout(() => {
         router.push("/admin");
-      }, 400);
-    } else {
+      }, 300);
+    } catch (err: any) {
       setLoading(false);
-      setError("Invalid admin email or security password.");
+      setError(err.message || "Invalid admin email or security password.");
     }
   };
 

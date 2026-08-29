@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   Trophy, 
@@ -13,7 +13,16 @@ import {
   Award,
   Shield,
   Zap,
-  Terminal
+  Terminal,
+  Github,
+  Globe,
+  Video,
+  Send,
+  X,
+  Loader2,
+  Check,
+  AlertCircle,
+  MessageCircle
 } from "lucide-react";
 
 interface Challenge {
@@ -82,6 +91,89 @@ const CHALLENGES: Challenge[] = [
 ];
 
 export default function ChallengesPage() {
+  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
+  const [formMode, setFormMode] = useState<"register" | "submit">("register");
+
+  // Form State
+  const [leadName, setLeadName] = useState("");
+  const [leadEmail, setLeadEmail] = useState("");
+  const [leadPhone, setLeadPhone] = useState("");
+  const [discordHandle, setDiscordHandle] = useState("");
+  const [githubHandle, setGithubHandle] = useState("");
+  const [teamName, setTeamName] = useState("");
+  const [teamSize, setTeamSize] = useState("1");
+  const [projectTitle, setProjectTitle] = useState("");
+  const [projectPitch, setProjectPitch] = useState("");
+  const [techStackInput, setTechStackInput] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
+  const [demoUrl, setDemoUrl] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
+  const [agreedToRules, setAgreedToRules] = useState(true);
+
+  const [submitting, setSubmitting] = useState(false);
+  const [submittedSuccess, setSubmittedSuccess] = useState<any>(null);
+  const [error, setError] = useState("");
+
+  const handleOpenModal = (challenge: Challenge, mode: "register" | "submit") => {
+    setSelectedChallenge(challenge);
+    setFormMode(mode);
+    setError("");
+    setSubmittedSuccess(null);
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedChallenge) return;
+
+    setSubmitting(true);
+    setError("");
+
+    try {
+      const techStackArray = techStackInput
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+
+      const payload = {
+        challengeId: selectedChallenge.id,
+        challengeTitle: selectedChallenge.title,
+        type: formMode,
+        teamName: teamName || `${leadName}'s Team`,
+        teamSize,
+        leadName,
+        leadEmail,
+        leadPhone,
+        discordHandle,
+        githubHandle,
+        projectTitle,
+        projectPitch,
+        techStack: techStackArray,
+        githubUrl,
+        demoUrl,
+        videoUrl,
+        agreedToRules,
+      };
+
+      const res = await fetch("/api/challenges/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Submission failed. Please check details.");
+      }
+
+      setSubmittedSuccess(data);
+    } catch (err: any) {
+      setError(err.message || "An error occurred while submitting.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -95,8 +187,28 @@ export default function ChallengesPage() {
             Build, Compete &amp; Win Real Cash &amp; Credits
           </h1>
           <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-            Test your AI engineering skills in 48-hour sprints and weekly prompt challenges. Get reviewed by top AI architects and win cash prizes.
+            Test your applied AI engineering skills in 48-hour sprints and weekly prompt battles. Complete your team registration or submit your project repo for live review.
           </p>
+
+          <div className="flex items-center justify-center gap-3 mt-6">
+            <a
+              href="https://discord.gg/k75ZpEnzp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-mono text-xs font-bold border border-indigo-200 transition-colors inline-flex items-center gap-1.5"
+            >
+              <span>#hackathon-lounge Discord</span>
+            </a>
+            <a
+              href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-mono text-xs font-bold border border-emerald-200 transition-colors inline-flex items-center gap-1.5"
+            >
+              <MessageCircle size={14} />
+              <span>WhatsApp Alerts</span>
+            </a>
+          </div>
         </div>
 
         {/* Challenge Cards */}
@@ -160,13 +272,23 @@ export default function ChallengesPage() {
                   <span>{c.participants} Registered Builders</span>
                 </div>
 
-                <button
-                  onClick={() => alert(`Registered for ${c.title}! We will send submission templates to your email.`)}
-                  className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <span>Enter Challenge Now</span>
-                  <ArrowRight size={14} />
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => handleOpenModal(c, "submit")}
+                    className="bg-white border border-slate-300 hover:border-[#0066FF] text-slate-800 hover:text-[#0066FF] px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-2xs cursor-pointer flex items-center justify-center gap-1.5"
+                  >
+                    <span>Submit Project Repo</span>
+                    <Send size={13} />
+                  </button>
+
+                  <button
+                    onClick={() => handleOpenModal(c, "register")}
+                    className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span>Register Team Now</span>
+                    <ArrowRight size={14} />
+                  </button>
+                </div>
               </div>
 
             </div>
@@ -174,6 +296,323 @@ export default function ChallengesPage() {
         </div>
 
       </div>
+
+      {/* ── Interactive Registration & Submission Modal ── */}
+      {selectedChallenge && (
+        <div 
+          onClick={() => setSelectedChallenge(null)}
+          className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto"
+          >
+            {/* Modal Header */}
+            <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-100 mb-6">
+              <div>
+                <span className="px-2.5 py-0.5 rounded bg-blue-50 text-[#0066FF] font-mono text-[10px] font-bold uppercase">
+                  {selectedChallenge.badge}
+                </span>
+                <h3 className="text-xl font-bold text-slate-900 mt-1.5 leading-snug">
+                  {selectedChallenge.title}
+                </h3>
+              </div>
+              <button 
+                onClick={() => setSelectedChallenge(null)}
+                className="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Success State */}
+            {submittedSuccess ? (
+              <div className="text-center py-8 space-y-4">
+                <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
+                  <Check size={32} />
+                </div>
+                <h4 className="text-2xl font-bold text-slate-900">Registration Confirmed!</h4>
+                <p className="text-sm text-slate-600 max-w-md mx-auto">
+                  Your entry has been received and saved to our engineering ledger. Submission ID: <strong className="font-mono text-[#0066FF]">{submittedSuccess.id}</strong>.
+                </p>
+                
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-600 text-left space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Team:</span>
+                    <span className="font-bold font-mono text-slate-900">{teamName || leadName}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Lead Email:</span>
+                    <span className="font-mono text-slate-900">{leadEmail}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400">Track:</span>
+                    <span className="font-mono text-emerald-600 font-bold">{selectedChallenge.badge}</span>
+                  </div>
+                </div>
+
+                <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <a
+                    href="https://discord.gg/k75ZpEnzp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-xs font-bold"
+                  >
+                    Join #hackathon-arena on Discord →
+                  </a>
+                  <button
+                    onClick={() => setSelectedChallenge(null)}
+                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono text-xs font-bold"
+                  >
+                    Close Window
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* Form */
+              <form onSubmit={handleFormSubmit} className="space-y-5">
+                {/* Mode Selector Tabs */}
+                <div className="flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setFormMode("register")}
+                    className={`flex-1 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                      formMode === "register" ? "bg-white text-[#0066FF] shadow-xs" : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    1. Team Registration
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormMode("submit")}
+                    className={`flex-1 py-2 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                      formMode === "submit" ? "bg-white text-[#0066FF] shadow-xs" : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    2. Project Code &amp; Demo Submission
+                  </button>
+                </div>
+
+                {error && (
+                  <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono flex items-center gap-2">
+                    <AlertCircle size={15} className="shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                )}
+
+                {/* Team & Lead Contact Details */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                      Lead Builder Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Soham Sharma"
+                      value={leadName}
+                      onChange={(e) => setLeadName(e.target.value)}
+                      required
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="soham@botmartz.com"
+                      value={leadEmail}
+                      onChange={(e) => setLeadEmail(e.target.value)}
+                      required
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                      WhatsApp Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={leadPhone}
+                      onChange={(e) => setLeadPhone(e.target.value)}
+                      required
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                      Discord Handle / Tag
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="soham_ai#0001"
+                      value={discordHandle}
+                      onChange={(e) => setDiscordHandle(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                      Team Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Agentic Frontier"
+                      value={teamName}
+                      onChange={(e) => setTeamName(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                      Team Size
+                    </label>
+                    <select
+                      value={teamSize}
+                      onChange={(e) => setTeamSize(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    >
+                      <option value="1">Solo Builder (1 Person)</option>
+                      <option value="2">Duo (2 Builders)</option>
+                      <option value="3">Trio (3 Builders)</option>
+                      <option value="4">Squad (4 Builders)</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Project Submission Fields */}
+                {formMode === "submit" && (
+                  <div className="pt-3 border-t border-slate-100 space-y-4">
+                    <div>
+                      <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                        Project Title *
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. AutoRAG: Multi-Agent Hallucination Auditor"
+                        value={projectTitle}
+                        onChange={(e) => setProjectTitle(e.target.value)}
+                        required={formMode === "submit"}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                        Public GitHub Repository URL *
+                      </label>
+                      <input
+                        type="url"
+                        placeholder="https://github.com/your-username/your-repo"
+                        value={githubUrl}
+                        onChange={(e) => setGithubUrl(e.target.value)}
+                        required={formMode === "submit"}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                          Live Demo / Hosted URL
+                        </label>
+                        <input
+                          type="url"
+                          placeholder="https://demo.vercel.app"
+                          value={demoUrl}
+                          onChange={(e) => setDemoUrl(e.target.value)}
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                          Video Walkthrough / Loom URL
+                        </label>
+                        <input
+                          type="url"
+                          placeholder="https://loom.com/share/..."
+                          value={videoUrl}
+                          onChange={(e) => setVideoUrl(e.target.value)}
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                        Tech Stack (Comma-separated)
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="LangGraph, Ollama, Qdrant, Next.js, FastEmbed"
+                        value={techStackInput}
+                        onChange={(e) => setTechStackInput(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
+                        Architecture &amp; System Overview
+                      </label>
+                      <textarea
+                        rows={3}
+                        placeholder="Briefly explain your state checkpointing, evaluation methodology, and edge cases handled..."
+                        value={projectPitch}
+                        onChange={(e) => setProjectPitch(e.target.value)}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Terms Agreement */}
+                <div className="flex items-start gap-2.5 pt-2">
+                  <input
+                    type="checkbox"
+                    id="rulesCheck"
+                    checked={agreedToRules}
+                    onChange={(e) => setAgreedToRules(e.target.checked)}
+                    required
+                    className="mt-1 rounded text-[#0066FF] focus:ring-[#0066FF]"
+                  />
+                  <label htmlFor="rulesCheck" className="text-xs text-slate-600">
+                    I confirm that this submission complies with Botmartz open evaluation rules, includes genuine code, and is ready for live architectural review.
+                  </label>
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-3">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full bg-[#0066FF] hover:bg-[#0052CC] text-white py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
+                  >
+                    {submitting ? (
+                      <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                      <>
+                        <span>{formMode === "submit" ? "Submit Project for Evaluation" : "Confirm Team Registration"}</span>
+                        <ArrowRight size={14} />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
+            )}
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

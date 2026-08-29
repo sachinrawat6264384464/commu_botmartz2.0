@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import AdminSidebar from "./components/AdminSidebar";
 import { UserRole, isPathAllowed } from "@/lib/rbac";
@@ -16,7 +16,36 @@ export default function AdminLayout({
   
   const [role, setRole] = useState<UserRole>("super-admin");
   const [userEmail, setUserEmail] = useState("soham@botmartz.com");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (pathname === "/admin/login") {
+      setLoading(false);
+      return;
+    }
+
+    if (typeof window !== "undefined") {
+      const storedRole = localStorage.getItem("botmartz_admin_role") as UserRole;
+      const storedEmail = localStorage.getItem("botmartz_admin_email");
+
+      if (!storedRole) {
+        router.push("/admin/login");
+        return;
+      }
+
+      if (storedRole) setRole(storedRole);
+      if (storedEmail) setUserEmail(storedEmail);
+    }
+    setLoading(false);
+  }, [pathname, router]);
+
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("botmartz_admin_role");
+      localStorage.removeItem("botmartz_admin_email");
+    }
+    router.push("/admin/login");
+  };
 
   // If visiting /admin/login, bypass layout wrapper
   if (pathname === "/admin/login") {
@@ -36,7 +65,7 @@ export default function AdminLayout({
   if (!allowed) {
     return (
       <div className="min-h-screen bg-[#FAFCFF] text-slate-900 flex">
-        <AdminSidebar userRole={role} userEmail={userEmail} />
+        <AdminSidebar userRole={role} userEmail={userEmail} onLogout={handleLogout} />
         <main className="flex-1 p-12 flex flex-col items-center justify-center text-center">
           <div className="w-16 h-16 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center mb-6">
             <ShieldAlert size={32} />
@@ -58,10 +87,11 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#FAFCFF] text-slate-900 flex">
-      <AdminSidebar userRole={role} userEmail={userEmail} />
+      <AdminSidebar userRole={role} userEmail={userEmail} onLogout={handleLogout} />
       <main className="flex-1 overflow-y-auto min-h-screen p-8 lg:p-10">
         {children}
       </main>
     </div>
   );
 }
+

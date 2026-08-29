@@ -316,7 +316,7 @@ function DiscussionsContent() {
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <a
-              href="https://chat.whatsapp.com/invite"
+              href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
               target="_blank"
               rel="noopener noreferrer"
               className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold shadow-2xs flex items-center gap-1.5"
@@ -325,7 +325,7 @@ function DiscussionsContent() {
               <span>WhatsApp Group</span>
             </a>
             <a
-              href="https://discord.gg"
+              href="https://discord.gg/k75ZpEnzp"
               target="_blank"
               rel="noopener noreferrer"
               className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-xs font-bold shadow-2xs"

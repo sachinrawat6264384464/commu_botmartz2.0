@@ -33,6 +33,7 @@ export default function CommunityNavbar() {
     { name: "Discussions", href: "/discussions" },
     { name: "Showcase", href: "/showcase" },
     { name: "Challenges", href: "/challenges" },
+    { name: "Magazine", href: "/magazine" },
   ];
 
   const RITUALS_LINKS = [
@@ -60,6 +61,7 @@ export default function CommunityNavbar() {
   ];
 
   const DROPDOWN_LINKS = [
+    { name: "AI Engineering Magazine", href: "/magazine", icon: FileText, desc: "Architectural digests & deep-dives" },
     { name: "AI Bootcamps & Cohorts", href: "/workshops", icon: BookOpen, desc: "Hands-on engineering workshops" },
     { name: "Leaderboard & Hall of Fame", href: "/leaderboard", icon: Trophy, desc: "Top builders & karma ranks" },
     { name: "Verify Certificates", href: "/certificates", icon: Award, desc: "Official credential verification" },
@@ -193,7 +195,7 @@ export default function CommunityNavbar() {
         {/* Right Action & Community Links */}
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="https://chat.whatsapp.com/invite"
+            href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-mono text-xs font-bold transition-colors flex items-center gap-1.5 border border-emerald-200"
@@ -204,7 +206,7 @@ export default function CommunityNavbar() {
           </a>
 
           <a
-            href="https://discord.gg"
+            href="https://discord.gg/k75ZpEnzp"
             target="_blank"
             rel="noopener noreferrer"
             className="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-mono text-xs font-bold transition-colors flex items-center gap-1.5 border border-indigo-200"
@@ -282,7 +284,7 @@ export default function CommunityNavbar() {
           <div className="pt-4 border-t border-slate-100 flex flex-col gap-2">
             <div className="grid grid-cols-2 gap-2">
               <a
-                href="https://chat.whatsapp.com/invite"
+                href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-center py-2.5 rounded-xl text-xs font-mono font-bold"
@@ -290,7 +292,7 @@ export default function CommunityNavbar() {
                 WhatsApp Hub
               </a>
               <a
-                href="https://discord.gg"
+                href="https://discord.gg/k75ZpEnzp"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-indigo-50 border border-indigo-200 text-indigo-700 text-center py-2.5 rounded-xl text-xs font-mono font-bold"

@@ -63,7 +63,7 @@ export default async function CommunityHomePage() {
             </Link>
             
             <a
-              href="https://chat.whatsapp.com/invite"
+              href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-6 py-3.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center gap-2"
@@ -73,7 +73,7 @@ export default async function CommunityHomePage() {
             </a>
 
             <a
-              href="https://discord.gg"
+              href="https://discord.gg/k75ZpEnzp"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-6 py-3.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center gap-2"
@@ -347,7 +347,109 @@ export default async function CommunityHomePage() {
         </div>
       </section>
 
-      {/* ── 5. CERTIFICATE LOOKUP CTA ── */}
+      {/* ── 5. AI ENGINEERING MAGAZINE & DIGESTS ── */}
+      <section className="py-20 bg-[#FAFCFF] border-b border-slate-200/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+            <div>
+              <div className="font-mono text-xs text-[#0066FF] uppercase tracking-wider font-bold mb-1.5 flex items-center gap-1.5">
+                <FileText size={13} /> EDITORIAL &amp; RESEARCH DISPATCH
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">AI Engineering Magazine</h2>
+            </div>
+            <Link
+              href="/magazine"
+              className="text-xs font-bold text-[#0066FF] hover:underline flex items-center gap-1.5 font-mono"
+            >
+              <span>Explore All Issues &amp; Deep-Dives</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Article 1 */}
+            <Link
+              href="/magazine"
+              className="group bg-white border border-slate-200 hover:border-[#0066FF] rounded-3xl p-6 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 font-mono text-[10px] font-bold">
+                    #AgentSystems
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400">8 min read</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-[#0066FF] transition-colors">
+                  Deterministic State Machines in LangGraph: Handling Tool Failures Without Corrupted Memory
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">
+                  A deep architectural teardown of checkpoint persistence in SQLite/PostgreSQL, human-in-the-loop pause nodes, and rollback graphs for enterprise multi-agent workflows.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
+                <span className="font-bold text-slate-800">By Soham Sharma</span>
+                <span className="text-[#0066FF] font-bold group-hover:translate-x-1 transition-transform">Read Article →</span>
+              </div>
+            </Link>
+
+            {/* Article 2 */}
+            <Link
+              href="/magazine"
+              className="group bg-white border border-slate-200 hover:border-emerald-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-[10px] font-bold">
+                    #HybridRAG
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400">12 min read</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-emerald-600 transition-colors">
+                  BM25 + Dense Embeddings with Reciprocal Rank Fusion: Production Benchmarks at 1M Chunks
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">
+                  Why single-vector dense similarity fails on exact part numbers and domain jargon, and how multi-stage cross-encoder reranking solves recall degradation.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
+                <span className="font-bold text-slate-800">By Dr. Promit Ray</span>
+                <span className="text-emerald-600 font-bold group-hover:translate-x-1 transition-transform">Read Article →</span>
+              </div>
+            </Link>
+
+            {/* Article 3 */}
+            <Link
+              href="/magazine"
+              className="group bg-white border border-slate-200 hover:border-purple-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 font-mono text-[10px] font-bold">
+                    #LocalAI
+                  </span>
+                  <span className="text-[11px] font-mono text-slate-400">6 min read</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-purple-600 transition-colors">
+                  Running Quantized Gemma 2 &amp; Llama 3.2 In-Browser via WebGPU: Zero Cloud Cost Inference
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">
+                  Step-by-step implementation guide using ONNX Runtime Web and transformers.js to power on-device summarization with zero cloud latency.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
+                <span className="font-bold text-slate-800">By Aarav Nair</span>
+                <span className="text-purple-600 font-bold group-hover:translate-x-1 transition-transform">Read Article →</span>
+              </div>
+            </Link>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── 6. CERTIFICATE LOOKUP CTA ── */}
       <section className="py-20 bg-[#FAFCFF]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-[#0066FF] flex items-center justify-center mx-auto mb-6 shadow-2xs">

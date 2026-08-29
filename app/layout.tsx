@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import CommunityNavbar from "./_components/Navbar";
-import CommunityFooter from "./_components/Footer";
+import ClientLayout from "./client-layout";
 
 export const metadata: Metadata = {
   title: "Botmartz Community — AI Engineers, Builders & Research Hub",
@@ -21,11 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#FAFCFF] text-slate-900 min-h-screen flex flex-col antialiased">
-        <CommunityNavbar />
-        <main className="flex-1 pt-18">
-          {children}
-        </main>
-        <CommunityFooter />
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

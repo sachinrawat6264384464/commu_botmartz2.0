@@ -57,6 +57,7 @@ export function isPathAllowed(role: UserRole, pathname: string): boolean {
 
   if (pathname === '/admin' || pathname === '/admin/login') return true;
   if (pathname.startsWith('/admin/events')) return perms.canManageEvents;
+  if (pathname.startsWith('/admin/challenges')) return perms.canManageEvents;
   if (pathname.startsWith('/admin/bootcamps')) return perms.canManageBootcamps;
   if (pathname.startsWith('/admin/payments')) return perms.canManageFinance;
   if (pathname.startsWith('/admin/coupons')) return perms.canManageCoupons;
