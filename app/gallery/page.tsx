@@ -1,259 +1,435 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Image as ImageIcon, Sparkles, Filter, X, ZoomIn, MessageCircle } from "lucide-react";
+import {
+  Camera,
+  Share2,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  MessageSquare,
+  Maximize2
+} from "lucide-react";
 
-interface MediaItem {
+interface GalleryImage {
   id: string;
+  url: string;
   title: string;
-  category: "Conferences" | "Workshops" | "Community Meetups" | "Hackathons";
-  date: string;
-  location: string;
-  image: string;
-  description: string;
+  category: string;
+  caption?: string;
+  createdAt?: string;
 }
 
-const SAMPLE_MEDIA: MediaItem[] = [
+const CATEGORIES = ["All", "AI Frontier", "Workshops", "Community Meetups", "Behind The Scenes"];
+
+const DEFAULT_GALLERY_IMAGES: GalleryImage[] = [
   {
     id: "g1",
+    url: "/gallery/event-1.png",
     title: "AI Frontier Summit Keynote & Stage Panel",
-    category: "Conferences",
-    date: "Aug 2026",
-    location: "Main Keynote Arena",
-    image: "/gallery/event-1.png",
-    description: "Packed auditorium listening to real-world Enterprise RAG deployment case studies and LangGraph architectures."
+    category: "AI Frontier",
+    caption: "Packed auditorium listening to real-world Enterprise RAG deployment case studies and LangGraph architectures.",
+    createdAt: "2026-08-20"
   },
   {
     id: "g2",
+    url: "/gallery/event-2.png",
     title: "Community Builder Spotlight & Speaker Session",
-    category: "Conferences",
-    date: "Aug 2026",
-    location: "Stage 1",
-    image: "/gallery/event-2.png",
-    description: "Technical speaker delivering insights on deterministic agent workflows, state recovery, and inference benchmarking."
+    category: "AI Frontier",
+    caption: "Technical speaker delivering insights on deterministic agent workflows, state recovery, and inference benchmarking.",
+    createdAt: "2026-08-20"
   },
   {
     id: "g3",
+    url: "/gallery/event-3.png",
     title: "Hands-on AI Engineering Code Lab",
     category: "Workshops",
-    date: "July 2026",
-    location: "Botmartz AI Lab",
-    image: "/gallery/event-3.png",
-    description: "Engineers collaborating on deterministic state checkpoints, tool calling error handling, and sandbox runs."
+    caption: "Engineers collaborating on deterministic state checkpoints, tool calling error handling, and sandbox runs.",
+    createdAt: "2026-07-15"
   },
   {
     id: "g4",
+    url: "/gallery/event-4.png",
     title: "Pre-Summit Hack Night & Builder Networking",
     category: "Community Meetups",
-    date: "Aug 2026",
-    location: "Tech Lounge",
-    image: "/gallery/event-4.png",
-    description: "Informal networking, open-source brainstorming, and hack sprints between developers from 15+ cities."
+    caption: "Informal networking, open-source brainstorming, and hack sprints between developers from 15+ cities.",
+    createdAt: "2026-08-19"
   },
   {
     id: "g5",
+    url: "/gallery/event-5.png",
     title: "Agent Challenge Demo Day Presentations",
-    category: "Hackathons",
-    date: "June 2026",
-    location: "Stage 2 Arena",
-    image: "/gallery/event-5.png",
-    description: "Finalist teams demonstrating autonomous agents executing complex financial and legal extraction pipelines."
+    category: "AI Frontier",
+    caption: "Finalist teams demonstrating autonomous agents executing complex financial and legal extraction pipelines.",
+    createdAt: "2026-06-25"
   },
   {
     id: "g6",
+    url: "/gallery/event-6.png",
     title: "Hybrid RAG & Vector Indexing Cohort",
     category: "Workshops",
-    date: "July 2026",
-    location: "Workshop Hall A",
-    image: "/gallery/event-6.png",
-    description: "Benchmarking dense embeddings against BM25 Reciprocal Rank Fusion on large real-world doc datasets."
+    caption: "Benchmarking dense embeddings against BM25 Reciprocal Rank Fusion on large real-world doc datasets.",
+    createdAt: "2026-07-22"
   },
   {
     id: "g7",
+    url: "/gallery/event-7.png",
     title: "AI Frontier Summit Delegate Group & Community Gathering",
-    category: "Conferences",
-    date: "Aug 2026",
-    location: "Main Convention Center",
-    image: "/gallery/event-7.png",
-    description: "Community builders, founders, students, and enterprise architects celebrating applied AI innovation."
+    category: "AI Frontier",
+    caption: "Community builders, founders, students, and enterprise architects celebrating applied AI innovation.",
+    createdAt: "2026-08-20"
   },
   {
     id: "g8",
+    url: "/gallery/event-8.png",
     title: "Live Agent State Machine Architecture Breakdown",
-    category: "Conferences",
-    date: "Aug 2026",
-    location: "Auditorium Hall",
-    image: "/gallery/event-8.png",
-    description: "Interactive breakdown of checkpoint persistence in PostgreSQL and human-in-the-loop pause nodes."
+    category: "Workshops",
+    caption: "Interactive breakdown of checkpoint persistence in PostgreSQL and human-in-the-loop pause nodes.",
+    createdAt: "2026-08-20"
   },
   {
     id: "g9",
+    url: "/gallery/event-9.png",
     title: "Fireside Keynote: Future of Autonomous Multi-Agent Swarms",
-    category: "Conferences",
-    date: "Aug 2026",
-    location: "Main Stage",
-    image: "/gallery/event-9.png",
-    description: "Keynote presentation on real-time agent observability, evaluation frameworks, and latency optimization."
+    category: "AI Frontier",
+    caption: "Keynote presentation on real-time agent observability, evaluation frameworks, and latency optimization.",
+    createdAt: "2026-08-20"
   },
   {
     id: "g10",
-    title: "Technical Q&A & Architecture Teardown with Attendees",
-    category: "Conferences",
-    date: "Aug 2026",
-    location: "Stage 1",
-    image: "/gallery/event-10.png",
-    description: "Engaging audience questions on production LLM reliability, fine-tuning vs RAG, and MCP integrations."
+    url: "/gallery/event-10.png",
+    title: "Behind The Scenes: Speaker Stage Setup & AV Prep",
+    category: "Behind The Scenes",
+    caption: "Technical checks, wireless mic calibration, and live streaming setup before the keynote hall opened.",
+    createdAt: "2026-08-20"
   },
   {
     id: "g11",
+    url: "/gallery/event-11.png",
     title: "Developer Hackathon Workspace & Team Collaboration",
-    category: "Hackathons",
-    date: "June 2026",
-    location: "Hacker Arena",
-    image: "/gallery/event-11.png",
-    description: "Teams coding 48-hour sprint projects with cash prizes and cloud infrastructure credits."
+    category: "Workshops",
+    caption: "Teams coding 48-hour sprint projects with cash prizes and cloud infrastructure credits.",
+    createdAt: "2026-06-24"
   },
   {
     id: "g12",
+    url: "/gallery/event-12.png",
     title: "AI Summit Speaker Panel & Applied Research Discussion",
-    category: "Conferences",
-    date: "Aug 2026",
-    location: "Grand Auditorium",
-    image: "/gallery/event-12.png",
-    description: "Distinguished panel discussion on open-weight SLMs, on-device WebGPU inference, and production agent safety."
+    category: "AI Frontier",
+    caption: "Distinguished panel discussion on open-weight SLMs, on-device WebGPU inference, and production agent safety.",
+    createdAt: "2026-08-20"
   }
 ];
 
-const CATEGORIES = ["All", "Conferences", "Workshops", "Community Meetups", "Hackathons"];
-
 export default function GalleryPage() {
-  const [selectedCat, setSelectedCat] = useState("All");
-  const [activeItem, setActiveItem] = useState<MediaItem | null>(null);
+  const [images, setImages] = useState<GalleryImage[]>(DEFAULT_GALLERY_IMAGES);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const filtered = SAMPLE_MEDIA.filter(m => selectedCat === "All" || m.category === selectedCat);
+  // Fetch gallery images from API
+  useEffect(() => {
+    async function loadGallery() {
+      try {
+        const res = await fetch("/api/gallery");
+        const data = await res.json();
+        if (data.success && Array.isArray(data.images) && data.images.length > 0) {
+          setImages(data.images);
+        }
+      } catch (err) {
+        console.error("Failed to load gallery:", err);
+      }
+    }
+    loadGallery();
+  }, []);
+
+  const filteredImages = images.filter(
+    (img) => activeCategory === "All" || img.category === activeCategory
+  );
+
+  const selectedImage = selectedIndex !== null ? filteredImages[selectedIndex] : null;
+
+  const handleNext = useCallback(() => {
+    if (selectedIndex === null) return;
+    setSelectedIndex((prev) => (prev !== null && prev < filteredImages.length - 1 ? prev + 1 : 0));
+  }, [selectedIndex, filteredImages.length]);
+
+  const handlePrev = useCallback(() => {
+    if (selectedIndex === null) return;
+    setSelectedIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : filteredImages.length - 1));
+  }, [selectedIndex, filteredImages.length]);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+      if (e.key === "Escape") setSelectedIndex(null);
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+    },
+    [selectedIndex, handleNext, handlePrev]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
+  const handleShare = (img: GalleryImage) => {
+    const fullUrl = window.location.origin + img.url;
+    navigator.clipboard.writeText(fullUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-16 pt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-4 font-semibold">
-            <ImageIcon size={14} /> Community Visuals &amp; Media
+    <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-[#0066FF] selection:text-white pb-24">
+
+      {/* HERO SECTION - CLEAN WHITE / LIGHT THEME */}
+      <section className="relative pt-16 pb-12 sm:pt-20 sm:pb-16 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-[#F0F6FF] via-[#F8FAFC] to-white">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[#0066FF]/10 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="wrap relative z-10 text-center max-w-4xl mx-auto px-4">
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#0066FF]/20 text-[#0066FF] text-xs font-bold uppercase tracking-wider mb-6 shadow-sm">
+            <Camera size={14} className="animate-pulse text-[#0066FF]" />
+            <span>BOTMARTZ AI GALLERY</span>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 mb-4">
-            Summit &amp; Meetup Moments
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.15]">
+            Moments, Milestones &amp; <br />
+            <span className="bg-gradient-to-r from-[#0066FF] via-[#00B8F0] to-[#2563EB] bg-clip-text text-transparent">
+              AI Engineering Highlights
+            </span>
           </h1>
-          <p className="text-sm sm:text-base text-slate-600">
-            Highlights from Botmartz AI summits, hands-on developer workshops, 48h hackathons, and builder meetups.
+
+          <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+            Glimpses from our AI Frontier summits, hands-on agentic hackathons, developer masterclasses, and AI community sprints.
           </p>
 
-          <div className="flex items-center justify-center gap-3 mt-6">
-            <a
-              href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-mono text-xs font-bold border border-emerald-200 transition-colors inline-flex items-center gap-1.5"
-            >
-              <MessageCircle size={14} />
-              <span>Share Photos on WhatsApp</span>
-            </a>
+          {/* COMMUNITY DISCORD BANNER CARD */}
+          <div className="max-w-2xl mx-auto p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xl shadow-blue-500/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3 text-left">
+              <div className="w-10 h-10 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-md">
+                <MessageSquare size={20} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-sm sm:text-base">Join the Botmartz AI Community</h3>
+                <p className="text-xs text-slate-500">Connect with 1,000+ AI developers, share projects &amp; attend workshops.</p>
+              </div>
+            </div>
             <a
               href="https://discord.gg/k75ZpEnzp"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-mono text-xs font-bold border border-indigo-200 transition-colors inline-flex items-center gap-1.5"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md shadow-[#5865F2]/25 flex-shrink-0"
             >
-              <span>#event-photos on Discord</span>
+              Join Discord Community →
             </a>
           </div>
         </div>
+      </section>
 
-        {/* Categories */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-          {CATEGORIES.map(cat => (
+      {/* FILTER TABS & MAIN GALLERY GRID */}
+      <section className="wrap pt-10 px-4">
+
+        {/* Category Filters */}
+        <div className="flex items-center justify-center flex-wrap gap-2.5 mb-10">
+          {CATEGORIES.map((cat) => (
             <button
               key={cat}
-              onClick={() => setSelectedCat(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                selectedCat === cat
-                  ? "bg-[#0066FF] text-white font-bold shadow-sm"
-                  : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200"
-              }`}
+              onClick={() => {
+                setActiveCategory(cat);
+                setSelectedIndex(null);
+              }}
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 ${activeCategory === cat
+                  ? "bg-[#0066FF] text-white shadow-md shadow-[#0066FF]/25 scale-105 border border-[#0066FF]"
+                  : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 shadow-sm"
+                }`}
             >
               {cat}
             </button>
           ))}
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map(item => (
-            <div
-              key={item.id}
-              onClick={() => setActiveItem(item)}
-              className="group bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col"
-            >
-              <div className="relative aspect-video overflow-hidden bg-slate-100">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                  <ZoomIn size={24} />
-                </div>
-              </div>
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between text-[11px] font-mono text-[#0066FF] mb-2">
-                    <span>{item.category}</span>
-                    <span className="text-slate-400">{item.date}</span>
-                  </div>
-                  <h3 className="font-bold text-slate-900 text-base mb-1 leading-snug">{item.title}</h3>
-                  <p className="text-xs text-slate-600 line-clamp-2">{item.description}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* Counter */}
+        <div className="flex items-center justify-between mb-6 text-xs text-slate-500 font-mono border-b border-slate-200 pb-3">
+          <span>Showing {filteredImages.length} photo{filteredImages.length !== 1 ? "s" : ""}</span>
+          <span className="text-[#0066FF] font-medium">Click photo for full-screen view &amp; actions</span>
         </div>
 
-      </div>
+        {/* GALLERY GRID (Different Card Structures) */}
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <div key={n} className="h-64 bg-slate-200 rounded-2xl border border-slate-300" />
+            ))}
+          </div>
+        ) : filteredImages.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 shadow-sm">
+            <Camera size={48} className="mx-auto text-slate-400 mb-4" />
+            <p className="text-slate-600 text-lg font-semibold">No photos found in this category.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredImages.map((img, idx) => {
+              const isWide = idx % 5 === 0;
+              return (
+                <div
+                  key={img.id}
+                  onClick={() => setSelectedIndex(idx)}
+                  className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-[#0066FF]/40 hover:shadow-xl hover:shadow-blue-500/10 ${isWide ? "sm:col-span-2 lg:col-span-2 aspect-[16/9]" : "aspect-[4/3]"
+                    }`}
+                >
+                  <Image
+                    src={img.url}
+                    alt={img.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
 
-      {/* Lightbox Modal */}
-      {activeItem && (
+                  {/* Glassmorphic Gradient Overlay for readable white title */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-300" />
+
+                  {/* Top Category Badge */}
+                  <div className="absolute top-3 left-3 z-10">
+                    <span className="px-2.5 py-1 rounded-lg bg-white/90 backdrop-blur-md border border-slate-200 text-[10px] font-bold text-[#0066FF] uppercase tracking-wider shadow-sm">
+                      {img.category}
+                    </span>
+                  </div>
+
+                  {/* Hover Zoom Icon */}
+                  <div className="absolute top-3 right-3 z-10 w-9 h-9 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 flex items-center justify-center text-slate-800 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 shadow-md">
+                    <Maximize2 size={16} />
+                  </div>
+
+                  {/* Bottom Text Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5 z-10 translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 className="text-lg font-bold text-white mb-1 line-clamp-1 group-hover:text-[#00B8F0] transition-colors">
+                      {img.title}
+                    </h3>
+                    {img.caption && (
+                      <p className="text-xs text-slate-200 line-clamp-2 leading-relaxed">
+                        {img.caption}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      {/* FULLSCREEN IMAGE MODAL WITH ACTION BUTTONS */}
+      {selectedImage && selectedIndex !== null && (
         <div
-          onClick={() => setActiveItem(null)}
-          className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col justify-between animate-fadeIn text-white"
+          onClick={() => setSelectedIndex(null)}
         >
+          {/* TOP MODAL TOOLBAR */}
           <div
+            className="wrap w-full py-4 px-4 sm:px-8 flex items-center justify-between border-b border-white/10 bg-[#050B14]/90 backdrop-blur-md relative z-20"
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl border border-slate-200"
           >
-            <div className="relative aspect-video bg-slate-100">
-              <img
-                src={activeItem.image}
-                alt={activeItem.title}
-                className="w-full h-full object-cover"
-              />
+            {/* Title & Info */}
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex w-9 h-9 rounded-xl bg-[#0066FF]/20 border border-[#00B8F0]/30 items-center justify-center text-[#00B8F0]">
+                <Camera size={18} />
+              </div>
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-white line-clamp-1">
+                  {selectedImage.title}
+                </h2>
+                <div className="flex items-center gap-2 text-xs text-slate-400">
+                  <span className="text-[#00B8F0] font-semibold">{selectedImage.category}</span>
+                  <span>•</span>
+                  <span>Photo {selectedIndex + 1} of {filteredImages.length}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ACTION BUTTONS (Share, Close) */}
+            <div className="flex items-center gap-2 sm:gap-3">
+
+              {/* SHARE BUTTON */}
               <button
-                onClick={() => setActiveItem(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white transition-colors cursor-pointer"
+                onClick={() => handleShare(selectedImage)}
+                className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95"
+                title="Share Image Link"
               >
-                <X size={18} />
+                {copied ? (
+                  <>
+                    <Check size={15} className="text-green-400" />
+                    <span className="text-green-400 hidden sm:inline">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Share2 size={15} className="text-[#00B8F0]" />
+                    <span className="hidden sm:inline">Share</span>
+                  </>
+                )}
+              </button>
+
+              {/* CLOSE BUTTON */}
+              <button
+                onClick={() => setSelectedIndex(null)}
+                className="w-9 h-9 rounded-xl bg-white/10 hover:bg-red-500/80 border border-white/20 text-white flex items-center justify-center transition-all ml-1"
+                title="Close (Esc)"
+              >
+                <X size={20} />
               </button>
             </div>
-            <div className="p-6">
-              <div className="flex items-center justify-between text-xs font-mono text-[#0066FF] mb-2">
-                <span>{activeItem.category} • {activeItem.location}</span>
-                <span className="text-slate-400">{activeItem.date}</span>
-              </div>
-              <h2 className="text-xl font-bold text-slate-900 mb-2">{activeItem.title}</h2>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{activeItem.description}</p>
-            </div>
           </div>
+
+          {/* CENTER IMAGE PREVIEW + PREV/NEXT ARROWS */}
+          <div
+            className="relative flex-1 flex items-center justify-center p-4 sm:p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* PREVIOUS BUTTON */}
+            <button
+              onClick={handlePrev}
+              className="absolute left-4 sm:left-8 z-30 w-12 h-12 rounded-2xl bg-black/60 hover:bg-[#0066FF] border border-white/20 text-white flex items-center justify-center transition-all hover:scale-110 backdrop-blur-md shadow-2xl"
+              title="Previous Photo (Left Arrow)"
+            >
+              <ChevronLeft size={28} />
+            </button>
+
+            {/* MAIN FULL RESOLUTION IMAGE CONTAINER */}
+            <div className="relative w-full h-full max-w-5xl max-h-[75vh] flex items-center justify-center">
+              <Image
+                src={selectedImage.url}
+                alt={selectedImage.title}
+                fill
+                priority
+                className="object-contain rounded-xl shadow-2xl"
+              />
+            </div>
+
+            {/* NEXT BUTTON */}
+            <button
+              onClick={handleNext}
+              className="absolute right-4 sm:right-8 z-30 w-12 h-12 rounded-2xl bg-black/60 hover:bg-[#0066FF] border border-white/20 text-white flex items-center justify-center transition-all hover:scale-110 backdrop-blur-md shadow-2xl"
+              title="Next Photo (Right Arrow)"
+            >
+              <ChevronRight size={28} />
+            </button>
+          </div>
+
+          {/* BOTTOM CAPTION BAR */}
+          {selectedImage.caption && (
+            <div
+              className="w-full py-4 px-6 text-center border-t border-white/10 bg-[#050B14]/90 backdrop-blur-md text-slate-300 text-sm max-w-3xl mx-auto rounded-t-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p>{selectedImage.caption}</p>
+            </div>
+          )}
         </div>
       )}
 
