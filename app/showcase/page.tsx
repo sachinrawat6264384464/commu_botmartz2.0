@@ -162,26 +162,26 @@ export default function ShowcasePage() {
   });
 
   return (
-    <div className="bg-[#050B14] min-h-screen text-white py-12">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-10 border-b border-white/10 mb-10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-200 mb-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs font-semibold mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700 font-mono text-xs font-semibold mb-3">
               <Code2 size={13} /> BUILDER SHOWCASE ARENA
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
               Community AI Projects &amp; Demos
             </h1>
-            <p className="text-slate-400 text-sm max-w-2xl mt-1">
+            <p className="text-slate-600 text-sm max-w-2xl mt-1">
               Explore production agents, open-source MCP servers, and RAG pipelines crafted by our community engineers.
             </p>
           </div>
 
           <button
             onClick={() => setShowModal(true)}
-            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-2xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_25px_rgba(0,102,255,0.4)] flex items-center gap-2 cursor-pointer self-start md:self-auto"
+            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 cursor-pointer self-start md:self-auto"
           >
             <Plus size={16} /> Submit Your Project
           </button>
@@ -194,10 +194,10 @@ export default function ShowcasePage() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-mono transition-all ${
+                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? "bg-[#0066FF] text-white font-bold shadow-md"
-                    : "bg-[#0B1524] text-slate-400 hover:text-white border border-white/10"
+                    ? "bg-[#0066FF] text-white font-bold shadow-2xs"
+                    : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200"
                 }`}
               >
                 {cat}
@@ -212,7 +212,7 @@ export default function ShowcasePage() {
               placeholder="Search projects..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#0B1524] border border-white/10 rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-[#00B8F0]"
+              className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3.5 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#0066FF] shadow-2xs"
             />
           </div>
         </div>
@@ -222,33 +222,33 @@ export default function ShowcasePage() {
           {filtered.map(proj => (
             <div
               key={proj.id}
-              className="bg-[#0B1524] border border-white/10 hover:border-purple-500/40 rounded-3xl p-7 shadow-xl flex flex-col justify-between transition-all relative overflow-hidden"
+              className="bg-white border border-slate-200 hover:border-purple-300 rounded-3xl p-7 shadow-xs hover:shadow-md flex flex-col justify-between transition-all relative overflow-hidden"
             >
               {proj.featured && (
-                <div className="absolute top-0 right-0 px-3.5 py-1 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-mono text-[9px] font-bold uppercase rounded-bl-xl flex items-center gap-1">
+                <div className="absolute top-0 right-0 px-3.5 py-1 bg-purple-600 text-white font-mono text-[9px] font-bold uppercase rounded-bl-xl flex items-center gap-1">
                   <Award size={11} /> COMMUNITY PICK
                 </div>
               )}
 
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#00B8F0]/10 text-[#00B8F0] font-mono text-[10px] font-bold">
+                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-100 font-mono text-[10px] font-bold">
                     {proj.category}
                   </span>
-                  <span className="text-slate-500 font-mono text-xs">• by {proj.creator.name}</span>
+                  <span className="text-slate-400 font-mono text-xs">• by {proj.creator.name}</span>
                 </div>
 
-                <h2 className="text-xl font-bold text-white mb-2.5 leading-snug">
+                <h2 className="text-xl font-bold text-slate-900 mb-2.5 leading-snug">
                   {proj.title}
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
                   {proj.description}
                 </p>
 
                 {/* Built With Tags */}
                 <div className="flex flex-wrap gap-1.5 mb-6">
                   {proj.builtWith.map(tech => (
-                    <span key={tech} className="px-2 py-0.5 rounded bg-[#050B14] border border-white/10 text-slate-300 font-mono text-[10px]">
+                    <span key={tech} className="px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-slate-600 font-mono text-[10px]">
                       {tech}
                     </span>
                   ))}
@@ -256,13 +256,13 @@ export default function ShowcasePage() {
               </div>
 
               {/* Footer Actions */}
-              <div className="flex items-center justify-between pt-5 border-t border-white/10">
+              <div className="flex items-center justify-between pt-5 border-t border-slate-100">
                 <button
                   onClick={() => toggleUpvote(proj.id)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl font-mono text-xs transition-all cursor-pointer ${
                     upvotedIds[proj.id]
-                      ? "bg-purple-600 text-white font-bold shadow-md"
-                      : "bg-[#050B14] text-slate-400 hover:text-white border border-white/10"
+                      ? "bg-purple-600 text-white font-bold shadow-2xs"
+                      : "bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200"
                   }`}
                 >
                   <ThumbsUp size={13} className={upvotedIds[proj.id] ? "fill-current" : ""} />
@@ -275,7 +275,7 @@ export default function ShowcasePage() {
                       href={proj.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-xl bg-[#050B14] border border-white/10 text-slate-400 hover:text-white transition-colors"
+                      className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
                       title="View GitHub Code"
                     >
                       <Github size={15} />
@@ -286,7 +286,7 @@ export default function ShowcasePage() {
                       href={proj.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3.5 py-2 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold transition-all flex items-center gap-1.5"
+                      className="px-3.5 py-2 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs"
                     >
                       <span>Live Demo</span>
                       <ExternalLink size={12} />
@@ -303,31 +303,31 @@ export default function ShowcasePage() {
 
       {/* Submit Project Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0B1524] border border-white/15 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl">
-            <h2 className="text-xl font-bold text-white mb-1">Submit Your Project</h2>
-            <p className="text-xs text-slate-400 mb-6">Showcase your AI creations to the Botmartz engineering community.</p>
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl">
+            <h2 className="text-xl font-bold text-slate-900 mb-1">Submit Your Project</h2>
+            <p className="text-xs text-slate-500 mb-6">Showcase your AI creations to the Botmartz engineering community.</p>
             
             <form onSubmit={handleCreateProject} className="space-y-4">
               <div>
-                <label className="block text-xs font-mono text-slate-400 mb-1">Project Title</label>
+                <label className="block text-xs font-mono text-slate-700 mb-1">Project Title</label>
                 <input
                   type="text"
                   placeholder="e.g. DocuGraph — LangGraph Visualizer"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full bg-[#050B14] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">Category</label>
+                  <label className="block text-xs font-mono text-slate-700 mb-1">Category</label>
                   <select
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
-                    className="w-full bg-[#050B14] border border-white/15 rounded-xl px-3 py-2.5 text-xs text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   >
                     <option value="AI Agents">🤖 AI Agents</option>
                     <option value="RAG & Search">📚 RAG &amp; Search</option>
@@ -336,47 +336,47 @@ export default function ShowcasePage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">Tech Stack</label>
+                  <label className="block text-xs font-mono text-slate-700 mb-1">Tech Stack</label>
                   <input
                     type="text"
                     value={newStack}
                     onChange={(e) => setNewStack(e.target.value)}
-                    className="w-full bg-[#050B14] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-slate-400 mb-1">Description</label>
+                <label className="block text-xs font-mono text-slate-700 mb-1">Description</label>
                 <textarea
                   rows={3}
                   placeholder="What does it do? How does it solve problems?"
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
-                  className="w-full bg-[#050B14] border border-white/15 rounded-xl p-3.5 text-xs text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">GitHub URL (optional)</label>
+                  <label className="block text-xs font-mono text-slate-700 mb-1">GitHub URL (optional)</label>
                   <input
                     type="url"
                     placeholder="https://github.com/..."
                     value={newGithub}
                     onChange={(e) => setNewGithub(e.target.value)}
-                    className="w-full bg-[#050B14] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">Live Demo URL (optional)</label>
+                  <label className="block text-xs font-mono text-slate-700 mb-1">Live Demo URL (optional)</label>
                   <input
                     type="url"
                     placeholder="https://..."
                     value={newDemo}
                     onChange={(e) => setNewDemo(e.target.value)}
-                    className="w-full bg-[#050B14] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   />
                 </div>
               </div>
@@ -385,13 +385,13 @@ export default function ShowcasePage() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 text-xs font-mono text-slate-400 hover:text-white cursor-pointer"
+                  className="px-4 py-2 text-xs font-mono text-slate-500 hover:text-slate-800 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-mono font-bold uppercase transition-all shadow-md cursor-pointer"
+                  className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-mono font-bold uppercase transition-all shadow-sm cursor-pointer"
                 >
                   Submit Project →
                 </button>

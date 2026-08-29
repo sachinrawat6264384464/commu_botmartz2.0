@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { 
   Trophy, 
@@ -83,18 +83,18 @@ const CHALLENGES: Challenge[] = [
 
 export default function ChallengesPage() {
   return (
-    <div className="bg-[#050B14] min-h-screen text-white py-12">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 font-mono text-xs font-semibold mb-4">
             <Trophy size={14} /> COMMUNITY HACKATHONS &amp; ARENA
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight mb-4">
             Build, Compete &amp; Win Real Cash &amp; Credits
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
             Test your AI engineering skills in 48-hour sprints and weekly prompt challenges. Get reviewed by top AI architects and win cash prizes.
           </p>
         </div>
@@ -104,65 +104,65 @@ export default function ChallengesPage() {
           {CHALLENGES.map(c => (
             <div
               key={c.id}
-              className={`rounded-3xl p-8 shadow-2xl transition-all border ${
+              className={`rounded-3xl p-8 shadow-xs transition-all border ${
                 c.status === "active"
-                  ? "bg-[#0B1524] border-[#00B8F0]/40 shadow-[0_0_30px_rgba(0,184,240,0.15)]"
-                  : "bg-[#091222] border-white/10"
+                  ? "bg-white border-amber-300 shadow-md"
+                  : "bg-white border-slate-200"
               }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
                 <div className="flex items-center gap-3">
-                  <span className="px-3 py-1 rounded-full bg-[#0066FF]/20 text-[#60A5FA] font-mono text-xs font-bold uppercase">
+                  <span className="px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] border border-blue-100 font-mono text-xs font-bold uppercase">
                     {c.badge}
                   </span>
                   {c.status === "active" ? (
-                    <span className="flex items-center gap-1 text-emerald-400 font-mono text-xs font-bold">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="flex items-center gap-1.5 text-emerald-600 font-mono text-xs font-bold">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                       LIVE NOW
                     </span>
                   ) : (
-                    <span className="text-slate-500 font-mono text-xs">Upcoming</span>
+                    <span className="text-slate-400 font-mono text-xs">Upcoming</span>
                   )}
                 </div>
 
-                <div className="flex items-center gap-4 text-xs font-mono text-slate-300">
-                  <div className="flex items-center gap-1.5 text-amber-400 font-bold">
+                <div className="flex items-center gap-4 text-xs font-mono text-slate-600">
+                  <div className="flex items-center gap-1.5 text-amber-600 font-bold">
                     <Trophy size={14} />
                     <span>{c.prizePool}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-slate-400">
+                  <div className="flex items-center gap-1.5 text-slate-500">
                     <Clock size={14} />
                     <span>{c.deadline}</span>
                   </div>
                 </div>
               </div>
 
-              <h2 className="text-2xl font-bold text-white mb-3">{c.title}</h2>
-              <p className="text-sm text-slate-300 leading-relaxed mb-6">{c.description}</p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-3">{c.title}</h2>
+              <p className="text-sm text-slate-600 leading-relaxed mb-6">{c.description}</p>
 
-              <div className="bg-[#050B14] border border-white/5 rounded-2xl p-5 mb-8">
-                <div className="text-xs font-mono text-slate-400 uppercase font-bold mb-3">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-8">
+                <div className="text-xs font-mono text-slate-700 uppercase font-bold mb-3">
                   Evaluation &amp; Submission Criteria:
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {c.objectives.map((obj, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-300">
-                      <CheckCircle2 size={14} className="text-[#00B8F0] shrink-0 mt-0.5" />
+                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
+                      <CheckCircle2 size={14} className="text-[#0066FF] shrink-0 mt-0.5" />
                       <span>{obj}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-white/10">
-                <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
-                  <Users size={14} className="text-[#00B8F0]" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-slate-100">
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+                  <Users size={14} className="text-[#0066FF]" />
                   <span>{c.participants} Registered Builders</span>
                 </div>
 
                 <button
                   onClick={() => alert(`Registered for ${c.title}! We will send submission templates to your email.`)}
-                  className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+                  className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span>Enter Challenge Now</span>
                   <ArrowRight size={14} />

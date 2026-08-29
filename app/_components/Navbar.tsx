@@ -4,137 +4,172 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
-  Sparkles, 
-  Calendar, 
-  Award, 
-  Image, 
+  ChevronDown, 
   Menu, 
   X, 
   ArrowRight, 
-  MessageSquare, 
-  Code2, 
-  Trophy, 
-  Zap,
-  Flame
+  Sparkles,
+  Calendar,
+  MessageSquare,
+  Code2,
+  Trophy,
+  Award,
+  BookOpen,
+  Image as ImageIcon
 } from "lucide-react";
-
-const NAV_LINKS = [
-  { name: "Events", href: "/events", badge: "AI Summit" },
-  { name: "Discussions", href: "/discussions", badge: "Hot" },
-  { name: "Showcase", href: "/showcase", badge: "New" },
-  { name: "Challenges", href: "/challenges" },
-  { name: "Leaderboard", href: "/leaderboard" },
-  { name: "Bootcamps", href: "/workshops" },
-  { name: "Certificates", href: "/certificates" },
-  { name: "Gallery", href: "/gallery" },
-];
 
 export default function CommunityNavbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+
+  const PRIMARY_LINKS = [
+    { name: "Events", href: "/events" },
+    { name: "Discussions", href: "/discussions" },
+    { name: "Showcase", href: "/showcase" },
+    { name: "Challenges", href: "/challenges" },
+  ];
+
+  const DROPDOWN_LINKS = [
+    { name: "AI Bootcamps & Cohorts", href: "/workshops", icon: BookOpen, desc: "Hands-on engineering workshops" },
+    { name: "Leaderboard & Hall of Fame", href: "/leaderboard", icon: Trophy, desc: "Top builders & karma ranks" },
+    { name: "Verify Certificates", href: "/certificates", icon: Award, desc: "Official credential verification" },
+    { name: "Community Photo Wall", href: "/gallery", icon: ImageIcon, desc: "Summit & meetup memories" },
+  ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#050B14]/85 backdrop-blur-md border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         
-        {/* Brand */}
+        {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0066FF] to-[#00B8F0] flex items-center justify-center font-bold font-mono text-white text-lg shadow-[0_0_20px_rgba(0,102,255,0.5)]">
+          <div className="w-9 h-9 rounded-xl bg-[#0066FF] flex items-center justify-center font-bold font-mono text-white text-base shadow-sm">
             B
           </div>
           <div>
-            <div className="font-bold text-white tracking-tight text-base leading-none flex items-center gap-1.5">
-              <span>BOTMARTZ</span>
-              <span className="px-1.5 py-0.5 rounded-full bg-[#00B8F0]/20 text-[#00B8F0] font-mono text-[9px] font-bold">HUB</span>
+            <div className="font-bold text-slate-900 tracking-tight text-base leading-none">
+              BOTMARTZ
             </div>
-            <div className="font-mono text-[10px] text-[#00B8F0] tracking-widest uppercase font-semibold mt-1">
-              BUILDER COMMUNITY
+            <div className="font-mono text-[10px] text-[#0066FF] tracking-wider uppercase font-semibold mt-1">
+              COMMUNITY
             </div>
           </div>
         </Link>
 
-        {/* Desktop Links */}
-        <nav className="hidden xl:flex items-center gap-6">
-          {NAV_LINKS.map((link) => {
+        {/* Clean Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-7">
+          {PRIMARY_LINKS.map((link) => {
             const active = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative text-xs font-mono tracking-wider transition-colors flex items-center gap-1.5 ${
-                  active ? "text-[#00B8F0] font-bold" : "text-slate-300 hover:text-white"
+                className={`text-xs font-semibold tracking-wide transition-colors ${
+                  active ? "text-[#0066FF] font-bold" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                <span>{link.name}</span>
-                {link.badge && (
-                  <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                    link.badge === 'Hot' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' :
-                    link.badge === 'New' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
-                    'bg-[#0066FF]/20 text-[#60A5FA]'
-                  }`}>
-                    {link.badge}
-                  </span>
-                )}
+                {link.name}
               </Link>
             );
           })}
+
+          {/* More Dropdown */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setMoreOpen(true)}
+            onMouseLeave={() => setMoreOpen(false)}
+          >
+            <button
+              onClick={() => setMoreOpen(!moreOpen)}
+              className="flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-slate-900 tracking-wide transition-colors py-2 cursor-pointer"
+            >
+              <span>Explore</span>
+              <ChevronDown size={14} className={`transition-transform duration-200 ${moreOpen ? "rotate-180 text-[#0066FF]" : ""}`} />
+            </button>
+
+            {moreOpen && (
+              <div className="absolute top-full left-0 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 animate-in fade-in slide-in-from-top-2 duration-150">
+                {DROPDOWN_LINKS.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMoreOpen(false)}
+                    className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
+                  >
+                    <div className="p-2 rounded-lg bg-blue-50 text-[#0066FF] group-hover:bg-[#0066FF] group-hover:text-white transition-colors shrink-0">
+                      <item.icon size={15} />
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">
+                        {item.name}
+                      </div>
+                      <div className="text-[11px] text-slate-500 line-clamp-1">
+                        {item.desc}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
-        {/* Right CTAs */}
+        {/* Right CTA */}
         <div className="hidden md:flex items-center gap-3">
           <Link
-            href="/discussions"
-            className="px-3.5 py-2 rounded-xl bg-[#0B1524] border border-white/10 hover:border-[#00B8F0]/50 text-slate-300 hover:text-white font-mono text-xs transition-all flex items-center gap-1.5"
-          >
-            <MessageSquare size={13} className="text-[#00B8F0]" />
-            <span>Join Chat</span>
-          </Link>
-
-          <Link
             href="/events/ai-frontier-2026"
-            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(0,102,255,0.4)] flex items-center gap-2"
+            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all shadow-sm flex items-center gap-2"
           >
-            <Flame size={14} className="text-amber-300 animate-pulse" />
-            <span>Summit Pass</span>
+            <span>AI Frontier 2026</span>
+            <ArrowRight size={13} />
           </Link>
         </div>
 
         {/* Mobile menu trigger */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="xl:hidden p-2 text-slate-400 hover:text-white"
+          className="md:hidden p-2 text-slate-600 hover:text-slate-900"
         >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="xl:hidden bg-[#070E1B] border-b border-white/10 px-6 py-6 space-y-4">
+        <div className="md:hidden bg-white border-b border-slate-200 px-6 py-6 space-y-4 shadow-xl">
           <nav className="flex flex-col space-y-3">
-            {NAV_LINKS.map((link) => (
+            {PRIMARY_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-sm font-mono text-slate-300 hover:text-white py-2 flex items-center justify-between"
+                className="text-sm font-semibold text-slate-700 hover:text-[#0066FF] py-1.5"
               >
-                <span>{link.name}</span>
-                {link.badge && (
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#0066FF]/20 text-[#60A5FA]">
-                    {link.badge}
-                  </span>
-                )}
+                {link.name}
               </Link>
             ))}
+            <div className="pt-2 border-t border-slate-100 space-y-2">
+              <div className="text-[11px] font-mono text-slate-400 uppercase font-bold">More Resources</div>
+              {DROPDOWN_LINKS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 text-xs text-slate-600 hover:text-[#0066FF] py-1"
+                >
+                  <item.icon size={14} className="text-slate-400" />
+                  <span>{item.name}</span>
+                </Link>
+              ))}
+            </div>
           </nav>
-          <div className="pt-4 border-t border-white/10 space-y-2">
+          <div className="pt-4 border-t border-slate-100">
             <Link
               href="/events/ai-frontier-2026"
               onClick={() => setMobileOpen(false)}
-              className="w-full block bg-[#0066FF] text-white text-center py-3 rounded-xl text-xs font-mono font-bold uppercase"
+              className="w-full block bg-[#0066FF] text-white text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider"
             >
-              Get AI Frontier 2026 Pass →
+              Get Summit Pass →
             </Link>
           </div>
         </div>

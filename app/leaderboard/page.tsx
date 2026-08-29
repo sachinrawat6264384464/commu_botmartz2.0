@@ -90,21 +90,19 @@ const TOP_CONTRIBUTORS: Contributor[] = [
 ];
 
 export default function LeaderboardPage() {
-  const [activeTab, setActiveTab] = useState<"all" | "monthly" | "hackathons">("all");
-
   return (
-    <div className="bg-[#050B14] min-h-screen text-white py-12">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 font-mono text-xs font-semibold mb-4">
             <Crown size={14} /> COMMUNITY HALL OF FAME
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-white tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 tracking-tight mb-4">
             Builder Leaderboard &amp; Ranks
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base">
+          <p className="text-slate-600 text-sm sm:text-base">
             Earn XP by answering technical discussions, shipping open-source tools, and winning AI engineering challenges.
           </p>
         </div>
@@ -113,19 +111,19 @@ export default function LeaderboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12 items-end">
           
           {/* Rank 2 */}
-          <div className="bg-[#0B1524] border border-white/10 rounded-3xl p-6 text-center order-2 md:order-1 shadow-xl">
-            <div className="w-10 h-10 rounded-full bg-slate-700 text-white font-mono font-bold flex items-center justify-center mx-auto mb-4 border border-white/20">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 text-center order-2 md:order-1 shadow-xs">
+            <div className="w-10 h-10 rounded-full bg-slate-100 text-slate-700 font-mono font-bold flex items-center justify-center mx-auto mb-4 border border-slate-300">
               #2
             </div>
             <div className={`w-16 h-16 rounded-2xl bg-gradient-to-tr ${TOP_CONTRIBUTORS[1].avatarBg} mx-auto mb-4 flex items-center justify-center font-bold text-lg text-white`}>
               AN
             </div>
-            <h3 className="font-bold text-white text-base">{TOP_CONTRIBUTORS[1].name}</h3>
-            <div className="text-xs font-mono text-[#00B8F0] mb-3">{TOP_CONTRIBUTORS[1].role}</div>
-            <div className="text-xl font-bold font-mono text-amber-400 mb-4">{TOP_CONTRIBUTORS[1].xp} XP</div>
+            <h3 className="font-bold text-slate-900 text-base">{TOP_CONTRIBUTORS[1].name}</h3>
+            <div className="text-xs font-mono text-[#0066FF] mb-3">{TOP_CONTRIBUTORS[1].role}</div>
+            <div className="text-xl font-bold font-mono text-amber-600 mb-4">{TOP_CONTRIBUTORS[1].xp} XP</div>
             <div className="flex flex-wrap justify-center gap-1">
               {TOP_CONTRIBUTORS[1].badges.map((b, i) => (
-                <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#050B14] border border-white/10 text-slate-300">
+                <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-slate-600">
                   {b}
                 </span>
               ))}
@@ -133,19 +131,19 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Rank 1 (Tallest / Center) */}
-          <div className="bg-[#0B1524] border-2 border-amber-400/60 shadow-[0_0_40px_rgba(245,158,11,0.2)] rounded-3xl p-8 text-center order-1 md:order-2 relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-amber-400 text-[#050B14] font-mono text-[10px] font-bold uppercase flex items-center gap-1">
+          <div className="bg-white border-2 border-amber-300 shadow-md rounded-3xl p-8 text-center order-1 md:order-2 relative">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-amber-500 text-white font-mono text-[10px] font-bold uppercase flex items-center gap-1">
               <Crown size={12} /> TOP ARCHITECT
             </div>
-            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-tr ${TOP_CONTRIBUTORS[0].avatarBg} mx-auto mb-4 flex items-center justify-center font-bold text-2xl text-white shadow-lg`}>
+            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-tr ${TOP_CONTRIBUTORS[0].avatarBg} mx-auto mb-4 flex items-center justify-center font-bold text-2xl text-white shadow-md`}>
               PR
             </div>
-            <h3 className="font-bold text-white text-lg">{TOP_CONTRIBUTORS[0].name}</h3>
-            <div className="text-xs font-mono text-[#00B8F0] mb-3">{TOP_CONTRIBUTORS[0].role}</div>
-            <div className="text-2xl font-bold font-mono text-amber-400 mb-4">{TOP_CONTRIBUTORS[0].xp} XP</div>
+            <h3 className="font-bold text-slate-900 text-lg">{TOP_CONTRIBUTORS[0].name}</h3>
+            <div className="text-xs font-mono text-[#0066FF] mb-3">{TOP_CONTRIBUTORS[0].role}</div>
+            <div className="text-2xl font-bold font-mono text-amber-600 mb-4">{TOP_CONTRIBUTORS[0].xp} XP</div>
             <div className="flex flex-wrap justify-center gap-1.5">
               {TOP_CONTRIBUTORS[0].badges.map((b, i) => (
-                <span key={i} className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold">
+                <span key={i} className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 font-bold">
                   {b}
                 </span>
               ))}
@@ -153,19 +151,19 @@ export default function LeaderboardPage() {
           </div>
 
           {/* Rank 3 */}
-          <div className="bg-[#0B1524] border border-white/10 rounded-3xl p-6 text-center order-3 shadow-xl">
-            <div className="w-10 h-10 rounded-full bg-amber-900/60 text-amber-300 font-mono font-bold flex items-center justify-center mx-auto mb-4 border border-amber-700/50">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 text-center order-3 shadow-xs">
+            <div className="w-10 h-10 rounded-full bg-amber-50 text-amber-700 font-mono font-bold flex items-center justify-center mx-auto mb-4 border border-amber-200">
               #3
             </div>
             <div className={`w-16 h-16 rounded-2xl bg-gradient-to-tr ${TOP_CONTRIBUTORS[2].avatarBg} mx-auto mb-4 flex items-center justify-center font-bold text-lg text-white`}>
               PR
             </div>
-            <h3 className="font-bold text-white text-base">{TOP_CONTRIBUTORS[2].name}</h3>
-            <div className="text-xs font-mono text-[#00B8F0] mb-3">{TOP_CONTRIBUTORS[2].role}</div>
-            <div className="text-xl font-bold font-mono text-amber-400 mb-4">{TOP_CONTRIBUTORS[2].xp} XP</div>
+            <h3 className="font-bold text-slate-900 text-base">{TOP_CONTRIBUTORS[2].name}</h3>
+            <div className="text-xs font-mono text-[#0066FF] mb-3">{TOP_CONTRIBUTORS[2].role}</div>
+            <div className="text-xl font-bold font-mono text-amber-600 mb-4">{TOP_CONTRIBUTORS[2].xp} XP</div>
             <div className="flex flex-wrap justify-center gap-1">
               {TOP_CONTRIBUTORS[2].badges.map((b, i) => (
-                <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#050B14] border border-white/10 text-slate-300">
+                <span key={i} className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-slate-600">
                   {b}
                 </span>
               ))}
@@ -175,9 +173,9 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Full Leaderboard Table */}
-        <div className="bg-[#0B1524] border border-white/10 rounded-3xl overflow-hidden shadow-2xl max-w-5xl mx-auto">
-          <div className="p-6 border-b border-white/10 flex items-center justify-between">
-            <h3 className="font-mono text-xs text-[#00B8F0] uppercase font-bold">
+        <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs max-w-5xl mx-auto">
+          <div className="p-6 border-b border-slate-100 flex items-center justify-between">
+            <h3 className="font-mono text-xs text-[#0066FF] uppercase font-bold">
               GLOBAL RANKINGS &amp; BADGES
             </h3>
             <div className="text-xs font-mono text-slate-400">
@@ -186,7 +184,7 @@ export default function LeaderboardPage() {
           </div>
 
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#070E1B] text-slate-400 font-mono uppercase text-[11px] border-b border-white/10">
+            <thead className="bg-slate-50 text-slate-500 font-mono uppercase text-[11px] border-b border-slate-200">
               <tr>
                 <th className="p-4">Rank</th>
                 <th className="p-4">Builder</th>
@@ -195,27 +193,27 @@ export default function LeaderboardPage() {
                 <th className="p-4 text-right">Total Karma (XP)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-slate-100">
               {TOP_CONTRIBUTORS.map((c) => (
-                <tr key={c.rank} className="hover:bg-white/[0.02]">
-                  <td className="p-4 font-mono font-bold text-slate-300">#{c.rank}</td>
+                <tr key={c.rank} className="hover:bg-slate-50/50">
+                  <td className="p-4 font-mono font-bold text-slate-600">#{c.rank}</td>
                   <td className="p-4">
-                    <div className="font-bold text-white text-sm">{c.name}</div>
-                    <div className="text-slate-400 font-mono text-[11px]">{c.handle} • {c.role}</div>
+                    <div className="font-bold text-slate-900 text-sm">{c.name}</div>
+                    <div className="text-slate-500 font-mono text-[11px]">{c.handle} • {c.role}</div>
                   </td>
                   <td className="p-4">
                     <div className="flex flex-wrap gap-1">
                       {c.badges.map((b, idx) => (
-                        <span key={idx} className="px-2 py-0.5 rounded bg-[#050B14] border border-white/10 text-slate-300 font-mono text-[10px]">
+                        <span key={idx} className="px-2 py-0.5 rounded bg-slate-50 border border-slate-200 text-slate-600 font-mono text-[10px]">
                           {b}
                         </span>
                       ))}
                     </div>
                   </td>
-                  <td className="p-4 font-mono text-emerald-400 font-bold">
+                  <td className="p-4 font-mono text-emerald-600 font-bold">
                     {c.solvedChallenges} Battles
                   </td>
-                  <td className="p-4 text-right font-mono font-bold text-amber-400 text-sm">
+                  <td className="p-4 text-right font-mono font-bold text-amber-600 text-sm">
                     {c.xp} XP
                   </td>
                 </tr>

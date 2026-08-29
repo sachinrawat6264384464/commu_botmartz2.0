@@ -39,20 +39,20 @@ const BOOTCAMPS = [
   }
 ];
 
-export default async function WorkshopsPage() {
+export default function WorkshopsPage() {
   return (
-    <div className="bg-[#050B14] min-h-screen text-white py-16">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-16 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00B8F0]/10 border border-[#00B8F0]/30 text-[#00B8F0] font-mono text-xs uppercase tracking-widest mb-4 font-semibold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-4 font-semibold">
             <Terminal size={14} /> Practical AI Engineering
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4">
+          <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 mb-4">
             AI Accelerator Bootcamps
           </h1>
-          <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto">
             Practical, zero-fluff live cohorts where you build and ship production-ready RAG pipelines and autonomous agent state machines.
           </p>
         </div>
@@ -62,26 +62,26 @@ export default async function WorkshopsPage() {
           {BOOTCAMPS.map((b) => (
             <div
               key={b.id}
-              className="bg-[#0B1524] border border-white/10 rounded-3xl p-8 shadow-2xl flex flex-col justify-between hover:border-[#00B8F0]/50 transition-all"
+              className="bg-white border border-slate-200 hover:border-[#0066FF]/60 rounded-3xl p-8 shadow-xs hover:shadow-md flex flex-col justify-between transition-all"
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="px-3 py-1 rounded-full bg-[#0066FF]/20 text-[#60A5FA] font-mono text-xs font-bold uppercase">
+                  <span className="px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase border border-blue-100">
                     {b.badge}
                   </span>
-                  <span className="text-xs font-mono text-emerald-400 font-bold">{b.status}</span>
+                  <span className="text-xs font-mono text-emerald-600 font-bold">{b.status}</span>
                 </div>
 
-                <h2 className="text-2xl font-bold text-white mb-3">{b.title}</h2>
-                <p className="text-sm text-slate-300 leading-relaxed mb-6">{b.desc}</p>
+                <h2 className="text-2xl font-bold text-slate-900 mb-3">{b.title}</h2>
+                <p className="text-sm text-slate-600 leading-relaxed mb-6">{b.desc}</p>
 
-                <div className="space-y-2.5 text-xs text-slate-400 font-mono mb-8 p-4 rounded-2xl bg-[#050B14] border border-white/5">
+                <div className="space-y-2.5 text-xs text-slate-600 font-mono mb-8 p-4 rounded-2xl bg-slate-50 border border-slate-200">
                   <div className="flex items-center gap-2">
-                    <Clock size={14} className="text-[#00B8F0]" />
+                    <Clock size={14} className="text-[#0066FF]" />
                     <span>{b.duration}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Award size={14} className="text-[#00B8F0]" />
+                    <Award size={14} className="text-[#0066FF]" />
                     <span>Includes Official Verified Certificate</span>
                   </div>
                 </div>
@@ -92,8 +92,8 @@ export default async function WorkshopsPage() {
                   </div>
                   <div className="space-y-2">
                     {b.curriculum.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-300">
-                        <CheckCircle2 size={14} className="text-[#00B8F0] shrink-0 mt-0.5" />
+                      <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-700">
+                        <CheckCircle2 size={14} className="text-[#0066FF] shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
                     ))}
@@ -101,14 +101,14 @@ export default async function WorkshopsPage() {
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-white/10 flex items-center justify-between gap-4">
+              <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-xs font-mono text-slate-500 uppercase">Cohort Tuition</div>
-                  <div className="text-2xl font-bold font-mono text-white">{b.price}</div>
+                  <div className="text-xs font-mono text-slate-400 uppercase">Cohort Tuition</div>
+                  <div className="text-2xl font-bold font-mono text-slate-900">{b.price}</div>
                 </div>
                 <button
-                  onClick={() => alert(`Enrolling in ${b.title}... Proceeding to Razorpay checkout / payment gateway.`)}
-                  className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer"
+                  onClick={() => alert(`Enrolling in ${b.title}... Proceeding to checkout.`)}
+                  className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm cursor-pointer"
                 >
                   Enroll Now →
                 </button>

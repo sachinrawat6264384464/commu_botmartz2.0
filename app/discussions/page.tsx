@@ -108,7 +108,7 @@ const INITIAL_POSTS: DiscussionPost[] = [
 
 const CHANNELS = [
   { id: "all", label: "🔥 All Channels" },
-  { id: "ai-agents", label: "🤖 AI Agents & Workflows" },
+  { id: "ai-agents", label: "🤖 AI Agents" },
   { id: "enterprise-rag", label: "📚 Enterprise RAG" },
   { id: "show-your-build", label: "🚀 Show Your Build" },
   { id: "events-and-meetups", label: "🎟️ Events & Hackathons" },
@@ -176,26 +176,26 @@ export default function CommunityDiscussionsPage() {
   });
 
   return (
-    <div className="bg-[#050B14] min-h-screen text-white py-12">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Banner */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-10 border-b border-white/10 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-slate-200 mb-8">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#00B8F0]/10 border border-[#00B8F0]/30 text-[#00B8F0] font-mono text-xs font-semibold mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-semibold mb-3">
               <MessageSquare size={13} /> 2,400+ ACTIVE AI BUILDERS
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
               Community Discussions &amp; Forum
             </h1>
-            <p className="text-slate-400 text-sm max-w-2xl mt-1">
+            <p className="text-slate-600 text-sm max-w-2xl mt-1">
               Ask technical questions, share architecture diagrams, debate AI frameworks, and show off your production creations.
             </p>
           </div>
 
           <button
             onClick={() => setShowModal(true)}
-            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-2xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_25px_rgba(0,102,255,0.4)] flex items-center gap-2 cursor-pointer self-start md:self-auto"
+            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 cursor-pointer self-start md:self-auto"
           >
             <Plus size={16} /> Start a Discussion
           </button>
@@ -207,7 +207,7 @@ export default function CommunityDiscussionsPage() {
           {/* Left Channels Column */}
           <div className="space-y-6">
             
-            <div className="bg-[#0B1524] border border-white/10 rounded-3xl p-5 shadow-xl">
+            <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-xs">
               <div className="text-xs font-mono text-slate-400 uppercase font-bold mb-4 px-2">
                 Channels
               </div>
@@ -216,10 +216,10 @@ export default function CommunityDiscussionsPage() {
                   <button
                     key={ch.id}
                     onClick={() => setSelectedChannel(ch.id)}
-                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-mono transition-all flex items-center justify-between ${
+                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all flex items-center justify-between ${
                       selectedChannel === ch.id
-                        ? "bg-[#0066FF] text-white font-bold shadow-md"
-                        : "text-slate-300 hover:text-white hover:bg-white/5"
+                        ? "bg-[#0066FF] text-white font-bold shadow-xs"
+                        : "text-slate-700 hover:text-slate-900 hover:bg-slate-50"
                     }`}
                   >
                     <span>{ch.label}</span>
@@ -229,16 +229,16 @@ export default function CommunityDiscussionsPage() {
             </div>
 
             {/* Trending Tags Widget */}
-            <div className="bg-[#0B1524] border border-white/10 rounded-3xl p-5 shadow-xl">
+            <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-xs">
               <div className="text-xs font-mono text-slate-400 uppercase font-bold mb-3 px-2 flex items-center gap-1.5">
-                <Flame size={14} className="text-rose-400" /> Trending Topics
+                <Flame size={14} className="text-rose-500" /> Trending Topics
               </div>
-              <div className="flex flex-wrap gap-2">
-                {["LangGraph", "EnterpriseRAG", "MCP", "Qdrant", "LocalLLMs", "RAGAS", "AgentEvals"].map(tag => (
+              <div className="flex flex-wrap gap-1.5">
+                {["LangGraph", "EnterpriseRAG", "MCP", "Qdrant", "LocalLLMs", "RAGAS"].map(tag => (
                   <span
                     key={tag}
                     onClick={() => setSearchQuery(tag)}
-                    className="px-2.5 py-1 rounded-lg bg-[#050B14] border border-white/10 hover:border-[#00B8F0] text-slate-300 hover:text-[#00B8F0] text-[11px] font-mono cursor-pointer transition-colors"
+                    className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 hover:border-[#0066FF] text-slate-600 hover:text-[#0066FF] text-[11px] font-mono cursor-pointer transition-colors"
                   >
                     #{tag}
                   </span>
@@ -251,7 +251,7 @@ export default function CommunityDiscussionsPage() {
           {/* Center Posts Feed */}
           <div className="lg:col-span-3 space-y-6">
             
-            {/* Search & Sort bar */}
+            {/* Search bar */}
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
               <input
@@ -259,7 +259,7 @@ export default function CommunityDiscussionsPage() {
                 placeholder="Search discussions by keyword, question, or tag..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#0B1524] border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#00B8F0]"
+                className="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#0066FF] shadow-2xs"
               />
             </div>
 
@@ -268,59 +268,59 @@ export default function CommunityDiscussionsPage() {
               {filteredPosts.map(post => (
                 <div
                   key={post.id}
-                  className="bg-[#0B1524] border border-white/10 hover:border-white/20 rounded-3xl p-6 sm:p-7 shadow-xl transition-all"
+                  className="bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all"
                 >
                   {/* Author Header */}
                   <div className="flex items-center justify-between gap-3 mb-4">
                     <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-xl bg-gradient-to-tr ${post.author.avatarBg} flex items-center justify-center font-bold font-mono text-white text-xs shadow-md`}>
+                      <div className={`w-9 h-9 rounded-xl bg-gradient-to-tr ${post.author.avatarBg} flex items-center justify-center font-bold font-mono text-white text-xs shadow-xs`}>
                         {post.author.name.split(' ').map(n=>n[0]).join('')}
                       </div>
                       <div>
-                        <div className="text-xs font-bold text-white flex items-center gap-2">
+                        <div className="text-xs font-bold text-slate-900 flex items-center gap-2">
                           <span>{post.author.name}</span>
                           <span className="text-[10px] font-mono text-slate-400">{post.author.handle}</span>
                         </div>
-                        <div className="text-[10px] font-mono text-[#00B8F0]">{post.author.role}</div>
+                        <div className="text-[10px] font-mono text-[#0066FF]">{post.author.role}</div>
                       </div>
                     </div>
 
-                    <div className="text-[11px] font-mono text-slate-500">{post.timeAgo}</div>
+                    <div className="text-[11px] font-mono text-slate-400">{post.timeAgo}</div>
                   </div>
 
                   {/* Title & Content */}
-                  <h2 className="text-lg font-bold text-white mb-2.5 leading-snug">
+                  <h2 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
                     {post.title}
                   </h2>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
                     {post.content}
                   </p>
 
                   {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mb-5">
+                  <div className="flex flex-wrap gap-1.5 mb-5">
                     {post.tags.map(t => (
-                      <span key={t} className="px-2 py-0.5 rounded bg-[#050B14] border border-white/10 text-[#00B8F0] font-mono text-[10px]">
+                      <span key={t} className="px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-[#0066FF] font-mono text-[10px]">
                         #{t}
                       </span>
                     ))}
                   </div>
 
                   {/* Actions Footer */}
-                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                     <div className="flex items-center gap-4">
                       <button
                         onClick={() => toggleUpvote(post.id)}
                         className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl font-mono text-xs transition-all cursor-pointer ${
                           upvotedIds[post.id]
-                            ? "bg-[#0066FF] text-white font-bold shadow-md"
-                            : "bg-[#050B14] text-slate-400 hover:text-white border border-white/10"
+                            ? "bg-[#0066FF] text-white font-bold shadow-xs"
+                            : "bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200"
                         }`}
                       >
                         <ThumbsUp size={13} className={upvotedIds[post.id] ? "fill-current" : ""} />
                         <span>{post.upvotes} Upvotes</span>
                       </button>
 
-                      <div className="flex items-center gap-1.5 text-xs font-mono text-slate-400">
+                      <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500">
                         <MessageCircle size={14} />
                         <span>{post.replies} Replies</span>
                       </div>
@@ -328,7 +328,7 @@ export default function CommunityDiscussionsPage() {
 
                     <button
                       onClick={() => alert("Link copied to clipboard!")}
-                      className="p-2 text-slate-500 hover:text-white transition-colors"
+                      className="p-2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                       title="Share Post"
                     >
                       <Share2 size={15} />
@@ -347,31 +347,31 @@ export default function CommunityDiscussionsPage() {
 
       {/* New Discussion Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-[#0B1524] border border-white/15 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl">
-            <h2 className="text-xl font-bold text-white mb-1">Start a Discussion</h2>
-            <p className="text-xs text-slate-400 mb-6">Ask the community or share insights from your latest builds.</p>
+        <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl">
+            <h2 className="text-xl font-bold text-slate-900 mb-1">Start a Discussion</h2>
+            <p className="text-xs text-slate-500 mb-6">Ask the community or share insights from your latest builds.</p>
             
             <form onSubmit={handleCreatePost} className="space-y-4">
               <div>
-                <label className="block text-xs font-mono text-slate-400 mb-1">Topic Title</label>
+                <label className="block text-xs font-mono text-slate-700 mb-1">Topic Title</label>
                 <input
                   type="text"
                   placeholder="e.g. Best practices for streaming structured JSON from LLMs..."
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full bg-[#050B14] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">Channel</label>
+                  <label className="block text-xs font-mono text-slate-700 mb-1">Channel</label>
                   <select
                     value={newChannel}
                     onChange={(e) => setNewChannel(e.target.value)}
-                    className="w-full bg-[#050B14] border border-white/15 rounded-xl px-3 py-2.5 text-xs text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   >
                     <option value="ai-agents">🤖 AI Agents</option>
                     <option value="enterprise-rag">📚 Enterprise RAG</option>
@@ -381,24 +381,24 @@ export default function CommunityDiscussionsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-mono text-slate-400 mb-1">Tags (comma separated)</label>
+                  <label className="block text-xs font-mono text-slate-700 mb-1">Tags (comma separated)</label>
                   <input
                     type="text"
                     value={newTags}
                     onChange={(e) => setNewTags(e.target.value)}
-                    className="w-full bg-[#050B14] border border-white/15 rounded-xl px-3.5 py-2.5 text-xs text-white"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-slate-400 mb-1">Your Question / Findings</label>
+                <label className="block text-xs font-mono text-slate-700 mb-1">Your Question / Findings</label>
                 <textarea
                   rows={4}
                   placeholder="Share context, code snippet, or details..."
                   value={newContent}
                   onChange={(e) => setNewContent(e.target.value)}
-                  className="w-full bg-[#050B14] border border-white/15 rounded-xl p-3.5 text-xs text-white"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   required
                 />
               </div>
@@ -407,13 +407,13 @@ export default function CommunityDiscussionsPage() {
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 text-xs font-mono text-slate-400 hover:text-white cursor-pointer"
+                  className="px-4 py-2 text-xs font-mono text-slate-500 hover:text-slate-800 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-mono font-bold uppercase transition-all shadow-md cursor-pointer"
+                  className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-mono font-bold uppercase transition-all shadow-sm cursor-pointer"
                 >
                   Publish Discussion →
                 </button>

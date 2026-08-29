@@ -88,40 +88,37 @@ const TICKETS = [
 
 export default function AIFrontierPage() {
   return (
-    <div className="bg-[#050B14] min-h-screen text-white">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900">
       
       {/* ── HERO ── */}
-      <section className="relative pt-16 pb-24 overflow-hidden border-b border-white/10">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#00B8F0]/15 blur-[160px] rounded-full pointer-events-none" />
-        <div className="absolute top-[20%] right-[-10%] w-[60%] h-[60%] bg-[#0052FF]/20 blur-[180px] rounded-full pointer-events-none" />
-
+      <section className="relative pt-24 pb-20 overflow-hidden border-b border-slate-200 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00B8F0]/10 border border-[#00B8F0]/30 text-[#00B8F0] font-mono text-xs uppercase tracking-widest mb-6 font-semibold">
-            <Flame size={13} className="text-[#00F0FF]" /> Flagship AI Engineering Summit
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-6 font-semibold">
+            <Flame size={13} className="text-[#0066FF]" /> Flagship AI Engineering Summit
           </div>
 
-          <h1 className="text-[clamp(36px,5vw,68px)] font-bold tracking-tight leading-[1.08] max-w-4xl mb-6">
+          <h1 className="text-[clamp(36px,5vw,68px)] font-bold tracking-tight leading-[1.08] max-w-4xl mb-6 text-slate-900">
             AI Frontier 2026: <br />
-            <span className="bg-gradient-to-r from-[#00B8F0] via-[#0066FF] to-[#60A5FA] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0678BE] bg-clip-text text-transparent">
               The Production AI Summit
             </span>
           </h1>
 
-          <p className="text-base sm:text-xl text-[#8A9EB0] max-w-2xl leading-relaxed mb-8">
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8">
             A premier gathering of AI engineers, researchers, and founders exploring Enterprise RAG, LangGraph Agent state machines, and hardware-accelerated inference.
           </p>
 
-          <div className="flex flex-wrap gap-6 text-xs text-slate-300 font-mono mb-10 p-4 rounded-2xl bg-[#0B1524] border border-white/10 max-w-xl">
+          <div className="flex flex-wrap gap-6 text-xs text-slate-700 font-mono mb-10 p-4 rounded-2xl bg-white border border-slate-200 max-w-xl shadow-2xs">
             <div className="flex items-center gap-2">
-              <Calendar size={15} className="text-[#00B8F0]" />
+              <Calendar size={15} className="text-[#0066FF]" />
               <span>Sunday, August 23, 2026</span>
             </div>
             <div className="flex items-center gap-2">
-              <MapPin size={15} className="text-[#00B8F0]" />
+              <MapPin size={15} className="text-[#0066FF]" />
               <span>Indore, India / Hybrid</span>
             </div>
             <div className="flex items-center gap-2">
-              <Clock size={15} className="text-[#00B8F0]" />
+              <Clock size={15} className="text-[#0066FF]" />
               <span>9:30 AM – 6:00 PM IST</span>
             </div>
           </div>
@@ -129,13 +126,13 @@ export default function AIFrontierPage() {
           <div className="flex flex-wrap gap-4">
             <a
               href="#tickets"
-              className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-xl"
+              className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md"
             >
               Get Your Pass Now ↓
             </a>
             <Link
               href="/certificates"
-              className="border border-slate-700 hover:border-[#00B8F0] text-slate-300 hover:text-white px-6 py-4 rounded-xl text-xs font-mono transition-all"
+              className="bg-white border border-slate-300 hover:border-[#0066FF] text-slate-700 hover:text-[#0066FF] px-6 py-3.5 rounded-xl text-xs font-mono transition-all shadow-2xs"
             >
               Verify Past Certificates ↗
             </Link>
@@ -144,33 +141,31 @@ export default function AIFrontierPage() {
       </section>
 
       {/* ── SPEAKERS ── */}
-      <section className="py-24 bg-[#070E1B] border-b border-white/10">
+      <section className="py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="font-mono text-xs text-[#00B8F0] uppercase tracking-wider font-semibold mb-2">KEYNOTE LINEUP</div>
-            <h2 className="text-3xl font-bold text-white mb-4">Featured Speakers</h2>
-            <p className="text-sm text-slate-400">Leading AI practitioners and researchers driving real-world systems into production.</p>
+            <div className="font-mono text-xs text-[#0066FF] uppercase tracking-wider font-bold mb-1.5">KEYNOTE LINEUP</div>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Featured Speakers</h2>
+            <p className="text-sm text-slate-600">Leading AI practitioners and researchers driving real-world systems into production.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {SPEAKERS.map((s, idx) => (
-              <div key={idx} className="bg-[#0B1524] border border-white/10 rounded-3xl p-6 shadow-xl flex flex-col justify-between">
+              <div key={idx} className="bg-[#FAFCFF] border border-slate-200 rounded-3xl p-6 shadow-xs hover:shadow-md flex flex-col justify-between transition-all">
                 <div>
-                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#0066FF] to-[#00B8F0] p-0.5 mb-6">
-                    <div className="w-full h-full bg-[#050B14] rounded-2xl flex items-center justify-center font-mono font-bold text-xl text-[#00B8F0]">
-                      {s.name.split(' ').map(n=>n[0]).join('')}
-                    </div>
+                  <div className="w-16 h-16 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center font-mono font-bold text-xl text-[#0066FF] mb-6">
+                    {s.name.split(' ').map(n=>n[0]).join('')}
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-1">{s.name}</h3>
-                  <div className="text-xs text-[#00B8F0] font-mono mb-4">{s.role}</div>
-                  <p className="text-xs text-slate-400 leading-relaxed mb-6">{s.bio}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">{s.name}</h3>
+                  <div className="text-xs text-[#0066FF] font-mono mb-4">{s.role}</div>
+                  <p className="text-xs text-slate-600 leading-relaxed mb-6">{s.bio}</p>
                 </div>
                 <a
                   href={s.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-white"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-500 hover:text-[#0066FF]"
                 >
                   <Linkedin size={14} /> Connect on LinkedIn
                 </a>
@@ -182,39 +177,39 @@ export default function AIFrontierPage() {
       </section>
 
       {/* ── TICKETS ── */}
-      <section id="tickets" className="py-24 bg-[#050B14]">
+      <section id="tickets" className="py-20 bg-[#FAFCFF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="font-mono text-xs text-[#00B8F0] uppercase tracking-wider font-semibold mb-2">REGISTRATION TIERS</div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Choose Your Pass</h2>
-            <p className="text-sm text-slate-400">All passes include full keynote access, interactive workshops, and verifiable certificates.</p>
+            <div className="font-mono text-xs text-[#0066FF] uppercase tracking-wider font-bold mb-1.5">REGISTRATION TIERS</div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Choose Your Pass</h2>
+            <p className="text-sm text-slate-600">All passes include full keynote access, interactive workshops, and verifiable credentials.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {TICKETS.map((t, idx) => (
               <div
                 key={idx}
-                className={`rounded-3xl p-8 shadow-2xl flex flex-col justify-between relative transition-all ${
+                className={`rounded-3xl p-8 shadow-xs flex flex-col justify-between relative transition-all bg-white ${
                   t.popular
-                    ? "bg-[#0B1524] border-2 border-[#00B8F0] shadow-[0_0_40px_rgba(0,184,240,0.2)]"
-                    : "bg-[#091222] border border-white/10"
+                    ? "border-2 border-[#0066FF] shadow-lg"
+                    : "border border-slate-200"
                 }`}
               >
                 {t.popular && (
-                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-[#00B8F0] text-[#050B14] font-mono text-[10px] font-bold uppercase tracking-wider">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-[#0066FF] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-sm">
                     {t.tag}
                   </span>
                 )}
 
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">{t.name}</h3>
-                  <div className="text-3xl font-bold font-mono text-white mb-6">{t.price}</div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{t.name}</h3>
+                  <div className="text-3xl font-bold font-mono text-slate-900 mb-6">{t.price}</div>
 
-                  <div className="space-y-3 pt-6 border-t border-white/10 mb-8">
+                  <div className="space-y-3 pt-6 border-t border-slate-100 mb-8">
                     {t.features.map((feat, i) => (
-                      <div key={i} className="flex items-start gap-2.5 text-xs text-slate-300">
-                        <CheckCircle2 size={14} className="text-[#00B8F0] shrink-0 mt-0.5" />
+                      <div key={i} className="flex items-start gap-2.5 text-xs text-slate-600">
+                        <CheckCircle2 size={14} className="text-[#0066FF] shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </div>
                     ))}
@@ -225,8 +220,8 @@ export default function AIFrontierPage() {
                   onClick={() => alert(`Starting registration for ${t.name}... Proceeding to Razorpay checkout / UPI verification.`)}
                   className={`w-full py-3.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     t.popular
-                      ? "bg-[#0066FF] hover:bg-[#0052CC] text-white shadow-lg"
-                      : "bg-[#050B14] hover:bg-white/10 text-white border border-white/15"
+                      ? "bg-[#0066FF] hover:bg-[#0052CC] text-white shadow-md"
+                      : "bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200"
                   }`}
                 >
                   {t.cta} →

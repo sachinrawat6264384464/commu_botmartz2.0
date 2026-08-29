@@ -70,24 +70,24 @@ export default function CertificatesPage() {
   };
 
   return (
-    <div className="bg-[#050B14] min-h-screen text-white py-16">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-16 pt-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00B8F0]/10 border border-[#00B8F0]/30 text-[#00B8F0] font-mono text-xs uppercase tracking-widest mb-4 font-semibold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-4 font-semibold">
             <ShieldCheck size={14} /> Official Credential Verification
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4">
+          <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 mb-4">
             Verify Botmartz Certificates
           </h1>
-          <p className="text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto">
             Validate the authenticity of official completion certificates, speaker badges, and attendee credentials issued by Botmartz AI Solutions.
           </p>
         </div>
 
         {/* Search Box */}
-        <div className="bg-[#0B1524] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl mb-10">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm mb-10">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -96,21 +96,21 @@ export default function CertificatesPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Enter Certificate ID (e.g. CERT-2026-0812) or Email..."
-                className="w-full bg-[#050B14] border border-white/15 rounded-xl pl-11 pr-4 py-3.5 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#00B8F0]"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0066FF]"
               />
             </div>
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono tracking-wider uppercase transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+              className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono tracking-wider uppercase transition-all shadow-sm flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
             >
               {loading ? <Loader2 size={16} className="animate-spin" /> : "Verify ↗"}
             </button>
           </form>
 
           {error && (
-            <div className="mt-4 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-3">
-              <AlertCircle size={18} className="shrink-0" />
+            <div className="mt-4 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-3">
+              <AlertCircle size={18} className="shrink-0 text-rose-600" />
               <span>{error}</span>
             </div>
           )}
@@ -118,35 +118,35 @@ export default function CertificatesPage() {
 
         {/* Result Display */}
         {result && (
-          <div className="bg-[#091222] border border-emerald-500/40 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-            <div className="flex items-center gap-3 text-emerald-400 font-mono text-xs uppercase font-bold tracking-wider mb-6">
+          <div className="bg-white border-2 border-emerald-400 rounded-3xl p-8 shadow-md relative overflow-hidden">
+            <div className="flex items-center gap-3 text-emerald-600 font-mono text-xs uppercase font-bold tracking-wider mb-6">
               <CheckCircle2 size={18} /> Valid &amp; Verified Credential
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
               <div>
-                <div className="text-xs font-mono text-slate-500 uppercase mb-1">Recipient Name</div>
-                <div className="text-xl font-bold text-white">{result.name}</div>
+                <div className="text-xs font-mono text-slate-400 uppercase mb-1">Recipient Name</div>
+                <div className="text-xl font-bold text-slate-900">{result.name}</div>
               </div>
               <div>
-                <div className="text-xs font-mono text-slate-500 uppercase mb-1">Certificate ID</div>
-                <div className="text-sm font-mono text-[#00B8F0] font-bold">{result.certificateId || result.id}</div>
+                <div className="text-xs font-mono text-slate-400 uppercase mb-1">Certificate ID</div>
+                <div className="text-sm font-mono text-[#0066FF] font-bold">{result.certificateId || result.id}</div>
               </div>
               <div>
-                <div className="text-xs font-mono text-slate-500 uppercase mb-1">Program / Event</div>
-                <div className="text-sm font-bold text-slate-200">{result.eventTitle || result.programTitle}</div>
+                <div className="text-xs font-mono text-slate-400 uppercase mb-1">Program / Event</div>
+                <div className="text-sm font-bold text-slate-800">{result.eventTitle || result.programTitle}</div>
               </div>
               <div>
-                <div className="text-xs font-mono text-slate-500 uppercase mb-1">Issue Date</div>
-                <div className="text-sm text-slate-300">{result.issueDate || "August 2026"}</div>
+                <div className="text-xs font-mono text-slate-400 uppercase mb-1">Issue Date</div>
+                <div className="text-sm text-slate-600">{result.issueDate || "August 2026"}</div>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-white/10 flex flex-wrap gap-4">
+            <div className="pt-6 border-t border-slate-100 flex flex-wrap gap-4">
               <button
                 onClick={handleDownloadPDF}
                 disabled={downloading}
-                className="inline-flex items-center gap-2 bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl text-xs font-mono font-bold transition-all shadow-md cursor-pointer disabled:opacity-60"
+                className="inline-flex items-center gap-2 bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl text-xs font-mono font-bold transition-all shadow-sm cursor-pointer disabled:opacity-60"
               >
                 {downloading ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
                 <span>{downloading ? "Generating PDF..." : "Download Official PDF"}</span>
