@@ -6,6 +6,7 @@ import { Award, Search, CheckCircle2, AlertCircle, Download, ExternalLink, Shiel
 export default function CertificatesPage() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState("");
 
@@ -30,6 +31,41 @@ export default function CertificatesPage() {
       setError("Verification request failed. Please check network connection.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!result) return;
+    setDownloading(true);
+    try {
+      const res = await fetch("/api/certificate/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: result.name,
+          eventTitle: result.eventTitle || result.programTitle,
+          certificateId: result.certificateId || result.id,
+          issueDate: result.issueDate
+        })
+      });
+
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `botmartz-${result.certificateId || result.id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        alert("Failed to download PDF certificate.");
+      }
+    } catch (e) {
+      alert("Network error generating PDF.");
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -59,7 +95,7 @@ export default function CertificatesPage() {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Enter Certificate ID (e.g. CERT-2026-XXXX) or Email..."
+                placeholder="Enter Certificate ID (e.g. CERT-2026-0812) or Email..."
                 className="w-full bg-[#050B14] border border-white/15 rounded-xl pl-11 pr-4 py-3.5 text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#00B8F0]"
               />
             </div>
@@ -102,19 +138,19 @@ export default function CertificatesPage() {
               </div>
               <div>
                 <div className="text-xs font-mono text-slate-500 uppercase mb-1">Issue Date</div>
-                <div className="text-sm text-slate-300">{result.issueDate || "2026"}</div>
+                <div className="text-sm text-slate-300">{result.issueDate || "August 2026"}</div>
               </div>
             </div>
 
             <div className="pt-6 border-t border-white/10 flex flex-wrap gap-4">
-              <a
-                href={`/api/certificate/generate?id=${result.certificateId || result.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3 rounded-xl text-xs font-mono font-bold transition-all shadow-md"
+              <button
+                onClick={handleDownloadPDF}
+                disabled={downloading}
+                className="inline-flex items-center gap-2 bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl text-xs font-mono font-bold transition-all shadow-md cursor-pointer disabled:opacity-60"
               >
-                <Download size={15} /> Download PDF Certificate
-              </a>
+                {downloading ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
+                <span>{downloading ? "Generating PDF..." : "Download Official PDF"}</span>
+              </button>
             </div>
           </div>
         )}
