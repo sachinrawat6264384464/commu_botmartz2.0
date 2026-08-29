@@ -74,7 +74,7 @@ export default function AdminArenaDashboardPage() {
   });
 
   const gthEnrollments = enrollments.filter(
-    (e) => e.difficulty === "Go To Hell 💀" || e.projectId === "p10"
+    (e) => e.difficulty === "Expert Tier" || e.difficulty === "Go To Hell 💀" || e.projectId === "p10" || e.projectId === "p40" || e.projectId === "p50"
   );
 
   const exportCSV = () => {
@@ -221,7 +221,7 @@ export default function AdminArenaDashboardPage() {
               activeTab === "shippers" ? "bg-purple-600 text-white shadow-xs" : "bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200"
             }`}
           >
-            🚀 15-Company Referrals ({claims.length})
+            15-Company Referrals ({claims.length})
           </button>
           <button
             onClick={() => setActiveTab("logs")}
@@ -242,10 +242,10 @@ export default function AdminArenaDashboardPage() {
           <button
             onClick={() => setActiveTab("gth")}
             className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${
-              activeTab === "gth" ? "bg-slate-950 text-rose-400 border border-rose-600 shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              activeTab === "gth" ? "bg-slate-950 text-purple-300 border border-purple-600 shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
             }`}
           >
-            💀 GTH Finalists ({gthEnrollments.length})
+            Expert Tier Finalists ({gthEnrollments.length})
           </button>
         </div>
 
@@ -523,10 +523,10 @@ export default function AdminArenaDashboardPage() {
         <div className="bg-slate-950 text-white border-2 border-rose-600/80 rounded-3xl p-6 sm:p-8 shadow-2xl">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <div className="text-xs font-mono text-rose-400 uppercase font-bold">Extreme Tier Evaluation Board</div>
-              <h3 className="text-xl font-bold text-white">Go To Hell (GTH) 💀 Finalists (5 Slots Max)</h3>
+              <div className="text-xs font-mono text-purple-400 uppercase font-bold">Expert Tier Evaluation Board</div>
+              <h3 className="text-xl font-bold text-white">Expert Tier Finalists (5 Slots Max)</h3>
             </div>
-            <div className="px-4 py-2 rounded-xl bg-rose-500/20 text-rose-300 font-mono text-xs font-bold border border-rose-500/40">
+            <div className="px-4 py-2 rounded-xl bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/40">
               Prize: ₹1,00,000 Total Pool
             </div>
           </div>

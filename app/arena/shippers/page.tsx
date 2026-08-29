@@ -186,31 +186,31 @@ export default function ShippersCirclePage() {
                 <Award size={15} /> Master Shipper Credential
               </div>
               <div className="font-bold text-white text-sm mb-1">Unlimited Project Stacking</div>
-              <p className="text-xs text-slate-400">Take on 3, 5, or all 10 projects. Zero limits on your proof of work.</p>
+              <p className="text-xs text-slate-400 font-mono">Take on 3, 5, or all 50 projects. Zero limits on your proof of work.</p>
             </div>
 
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs">
             <a
               href="#portfolio-checker"
-              className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center gap-2"
+              className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center gap-2"
             >
               <Search size={15} />
               <span>Check My 3-Project Status</span>
             </a>
             <a
               href="#claim-referral"
-              className="px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all border border-slate-700 cursor-pointer flex items-center gap-2"
+              className="px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold uppercase tracking-wider transition-all border border-slate-700 cursor-pointer flex items-center gap-2"
             >
               <Trophy size={15} className="text-amber-400" />
               <span>Claim 15-Company Referral</span>
             </a>
             <Link
               href="/arena"
-              className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all border border-white/20"
+              className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold uppercase tracking-wider transition-all border border-white/20"
             >
-              <span>Explore 10 Projects Matrix</span>
+              <span>Explore 50 Projects Matrix</span>
             </Link>
           </div>
 

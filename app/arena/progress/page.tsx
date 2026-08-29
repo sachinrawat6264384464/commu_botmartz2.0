@@ -76,13 +76,13 @@ export default async function ProgressDiariesPage() {
                 All Logs
               </button>
               <button className="px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200">
-                🚀 #Progress Diaries
+                Progress Diaries
               </button>
               <button className="px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200">
-                🛠️ #Architecture &amp; Schemas
+                Architecture &amp; Schemas
               </button>
               <button className="px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200">
-                ⚠️ #Blockers &amp; Questions
+                Blockers &amp; Questions
               </button>
             </div>
 

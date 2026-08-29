@@ -231,7 +231,7 @@ export default function ArenaPage() {
               className="px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 text-xs font-mono font-bold uppercase tracking-wider border border-slate-300 transition-all inline-flex items-center gap-2 cursor-pointer"
             >
               <FolderGit2 size={15} />
-              <span>Explore 10 Projects</span>
+              <span>Explore 50 Projects</span>
             </a>
             <Link
               href="/arena/daily-log"
@@ -252,7 +252,7 @@ export default function ArenaPage() {
         <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 rounded-3xl border border-indigo-800/80 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-mono text-[11px] font-bold uppercase tracking-wider mb-2 border border-purple-500/30">
-              <span>🚀 THE SHIPPERS CIRCLE MILESTONE</span>
+              <span>THE SHIPPERS CIRCLE MILESTONE</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
               Complete 3 Projects → Get Fast-Tracked to 15 Hiring Companies
@@ -285,8 +285,8 @@ export default function ArenaPage() {
             <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-2">
               Match Your Skills to Production Projects
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-              Paste your resume or GitHub bio text below. Our engine extracts your technical taxonomy (Python, Django, FastAPI, PostgreSQL, Next.js, LangGraph, Qdrant, Docker, AWS, etc.), scores you against the 10 production projects, and generates curated learning resources for missing skills.
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-mono">
+              Paste your resume or GitHub bio text below. Our engine extracts your technical taxonomy (Python, Django, FastAPI, PostgreSQL, Next.js, LangGraph, Qdrant, Docker, AWS, etc.), scores you against all 50 production projects, and generates curated learning resources for missing skills.
             </p>
           </div>
 
@@ -417,7 +417,7 @@ export default function ArenaPage() {
       </section>
 
       {/* =========================================================================
-          SECTION 3: 10 PRODUCTION PROJECTS CATALOG
+          SECTION 3: 50 PRODUCTION PROJECTS CATALOG
       ========================================================================= */}
       <section id="projects-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
@@ -425,11 +425,11 @@ export default function ArenaPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3">
             <Cpu size={14} /> Production Systems Architecture
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3">
-            10 Deep Industry Projects
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3 font-sans">
+            50 Production Systems Matrix
           </h2>
-          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-            Zero toy applications. Every project requires multi-tier databases, real-time message streams, latency benchmarking, and cloud infrastructure deployment.
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-mono">
+            Zero toy applications. Every project requires multi-tier databases, real-time message streams, latency benchmarking, and automated test gates.
           </p>
         </div>
 
@@ -437,14 +437,14 @@ export default function ArenaPage() {
         <div className="bg-white border border-slate-200 rounded-2xl p-4 mb-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xs">
           {/* Difficulty Tabs */}
           <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
-            {["All", "Intermediate", "Hard", "Insane", "Go To Hell 💀"].map((diff) => (
+            {["All", "Intermediate", "Hard", "Insane", "Expert Tier"].map((diff) => (
               <button
                 key={diff}
                 onClick={() => setSelectedDifficulty(diff)}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
                   selectedDifficulty === diff
-                    ? diff === "Go To Hell 💀"
-                      ? "bg-slate-950 text-rose-400 border border-rose-600 shadow-sm"
+                    ? diff === "Expert Tier"
+                      ? "bg-slate-950 text-purple-300 border border-purple-600 shadow-sm"
                       : "bg-[#0066FF] text-white shadow-xs"
                     : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200"
                 }`}
@@ -470,13 +470,13 @@ export default function ArenaPage() {
         {/* Project Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => {
-            const isGTH = project.difficulty === "Go To Hell 💀";
+            const isGTH = project.difficulty === "Expert Tier";
             return (
               <div
                 key={project.id}
                 className={`rounded-3xl p-6 transition-all flex flex-col justify-between relative overflow-hidden ${
                   isGTH
-                    ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-rose-600/80 text-white shadow-xl shadow-rose-950/30"
+                    ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-purple-600/80 text-white shadow-xl shadow-purple-950/30"
                     : "bg-white border border-slate-200 text-slate-900 shadow-xs hover:shadow-md hover:border-blue-300"
                 }`}
               >
@@ -486,7 +486,7 @@ export default function ArenaPage() {
                     <span
                       className={`px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${
                         isGTH
-                          ? "bg-rose-500/20 text-rose-400 border border-rose-500/40"
+                          ? "bg-purple-500/20 text-purple-300 border border-purple-500/40"
                           : project.difficulty === "Insane"
                           ? "bg-purple-100 text-purple-700 border border-purple-200"
                           : project.difficulty === "Hard"
@@ -506,10 +506,10 @@ export default function ArenaPage() {
                     </div>
                   )}
 
-                  <h3 className={`text-lg font-bold mb-2 leading-snug ${isGTH ? "text-white" : "text-slate-900"}`}>
+                  <h3 className={`text-lg font-bold mb-2 leading-snug font-sans ${isGTH ? "text-white" : "text-slate-900"}`}>
                     {project.title}
                   </h3>
-                  <p className={`text-xs mb-4 leading-relaxed line-clamp-3 ${isGTH ? "text-slate-300" : "text-slate-600"}`}>
+                  <p className={`text-xs mb-4 leading-relaxed line-clamp-3 font-sans ${isGTH ? "text-slate-300" : "text-slate-600"}`}>
                     {project.tagline}
                   </p>
 
@@ -541,10 +541,10 @@ export default function ArenaPage() {
                 </div>
 
                 {/* Actions */}
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center gap-3">
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center gap-3 font-mono text-xs">
                   <Link
                     href={`/arena/${project.slug}`}
-                    className={`flex-1 text-center py-2.5 rounded-xl text-xs font-mono font-bold transition-all ${
+                    className={`flex-1 text-center py-2.5 rounded-xl font-bold transition-all ${
                       isGTH
                         ? "bg-slate-800 hover:bg-slate-700 text-white border border-slate-700"
                         : "bg-white hover:bg-slate-100 text-slate-800 border border-slate-300"
@@ -554,13 +554,13 @@ export default function ArenaPage() {
                   </Link>
                   <button
                     onClick={() => setEnrollModalProject(project)}
-                    className={`flex-1 text-center py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer shadow-xs ${
+                    className={`flex-1 text-center py-2.5 rounded-xl font-bold transition-all cursor-pointer shadow-xs ${
                       isGTH
-                        ? "bg-rose-600 hover:bg-rose-500 text-white shadow-rose-900/50"
+                        ? "bg-purple-600 hover:bg-purple-500 text-white shadow-purple-900/50"
                         : "bg-[#0066FF] hover:bg-[#0052CC] text-white"
                     }`}
                   >
-                    {isGTH ? "Apply for 5 Slots 💀" : "Enroll in Track"}
+                    {isGTH ? "Apply for 5 Slots" : "Enroll in Track"}
                   </button>
                 </div>
 
@@ -582,58 +582,58 @@ export default function ArenaPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-[#00B8F0] font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-blue-500/30">
               <Users size={14} /> Cross-Functional Squad Simulation
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3 font-sans">
               Not Just Coding. Real Engineering Squads.
             </h2>
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-              Every project in the Botmartz Arena runs like a high-growth tech startup. Developers build and deploy to AWS, Cybersecurity Pen-testers exploit live staging builds, QA Automation writes Playwright suites, and PMs manage sprint velocity.
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-mono">
+              Every project in the Internship Playground runs like a high-growth tech startup. Developers build and deploy to cloud environments, Cybersecurity Pen-testers exploit live staging builds, QA Automation writes Playwright suites, and PMs manage sprint velocity.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
             
             <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80">
               <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center mb-4">
                 <Code2 size={20} />
               </div>
-              <h3 className="font-bold text-white text-base mb-2">Developers &amp; AI Engineers</h3>
-              <p className="text-xs text-slate-300 leading-relaxed mb-3">
-                Build core state machines, vector pipelines, Redis task queues, and deploy containers to AWS ECS/EC2.
+              <h3 className="font-bold text-white text-base mb-2 font-sans">Developers &amp; AI Engineers</h3>
+              <p className="text-xs text-slate-300 leading-relaxed mb-3 font-sans">
+                Build core state machines, vector pipelines, Redis task queues, and deploy containers.
               </p>
-              <span className="text-[11px] font-mono text-[#00B8F0] font-semibold">Deliverable: Live Cloud URL + Code</span>
+              <span className="text-[11px] text-[#00B8F0] font-semibold">Deliverable: Live Cloud URL + Code</span>
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80">
               <div className="w-10 h-10 rounded-xl bg-rose-500/20 border border-rose-500/30 text-rose-400 flex items-center justify-center mb-4">
                 <Bug size={20} />
               </div>
-              <h3 className="font-bold text-white text-base mb-2">Cybersecurity Pen-testers</h3>
-              <p className="text-xs text-slate-300 leading-relaxed mb-3">
+              <h3 className="font-bold text-white text-base mb-2 font-sans">Cybersecurity Pen-testers</h3>
+              <p className="text-xs text-slate-300 leading-relaxed mb-3 font-sans">
                 Attack student live staging deployments. Hunt OWASP Top 10, SSRF, IDOR &amp; Prompt Injections.
               </p>
-              <span className="text-[11px] font-mono text-rose-400 font-semibold">Deliverable: 5 Verified Bug CVE Reports</span>
+              <span className="text-[11px] text-rose-400 font-semibold">Deliverable: 5 Verified Bug CVE Reports</span>
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80">
               <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-4">
                 <Terminal size={20} />
               </div>
-              <h3 className="font-bold text-white text-base mb-2">QA Automation Engineers</h3>
-              <p className="text-xs text-slate-300 leading-relaxed mb-3">
+              <h3 className="font-bold text-white text-base mb-2 font-sans">QA Automation Engineers</h3>
+              <p className="text-xs text-slate-300 leading-relaxed mb-3 font-sans">
                 Write Playwright E2E suites and distributed k6 load tests for 10,000 concurrent user spikes.
               </p>
-              <span className="text-[11px] font-mono text-amber-400 font-semibold">Deliverable: CI/CD Harness &amp; k6 Report</span>
+              <span className="text-[11px] text-amber-400 font-semibold">Deliverable: CI/CD Harness &amp; k6 Report</span>
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-800/80 border border-slate-700/80">
               <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center mb-4">
                 <BookOpen size={20} />
               </div>
-              <h3 className="font-bold text-white text-base mb-2">Product Managers</h3>
-              <p className="text-xs text-slate-300 leading-relaxed mb-3">
+              <h3 className="font-bold text-white text-base mb-2 font-sans">Product Managers</h3>
+              <p className="text-xs text-slate-300 leading-relaxed mb-3 font-sans">
                 Author technical PRDs, user stories, Mermaid diagrams, and post-launch product telemetry funnels.
               </p>
-              <span className="text-[11px] font-mono text-purple-400 font-semibold">Deliverable: Technical PRD &amp; Backlog</span>
+              <span className="text-[11px] text-purple-400 font-semibold">Deliverable: Technical PRD &amp; Backlog</span>
             </div>
 
           </div>
@@ -642,7 +642,7 @@ export default function ArenaPage() {
       </section>
 
       {/* =========================================================================
-          SECTION 5: 5TB GOOGLE DRIVE & WEEKEND OFFICE HOURS
+          SECTION 5: SUBMISSION DELIVERABLES & WEEKEND OFFICE HOURS
       ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -652,22 +652,20 @@ export default function ArenaPage() {
               <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center mb-4">
                 <HardDrive size={20} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
-                5TB Community Asset &amp; Submission Drive
+              <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                Proof-of-Work Submission Guidelines
               </h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                Upload your research datasets, video walkthroughs, system diagrams, and backup artifacts directly to our 5TB Botmartz Community Drive.
+              <p className="text-xs text-slate-600 leading-relaxed mb-4 font-mono">
+                Submit public GitHub repositories, live deployment URLs (Vercel / AWS / Render / Hugging Face), passing benchmark logs, and 2-minute Loom architecture walkthroughs.
               </p>
             </div>
-            <a
-              href="https://drive.google.com/drive/folders/1KExMwvCxqd1rn9tgcbIFxAK0vw900CfH?usp=drive_link"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/arena/daily-log"
               className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#0066FF] hover:underline"
             >
-              <span>Access Google Drive Assets Folder</span>
-              <ExternalLink size={14} />
-            </a>
+              <span>Submit Proof-of-Work Daily Log</span>
+              <ArrowRight size={14} />
+            </Link>
           </div>
 
           <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between">
@@ -675,20 +673,20 @@ export default function ArenaPage() {
               <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-700 flex items-center justify-center mb-4">
                 <Calendar size={20} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
-                Weekend Architecture &amp; Doubt Sessions
+              <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                Weekend Architecture &amp; Teardowns
               </h3>
-              <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                Live Discord Stage sessions every Saturday &amp; Sunday. Bring code bottlenecks, DB deadlocks, or prompt regressions for live technical teardowns.
+              <p className="text-xs text-slate-600 leading-relaxed mb-4 font-mono">
+                Live Discord Stage sessions every Saturday 5:00 PM – 7:00 PM IST and in-person at Indore AI Hub. Bring code bottlenecks, DB deadlocks, or prompt regressions for live technical teardowns.
               </p>
             </div>
             <a
               href="https://discord.gg/k75ZpEnzp"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#5865F2] hover:underline"
+              className="inline-flex items-center gap-2 text-xs font-mono font-bold text-indigo-600 hover:underline"
             >
-              <span>Join #arena-office-hours on Discord</span>
+              <span>Join #office-hours on Discord</span>
               <ExternalLink size={14} />
             </a>
           </div>

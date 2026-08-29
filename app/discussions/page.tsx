@@ -149,13 +149,13 @@ const INITIAL_POSTS: DiscussionPost[] = [
 ];
 
 const CHANNELS = [
-  { id: "all", label: "🔥 All Channels" },
-  { id: "show-your-build", label: "🔥 Showcase Thursdays" },
-  { id: "resume-review", label: "📄 Wednesday Resume Reviews" },
-  { id: "ama-questions", label: "🎙️ 3rd Saturday AMA Questions" },
-  { id: "ai-agents", label: "🤖 AI Agents & LangGraph" },
-  { id: "enterprise-rag", label: "📚 Enterprise RAG & Search" },
-  { id: "events-and-meetups", label: "🎟️ Events & Hackathons" },
+  { id: "all", label: "All Channels" },
+  { id: "show-your-build", label: "Showcase Thursdays" },
+  { id: "resume-review", label: "Wednesday Resume Reviews" },
+  { id: "ama-questions", label: "Saturday AMA Questions" },
+  { id: "ai-agents", label: "AI Agents & Systems" },
+  { id: "enterprise-rag", label: "Enterprise RAG & Search" },
+  { id: "events-and-meetups", label: "Events & Hackathons" },
 ];
 
 function DiscussionsContent() {
@@ -686,12 +686,12 @@ function DiscussionsContent() {
                     onChange={(e) => setNewChannel(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                   >
-                    <option value="show-your-build">🔥 Showcase Thursdays</option>
-                    <option value="resume-review">📄 Wednesday Resume Reviews</option>
-                    <option value="ama-questions">🎙️ 3rd Saturday AMA Questions</option>
-                    <option value="ai-agents">🤖 AI Agents &amp; LangGraph</option>
-                    <option value="enterprise-rag">📚 Enterprise RAG</option>
-                    <option value="events-and-meetups">🎟️ Events &amp; Meetups</option>
+                    <option value="show-your-build">Showcase Thursdays</option>
+                    <option value="resume-review">Wednesday Resume Reviews</option>
+                    <option value="ama-questions">Saturday AMA Questions</option>
+                    <option value="ai-agents">AI Agents &amp; Systems</option>
+                    <option value="enterprise-rag">Enterprise RAG</option>
+                    <option value="events-and-meetups">Events &amp; Meetups</option>
                   </select>
                 </div>
                 <div>

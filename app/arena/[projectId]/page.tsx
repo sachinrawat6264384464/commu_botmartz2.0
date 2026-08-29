@@ -40,10 +40,10 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound();
   }
 
-  const isGTH = project.difficulty === "Go To Hell 💀";
+  const isGTH = project.difficulty === "Expert Tier";
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Back Link */}
@@ -51,7 +51,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           href="/arena"
           className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-500 hover:text-[#0066FF] transition-colors mb-6"
         >
-          <ArrowLeft size={14} /> Back to Arena Catalog
+          <ArrowLeft size={14} /> Back to Internship Playground
         </Link>
 
         {/* Hero Header */}

@@ -172,20 +172,20 @@ export default function ProfilePortalPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs">
               <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200">
                 <span className="text-[10px] text-amber-800 font-bold uppercase block mb-1">Karma Balance</span>
-                <div className="text-2xl font-black text-amber-900">{studentProfile.karmaCoins || 100} 🪙</div>
-                <span className="text-[10px] text-slate-500">Botmartz Coins</span>
+                <div className="text-2xl font-black text-amber-900 font-mono">{studentProfile.karmaCoins || 100} Coins</div>
+                <span className="text-[10px] text-slate-500 font-mono">Botmartz Points</span>
               </div>
 
               <div className="p-4 rounded-2xl bg-purple-50/60 border border-purple-200">
-                <span className="text-[10px] text-purple-800 font-bold uppercase block mb-1">Reputation</span>
-                <div className="text-2xl font-black text-purple-900">Level {studentProfile.reputationLevel || 1}</div>
-                <span className="text-[10px] text-slate-500">Builder Tier</span>
+                <span className="text-[10px] text-purple-800 font-bold uppercase block mb-1 font-mono">Reputation</span>
+                <div className="text-2xl font-black text-purple-900 font-mono">Level {studentProfile.reputationLevel || 1}</div>
+                <span className="text-[10px] text-slate-500 font-mono">Builder Tier</span>
               </div>
 
               <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200">
-                <span className="text-[10px] text-emerald-800 font-bold uppercase block mb-1">Daily Streak</span>
-                <div className="text-2xl font-black text-emerald-900">🔥 7 Days</div>
-                <span className="text-[10px] text-slate-500">Active PoW</span>
+                <span className="text-[10px] text-emerald-800 font-bold uppercase block mb-1 font-mono">Daily Streak</span>
+                <div className="text-2xl font-black text-emerald-900 font-mono">7 Days</div>
+                <span className="text-[10px] text-slate-500 font-mono">Active PoW</span>
               </div>
 
               <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-200">

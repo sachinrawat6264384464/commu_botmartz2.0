@@ -308,7 +308,7 @@ export default async function MemberProfilePage({ params }: Props) {
                             <Github size={12} /> View Commit Proof
                           </a>
                         )}
-                        <span>Streak: <strong>{log.streakDays || 1} 🔥</strong></span>
+                        <span>Streak: <strong>{log.streakDays || 1} Days</strong></span>
                       </div>
                     </div>
                   ))}

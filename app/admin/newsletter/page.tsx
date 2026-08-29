@@ -28,7 +28,7 @@ interface BroadcastLog {
 const PAST_BROADCASTS: BroadcastLog[] = [
   {
     id: "b-1",
-    subject: "🔥 Showcase Thursday: 4 New LangGraph & Qdrant Projects Live!",
+    subject: "Showcase Thursday: 4 New LangGraph & Qdrant Projects Live!",
     targetAudience: "All Community Builders (2,410)",
     sentAt: "Aug 28, 2026",
     recipientCount: 2410,
@@ -37,7 +37,7 @@ const PAST_BROADCASTS: BroadcastLog[] = [
   },
   {
     id: "b-2",
-    subject: "📄 Wednesday AI Resume Teardowns — 8 Review Slots Open",
+    subject: "Wednesday AI Resume Teardowns — 8 Review Slots Open",
     targetAudience: "Active Forum Members (1,240)",
     sentAt: "Aug 27, 2026",
     recipientCount: 1240,
@@ -46,7 +46,7 @@ const PAST_BROADCASTS: BroadcastLog[] = [
   },
   {
     id: "b-3",
-    subject: "🎙️ 3rd Saturday AMA with Dr. Promit Ray on Foundation Models",
+    subject: "Saturday AMA with Dr. Promit Ray on Foundation Models",
     targetAudience: "AI Frontier Attendees (520)",
     sentAt: "Aug 15, 2026",
     recipientCount: 520,
@@ -65,14 +65,14 @@ export default function NewsletterBroadcastPage() {
 
   const applyTemplate = (type: "showcase" | "resume" | "ama") => {
     if (type === "showcase") {
-      setSubject("🔥 Showcase Thursday: This Week's Top AI Community Builds");
-      setContent(`Hey Builders,\n\nIt's Showcase Thursday! Check out this week's top community projects built with LangGraph, MCP, and Qdrant.\n\n👉 Join the live demo stream and upvote your favorite builds at https://community.botmartz.com/showcase\n\nKeep building,\nSoham Sharma & Botmartz Community Team`);
+      setSubject("Showcase Thursday: This Week's Top AI Community Builds");
+      setContent(`Hey Builders,\n\nIt's Showcase Thursday! Check out this week's top community projects built with LangGraph, MCP, and Qdrant.\n\nJoin the live demo stream and upvote your favorite builds at https://community.botmartz.com/showcase\n\nKeep building,\nSoham Sharma & Botmartz Community Team`);
     } else if (type === "resume") {
-      setSubject("📄 Wednesday Resume Reviews: Get 1-on-1 AI Architect Feedback");
-      setContent(`Hey Builders,\n\nTomorrow is AI Resume & Portfolio Review Wednesday! Whether you're interviewing for AI Engineer, RAG Architect, or Research positions, drop your resume in the channel for direct feedback.\n\n👉 Submit your resume at https://community.botmartz.com/discussions?channel=resume-review\n\nBest,\nBotmartz Career Guild`);
+      setSubject("Wednesday Resume Reviews: Get 1-on-1 AI Architect Feedback");
+      setContent(`Hey Builders,\n\nTomorrow is AI Resume & Portfolio Review Wednesday! Whether you're interviewing for AI Engineer, RAG Architect, or Research positions, drop your resume in the channel for direct feedback.\n\nSubmit your resume at https://community.botmartz.com/discussions?channel=resume-review\n\nBest,\nBotmartz Career Guild`);
     } else if (type === "ama") {
-      setSubject("🎙️ 3rd Saturday AMA: Foundation Models & Reasoning with Dr. Promit Ray");
-      setContent(`Hey Builders,\n\nOur monthly AI Architect AMA is happening this 3rd Saturday! Submit your burning questions on test-time compute, inference quantization, and enterprise deployment.\n\n👉 RSVP and drop your questions at https://community.botmartz.com/events?type=ama\n\nSee you on the live stream!`);
+      setSubject("Saturday AMA: Foundation Models & Reasoning with Dr. Promit Ray");
+      setContent(`Hey Builders,\n\nOur monthly AI Architect AMA is happening this Saturday! Submit your questions on test-time compute, inference quantization, and enterprise deployment.\n\nRSVP and drop your questions at https://community.botmartz.com/events?type=ama\n\nSee you on the live stream!`);
     }
   };
 

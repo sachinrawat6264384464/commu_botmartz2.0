@@ -62,14 +62,14 @@ export default async function BuilderProfilePage({ params }: Props) {
 
   let tier = "Explorer";
   if (totalProjects >= 3) {
-    tier = "Elite Shipper 🚀";
+    tier = "Elite Shipper";
   } else if (totalProjects >= 1) {
-    tier = "Production Builder ⚡";
+    tier = "Production Builder";
   }
 
-  const isGTH = enrollments.some((e) => e.difficulty === "Go To Hell 💀" || e.projectId === "p10");
+  const isGTH = enrollments.some((e) => e.difficulty === "Expert Tier" || e.difficulty === "Go To Hell 💀" || e.projectId === "p10" || e.projectId === "p40" || e.projectId === "p50");
   if (isGTH) {
-    tier = "GTH Legend 💀";
+    tier = "Expert Shipper";
   }
 
   return (

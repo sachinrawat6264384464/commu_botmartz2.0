@@ -21,7 +21,7 @@ export async function GET() {
         if (!enrollSnap.empty) {
           totalEnrolled = enrollSnap.size;
           enrollments = enrollSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          gthApplicants = enrollments.filter(e => e.difficulty === "Go To Hell 💀" || e.projectId === "p10").length;
+          gthApplicants = enrollments.filter(e => e.difficulty === "Expert Tier" || e.difficulty === "Go To Hell 💀" || e.projectId === "p10" || e.projectId === "p40" || e.projectId === "p50").length;
         }
 
         const logsSnap = await adminDb.collection("arena_daily_logs").orderBy("submittedAt", "desc").limit(30).get();

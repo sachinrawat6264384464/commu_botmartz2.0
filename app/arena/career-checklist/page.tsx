@@ -159,7 +159,7 @@ Best,
                 href="/arena/shippers"
                 className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs"
               >
-                🚀 Claim 15 Company Referrals
+                Claim 15 Company Referrals
               </Link>
             </div>
           </div>
