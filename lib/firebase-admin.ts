@@ -4,12 +4,60 @@ import { getAuth } from 'firebase-admin/auth';
 
 let adminApp: App;
 
+function cleanPemKey(key: string | undefined): string | undefined {
+  if (!key) return undefined;
+
+  let formatted = key.trim();
+
+  // Strip leading/trailing quotes
+  if ((formatted.startsWith('"') && formatted.endsWith('"')) ||
+      (formatted.startsWith("'") && formatted.endsWith("'"))) {
+    formatted = formatted.slice(1, -1);
+  }
+
+  // Replace literal '\n' and carriage returns
+  formatted = formatted.replace(/\\n/g, '\n').replace(/\\r/g, '').replace(/\r/g, '');
+
+  // If PEM header is present, reformat lines to strict 64-char chunks
+  if (formatted.includes('BEGIN PRIVATE KEY') || formatted.includes('BEGIN RSA PRIVATE KEY')) {
+    const isRsa = formatted.includes('BEGIN RSA PRIVATE KEY');
+    const header = isRsa ? '-----BEGIN RSA PRIVATE KEY-----' : '-----BEGIN PRIVATE KEY-----';
+    const footer = isRsa ? '-----END RSA PRIVATE KEY-----' : '-----END PRIVATE KEY-----';
+
+    let body = formatted
+      .replace(/-----BEGIN [A-Z ]+-----/g, '')
+      .replace(/-----END [A-Z ]+-----/g, '')
+      .replace(/\s+/g, '');
+
+    const chunks = body.match(/.{1,64}/g);
+    if (chunks && chunks.length > 0) {
+      return `${header}\n${chunks.join('\n')}\n${footer}\n`;
+    }
+  }
+
+  return formatted;
+}
+
 function getAdminApp(): App {
   if (getApps().length > 0) {
     return getApps()[0];
   }
 
-  // 1. Try local JSON
+  const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'botmartz-main';
+
+  // 1. Check if complete service account JSON is passed via ENV
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT || process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
+  if (serviceAccountJson) {
+    try {
+      const parsed = JSON.parse(serviceAccountJson);
+      adminApp = initializeApp({
+        credential: cert(parsed),
+      });
+      return adminApp;
+    } catch (e) {}
+  }
+
+  // 2. Try local JSON files if present
   try {
     const fs = require('fs');
     const path = require('path');
@@ -31,31 +79,35 @@ function getAdminApp(): App {
     }
   } catch (e) {}
 
-  // 2. Fallback to ENV variables
-  let privateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY;
-  if (privateKey) {
-    privateKey = privateKey.replace(/^["'`]+|["'`]+$/g, '');
-    privateKey = privateKey.replace(/\\n/g, '\n').replace(/\r/g, '');
-    if (!privateKey.includes('\n') && privateKey.includes('-----BEGIN PRIVATE KEY-----')) {
-      privateKey = privateKey
-        .replace('-----BEGIN PRIVATE KEY-----', '-----BEGIN PRIVATE KEY-----\n')
-        .replace('-----END PRIVATE KEY-----', '\n-----END PRIVATE KEY-----')
-        .replace(/\n\s+/g, '\n');
+  // 3. Try ENV variables with robust PEM cleaning
+  const clientEmail = process.env.FIREBASE_ADMIN_CLIENT_EMAIL;
+  const rawKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY;
+  const privateKey = cleanPemKey(rawKey);
+
+  if (clientEmail && privateKey) {
+    try {
+      adminApp = initializeApp({
+        credential: cert({
+          projectId,
+          clientEmail,
+          privateKey,
+        }),
+      });
+      return adminApp;
+    } catch (err: any) {
+      console.warn('Firebase Admin cert initialization warning (falling back to projectId):', err?.message);
     }
   }
 
-  if (!privateKey || !process.env.FIREBASE_ADMIN_CLIENT_EMAIL) {
+  // 4. Safe fallback to projectId
+  try {
     adminApp = initializeApp({
-      projectId: process.env.FIREBASE_ADMIN_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'botmartz-main',
+      projectId,
     });
-  } else {
-    adminApp = initializeApp({
-      credential: cert({
-        projectId: process.env.FIREBASE_ADMIN_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'botmartz-main',
-        clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-        privateKey: privateKey,
-      }),
-    });
+  } catch (fallbackErr) {
+    if (getApps().length > 0) {
+      adminApp = getApps()[0];
+    }
   }
 
   return adminApp;
