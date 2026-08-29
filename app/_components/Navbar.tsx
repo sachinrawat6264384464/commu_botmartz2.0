@@ -62,19 +62,18 @@ export default function CommunityNavbar() {
     { name: "Calendar 🗓️", href: "/arena/calendar" },
   ];
 
-  const DROPDOWN_LINKS = [
-    { name: "Stage-Based Roadmaps 🗺️", href: "/arena/roadmaps", icon: Compass, desc: "6 Engineering tracks & matched projects" },
+  const BUILD_LINKS = [
+    { name: "Student Karma Wallet 🪙", href: "/arena/wallet", icon: Coins, desc: "Earn & redeem coins for perks & reviews" },
+    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Sparkles, desc: "Post roadblocks with coin rewards" },
+    { name: "Discord Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Form cross-functional teams" },
+    { name: "Antigravity Research Agents", href: "/arena/antigravity-guide", icon: Bot, desc: "Build autonomous research swarms" },
+  ];
+
+  const CAREER_LINKS = [
+    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Rocket, desc: "3 Projects → 15 Company Referrals" },
+    { name: "Stage-Based Roadmaps 🗺️", href: "/arena/roadmaps", icon: Compass, desc: "6 Engineering tracks (Stage 1 to 4)" },
     { name: "Industry Ecosystems Radar 🌐", href: "/arena/ecosystems", icon: Globe, desc: "Defence, GovTech & Government Grants" },
     { name: "LinkedIn & HR Outreach 💼", href: "/arena/career-checklist", icon: Briefcase, desc: "ATS profile surgery & cold email scripts" },
-    { name: "Student Karma Wallet 🪙", href: "/arena/wallet", icon: Coins, desc: "Earn & redeem coins for perks & reviews" },
-    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Sparkles, desc: "Post technical blockers with coin rewards" },
-    { name: "Discord Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Form cross-functional builder teams" },
-    { name: "My Builder Profile & Heatmap", href: "/profile", icon: User, desc: "Personal proof-of-work heatmap & stats" },
-    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Rocket, desc: "3 Projects → 15 Company Referrals" },
-    { name: "Builder Arena (50 Projects)", href: "/arena", icon: Flame, desc: "45-Day multi-domain student internship" },
-    { name: "Live Progress Diaries", href: "/arena/progress", icon: MessageSquare, desc: "Real-time community standup stream" },
-    { name: "Antigravity Research Agents", href: "/arena/antigravity-guide", icon: Bot, desc: "Build autonomous research swarms" },
-    { name: "Submit Custom Proposal", href: "/arena/custom-project", icon: Sparkles, desc: "Propose your own independent project" },
   ];
 
   return (
@@ -134,26 +133,62 @@ export default function CommunityNavbar() {
             </button>
 
             {moreOpen && (
-              <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-slate-200 rounded-3xl p-3 shadow-xl grid grid-cols-1 gap-1 animate-fadeIn">
-                {DROPDOWN_LINKS.map((item, idx) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={idx}
-                      href={item.href}
-                      onClick={() => setMoreOpen(false)}
-                      className="p-2.5 rounded-2xl hover:bg-slate-50 transition-all flex items-start gap-3 group"
-                    >
-                      <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
-                        <Icon size={15} />
-                      </div>
-                      <div>
-                        <div className="font-bold text-slate-900 text-xs">{item.name}</div>
-                        <div className="text-[10px] text-slate-500 font-sans">{item.desc}</div>
-                      </div>
-                    </Link>
-                  );
-                })}
+              <div className="absolute top-full right-0 mt-2 w-96 bg-white border border-slate-200 rounded-3xl p-4 shadow-xl font-mono text-xs animate-fadeIn">
+                
+                <div className="mb-3">
+                  <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2 px-2">
+                    Build &amp; Collaborate
+                  </div>
+                  <div className="space-y-1">
+                    {BUILD_LINKS.map((item, idx) => {
+                      const Icon = item.icon;
+                      return (
+                        <Link
+                          key={idx}
+                          href={item.href}
+                          onClick={() => setMoreOpen(false)}
+                          className="p-2 rounded-2xl hover:bg-slate-50 transition-all flex items-start gap-3 group"
+                        >
+                          <div className="w-7 h-7 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
+                            <Icon size={14} />
+                          </div>
+                          <div>
+                            <div className="font-bold text-slate-900 text-xs">{item.name}</div>
+                            <div className="text-[10px] text-slate-500 font-sans">{item.desc}</div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100">
+                  <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2 px-2">
+                    Careers &amp; Grants
+                  </div>
+                  <div className="space-y-1">
+                    {CAREER_LINKS.map((item, idx) => {
+                      const Icon = item.icon;
+                      return (
+                        <Link
+                          key={idx}
+                          href={item.href}
+                          onClick={() => setMoreOpen(false)}
+                          className="p-2 rounded-2xl hover:bg-slate-50 transition-all flex items-start gap-3 group"
+                        >
+                          <div className="w-7 h-7 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
+                            <Icon size={14} />
+                          </div>
+                          <div>
+                            <div className="font-bold text-slate-900 text-xs">{item.name}</div>
+                            <div className="text-[10px] text-slate-500 font-sans">{item.desc}</div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+
               </div>
             )}
           </div>

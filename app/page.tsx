@@ -1,287 +1,197 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  Sparkles, 
-  Calendar, 
-  Users, 
-  Award, 
-  ArrowRight, 
-  CheckCircle2, 
-  Terminal, 
-  Cpu, 
-  Flame, 
-  MapPin, 
-  Clock,
-  Ticket,
-  ChevronRight,
+import {
+  Flame,
+  ArrowRight,
+  CheckCircle2,
+  Terminal,
   ShieldCheck,
-  MessageSquare,
-  Code2,
   Trophy,
-  Crown,
-  ThumbsUp,
+  Coins,
+  Compass,
+  Globe,
+  Briefcase,
+  Users,
+  MapPin,
+  Calendar,
+  Sparkles,
   ExternalLink,
-  MessageCircle,
-  FileText,
-  HelpCircle,
-  Video
+  Lock,
+  Layers,
+  Cpu,
+  Code2
 } from "lucide-react";
+import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { ROLE_ROADMAPS } from "@/lib/roadmaps";
+import { INDUSTRY_ECOSYSTEMS } from "@/lib/ecosystems";
 
 export const revalidate = 60; // ISR 1 min
 
 export default async function CommunityHomePage() {
+  const featuredProjects = ARENA_PROJECTS.filter((p) => p.featured).slice(0, 6);
+
   return (
-    <div className="bg-[#FAFCFF] text-slate-900">
+    <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
-      {/* ── 1. HERO SECTION ── */}
-      <section className="relative pt-24 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/40 via-slate-50/20 to-[#FAFCFF]">
+      {/* ── 1. HERO SECTION: CRYSTAL CLEAR VALUE PROPOSITION ── */}
+      <section className="relative pt-16 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-6 font-semibold shadow-2xs">
-            <Sparkles size={13} className="text-[#0066FF]" /> The Developer &amp; AI Builder Ecosystem
-          </div>
-
-          <h1 className="text-[clamp(36px,5vw,68px)] font-bold tracking-tight leading-[1.08] max-w-4xl mb-6 text-slate-900">
-            Build, Discuss &amp; Ship <br />
-            <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0678BE] bg-clip-text text-transparent">
-              On The Frontier Of Applied AI.
-            </span>
-          </h1>
-
-          <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8">
-            Join 2,400+ engineers, researchers, and founders building deterministic LangGraph agents, enterprise RAG pipelines, and open-source MCP tools.
-          </p>
-
-          <div className="flex flex-wrap gap-4 items-center mb-10">
-            <Link
-              href="/events/ai-frontier-2026"
-              className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-2"
-            >
-              <span>AI Frontier 2026 Summit</span>
-              <ArrowRight size={14} />
-            </Link>
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
             
-            <a
-              href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-6 py-3.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center gap-2"
-            >
-              <MessageCircle size={15} />
-              <span>Join WhatsApp Hub</span>
-            </a>
-
-            <a
-              href="https://discord.gg/k75ZpEnzp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-6 py-3.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center gap-2"
-            >
-              <span>Join Discord</span>
-            </a>
-          </div>
-
-          {/* Quick Metrics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-10 border-t border-slate-200">
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-slate-900 mb-1">2,400+</div>
-              <div className="text-xs text-slate-500 font-medium">Community Builders</div>
-            </div>
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-[#0066FF] mb-1">10 Systems</div>
-              <div className="text-xs text-slate-500 font-medium">30D Production Arena</div>
-            </div>
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-purple-600 mb-1">Central India</div>
-              <div className="text-xs text-slate-500 font-medium">Indore AI Hub</div>
-            </div>
-            <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-              <div className="text-2xl sm:text-3xl font-bold font-mono text-rose-600 mb-1">₹1 Lakh</div>
-              <div className="text-xs text-slate-500 font-medium">GTH Extreme Prize Pool</div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 1.5. THE BUILDER ARENA & VIRTUAL INTERNSHIP SHOWCASE ── */}
-      <section className="py-16 bg-gradient-to-b from-[#0F172A] to-[#020617] text-white border-b border-slate-800 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#0066FF]/20 blur-[130px] rounded-full pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-rose-500/15 blur-[120px] rounded-full pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 mb-12">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-[#00B8F0] font-mono text-xs uppercase tracking-wider mb-3 border border-blue-500/30 font-bold">
-                <Flame size={14} className="text-amber-400" /> CENTRAL INDIA&apos;S PREMIER 30-DAY VIRTUAL ARENA
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white mb-4">
-                The 30-Day Builder Arena &amp; <br />
-                <span className="bg-gradient-to-r from-[#0066FF] via-[#00B8F0] to-[#38BDF8] bg-clip-text text-transparent">
-                  Virtual Internship Track
-                </span>
-              </h2>
-              <p className="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-                Zero toy apps. Zero vibe-coding. Build 2 production systems from our curated 10-project matrix (Django, FastAPI, PostgreSQL, LangGraph, Qdrant, WebGPU, eBPF &amp; AWS). Top finishers earn direct paid internships and cash prizes.
-              </p>
+            {/* Cohort 1 Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-6 shadow-2xs">
+              <Flame size={14} className="text-orange-500 animate-pulse" />
+              <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch gap-3 w-full lg:w-auto">
+            {/* Main Headline */}
+            <h1 className="text-[clamp(38px,6vw,72px)] font-black tracking-tight leading-[1.08] text-slate-950 mb-6">
+              Build Production Systems. <br />
+              <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
+                Ship Daily. Get Hired.
+              </span>
+            </h1>
+
+            {/* Subhead */}
+            <p className="text-base sm:text-xl text-slate-600 max-w-2xl leading-relaxed mb-8 font-mono text-xs sm:text-base">
+              The 45-Day Virtual Engineering Cohort strictly for college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech &amp; Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies &amp; founder LinkedIn recommendation</strong>.
+            </p>
+
+            {/* Primary Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto mb-10">
               <Link
-                href="/arena"
-                className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-600/30 text-center flex items-center justify-center gap-2 cursor-pointer"
+                href="/login"
+                className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Launch Arena &amp; Scan Resume</span>
+                <span>Join 45-Day Cohort (Free)</span>
                 <ArrowRight size={15} />
               </Link>
+              
               <Link
-                href="/arena/daily-log"
-                className="px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all border border-slate-700 text-center flex items-center justify-center gap-2"
+                href="/arena"
+                className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
               >
-                <Terminal size={15} className="text-emerald-400" />
-                <span>Daily PoW Logger</span>
+                <Flame size={15} className="text-orange-500" />
+                <span>Explore 50 Projects Matrix</span>
+              </Link>
+
+              <Link
+                href="/arena/calendar"
+                className="w-full sm:w-auto bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 px-6 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+              >
+                <MapPin size={15} className="text-amber-600" />
+                <span>Indore Office Hours</span>
               </Link>
             </div>
-          </div>
 
-          {/* Quick Feature Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800">
-              <div className="text-xs font-mono text-[#00B8F0] font-bold uppercase mb-2">01. Resume Scanner &amp; Matcher</div>
-              <h3 className="font-bold text-white text-base mb-2">Automated Skill Diagnosis</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Paste your technical bio or PDF text. Our deterministic engine maps your skills to matching production projects and curates missing YouTube learning tracks.
-              </p>
+            {/* Quick Proof Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-slate-900">50 Systems</div>
+                <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-[#0066FF]">15 Companies</div>
+                <div className="text-[11px] text-slate-500">Referral Guarantee</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-purple-700">Indore Hub</div>
+                <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-emerald-700">100% Free</div>
+                <div className="text-[11px] text-slate-500">For Authentic Students</div>
+              </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800">
-              <div className="text-xs font-mono text-emerald-400 font-bold uppercase mb-2">02. Cross-Functional Squads</div>
-              <h3 className="font-bold text-white text-base mb-2">Devs, AI, Pentest, QA &amp; PM</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Security pen-testers hunt OWASP bugs in peer live staging URLs. QA engineers write Playwright &amp; k6 load test suites. PMs drive sprint backlogs.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800">
-              <div className="text-xs font-mono text-rose-400 font-bold uppercase mb-2">03. Go To Hell (GTH) 💀</div>
-              <h3 className="font-bold text-white text-base mb-2">₹1,00,000 Prize Pool (5 Slots)</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Autonomous self-healing microservices with Rust &amp; eBPF kernel probes. 48-hour continuous chaos gauntlet defense for ₹20,000 / finalist.
-              </p>
-            </div>
           </div>
 
         </div>
       </section>
 
-      {/* ── 2. COMMUNITY RITUALS & CADENCE ── */}
-      <section className="py-20 bg-white border-b border-slate-200/80">
+      {/* ── 2. THE 3-STEP OPERATING MACHINE ("HOW IT WORKS") ── */}
+      <section className="py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="font-mono text-xs text-[#0066FF] uppercase tracking-wider font-bold mb-1.5">
-              THE COMMUNITY HEARTBEAT
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
+              Simple 3-Step Machine
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-3">Weekly &amp; Monthly Rituals</h2>
-            <p className="text-sm text-slate-600">
-              Structured community cadence designed to help you build, get hired, and learn directly from top AI architects.
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              How the 45-Day Cohort Works
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
+              No endless tutorial watching. You build real production systems tested on strict SLAs.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            {/* 1. Thursdays */}
-            <div className="bg-[#FAFCFF] border-2 border-purple-200 hover:border-purple-400 rounded-3xl p-7 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            {/* Step 1 */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-blue-300 transition-all">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 font-mono text-[11px] font-bold mb-4 border border-purple-200">
-                  <Flame size={13} /> EVERY THURSDAY
+                <div className="w-12 h-12 rounded-2xl bg-[#0066FF] text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-blue-500/20">
+                  01
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Showcase Thursdays</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
-                  Live demo arena where builders present new autonomous agents, MCP plugins, and RAG pipelines. Win Community Pick badges and peer code reviews.
+                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                  Pick a Project or Stage Roadmap
+                </h3>
+                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                  Select from 50 projects (Sentinel-2 satellite AI, WebRTC drone tracking, 3D MRI MONAI, Rust order book, eBPF probes) or follow our 6 Role Roadmaps.
                 </p>
-
-                <div className="space-y-2 text-xs text-slate-700 mb-6">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-purple-600" />
-                    <span>Live 5-minute builder lightning demos</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-purple-600" />
-                    <span>Instant peer feedback and upvoting</span>
-                  </div>
-                </div>
               </div>
-
               <Link
-                href="/showcase"
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl font-mono text-xs font-bold uppercase text-center transition-all shadow-2xs flex items-center justify-center gap-2"
+                href="/arena"
+                className="text-[#0066FF] font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
               >
-                <span>Submit Demo / View Builds →</span>
+                <span>Browse 50 Projects Matrix</span>
+                <ArrowRight size={13} />
               </Link>
             </div>
 
-            {/* 2. Wednesdays */}
-            <div className="bg-[#FAFCFF] border-2 border-blue-200 hover:border-[#0066FF] rounded-3xl p-7 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            {/* Step 2 */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition-all">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-[11px] font-bold mb-4 border border-blue-200">
-                  <FileText size={13} /> EVERY WEDNESDAY
+                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-emerald-500/20">
+                  02
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Resume &amp; Portfolio Reviews</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
-                  Get 1-on-1 resume teardowns for AI Engineer, RAG Architect, and ML System roles. Learn how to showcase latency benchmarks and evaluation suites.
+                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                  Ship Daily Proof-of-Work
+                </h3>
+                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                  Log daily GitHub commits and PRs. Earn Botmartz Karma Coins, maintain your heatmap streak, and get unblocked during Saturday office hours.
                 </p>
-
-                <div className="space-y-2 text-xs text-slate-700 mb-6">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-[#0066FF]" />
-                    <span>Direct line-by-line feedback from hiring leads</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-[#0066FF]" />
-                    <span>Portfolio positioning for top AI jobs</span>
-                  </div>
-                </div>
               </div>
-
               <Link
-                href="/discussions?channel=resume-review"
-                className="w-full bg-[#0066FF] hover:bg-[#0052CC] text-white py-3 rounded-xl font-mono text-xs font-bold uppercase text-center transition-all shadow-2xs flex items-center justify-center gap-2"
+                href="/arena/daily-log"
+                className="text-emerald-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
               >
-                <span>Join Wednesday Reviews →</span>
+                <span>Daily Proof-of-Work Log</span>
+                <ArrowRight size={13} />
               </Link>
             </div>
 
-            {/* 3. 3rd Saturdays */}
-            <div className="bg-[#FAFCFF] border-2 border-amber-200 hover:border-amber-400 rounded-3xl p-7 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+            {/* Step 3 */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-purple-300 transition-all">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 font-mono text-[11px] font-bold mb-4 border border-amber-200">
-                  <HelpCircle size={13} /> EVERY 3RD SATURDAY
+                <div className="w-12 h-12 rounded-2xl bg-purple-700 text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-purple-500/20">
+                  03
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Monthly AI Architect AMA</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
-                  Deep-dive technical Ask Me Anything live streams with founders, chief AI officers, and research leads. Covers foundation models, inference economics, and production scale.
+                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                  Get 15 Direct Company Referrals
+                </h3>
+                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                  Complete 3 projects (1 solo + 2 team) to unlock direct dispatch to 15 partner companies and a personalized LinkedIn recommendation from Founder Soham Sharma.
                 </p>
-
-                <div className="space-y-2 text-xs text-slate-700 mb-6">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-amber-600" />
-                    <span>Uncensored Q&amp;A on LLM production war stories</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-amber-600" />
-                    <span>Live code walkthroughs &amp; architecture teardowns</span>
-                  </div>
-                </div>
               </div>
-
               <Link
-                href="/discussions?channel=ama-questions"
-                className="w-full bg-amber-500 hover:bg-amber-600 text-white py-3 rounded-xl font-mono text-xs font-bold uppercase text-center transition-all shadow-2xs flex items-center justify-center gap-2"
+                href="/arena/shippers"
+                className="text-purple-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
               >
-                <span>Submit AMA Questions →</span>
+                <span>Join Shippers Circle</span>
+                <ArrowRight size={13} />
               </Link>
             </div>
 
@@ -290,253 +200,191 @@ export default async function CommunityHomePage() {
         </div>
       </section>
 
-      {/* ── 3. COMMUNITY DISCUSSIONS & CHANNELS ── */}
-      <section className="py-20 bg-[#FAFCFF] border-b border-slate-200/80">
+      {/* ── 3. FEATURED ARENA PROJECTS PREVIEW ── */}
+      <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <div className="font-mono text-xs text-[#0066FF] uppercase tracking-wider font-bold mb-1.5">
-                ACTIVE CHANNELS &amp; FORUM
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-blue-400 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-500/20">
+                <Flame size={13} /> Frontier Engineering Projects
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Trending Discussions</h2>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Featured Arena Production Systems
+              </h2>
+              <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
+                Zero toy apps. Every project has strict test commands (`pytest`, `k6`, `cargo test`) and SLA acceptance gates.
+              </p>
             </div>
+
             <Link
-              href="/discussions"
-              className="text-xs font-bold text-[#0066FF] hover:underline flex items-center gap-1.5"
+              href="/arena"
+              className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-mono text-xs font-bold uppercase tracking-wider hover:bg-slate-100 transition-all shrink-0 flex items-center gap-2"
             >
-              <span>Explore All Discussions</span>
+              <span>View All 50 Projects</span>
               <ArrowRight size={14} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
-            <div className="bg-white border border-slate-200 hover:border-[#0066FF]/60 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 font-mono text-[10px] font-bold">
-                    #ai-agents
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400">2h ago</span>
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug">
-                  How are you handling deterministic state recovery in multi-agent LangGraph workflows?
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                  Moving tool calls to idempotent PostgreSQL checkpointers to prevent partial state corruption on network drops...
-                </p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100 text-xs font-mono text-slate-500">
-                <span className="text-[#0066FF] font-bold">52 Upvotes • 3 Replies</span>
-                <Link href="/discussions" className="text-slate-700 hover:text-[#0066FF] font-semibold flex items-center gap-1">
-                  View Thread →
-                </Link>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+            {featuredProjects.map((p) => (
+              <div
+                key={p.id}
+                className="p-6 rounded-3xl bg-slate-900 border border-slate-800 flex flex-col justify-between hover:border-blue-500/50 transition-all group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold text-[10px] border border-blue-500/30">
+                      {p.difficulty}
+                    </span>
+                    <span className="text-[10px] text-slate-400">{p.durationDays} Days Cohort</span>
+                  </div>
 
-            <div className="bg-white border border-slate-200 hover:border-[#0066FF]/60 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 font-mono text-[10px] font-bold">
-                    #resume-review
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400">4h ago</span>
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug">
-                  📄 AI Engineer (2 YoE) seeking RAG Architect roles — Tear down my resume!
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed mb-4">
-                  Benchmarking latency optimization metrics and Qdrant production indices vs fine-tuning experience...
-                </p>
-              </div>
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100 text-xs font-mono text-slate-500">
-                <span className="text-[#0066FF] font-bold">41 Upvotes • 2 Replies</span>
-                <Link href="/discussions?channel=resume-review" className="text-slate-700 hover:text-[#0066FF] font-semibold flex items-center gap-1">
-                  View Thread →
-                </Link>
-              </div>
-            </div>
+                  <h3 className="text-base font-bold text-white font-sans mb-1.5 group-hover:text-blue-400 transition-colors">
+                    {p.title}
+                  </h3>
+                  <p className="text-slate-400 text-xs font-sans line-clamp-3 mb-4 leading-relaxed">
+                    {p.overview}
+                  </p>
 
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400 mb-4">
+                    <span className="text-emerald-400 font-bold">Strict SLA:</span> {p.productionSla}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+                  <div className="flex flex-wrap gap-1">
+                    {p.techStack.slice(0, 2).map((t, ti) => (
+                      <span key={ti} className="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <Link
+                    href={`/arena/${p.id}`}
+                    className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1 transition-all"
+                  >
+                    <span>View Spec</span>
+                    <ArrowRight size={12} />
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
 
         </div>
       </section>
 
-      {/* ── 4. HALL OF FAME LEADERBOARD PREVIEW ── */}
-      <section className="py-20 bg-white border-b border-slate-200/80">
+      {/* ── 4. INDORE OFFLINE HUB + VIRTUAL DISCORD RITUALS ── */}
+      <section className="py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
-            <div>
-              <div className="font-mono text-xs text-amber-600 uppercase tracking-wider font-bold mb-1.5">
-                KARMA &amp; RECOGNITION
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Community Hall of Fame</h2>
-            </div>
-            <Link
-              href="/leaderboard"
-              className="text-xs font-bold text-amber-600 hover:underline flex items-center gap-1.5"
-            >
-              <span>View Full Rankings</span>
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#FAFCFF] border border-slate-200 rounded-3xl p-6 flex items-center gap-4 shadow-xs">
-              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 font-bold text-xl flex items-center justify-center font-mono border border-amber-300">
-                #1
-              </div>
+          <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              
               <div>
-                <div className="font-bold text-slate-900 text-sm">Dr. Promit Ray</div>
-                <div className="text-xs text-[#0066FF] font-mono">Chief AI Fellow • 4,850 XP</div>
-              </div>
-            </div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-amber-500/30">
+                  <MapPin size={14} /> Indore Flagship Meetup &amp; Global Discord
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+                  Saturday Indore Office Hours &amp; Architecture Teardowns
+                </h2>
+                <p className="text-slate-300 text-xs sm:text-sm font-mono leading-relaxed mb-6">
+                  Every Saturday from <strong>5:00 PM to 7:00 PM IST</strong>. Join in-person at the Indore AI Hub for 1-on-1 architecture reviews with Founder Soham Sharma, or livestream globally via Discord Voice Stage.
+                </p>
 
-            <div className="bg-[#FAFCFF] border border-slate-200 rounded-3xl p-6 flex items-center gap-4 shadow-xs">
-              <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 font-bold text-xl flex items-center justify-center font-mono border border-slate-300">
-                #2
-              </div>
-              <div>
-                <div className="font-bold text-slate-900 text-sm">Aarav Nair</div>
-                <div className="text-xs text-[#0066FF] font-mono">Lead RAG Architect • 3,920 XP</div>
-              </div>
-            </div>
+                <div className="flex flex-wrap gap-3 font-mono text-xs">
+                  <Link
+                    href="/arena/calendar"
+                    className="px-6 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider transition-all flex items-center gap-2"
+                  >
+                    <Calendar size={14} />
+                    <span>Sync Lu.ma Calendar</span>
+                  </Link>
 
-            <div className="bg-[#FAFCFF] border border-slate-200 rounded-3xl p-6 flex items-center gap-4 shadow-xs">
-              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 font-bold text-xl flex items-center justify-center font-mono border border-amber-200">
-                #3
+                  <a
+                    href="https://discord.gg/k75ZpEnzp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold uppercase tracking-wider transition-all flex items-center gap-2"
+                  >
+                    <span>Join Discord Stage</span>
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
               </div>
-              <div>
-                <div className="font-bold text-slate-900 text-sm">Pooja Reddy</div>
-                <div className="text-xs text-[#0066FF] font-mono">MCP Maintainer • 3,410 XP</div>
+
+              {/* Weekly Rituals Schedule */}
+              <div className="space-y-3 font-mono text-xs">
+                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                  <div className="flex items-center justify-between text-amber-400 font-bold mb-1">
+                    <span>SATURDAY 5:00 PM – 7:00 PM IST</span>
+                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px]">Flagship</span>
+                  </div>
+                  <div className="font-bold text-white text-sm font-sans">Indore In-Person &amp; Virtual Office Hours</div>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Code architecture audits, live bug fixes, and 1-on-1 project reviews.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                  <div className="flex items-center justify-between text-blue-400 font-bold mb-1">
+                    <span>WEDNESDAY 6:00 PM IST</span>
+                    <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px]">Career</span>
+                  </div>
+                  <div className="font-bold text-white text-sm font-sans">Resume Teardown &amp; LinkedIn Surgery</div>
+                  <p className="text-slate-400 text-[11px] mt-0.5">ATS optimization, GitHub proof-of-work pinned carousels, and HR cold pitches.</p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                  <div className="flex items-center justify-between text-emerald-400 font-bold mb-1">
+                    <span>THURSDAY 7:00 PM IST</span>
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">Demo Day</span>
+                  </div>
+                  <div className="font-bold text-white text-sm font-sans">Showcase Thursdays</div>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Students demo live working systems to peers and invited engineering leads.</p>
+                </div>
               </div>
+
             </div>
           </div>
 
         </div>
       </section>
 
-      {/* ── 5. AI ENGINEERING MAGAZINE & DIGESTS ── */}
-      <section className="py-20 bg-[#FAFCFF] border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ── 5. ZERO-TRUST STUDENT TRUST & READY TO JOIN CTA ── */}
+      <section className="py-20 bg-slate-100 border-b border-slate-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
-            <div>
-              <div className="font-mono text-xs text-[#0066FF] uppercase tracking-wider font-bold mb-1.5 flex items-center gap-1.5">
-                <FileText size={13} /> EDITORIAL &amp; RESEARCH DISPATCH
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">AI Engineering Magazine</h2>
-            </div>
-            <Link
-              href="/magazine"
-              className="text-xs font-bold text-[#0066FF] hover:underline flex items-center gap-1.5 font-mono"
-            >
-              <span>Explore All Issues &amp; Deep-Dives</span>
-              <ArrowRight size={14} />
-            </Link>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200">
+            <ShieldCheck size={14} /> 100% Free &amp; Zero-Spam Verification
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            {/* Article 1 */}
-            <Link
-              href="/magazine"
-              className="group bg-white border border-slate-200 hover:border-[#0066FF] rounded-3xl p-6 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 font-mono text-[10px] font-bold">
-                    #AgentSystems
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400">8 min read</span>
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-[#0066FF] transition-colors">
-                  Deterministic State Machines in LangGraph: Handling Tool Failures Without Corrupted Memory
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">
-                  A deep architectural teardown of checkpoint persistence in SQLite/PostgreSQL, human-in-the-loop pause nodes, and rollback graphs for enterprise multi-agent workflows.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
-                <span className="font-bold text-slate-800">By Soham Sharma</span>
-                <span className="text-[#0066FF] font-bold group-hover:translate-x-1 transition-transform">Read Article →</span>
-              </div>
-            </Link>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 font-sans">
+            Ready to Build and Ship in the Arena?
+          </h2>
 
-            {/* Article 2 */}
-            <Link
-              href="/magazine"
-              className="group bg-white border border-slate-200 hover:border-emerald-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-[10px] font-bold">
-                    #HybridRAG
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400">12 min read</span>
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-emerald-600 transition-colors">
-                  BM25 + Dense Embeddings with Reciprocal Rank Fusion: Production Benchmarks at 1M Chunks
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">
-                  Why single-vector dense similarity fails on exact part numbers and domain jargon, and how multi-stage cross-encoder reranking solves recall degradation.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
-                <span className="font-bold text-slate-800">By Dr. Promit Ray</span>
-                <span className="text-emerald-600 font-bold group-hover:translate-x-1 transition-transform">Read Article →</span>
-              </div>
-            </Link>
-
-            {/* Article 3 */}
-            <Link
-              href="/magazine"
-              className="group bg-white border border-slate-200 hover:border-purple-500 rounded-3xl p-6 shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200 font-mono text-[10px] font-bold">
-                    #LocalAI
-                  </span>
-                  <span className="text-[11px] font-mono text-slate-400">6 min read</span>
-                </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 leading-snug group-hover:text-purple-600 transition-colors">
-                  Running Quantized Gemma 2 &amp; Llama 3.2 In-Browser via WebGPU: Zero Cloud Cost Inference
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-4">
-                  Step-by-step implementation guide using ONNX Runtime Web and transformers.js to power on-device summarization with zero cloud latency.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
-                <span className="font-bold text-slate-800">By Aarav Nair</span>
-                <span className="text-purple-600 font-bold group-hover:translate-x-1 transition-transform">Read Article →</span>
-              </div>
-            </Link>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 6. CERTIFICATE LOOKUP CTA ── */}
-      <section className="py-20 bg-[#FAFCFF]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-[#0066FF] flex items-center justify-center mx-auto mb-6 shadow-2xs">
-            <Award size={28} />
-          </div>
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">Official Verifiable Credentials</h2>
-          <p className="text-sm text-slate-600 max-w-xl mx-auto mb-8 leading-relaxed">
-            Validate certificate authenticity for attendees of AI Frontier summits, bootcamp graduates, and hackathon winners.
+          <p className="text-slate-600 text-xs sm:text-base font-mono max-w-2xl mx-auto mb-8">
+            Create your verified student profile with Google or Phone OTP. Claim your <strong>100 Welcome Karma Coins</strong> and start building today.
           </p>
-          <Link
-            href="/certificates"
-            className="inline-flex items-center gap-2 bg-white border border-slate-300 hover:border-[#0066FF] text-slate-800 hover:text-[#0066FF] px-8 py-4 rounded-xl text-xs font-mono uppercase font-bold tracking-wider transition-all shadow-sm"
-          >
-            <span>Launch Certificate Lookup Registry</span>
-            <ArrowRight size={14} />
-          </Link>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 font-mono text-xs">
+            <Link
+              href="/login"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Get Started with Google / Phone OTP</span>
+              <ArrowRight size={14} />
+            </Link>
+            
+            <Link
+              href="/arena/roadmaps"
+              className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+            >
+              <Compass size={14} className="text-purple-600" />
+              <span>Explore Stage Roadmaps</span>
+            </Link>
+          </div>
+
         </div>
       </section>
 
