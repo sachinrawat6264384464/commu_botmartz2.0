@@ -1,25 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { 
-  ChevronDown, 
-  Menu, 
-  X, 
-  ArrowRight, 
+import {
   Sparkles,
+  ChevronDown,
+  Menu,
+  X,
   Calendar,
-  MessageSquare,
-  Code2,
-  Trophy,
   Award,
-  BookOpen,
-  Image as ImageIcon,
   FileText,
-  HelpCircle,
-  MessageCircle,
+  ImageIcon,
+  MessageSquare,
+  Trophy,
   Flame,
   Rocket,
   User,
@@ -28,83 +23,56 @@ import {
   Users,
   Compass,
   Globe,
-  Briefcase
+  Briefcase,
+  LogOut,
+  ShieldCheck,
+  Edit3
 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 
 export default function CommunityNavbar() {
   const pathname = usePathname();
+  const { user, studentProfile, logout } = useAuth();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
-  const [ritualsOpen, setRitualsOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+      if (moreMenuRef.current && !moreMenuRef.current.contains(e.target as Node)) {
+        setMoreOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const PRIMARY_LINKS = [
     { name: "Arena ⚡", href: "/arena" },
     { name: "Roadmaps 🗺️", href: "/arena/roadmaps" },
     { name: "Ecosystems 🌐", href: "/arena/ecosystems" },
-    { name: "Wallet 🪙", href: "/arena/wallet" },
     { name: "Progress Diaries 🔥", href: "/arena/progress" },
     { name: "Leaderboard 🏆", href: "/arena/leaderboard" },
     { name: "Calendar 🗓️", href: "/arena/calendar" },
-  ];
-
-  const RITUALS_LINKS = [
-    { 
-      name: "Saturday Indore & Virtual Office Hours", 
-      href: "/arena/calendar", 
-      desc: "Every Saturday 5 PM – 7 PM — Architecture teardowns with Founder",
-      tag: "Weekly Flagship",
-      color: "text-amber-600 bg-amber-50"
-    },
-    { 
-      name: "Role Progression Roadmaps", 
-      href: "/arena/roadmaps", 
-      desc: "6 Engineering tracks (Stage 1 to 4) + Project matching",
-      tag: "Roadmaps",
-      color: "text-purple-600 bg-purple-50"
-    },
-    { 
-      name: "Ecosystems & Gov Grants Radar", 
-      href: "/arena/ecosystems", 
-      desc: "Defence, GovTech, HealthTech & iDEX / TIDE 2.0 grants",
-      tag: "Opportunity Radar",
-      color: "text-emerald-700 bg-emerald-50"
-    },
-    { 
-      name: "LinkedIn & HR Outreach Checklist", 
-      href: "/arena/career-checklist", 
-      desc: "ATS profile surgery & engineering founder cold outreach scripts",
-      tag: "Career Flywheel",
-      color: "text-blue-600 bg-blue-50"
-    },
-    { 
-      name: "Student Karma Wallet & Points", 
-      href: "/arena/wallet", 
-      desc: "Earn Botmartz Coins for daily PoW, reviews & bounties",
-      tag: "Karma Economy",
-      color: "text-amber-700 bg-amber-50"
-    },
-    { 
-      name: "Blocker & Help Bounty Board", 
-      href: "/arena/bounties", 
-      desc: "Post roadblocks with coin rewards & solve on Discord",
-      tag: "Peer Rescue",
-      color: "text-blue-600 bg-blue-50"
-    },
   ];
 
   const DROPDOWN_LINKS = [
     { name: "Stage-Based Roadmaps 🗺️", href: "/arena/roadmaps", icon: Compass, desc: "6 Engineering tracks & matched projects" },
     { name: "Industry Ecosystems Radar 🌐", href: "/arena/ecosystems", icon: Globe, desc: "Defence, GovTech & Government Grants" },
     { name: "LinkedIn & HR Outreach 💼", href: "/arena/career-checklist", icon: Briefcase, desc: "ATS profile surgery & cold email scripts" },
-    { name: "Student Karma Wallet 🪙", href: "/arena/wallet", icon: Coins, desc: "Earn & redeem coins for perks & code reviews" },
+    { name: "Student Karma Wallet 🪙", href: "/arena/wallet", icon: Coins, desc: "Earn & redeem coins for perks & reviews" },
     { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Sparkles, desc: "Post technical blockers with coin rewards" },
     { name: "Discord Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Form cross-functional builder teams" },
     { name: "My Builder Profile & Heatmap", href: "/profile", icon: User, desc: "Personal proof-of-work heatmap & stats" },
-    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Rocket, desc: "3 Projects → 15 Company Referrals & Endorsement" },
+    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Rocket, desc: "3 Projects → 15 Company Referrals" },
     { name: "Builder Arena (50 Projects)", href: "/arena", icon: Flame, desc: "45-Day multi-domain student internship" },
     { name: "Live Progress Diaries", href: "/arena/progress", icon: MessageSquare, desc: "Real-time community standup stream" },
-    { name: "Dual Arena Leaderboard", href: "/arena/leaderboard", icon: Trophy, desc: "Top builders & shipped projects" },
-    { name: "Indore & Virtual Calendar", href: "/arena/calendar", icon: Calendar, desc: "Saturday office hours & Lu.ma events" },
     { name: "Antigravity Research Agents", href: "/arena/antigravity-guide", icon: Bot, desc: "Build autonomous research swarms" },
     { name: "Submit Custom Proposal", href: "/arena/custom-project", icon: Sparkles, desc: "Propose your own independent project" },
   ];
@@ -114,37 +82,40 @@ export default function CommunityNavbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         
         {/* Brand Logo with /logo.png */}
-        <Link href="/" className="flex items-center gap-3.5 group">
-          <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+        <Link href="/" className="flex items-center gap-3.5 group shrink-0">
+          <div className="relative w-11 h-11 flex items-center justify-center shrink-0">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
-              width={46}
-              height={46}
+              width={42}
+              height={42}
               className="object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
               priority
             />
           </div>
           <div>
-            <div className="font-bold text-slate-900 tracking-tight text-lg leading-none">
-              BOTMARTZ
+            <div className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5">
+              <span>BOTMARTZ</span>
+              <span className="text-[#0066FF] font-black text-sm">BUILDERS</span>
             </div>
-            <div className="font-mono text-[11px] text-[#0066FF] tracking-wider uppercase font-bold mt-1">
-              COMMUNITY
-            </div>
+            <p className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-bold -mt-0.5">
+              Student Arena &amp; Internship
+            </p>
           </div>
         </Link>
 
-        {/* Clean Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-7">
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-1.5 font-mono text-xs font-bold text-slate-700">
           {PRIMARY_LINKS.map((link) => {
-            const active = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+            const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-xs font-semibold tracking-wide transition-colors ${
-                  active ? "text-[#0066FF] font-bold" : "text-slate-600 hover:text-slate-900"
+                className={`px-3 py-2 rounded-xl transition-all ${
+                  isActive
+                    ? "bg-slate-100 text-slate-950 font-black"
+                    : "hover:bg-slate-50 hover:text-slate-950 text-slate-600"
                 }`}
               >
                 {link.name}
@@ -152,203 +123,274 @@ export default function CommunityNavbar() {
             );
           })}
 
-          {/* Weekly Rituals Dropdown */}
-          <div 
-            className="relative"
-            onMouseEnter={() => setRitualsOpen(true)}
-            onMouseLeave={() => setRitualsOpen(false)}
-          >
-            <button
-              onClick={() => setRitualsOpen(!ritualsOpen)}
-              className="flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-slate-900 tracking-wide transition-colors py-2 cursor-pointer"
-            >
-              <span>Weekly Rituals</span>
-              <ChevronDown size={14} className={`transition-transform duration-200 ${ritualsOpen ? "rotate-180 text-[#0066FF]" : ""}`} />
-            </button>
-
-            {ritualsOpen && (
-              <div className="absolute top-full left-0 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-2.5 animate-in fade-in slide-in-from-top-2 duration-150">
-                {RITUALS_LINKS.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setRitualsOpen(false)}
-                    className="block p-3 rounded-xl hover:bg-slate-50 transition-colors group"
-                  >
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-xs font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">
-                        {item.name}
-                      </span>
-                      <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${item.color}`}>
-                        {item.tag}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 line-clamp-1">
-                      {item.desc}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Explore Dropdown */}
-          <div 
-            className="relative"
-            onMouseEnter={() => setMoreOpen(true)}
-            onMouseLeave={() => setMoreOpen(false)}
-          >
+          {/* More Exploration Mega Dropdown */}
+          <div className="relative" ref={moreMenuRef}>
             <button
               onClick={() => setMoreOpen(!moreOpen)}
-              className="flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-slate-900 tracking-wide transition-colors py-2 cursor-pointer"
+              className="px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-950 transition-all flex items-center gap-1 cursor-pointer"
             >
               <span>Explore</span>
-              <ChevronDown size={14} className={`transition-transform duration-200 ${moreOpen ? "rotate-180 text-[#0066FF]" : ""}`} />
+              <ChevronDown size={13} className={`transition-transform duration-200 ${moreOpen ? "rotate-180" : ""}`} />
             </button>
 
             {moreOpen && (
-              <div className="absolute top-full left-0 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 animate-in fade-in slide-in-from-top-2 duration-150">
-                {DROPDOWN_LINKS.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMoreOpen(false)}
-                    className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
-                  >
-                    <div className="p-2 rounded-lg bg-blue-50 text-[#0066FF] group-hover:bg-[#0066FF] group-hover:text-white transition-colors shrink-0">
-                      <item.icon size={15} />
-                    </div>
-                    <div>
-                      <div className="text-xs font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">
-                        {item.name}
+              <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-slate-200 rounded-3xl p-3 shadow-xl grid grid-cols-1 gap-1 animate-fadeIn">
+                {DROPDOWN_LINKS.map((item, idx) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={idx}
+                      href={item.href}
+                      onClick={() => setMoreOpen(false)}
+                      className="p-2.5 rounded-2xl hover:bg-slate-50 transition-all flex items-start gap-3 group"
+                    >
+                      <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
+                        <Icon size={15} />
                       </div>
-                      <div className="text-[11px] text-slate-500 line-clamp-1">
-                        {item.desc}
+                      <div>
+                        <div className="font-bold text-slate-900 text-xs">{item.name}</div>
+                        <div className="text-[10px] text-slate-500 font-sans">{item.desc}</div>
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                    </Link>
+                  );
+                })}
               </div>
             )}
           </div>
         </nav>
 
-        {/* Right Action & Community Links */}
-        <div className="hidden md:flex items-center gap-3">
-          <a
-            href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-mono text-xs font-bold transition-colors flex items-center gap-1.5 border border-emerald-200"
-            title="Join WhatsApp Developer Hub"
-          >
-            <MessageCircle size={14} />
-            <span>WhatsApp</span>
-          </a>
+        {/* User Authentication & Action CTA */}
+        <div className="flex items-center gap-3">
+          
+          {user ? (
+            /* Logged In State */
+            <div className="relative" ref={userMenuRef}>
+              <div className="flex items-center gap-2">
+                
+                {/* Karma Coins Pill */}
+                <Link
+                  href="/arena/wallet"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-900 font-mono text-xs font-bold hover:bg-amber-100 transition-all"
+                >
+                  <Coins size={13} className="text-amber-600" />
+                  <span>{studentProfile?.karmaCoins || 100} 🪙</span>
+                </Link>
 
-          <a
-            href="https://discord.gg/k75ZpEnzp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-mono text-xs font-bold transition-colors flex items-center gap-1.5 border border-indigo-200"
-            title="Join Discord Community"
-          >
-            <span>Discord</span>
-          </a>
+                {/* User Avatar Button */}
+                <button
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  className="flex items-center gap-2 p-1 pl-2 pr-2.5 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-all cursor-pointer"
+                >
+                  <div className="relative">
+                    {user.photoURL ? (
+                      <Image
+                        src={user.photoURL}
+                        alt="User"
+                        width={28}
+                        height={28}
+                        className="rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-7 h-7 rounded-full bg-[#0066FF] text-white font-mono font-bold text-xs flex items-center justify-center">
+                        {user.displayName?.charAt(0) || "S"}
+                      </div>
+                    )}
+                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" />
+                  </div>
+                  <span className="hidden sm:inline font-mono text-xs font-bold text-slate-800 max-w-[100px] truncate">
+                    {studentProfile?.displayName?.split(" ")[0] || "Student"}
+                  </span>
+                  <ChevronDown size={12} className="text-slate-400" />
+                </button>
+              </div>
 
-          <Link
-            href="/events/ai-frontier-2026"
-            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-4.5 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all shadow-2xs flex items-center gap-1.5"
+              {/* User Dropdown Menu */}
+              {userDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-72 bg-white border border-slate-200 rounded-3xl p-4 shadow-xl font-mono text-xs animate-fadeIn">
+                  
+                  {/* Student Card Summary */}
+                  <div className="pb-3 border-b border-slate-100 mb-2">
+                    <div className="font-bold text-slate-900 font-sans text-sm">
+                      {studentProfile?.displayName || user.displayName || "Student Builder"}
+                    </div>
+                    <div className="text-[11px] text-slate-500">
+                      @{studentProfile?.username || user.email?.split("@")[0]}
+                    </div>
+                    {studentProfile?.collegeName && (
+                      <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-bold border border-emerald-200 truncate max-w-full">
+                        <ShieldCheck size={10} /> {studentProfile.collegeName}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Navigation Links */}
+                  <div className="space-y-1">
+                    <Link
+                      href="/profile"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
+                    >
+                      <User size={14} className="text-[#0066FF]" />
+                      <span>My Profile &amp; Heatmap</span>
+                    </Link>
+
+                    <Link
+                      href="/arena/wallet"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
+                    >
+                      <Coins size={14} className="text-amber-600" />
+                      <span>Karma Wallet ({studentProfile?.karmaCoins || 100} Coins)</span>
+                    </Link>
+
+                    <Link
+                      href="/arena/roadmaps"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
+                    >
+                      <Compass size={14} className="text-purple-600" />
+                      <span>My Role Roadmap</span>
+                    </Link>
+
+                    <Link
+                      href="/arena/shippers"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
+                    >
+                      <Rocket size={14} className="text-emerald-600" />
+                      <span>Shippers Circle (15 Referrals)</span>
+                    </Link>
+
+                    <Link
+                      href="/arena/bounties"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
+                    >
+                      <Sparkles size={14} className="text-blue-600" />
+                      <span>Post Blocker Bounty</span>
+                    </Link>
+
+                    <Link
+                      href="/login"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
+                    >
+                      <Edit3 size={14} className="text-slate-500" />
+                      <span>Update College Details</span>
+                    </Link>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-100 mt-2">
+                    <button
+                      onClick={() => { logout(); setUserDropdownOpen(false); }}
+                      className="w-full flex items-center gap-2 p-2 rounded-xl hover:bg-rose-50 text-rose-600 font-bold transition-all cursor-pointer"
+                    >
+                      <LogOut size={14} />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Logged Out State */
+            <div className="flex items-center gap-2">
+              <Link
+                href="/login"
+                className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs flex items-center gap-1.5"
+              >
+                <span>Sign In / Join</span>
+                <span className="text-amber-400">⚡</span>
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer"
+            aria-label="Toggle navigation menu"
           >
-            <span>Summit Pass</span>
-            <ArrowRight size={13} />
-          </Link>
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+
         </div>
 
-        {/* Mobile menu trigger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-slate-600 hover:text-slate-900"
-        >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Slide-Down Drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-white border-b border-slate-200 px-6 py-6 space-y-4 shadow-xl">
-          <nav className="flex flex-col space-y-3">
+        <div className="lg:hidden bg-white border-b border-slate-200 p-6 space-y-4 font-mono text-xs animate-fadeIn">
+          
+          {user ? (
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+              <div>
+                <div className="font-bold text-slate-900">{studentProfile?.displayName || user.displayName}</div>
+                <div className="text-[11px] text-slate-500">{studentProfile?.collegeName || "Verified Student"}</div>
+              </div>
+              <div className="px-3 py-1 rounded-full bg-amber-100 text-amber-900 font-bold text-xs">
+                {studentProfile?.karmaCoins || 100} 🪙
+              </div>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="w-full py-3 rounded-2xl bg-slate-900 text-white font-bold flex items-center justify-center gap-2 uppercase"
+            >
+              <span>Sign In with Google / Phone OTP</span>
+            </Link>
+          )}
+
+          <div className="grid grid-cols-2 gap-2 pt-2">
             {PRIMARY_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-sm font-semibold text-slate-700 hover:text-[#0066FF] py-1.5"
+                className="p-3 rounded-xl bg-slate-50 border border-slate-100 font-bold text-slate-800 text-center"
               >
                 {link.name}
               </Link>
             ))}
-            
-            <div className="pt-2 border-t border-slate-100 space-y-2">
-              <div className="text-[11px] font-mono text-slate-400 uppercase font-bold">Community Rituals</div>
-              {RITUALS_LINKS.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between text-xs text-slate-700 hover:text-[#0066FF] py-1"
-                >
-                  <span>{item.name}</span>
-                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${item.color}`}>
-                    {item.tag}
-                  </span>
-                </Link>
-              ))}
-            </div>
+          </div>
 
-            <div className="pt-2 border-t border-slate-100 space-y-2">
-              <div className="text-[11px] font-mono text-slate-400 uppercase font-bold">More Resources</div>
-              {DROPDOWN_LINKS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2.5 text-xs text-slate-600 hover:text-[#0066FF] py-1"
-                >
-                  <item.icon size={14} className="text-slate-400" />
-                  <span>{item.name}</span>
-                </Link>
-              ))}
-            </div>
-          </nav>
-          
-          <div className="pt-4 border-t border-slate-100 flex flex-col gap-2">
-            <div className="grid grid-cols-2 gap-2">
-              <a
-                href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-center py-2.5 rounded-xl text-xs font-mono font-bold"
-              >
-                WhatsApp Hub
-              </a>
-              <a
-                href="https://discord.gg/k75ZpEnzp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-indigo-50 border border-indigo-200 text-indigo-700 text-center py-2.5 rounded-xl text-xs font-mono font-bold"
-              >
-                Discord Server
-              </a>
-            </div>
+          <div className="pt-2 border-t border-slate-100 space-y-2">
             <Link
-              href="/events/ai-frontier-2026"
+              href="/arena/wallet"
               onClick={() => setMobileOpen(false)}
-              className="w-full bg-[#0066FF] text-white text-center py-3 rounded-xl text-xs font-bold uppercase tracking-wider mt-2"
+              className="block p-2 text-slate-600 font-bold"
             >
-              Get Summit Pass →
+              🪙 Student Karma Wallet
+            </Link>
+            <Link
+              href="/arena/bounties"
+              onClick={() => setMobileOpen(false)}
+              className="block p-2 text-slate-600 font-bold"
+            >
+              🚨 Blocker Bounty Board
+            </Link>
+            <Link
+              href="/arena/career-checklist"
+              onClick={() => setMobileOpen(false)}
+              className="block p-2 text-slate-600 font-bold"
+            >
+              💼 LinkedIn &amp; HR Outreach Checklist
             </Link>
           </div>
+
+          {user && (
+            <div className="pt-2 border-t border-slate-100">
+              <button
+                onClick={() => { logout(); setMobileOpen(false); }}
+                className="w-full py-2.5 rounded-xl bg-rose-50 text-rose-700 font-bold text-center"
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+
         </div>
       )}
     </header>

@@ -1,119 +1,265 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink, MessageCircle, Sparkles, BookOpen, ShieldCheck } from "lucide-react";
+import {
+  ShieldCheck,
+  Flame,
+  Rocket,
+  Compass,
+  Globe,
+  Briefcase,
+  Coins,
+  Sparkles,
+  Users,
+  MapPin,
+  Calendar,
+  Lock,
+  ExternalLink,
+  MessageSquare,
+  Trophy,
+  Award
+} from "lucide-react";
 
 export default function CommunityFooter() {
   return (
-    <footer className="bg-slate-50 border-t border-slate-200 text-slate-600 py-16 text-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
+    <footer className="bg-slate-950 text-slate-400 font-mono text-xs border-t border-slate-800">
+      
+      {/* Top Banner: Indore Hybrid Hub & Next Cohort */}
+      <div className="border-b border-slate-800/80 bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0">
+              <MapPin size={20} />
+            </div>
+            <div>
+              <div className="font-bold text-white text-sm font-sans flex items-center gap-2">
+                <span>Indore AI Hub &amp; Global Virtual Discord Stage</span>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] border border-emerald-500/30">
+                  Every Saturday 5–7 PM IST
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Join in-person technical architecture teardowns in Indore or livestream via Discord Voice &amp; Stage.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <Link
+              href="/arena/calendar"
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all border border-slate-700 flex items-center gap-1.5 shadow-2xs"
+            >
+              <Calendar size={13} className="text-amber-400" />
+              <span>Sync Lu.ma Calendar</span>
+            </Link>
+            <a
+              href="https://discord.gg/k75ZpEnzp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-2xs"
+            >
+              <span>Join Discord</span>
+              <ExternalLink size={13} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main 5-Column Mega Navigation */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           
-          {/* Brand & Community Hub */}
-          <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="relative w-20 h-20 flex items-center justify-center shrink-0">
+          {/* Column 1: Brand Info */}
+          <div className="space-y-4 lg:col-span-1">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
                 <Image
                   src="/logo.png"
                   alt="Botmartz Logo"
-                  width={80}
-                  height={80}
-                  className="object-contain drop-shadow-sm"
-                  priority
+                  width={38}
+                  height={38}
+                  className="object-contain"
                 />
               </div>
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-slate-900 tracking-tight text-xl sm:text-2xl leading-none">
-                    BOTMARTZ
-                  </span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 text-[11px] font-mono font-bold uppercase">
-                    COMMUNITY
-                  </span>
-                </div>
-                <div className="font-mono text-xs text-slate-500 font-medium mt-1">
-                  AI Engineers, Builders &amp; Applied Research Ecosystem
-                </div>
+                <div className="font-bold text-white text-base tracking-tight">BOTMARTZ</div>
+                <div className="text-[10px] text-[#0066FF] font-black uppercase -mt-1">BUILDERS</div>
               </div>
-            </div>
+            </Link>
 
-            <p className="text-slate-500 leading-relaxed text-xs max-w-sm">
-              The official builder and developer hub of Botmartz AI Solutions. Flagship summits, developer discussions, project showcases, 48h hackathons, and weekly engineering rituals.
+            <p className="text-slate-400 text-xs font-sans leading-relaxed">
+              <strong>Build. Ship. Learn. Connect.</strong> Strictly for authentic students building frontier production systems in AI, Defence, FinTech &amp; Systems.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <a
-                href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-[11px] font-bold hover:bg-emerald-100 transition-colors flex items-center gap-1.5 shadow-2xs"
-              >
-                <MessageCircle size={14} />
-                <span>Join WhatsApp Hub</span>
-              </a>
-              <a
-                href="https://discord.gg/k75ZpEnzp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3.5 py-2 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono text-[11px] font-bold hover:bg-indigo-100 transition-colors flex items-center gap-1.5 shadow-2xs"
-              >
-                <span>Join Discord Server</span>
-              </a>
+            <div className="pt-2 text-[11px] text-slate-500 space-y-1">
+              <div>🎯 <strong>Cohort 1:</strong> 14th Sept – Diwali 2026</div>
+              <div>🚀 <strong>Cohort 2:</strong> January 2027</div>
             </div>
           </div>
 
-          {/* Community Rituals */}
-          <div>
-            <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">45-Day Arena &amp; Rituals</h4>
-            <ul className="space-y-2.5">
-              <li><Link href="/arena/roadmaps" className="text-purple-700 font-bold hover:underline transition-colors">🗺️ Role Stage Roadmaps</Link></li>
-              <li><Link href="/arena/ecosystems" className="text-emerald-700 font-bold hover:underline transition-colors">🌐 Industry Ecosystems Radar</Link></li>
-              <li><Link href="/arena/career-checklist" className="text-blue-700 font-bold hover:underline transition-colors">💼 LinkedIn &amp; HR Outreach</Link></li>
-              <li><Link href="/arena/wallet" className="text-amber-800 font-bold hover:underline transition-colors">🪙 Student Karma Wallet</Link></li>
-              <li><Link href="/arena/bounties" className="text-[#0066FF] font-bold hover:underline transition-colors">🪙 Blocker Bounty Board</Link></li>
-              <li><Link href="/arena/collaborate" className="text-purple-700 font-bold hover:underline transition-colors">👥 Discord Squads &amp; Collab</Link></li>
-              <li><Link href="/arena" className="text-[#0066FF] font-bold hover:underline transition-colors">⚡ 45-Day Builder Arena (50 Projects)</Link></li>
-              <li><Link href="/arena/progress" className="text-emerald-700 font-bold hover:underline transition-colors">🔥 Live Progress Diaries</Link></li>
-              <li><Link href="/arena/leaderboard" className="text-amber-800 font-bold hover:underline transition-colors">🏆 Dual Leaderboards</Link></li>
+          {/* Column 2: 45-Day Arena & Roadmaps */}
+          <div className="space-y-3">
+            <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
+              45-Day Arena &amp; Roadmaps
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/arena" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Flame size={13} className="text-orange-400" />
+                  <span>50-Project Matrix</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/roadmaps" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Compass size={13} className="text-purple-400" />
+                  <span>Role Stage Roadmaps</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/progress" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <MessageSquare size={13} className="text-emerald-400" />
+                  <span>Live Progress Diaries</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/leaderboard" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Trophy size={13} className="text-amber-400" />
+                  <span>Dual Leaderboard</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/antigravity-guide" className="hover:text-white transition-colors">
+                  🤖 Antigravity Research Swarms
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/custom-project" className="hover:text-white transition-colors">
+                  ✨ Pitch Custom Project
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Events & Learning */}
-          <div>
-            <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">Events &amp; Media</h4>
-            <ul className="space-y-2.5">
-              <li><Link href="/profile" className="text-[#0066FF] font-bold hover:underline transition-colors">👤 My Builder Profile &amp; Heatmap</Link></li>
-              <li><Link href="/magazine" className="text-slate-600 hover:text-[#0066FF] transition-colors">📖 AI Engineering Magazine</Link></li>
-              <li><Link href="/events/ai-frontier-2026" className="text-slate-600 hover:text-[#0066FF] transition-colors">AI Frontier 2026 Summit</Link></li>
-              <li><Link href="/gallery" className="text-slate-600 hover:text-[#0066FF] transition-colors">📸 Summit Photo Wall</Link></li>
-              <li><Link href="/certificates" className="text-slate-600 hover:text-[#0066FF] transition-colors">Verify Certificate</Link></li>
+          {/* Column 3: Career OS & Bounties */}
+          <div className="space-y-3">
+            <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
+              Career OS &amp; Bounties
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/arena/wallet" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Coins size={13} className="text-amber-400" />
+                  <span>Student Karma Wallet</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/bounties" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Sparkles size={13} className="text-blue-400" />
+                  <span>Blocker Bounty Board</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/shippers" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Rocket size={13} className="text-purple-400" />
+                  <span>Shippers Circle (15 Referrals)</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/career-checklist" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Briefcase size={13} className="text-emerald-400" />
+                  <span>LinkedIn &amp; HR Outreach</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/collaborate" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Users size={13} className="text-indigo-400" />
+                  <span>Discord Squad Matchmaker</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Botmartz Enterprise & Admin */}
-          <div>
-            <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">Enterprise &amp; Portal</h4>
-            <ul className="space-y-2.5">
-              <li><a href="https://www.botmartz.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#0066FF] transition-colors flex items-center gap-1"><span>Enterprise AI</span> <ExternalLink size={11} /></a></li>
-              <li><a href="https://www.botmartz.com/implementation" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#0066FF] transition-colors flex items-center gap-1"><span>Implementation Model</span> <ExternalLink size={11} /></a></li>
-              <li><a href="https://www.botmartz.com/work/labs/insurance-intelligence" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#0066FF] transition-colors flex items-center gap-1"><span>Insurance Lab</span> <ExternalLink size={11} /></a></li>
-              <li><Link href="/admin/login" className="text-slate-400 hover:text-slate-700 text-[11px] font-mono flex items-center gap-1"><span>Staff &amp; Admin Login →</span></Link></li>
+          {/* Column 4: Industry Ecosystems & Grants */}
+          <div className="space-y-3">
+            <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
+              Ecosystems &amp; Grants
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/arena/ecosystems" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Globe size={13} className="text-emerald-400" />
+                  <span>Ecosystem Opportunity Radar</span>
+                </Link>
+              </li>
+              <li><Link href="/arena/ecosystems" className="hover:text-white transition-colors">🛰️ Defence, Aerospace &amp; UAV</Link></li>
+              <li><Link href="/arena/ecosystems" className="hover:text-white transition-colors">🏛️ GovTech &amp; National MOUs</Link></li>
+              <li><Link href="/arena/ecosystems" className="hover:text-white transition-colors">🏥 Clinical Healthcare AI</Link></li>
+              <li><Link href="/arena/ecosystems" className="hover:text-white transition-colors">⚡ High-Frequency FinTech</Link></li>
+              <li><Link href="/arena/ecosystems" className="hover:text-white transition-colors">🛡️ iDEX &amp; TIDE 2.0 Grants</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 5: Student Verification & Security */}
+          <div className="space-y-3">
+            <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
+              Student Trust &amp; Zero-Trust
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/login" className="hover:text-white transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
+                  <ShieldCheck size={13} />
+                  <span>Student Sign In / Verification</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/profile" className="hover:text-white transition-colors">
+                  👤 My Proof-of-Work Heatmap
+                </Link>
+              </li>
+              <li>
+                <Link href="/certificates" className="hover:text-white transition-colors">
+                  🎓 Verify Official Credentials
+                </Link>
+              </li>
+              <li>
+                <Link href="/admin/security" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Lock size={13} className="text-purple-400" />
+                  <span>Zero-Trust Architecture</span>
+                </Link>
+              </li>
+              <li>
+                <span className="text-[11px] text-slate-500 block pt-1">
+                  🔒 DPDP Act 2023 Compliant. Immutable SHA-256 Ledger.
+                </span>
+              </li>
             </ul>
           </div>
 
         </div>
-
-        <div className="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400">
-          <p>© {new Date().getFullYear()} Botmartz AI Solution Pvt Ltd. All rights reserved.</p>
-          <div className="flex items-center gap-6">
-            <a href="https://www.botmartz.com/privacy" className="hover:text-slate-600">Privacy</a>
-            <a href="https://www.botmartz.com/terms" className="hover:text-slate-600">Terms</a>
-            <a href="https://www.botmartz.com/contact" className="hover:text-slate-600">Contact</a>
-          </div>
-        </div>
-
       </div>
+
+      {/* Bottom Bar */}
+      <div className="border-t border-slate-900 bg-slate-950 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
+          <div className="flex items-center gap-2">
+            <span>© 2026 Botmartz Community. Governed by Founder Soham Sharma.</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Zero-Trust Score: 100/100</span>
+            </span>
+            <span>•</span>
+            <Link href="/admin/login" className="hover:text-slate-400 transition-colors">
+              Admin Portal
+            </Link>
+          </div>
+        </div>
+      </div>
+
     </footer>
   );
 }
