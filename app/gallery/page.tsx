@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Image as ImageIcon, Sparkles, Filter, X, ZoomIn, UploadCloud, MessageCircle } from "lucide-react";
+import { Image as ImageIcon, Sparkles, Filter, X, ZoomIn, MessageCircle } from "lucide-react";
 
 interface MediaItem {
   id: string;
@@ -17,57 +18,111 @@ interface MediaItem {
 const SAMPLE_MEDIA: MediaItem[] = [
   {
     id: "g1",
-    title: "AI Frontier Summit Keynote Hall",
+    title: "AI Frontier Summit Keynote & Stage Panel",
     category: "Conferences",
     date: "Aug 2026",
-    location: "Main Auditorium, Indore",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
+    location: "Main Keynote Arena",
+    image: "/gallery/event-1.png",
     description: "Packed auditorium listening to real-world Enterprise RAG deployment case studies and LangGraph architectures."
   },
   {
     id: "g2",
-    title: "LangGraph State Machine Live Code Lab",
-    category: "Workshops",
-    date: "July 2026",
-    location: "Botmartz AI Lab",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
-    description: "Engineers collaborating on deterministic state checkpoints, tool calling error handling, and sandbox runs."
+    title: "Community Builder Spotlight & Speaker Session",
+    category: "Conferences",
+    date: "Aug 2026",
+    location: "Stage 1",
+    image: "/gallery/event-2.png",
+    description: "Technical speaker delivering insights on deterministic agent workflows, state recovery, and inference benchmarking."
   },
   {
     id: "g3",
-    title: "Pre-Summit Hack Night & Builder Dinner",
-    category: "Community Meetups",
-    date: "Aug 2026",
-    location: "Cafe & Tech Lounge",
-    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
-    description: "Informal networking, open-source brainstorming, and hack sprints between developers from 15+ cities."
+    title: "Hands-on AI Engineering Code Lab",
+    category: "Workshops",
+    date: "July 2026",
+    location: "Botmartz AI Lab",
+    image: "/gallery/event-3.png",
+    description: "Engineers collaborating on deterministic state checkpoints, tool calling error handling, and sandbox runs."
   },
   {
     id: "g4",
+    title: "Pre-Summit Hack Night & Builder Networking",
+    category: "Community Meetups",
+    date: "Aug 2026",
+    location: "Tech Lounge",
+    image: "/gallery/event-4.png",
+    description: "Informal networking, open-source brainstorming, and hack sprints between developers from 15+ cities."
+  },
+  {
+    id: "g5",
     title: "Agent Challenge Demo Day Presentations",
     category: "Hackathons",
     date: "June 2026",
     location: "Stage 2 Arena",
-    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80",
+    image: "/gallery/event-5.png",
     description: "Finalist teams demonstrating autonomous agents executing complex financial and legal extraction pipelines."
   },
   {
-    id: "g5",
-    title: "Hands-on Hybrid RAG & Vector Indexing Sprint",
+    id: "g6",
+    title: "Hybrid RAG & Vector Indexing Cohort",
     category: "Workshops",
-    date: "May 2026",
-    location: "Indore Tech Park",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
-    description: "Benchmarking Qdrant dense vectors against BM25 Reciprocal Rank Fusion on 500k doc datasets."
+    date: "July 2026",
+    location: "Workshop Hall A",
+    image: "/gallery/event-6.png",
+    description: "Benchmarking dense embeddings against BM25 Reciprocal Rank Fusion on large real-world doc datasets."
   },
   {
-    id: "g6",
-    title: "Fireside Chat: Future of Small Language Models",
+    id: "g7",
+    title: "AI Frontier Summit Delegate Group & Community Gathering",
     category: "Conferences",
-    date: "April 2026",
-    location: "Keynote Studio",
-    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80",
-    description: "Discussion with founders on running quantized SLMs on edge devices with zero cloud dependency."
+    date: "Aug 2026",
+    location: "Main Convention Center",
+    image: "/gallery/event-7.png",
+    description: "Community builders, founders, students, and enterprise architects celebrating applied AI innovation."
+  },
+  {
+    id: "g8",
+    title: "Live Agent State Machine Architecture Breakdown",
+    category: "Conferences",
+    date: "Aug 2026",
+    location: "Auditorium Hall",
+    image: "/gallery/event-8.png",
+    description: "Interactive breakdown of checkpoint persistence in PostgreSQL and human-in-the-loop pause nodes."
+  },
+  {
+    id: "g9",
+    title: "Fireside Keynote: Future of Autonomous Multi-Agent Swarms",
+    category: "Conferences",
+    date: "Aug 2026",
+    location: "Main Stage",
+    image: "/gallery/event-9.png",
+    description: "Keynote presentation on real-time agent observability, evaluation frameworks, and latency optimization."
+  },
+  {
+    id: "g10",
+    title: "Technical Q&A & Architecture Teardown with Attendees",
+    category: "Conferences",
+    date: "Aug 2026",
+    location: "Stage 1",
+    image: "/gallery/event-10.png",
+    description: "Engaging audience questions on production LLM reliability, fine-tuning vs RAG, and MCP integrations."
+  },
+  {
+    id: "g11",
+    title: "Developer Hackathon Workspace & Team Collaboration",
+    category: "Hackathons",
+    date: "June 2026",
+    location: "Hacker Arena",
+    image: "/gallery/event-11.png",
+    description: "Teams coding 48-hour sprint projects with cash prizes and cloud infrastructure credits."
+  },
+  {
+    id: "g12",
+    title: "AI Summit Speaker Panel & Applied Research Discussion",
+    category: "Conferences",
+    date: "Aug 2026",
+    location: "Grand Auditorium",
+    image: "/gallery/event-12.png",
+    description: "Distinguished panel discussion on open-weight SLMs, on-device WebGPU inference, and production agent safety."
   }
 ];
 
@@ -157,7 +212,7 @@ export default function GalleryPage() {
                     <span>{item.category}</span>
                     <span className="text-slate-400">{item.date}</span>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-base mb-1">{item.title}</h3>
+                  <h3 className="font-bold text-slate-900 text-base mb-1 leading-snug">{item.title}</h3>
                   <p className="text-xs text-slate-600 line-clamp-2">{item.description}</p>
                 </div>
               </div>
@@ -185,7 +240,7 @@ export default function GalleryPage() {
               />
               <button
                 onClick={() => setActiveItem(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white transition-colors"
+                className="absolute top-4 right-4 p-2 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white transition-colors cursor-pointer"
               >
                 <X size={18} />
               </button>

@@ -51,13 +51,13 @@ export default function AdminLoginPage() {
       <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full shadow-lg">
         
         <div className="flex justify-center mb-6">
-          <div className="relative w-14 h-14 rounded-2xl overflow-hidden shadow-xs border border-slate-200 bg-white flex items-center justify-center p-1.5">
+          <div className="relative w-20 h-20 flex items-center justify-center">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
-              width={48}
-              height={48}
-              className="object-contain"
+              width={72}
+              height={72}
+              className="object-contain drop-shadow-sm"
               priority
             />
           </div>

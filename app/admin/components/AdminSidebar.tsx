@@ -50,20 +50,20 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
     <aside className="w-64 bg-white border-r border-slate-200 min-h-screen flex flex-col justify-between p-4 shrink-0">
       <div>
         {/* Brand Logo with /logo.png */}
-        <div className="flex items-center gap-3 px-3 py-4 mb-6 border-b border-slate-100">
-          <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-2xs border border-slate-200 bg-white flex items-center justify-center p-1">
+        <div className="flex items-center gap-3 px-2 py-3 mb-6 border-b border-slate-100">
+          <div className="relative w-11 h-11 flex items-center justify-center shrink-0">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
-              width={32}
-              height={32}
+              width={42}
+              height={42}
               className="object-contain"
               priority
             />
           </div>
           <div>
             <div className="font-bold text-slate-900 text-sm leading-none">BOTMARTZ</div>
-            <div className="text-[10px] font-mono text-[#0066FF] tracking-wider uppercase font-semibold mt-1">
+            <div className="text-[10px] font-mono text-[#0066FF] tracking-wider uppercase font-bold mt-1">
               {permissions.label.split(' ')[0]} CMS
             </div>
           </div>

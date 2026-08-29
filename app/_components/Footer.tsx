@@ -12,27 +12,27 @@ export default function CommunityFooter() {
           
           {/* Brand & Community Hub */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-3.5">
-              <div className="relative w-14 h-14 rounded-2xl overflow-hidden shadow-xs border border-slate-200 bg-white flex items-center justify-center p-2">
+            <div className="flex items-center gap-4">
+              <div className="relative w-20 h-20 flex items-center justify-center shrink-0">
                 <Image
                   src="/logo.png"
                   alt="Botmartz Logo"
-                  width={52}
-                  height={52}
-                  className="object-contain"
+                  width={80}
+                  height={80}
+                  className="object-contain drop-shadow-sm"
                   priority
                 />
               </div>
               <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-slate-900 tracking-tight text-base sm:text-lg leading-tight">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-slate-900 tracking-tight text-xl sm:text-2xl leading-none">
                     BOTMARTZ
                   </span>
-                  <span className="px-2 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 text-[10px] font-mono font-bold uppercase">
+                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 text-[11px] font-mono font-bold uppercase">
                     COMMUNITY
                   </span>
                 </div>
-                <div className="font-mono text-[11px] text-slate-500 font-medium mt-0.5">
+                <div className="font-mono text-xs text-slate-500 font-medium mt-1">
                   AI Engineers, Builders &amp; Applied Research Ecosystem
                 </div>
               </div>

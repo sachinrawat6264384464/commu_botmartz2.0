@@ -73,22 +73,22 @@ export default function CommunityNavbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         
         {/* Brand Logo with /logo.png */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-2xs border border-slate-200/80 bg-white flex items-center justify-center p-1">
+        <Link href="/" className="flex items-center gap-3.5 group">
+          <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
-              width={32}
-              height={32}
-              className="object-contain"
+              width={46}
+              height={46}
+              className="object-contain drop-shadow-xs group-hover:scale-105 transition-transform"
               priority
             />
           </div>
           <div>
-            <div className="font-bold text-slate-900 tracking-tight text-base leading-none">
+            <div className="font-bold text-slate-900 tracking-tight text-lg leading-none">
               BOTMARTZ
             </div>
-            <div className="font-mono text-[10px] text-[#0066FF] tracking-wider uppercase font-semibold mt-1">
+            <div className="font-mono text-[11px] text-[#0066FF] tracking-wider uppercase font-bold mt-1">
               COMMUNITY
             </div>
           </div>
