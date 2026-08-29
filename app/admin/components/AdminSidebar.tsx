@@ -18,7 +18,9 @@ import {
   Users,
   LogOut,
   ShieldCheck,
-  Trophy
+  Trophy,
+  Flame,
+  Lock
 } from "lucide-react";
 import { UserRole, ROLE_PERMISSIONS } from "@/lib/rbac";
 
@@ -34,10 +36,13 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
 
   const NAV_ITEMS = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard, allowed: true },
+    { label: "Zero-Trust Security", href: "/admin/security", icon: Lock, allowed: permissions.canManageFinance },
+    { label: "Builder Arena & 45D Logs", href: "/admin/arena", icon: Flame, allowed: permissions.canManageEvents },
+    { label: "Admin Team & KPIs", href: "/admin/team", icon: ShieldCheck, allowed: permissions.canManageFinance },
     { label: "Deep Analytics", href: "/admin/analytics", icon: BarChart3, allowed: permissions.canViewAnalytics },
     { label: "Newsletters & Broadcasts", href: "/admin/newsletter", icon: Mail, allowed: permissions.canSendNewsletters },
     { label: "Events & Summits", href: "/admin/events", icon: Calendar, allowed: permissions.canManageEvents },
-    { label: "Challenges & Arena", href: "/admin/challenges", icon: Trophy, allowed: permissions.canManageEvents },
+    { label: "Challenges Review", href: "/admin/challenges", icon: Trophy, allowed: permissions.canManageEvents },
     { label: "AI Bootcamps", href: "/admin/bootcamps", icon: BookOpen, allowed: permissions.canManageEvents },
     { label: "Payments & Ledger", href: "/admin/payments", icon: CreditCard, allowed: permissions.canManageFinance },
     { label: "Coupons & Promo Codes", href: "/admin/coupons", icon: Tag, allowed: permissions.canManageCoupons },

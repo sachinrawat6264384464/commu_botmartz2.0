@@ -19,7 +19,16 @@ import {
   Image as ImageIcon,
   FileText,
   HelpCircle,
-  MessageCircle
+  MessageCircle,
+  Flame,
+  Rocket,
+  User,
+  Bot,
+  Coins,
+  Users,
+  Compass,
+  Globe,
+  Briefcase
 } from "lucide-react";
 
 export default function CommunityNavbar() {
@@ -29,43 +38,75 @@ export default function CommunityNavbar() {
   const [ritualsOpen, setRitualsOpen] = useState(false);
 
   const PRIMARY_LINKS = [
-    { name: "Events", href: "/events" },
-    { name: "Discussions", href: "/discussions" },
-    { name: "Showcase", href: "/showcase" },
-    { name: "Challenges", href: "/challenges" },
-    { name: "Magazine", href: "/magazine" },
+    { name: "Arena ⚡", href: "/arena" },
+    { name: "Roadmaps 🗺️", href: "/arena/roadmaps" },
+    { name: "Ecosystems 🌐", href: "/arena/ecosystems" },
+    { name: "Wallet 🪙", href: "/arena/wallet" },
+    { name: "Progress Diaries 🔥", href: "/arena/progress" },
+    { name: "Leaderboard 🏆", href: "/arena/leaderboard" },
+    { name: "Calendar 🗓️", href: "/arena/calendar" },
   ];
 
   const RITUALS_LINKS = [
     { 
-      name: "Showcase Thursdays", 
-      href: "/showcase", 
-      desc: "Every Thursday — Live demo arena & peer reviews",
-      tag: "Every Thursday",
+      name: "Saturday Indore & Virtual Office Hours", 
+      href: "/arena/calendar", 
+      desc: "Every Saturday 5 PM – 7 PM — Architecture teardowns with Founder",
+      tag: "Weekly Flagship",
+      color: "text-amber-600 bg-amber-50"
+    },
+    { 
+      name: "Role Progression Roadmaps", 
+      href: "/arena/roadmaps", 
+      desc: "6 Engineering tracks (Stage 1 to 4) + Project matching",
+      tag: "Roadmaps",
       color: "text-purple-600 bg-purple-50"
     },
     { 
-      name: "Resume & Portfolio Review", 
-      href: "/discussions?channel=resume-review", 
-      desc: "Every Wednesday — 1-on-1 AI engineering resume teardowns",
-      tag: "Every Wednesday",
+      name: "Ecosystems & Gov Grants Radar", 
+      href: "/arena/ecosystems", 
+      desc: "Defence, GovTech, HealthTech & iDEX / TIDE 2.0 grants",
+      tag: "Opportunity Radar",
+      color: "text-emerald-700 bg-emerald-50"
+    },
+    { 
+      name: "LinkedIn & HR Outreach Checklist", 
+      href: "/arena/career-checklist", 
+      desc: "ATS profile surgery & engineering founder cold outreach scripts",
+      tag: "Career Flywheel",
       color: "text-blue-600 bg-blue-50"
     },
     { 
-      name: "Monthly AI Architect AMA", 
-      href: "/events?type=ama", 
-      desc: "Every 3rd Saturday — Live Q&A with founders & researchers",
-      tag: "3rd Saturday",
-      color: "text-amber-600 bg-amber-50"
+      name: "Student Karma Wallet & Points", 
+      href: "/arena/wallet", 
+      desc: "Earn Botmartz Coins for daily PoW, reviews & bounties",
+      tag: "Karma Economy",
+      color: "text-amber-700 bg-amber-50"
+    },
+    { 
+      name: "Blocker & Help Bounty Board", 
+      href: "/arena/bounties", 
+      desc: "Post roadblocks with coin rewards & solve on Discord",
+      tag: "Peer Rescue",
+      color: "text-blue-600 bg-blue-50"
     },
   ];
 
   const DROPDOWN_LINKS = [
-    { name: "AI Engineering Magazine", href: "/magazine", icon: FileText, desc: "Architectural digests & deep-dives" },
-    { name: "AI Bootcamps & Cohorts", href: "/workshops", icon: BookOpen, desc: "Hands-on engineering workshops" },
-    { name: "Leaderboard & Hall of Fame", href: "/leaderboard", icon: Trophy, desc: "Top builders & karma ranks" },
-    { name: "Verify Certificates", href: "/certificates", icon: Award, desc: "Official credential verification" },
-    { name: "Community Photo Wall", href: "/gallery", icon: ImageIcon, desc: "Summit & meetup memories" },
+    { name: "Stage-Based Roadmaps 🗺️", href: "/arena/roadmaps", icon: Compass, desc: "6 Engineering tracks & matched projects" },
+    { name: "Industry Ecosystems Radar 🌐", href: "/arena/ecosystems", icon: Globe, desc: "Defence, GovTech & Government Grants" },
+    { name: "LinkedIn & HR Outreach 💼", href: "/arena/career-checklist", icon: Briefcase, desc: "ATS profile surgery & cold email scripts" },
+    { name: "Student Karma Wallet 🪙", href: "/arena/wallet", icon: Coins, desc: "Earn & redeem coins for perks & code reviews" },
+    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Sparkles, desc: "Post technical blockers with coin rewards" },
+    { name: "Discord Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Form cross-functional builder teams" },
+    { name: "My Builder Profile & Heatmap", href: "/profile", icon: User, desc: "Personal proof-of-work heatmap & stats" },
+    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Rocket, desc: "3 Projects → 15 Company Referrals & Endorsement" },
+    { name: "Builder Arena (50 Projects)", href: "/arena", icon: Flame, desc: "45-Day multi-domain student internship" },
+    { name: "Live Progress Diaries", href: "/arena/progress", icon: MessageSquare, desc: "Real-time community standup stream" },
+    { name: "Dual Arena Leaderboard", href: "/arena/leaderboard", icon: Trophy, desc: "Top builders & shipped projects" },
+    { name: "Indore & Virtual Calendar", href: "/arena/calendar", icon: Calendar, desc: "Saturday office hours & Lu.ma events" },
+    { name: "Antigravity Research Agents", href: "/arena/antigravity-guide", icon: Bot, desc: "Build autonomous research swarms" },
+    { name: "Submit Custom Proposal", href: "/arena/custom-project", icon: Sparkles, desc: "Propose your own independent project" },
   ];
 
   return (

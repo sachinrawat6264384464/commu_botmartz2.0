@@ -65,13 +65,17 @@ export default function CommunityFooter() {
 
           {/* Community Rituals */}
           <div>
-            <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">Community Rituals</h4>
+            <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">45-Day Arena &amp; Rituals</h4>
             <ul className="space-y-2.5">
-              <li><Link href="/showcase" className="text-slate-600 hover:text-[#0066FF] transition-colors">🔥 Showcase Thursdays</Link></li>
-              <li><Link href="/discussions?channel=resume-review" className="text-slate-600 hover:text-[#0066FF] transition-colors">📄 Wednesday Resume Reviews</Link></li>
-              <li><Link href="/events?type=ama" className="text-slate-600 hover:text-[#0066FF] transition-colors">🎙️ 3rd Saturday AMAs</Link></li>
-              <li><Link href="/challenges" className="text-slate-600 hover:text-[#0066FF] transition-colors">🏆 48h Arena Hackathons</Link></li>
-              <li><Link href="/magazine" className="text-slate-600 hover:text-[#0066FF] transition-colors">📖 AI Engineering Magazine</Link></li>
+              <li><Link href="/arena/roadmaps" className="text-purple-700 font-bold hover:underline transition-colors">🗺️ Role Stage Roadmaps</Link></li>
+              <li><Link href="/arena/ecosystems" className="text-emerald-700 font-bold hover:underline transition-colors">🌐 Industry Ecosystems Radar</Link></li>
+              <li><Link href="/arena/career-checklist" className="text-blue-700 font-bold hover:underline transition-colors">💼 LinkedIn &amp; HR Outreach</Link></li>
+              <li><Link href="/arena/wallet" className="text-amber-800 font-bold hover:underline transition-colors">🪙 Student Karma Wallet</Link></li>
+              <li><Link href="/arena/bounties" className="text-[#0066FF] font-bold hover:underline transition-colors">🪙 Blocker Bounty Board</Link></li>
+              <li><Link href="/arena/collaborate" className="text-purple-700 font-bold hover:underline transition-colors">👥 Discord Squads &amp; Collab</Link></li>
+              <li><Link href="/arena" className="text-[#0066FF] font-bold hover:underline transition-colors">⚡ 45-Day Builder Arena (50 Projects)</Link></li>
+              <li><Link href="/arena/progress" className="text-emerald-700 font-bold hover:underline transition-colors">🔥 Live Progress Diaries</Link></li>
+              <li><Link href="/arena/leaderboard" className="text-amber-800 font-bold hover:underline transition-colors">🏆 Dual Leaderboards</Link></li>
             </ul>
           </div>
 
@@ -79,9 +83,9 @@ export default function CommunityFooter() {
           <div>
             <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">Events &amp; Media</h4>
             <ul className="space-y-2.5">
+              <li><Link href="/profile" className="text-[#0066FF] font-bold hover:underline transition-colors">👤 My Builder Profile &amp; Heatmap</Link></li>
+              <li><Link href="/magazine" className="text-slate-600 hover:text-[#0066FF] transition-colors">📖 AI Engineering Magazine</Link></li>
               <li><Link href="/events/ai-frontier-2026" className="text-slate-600 hover:text-[#0066FF] transition-colors">AI Frontier 2026 Summit</Link></li>
-              <li><Link href="/events" className="text-slate-600 hover:text-[#0066FF] transition-colors">All Meetups &amp; Calendar</Link></li>
-              <li><Link href="/workshops" className="text-slate-600 hover:text-[#0066FF] transition-colors">AI Accelerator Bootcamps</Link></li>
               <li><Link href="/gallery" className="text-slate-600 hover:text-[#0066FF] transition-colors">📸 Summit Photo Wall</Link></li>
               <li><Link href="/certificates" className="text-slate-600 hover:text-[#0066FF] transition-colors">Verify Certificate</Link></li>
             </ul>
