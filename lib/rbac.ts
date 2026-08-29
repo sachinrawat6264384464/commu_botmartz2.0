@@ -1,78 +1,70 @@
-export type UserRole = 'super-admin' | 'event-manager' | 'volunteer';
+export type UserRole = 'super-admin' | 'manager' | 'volunteer';
 
-export interface AdminUser {
-  uid: string;
-  email: string;
-  displayName?: string;
-  role: UserRole;
-  allowedPaths: string[];
-}
-
-export const ROLE_PERMISSIONS: Record<UserRole, {
+export interface RolePermissions {
   label: string;
-  allowedPaths: string[];
+  canManageEvents: boolean;
+  canManageBootcamps: boolean;
   canManageFinance: boolean;
   canManageCoupons: boolean;
-  canManageEvents: boolean;
   canScanTickets: boolean;
   canIssueCertificates: boolean;
-}> = {
+  canSendNewsletters: boolean;
+  canViewAnalytics: boolean;
+  canModerateDiscussions: boolean;
+}
+
+export const ROLE_PERMISSIONS: Record<UserRole, RolePermissions> = {
   'super-admin': {
     label: 'Super Administrator',
-    allowedPaths: [
-      '/admin',
-      '/admin/events',
-      '/admin/bootcamps',
-      '/admin/payments',
-      '/admin/coupons',
-      '/admin/scanner',
-      '/admin/certificates',
-      '/admin/feedback',
-      '/admin/settings',
-      '/event-desk'
-    ],
+    canManageEvents: true,
+    canManageBootcamps: true,
     canManageFinance: true,
     canManageCoupons: true,
-    canManageEvents: true,
     canScanTickets: true,
-    canIssueCertificates: true
+    canIssueCertificates: true,
+    canSendNewsletters: true,
+    canViewAnalytics: true,
+    canModerateDiscussions: true,
   },
-  'event-manager': {
-    label: 'Event / Community Lead',
-    allowedPaths: [
-      '/admin',
-      '/admin/events',
-      '/admin/bootcamps',
-      '/admin/scanner',
-      '/admin/certificates',
-      '/admin/feedback',
-      '/event-desk'
-    ],
-    canManageFinance: false,
-    canManageCoupons: false,
+  'manager': {
+    label: 'Community & Event Manager',
     canManageEvents: true,
+    canManageBootcamps: true,
+    canManageFinance: false, // Super Admin only
+    canManageCoupons: true,
     canScanTickets: true,
-    canIssueCertificates: true
+    canIssueCertificates: true,
+    canSendNewsletters: true,
+    canViewAnalytics: true,
+    canModerateDiscussions: true,
   },
   'volunteer': {
-    label: 'Volunteer / Scanner Staff',
-    allowedPaths: [
-      '/admin/scanner',
-      '/event-desk'
-    ],
+    label: 'Event Volunteer / Scanner',
+    canManageEvents: false,
+    canManageBootcamps: false,
     canManageFinance: false,
     canManageCoupons: false,
-    canManageEvents: false,
     canScanTickets: true,
-    canIssueCertificates: false
-  }
+    canIssueCertificates: false,
+    canSendNewsletters: false,
+    canViewAnalytics: false,
+    canModerateDiscussions: false,
+  },
 };
 
-export function isPathAllowed(role: UserRole, path: string): boolean {
-  const permissions = ROLE_PERMISSIONS[role];
-  if (!permissions) return false;
+export function isPathAllowed(role: UserRole, pathname: string): boolean {
+  const perms = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS['volunteer'];
 
-  return permissions.allowedPaths.some(allowed => 
-    path === allowed || (allowed !== '/admin' && path.startsWith(allowed + '/'))
-  );
+  if (pathname === '/admin' || pathname === '/admin/login') return true;
+  if (pathname.startsWith('/admin/events')) return perms.canManageEvents;
+  if (pathname.startsWith('/admin/bootcamps')) return perms.canManageBootcamps;
+  if (pathname.startsWith('/admin/payments')) return perms.canManageFinance;
+  if (pathname.startsWith('/admin/coupons')) return perms.canManageCoupons;
+  if (pathname.startsWith('/admin/scanner')) return perms.canScanTickets;
+  if (pathname.startsWith('/admin/certificates')) return perms.canIssueCertificates;
+  if (pathname.startsWith('/admin/analytics')) return perms.canViewAnalytics;
+  if (pathname.startsWith('/admin/newsletter')) return perms.canSendNewsletters;
+  if (pathname.startsWith('/admin/feedback')) return perms.canManageEvents;
+
+  return false;
 }

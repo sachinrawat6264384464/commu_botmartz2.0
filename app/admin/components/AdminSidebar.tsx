@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
@@ -12,7 +13,9 @@ import {
   ScanLine, 
   Award, 
   MessageSquare, 
-  Settings, 
+  BarChart3,
+  Mail,
+  Users,
   LogOut,
   ShieldCheck
 } from "lucide-react";
@@ -30,27 +33,36 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
 
   const NAV_ITEMS = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard, allowed: true },
+    { label: "Deep Analytics", href: "/admin/analytics", icon: BarChart3, allowed: permissions.canViewAnalytics },
+    { label: "Newsletters & Broadcasts", href: "/admin/newsletter", icon: Mail, allowed: permissions.canSendNewsletters },
     { label: "Events & Summits", href: "/admin/events", icon: Calendar, allowed: permissions.canManageEvents },
     { label: "AI Bootcamps", href: "/admin/bootcamps", icon: BookOpen, allowed: permissions.canManageEvents },
     { label: "Payments & Ledger", href: "/admin/payments", icon: CreditCard, allowed: permissions.canManageFinance },
-    { label: "Coupons & Discounts", href: "/admin/coupons", icon: Tag, allowed: permissions.canManageCoupons },
+    { label: "Coupons & Promo Codes", href: "/admin/coupons", icon: Tag, allowed: permissions.canManageCoupons },
     { label: "Ticket Scanner", href: "/admin/scanner", icon: ScanLine, allowed: permissions.canScanTickets },
     { label: "Certificates", href: "/admin/certificates", icon: Award, allowed: permissions.canIssueCertificates },
     { label: "Attendee Feedback", href: "/admin/feedback", icon: MessageSquare, allowed: permissions.canManageEvents },
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 min-h-screen flex flex-col justify-between p-4">
+    <aside className="w-64 bg-white border-r border-slate-200 min-h-screen flex flex-col justify-between p-4 shrink-0">
       <div>
-        {/* Brand */}
+        {/* Brand Logo with /logo.png */}
         <div className="flex items-center gap-3 px-3 py-4 mb-6 border-b border-slate-100">
-          <div className="w-9 h-9 rounded-xl bg-[#0066FF] flex items-center justify-center font-mono font-bold text-white shadow-sm">
-            B
+          <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-2xs border border-slate-200 bg-white flex items-center justify-center p-1">
+            <Image
+              src="/logo.png"
+              alt="Botmartz Logo"
+              width={32}
+              height={32}
+              className="object-contain"
+              priority
+            />
           </div>
           <div>
-            <div className="font-bold text-slate-900 text-sm">COMMUNITY CMS</div>
-            <div className="text-[10px] font-mono text-[#0066FF] tracking-wider uppercase font-semibold">
-              {permissions.label}
+            <div className="font-bold text-slate-900 text-sm leading-none">BOTMARTZ</div>
+            <div className="text-[10px] font-mono text-[#0066FF] tracking-wider uppercase font-semibold mt-1">
+              {permissions.label.split(' ')[0]} CMS
             </div>
           </div>
         </div>
@@ -77,11 +89,11 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
         </nav>
       </div>
 
-      {/* Footer / User Profile */}
+      {/* Footer Profile */}
       <div className="pt-4 border-t border-slate-100 space-y-3">
         <div className="px-3">
-          <div className="text-[11px] font-mono text-slate-400 uppercase">Logged in as</div>
-          <div className="text-xs text-slate-800 font-semibold truncate">{userEmail || "admin@botmartz.com"}</div>
+          <div className="text-[10px] font-mono text-slate-400 uppercase">Authenticated Session</div>
+          <div className="text-xs text-slate-800 font-bold truncate">{userEmail || "soham@botmartz.com"}</div>
           <span className="inline-block mt-1 px-2 py-0.5 rounded bg-blue-50 text-[#0066FF] border border-blue-200 text-[10px] font-mono font-bold">
             {userRole.toUpperCase()}
           </span>

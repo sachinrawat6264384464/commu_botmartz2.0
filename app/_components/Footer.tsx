@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import Image from "next/image";
+import { ExternalLink, MessageCircle } from "lucide-react";
 
 export default function CommunityFooter() {
   return (
@@ -11,28 +12,50 @@ export default function CommunityFooter() {
           
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 rounded-xl bg-[#0066FF] flex items-center justify-center font-bold font-mono text-white text-sm shadow-sm">
-                B
+              <div className="relative w-8 h-8 rounded-xl overflow-hidden shadow-2xs border border-slate-200 bg-white flex items-center justify-center p-1">
+                <Image
+                  src="/logo.png"
+                  alt="Botmartz Logo"
+                  width={28}
+                  height={28}
+                  className="object-contain"
+                />
               </div>
               <span className="font-bold text-slate-900 tracking-tight text-sm">
                 BOTMARTZ COMMUNITY
               </span>
             </div>
             <p className="text-slate-500 leading-relaxed text-xs max-w-sm mb-6">
-              The developer, researcher, and builder hub of Botmartz AI Solutions. Flagship summits, developer discussions, project showcases, and hands-on cohorts.
+              The developer, researcher, and builder hub of Botmartz AI Solutions. Flagship summits, developer discussions, project showcases, and weekly community rituals.
             </p>
-            <div className="text-[11px] font-mono text-slate-400">
-              community.botmartz.com
+            <div className="flex items-center gap-3">
+              <a
+                href="https://chat.whatsapp.com/invite"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-[11px] font-bold hover:bg-emerald-100 transition-colors flex items-center gap-1"
+              >
+                <MessageCircle size={13} />
+                <span>Join WhatsApp Hub</span>
+              </a>
+              <a
+                href="https://discord.gg"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono text-[11px] font-bold hover:bg-indigo-100 transition-colors"
+              >
+                Join Discord
+              </a>
             </div>
           </div>
 
           <div>
-            <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">Community Hub</h4>
+            <h4 className="font-mono text-slate-900 uppercase tracking-wider mb-4 font-bold text-xs">Community Rituals</h4>
             <ul className="space-y-2.5">
-              <li><Link href="/discussions" className="text-slate-600 hover:text-[#0066FF] transition-colors">Discussions &amp; Forum</Link></li>
-              <li><Link href="/showcase" className="text-slate-600 hover:text-[#0066FF] transition-colors">Builder Showcase</Link></li>
-              <li><Link href="/challenges" className="text-slate-600 hover:text-[#0066FF] transition-colors">Hackathons &amp; Arena</Link></li>
-              <li><Link href="/leaderboard" className="text-slate-600 hover:text-[#0066FF] transition-colors">Hall of Fame</Link></li>
+              <li><Link href="/showcase" className="text-slate-600 hover:text-[#0066FF] transition-colors">🔥 Showcase Thursdays</Link></li>
+              <li><Link href="/discussions?channel=resume-review" className="text-slate-600 hover:text-[#0066FF] transition-colors">📄 Wednesday Resume Reviews</Link></li>
+              <li><Link href="/events?type=ama" className="text-slate-600 hover:text-[#0066FF] transition-colors">🎙️ 3rd Saturday AMAs</Link></li>
+              <li><Link href="/challenges" className="text-slate-600 hover:text-[#0066FF] transition-colors">🏆 48h Arena Hackathons</Link></li>
             </ul>
           </div>
 
@@ -52,7 +75,7 @@ export default function CommunityFooter() {
             <ul className="space-y-2.5">
               <li><a href="https://www.botmartz.com" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#0066FF] transition-colors flex items-center gap-1"><span>Enterprise AI</span> <ExternalLink size={11} /></a></li>
               <li><a href="https://www.botmartz.com/implementation" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#0066FF] transition-colors flex items-center gap-1"><span>Implementation Model</span> <ExternalLink size={11} /></a></li>
-              <li><a href="https://www.botmartz.com/work/labs/insurance-intelligence" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#0066FF] transition-colors flex items-center gap-1"><span>Insurance Intelligence Lab</span> <ExternalLink size={11} /></a></li>
+              <li><a href="https://www.botmartz.com/work/labs/insurance-intelligence" target="_blank" rel="noopener noreferrer" className="text-slate-600 hover:text-[#0066FF] transition-colors flex items-center gap-1"><span>Insurance Lab</span> <ExternalLink size={11} /></a></li>
               <li><Link href="/admin" className="text-slate-400 hover:text-slate-600 text-[11px] font-mono">Community Admin CMS →</Link></li>
             </ul>
           </div>

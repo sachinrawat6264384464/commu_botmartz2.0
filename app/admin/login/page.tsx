@@ -2,13 +2,15 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ShieldCheck, Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
+import { UserRole } from "@/lib/rbac";
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("super-admin");
+  const [role, setRole] = useState<UserRole>("super-admin");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -17,22 +19,29 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError("");
 
-    // Verify credentials
-    if (
-      (email === "botmartz@gmail.com" && password === "Admin@2026##") ||
-      (email === "soham@botmartz.com" && password === "Admin@2026##") ||
-      (email.includes("@botmartz.com") && password.length >= 6)
-    ) {
+    const normalizedEmail = email.trim().toLowerCase();
+    const cleanPass = password.trim();
+
+    // Verify Admin Credentials
+    const isSuperAdmin = (normalizedEmail === "soham@botmartz.com" && cleanPass === "Soham@271093") ||
+                         (normalizedEmail === "botmartz@gmail.com" && cleanPass === "Admin@2026##");
+
+    // Verify Manager Credentials
+    const isManager = (normalizedEmail === "manager@botmartz.com" && cleanPass === "Manager@2026##") ||
+                      (normalizedEmail.endsWith("@botmartz.com") && cleanPass.length >= 6);
+
+    if (isSuperAdmin || (role === "manager" && isManager) || (role === "volunteer" && cleanPass.length >= 6)) {
+      const finalRole = isSuperAdmin ? "super-admin" : role;
       if (typeof window !== "undefined") {
-        localStorage.setItem("botmartz_admin_role", role);
-        localStorage.setItem("botmartz_admin_email", email);
+        localStorage.setItem("botmartz_admin_role", finalRole);
+        localStorage.setItem("botmartz_admin_email", normalizedEmail);
       }
       setTimeout(() => {
         router.push("/admin");
-      }, 500);
+      }, 400);
     } else {
       setLoading(false);
-      setError("Invalid admin email or password.");
+      setError("Invalid admin email or security password.");
     }
   };
 
@@ -40,13 +49,22 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-[#FAFCFF] flex items-center justify-center p-4">
       <div className="bg-white border border-slate-200 rounded-3xl p-8 max-w-md w-full shadow-lg">
         
-        <div className="w-14 h-14 bg-blue-50 border border-blue-200 rounded-2xl flex items-center justify-center mx-auto mb-6 text-[#0066FF] shadow-2xs">
-          <ShieldCheck size={28} />
+        <div className="flex justify-center mb-6">
+          <div className="relative w-14 h-14 rounded-2xl overflow-hidden shadow-xs border border-slate-200 bg-white flex items-center justify-center p-1.5">
+            <Image
+              src="/logo.png"
+              alt="Botmartz Logo"
+              width={48}
+              height={48}
+              className="object-contain"
+              priority
+            />
+          </div>
         </div>
 
         <h1 className="text-2xl font-bold text-slate-900 text-center mb-1">Community Control Panel</h1>
         <p className="text-xs text-slate-500 text-center mb-6">
-          Sign in with authorized staff or administrator credentials.
+          Secured access for Botmartz Administrators &amp; Managers.
         </p>
 
         {error && (
@@ -62,7 +80,7 @@ export default function AdminLoginPage() {
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
               <input
                 type="email"
-                placeholder="admin@botmartz.com"
+                placeholder="soham@botmartz.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0066FF]"
@@ -87,15 +105,15 @@ export default function AdminLoginPage() {
           </div>
 
           <div>
-            <label className="block text-xs font-mono text-slate-600 mb-1.5">Assigned Role (RBAC)</label>
+            <label className="block text-xs font-mono text-slate-600 mb-1.5">Assigned Role</label>
             <select
               value={role}
-              onChange={(e) => setRole(e.target.value)}
+              onChange={(e) => setRole(e.target.value as UserRole)}
               className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
             >
-              <option value="super-admin">👑 Super Administrator (Full Access)</option>
-              <option value="event-manager">🎟️ Event / Community Lead</option>
-              <option value="volunteer">⚡ Volunteer / Scanner Staff</option>
+              <option value="super-admin">👑 Super Administrator (Soham Sharma)</option>
+              <option value="manager">🎟️ Community &amp; Event Manager</option>
+              <option value="volunteer">⚡ Event Scanner &amp; Desk Staff</option>
             </select>
           </div>
 
@@ -104,7 +122,7 @@ export default function AdminLoginPage() {
             disabled={loading}
             className="w-full bg-[#0066FF] hover:bg-[#0052CC] text-white py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-sm mt-6 cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
           >
-            {loading ? <Loader2 size={16} className="animate-spin" /> : <><span>Authenticate Session</span> <ArrowRight size={14} /></>}
+            {loading ? <Loader2 size={16} className="animate-spin" /> : <><span>Unlock Control Center</span> <ArrowRight size={14} /></>}
           </button>
         </form>
 
