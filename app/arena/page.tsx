@@ -30,7 +30,10 @@ import {
   Github,
   Instagram,
   Terminal,
-  Play
+  Play,
+  Activity,
+  Award,
+  ShieldCheck
 } from "lucide-react";
 import { ARENA_PROJECTS, ArenaProject } from "@/lib/arena-projects";
 import { AnalysisResponse } from "@/lib/resume-matcher";
@@ -156,7 +159,7 @@ export default function ArenaPage() {
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-20 pb-28">
 
       {/* =========================================================================
-          HERO SECTION: THE BUILDER & INTERNSHIP ARENA
+          HERO SECTION: THE INTERNSHIP PLAYGROUND
       ========================================================================= */}
       <section className="relative overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-[#F0F6FF] via-[#F8FAFC] to-white py-16 sm:py-24">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#0066FF]/10 blur-[130px] rounded-full pointer-events-none" />
@@ -164,28 +167,28 @@ export default function ArenaPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-[#0066FF]/30 text-[#0066FF] text-xs font-mono font-bold uppercase tracking-wider mb-6 shadow-xs">
-            <Flame size={14} className="text-amber-500 animate-pulse" />
-            <span>GANESH CHATURTHI 2026 SPECIAL • 30-DAY PRODUCTION ARENA</span>
+            <Activity size={14} className="text-[#0066FF]" />
+            <span>COHORT 1: 14TH SEPT (GANESH CHATURTHI) – DIWALI 2026</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.12]">
-            Stop Vibe-Coding. <br />
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.12] font-sans">
+            Virtual Internship Playground. <br />
             <span className="bg-gradient-to-r from-[#0066FF] via-[#00B8F0] to-[#2563EB] bg-clip-text text-transparent">
               Ship Production Engineering Systems.
             </span>
           </h1>
 
           <p className="text-slate-600 text-base sm:text-lg max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
-            Central India&apos;s most rigorous 30-Day Virtual Internship Arena. Choose from 10 deep architectural systems across <strong>AI Agents, Distributed Backends, WebGPU, Cloud &amp; Cybersecurity</strong>. Submit daily proof-of-work, pass live peer pentesting, and unlock verified industry internships.
+            Central India&apos;s premier 45-Day Virtual Internship Playground. Choose from 50 production systems across <strong>AI Agents, Satellite Geospatial, Autonomous Drones, Medical Imaging, High-Frequency FinTech, and Rust Kernels</strong>. Submit daily proof-of-work, pass automated test benchmarks, and unlock 15 direct company referrals.
           </p>
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-10">
             <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-left">
               <div className="flex items-center gap-2 text-slate-500 text-xs font-mono mb-1">
-                <Layers size={14} className="text-[#0066FF]" /> 10 Deep Systems
+                <Layers size={14} className="text-[#0066FF]" /> 50 Production Systems
               </div>
-              <div className="text-lg font-bold text-slate-900">Intermediate → GTH 💀</div>
+              <div className="text-lg font-bold text-slate-900">Multi-Domain Catalog</div>
             </div>
             <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-left">
               <div className="flex items-center gap-2 text-slate-500 text-xs font-mono mb-1">
@@ -195,29 +198,30 @@ export default function ArenaPage() {
             </div>
             <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-left">
               <div className="flex items-center gap-2 text-slate-500 text-xs font-mono mb-1">
-                <Trophy size={14} className="text-amber-500" /> Top 2 Finishers
+                <Award size={14} className="text-purple-600" /> 15 Company Referrals
               </div>
-              <div className="text-lg font-bold text-slate-900">Paid Internship Offers</div>
+              <div className="text-lg font-bold text-slate-900">Complete 3 Projects</div>
             </div>
             <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs text-left">
               <div className="flex items-center gap-2 text-slate-500 text-xs font-mono mb-1">
-                <Flame size={14} className="text-rose-500" /> &apos;Go To Hell&apos; Prize
+                <ShieldCheck size={14} className="text-blue-600" /> Saturday Teardowns
               </div>
-              <div className="text-lg font-bold text-slate-900">₹1,00,000 (5 Slots)</div>
+              <div className="text-lg font-bold text-slate-900">Indore AI Hub &amp; Discord</div>
             </div>
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs">
             <Link
               href="/arena/shippers"
-              className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-md shadow-purple-500/20 inline-flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-wider transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
-              <span>🚀 3-Project Milestone (15 Referrals)</span>
+              <Award size={15} />
+              <span>3-Project Milestone (15 Referrals)</span>
             </Link>
             <a
               href="#resume-matcher"
-              className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 inline-flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md inline-flex items-center gap-2 cursor-pointer"
             >
               <Search size={15} />
               <span>Scan Resume &amp; Match</span>

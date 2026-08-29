@@ -5,28 +5,24 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
-  Sparkles,
   ChevronDown,
   Menu,
   X,
   Calendar,
-  Award,
-  FileText,
-  ImageIcon,
-  MessageSquare,
-  Trophy,
-  Flame,
-  Rocket,
-  User,
-  Bot,
-  Coins,
-  Users,
+  Layers,
   Compass,
   Globe,
   Briefcase,
-  LogOut,
+  Users,
+  Coins,
   ShieldCheck,
-  Edit3
+  User,
+  LogOut,
+  Edit3,
+  Bot,
+  Activity,
+  Award,
+  Terminal
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
@@ -54,33 +50,32 @@ export default function CommunityNavbar() {
   }, []);
 
   const PRIMARY_LINKS = [
-    { name: "Arena ⚡", href: "/arena" },
-    { name: "Roadmaps 🗺️", href: "/arena/roadmaps" },
-    { name: "Ecosystems 🌐", href: "/arena/ecosystems" },
-    { name: "Progress Diaries 🔥", href: "/arena/progress" },
-    { name: "Leaderboard 🏆", href: "/arena/leaderboard" },
-    { name: "Calendar 🗓️", href: "/arena/calendar" },
+    { name: "Internship Playground", href: "/arena" },
+    { name: "Roadmaps", href: "/arena/roadmaps" },
+    { name: "Ecosystems", href: "/arena/ecosystems" },
+    { name: "Progress Diaries", href: "/arena/progress" },
+    { name: "Calendar", href: "/arena/calendar" },
   ];
 
   const BUILD_LINKS = [
-    { name: "Student Karma Wallet 🪙", href: "/arena/wallet", icon: Coins, desc: "Earn & redeem coins for perks & reviews" },
-    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Sparkles, desc: "Post roadblocks with coin rewards" },
-    { name: "Discord Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Form cross-functional teams" },
-    { name: "Antigravity Research Agents", href: "/arena/antigravity-guide", icon: Bot, desc: "Build autonomous research swarms" },
+    { name: "Student Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Earn and redeem coins for code reviews" },
+    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Terminal, desc: "Post technical roadblocks with bounties" },
+    { name: "Discord Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Form cross-functional builder squads" },
+    { name: "Antigravity Research Swarms", href: "/arena/antigravity-guide", icon: Bot, desc: "Build autonomous research agents" },
   ];
 
   const CAREER_LINKS = [
-    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Rocket, desc: "3 Projects → 15 Company Referrals" },
-    { name: "Stage-Based Roadmaps 🗺️", href: "/arena/roadmaps", icon: Compass, desc: "6 Engineering tracks (Stage 1 to 4)" },
-    { name: "Industry Ecosystems Radar 🌐", href: "/arena/ecosystems", icon: Globe, desc: "Defence, GovTech & Government Grants" },
-    { name: "LinkedIn & HR Outreach 💼", href: "/arena/career-checklist", icon: Briefcase, desc: "ATS profile surgery & cold email scripts" },
+    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Award, desc: "Complete 3 projects to unlock company dispatch" },
+    { name: "Stage-Based Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "6 Engineering tracks (Stage 1 to Stage 4)" },
+    { name: "Industry Ecosystems Radar", href: "/arena/ecosystems", icon: Globe, desc: "10 Industrial sectors & government grants" },
+    { name: "LinkedIn & HR Outreach", href: "/arena/career-checklist", icon: Briefcase, desc: "ATS profile optimization and cold outreach" },
   ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
         
-        {/* Brand Logo with /logo.png */}
+        {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3.5 group shrink-0">
           <div className="relative w-11 h-11 flex items-center justify-center shrink-0">
             <Image
@@ -93,12 +88,12 @@ export default function CommunityNavbar() {
             />
           </div>
           <div>
-            <div className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5">
+            <div className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5 font-sans">
               <span>BOTMARTZ</span>
               <span className="text-[#0066FF] font-black text-sm">BUILDERS</span>
             </div>
             <p className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-bold -mt-0.5">
-              Student Arena &amp; Internship
+              Virtual Internship Playground
             </p>
           </div>
         </Link>
@@ -111,7 +106,7 @@ export default function CommunityNavbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-2 rounded-xl transition-all ${
+                className={`px-3.5 py-2 rounded-xl transition-all ${
                   isActive
                     ? "bg-slate-100 text-slate-950 font-black"
                     : "hover:bg-slate-50 hover:text-slate-950 text-slate-600"
@@ -126,7 +121,7 @@ export default function CommunityNavbar() {
           <div className="relative" ref={moreMenuRef}>
             <button
               onClick={() => setMoreOpen(!moreOpen)}
-              className="px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-950 transition-all flex items-center gap-1 cursor-pointer"
+              className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-600 hover:text-slate-950 transition-all flex items-center gap-1 cursor-pointer"
             >
               <span>Explore</span>
               <ChevronDown size={13} className={`transition-transform duration-200 ${moreOpen ? "rotate-180" : ""}`} />
@@ -195,7 +190,7 @@ export default function CommunityNavbar() {
         </nav>
 
         {/* User Authentication & Action CTA */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 font-mono text-xs">
           
           {user ? (
             /* Logged In State */
@@ -205,10 +200,10 @@ export default function CommunityNavbar() {
                 {/* Karma Coins Pill */}
                 <Link
                   href="/arena/wallet"
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-900 font-mono text-xs font-bold hover:bg-amber-100 transition-all"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 font-bold hover:bg-slate-200 transition-all"
                 >
                   <Coins size={13} className="text-amber-600" />
-                  <span>{studentProfile?.karmaCoins || 100} 🪙</span>
+                  <span>{studentProfile?.karmaCoins || 100} Coins</span>
                 </Link>
 
                 {/* User Avatar Button */}
@@ -226,13 +221,13 @@ export default function CommunityNavbar() {
                         className="rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-7 h-7 rounded-full bg-[#0066FF] text-white font-mono font-bold text-xs flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-full bg-[#0066FF] text-white font-bold text-xs flex items-center justify-center">
                         {user.displayName?.charAt(0) || "S"}
                       </div>
                     )}
                     <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" />
                   </div>
-                  <span className="hidden sm:inline font-mono text-xs font-bold text-slate-800 max-w-[100px] truncate">
+                  <span className="hidden sm:inline text-xs font-bold text-slate-800 max-w-[100px] truncate">
                     {studentProfile?.displayName?.split(" ")[0] || "Student"}
                   </span>
                   <ChevronDown size={12} className="text-slate-400" />
@@ -241,7 +236,7 @@ export default function CommunityNavbar() {
 
               {/* User Dropdown Menu */}
               {userDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-72 bg-white border border-slate-200 rounded-3xl p-4 shadow-xl font-mono text-xs animate-fadeIn">
+                <div className="absolute top-full right-0 mt-2 w-72 bg-white border border-slate-200 rounded-3xl p-4 shadow-xl text-xs animate-fadeIn">
                   
                   {/* Student Card Summary */}
                   <div className="pb-3 border-b border-slate-100 mb-2">
@@ -292,7 +287,7 @@ export default function CommunityNavbar() {
                       onClick={() => setUserDropdownOpen(false)}
                       className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
                     >
-                      <Rocket size={14} className="text-emerald-600" />
+                      <Award size={14} className="text-emerald-600" />
                       <span>Shippers Circle (15 Referrals)</span>
                     </Link>
 
@@ -301,7 +296,7 @@ export default function CommunityNavbar() {
                       onClick={() => setUserDropdownOpen(false)}
                       className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-50 text-slate-700 font-bold transition-all"
                     >
-                      <Sparkles size={14} className="text-blue-600" />
+                      <Terminal size={14} className="text-blue-600" />
                       <span>Post Blocker Bounty</span>
                     </Link>
 
@@ -333,10 +328,9 @@ export default function CommunityNavbar() {
             <div className="flex items-center gap-2">
               <Link
                 href="/login"
-                className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs flex items-center gap-1.5"
+                className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-wider transition-all shadow-xs flex items-center gap-1.5"
               >
-                <span>Sign In / Join</span>
-                <span className="text-amber-400">⚡</span>
+                <span>Sign In / Verify</span>
               </Link>
             </div>
           )}
@@ -365,7 +359,7 @@ export default function CommunityNavbar() {
                 <div className="text-[11px] text-slate-500">{studentProfile?.collegeName || "Verified Student"}</div>
               </div>
               <div className="px-3 py-1 rounded-full bg-amber-100 text-amber-900 font-bold text-xs">
-                {studentProfile?.karmaCoins || 100} 🪙
+                {studentProfile?.karmaCoins || 100} Coins
               </div>
             </div>
           ) : (
@@ -397,21 +391,21 @@ export default function CommunityNavbar() {
               onClick={() => setMobileOpen(false)}
               className="block p-2 text-slate-600 font-bold"
             >
-              🪙 Student Karma Wallet
+              Student Karma Wallet
             </Link>
             <Link
               href="/arena/bounties"
               onClick={() => setMobileOpen(false)}
               className="block p-2 text-slate-600 font-bold"
             >
-              🚨 Blocker Bounty Board
+              Blocker Bounty Board
             </Link>
             <Link
               href="/arena/career-checklist"
               onClick={() => setMobileOpen(false)}
               className="block p-2 text-slate-600 font-bold"
             >
-              💼 LinkedIn &amp; HR Outreach Checklist
+              LinkedIn &amp; HR Outreach Checklist
             </Link>
           </div>
 

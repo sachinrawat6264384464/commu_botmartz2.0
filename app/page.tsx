@@ -2,12 +2,11 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  Flame,
   ArrowRight,
   CheckCircle2,
   Terminal,
   ShieldCheck,
-  Trophy,
+  Award,
   Coins,
   Compass,
   Globe,
@@ -20,7 +19,8 @@ import {
   Lock,
   Layers,
   Cpu,
-  Code2
+  Code2,
+  Activity
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 import { ROLE_ROADMAPS } from "@/lib/roadmaps";
@@ -34,7 +34,7 @@ export default async function CommunityHomePage() {
   return (
     <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
-      {/* ── 1. HERO SECTION: CRYSTAL CLEAR VALUE PROPOSITION ── */}
+      {/* ── 1. HERO SECTION: PROFESSIONAL VALUE PROPOSITION ── */}
       <section className="relative pt-16 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
@@ -42,12 +42,12 @@ export default async function CommunityHomePage() {
             
             {/* Cohort 1 Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-6 shadow-2xs">
-              <Flame size={14} className="text-orange-500 animate-pulse" />
+              <Activity size={14} className="text-[#0066FF]" />
               <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-[clamp(38px,6vw,72px)] font-black tracking-tight leading-[1.08] text-slate-950 mb-6">
+            <h1 className="text-[clamp(38px,6vw,72px)] font-black tracking-tight leading-[1.08] text-slate-950 mb-6 font-sans">
               Build Production Systems. <br />
               <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
                 Ship Daily. Get Hired.
@@ -55,8 +55,8 @@ export default async function CommunityHomePage() {
             </h1>
 
             {/* Subhead */}
-            <p className="text-base sm:text-xl text-slate-600 max-w-2xl leading-relaxed mb-8 font-mono text-xs sm:text-base">
-              The 45-Day Virtual Engineering Cohort strictly for college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech &amp; Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies &amp; founder LinkedIn recommendation</strong>.
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8 font-mono text-xs sm:text-sm">
+              The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies and founder recommendation</strong>.
             </p>
 
             {/* Primary Action Buttons */}
@@ -73,15 +73,15 @@ export default async function CommunityHomePage() {
                 href="/arena"
                 className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
               >
-                <Flame size={15} className="text-orange-500" />
+                <Terminal size={15} className="text-blue-600" />
                 <span>Explore 50 Projects Matrix</span>
               </Link>
 
               <Link
                 href="/arena/calendar"
-                className="w-full sm:w-auto bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 px-6 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-6 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
               >
-                <MapPin size={15} className="text-amber-600" />
+                <MapPin size={15} className="text-slate-600" />
                 <span>Indore Office Hours</span>
               </Link>
             </div>
@@ -102,7 +102,7 @@ export default async function CommunityHomePage() {
               </div>
               <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
                 <div className="text-xl font-black text-emerald-700">100% Free</div>
-                <div className="text-[11px] text-slate-500">For Authentic Students</div>
+                <div className="text-[11px] text-slate-500">For Verified Students</div>
               </div>
             </div>
 
@@ -117,13 +117,13 @@ export default async function CommunityHomePage() {
           
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
-              Simple 3-Step Machine
+              Structured 3-Step Machine
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
               How the 45-Day Cohort Works
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
-              No endless tutorial watching. You build real production systems tested on strict SLAs.
+              No endless tutorial watching. You build real production systems tested against automated benchmarks.
             </p>
           </div>
 
@@ -200,20 +200,20 @@ export default async function CommunityHomePage() {
         </div>
       </section>
 
-      {/* ── 3. FEATURED ARENA PROJECTS PREVIEW ── */}
+      {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
       <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-blue-400 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-500/20">
-                <Flame size={13} /> Frontier Engineering Projects
+                <Activity size={13} /> Frontier Engineering Projects
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Featured Arena Production Systems
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
+                Featured Internship Playground Systems
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
-                Zero toy apps. Every project has strict test commands (`pytest`, `k6`, `cargo test`) and SLA acceptance gates.
+                Zero toy apps. Every project has strict test commands and SLA acceptance gates.
               </p>
             </div>
 
@@ -284,10 +284,10 @@ export default async function CommunityHomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               
               <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-amber-500/30">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 text-slate-300 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-slate-700">
                   <MapPin size={14} /> Indore Flagship Meetup &amp; Global Discord
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4 font-sans">
                   Saturday Indore Office Hours &amp; Architecture Teardowns
                 </h2>
                 <p className="text-slate-300 text-xs sm:text-sm font-mono leading-relaxed mb-6">
@@ -360,7 +360,7 @@ export default async function CommunityHomePage() {
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 font-sans">
-            Ready to Build and Ship in the Arena?
+            Ready to Build in the Internship Playground?
           </h2>
 
           <p className="text-slate-600 text-xs sm:text-base font-mono max-w-2xl mx-auto mb-8">
