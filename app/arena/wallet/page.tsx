@@ -46,6 +46,18 @@ export default function StudentWalletPage() {
   const [transferring, setTransferring] = useState(false);
   const [transferSuccess, setTransferSuccess] = useState<string | null>(null);
 
+  // Buy Credits State
+  const [showTopupModal, setShowTopupModal] = useState(false);
+  const [selectedPack, setSelectedPack] = useState<any | null>(null);
+  const [buyingCredits, setBuyingCredits] = useState(false);
+  const [buySuccess, setBuySuccess] = useState<string | null>(null);
+
+  const CREDIT_PACKS = [
+    { id: "pack_500", name: "Starter Sprint Pack", coins: 500, price: 99, tag: "Beginner", desc: "Unlock immediate mock interview & code review slot." },
+    { id: "pack_2000", name: "Builder Pro Pack", coins: 2000, price: 299, tag: "🔥 Most Popular", desc: "Covers 1-on-1 founder technical clinic + printed roadmap book." },
+    { id: "pack_5000", name: "Founder Placement Pack", coins: 5000, price: 599, tag: "⚡ VIP Placement", desc: "Direct 15-company referral dispatch + cloud compute credits." },
+  ];
+
   const EARN_CHANNELS = [
     { title: "Daily PoW Standup Log", reward: "+50 Coins", desc: "Submit your daily GitHub commit and streak report.", icon: Zap },
     { title: "Publish LinkedIn Progress Diary", reward: "+50 Coins", desc: "Post verified architecture updates on LinkedIn with #BotmartzInternship.", icon: TrendingUp },
@@ -207,6 +219,48 @@ export default function StudentWalletPage() {
     }
   };
 
+  const handleBuyCredits = async (pack: any) => {
+    const targetEmail = email || user?.email;
+    if (!targetEmail) {
+      alert("Please log in or enter your student email in the box below to purchase Karma Credit Packs.");
+      return;
+    }
+
+    setBuyingCredits(true);
+    try {
+      const res = await fetch("/api/arena/wallet/topup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: targetEmail,
+          packId: pack.name,
+          amountPaid: pack.price,
+          coinsAmount: pack.coins,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setWallet((prev: any) => ({
+          ...prev,
+          coins: data.newBalance,
+          lifetimeEarned: (prev?.lifetimeEarned || 0) + pack.coins,
+        }));
+        setTransactions((prev) => [
+          { type: "EARN", amount: pack.coins, reason: `Bought ${pack.name} (₹${pack.price})`, timestamp: new Date().toISOString() },
+          ...prev,
+        ]);
+        setBuySuccess(`Successfully added ${pack.coins} Karma Coins to your balance! New Balance: ${data.newBalance} Coins.`);
+        setShowTopupModal(false);
+      } else {
+        alert(data.error || "Failed to process purchase.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Failed to process purchase.");
+    } finally {
+      setBuyingCredits(false);
+    }
+  };
+
   const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
 
   return (
@@ -249,6 +303,18 @@ export default function StudentWalletPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
         
         {/* Notification message */}
+        {buySuccess && (
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 font-mono text-xs flex items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+              <span>{buySuccess}</span>
+            </div>
+            <button onClick={() => setBuySuccess(null)} className="text-emerald-700 hover:text-emerald-900 cursor-pointer">
+              <X size={14} />
+            </button>
+          </div>
+        )}
+
         {redeemSuccess && (
           <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 font-mono text-xs flex items-center justify-between gap-3 shadow-xs">
             <div className="flex items-center gap-2">
@@ -290,20 +356,93 @@ export default function StudentWalletPage() {
               </span>
             </div>
             <p className="text-xs text-slate-400 font-mono mt-1">
-              Account: <strong className="text-white">{email || "Guest Account"}</strong>
+              Account: <strong className="text-white">{email || user?.email || "Guest Account"}</strong>
             </p>
           </div>
 
-          {/* Quick Stats Grid */}
-          <div className="grid grid-cols-2 gap-3 font-mono text-xs shrink-0 w-full sm:w-auto">
-            <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80">
-              <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Lifetime Earned</span>
-              <span className="text-lg font-bold text-emerald-400">+{wallet?.lifetimeEarned || 250} Coins</span>
+          {/* Quick Stats Grid & Buy Credits Trigger */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 font-mono text-xs shrink-0 w-full sm:w-auto">
+            <div className="grid grid-cols-2 gap-3 w-full sm:w-auto">
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Lifetime Earned</span>
+                <span className="text-lg font-bold text-emerald-400">+{wallet?.lifetimeEarned || 250} Coins</span>
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Perks Redeemed</span>
+                <span className="text-lg font-bold text-purple-400">-{wallet?.spent || 100} Coins</span>
+              </div>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80">
-              <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Perks Redeemed</span>
-              <span className="text-lg font-bold text-purple-400">-{wallet?.spent || 100} Coins</span>
+
+            <button
+              onClick={() => {
+                setSelectedPack(CREDIT_PACKS[1]);
+                setShowTopupModal(true);
+              }}
+              className="w-full sm:w-auto px-5 py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Zap size={15} className="text-slate-950 fill-slate-950" />
+              <span>Buy Credit Pack</span>
+            </button>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            BUY KARMA CREDIT PACKS (PRICED FOR INDIAN STUDENTS)
+        ========================================================================= */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs font-mono font-bold text-[#0066FF] uppercase mb-1">
+                INSTANT TOP-UP PACKS
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 font-sans">
+                Buy Karma Credits &amp; Accelerate Rewards
+              </h2>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
+                Need urgent access to mock interviews, cloud compute grants, or founder code clinics? Top-up instantly.
+              </p>
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
+            {CREDIT_PACKS.map((pack) => (
+              <div
+                key={pack.id}
+                className={`p-6 rounded-3xl border flex flex-col justify-between transition-all ${
+                  pack.tag.includes("Popular")
+                    ? "bg-gradient-to-b from-blue-50/80 to-white border-[#0066FF] shadow-md ring-2 ring-[#0066FF]/20"
+                    : "bg-white border-slate-200 shadow-xs hover:border-slate-300"
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px]">
+                      {pack.tag}
+                    </span>
+                    <span className="text-xl font-black text-slate-900">₹{pack.price}</span>
+                  </div>
+
+                  <h3 className="font-bold text-slate-900 text-base font-sans mb-1">{pack.name}</h3>
+                  <div className="text-2xl font-black text-[#0066FF] mb-2">+{pack.coins} Coins</div>
+                  <p className="text-slate-600 font-sans text-xs leading-relaxed">{pack.desc}</p>
+                </div>
+
+                <button
+                  onClick={() => {
+                    setSelectedPack(pack);
+                    setShowTopupModal(true);
+                  }}
+                  className={`w-full mt-5 py-3 rounded-2xl font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                    pack.tag.includes("Popular")
+                      ? "bg-[#0066FF] hover:bg-[#0052CC] text-white shadow-xs"
+                      : "bg-slate-900 hover:bg-slate-800 text-white"
+                  }`}
+                >
+                  <Coins size={14} />
+                  <span>Buy for ₹{pack.price}</span>
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -583,6 +722,66 @@ export default function StudentWalletPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          BUY KARMA CREDITS MODAL
+      ========================================================================= */}
+      {showTopupModal && selectedPack && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl font-mono text-xs space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-bold text-[10px]">
+                {selectedPack.tag}
+              </span>
+              <button onClick={() => setShowTopupModal(false)} className="text-slate-400 hover:text-slate-600">
+                <X size={16} />
+              </button>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-slate-900 font-sans mb-1">
+                Confirm Karma Pack Purchase
+              </h3>
+              <p className="text-slate-500 text-[11px]">
+                Instant top-up credited to: <strong>{email || user?.email || "Current Active Student"}</strong>
+              </p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Selected Pack:</span>
+                <span className="font-bold text-slate-900">{selectedPack.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Karma Credits Added:</span>
+                <span className="font-bold text-[#0066FF]">+{selectedPack.coins} Coins</span>
+              </div>
+              <div className="flex justify-between text-sm pt-2 border-t border-slate-200 font-bold">
+                <span className="text-slate-900">Total Price:</span>
+                <span className="text-emerald-600">₹{selectedPack.price}</span>
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowTopupModal(false)}
+                className="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={buyingCredits}
+                onClick={() => handleBuyCredits(selectedPack)}
+                className="flex-1 py-3 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md"
+              >
+                {buyingCredits ? <Loader2 size={14} className="animate-spin" /> : <span>Pay ₹{selectedPack.price} &amp; Top-up</span>}
+              </button>
+            </div>
           </div>
         </div>
       )}

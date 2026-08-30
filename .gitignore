@@ -10,3 +10,6 @@ yarn-debug.log*
 yarn-error.log*
 botmartz-100-community-partnership-targets*.md
 botmartz-builders-community-operating-plan*.md
+*-firebase-adminsdk-*.json
+*.service-account.json
+

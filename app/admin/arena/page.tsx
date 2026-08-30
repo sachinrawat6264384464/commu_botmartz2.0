@@ -17,7 +17,8 @@ import {
   Sparkles,
   Loader2,
   HardDrive,
-  Rocket
+  Rocket,
+  Plus
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
@@ -34,10 +35,28 @@ export default function AdminArenaDashboardPage() {
   const [recentLogs, setRecentLogs] = useState<any[]>([]);
   const [recentBugs, setRecentBugs] = useState<any[]>([]);
   const [claims, setClaims] = useState<any[]>([]);
+  const [customProjects, setCustomProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"students" | "logs" | "bugs" | "gth" | "shippers">("students");
+  const [activeTab, setActiveTab] = useState<"students" | "shippers" | "logs" | "bugs" | "gth" | "projects">("students");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDifficulty, setFilterDifficulty] = useState("All");
+
+  // Add Project Modal State
+  const [showAddProjectModal, setShowAddProjectModal] = useState(false);
+  const [projectForm, setProjectForm] = useState({
+    title: "",
+    tagline: "",
+    difficulty: "Hard",
+    domain: "AI Agents & State Machines",
+    techStack: "Python, FastAPI, LangGraph, Docker",
+    targetRoles: "AI Engineer, Backend Dev",
+    overview: "",
+    architectureNotes: "",
+    databaseSchema: "CREATE TABLE submissions (id UUID PRIMARY KEY, status TEXT);",
+    durationDays: "45",
+  });
+  const [isSavingProject, setIsSavingProject] = useState(false);
+  const [projectMsg, setProjectMsg] = useState("");
 
   const loadData = async () => {
     setLoading(true);
@@ -50,6 +69,12 @@ export default function AdminArenaDashboardPage() {
         setRecentLogs(data.recentLogs || []);
         setRecentBugs(data.recentBugs || []);
         setClaims(data.recentClaims || []);
+      }
+      
+      const pRes = await fetch("/api/admin/arena/projects");
+      const pData = await pRes.json();
+      if (pData.success) {
+        setCustomProjects(pData.customProjects || []);
       }
     } catch (e) {
       console.error("Failed to load arena admin data:", e);
@@ -246,6 +271,15 @@ export default function AdminArenaDashboardPage() {
             }`}
           >
             Expert Tier Finalists ({gthEnrollments.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("projects")}
+            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
+              activeTab === "projects" ? "bg-emerald-600 text-white shadow-xs" : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+            }`}
+          >
+            <Layers size={13} />
+            <span>Manage Projects PRDs ({customProjects.length + 50})</span>
           </button>
         </div>
 
@@ -513,51 +547,331 @@ export default function AdminArenaDashboardPage() {
                   ))
                 )}
               </tbody>
-            </table>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Tab 4: GTH 5-Slot Finalist Review Board */}
+          {activeTab === "gth" && (
+            <div className="bg-slate-950 text-white border-2 border-rose-600/80 rounded-3xl p-6 sm:p-8 shadow-2xl">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <div className="text-xs font-mono text-purple-400 uppercase font-bold">Expert Tier Evaluation Board</div>
+                  <h3 className="text-xl font-bold text-white font-sans">Expert Tier Finalists (5 Slots Max)</h3>
+                </div>
+                <div className="px-4 py-2 rounded-xl bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/40">
+                  Prize: ₹1,00,000 Total Pool
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {gthEnrollments.length === 0 ? (
+                  <div className="py-8 text-center text-slate-400 font-mono text-xs">
+                    No applicants for the GTH extreme tier yet.
+                  </div>
+                ) : (
+                  gthEnrollments.map((g, idx) => (
+                    <div key={g.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 rounded bg-rose-600 text-white font-bold">Slot #{idx + 1}</span>
+                          <span className="text-base font-bold text-white">{g.name}</span>
+                          <span className="text-slate-400 text-xs">({g.email})</span>
+                        </div>
+                        <div className="text-slate-400 text-[11px] mt-1">
+                          Role: {g.role} • WhatsApp: {g.whatsapp} • GitHub: {g.github || "N/A"}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <span className="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 text-[11px] font-bold border border-amber-500/40">
+                          Under Strict Audit
+                        </span>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Tab 5: Dynamic Projects Catalog & Add/Remove PRDs */}
+          {activeTab === "projects" && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-xs">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900 font-sans">Arena System PRDs &amp; Dynamic Blueprints</h3>
+                  <p className="text-xs text-slate-500 font-sans mt-0.5">
+                Manage all 50 built-in systems plus custom client/startup PRDs deployed to the live student arena.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowAddProjectModal(true)}
+              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase transition-all shadow-xs flex items-center gap-2 cursor-pointer shrink-0"
+            >
+              <Plus size={14} /> Add New Arena Project PRD
+            </button>
+          </div>
+
+          {projectMsg && (
+            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">
+              {projectMsg}
+            </div>
+          )}
+
+          {/* Custom Admin Added Projects Table */}
+          <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs">
+            <div className="p-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-900 text-xs uppercase flex items-center justify-between">
+              <span>Custom Admin Added Projects ({customProjects.length})</span>
+              <span className="text-slate-500 text-[11px] font-normal">Real-time Firestore Database</span>
+            </div>
+
+            {customProjects.length === 0 ? (
+              <div className="p-8 text-center text-slate-400 font-sans">
+                No custom projects added yet. Click "+ Add New Arena Project PRD" above to create your first dynamic system.
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs font-mono">
+                  <thead>
+                    <tr className="bg-slate-50/50 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
+                      <th className="py-3 px-4">Title &amp; Tagline</th>
+                      <th className="py-3 px-4">Domain</th>
+                      <th className="py-3 px-4">Difficulty</th>
+                      <th className="py-3 px-4">Tech Stack</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {customProjects.map((cp) => (
+                      <tr key={cp.id} className="hover:bg-slate-50">
+                        <td className="py-3 px-4 max-w-xs">
+                          <div className="font-bold text-slate-900 font-sans">{cp.title}</div>
+                          <div className="text-slate-500 text-[11px] font-sans truncate">{cp.tagline}</div>
+                        </td>
+                        <td className="py-3 px-4 text-slate-600">{cp.domain}</td>
+                        <td className="py-3 px-4">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                            cp.difficulty === "Insane" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-[#0066FF]"
+                          }`}>
+                            {cp.difficulty}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-slate-500 text-[11px]">{Array.isArray(cp.techStack) ? cp.techStack.join(", ") : cp.techStack}</td>
+                        <td className="py-3 px-4 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <a
+                              href={`/arena/${cp.slug || cp.id}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"
+                            >
+                              <ExternalLink size={13} />
+                            </a>
+                            <button
+                              onClick={async () => {
+                                if (!confirm(`Delete project "${cp.title}"?`)) return;
+                                try {
+                                  const res = await fetch(`/api/admin/arena/projects?projectId=${cp.id}`, { method: "DELETE" });
+                                  const d = await res.json();
+                                  if (d.success) {
+                                    setCustomProjects((prev) => prev.filter((p) => p.id !== cp.id));
+                                  }
+                                } catch (err) {
+                                  console.error("Delete project error:", err);
+                                }
+                              }}
+                              className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 cursor-pointer"
+                              title="Delete project"
+                            >
+                              <Bug size={13} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Built-in 50 Projects Preview Table */}
+          <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs">
+            <div className="p-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-900 text-xs uppercase flex items-center justify-between">
+              <span>Static Built-in Flagship Projects ({ARENA_PROJECTS.length})</span>
+              <span className="text-slate-500 text-[11px] font-normal">Pre-rendered SSG Architecture</span>
+            </div>
+
+            <div className="overflow-x-auto max-h-96 overflow-y-auto">
+              <table className="w-full text-left border-collapse text-xs font-mono">
+                <thead>
+                  <tr className="bg-slate-50/50 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
+                    <th className="py-3 px-4">Title</th>
+                    <th className="py-3 px-4">Domain</th>
+                    <th className="py-3 px-4">Difficulty</th>
+                    <th className="py-3 px-4 text-right">View PRD</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {ARENA_PROJECTS.map((p) => (
+                    <tr key={p.id} className="hover:bg-slate-50">
+                      <td className="py-2.5 px-4 font-bold text-slate-900 font-sans">{p.title}</td>
+                      <td className="py-2.5 px-4 text-slate-600">{p.domain}</td>
+                      <td className="py-2.5 px-4">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                          p.difficulty === "Insane" ? "bg-purple-100 text-purple-800" : p.difficulty === "Expert Tier" ? "bg-slate-900 text-purple-300" : "bg-blue-100 text-[#0066FF]"
+                        }`}>
+                          {p.difficulty}
+                        </span>
+                      </td>
+                      <td className="py-2.5 px-4 text-right">
+                        <a
+                          href={`/arena/${p.slug}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold inline-flex items-center gap-1"
+                        >
+                          <span>PRD</span>
+                          <ExternalLink size={11} />
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Tab 4: GTH 5-Slot Finalist Review Board */}
-      {activeTab === "gth" && (
-        <div className="bg-slate-950 text-white border-2 border-rose-600/80 rounded-3xl p-6 sm:p-8 shadow-2xl">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <div className="text-xs font-mono text-purple-400 uppercase font-bold">Expert Tier Evaluation Board</div>
-              <h3 className="text-xl font-bold text-white">Expert Tier Finalists (5 Slots Max)</h3>
+      {/* Add Project Modal */}
+      {showAddProjectModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto font-mono text-xs">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+              <h3 className="text-base font-bold text-slate-900 font-sans">Add New Arena Project PRD</h3>
+              <button onClick={() => setShowAddProjectModal(false)} className="text-slate-400 hover:text-slate-600">
+                <Filter size={16} />
+              </button>
             </div>
-            <div className="px-4 py-2 rounded-xl bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/40">
-              Prize: ₹1,00,000 Total Pool
-            </div>
-          </div>
 
-          <div className="space-y-4">
-            {gthEnrollments.length === 0 ? (
-              <div className="py-8 text-center text-slate-400 font-mono text-xs">
-                No applicants for the GTH extreme tier yet.
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setIsSavingProject(true);
+                setProjectMsg("");
+                try {
+                  const res = await fetch("/api/admin/arena/projects", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(projectForm),
+                  });
+                  const data = await res.json();
+                  if (data.success) {
+                    setProjectMsg("New Arena Project added successfully!");
+                    setShowAddProjectModal(false);
+                    loadData();
+                  } else {
+                    setProjectMsg(data.error || "Failed to create project.");
+                  }
+                } catch (err: any) {
+                  setProjectMsg(err.message || "Failed to create project.");
+                } finally {
+                  setIsSavingProject(false);
+                }
+              }}
+              className="space-y-3.5"
+            >
+              <div>
+                <label className="block text-slate-700 font-bold mb-1">Project Title *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Distributed ClickHouse Log Stream Analytics"
+                  value={projectForm.title}
+                  onChange={(e) => setProjectForm({ ...projectForm, title: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                />
               </div>
-            ) : (
-              gthEnrollments.map((g, idx) => (
-                <div key={g.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded bg-rose-600 text-white font-bold">Slot #{idx + 1}</span>
-                      <span className="text-base font-bold text-white">{g.name}</span>
-                      <span className="text-slate-400 text-xs">({g.email})</span>
-                    </div>
-                    <div className="text-slate-400 text-[11px] mt-1">
-                      Role: {g.role} • WhatsApp: {g.whatsapp} • GitHub: {g.github || "N/A"}
-                    </div>
-                  </div>
 
-                  <div className="flex items-center gap-2">
-                    <span className="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 text-[11px] font-bold border border-amber-500/40">
-                      Under Strict Audit
-                    </span>
-                  </div>
+              <div>
+                <label className="block text-slate-700 font-bold mb-1">Tagline (One-liner pitch) *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Ingest 50k events/sec with vector anomaly detection under 50ms latency."
+                  value={projectForm.tagline}
+                  onChange={(e) => setProjectForm({ ...projectForm, tagline: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-700 font-bold mb-1">Difficulty</label>
+                  <select
+                    value={projectForm.difficulty}
+                    onChange={(e) => setProjectForm({ ...projectForm, difficulty: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                  >
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Hard">Hard</option>
+                    <option value="Insane">Insane (Founder Track)</option>
+                    <option value="Expert Tier">Expert Tier</option>
+                  </select>
                 </div>
-              ))
-            )}
+
+                <div>
+                  <label className="block text-slate-700 font-bold mb-1">Domain</label>
+                  <select
+                    value={projectForm.domain}
+                    onChange={(e) => setProjectForm({ ...projectForm, domain: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                  >
+                    <option value="AI Agents & State Machines">AI Agents & State Machines</option>
+                    <option value="High-Frequency Telemetry">High-Frequency Telemetry</option>
+                    <option value="Geospatial & Satellite AI">Geospatial & Satellite AI</option>
+                    <option value="Clinical Healthcare AI">Clinical Healthcare AI</option>
+                    <option value="GraphRAG & Knowledge Topology">GraphRAG & Knowledge Topology</option>
+                    <option value="Autonomous Red-Team Cybersecurity">Cybersecurity & Pen-test</option>
+                    <option value="Fullstack Web & Realtime Systems">Fullstack Realtime Systems</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-700 font-bold mb-1">Tech Stack (comma separated)</label>
+                <input
+                  type="text"
+                  placeholder="Python, FastAPI, Qdrant, Docker, Redis"
+                  value={projectForm.techStack}
+                  onChange={(e) => setProjectForm({ ...projectForm, techStack: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-700 font-bold mb-1">Detailed PRD Overview *</label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Describe the architectural requirements, SLA latency goals, benchmark targets, and failure edge cases..."
+                  value={projectForm.overview}
+                  onChange={(e) => setProjectForm({ ...projectForm, overview: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSavingProject}
+                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {isSavingProject ? <Loader2 size={15} className="animate-spin" /> : <span>Publish New Arena Project PRD</span>}
+              </button>
+            </form>
           </div>
         </div>
       )}

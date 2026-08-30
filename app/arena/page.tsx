@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Sparkles,
@@ -40,6 +40,7 @@ import { AnalysisResponse } from "@/lib/resume-matcher";
 
 export default function ArenaPage() {
   // State for Bifurcation & Filters
+  const [allProjectsList, setAllProjectsList] = useState<ArenaProject[]>(ARENA_PROJECTS);
   const [bifurcationTab, setBifurcationTab] = useState<"All" | "Insane" | "Warmup" | "Featured">("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("All");
   const [selectedDomain, setSelectedDomain] = useState<string>("All");
@@ -50,8 +51,20 @@ export default function ArenaPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 9;
 
+  // Fetch custom admin projects on mount
+  useEffect(() => {
+    fetch("/api/admin/arena/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.customProjects && data.customProjects.length > 0) {
+          setAllProjectsList([...data.customProjects, ...ARENA_PROJECTS]);
+        }
+      })
+      .catch((e) => console.warn("Could not fetch custom projects:", e));
+  }, []);
+
   // Extract unique domains and roles
-  const allDomains = Array.from(new Set(ARENA_PROJECTS.map((p) => p.domain))).sort();
+  const allDomains = Array.from(new Set(allProjectsList.map((p) => p.domain))).sort();
   const allRoles = [
     "AI Engineer",
     "Backend Dev",
@@ -95,7 +108,7 @@ export default function ArenaPage() {
   const [enrollError, setEnrollError] = useState("");
 
   // Filter projects
-  const filteredProjects = ARENA_PROJECTS.filter((p) => {
+  const filteredProjects = allProjectsList.filter((p) => {
     // 1. Bifurcation tab
     if (bifurcationTab === "Insane") {
       if (p.difficulty !== "Insane" && p.difficulty !== "Expert Tier") return false;

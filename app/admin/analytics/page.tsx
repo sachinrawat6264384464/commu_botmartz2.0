@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   BarChart3, 
   TrendingUp, 
@@ -12,69 +12,103 @@ import {
   Globe, 
   Eye, 
   Share2, 
-  MessageSquare,
-  Sparkles,
-  Filter
+  MessageSquare, 
+  Sparkles, 
+  Filter,
+  Loader2,
+  RefreshCw,
+  Trophy,
+  Flame,
+  CheckCircle2,
+  GraduationCap
 } from "lucide-react";
 
 export default function AnalyticsDashboardPage() {
   const [timeRange, setTimeRange] = useState("30d");
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>(null);
 
-  const STATS = [
-    { label: "Total Community Reach", value: "14,820", change: "+28.4%", icon: Eye, color: "text-[#0066FF] bg-blue-50" },
-    { label: "Active Registered Builders", value: "2,410", change: "+18.2%", icon: Users, color: "text-emerald-600 bg-emerald-50" },
-    { label: "Weekly Ritual Participation", value: "680+", change: "+35.0%", icon: Activity, color: "text-purple-600 bg-purple-50" },
-    { label: "Pass Revenue / Conversions", value: "₹4,12,000", change: "+42.5%", icon: Zap, color: "text-amber-600 bg-amber-50" },
-  ];
-
-  const RITUAL_METRICS = [
-    {
-      ritual: "Showcase Thursdays",
-      cadence: "Every Thursday",
-      attendees: "340 Active Watchers",
-      projectsShipped: "18 Builds / week",
-      avgUpvotes: "64 upvotes / project",
-      health: "98% High Engagement"
-    },
-    {
-      ritual: "Resume & Portfolio Review",
-      cadence: "Every Wednesday",
-      attendees: "120 Submissions Reviewed",
-      projectsShipped: "24 Offers Received",
-      avgUpvotes: "1-on-1 Feedback",
-      health: "100% Slot Fullness"
-    },
-    {
-      ritual: "Monthly AI Architect AMA",
-      cadence: "Every 3rd Saturday",
-      attendees: "520 RSVPs",
-      projectsShipped: "45 Q&As answered live",
-      avgUpvotes: "96% 5-Star Rating",
-      health: "Next: Sept 19, 2026"
+  const fetchAnalytics = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/admin/analytics?timeRange=${timeRange}`);
+      const json = await res.json();
+      if (json.success) {
+        setData(json.metrics);
+      }
+    } catch (e) {
+      console.error("Failed to load live analytics:", e);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
-  const CITY_DATA = [
-    { city: "Indore (Host Hub)", builders: 720, share: "29.8%" },
-    { city: "Bangalore", builders: 540, share: "22.4%" },
-    { city: "Pune", builders: 380, share: "15.7%" },
-    { city: "Mumbai", builders: 310, share: "12.8%" },
-    { city: "Delhi NCR", builders: 260, share: "10.7%" },
-    { city: "International / Remote", builders: 200, share: "8.6%" },
+  useEffect(() => {
+    fetchAnalytics();
+  }, [timeRange]);
+
+  const stats = [
+    {
+      label: "Registered Builders",
+      value: data ? (data.totalStudents || 0).toLocaleString("en-IN") : "...",
+      sub: `${data?.sortedColleges?.length || 0} Universities`,
+      icon: Users,
+      color: "text-emerald-600 bg-emerald-50",
+    },
+    {
+      label: "Arena Project Enrollments",
+      value: data ? (data.totalEnrollments || 0).toLocaleString("en-IN") : "...",
+      sub: `${data?.difficultyBreakdown?.Insane || 0} Insane Tier`,
+      icon: Flame,
+      color: "text-[#0066FF] bg-blue-50",
+    },
+    {
+      label: "Daily PoW Logs Submitted",
+      value: data ? (data.totalDailyLogs || 0).toLocaleString("en-IN") : "...",
+      sub: `${data?.totalUgcSubmissions || 0} LinkedIn Proofs`,
+      icon: Activity,
+      color: "text-purple-600 bg-purple-50",
+    },
+    {
+      label: "Pass Revenue / Paid Conversions",
+      value: data ? `₹${(data.totalPassRevenue || 0).toLocaleString("en-IN")}` : "...",
+      sub: `${data?.totalPaidOrders || 0} Verified Passes`,
+      icon: Zap,
+      color: "text-amber-600 bg-amber-50",
+    },
   ];
 
   const handleExportCSV = () => {
-    const csvContent = "data:text/csv;charset=utf-8," + 
-      "Metric,Value,Period\n" +
-      "Community Reach,14820,Last 30 Days\n" +
-      "Active Builders,2410,Last 30 Days\n" +
-      "Showcase Thursdays Avg,340,Weekly\n" +
-      "Wednesday Resume Reviews,120,Weekly\n" +
-      "Monthly AMAs RSVPs,520,Monthly\n";
+    if (!data) return;
+
+    const rows = [
+      ["Metric", "Value", "Notes"],
+      ["Total Registered Students", data.totalStudents, "student_profiles collection"],
+      ["Total Arena Enrollments", data.totalEnrollments, "arena_enrollments collection"],
+      ["Insane Tier Enrollments", data.difficultyBreakdown?.Insane || 0, "Crucible PRDs"],
+      ["Hard Tier Enrollments", data.difficultyBreakdown?.Hard || 0, "Advanced PRDs"],
+      ["Intermediate Tier Enrollments", data.difficultyBreakdown?.Intermediate || 0, "Warmup PRDs"],
+      ["Expert Championship Applicants", data.difficultyBreakdown?.["Expert Tier"] || 0, "Kernel eBPF"],
+      ["Daily Standup PoW Logs", data.totalDailyLogs, "Daily commit records"],
+      ["LinkedIn UGC Proofs", data.totalUgcSubmissions, "Career checklist verified"],
+      ["Total Pass Revenue", `₹${data.totalPassRevenue}`, "Razorpay & verified payments"],
+      ["Active Discussions", data.totalDiscussions, "Community forum threads"],
+      ["Event Registrations", data.totalEventsRsvps, "Luma & onsite attendees"],
+    ];
+
+    if (data.sortedColleges && data.sortedColleges.length > 0) {
+      rows.push(["", "", ""]);
+      rows.push(["Top Colleges", "Student Count", ""]);
+      data.sortedColleges.forEach((c: any) => {
+        rows.push([c.name, c.count, ""]);
+      });
+    }
+
+    const csvContent = "data:text/csv;charset=utf-8," + rows.map((e) => e.join(",")).join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `botmartz-community-analytics-${Date.now()}.csv`);
+    link.setAttribute("download", `botmartz-live-telemetry-${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -86,169 +120,206 @@ export default function AnalyticsDashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
-          <div className="text-xs font-mono text-[#0066FF] uppercase font-bold tracking-wider mb-1">
-            EXECUTIVE TELEMETRY &amp; SCALE METRICS
+          <div className="text-xs font-mono text-[#0066FF] uppercase font-bold tracking-wider mb-1 flex items-center gap-2">
+            <Activity size={13} className="animate-pulse text-emerald-500" />
+            <span>LIVE FIRESTORE TELEMETRY &amp; METRICS</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Community Growth &amp; Engagement Analytics</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 font-sans">
+            Community Growth &amp; Engagement Analytics
+          </h1>
+          <p className="text-xs text-slate-500 font-mono mt-1">
+            Real-time aggregates querying authentic student profiles, commit streaks, and verified pass revenue.
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={fetchAnalytics}
+            className="p-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 cursor-pointer transition-all"
+            title="Refresh Live Metrics"
+          >
+            <RefreshCw size={14} className={loading ? "animate-spin text-[#0066FF]" : ""} />
+          </button>
+
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-700 shadow-2xs focus:outline-none"
+            className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono text-slate-700 shadow-2xs focus:outline-none cursor-pointer"
           >
             <option value="7d">Last 7 Days</option>
             <option value="30d">Last 30 Days</option>
             <option value="90d">Last 90 Days</option>
-            <option value="1y">All Time</option>
+            <option value="1y">All Time (Active Cohort)</option>
           </select>
 
           <button
             onClick={handleExportCSV}
-            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+            disabled={loading || !data}
+            className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
           >
-            <Download size={14} /> Export CSV Report
+            <Download size={14} /> Export Live CSV
           </button>
         </div>
       </div>
 
-      {/* Top Stat Cards */}
+      {/* Top Real Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {STATS.map((s, idx) => (
-          <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+        {stats.map((s, idx) => (
+          <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs relative overflow-hidden">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-mono text-slate-500 uppercase">{s.label}</span>
+              <span className="text-xs font-mono text-slate-500 uppercase font-semibold">{s.label}</span>
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${s.color}`}>
                 <s.icon size={18} />
               </div>
             </div>
-            <div className="text-3xl font-bold font-mono text-slate-900 mb-2">{s.value}</div>
-            <div className="text-[11px] font-mono text-emerald-600 flex items-center gap-1 font-bold">
-              <TrendingUp size={12} />
-              <span>{s.change} vs previous period</span>
+            <div className="text-3xl font-bold font-mono text-slate-900 mb-2">
+              {loading ? <Loader2 size={24} className="animate-spin text-slate-400" /> : s.value}
+            </div>
+            <div className="text-[11px] font-mono text-slate-600 flex items-center gap-1 font-semibold">
+              <CheckCircle2 size={12} className="text-emerald-500" />
+              <span>{s.sub}</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Weekly Community Rituals Telemetry */}
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+      {/* Difficulty Breakdown & Track Health */}
+      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-mono text-xs">
         <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">Community Ritual Performance</h2>
-            <p className="text-xs text-slate-500">Live metrics across Showcase Thursdays, Wednesday Resume Teardowns, and 3rd Saturday AMAs.</p>
+            <h2 className="text-lg font-bold text-slate-900 font-sans">Arena Difficulty Breakdown &amp; Track Funnel</h2>
+            <p className="text-xs text-slate-500 font-sans mt-0.5">Real-time enrollment distribution across 50 production systems.</p>
           </div>
-          <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono text-[10px] font-bold">
-            ALL RITUALS ACTIVE
+          <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
+            LIVE SYNC
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {RITUAL_METRICS.map((r, idx) => (
-            <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-mono text-[#0066FF] font-bold uppercase">{r.cadence}</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-slate-600 border border-slate-200 font-bold">
-                    {r.health}
-                  </span>
-                </div>
-                <h3 className="font-bold text-slate-900 text-base mb-4">{r.ritual}</h3>
-                
-                <div className="space-y-2 text-xs font-mono text-slate-600">
-                  <div className="flex justify-between py-1 border-b border-slate-200/60">
-                    <span className="text-slate-400">Participation:</span>
-                    <span className="font-bold text-slate-800">{r.attendees}</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-200/60">
-                    <span className="text-slate-400">Output Metric:</span>
-                    <span className="font-bold text-purple-700">{r.projectsShipped}</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-slate-400">Quality Score:</span>
-                    <span className="font-bold text-emerald-600">{r.avgUpvotes}</span>
-                  </div>
-                </div>
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-200">
+            <div className="text-[10px] text-blue-700 uppercase font-bold mb-1">Intermediate Warmups</div>
+            <div className="text-2xl font-bold text-slate-900">
+              {data?.difficultyBreakdown?.Intermediate || 0}
             </div>
-          ))}
+            <p className="text-[11px] text-slate-600 mt-1 font-sans">Foundational fullstack &amp; ETL warmups</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200">
+            <div className="text-[10px] text-amber-700 uppercase font-bold mb-1">Hard Production</div>
+            <div className="text-2xl font-bold text-slate-900">
+              {data?.difficultyBreakdown?.Hard || 0}
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1 font-sans">Distributed pipelines &amp; SLM agents</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-purple-50/60 border border-purple-200">
+            <div className="text-[10px] text-purple-700 uppercase font-bold mb-1">🔥 Insane Crucible Track</div>
+            <div className="text-2xl font-bold text-slate-900">
+              {data?.difficultyBreakdown?.Insane || 0}
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1 font-sans">Founder Referral &amp; SLA Crucible</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-slate-950 text-white border border-purple-500/40">
+            <div className="text-[10px] text-purple-300 uppercase font-bold mb-1">Expert Championship</div>
+            <div className="text-2xl font-bold text-amber-400">
+              {data?.difficultyBreakdown?.["Expert Tier"] || 0}
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1 font-sans">Kernel eBPF &amp; Sub-10µs Sandboxing</p>
+          </div>
         </div>
       </div>
 
-      {/* Conversion Funnel & Geographic Heatmap */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* College & Role Distribution Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 font-mono text-xs">
         
-        {/* Pass Conversion Funnel */}
+        {/* Top Colleges */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
-          <h2 className="text-lg font-bold text-slate-900 mb-2">Summit &amp; Cohort Conversion Funnel</h2>
-          <p className="text-xs text-slate-500 mb-6">Visitor journey to paid pass ticket confirmation.</p>
-
-          <div className="space-y-4">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <div className="flex justify-between text-xs font-mono mb-1.5">
-                <span className="text-slate-600 font-semibold">1. Landing Page Views</span>
-                <span className="text-slate-900 font-bold">14,820 (100%)</span>
-              </div>
-              <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
-                <div className="h-full bg-[#0066FF] rounded-full" style={{ width: "100%" }} />
-              </div>
+              <h2 className="text-lg font-bold text-slate-900 font-sans">Top Builder Colleges &amp; Campuses</h2>
+              <p className="text-xs text-slate-500 font-sans mt-0.5">Institutions with the highest active shippers.</p>
             </div>
+            <GraduationCap size={20} className="text-[#0066FF]" />
+          </div>
 
-            <div>
-              <div className="flex justify-between text-xs font-mono mb-1.5">
-                <span className="text-slate-600 font-semibold">2. Viewed Event / Pass Tiers</span>
-                <span className="text-slate-900 font-bold">6,240 (42.1%)</span>
+          <div className="space-y-2.5 mt-4">
+            {data?.sortedColleges && data.sortedColleges.length > 0 ? (
+              data.sortedColleges.map((c: any, idx: number) => (
+                <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <span className="font-bold text-slate-800 font-sans truncate max-w-[280px]">
+                    {idx + 1}. {c.name || "Independent Learner"}
+                  </span>
+                  <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-[#0066FF] font-bold">
+                    {c.count} builders
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-slate-400 font-sans">
+                Awaiting student profile university submissions...
               </div>
-              <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
-                <div className="h-full bg-[#0092D7] rounded-full" style={{ width: "42.1%" }} />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-mono mb-1.5">
-                <span className="text-slate-600 font-semibold">3. Checkout Initiated (Razorpay / UPI)</span>
-                <span className="text-slate-900 font-bold">890 (6.0%)</span>
-              </div>
-              <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
-                <div className="h-full bg-purple-600 rounded-full" style={{ width: "6%" }} />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between text-xs font-mono mb-1.5">
-                <span className="text-slate-600 font-semibold">4. Confirmed &amp; Ticket Issued</span>
-                <span className="text-emerald-600 font-bold">520 (3.5%)</span>
-              </div>
-              <div className="w-full h-3 rounded-full bg-slate-100 overflow-hidden">
-                <div className="h-full bg-emerald-500 rounded-full" style={{ width: "3.5%" }} />
-              </div>
-            </div>
+            )}
           </div>
         </div>
 
-        {/* Geographic Distribution */}
+        {/* Top Squad Roles */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-slate-900">Builder Demographics by Hub</h2>
-            <Globe size={18} className="text-slate-400" />
+            <div>
+              <h2 className="text-lg font-bold text-slate-900 font-sans">Role Representation</h2>
+              <p className="text-xs text-slate-500 font-sans mt-0.5">Primary discipline chosen by enrolled builders.</p>
+            </div>
+            <Users size={20} className="text-purple-600" />
           </div>
-          <p className="text-xs text-slate-500 mb-6">Top metropolitan centers representing registered AI engineers.</p>
 
-          <div className="space-y-3">
-            {CITY_DATA.map((c, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
-                <span className="font-bold text-slate-800">{c.city}</span>
-                <div className="flex items-center gap-4 font-mono">
-                  <span className="text-slate-600">{c.builders} builders</span>
-                  <span className="text-[#0066FF] font-bold">{c.share}</span>
+          <div className="space-y-2.5 mt-4">
+            {data?.sortedRoles && data.sortedRoles.length > 0 ? (
+              data.sortedRoles.map((r: any, idx: number) => (
+                <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+                  <span className="font-bold text-slate-800 font-sans">{r.name}</span>
+                  <span className="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-700 font-bold">
+                    {r.count} slots
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-slate-400 font-sans">
+                Awaiting role registrations...
+              </div>
+            )}
+          </div>
+        </div>
+
+      </div>
+
+      {/* Recent Enrollment Activity */}
+      {data?.recentActivity && data.recentActivity.length > 0 && (
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-mono text-xs">
+          <h2 className="text-lg font-bold text-slate-900 font-sans mb-4">Recent Verified Enrollments</h2>
+          <div className="divide-y divide-slate-100">
+            {data.recentActivity.map((act: any) => (
+              <div key={act.id} className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <span className="font-bold text-slate-900 font-sans">{act.name}</span>{" "}
+                  <span className="text-slate-500 font-mono">({act.email})</span>
+                  <p className="text-[11px] text-slate-600 font-sans mt-0.5">
+                    Project: <strong>{act.projectTitle}</strong> &bull; Role: {act.role} &bull; Team: {act.teamType}
+                  </p>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-[#0066FF] border border-blue-200">
+                    {act.difficulty}
+                  </span>
+                  <div className="text-[10px] text-slate-400 mt-1">
+                    {act.createdAt ? new Date(act.createdAt).toLocaleDateString("en-IN") : "Recent"}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
-      </div>
+      )}
 
     </div>
   );

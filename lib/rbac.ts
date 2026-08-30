@@ -69,6 +69,7 @@ export function isPathAllowed(role: UserRole, pathname: string): boolean {
   if (pathname.startsWith('/admin/team')) return perms.canManageFinance; // Super Admin only
   if (pathname.startsWith('/admin/security')) return perms.canManageFinance; // Super Admin only
   if (pathname.startsWith('/admin/feedback')) return perms.canManageEvents;
+  if (pathname.startsWith('/admin/discussions')) return perms.canModerateDiscussions;
 
   return false;
 }

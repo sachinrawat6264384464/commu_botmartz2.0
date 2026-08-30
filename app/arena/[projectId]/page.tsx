@@ -62,9 +62,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { projectId } = await params;
-  const project = ARENA_PROJECTS.find(
+  let project = ARENA_PROJECTS.find(
     (p) => p.slug === projectId || p.id === projectId
   );
+
+  if (!project) {
+    // Check custom projects from Firestore
+    try {
+      const { adminDb } = await import("@/lib/firebase-admin");
+      if (adminDb) {
+        const snap = await adminDb.collection("custom_arena_projects").where("slug", "==", projectId).limit(1).get();
+        if (!snap.empty) {
+          project = { id: snap.docs[0].id, ...snap.docs[0].data() } as any;
+        } else {
+          const byIdSnap = await adminDb.collection("custom_arena_projects").doc(projectId).get();
+          if (byIdSnap.exists) {
+            project = { id: byIdSnap.id, ...byIdSnap.data() } as any;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch custom project:", e);
+    }
+  }
 
   if (!project) {
     notFound();
