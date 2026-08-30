@@ -213,11 +213,20 @@ export default async function MemberProfilePage({ params }: Props) {
                       </span>
                     </div>
                     <p className="text-xs font-mono text-slate-500 mb-1">@{displayHandle}</p>
-                    <p className="text-xs text-slate-700 font-sans flex items-center gap-2 flex-wrap">
-                      <span className="font-bold">{college}</span>
-                      <span>&bull;</span>
-                      <span>{degreeBranch} ({gradYear})</span>
-                    </p>
+                    
+                    {studentProfile?.personaType === "WORKING_PROFESSIONAL" || studentProfile?.personaType === "FOUNDER_BUILDER" ? (
+                      <p className="text-xs text-slate-700 font-sans flex items-center gap-2 flex-wrap">
+                        <span className="font-bold text-indigo-700">{studentProfile?.companyName || "Tech Professional"}</span>
+                        <span>&bull;</span>
+                        <span>{studentProfile?.designationRole || "Software Engineer"} ({studentProfile?.yearsOfExperience || "Professional"})</span>
+                      </p>
+                    ) : (
+                      <p className="text-xs text-slate-700 font-sans flex items-center gap-2 flex-wrap">
+                        <span className="font-bold">{college}</span>
+                        <span>&bull;</span>
+                        <span>{degreeBranch} ({gradYear})</span>
+                      </p>
+                    )}
                   </div>
                 </div>
 
