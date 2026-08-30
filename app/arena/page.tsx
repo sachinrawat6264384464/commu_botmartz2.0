@@ -28,6 +28,7 @@ import {
 import { ARENA_PROJECTS, ArenaProject } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
 import BuilderProfileGateModal from "@/app/_components/BuilderProfileGateModal";
+import RazorpayModal from "@/app/_components/RazorpayModal";
 
 export default function ArenaPage() {
   const { user, studentProfile } = useAuth();
@@ -44,6 +45,7 @@ export default function ArenaPage() {
   const [selectedProjectForEnroll, setSelectedProjectForEnroll] = useState<ArenaProject | null>(null);
   const [showGateModal, setShowGateModal] = useState(false);
   const [showEnrollModal, setShowEnrollModal] = useState(false);
+  const [showRazorpayModal, setShowRazorpayModal] = useState(false);
   const [enrolling, setEnrolling] = useState(false);
   const [enrollSuccess, setEnrollSuccess] = useState(false);
   const [enrollError, setEnrollError] = useState("");
@@ -442,12 +444,13 @@ export default function ArenaPage() {
                   <p className="text-[11px] text-slate-300 font-sans">
                     Solo Fellow Track: <strong>₹299</strong> &bull; Squad Track: <strong>₹1,999</strong>
                   </p>
-                  <Link
-                    href="/arena/shippers"
-                    className="block w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-all shadow-sm"
+                  <button
+                    type="button"
+                    onClick={() => setShowRazorpayModal(true)}
+                    className="w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-all shadow-sm cursor-pointer block"
                   >
                     Upgrade to Paid Fellow Track (₹299) →
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="flex items-center gap-3 pt-2">
@@ -565,6 +568,16 @@ export default function ArenaPage() {
         title="Complete Builder Profile to Enroll"
         description="To track your 45-day commit progress, assign PRD repositories, and verify your university graduation year for company referrals, a completed profile is mandatory."
         requiredActionName="Arena Project Enrollment"
+      />
+
+      {/* ── 8. RAZORPAY CHECKOUT MODAL ── */}
+      <RazorpayModal
+        isOpen={showRazorpayModal}
+        onClose={() => setShowRazorpayModal(false)}
+        amount={299}
+        itemName="Verified Student Fellow Track (1-Month Virtual AI Internship)"
+        description="Unlock formal cryptographic QR certificates, weekly architecture reviews, and automated SLA test gates."
+        itemCategory="FELLOWSHIP_PASS"
       />
 
     </div>

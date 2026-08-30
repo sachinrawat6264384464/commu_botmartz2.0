@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { 
   Sparkles, 
@@ -17,6 +17,7 @@ import {
   Flame,
   Linkedin
 } from "lucide-react";
+import RazorpayModal from "@/app/_components/RazorpayModal";
 
 const SPEAKERS = [
   {
@@ -87,6 +88,21 @@ const TICKETS = [
 ];
 
 export default function AIFrontierPage() {
+  const [selectedTicket, setSelectedTicket] = useState<{
+    name: string;
+    amount: number;
+    description: string;
+  } | null>(null);
+
+  const handleTicketClick = (ticketName: string, priceStr: string) => {
+    const numericAmount = parseInt(priceStr.replace(/[^0-9]/g, ""), 10) || 499;
+    setSelectedTicket({
+      name: `${ticketName} - AI Frontier 2026`,
+      amount: numericAmount,
+      description: "Official Admission Pass for AI Frontier 2026 Summit (Indore / Hybrid)."
+    });
+  };
+
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900">
       
@@ -217,7 +233,7 @@ export default function AIFrontierPage() {
                 </div>
 
                 <button
-                  onClick={() => alert(`Starting registration for ${t.name}... Proceeding to Razorpay checkout / UPI verification.`)}
+                  onClick={() => handleTicketClick(t.name, t.price)}
                   className={`w-full py-3.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer ${
                     t.popular
                       ? "bg-[#0066FF] hover:bg-[#0052CC] text-white shadow-md"
@@ -232,6 +248,22 @@ export default function AIFrontierPage() {
 
         </div>
       </section>
+
+      {/* Razorpay Checkout Modal */}
+      {selectedTicket && (
+        <RazorpayModal
+          isOpen={Boolean(selectedTicket)}
+          onClose={() => setSelectedTicket(null)}
+          amount={selectedTicket.amount}
+          itemName={selectedTicket.name}
+          description={selectedTicket.description}
+          itemCategory="EVENT_TICKET"
+          metadata={{
+            eventId: "ai-frontier-2026",
+            eventTitle: "AI Frontier 2026 Summit"
+          }}
+        />
+      )}
 
     </div>
   );
