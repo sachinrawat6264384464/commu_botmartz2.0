@@ -467,19 +467,59 @@ export default function ArenaPage() {
       </section>
 
       {/* =========================================================================
+          ₹1,00,000 GRAND KERNEL & AGENT CHAMPIONSHIP (LOCKED TEASER)
+      ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="bg-gradient-to-r from-amber-950 via-slate-950 to-purple-950 text-white rounded-3xl p-6 sm:p-8 border border-amber-500/40 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 blur-[100px] rounded-full pointer-events-none" />
+          
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+            <div className="max-w-3xl">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5">
+                  <Trophy size={13} className="text-amber-400" /> ₹1,00,000 Grand Prize Championship
+                </span>
+                <span className="px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[11px] font-mono font-bold uppercase tracking-wider">
+                  Unlocks 20th November 2026
+                </span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-sans mb-2">
+                Autonomous eBPF Linux Kernel &amp; Sub-10µs Microsecond Sandboxing
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-300 font-mono leading-relaxed">
+                The most demanding engineering challenge in India. Strictly limited to <strong>Top 5 Vetted Shippers</strong> selected based on Cohort 1 verified test benchmark leaderboards. Zero toy frameworks. True low-level kernel bypass and autonomous swarming.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 font-mono text-xs">
+              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 text-center">
+                <span className="text-[10px] text-amber-400 font-bold uppercase block">Finalist Prize</span>
+                <span className="text-lg font-black text-white">₹1,00,000</span>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 text-center">
+                <span className="text-[10px] text-slate-400 font-bold uppercase block">Finalist Slots</span>
+                <span className="text-lg font-black text-white">5 Builders Only</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
           SECTION 3: 50 PRODUCTION PROJECTS CATALOG
       ========================================================================= */}
       <section id="projects-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3">
-            <Cpu size={14} /> Production Systems Architecture
+            <Cpu size={14} /> Cohort 1 Production Catalog
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3 font-sans">
-            50 Production Systems Matrix
+            10 Flagship Production Systems
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-mono">
-            Zero toy applications. Every project requires multi-tier databases, real-time message streams, latency benchmarking, and automated test gates.
+            Active Cohort 1 systems with deep architecture PRDs, database schemas, and API contracts. (Additional domain tracks unlock in Cohort 2, January 2027).
           </p>
         </div>
 
