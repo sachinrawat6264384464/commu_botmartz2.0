@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   CheckSquare,
@@ -23,12 +23,18 @@ import {
   ExternalLink,
   Zap,
   Globe,
-  Coins
+  Coins,
+  Lock,
+  Loader2
 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 
 export default function CareerChecklistPage() {
+  const { user, studentProfile, loading } = useAuth();
+
   const [completedTasks, setCompletedTasks] = useState<Record<string, boolean>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [loadingData, setLoadingData] = useState(false);
 
   // UGC LinkedIn Composer State
   const [dayNumber, setDayNumber] = useState<number>(1);
@@ -39,18 +45,46 @@ export default function CareerChecklistPage() {
   const [linkedInPostUrl, setLinkedInPostUrl] = useState<string>("");
   const [submittedUGC, setSubmittedUGC] = useState<boolean>(false);
   const [pointsEarned, setPointsEarned] = useState<number>(0);
+  const [submittingUgc, setSubmittingUgc] = useState<boolean>(false);
+
+  // Fetch saved checklist from backend on load
+  useEffect(() => {
+    if (user?.email) {
+      setLoadingData(true);
+      fetch(`/api/arena/career-checklist?email=${encodeURIComponent(user.email)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && data.checklist) {
+            setCompletedTasks(data.checklist.completedTasks || {});
+            setSubmittedUGC(Boolean(data.checklist.submittedUGC));
+            setPointsEarned(data.checklist.pointsEarned || 0);
+          }
+        })
+        .catch((err) => console.error("Error fetching checklist:", err))
+        .finally(() => setLoadingData(false));
+    }
+  }, [user]);
 
   const toggleTask = (taskId: string) => {
+    if (!user?.email) {
+      window.location.href = "/login?redirect=/arena/career-checklist";
+      return;
+    }
+
     setCompletedTasks((prev) => {
       const next = { ...prev, [taskId]: !prev[taskId] };
-      fetch("/api/arena/telemetry", {
+      
+      // Sync with backend API
+      fetch("/api/arena/career-checklist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          eventType: "CAREER_CHECKLIST_TOGGLE",
-          metadata: { taskId, state: next[taskId] }
-        })
-      }).catch(() => {});
+          email: user.email,
+          name: user.displayName || studentProfile?.displayName,
+          completedTasks: next,
+        }),
+      }).catch((err) => console.error("Sync error:", err));
+
       return next;
     });
   };
@@ -92,21 +126,43 @@ Building in public alongside 500+ builders across India at Indore AI Hub.
     window.open("https://www.linkedin.com/feed/", "_blank");
   };
 
-  const handleSubmitLinkedInUrl = (e: React.FormEvent) => {
+  const handleSubmitLinkedInUrl = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user?.email) {
+      window.location.href = "/login?redirect=/arena/career-checklist";
+      return;
+    }
     if (!linkedInPostUrl) return;
 
-    setPointsEarned((prev) => prev + 50);
-    setSubmittedUGC(true);
+    setSubmittingUgc(true);
 
-    fetch("/api/arena/telemetry", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        eventType: "LINKEDIN_UGC_SUBMITTED",
-        metadata: { url: linkedInPostUrl, day: dayNumber, project: projectTitle }
-      })
-    }).catch(() => {});
+    try {
+      const res = await fetch("/api/arena/career-checklist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          name: user.displayName || studentProfile?.displayName,
+          ugcSubmission: {
+            dayNumber,
+            projectTitle,
+            techStackUsed,
+            commitUrl,
+            linkedInPostUrl,
+          },
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setPointsEarned((prev) => prev + 50);
+        setSubmittedUGC(true);
+      }
+    } catch (err) {
+      console.error("Error submitting UGC:", err);
+    } finally {
+      setSubmittingUgc(false);
+    }
   };
 
   const CHECKLIST_PHASES = [
@@ -152,22 +208,24 @@ Building in public alongside 500+ builders across India at Indore AI Hub.
       subject: "Solved [Specific Bottleneck / Latency Issue] for [Target System] — Quick Demo & Code",
       body: `Hi [Name],
 
-I've been following [Company Name]'s work on [Specific Product Feature / Infrastructure]. 
+I've been following [Company Name]'s recent work on [Topic, e.g. multi-tenant vector search / low-latency order routing].
 
-I noticed teams scaling [Domain, e.g. multi-spectral remote sensing / L2 order books] often face bottlenecks in [Specific Pain, e.g. p95 latency spikes / frame drops under GPS denial].
+I recently engineered and benchmarked [Your Project Name, e.g. A multi-spectral Sentinel-2 satellite pipeline in PyTorch & Qdrant / Rust L3 Order Book] as part of the Botmartz Builders Cohort.
 
-Over the past 45 days in the Botmartz Builders Cohort, I built an end-to-end production system solving this exact issue:
-- System: [Your Project Name, e.g. Synthetic Aperture Radar Flood Segmenter]
-- Benchmarks: [Key Metric, e.g. 0.88 Dice Score, sub-35ms p95 latency, zero memory leaks]
-- Live Code & Architecture: [Your GitHub Repo / Live Link]
-- 90s Video Demo: [Your Loom / YouTube Link]
+Key Architecture Wins:
+1. Achieved sub-150ms p95 latency under 5,000 req/sec load.
+2. Built custom zero-copy memory pipelines in Docker.
+3. Automated test suite achieving 92% coverage with strict SLA verification.
 
-I'd love to contribute to [Company Name]'s engineering team as an intern / junior engineer. Are you open for a 10-minute technical chat this Thursday?
+I documented the failure teardown and architecture specs here:
+- Live Repo & Tests: [GitHub URL]
+- Architecture Spec: [PRD Link]
 
-Best regards,
+Would you be open to a 10-minute chat about engineering roles at [Company Name]?
+
+Best,
 [Your Name]
-[Your Phone / WhatsApp]
-[Your Botmartz Profile Link]`
+[LinkedIn Profile Link]`
     },
     {
       id: "hr_recruiter_template",
@@ -232,6 +290,53 @@ Best,
           </div>
         </div>
       </div>
+
+      {/* Auth Gating Notice if not logged in */}
+      {!user && !loading && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+          <div className="p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-xl font-mono text-xs">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold uppercase text-[10px]">
+                  <Lock size={12} /> Student Login Required for Milestone Tracking
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold font-sans text-white">
+                  Sign In to Save Your Career Checklist &amp; Claim +50 Karma Coins
+                </h2>
+                <p className="text-slate-400 max-w-2xl leading-relaxed text-xs">
+                  To prevent unverified activity and accurately track your milestone readiness for the 15-company referral dispatch, your checklist tasks and LinkedIn proof links are saved directly to your verified profile.
+                </p>
+              </div>
+              <Link
+                href="/login?redirect=/arena/career-checklist"
+                className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md shrink-0 text-center flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Sign In to Track Progress</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Logged in student badge */}
+      {user && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-mono text-xs">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+              <span>
+                Verified Student: <strong>{user.email}</strong> • Real-time backend sync active ({doneCount}/{totalTasks} tasks completed)
+              </span>
+            </div>
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <span className="font-bold text-emerald-800 bg-emerald-100/80 px-3 py-1 rounded-full text-[11px] border border-emerald-300/60">
+                +{pointsEarned} Karma Coins Earned
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
         

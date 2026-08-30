@@ -353,6 +353,21 @@ export default function DailyPoWLogPage() {
                 </div>
               </div>
 
+              {/* DPDP Consent */}
+              <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 text-slate-700 text-xs font-mono">
+                <label className="flex items-start gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    defaultChecked
+                    required
+                    className="rounded text-[#0066FF] mt-0.5 cursor-pointer"
+                  />
+                  <span className="text-[11px]">
+                    <strong>DPDP Act 2023 &amp; Honor Code:</strong> I certify this daily code commit is my authentic technical work and consent to its evaluation for milestone streak tracking and verified karma rewards.
+                  </span>
+                </label>
+              </div>
+
               {error && (
                 <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
                   {error}

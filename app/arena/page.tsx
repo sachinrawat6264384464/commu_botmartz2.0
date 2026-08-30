@@ -39,10 +39,29 @@ import { ARENA_PROJECTS, ArenaProject } from "@/lib/arena-projects";
 import { AnalysisResponse } from "@/lib/resume-matcher";
 
 export default function ArenaPage() {
-  // State for Filters
+  // State for Bifurcation & Filters
+  const [bifurcationTab, setBifurcationTab] = useState<"All" | "Insane" | "Warmup" | "Featured">("All");
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>("All");
   const [selectedDomain, setSelectedDomain] = useState<string>("All");
+  const [selectedRole, setSelectedRole] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const itemsPerPage = 9;
+
+  // Extract unique domains and roles
+  const allDomains = Array.from(new Set(ARENA_PROJECTS.map((p) => p.domain))).sort();
+  const allRoles = [
+    "AI Engineer",
+    "Backend Dev",
+    "Frontend Dev",
+    "Fullstack Dev",
+    "DevOps / SRE",
+    "Security Pen-tester",
+    "QA Tester",
+    "Data Scientist",
+  ];
 
   // State for Resume Analyzer
   const [resumeText, setResumeText] = useState("");
@@ -64,11 +83,12 @@ export default function ArenaPage() {
     teamType: "Solo",
     teamName: "",
     experience: "Student / Self-Taught",
-    followedLinkedIn: false,
-    followedBotmartz: false,
-    followedGithub: false,
-    joinedDiscord: false,
-    dpdpConsent: false,
+    followedLinkedIn: true,
+    followedBotmartz: true,
+    followedGithub: true,
+    joinedDiscord: true,
+    dpdpConsent: true,
+    termsConsent: true,
   });
   const [isEnrolling, setIsEnrolling] = useState(false);
   const [enrollSuccess, setEnrollSuccess] = useState(false);
@@ -76,15 +96,64 @@ export default function ArenaPage() {
 
   // Filter projects
   const filteredProjects = ARENA_PROJECTS.filter((p) => {
+    // 1. Bifurcation tab
+    if (bifurcationTab === "Insane") {
+      if (p.difficulty !== "Insane" && p.difficulty !== "Expert Tier") return false;
+    } else if (bifurcationTab === "Warmup") {
+      if (p.difficulty !== "Intermediate" && p.difficulty !== "Hard") return false;
+    } else if (bifurcationTab === "Featured") {
+      if (!p.featured && p.difficulty !== "Expert Tier") return false;
+    }
+
+    // 2. Difficulty filter
     const matchesDiff = selectedDifficulty === "All" || p.difficulty === selectedDifficulty;
+    // 3. Domain filter
     const matchesDomain = selectedDomain === "All" || p.domain === selectedDomain;
+    // 4. Role filter
+    const matchesRole =
+      selectedRole === "All" ||
+      p.targetRoles.some((r) => r.toLowerCase().includes(selectedRole.toLowerCase()));
+    // 5. Search query
     const matchesSearch =
       searchQuery === "" ||
       p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.techStack.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())) ||
       p.keywords.some((k) => k.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesDiff && matchesDomain && matchesSearch;
+
+    return matchesDiff && matchesDomain && matchesRole && matchesSearch;
   });
+
+  // Reset to page 1 on filter change
+  const handleFilterChange = (setter: (val: any) => void, val: any) => {
+    setter(val);
+    setCurrentPage(1);
+  };
+
+  const resetAllFilters = () => {
+    setBifurcationTab("All");
+    setSelectedDifficulty("All");
+    setSelectedDomain("All");
+    setSelectedRole("All");
+    setSearchQuery("");
+    setCurrentPage(1);
+  };
+
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage) || 1;
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    if (typeof window !== "undefined") {
+      const el = document.getElementById("projects-catalog");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   // Handle Resume Analysis
   const handleAnalyzeResume = async (e: React.FormEvent) => {
@@ -507,157 +576,331 @@ export default function ArenaPage() {
       </section>
 
       {/* =========================================================================
-          SECTION 3: 50 PRODUCTION PROJECTS CATALOG
+          SECTION 3: 50 PRODUCTION PROJECTS CATALOG WITH BIFURCATION & PAGINATION
       ========================================================================= */}
       <section id="projects-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3">
-            <Cpu size={14} /> Cohort 1 Production Catalog
+            <Cpu size={14} /> Production Engineering Catalog (50 Systems)
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-3 font-sans">
-            10 Flagship Production Systems
+            50 Production Systems &amp; Crucible PRDs
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-mono">
-            Active Cohort 1 systems with deep architecture PRDs, database schemas, and API contracts. (Additional domain tracks unlock in Cohort 2, January 2027).
+            Explore 50 comprehensive system blueprints complete with DB schemas, latency SLAs, API specs, and attack vectors. Complete an <strong>Insane</strong> project to unlock Founder Referral Dispatch.
           </p>
         </div>
 
-        {/* Filters Bar */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 mb-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xs">
-          {/* Difficulty Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
-            {["All", "Intermediate", "Hard", "Insane", "Expert Tier"].map((diff) => (
-              <button
-                key={diff}
-                onClick={() => setSelectedDifficulty(diff)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                  selectedDifficulty === diff
-                    ? diff === "Expert Tier"
-                      ? "bg-slate-950 text-purple-300 border border-purple-600 shadow-sm"
-                      : "bg-[#0066FF] text-white shadow-xs"
-                    : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200"
-                }`}
-              >
-                {diff}
-              </button>
-            ))}
-          </div>
-
-          {/* Search Box */}
-          <div className="relative w-full md:w-64">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-            <input
-              type="text"
-              placeholder="Search stack, LangGraph, AWS..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0066FF]"
-            />
-          </div>
+        {/* 1. Track Bifurcation Tabs */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-6 font-mono text-xs">
+          <button
+            onClick={() => handleFilterChange(setBifurcationTab, "All")}
+            className={`px-4 py-2.5 rounded-2xl font-bold transition-all cursor-pointer ${
+              bifurcationTab === "All"
+                ? "bg-slate-900 text-white shadow-md"
+                : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            All Systems ({ARENA_PROJECTS.length})
+          </button>
+          <button
+            onClick={() => handleFilterChange(setBifurcationTab, "Insane")}
+            className={`px-4 py-2.5 rounded-2xl font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+              bifurcationTab === "Insane"
+                ? "bg-purple-600 text-white shadow-md shadow-purple-900/30"
+                : "bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200"
+            }`}
+          >
+            <Flame size={14} className="text-amber-400" />
+            <span>🔥 Insane &amp; Expert PRDs ({ARENA_PROJECTS.filter(p => p.difficulty === "Insane" || p.difficulty === "Expert Tier").length})</span>
+          </button>
+          <button
+            onClick={() => handleFilterChange(setBifurcationTab, "Warmup")}
+            className={`px-4 py-2.5 rounded-2xl font-bold transition-all cursor-pointer ${
+              bifurcationTab === "Warmup"
+                ? "bg-[#0066FF] text-white shadow-md shadow-blue-900/30"
+                : "bg-blue-50 text-[#0066FF] hover:bg-blue-100 border border-blue-200"
+            }`}
+          >
+            ⚡ Warmups (Intermediate &amp; Hard) ({ARENA_PROJECTS.filter(p => p.difficulty === "Intermediate" || p.difficulty === "Hard").length})
+          </button>
+          <button
+            onClick={() => handleFilterChange(setBifurcationTab, "Featured")}
+            className={`px-4 py-2.5 rounded-2xl font-bold transition-all cursor-pointer ${
+              bifurcationTab === "Featured"
+                ? "bg-emerald-600 text-white shadow-md"
+                : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+            }`}
+          >
+            ⭐ Featured Flagships
+          </button>
         </div>
 
-        {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProjects.map((project) => {
-            const isGTH = project.difficulty === "Expert Tier";
-            return (
-              <div
-                key={project.id}
-                className={`rounded-3xl p-6 transition-all flex flex-col justify-between relative overflow-hidden ${
-                  isGTH
-                    ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-purple-600/80 text-white shadow-xl shadow-purple-950/30"
-                    : "bg-white border border-slate-200 text-slate-900 shadow-xs hover:shadow-md hover:border-blue-300"
-                }`}
+        {/* 2. Comprehensive Filter & Search Controls */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-5 mb-8 shadow-xs space-y-4 font-mono text-xs">
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+              <input
+                type="text"
+                placeholder="Search stack, Qdrant, Docker..."
+                value={searchQuery}
+                onChange={(e) => handleFilterChange(setSearchQuery, e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+              />
+            </div>
+
+            {/* Domain Dropdown */}
+            <div>
+              <select
+                value={selectedDomain}
+                onChange={(e) => handleFilterChange(setSelectedDomain, e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
               >
-                {/* Top Badge */}
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <span
-                      className={`px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${
-                        isGTH
-                          ? "bg-purple-500/20 text-purple-300 border border-purple-500/40"
-                          : project.difficulty === "Insane"
-                          ? "bg-purple-100 text-purple-700 border border-purple-200"
-                          : project.difficulty === "Hard"
-                          ? "bg-amber-100 text-amber-800 border border-amber-200"
-                          : "bg-blue-100 text-[#0066FF] border border-blue-200"
-                      }`}
-                    >
-                      {project.difficulty}
-                    </span>
-                    <span className="text-[11px] font-mono text-slate-400">{project.domain}</span>
-                  </div>
+                <option value="All">All Domains (19+ Areas)</option>
+                {allDomains.map((dom) => (
+                  <option key={dom} value={dom}>
+                    {dom}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-                  {project.prizePool && (
-                    <div className="mb-3 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold flex items-center gap-1.5">
-                      <Trophy size={14} className="text-amber-400" />
-                      <span>{project.prizePool}</span>
-                    </div>
-                  )}
+            {/* Target Role Dropdown */}
+            <div>
+              <select
+                value={selectedRole}
+                onChange={(e) => handleFilterChange(setSelectedRole, e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+              >
+                <option value="All">All Target Roles</option>
+                {allRoles.map((r) => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-                  <h3 className={`text-lg font-bold mb-2 leading-snug font-sans ${isGTH ? "text-white" : "text-slate-900"}`}>
-                    {project.title}
-                  </h3>
-                  <p className={`text-xs mb-4 leading-relaxed line-clamp-3 font-sans ${isGTH ? "text-slate-300" : "text-slate-600"}`}>
-                    {project.tagline}
-                  </p>
+            {/* Difficulty Dropdown */}
+            <div>
+              <select
+                value={selectedDifficulty}
+                onChange={(e) => handleFilterChange(setSelectedDifficulty, e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+              >
+                <option value="All">All Difficulties</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Hard">Hard</option>
+                <option value="Insane">Insane (Founder Track)</option>
+                <option value="Expert Tier">Expert Tier (Championship)</option>
+              </select>
+            </div>
+          </div>
 
-                  {/* Tech Stack Badges */}
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {project.techStack.map((tech) => (
+          {/* Active Filter Chips & Clear */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+            <div className="flex items-center gap-2 text-slate-500 text-[11px]">
+              <span>Showing <strong>{filteredProjects.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1}–{Math.min(currentPage * itemsPerPage, filteredProjects.length)}</strong> of <strong>{filteredProjects.length}</strong> systems</span>
+              {bifurcationTab !== "All" && (
+                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200">
+                  Track: {bifurcationTab}
+                </span>
+              )}
+              {selectedDomain !== "All" && (
+                <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+                  Domain: {selectedDomain}
+                </span>
+              )}
+              {selectedRole !== "All" && (
+                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  Role: {selectedRole}
+                </span>
+              )}
+            </div>
+
+            {(bifurcationTab !== "All" || selectedDifficulty !== "All" || selectedDomain !== "All" || selectedRole !== "All" || searchQuery) && (
+              <button
+                onClick={resetAllFilters}
+                className="text-rose-600 hover:text-rose-800 text-[11px] font-bold underline cursor-pointer"
+              >
+                Reset All Filters
+              </button>
+            )}
+          </div>
+
+        </div>
+
+        {/* Empty State */}
+        {filteredProjects.length === 0 ? (
+          <div className="text-center py-16 px-4 bg-white border border-slate-200 rounded-3xl p-8 font-mono">
+            <Cpu size={40} className="mx-auto mb-3 text-slate-400" />
+            <h3 className="text-lg font-bold text-slate-900 font-sans mb-1">No Projects Match Your Filter</h3>
+            <p className="text-xs text-slate-500 mb-4 max-w-md mx-auto">
+              Try adjusting your search query, difficulty level, or category filter to discover relevant systems.
+            </p>
+            <button
+              onClick={resetAllFilters}
+              className="px-5 py-2.5 rounded-xl bg-[#0066FF] text-white font-bold text-xs uppercase tracking-wider cursor-pointer"
+            >
+              Reset All Filters
+            </button>
+          </div>
+        ) : (
+          /* Project Cards Grid (Paginated) */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedProjects.map((project) => {
+              const isGTH = project.difficulty === "Expert Tier";
+              const isInsane = project.difficulty === "Insane";
+              return (
+                <div
+                  key={project.id}
+                  className={`rounded-3xl p-6 transition-all flex flex-col justify-between relative overflow-hidden ${
+                    isGTH
+                      ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-2 border-purple-600/80 text-white shadow-xl shadow-purple-950/30"
+                      : isInsane
+                      ? "bg-white border-2 border-purple-200 hover:border-purple-400 text-slate-900 shadow-sm hover:shadow-md"
+                      : "bg-white border border-slate-200 text-slate-900 shadow-xs hover:shadow-md hover:border-blue-300"
+                  }`}
+                >
+                  {/* Top Badge */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
                       <span
-                        key={tech}
-                        className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold ${
-                          isGTH ? "bg-slate-800 text-slate-300 border border-slate-700" : "bg-slate-100 text-slate-700 border border-slate-200"
+                        className={`px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider ${
+                          isGTH
+                            ? "bg-purple-500/20 text-purple-300 border border-purple-500/40"
+                            : isInsane
+                            ? "bg-purple-100 text-purple-700 border border-purple-300"
+                            : project.difficulty === "Hard"
+                            ? "bg-amber-100 text-amber-800 border border-amber-200"
+                            : "bg-blue-100 text-[#0066FF] border border-blue-200"
                         }`}
                       >
-                        {tech}
+                        {project.difficulty}
                       </span>
-                    ))}
-                  </div>
+                      <span className="text-[11px] font-mono text-slate-400 truncate max-w-[140px] text-right">{project.domain}</span>
+                    </div>
 
-                  {/* Target Roles */}
-                  <div className="mb-6">
-                    <div className="text-[10px] font-mono text-slate-400 uppercase mb-1">Supported Squad Roles:</div>
-                    <div className="flex flex-wrap gap-1">
-                      {project.targetRoles.map((role) => (
-                        <span key={role} className="text-[10px] font-mono text-slate-500 bg-slate-50 dark:bg-slate-800/40 px-1.5 py-0.5 rounded">
-                          • {role}
+                    {isInsane && (
+                      <div className="mb-3 px-3 py-1.5 rounded-xl bg-purple-50 border border-purple-200 text-purple-800 text-[10px] font-mono font-bold flex items-center gap-1.5">
+                        <Flame size={13} className="text-amber-500 shrink-0" />
+                        <span>Founder Recommendation &amp; Referral Crucible</span>
+                      </div>
+                    )}
+
+                    {project.prizePool && (
+                      <div className="mb-3 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold flex items-center gap-1.5">
+                        <Trophy size={14} className="text-amber-400" />
+                        <span>{project.prizePool}</span>
+                      </div>
+                    )}
+
+                    <h3 className={`text-lg font-bold mb-2 leading-snug font-sans ${isGTH ? "text-white" : "text-slate-900"}`}>
+                      {project.title}
+                    </h3>
+                    <p className={`text-xs mb-4 leading-relaxed line-clamp-3 font-sans ${isGTH ? "text-slate-300" : "text-slate-600"}`}>
+                      {project.tagline}
+                    </p>
+
+                    {/* Tech Stack Badges */}
+                    <div className="flex flex-wrap gap-1 mb-4">
+                      {project.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold ${
+                            isGTH ? "bg-slate-800 text-slate-300 border border-slate-700" : "bg-slate-100 text-slate-700 border border-slate-200"
+                          }`}
+                        >
+                          {tech}
                         </span>
                       ))}
                     </div>
+
+                    {/* Target Roles */}
+                    <div className="mb-6">
+                      <div className="text-[10px] font-mono text-slate-400 uppercase mb-1">Supported Squad Roles:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {project.targetRoles.map((role) => (
+                          <span key={role} className="text-[10px] font-mono text-slate-500 bg-slate-50 dark:bg-slate-800/40 px-1.5 py-0.5 rounded">
+                            • {role}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                {/* Actions */}
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center gap-3 font-mono text-xs">
-                  <Link
-                    href={`/arena/${project.slug}`}
-                    className={`flex-1 text-center py-2.5 rounded-xl font-bold transition-all ${
-                      isGTH
-                        ? "bg-slate-800 hover:bg-slate-700 text-white border border-slate-700"
-                        : "bg-white hover:bg-slate-100 text-slate-800 border border-slate-300"
-                    }`}
-                  >
-                    View PRD
-                  </Link>
-                  <button
-                    onClick={() => setEnrollModalProject(project)}
-                    className={`flex-1 text-center py-2.5 rounded-xl font-bold transition-all cursor-pointer shadow-xs ${
-                      isGTH
-                        ? "bg-purple-600 hover:bg-purple-500 text-white shadow-purple-900/50"
-                        : "bg-[#0066FF] hover:bg-[#0052CC] text-white"
-                    }`}
-                  >
-                    {isGTH ? "Apply for 5 Slots" : "Enroll in Track"}
-                  </button>
-                </div>
+                  {/* Actions */}
+                  <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center gap-3 font-mono text-xs">
+                    <Link
+                      href={`/arena/${project.slug}`}
+                      className={`flex-1 text-center py-2.5 rounded-xl font-bold transition-all ${
+                        isGTH
+                          ? "bg-slate-800 hover:bg-slate-700 text-white border border-slate-700"
+                          : "bg-white hover:bg-slate-100 text-slate-800 border border-slate-300"
+                      }`}
+                    >
+                      View PRD
+                    </Link>
+                    <button
+                      onClick={() => setEnrollModalProject(project)}
+                      className={`flex-1 text-center py-2.5 rounded-xl font-bold transition-all cursor-pointer shadow-xs ${
+                        isGTH
+                          ? "bg-purple-600 hover:bg-purple-500 text-white shadow-purple-900/50"
+                          : isInsane
+                          ? "bg-purple-600 hover:bg-purple-700 text-white shadow-purple-900/20"
+                          : "bg-[#0066FF] hover:bg-[#0052CC] text-white"
+                      }`}
+                    >
+                      {isGTH ? "Apply for 5 Slots" : "Enroll in Track"}
+                    </button>
+                  </div>
 
-              </div>
-            );
-          })}
-        </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* 3. Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-xs font-mono text-xs">
+            <button
+              onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+            >
+              ← Previous Page
+            </button>
+
+            <div className="flex items-center gap-1.5">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  onClick={() => handlePageChange(pageNum)}
+                  className={`w-8 h-8 rounded-xl font-bold text-xs transition-all cursor-pointer flex items-center justify-center ${
+                    currentPage === pageNum
+                      ? "bg-[#0066FF] text-white shadow-xs"
+                      : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200"
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold hover:bg-[#0052CC] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all shadow-xs"
+            >
+              Next Page →
+            </button>
+          </div>
+        )}
 
       </section>
 
@@ -992,8 +1235,8 @@ export default function ArenaPage() {
                     </label>
                   </div>
 
-                  {/* DPDP Act Data Privacy Consent */}
-                  <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200 text-xs text-slate-700 leading-relaxed">
+                  {/* DPDP Act & Terms Consent */}
+                  <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-2.5 text-xs text-slate-700 leading-relaxed font-mono">
                     <label className="flex items-start gap-2.5 cursor-pointer">
                       <input
                         type="checkbox"
@@ -1002,8 +1245,21 @@ export default function ArenaPage() {
                         className="rounded text-[#0066FF] mt-0.5"
                         required
                       />
-                      <span className="font-mono text-[11px]">
+                      <span className="text-[11px]">
                         <strong>DPDP Act 2023 Consent:</strong> I hereby consent to Botmartz storing my technical project submissions and logs strictly for evaluation, internship matching, and certification purposes.
+                      </span>
+                    </label>
+
+                    <label className="flex items-start gap-2.5 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={enrollForm.termsConsent}
+                        onChange={(e) => setEnrollForm({ ...enrollForm, termsConsent: e.target.checked })}
+                        className="rounded text-[#0066FF] mt-0.5"
+                        required
+                      />
+                      <span className="text-[11px]">
+                        <strong>Honor Code &amp; Terms:</strong> I agree to the Zero-Plagiarism Honor Code, 45-Day Milestone Standards, and Community Guidelines.
                       </span>
                     </label>
                   </div>

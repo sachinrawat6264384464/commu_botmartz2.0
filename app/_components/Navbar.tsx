@@ -88,7 +88,6 @@ export default function CommunityNavbar() {
   ];
 
   const COMMUNITY_ITEMS = [
-    { name: "Discussions & Forum", href: "/discussions", icon: MessageSquare, desc: "Technical architectural Q&A and debates" },
     { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits" },
     { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards" },
     { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates" },

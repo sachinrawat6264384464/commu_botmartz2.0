@@ -50,6 +50,8 @@ export default function ProjectPRDClient({ project }: Props) {
   const [whatsapp, setWhatsapp] = useState("");
   const [github, setGithub] = useState("");
   const [role, setRole] = useState("Backend Dev");
+  const [dpdpConsent, setDpdpConsent] = useState(true);
+  const [termsConsent, setTermsConsent] = useState(true);
 
   // Squad Members State
   const [squadMembers, setSquadMembers] = useState<
@@ -95,6 +97,7 @@ export default function ProjectPRDClient({ project }: Props) {
     if (user?.email) {
       setName(user.displayName || studentProfile?.displayName || "");
       setEmail(user.email);
+      setWhatsapp(studentProfile?.phoneNumber || "");
       setGithub(studentProfile?.githubUsername || "");
       setReviewName(user.displayName || studentProfile?.displayName || "");
       setReviewCollege(studentProfile?.collegeName || "");
@@ -126,8 +129,18 @@ export default function ProjectPRDClient({ project }: Props) {
 
   const handleEnrollSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setEnrolling(true);
     setEnrollError("");
+
+    if (!dpdpConsent) {
+      setEnrollError("Please accept the DPDP Act 2023 data processing consent to proceed.");
+      return;
+    }
+    if (!termsConsent) {
+      setEnrollError("Please accept the Community Honor Code and Terms to proceed.");
+      return;
+    }
+
+    setEnrolling(true);
 
     try {
       const res = await fetch("/api/arena/enroll", {
@@ -144,6 +157,7 @@ export default function ProjectPRDClient({ project }: Props) {
           projectId: project.id,
           projectTitle: project.title,
           difficulty: project.difficulty,
+          dpdpConsent: true,
           squadMembers: teamType === "Squad" ? squadMembers : []
         })
       });
@@ -665,6 +679,33 @@ export default function ProjectPRDClient({ project }: Props) {
                     ))}
                   </div>
                 )}
+
+                {/* DPDP Act & Terms Consent */}
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                  <label className="flex items-start gap-2.5 cursor-pointer text-slate-700 text-[11px] leading-relaxed">
+                    <input
+                      type="checkbox"
+                      checked={dpdpConsent}
+                      onChange={(e) => setDpdpConsent(e.target.checked)}
+                      className="mt-0.5 rounded border-slate-300 text-[#0066FF] focus:ring-blue-500 w-4 h-4 cursor-pointer shrink-0"
+                    />
+                    <span>
+                      <strong className="text-slate-900">DPDP Act 2023 Consent:</strong> I grant explicit consent for Botmartz to store my technical project submissions, commit telemetry, and contact details strictly for evaluation, fellowship matching, and verifiable certification.
+                    </span>
+                  </label>
+
+                  <label className="flex items-start gap-2.5 cursor-pointer text-slate-700 text-[11px] leading-relaxed">
+                    <input
+                      type="checkbox"
+                      checked={termsConsent}
+                      onChange={(e) => setTermsConsent(e.target.checked)}
+                      className="mt-0.5 rounded border-slate-300 text-[#0066FF] focus:ring-blue-500 w-4 h-4 cursor-pointer shrink-0"
+                    />
+                    <span>
+                      <strong className="text-slate-900">Honor Code &amp; Terms:</strong> I agree to the Zero-Plagiarism Honor Code, 45-Day Milestone Standards, and Community Guidelines.
+                    </span>
+                  </label>
+                </div>
 
                 {enrollError && (
                   <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">
