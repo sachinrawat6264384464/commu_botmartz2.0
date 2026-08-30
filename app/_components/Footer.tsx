@@ -16,7 +16,8 @@ import {
   ExternalLink,
   Activity,
   Award,
-  Terminal
+  Terminal,
+  Sparkles
 } from "lucide-react";
 
 export default function CommunityFooter() {
@@ -102,6 +103,12 @@ export default function CommunityFooter() {
               Internship Playground
             </h4>
             <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/virtual-ai-internship" className="hover:text-white transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
+                  <Sparkles size={13} />
+                  <span>45-Day Virtual AI Internship</span>
+                </Link>
+              </li>
               <li>
                 <Link href="/arena" className="hover:text-white transition-colors flex items-center gap-1.5">
                   <Terminal size={13} className="text-blue-400" />

@@ -78,7 +78,8 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
-    { name: "Internship Playground", href: "/arena", icon: Layers, desc: "Explore production engineering systems" },
+    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Overview, syllabus & 15 company referrals" },
+    { name: "Internship Playground (50 PRDs)", href: "/arena", icon: Layers, desc: "Explore production engineering systems" },
     { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW, pitch deck & get unblocked" },
     { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles" },
     { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "LinkedIn UGC composer (+50 Coins) & outreach" },

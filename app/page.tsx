@@ -20,7 +20,10 @@ import {
   Layers,
   Cpu,
   Code2,
-  Activity
+  Activity,
+  Star,
+  Check,
+  Flame
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 import { ROLE_ROADMAPS } from "@/lib/roadmaps";
@@ -117,13 +120,13 @@ export default async function CommunityHomePage() {
           
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
-              Structured 3-Step Machine
+              The 3-Step Clear Path
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
-              How the 45-Day Cohort Works
+              How You Build, Conquer &amp; Get Hired
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
-              No endless tutorial watching. You build real production systems tested against automated benchmarks.
+              No endless video watching. You build real production systems tested against automated benchmarks.
             </p>
           </div>
 
@@ -136,10 +139,10 @@ export default async function CommunityHomePage() {
                   01
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
-                  Pick a Project or Stage Roadmap
+                  Pick a Track &amp; Warmup PRD
                 </h3>
                 <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
-                  Select from 50 projects (Sentinel-2 satellite AI, WebRTC drone tracking, 3D MRI MONAI, Rust order book, eBPF probes) or follow our 6 Role Roadmaps.
+                  Select from 50 projects (AI Agents, Defence, RAG, Embedded Edge, High-Frequency Telemetry) or follow our 6 Role Roadmaps.
                 </p>
               </div>
               <Link
@@ -152,21 +155,21 @@ export default async function CommunityHomePage() {
             </div>
 
             {/* Step 2 */}
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition-all">
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-amber-300 transition-all">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-emerald-500/20">
+                <div className="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-amber-500/20">
                   02
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
-                  Ship Daily Proof-of-Work
+                  Conquer the &quot;Insane&quot; Project
                 </h3>
                 <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
-                  Log daily GitHub commits and PRs. Earn Botmartz Karma Coins, maintain your heatmap streak, and get unblocked during Saturday office hours.
+                  Build one of the high-difficulty systems (Satellite AI, 3D MRI, Rust Order Book, LangGraph Swarm) and pass automated SLA benchmarks with daily GitHub commit logs.
                 </p>
               </div>
               <Link
                 href="/arena/daily-log"
-                className="text-emerald-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
+                className="text-amber-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
               >
                 <span>Daily Proof-of-Work Log</span>
                 <ArrowRight size={13} />
@@ -174,23 +177,23 @@ export default async function CommunityHomePage() {
             </div>
 
             {/* Step 3 */}
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-purple-300 transition-all">
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition-all">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-purple-700 text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-purple-500/20">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-emerald-500/20">
                   03
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
-                  Get 15 Direct Company Referrals
+                  Founder Recommendation &amp; Referral
                 </h3>
                 <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
-                  Complete 3 projects (1 solo + 2 team) to unlock direct dispatch to 15 partner companies and a personalized LinkedIn recommendation from Founder Soham Sharma.
+                  Pass strict code review on your Insane Project to unlock a personalized recommendation from Founder Soham Sharma and direct job referral assistance to 15 partner companies.
                 </p>
               </div>
               <Link
-                href="/arena/shippers"
-                className="text-purple-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
+                href="/virtual-ai-internship#pricing"
+                className="text-emerald-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
               >
-                <span>Join Shippers Circle</span>
+                <span>View Plans (Free / ₹299 / ₹1,999)</span>
                 <ArrowRight size={13} />
               </Link>
             </div>
@@ -351,7 +354,180 @@ export default async function CommunityHomePage() {
         </div>
       </section>
 
-      {/* ── 5. ZERO-TRUST STUDENT TRUST & READY TO JOIN CTA ── */}
+      {/* ── 5. TRANSPARENT 3-TIER PRICING & FELLOWSHIP TRACKS (₹0 / ₹299 / ₹1,999) ── */}
+      <section id="pricing" className="py-20 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-200">
+              <ShieldCheck size={14} /> Honest Student Pricing
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+              Choose Your Engineering Track
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
+              Free for self-learners, ₹299 for verified credentials &amp; office hours, and ₹1,999 for full founder placement assistance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch font-mono text-xs">
+            
+            {/* TIER 1: FREE OPEN BUILDER */}
+            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div className="text-slate-500 font-bold uppercase tracking-wider text-[11px] mb-2">
+                  Track 1: Self-Paced
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 font-sans mb-2">
+                  Open Builder
+                </h3>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-black text-slate-950 font-sans">₹0</span>
+                  <span className="text-slate-500 text-xs">/ Forever Free</span>
+                </div>
+                <p className="text-slate-600 leading-relaxed mb-6 font-sans text-xs">
+                  Full open access to all 50 production PRDs and open Discord channels for self-directed builders.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-slate-100 mb-8">
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>Access to all 50 Production System PRDs</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>Open Discord Builder Community</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>6 Progressive Role Roadmaps</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>Public GitHub Proof-of-Work Log</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/login"
+                className="w-full py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"
+              >
+                <span>Start Free (Self-Paced)</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            {/* TIER 2: ₹299 VERIFIED BUILDER PASS */}
+            <div className="p-8 rounded-3xl bg-blue-50/70 border-2 border-blue-500 shadow-xl flex flex-col justify-between relative">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#0066FF] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                Most Popular for Students ⭐
+              </div>
+
+              <div>
+                <div className="text-blue-600 font-bold uppercase tracking-wider text-[11px] mb-2">
+                  Track 2: Verified Cohort
+                </div>
+                <h3 className="text-2xl font-black text-slate-950 font-sans mb-2">
+                  Verified Builder Pass
+                </h3>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-black text-slate-950 font-sans">₹299</span>
+                  <span className="text-slate-500 text-xs">/ One-time micro fee</span>
+                </div>
+                <p className="text-slate-700 leading-relaxed mb-6 font-sans text-xs">
+                  Micro-ticket pass for students wanting verified cryptographic credentials, SLA benchmark audits, and weekly reviews.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-blue-200/60 mb-8">
+                  <div className="flex items-start gap-2 text-slate-900 font-semibold">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Everything in Open Builder</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Cryptographic PDF Certificate with QR Verification</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Automated SLA Benchmark &amp; Acceptance Gates</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Saturday Live Architecture Teardowns (Indore / Discord)</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Wednesday Resume Teardown &amp; LinkedIn Surgery</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/login"
+                className="w-full py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider text-center transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Get Verified Pass (₹299)</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            {/* TIER 3: ₹1,999 FOUNDER PLACEMENT TRACK */}
+            <div className="p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-xl flex flex-col justify-between">
+              <div>
+                <div className="text-amber-400 font-bold uppercase tracking-wider text-[11px] mb-2 flex items-center gap-1">
+                  <Star size={13} /> Track 3: Career Fast-Track
+                </div>
+                <h3 className="text-2xl font-black text-white font-sans mb-2">
+                  Founder Placement Track
+                </h3>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-black text-white font-sans">₹1,999</span>
+                  <span className="text-slate-400 text-xs">/ 45-Day Cohort</span>
+                </div>
+                <p className="text-slate-400 leading-relaxed mb-6 font-sans text-xs">
+                  Direct mentorship with Founder Soham Sharma, 1-on-1 code reviews, and job referral assistance under strict criteria.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-slate-800 mb-8">
+                  <div className="flex items-start gap-2 text-white font-semibold">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>Everything in Verified Pass</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>1-on-1 Architecture Code Review with Founder Soham</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>Personalized LinkedIn Recommendation upon Insane PRD Completion</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>Direct Dispatch to 15 Hiring Partner Companies</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>1-on-1 Mock Technical Interview &amp; Architecture Defense</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/login"
+                className="w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Join Founder Track (₹1,999)</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── 6. ZERO-TRUST STUDENT TRUST & READY TO JOIN CTA ── */}
       <section className="py-20 bg-slate-100 border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           
