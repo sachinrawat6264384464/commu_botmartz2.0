@@ -248,7 +248,7 @@ export default function ArenaPage() {
       {/* =========================================================================
           THE SHIPPERS FLYWHEEL BANNER: COMPLETE 3 PROJECTS -> 15 REFERRALS
       ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20 space-y-4">
         <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 sm:p-8 rounded-3xl border border-indigo-800/80 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-mono text-[11px] font-bold uppercase tracking-wider mb-2 border border-purple-500/30">
@@ -258,7 +258,7 @@ export default function ArenaPage() {
               Complete 3 Projects → Get Fast-Tracked to 15 Hiring Companies
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed font-mono">
-              Build 1 Solo + 2 Squad projects (or any 3). Unlock 15 direct tech company referrals, 1-on-1 profile teardowns, and a personal LinkedIn recommendation from Founder Soham Sharma.
+              Build 1 Solo + 2 Squad projects (or any 3). Unlock 15 direct tech company referrals, 1-on-1 profile teardowns, and a verified referral dispatch from the Botmartz engineering team.
             </p>
           </div>
 
@@ -269,6 +269,56 @@ export default function ArenaPage() {
             <span>Enter Shippers Circle</span>
             <ArrowRight size={14} />
           </Link>
+        </div>
+
+        {/* Founder Office Hours Protocol & Anti-Vibe Coding Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+          
+          {/* Founder Structured Protocol */}
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-800 text-[10px] font-bold uppercase tracking-wider mb-2 border border-amber-200">
+                <ShieldCheck size={13} className="text-amber-600" /> Executive Mentorship Protocol
+              </div>
+              <h4 className="text-base font-bold text-slate-900 font-sans mb-1.5">
+                Founder 1-on-1 Architecture Clinic (Earned Milestone)
+              </h4>
+              <p className="text-slate-600 text-[11px] leading-relaxed font-mono mb-3">
+                1-on-1 time with Founder Soham Sharma is an earned privilege for committed shippers. To unlock a private clinic, you must complete 3 verified production projects (or maintain a 14-day verified streak) and submit a structured Technical PRD &amp; Agenda in advance.
+              </p>
+            </div>
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-[11px]">
+              <span className="text-slate-500 font-bold">Requirement: 3 Completed Projects + PRD</span>
+              <Link href="/arena/shippers" className="text-[#0066FF] font-bold hover:underline">
+                View Prerequisites →
+              </Link>
+            </div>
+          </div>
+
+          {/* Anti-Vibe Coding & System Design Core */}
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] text-[10px] font-bold uppercase tracking-wider mb-2 border border-blue-200">
+                <BookOpen size={13} /> Core Concepts Curriculum
+              </div>
+              <h4 className="text-base font-bold text-slate-900 font-sans mb-1.5">
+                System Design &amp; AI Foundations (Anti-Vibe Coding)
+              </h4>
+              <p className="text-slate-600 text-[11px] leading-relaxed font-mono mb-3">
+                Do not just copy AI code without understanding internals. Master mandatory fundamentals: Database index internals (B-Tree vs BRIN), async state machine determinism, zero flaky Playwright CI gates, and AWS cloud deployment.
+              </p>
+            </div>
+            <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-[11px]">
+              <a href="https://luma.com/botmartz" target="_blank" rel="noopener noreferrer" className="text-purple-600 font-bold hover:underline flex items-center gap-1">
+                <span>Free AMAs on Luma</span>
+                <ExternalLink size={12} />
+              </a>
+              <Link href="/arena/antigravity-guide" className="text-[#0066FF] font-bold hover:underline">
+                Core Curriculum →
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 

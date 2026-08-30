@@ -369,6 +369,9 @@ function DiscussionsContent() {
     setNewContent("");
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const POSTS_PER_PAGE = 4;
+
   const filteredPosts = posts.filter(p => {
     const matchesChannel = selectedChannel === "all" || p.channel === selectedChannel;
     const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -376,6 +379,12 @@ function DiscussionsContent() {
                           p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesChannel && matchesSearch;
   });
+
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE) || 1;
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
 
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
@@ -507,7 +516,7 @@ function DiscussionsContent() {
 
             {/* Post Feed */}
             <div className="space-y-4">
-              {filteredPosts.map(post => (
+              {paginatedPosts.map(post => (
                 <div
                   key={post.id}
                   className="bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all"
@@ -582,6 +591,31 @@ function DiscussionsContent() {
 
                 </div>
               ))}
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between pt-6 border-t border-slate-200 font-mono text-xs">
+                  <div className="text-slate-500">
+                    Page {currentPage} of {totalPages} ({filteredPosts.length} Total Topics)
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 cursor-pointer font-bold"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      className="px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 cursor-pointer font-bold"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
           </div>

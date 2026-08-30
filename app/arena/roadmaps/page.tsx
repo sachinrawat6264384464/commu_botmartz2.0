@@ -19,136 +19,57 @@ import {
   Search,
   Zap,
   Filter,
-  Music,
-  Heart,
-  TrendingUp,
-  Brain,
-  Atom,
-  BookOpen
+  Check,
+  ChevronRight,
+  BookOpen,
+  GraduationCap
 } from "lucide-react";
 import { ROLE_ROADMAPS, RoleRoadmap } from "@/lib/roadmaps";
-import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
-const CATEGORIES = [
-  "All Roadmaps",
-  "Core Engineering",
-  "Product & Design",
-  "MBA, Business & Finance",
-  "Cybersecurity & Defense",
-  "Cross-Discipline Hybrids"
-] as const;
-
-const PRIMARY_DISCIPLINES = [
-  "All Disciplines",
-  "Music & Audio",
-  "Biology & Genomics",
-  "Finance & Quant",
-  "Law & Compliance",
-  "Agriculture & Food",
-  "Education & Learning",
-  "Art & Generative Media",
-  "Healthcare & Robotics",
-  "Semiconductors & Hardware",
-  "Clean Energy & BMS",
-  "Public Policy & GovTech"
+const PRIMARY_DOMAINS = [
+  { id: "Core Engineering", label: "Core Software & Engineering", icon: Code2, desc: "Backend, Frontend, Full Stack, Systems, Low-Latency Rust, Cloud/DevOps" },
+  { id: "AI/ML", label: "Artificial Intelligence & Data", icon: Cpu, desc: "PyTorch, Agent Swarms, LangGraph, WebGPU SLM, Computer Vision" },
+  { id: "Product & Design", label: "Product Management & Design", icon: Layers, desc: "Technical PM, AI PM, Growth PLG, UI/UX Design Systems" },
+  { id: "MBA, Business & Finance", label: "MBA, Strategy & Quant Finance", icon: LineChart, desc: "Algorithmic Trading, PMM, Tech BizOps, Venture Capital" },
+  { id: "Cybersecurity & Defense", label: "Cybersecurity & Zero-Trust Defense", icon: Shield, desc: "Autonomous Red-Team Pentesting, Linux eBPF Kernel, Threat Ops" },
+  { id: "Cross-Discipline Hybrids", label: "Cross-Discipline Hybrids (Music, Bio, Agri, Law)", icon: Sparkles, desc: "Acoustic DSP, Bio-Informatics, Agritech, RISC-V, LegalTech" }
 ];
 
-const SECONDARY_FOCUS = [
-  "All Tech Stacks",
-  "AI & Machine Learning",
-  "Python & FastAPI",
-  "Node.js & TypeScript",
-  "Rust & Low-Latency",
-  "Cloud & DevOps/SRE",
-  "Cybersecurity & Zero-Trust",
-  "Product & Business Strategy",
-  "IoT & Firmware"
-];
-
-export default function RoadmapsExplorerPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All Roadmaps");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [fusionPrimary, setFusionPrimary] = useState<string>("All Disciplines");
-  const [fusionSecondary, setFusionSecondary] = useState<string>("All Tech Stacks");
-  const [selectedTrackId, setSelectedTrackId] = useState<string>(ROLE_ROADMAPS[0].id);
+export default function ProgressiveRoadmapsPage() {
+  const [selectedDomain, setSelectedDomain] = useState<string>("Core Engineering");
+  const [selectedRoleId, setSelectedRoleId] = useState<string>(ROLE_ROADMAPS[0].id);
+  const [experienceLevel, setExperienceLevel] = useState<"beginner" | "intermediate" | "advanced">("beginner");
   const [activeStageNum, setActiveStageNum] = useState<number>(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Filter roadmaps
-  const filteredRoadmaps = useMemo(() => {
+  // Available roles in selected domain
+  const availableRoles = useMemo(() => {
     return ROLE_ROADMAPS.filter((r) => {
-      const matchesCategory =
-        selectedCategory === "All Roadmaps" || r.category === selectedCategory;
-
-      const matchesSearch =
-        searchQuery === "" ||
-        r.roleName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.disciplines.some((d) => d.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        r.targetCompanies.some((c) => c.toLowerCase().includes(searchQuery.toLowerCase()));
-
-      const matchesFusionPrimary =
-        fusionPrimary === "All Disciplines" ||
-        r.disciplines.some((d) => {
-          const p = fusionPrimary.toLowerCase();
-          return (
-            (p.includes("music") && d.toLowerCase().includes("music")) ||
-            (p.includes("biology") && d.toLowerCase().includes("biology")) ||
-            (p.includes("finance") && (d.toLowerCase().includes("finance") || d.toLowerCase().includes("quant"))) ||
-            (p.includes("law") && d.toLowerCase().includes("law")) ||
-            (p.includes("agriculture") && d.toLowerCase().includes("agri")) ||
-            (p.includes("education") && d.toLowerCase().includes("education")) ||
-            (p.includes("art") && (d.toLowerCase().includes("art") || d.toLowerCase().includes("creative"))) ||
-            (p.includes("healthcare") && d.toLowerCase().includes("health")) ||
-            (p.includes("semiconductor") && d.toLowerCase().includes("semiconductor")) ||
-            (p.includes("clean energy") && d.toLowerCase().includes("clean energy")) ||
-            (p.includes("govtech") && d.toLowerCase().includes("gov"))
-          );
-        });
-
-      const matchesFusionSecondary =
-        fusionSecondary === "All Tech Stacks" ||
-        r.disciplines.some((d) => {
-          const s = fusionSecondary.toLowerCase();
-          return (
-            (s.includes("ai") && d.toLowerCase().includes("ai")) ||
-            (s.includes("python") && d.toLowerCase().includes("python")) ||
-            (s.includes("node") && d.toLowerCase().includes("node")) ||
-            (s.includes("rust") && d.toLowerCase().includes("rust")) ||
-            (s.includes("cloud") && (d.toLowerCase().includes("cloud") || d.toLowerCase().includes("devops"))) ||
-            (s.includes("security") && (d.toLowerCase().includes("security") || d.toLowerCase().includes("zero-trust"))) ||
-            (s.includes("product") && (d.toLowerCase().includes("product") || d.toLowerCase().includes("strategy") || d.toLowerCase().includes("mba"))) ||
-            (s.includes("iot") && (d.toLowerCase().includes("iot") || d.toLowerCase().includes("hardware") || d.toLowerCase().includes("firmware")))
-          );
-        });
-
-      return matchesCategory && matchesSearch && matchesFusionPrimary && matchesFusionSecondary;
+      if (selectedDomain === "AI/ML") {
+        return r.category === "Core Engineering" && (r.roleName.includes("AI") || r.roleName.includes("Machine Learning") || r.roleName.includes("Vision"));
+      }
+      return r.category === selectedDomain;
     });
-  }, [selectedCategory, searchQuery, fusionPrimary, fusionSecondary]);
+  }, [selectedDomain]);
 
-  // Keep selectedTrack in sync if filtered
+  // Selected Roadmap
   const currentRoadmap = useMemo(() => {
-    const found = ROLE_ROADMAPS.find((r) => r.id === selectedTrackId);
-    if (found && filteredRoadmaps.some((f) => f.id === found.id)) return found;
-    return filteredRoadmaps[0] || ROLE_ROADMAPS[0];
-  }, [selectedTrackId, filteredRoadmaps]);
+    const found = ROLE_ROADMAPS.find((r) => r.id === selectedRoleId);
+    if (found) return found;
+    return availableRoles[0] || ROLE_ROADMAPS[0];
+  }, [selectedRoleId, availableRoles]);
 
   const currentStage =
     currentRoadmap.stages.find((s) => s.stageNumber === activeStageNum) ||
     currentRoadmap.stages[0];
 
-  const matchedProjects = ARENA_PROJECTS.filter((p) =>
-    currentStage.recommendedProjectIds.some(
-      (recId) => p.slug === recId || p.id === recId || p.slug.includes(recId)
-    )
-  );
-
-  const handleTrackChange = (trackId: string) => {
-    setSelectedTrackId(trackId);
-    setActiveStageNum(1);
-  };
-
-  const handleStageChange = (stageNum: number) => {
-    setActiveStageNum(stageNum);
+  const handleDomainSelect = (domainId: string) => {
+    setSelectedDomain(domainId);
+    const firstMatching = ROLE_ROADMAPS.find(r => domainId === "AI/ML" ? (r.category === "Core Engineering" && r.roleName.includes("AI")) : r.category === domainId);
+    if (firstMatching) {
+      setSelectedRoleId(firstMatching.id);
+      setActiveStageNum(1);
+    }
   };
 
   return (
@@ -160,13 +81,13 @@ export default function RoadmapsExplorerPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3">
-                <Compass size={14} /> Career Roadmaps &amp; Cross-Discipline Fusion
+                <Compass size={14} /> Career Discovery &amp; Learning Roadmaps
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                50 Production Role Roadmaps
+                Progressive Career Roadmaps
               </h1>
               <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2 leading-relaxed">
-                Explore structured stage progressions across Core Engineering, Product Management, MBA &amp; Strategy, Cybersecurity, and Cross-Discipline Hybrids. Combine any two passions to discover your ideal career path and matching production systems.
+                Step-by-step career path guides across 50 technical, product, and cross-discipline roles. Discover required foundational concepts, system design prerequisites, and measurable stage milestones.
               </p>
             </div>
 
@@ -175,13 +96,7 @@ export default function RoadmapsExplorerPage() {
                 href="/arena"
                 className="px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold uppercase tracking-wider transition-all"
               >
-                Explore 50 Systems
-              </Link>
-              <Link
-                href="/arena/ecosystems"
-                className="px-5 py-3 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-xs"
-              >
-                Industrial Ecosystems
+                Internship Playground
               </Link>
             </div>
           </div>
@@ -191,135 +106,106 @@ export default function RoadmapsExplorerPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
         
         {/* =========================================================================
-            SECTION 1: CROSS-DISCIPLINE INTEREST & FUSION MATCHER
-        ========================================================================= */}
-        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-800/80 shadow-lg">
-          <div className="max-w-3xl mb-6">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-mono text-[11px] font-bold uppercase tracking-wider mb-2 border border-indigo-500/30">
-              <Sparkles size={13} /> Interactive Cross-Discipline Fusion Engine
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 font-sans">
-              Combine Your Passions (e.g. Music + Tech = Acoustic DSP Engineer)
-            </h2>
-            <p className="text-xs text-slate-300 font-mono leading-relaxed">
-              Don't limit yourself to generic software engineering. Select your foundational domain and technical focus to find high-impact niche disciplines.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
-            <div>
-              <label className="block text-slate-400 font-bold mb-1.5 uppercase text-[10px]">
-                1. Select Primary Discipline / Passion:
-              </label>
-              <select
-                value={fusionPrimary}
-                onChange={(e) => setFusionPrimary(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#00B8F0]"
-              >
-                {PRIMARY_DISCIPLINES.map((d) => (
-                  <option key={d} value={d} className="bg-slate-900 text-white">
-                    {d}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-slate-400 font-bold mb-1.5 uppercase text-[10px]">
-                2. Select Technical / Business Focus:
-              </label>
-              <select
-                value={fusionSecondary}
-                onChange={(e) => setFusionSecondary(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#00B8F0]"
-              >
-                {SECONDARY_FOCUS.map((f) => (
-                  <option key={f} value={f} className="bg-slate-900 text-white">
-                    {f}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-slate-400 font-bold mb-1.5 uppercase text-[10px]">
-                3. Quick Keyword Search:
-              </label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                <input
-                  type="text"
-                  placeholder="Search role, e.g. 'quant', 'genomics', 'kernel'..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl pl-9 pr-3.5 py-2.5 focus:outline-none focus:border-[#00B8F0]"
-                />
-              </div>
-            </div>
-          </div>
-
-          {(fusionPrimary !== "All Disciplines" || fusionSecondary !== "All Tech Stacks" || searchQuery !== "") && (
-            <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between font-mono text-xs text-indigo-200">
-              <span>Showing {filteredRoadmaps.length} matched specialized career paths</span>
-              <button
-                onClick={() => {
-                  setFusionPrimary("All Disciplines");
-                  setFusionSecondary("All Tech Stacks");
-                  setSearchQuery("");
-                }}
-                className="text-xs text-indigo-400 hover:text-white underline cursor-pointer"
-              >
-                Reset Fusion Filters
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* =========================================================================
-            SECTION 2: CATEGORY SELECTOR & ROADMAP ROSTER
+            STEP 1: SELECT PRIMARY DISCIPLINE / DOMAIN
         ========================================================================= */}
         <div>
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-4 scrollbar-none font-mono text-xs">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2.5 rounded-xl font-bold transition-all cursor-pointer whitespace-nowrap border ${
-                  selectedCategory === cat
-                    ? "bg-[#0066FF] text-white border-[#0066FF] shadow-xs"
-                    : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="flex items-center gap-2 font-mono text-xs font-bold text-slate-500 uppercase mb-3">
+            <span>Step 1: Choose Your Primary Discipline</span>
           </div>
 
-          {/* Roadmaps Horizontal Selector */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none font-mono text-xs">
-            {filteredRoadmaps.map((track) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {PRIMARY_DOMAINS.map((domain) => {
+              const IconComp = domain.icon;
+              const isSelected = selectedDomain === domain.id;
+              return (
+                <button
+                  key={domain.id}
+                  onClick={() => handleDomainSelect(domain.id)}
+                  className={`p-5 rounded-3xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                    isSelected
+                      ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-[#0066FF]/20"
+                      : "bg-white hover:bg-slate-50 border-slate-200 text-slate-800"
+                  }`}
+                >
+                  <div>
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center mb-3 ${
+                      isSelected ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-700"
+                    }`}>
+                      <IconComp size={20} />
+                    </div>
+                    <h3 className="font-bold text-base mb-1 font-sans">{domain.label}</h3>
+                    <p className={`text-xs font-mono leading-relaxed ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
+                      {domain.desc}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono font-bold">
+                    <span>{isSelected ? "Selected Discipline" : "Select Path"}</span>
+                    <ChevronRight size={14} />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* =========================================================================
+            STEP 2: SELECT SPECIALIZED CAREER ROLE
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+            <div>
+              <div className="text-xs font-mono font-bold text-slate-500 uppercase mb-1">
+                Step 2: Select Specific Career Track ({availableRoles.length} Tracks Available)
+              </div>
+              <h2 className="text-xl font-bold text-slate-900 font-sans">
+                Choose Your Target Specialization
+              </h2>
+            </div>
+
+            {/* Experience Level Selector */}
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl font-mono text-xs font-bold">
+              {(["beginner", "intermediate", "advanced"] as const).map((lvl) => (
+                <button
+                  key={lvl}
+                  onClick={() => setExperienceLevel(lvl)}
+                  className={`px-3.5 py-1.5 rounded-xl capitalize transition-all cursor-pointer ${
+                    experienceLevel === lvl ? "bg-white text-slate-900 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  {lvl}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Roles Horizontal Pill Bar */}
+          <div className="pt-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none font-mono text-xs">
+            {availableRoles.map((r) => (
               <button
-                key={track.id}
-                onClick={() => handleTrackChange(track.id)}
+                key={r.id}
+                onClick={() => {
+                  setSelectedRoleId(r.id);
+                  setActiveStageNum(1);
+                }}
                 className={`px-4 py-3 rounded-2xl font-bold whitespace-nowrap transition-all border cursor-pointer ${
-                  currentRoadmap.id === track.id
-                    ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-                    : "bg-white text-slate-700 border-slate-200 hover:border-slate-300"
+                  currentRoadmap.id === r.id
+                    ? "bg-[#0066FF] text-white border-[#0066FF] shadow-xs"
+                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                 }`}
               >
-                {track.roleName}
+                {r.roleName}
               </button>
             ))}
           </div>
         </div>
 
         {/* =========================================================================
-            SECTION 3: ACTIVE ROLE ROADMAP DETAILS
+            STEP 3: COMPREHENSIVE PROGRESSIVE ROADMAP BREAKDOWN
         ========================================================================= */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
           
-          {/* Top Metadata */}
+          {/* Header of Active Roadmap */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -334,7 +220,7 @@ export default function RoadmapsExplorerPage() {
                   ))}
                 </div>
               </div>
-              <h2 className="text-2xl font-bold text-slate-900 font-sans">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 font-sans">
                 {currentRoadmap.roleName}
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 font-mono mt-1">
@@ -343,7 +229,7 @@ export default function RoadmapsExplorerPage() {
             </div>
 
             <div className="text-left md:text-right shrink-0">
-              <div className="text-[10px] font-mono text-slate-400 uppercase font-bold mb-1.5">Target Employers</div>
+              <div className="text-[10px] font-mono text-slate-400 uppercase font-bold mb-1.5">Common Hiring Companies</div>
               <div className="flex flex-wrap gap-1 justify-start md:justify-end">
                 {currentRoadmap.targetCompanies.map((comp) => (
                   <span
@@ -357,16 +243,16 @@ export default function RoadmapsExplorerPage() {
             </div>
           </div>
 
-          {/* Stage Progress Stepper */}
+          {/* Stage Progression Stepper */}
           <div className="py-6 border-b border-slate-100">
             <div className="text-xs font-mono text-slate-400 uppercase font-bold mb-3">
-              Curriculum Progression Stages ({currentRoadmap.stages.length} Stages)
+              Curriculum Progression ({currentRoadmap.stages.length} Stages)
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
               {currentRoadmap.stages.map((stage) => (
                 <button
                   key={stage.stageNumber}
-                  onClick={() => handleStageChange(stage.stageNumber)}
+                  onClick={() => setActiveStageNum(stage.stageNumber)}
                   className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                     activeStageNum === stage.stageNumber
                       ? "bg-slate-900 text-white border-slate-900 shadow-sm"
@@ -383,14 +269,14 @@ export default function RoadmapsExplorerPage() {
             </div>
           </div>
 
-          {/* Stage Details Grid */}
+          {/* Active Stage Deep Dive */}
           <div className="pt-6 grid grid-cols-1 lg:grid-cols-3 gap-8 font-mono text-xs">
             
-            {/* Focus & Core Skills */}
+            {/* Core Competencies & Concept Foundations */}
             <div className="lg:col-span-2 space-y-6">
               <div>
                 <div className="text-[11px] text-slate-400 uppercase font-bold mb-1">
-                  Stage {currentStage.stageNumber} Objective:
+                  Stage {currentStage.stageNumber} Learning Focus:
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 font-sans mb-2">
                   {currentStage.stageName} ({currentStage.duration})
@@ -402,7 +288,7 @@ export default function RoadmapsExplorerPage() {
 
               <div>
                 <div className="text-[11px] text-slate-400 uppercase font-bold mb-2">
-                  Key Technical Competencies &amp; Tools:
+                  Key Technical Competencies &amp; Algorithms:
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {currentStage.coreSkills.map((skill) => (
@@ -418,7 +304,7 @@ export default function RoadmapsExplorerPage() {
 
               <div>
                 <div className="text-[11px] text-slate-400 uppercase font-bold mb-2">
-                  Stage Deliverables &amp; Proof-of-Work Artifacts:
+                  Milestone Deliverables &amp; Proof-of-Work Checklist:
                 </div>
                 <div className="space-y-2">
                   {currentStage.deliverables.map((item, idx) => (
@@ -431,39 +317,29 @@ export default function RoadmapsExplorerPage() {
               </div>
             </div>
 
-            {/* Recommended Projects to Build */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between">
+            {/* System Design Core Prerequisites */}
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between font-mono text-xs">
               <div>
-                <div className="flex items-center gap-2 text-[#0066FF] font-bold uppercase text-[11px] mb-2">
-                  <Zap size={14} /> Matched Production Systems
+                <div className="flex items-center gap-2 text-purple-700 font-bold uppercase text-[11px] mb-2">
+                  <GraduationCap size={15} /> System Design &amp; AI Concepts
                 </div>
                 <p className="text-xs text-slate-600 mb-4 leading-relaxed font-sans">
-                  Build one of these systems to clear Stage {currentStage.stageNumber} proof-of-work:
+                  Mandatory concepts to master before building production systems (anti-vibe coding):
                 </p>
 
-                <div className="space-y-3 mb-4">
-                  {matchedProjects.length === 0 ? (
-                    <div className="p-3 bg-white rounded-xl border border-slate-200 text-slate-500 text-xs">
-                      Explore any project from the 50-system catalog matching this stack.
-                    </div>
-                  ) : (
-                    matchedProjects.map((p) => (
-                      <div key={p.id} className="p-3 bg-white rounded-xl border border-slate-200">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] font-bold text-[#0066FF]">{p.difficulty}</span>
-                          <span className="text-[10px] text-slate-400">{p.domain}</span>
-                        </div>
-                        <div className="font-bold text-slate-900 text-xs mb-1 font-sans">{p.title}</div>
-                        <p className="text-[11px] text-slate-500 line-clamp-2 mb-2 font-sans">{p.tagline}</p>
-                        <Link
-                          href={`/arena/${p.slug}`}
-                          className="text-[#0066FF] hover:underline font-bold text-xs inline-flex items-center gap-1"
-                        >
-                          View System PRD <ArrowRight size={12} />
-                        </Link>
-                      </div>
-                    ))
-                  )}
+                <div className="space-y-2 mb-6">
+                  <div className="p-3 bg-white rounded-xl border border-slate-200">
+                    <div className="font-bold text-slate-900 mb-0.5">Database &amp; Latency Internals</div>
+                    <div className="text-[11px] text-slate-500">Connection pools, B-Tree vs BRIN indexes, p95 vs p99 latency profiling.</div>
+                  </div>
+                  <div className="p-3 bg-white rounded-xl border border-slate-200">
+                    <div className="font-bold text-slate-900 mb-0.5">State Machine Determinism</div>
+                    <div className="text-[11px] text-slate-500">Idempotency keys, distributed locks, recovery from 504 tool call timeouts.</div>
+                  </div>
+                  <div className="p-3 bg-white rounded-xl border border-slate-200">
+                    <div className="font-bold text-slate-900 mb-0.5">Automated Test Gates</div>
+                    <div className="text-[11px] text-slate-500">Playwright E2E suites, k6 distributed spike tests, zero flaky tests in CI/CD.</div>
+                  </div>
                 </div>
               </div>
 
@@ -471,7 +347,7 @@ export default function RoadmapsExplorerPage() {
                 href="/arena/daily-log"
                 className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-center block transition-all shadow-xs"
               >
-                Submit Stage Proof-of-Work
+                Log Stage Progress
               </Link>
             </div>
 

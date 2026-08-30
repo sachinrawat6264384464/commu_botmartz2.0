@@ -172,39 +172,40 @@ export default function CommunityFooter() {
             </ul>
           </div>
 
-          {/* Column 4: Ecosystems & Student Trust */}
+          {/* Column 4: Community & Resources */}
           <div className="space-y-3">
             <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
-              Ecosystems &amp; Trust
+              Community &amp; Resources
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="/arena/ecosystems" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Globe size={13} className="text-emerald-400" />
-                  <span>Industry Problem Radar (10 Sectors)</span>
+                <Link href="/discussions" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Terminal size={13} className="text-blue-400" />
+                  <span>Discussions &amp; Technical Q&amp;A</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/antigravity-guide" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Compass size={13} className="text-purple-400" />
+                  <span>System Design &amp; AI Core</span>
+                </Link>
+              </li>
+              <li>
+                <a href="https://luma.com/botmartz" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5 text-amber-400 font-bold">
+                  <ExternalLink size={13} />
+                  <span>Free AMAs on Luma</span>
+                </a>
+              </li>
+              <li>
+                <Link href="/certificates" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <ShieldCheck size={13} className="text-emerald-400" />
+                  <span>Verify Student Credentials</span>
                 </Link>
               </li>
               <li>
                 <Link href="/login" className="hover:text-white transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
-                  <ShieldCheck size={13} />
                   <span>Student Verification Portal</span>
                 </Link>
-              </li>
-              <li>
-                <Link href="/certificates" className="hover:text-white transition-colors">
-                  Verify Official Credentials
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin/security" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Lock size={13} className="text-purple-400" />
-                  <span>Zero-Trust Architecture</span>
-                </Link>
-              </li>
-              <li>
-                <span className="text-[11px] text-slate-500 block pt-1">
-                  DPDP Act 2023 Compliant. Immutable SHA-256 Ledger.
-                </span>
               </li>
             </ul>
           </div>

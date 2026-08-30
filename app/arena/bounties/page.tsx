@@ -41,11 +41,11 @@ export default function BountiesBoardPage() {
       setLoading(true);
       const res = await fetch("/api/arena/bounties");
       const data = await res.json();
-      if (data.bounties) {
+      if (data.bounties && Array.isArray(data.bounties)) {
         setBounties(data.bounties);
       }
     } catch (e) {
-      console.error("Failed to load bounties:", e);
+      console.warn("Failed to load bounties:", e);
     } finally {
       setLoading(false);
     }
