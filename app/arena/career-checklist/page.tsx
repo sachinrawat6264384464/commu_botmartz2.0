@@ -28,9 +28,11 @@ import {
   Loader2
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import BuilderProfileGateModal from "@/app/_components/BuilderProfileGateModal";
 
 export default function CareerChecklistPage() {
   const { user, studentProfile, loading } = useAuth();
+  const [showGateModal, setShowGateModal] = useState(false);
 
   const [completedTasks, setCompletedTasks] = useState<Record<string, boolean>>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -128,8 +130,8 @@ Building in public alongside 500+ builders across India at Indore AI Hub.
 
   const handleSubmitLinkedInUrl = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user?.email) {
-      window.location.href = "/login?redirect=/arena/career-checklist";
+    if (!user?.email || !studentProfile?.collegeName) {
+      setShowGateModal(true);
       return;
     }
     if (!linkedInPostUrl) return;
@@ -673,6 +675,15 @@ Best,
         </div>
 
       </div>
+
+      {/* Builder Profile Gate Modal */}
+      <BuilderProfileGateModal
+        isOpen={showGateModal}
+        onClose={() => setShowGateModal(false)}
+        title="Complete Profile to Claim UGC Rewards"
+        description="To credit your +50 Karma Coins and verify your LinkedIn proof link for hiring managers, an authenticated student profile is mandatory."
+        requiredActionName="Claiming UGC Rewards"
+      />
 
     </div>
   );

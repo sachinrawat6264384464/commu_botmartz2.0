@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { ArenaProject } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
+import BuilderProfileGateModal from "@/app/_components/BuilderProfileGateModal";
 
 interface Props {
   project: ArenaProject;
@@ -40,6 +41,9 @@ interface Props {
 
 export default function ProjectPRDClient({ project }: Props) {
   const { user, studentProfile } = useAuth();
+
+  // Profile Gating State
+  const [showGateModal, setShowGateModal] = useState(false);
 
   // Enrollment Modal State
   const [showEnrollModal, setShowEnrollModal] = useState(false);
@@ -270,7 +274,13 @@ export default function ProjectPRDClient({ project }: Props) {
           {/* Quick Actions */}
           <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
             <button
-              onClick={() => setShowEnrollModal(true)}
+              onClick={() => {
+                if (!user || !studentProfile?.collegeName || !studentProfile?.studentIdRollNo) {
+                  setShowGateModal(true);
+                } else {
+                  setShowEnrollModal(true);
+                }
+              }}
               className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center gap-2"
             >
               <UserPlus size={15} />
@@ -807,6 +817,15 @@ export default function ProjectPRDClient({ project }: Props) {
           </div>
         </div>
       )}
+
+      {/* Builder Profile Gate Modal */}
+      <BuilderProfileGateModal
+        isOpen={showGateModal}
+        onClose={() => setShowGateModal(false)}
+        title="Complete Profile to Enroll"
+        description="To track your 45-day commit progress, assign PRD repositories, and verify your graduation year for recruiter referrals, an authenticated student profile is mandatory."
+        requiredActionName="Project Enrollment"
+      />
 
     </div>
   );

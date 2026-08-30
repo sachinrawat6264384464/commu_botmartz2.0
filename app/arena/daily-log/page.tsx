@@ -24,9 +24,11 @@ import {
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
+import BuilderProfileGateModal from "@/app/_components/BuilderProfileGateModal";
 
 export default function DailyPoWLogPage() {
   const { user, studentProfile } = useAuth();
+  const [showGateModal, setShowGateModal] = useState(false);
 
   const [form, setForm] = useState({
     studentEmail: "",
@@ -83,6 +85,12 @@ export default function DailyPoWLogPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!user || !studentProfile?.collegeName || !studentProfile?.studentIdRollNo) {
+      setShowGateModal(true);
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -387,6 +395,16 @@ export default function DailyPoWLogPage() {
         </div>
 
       </div>
+
+      {/* Builder Profile Gate Modal */}
+      <BuilderProfileGateModal
+        isOpen={showGateModal}
+        onClose={() => setShowGateModal(false)}
+        title="Complete Profile to Submit Proof-of-Work"
+        description="To track your daily commit streaks, maintain verified leaderboard ranks, and credit your +50 Karma Coins, an authenticated profile with college credentials is mandatory."
+        requiredActionName="Daily Standup Logging"
+      />
+
     </div>
   );
 }
