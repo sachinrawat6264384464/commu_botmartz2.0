@@ -60,9 +60,9 @@ export async function POST(req: Request) {
       dpdpConsent,
     } = body;
 
-    if (!name || !email || !whatsapp || !projectId) {
+    if (!name || !email || !projectId) {
       return NextResponse.json(
-        { error: "Name, email, WhatsApp, and project selection are required." },
+        { error: "Name, email, and project selection are required." },
         { status: 400 }
       );
     }
