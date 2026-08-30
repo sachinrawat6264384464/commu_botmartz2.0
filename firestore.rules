@@ -1,0 +1,164 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is signed in
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper to check if request is from the owner (by UID or email)
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Helper to check for admin email
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email == "soham@botmartz.com" ||
+        request.auth.token.email == "team@botmartz.com" ||
+        request.auth.token.admin == true
+      );
+    }
+
+    // Student Profiles collection
+    match /student_profiles/{profileId} {
+      allow read: if true; // Public read for student profile and contribution heatmap pages
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (
+        request.auth.uid == profileId ||
+        request.auth.uid == resource.data.uid ||
+        request.auth.token.email == resource.data.email ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Arena Project Enrollments
+    match /arena_enrollments/{enrollmentId} {
+      allow read: if true;
+      allow create: if true; // Allow initial enrollment submission
+      allow update: if isAuthenticated() && (
+        request.auth.token.email == resource.data.email ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Daily Proof-of-Work Logs
+    match /arena_daily_logs/{logId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if isAuthenticated() && (
+        request.auth.token.email == resource.data.studentEmail ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    match /daily_logs/{logId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if isAuthenticated() && (
+        request.auth.token.email == resource.data.studentEmail ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Career Checklist & LinkedIn UGC Proofs
+    match /career_checklists/{docId} {
+      allow read: if true;
+      allow write: if isAuthenticated() || isAdmin();
+    }
+
+    // Discussions Forum & Comments
+    match /discussions/{discussionId} {
+      allow read: if true;
+      allow create: if isAuthenticated() || isAdmin();
+      allow update: if isAuthenticated() || isAdmin();
+      allow delete: if isAdmin();
+      
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if isAuthenticated() || isAdmin();
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // Custom Arena Projects & Dynamic PRDs (Admin managed, public read)
+    match /custom_arena_projects/{projectId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Cohort Calendar Events (Admin managed, public read)
+    match /cohort_calendar_events/{eventId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Wallet & Karma Transactions
+    match /wallet_transactions/{txId} {
+      allow read: if isAuthenticated() && (
+        request.auth.token.email == resource.data.studentEmail ||
+        isAdmin()
+      );
+      allow write: if isAdmin();
+    }
+
+    // Global Settings & RBAC Team
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /team_members/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Events, Orders, and Pass Registrations
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow read: if isAuthenticated() && (
+        request.auth.token.email == resource.data.email ||
+        isAdmin()
+      );
+      allow write: if isAdmin();
+    }
+
+    match /payments/{paymentId} {
+      allow read: if isAuthenticated() && (
+        request.auth.token.email == resource.data.email ||
+        isAdmin()
+      );
+      allow write: if isAdmin();
+    }
+
+    match /event_registrations/{regId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /challenges/{challengeId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /challenge_submissions/{subId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // Catch-all default rule for admin backend SDK operations
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

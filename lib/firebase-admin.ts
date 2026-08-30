@@ -43,7 +43,7 @@ function getAdminApp(): App {
     return getApps()[0];
   }
 
-  const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'botmartz-main';
+  const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'botmartz-community';
 
   // 1. Check if complete service account JSON is passed via ENV
   const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT || process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON;
@@ -62,10 +62,11 @@ function getAdminApp(): App {
     const fs = require('fs');
     const path = require('path');
     const possiblePaths = [
+      path.resolve(process.cwd(), 'botmartz-community-firebase-adminsdk-fbsvc-9114364f40.json'),
+      path.resolve(process.cwd(), '../botmartz-community-firebase-adminsdk-fbsvc-9114364f40.json'),
+      '/mnt/d/HP Shared/All Freelance Projects/botmartz-community/botmartz-community-firebase-adminsdk-fbsvc-9114364f40.json',
       path.resolve(process.cwd(), '../botmartz-main-firebase-adminsdk-fbsvc-60e42d287e.json'),
-      path.resolve(process.cwd(), '../botmartz-main-firebase-adminsdk-fbsvc-d220cfe485.json'),
       path.resolve(process.cwd(), 'botmartz-main-firebase-adminsdk-fbsvc-60e42d287e.json'),
-      '/home/soham/Downloads/botmartz-main-firebase-adminsdk-fbsvc-d220cfe485.json',
     ];
 
     for (const jsonPath of possiblePaths) {
