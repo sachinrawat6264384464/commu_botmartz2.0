@@ -14,7 +14,6 @@ import {
   Mail,
   Sparkles
 } from "lucide-react";
-import AdminSidebar from "../components/AdminSidebar";
 
 export default function AdminTeamGovernancePage() {
   const [admins, setAdmins] = useState<any[]>([]);
@@ -80,10 +79,7 @@ export default function AdminTeamGovernancePage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-900 text-slate-100 font-mono">
-      <AdminSidebar />
-
-      <main className="flex-1 p-6 sm:p-10 max-w-7xl">
+    <div className="text-slate-100 font-mono max-w-7xl">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -283,7 +279,6 @@ export default function AdminTeamGovernancePage() {
           </div>
 
         </div>
-      </main>
     </div>
   );
 }

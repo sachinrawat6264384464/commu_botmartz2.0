@@ -74,7 +74,7 @@ const INITIAL_POSTS: DiscussionPost[] = [
     author: {
       name: "Soham Sharma",
       handle: "@soham_ai",
-      role: "Founder & AI Architect",
+      role: "Founder / Director",
       avatarBg: "from-[#0066FF] to-[#00B8F0]",
       github: "https://github.com/soham2710",
       discord: "soham_ai#0001"
@@ -82,69 +82,174 @@ const INITIAL_POSTS: DiscussionPost[] = [
     channel: "ai-agents",
     tags: ["LangGraph", "StateMachines", "Production"],
     content: "When running complex 5-step agent loops (e.g. Doc Retrieval -> Schema Validation -> Code Gen -> Sandbox Run -> Output Synthesizer), network timeouts on tool calls can corrupt state. We moved to PostgreSQL checkpointers with idempotent idempotency-keys. What's your setup?",
-    upvotes: 52,
+    upvotes: 64,
     replies: 3,
     commentsList: [
-      { id: "c1", author: "Aarav Nair", handle: "@aaravn", text: "We use PostgresSaver with WAL journaling — cuts recover time to sub-10ms.", timeAgo: "1h ago" },
-      { id: "c2", author: "Pooja Reddy", handle: "@poojadev", text: "Make sure you set auto-retry on 504 gateway timeouts before state rollbacks.", timeAgo: "30m ago" },
+      { id: "c1", author: "Vedansh Trivedi", handle: "@vedansh_t", text: "We use PostgresSaver with WAL journaling in FastAPI — cuts state recovery time to sub-10ms.", timeAgo: "1h ago" },
+      { id: "c2", author: "Sachin Rawat", handle: "@sachin_r", text: "Make sure you set auto-retry on 504 gateway timeouts before state rollbacks across microservices.", timeAgo: "45m ago" },
+      { id: "c3", author: "Bhavya Jain", handle: "@bhavya_j", text: "Also check token limits when re-hydrating conversation buffers on failover.", timeAgo: "20m ago" }
     ],
     timeAgo: "2 hours ago",
     isHot: true
   },
   {
     id: "disc-2",
-    title: "📄 [Wednesday Resume Review] AI Engineer (2 YoE) seeking RAG Architect roles — Tear down my resume!",
+    title: "FastAPI + Pydantic v2 serialization benchmarks: 4x throughput with custom orjson response classes",
     author: {
-      name: "Rohan Varma",
-      handle: "@rohan_v",
-      role: "Junior AI Engineer",
-      avatarBg: "from-emerald-500 to-teal-700",
-      github: "https://github.com",
-      discord: "rohan_v#1234"
+      name: "Vedansh Trivedi",
+      handle: "@vedansh_t",
+      role: "Full Stack Developer (Python)",
+      avatarBg: "from-blue-600 to-indigo-700",
+      github: "https://github.com/vedansh-botmartz",
+      discord: "vedansh#3412"
     },
-    channel: "resume-review",
-    tags: ["ResumeReview", "Wednesday", "Career"],
-    content: "Hey community! It's Resume Review Wednesday. I've built 2 production RAG pipelines with Qdrant & FastAPI. Should I emphasize latency optimization benchmarks more than model fine-tuning? Here is my GitHub portfolio.",
-    upvotes: 41,
+    channel: "ai-agents",
+    tags: ["FastAPI", "Python", "Performance", "PostgreSQL"],
+    content: "We benchmarked standard FastAPI JSONResponse vs ORJSONResponse on 50KB nested vector payload responses. Throughput surged from 850 req/sec to 3,400 req/sec on an 8-core instance. Don't forget to enable connection pooling in async SQLAlchemy 2.0!",
+    upvotes: 51,
     replies: 2,
     commentsList: [
-      { id: "c3", author: "Dr. Promit Ray", handle: "@promit_ray", text: "Lead with your evaluation numbers: Hit Rate@K, latency per query, and token savings. Hiring managers care about measurable precision.", timeAgo: "45m ago" }
+      { id: "c4", author: "Ritik Motwani", handle: "@ritik_m", text: "Paired with asyncpg connection pools (min=10, max=50), DB latency drops below 2.5ms consistently.", timeAgo: "1h ago" },
+      { id: "c5", author: "Shruti Jadhav", handle: "@shruti_j", text: "Verified this in our k6 load test suite — zero socket dropouts at 2,000 concurrent virtual users.", timeAgo: "30m ago" }
+    ],
+    timeAgo: "3 hours ago",
+    isHot: true
+  },
+  {
+    id: "disc-3",
+    title: "Architecting a hybrid Python AI worker with Node.js WebSocket event bus",
+    author: {
+      name: "Sachin Rawat",
+      handle: "@sachin_r",
+      role: "Full Stack Developer (Python + Node.js)",
+      avatarBg: "from-emerald-600 to-teal-800",
+      github: "https://github.com/sachin-botmartz",
+      discord: "sachin_rawat#5521"
+    },
+    channel: "enterprise-rag",
+    tags: ["NodeJS", "Python", "RedisStreams", "Architecture"],
+    content: "Instead of running heavy WebSockets directly in Python, we offload real-time client pub/sub to a Node.js Fastify gateway connected over Redis Streams to our Python AI worker processes. Dropped server memory footprint by 62%.",
+    upvotes: 47,
+    replies: 2,
+    commentsList: [
+      { id: "c6", author: "Vinay Chaware", handle: "@vinay_c", text: "Node.js event loop handles 25,000 idle socket connections effortlessly with minimal CPU usage.", timeAgo: "2h ago" },
+      { id: "c7", author: "Soham Sharma", handle: "@soham_ai", text: "This pattern is key for our 50 production systems. Keeps LLM compute strictly decoupled from client I/O.", timeAgo: "1h ago" }
     ],
     timeAgo: "4 hours ago",
     isHot: true
   },
   {
-    id: "disc-3",
-    title: "🎙️ [AMA Questions] Submit your questions for our 3rd Saturday AMA on Foundation Model Reasoning",
+    id: "disc-4",
+    title: "Eliminating WebSocket memory leaks in Next.js 15 & real-time state streams",
     author: {
-      name: "Dr. Promit Ray",
-      handle: "@promit_ray",
-      role: "Chief AI Officer",
-      avatarBg: "from-amber-400 to-amber-600"
+      name: "Vinay Chaware",
+      handle: "@vinay_c",
+      role: "Full Stack Developer (Node.js)",
+      avatarBg: "from-amber-600 to-orange-700",
+      github: "https://github.com/vinay-botmartz",
+      discord: "vinay_node#9812"
     },
-    channel: "ama-questions",
-    tags: ["AMA", "3rdSaturday", "Inference"],
-    content: "This 3rd Saturday at 6 PM IST, we are diving deep into test-time compute, reasoning token scaling, and ONNX Runtime GPU optimizations. Drop your technical questions below so I can prepare deep dive code walk-throughs!",
-    upvotes: 68,
-    replies: 4,
-    timeAgo: "Yesterday",
+    channel: "show-your-build",
+    tags: ["NextJS", "WebSockets", "CRDT", "State"],
+    content: "If you're using Yjs CRDTs or live audio visualizers, ensure you clean up event listeners on unmount. We implemented an automatic ping/pong heartbeat with 30-second stale socket cleanup. What's your approach for handling edge reconnection?",
+    upvotes: 43,
+    replies: 2,
+    commentsList: [
+      { id: "c8", author: "Sachin Rawat", handle: "@sachin_r", text: "We use exponential backoff with jitter on the client side to avoid thundering herd reconnection storms.", timeAgo: "2h ago" },
+      { id: "c9", author: "Shruti Jadhav", handle: "@shruti_j", text: "Added automated disconnect/reconnect tests in Playwright to guarantee zero data loss.", timeAgo: "1h ago" }
+    ],
+    timeAgo: "5 hours ago",
+    isHot: false
+  },
+  {
+    id: "disc-5",
+    title: "PRD Architecture Blueprint: Structuring system requirements for cross-functional builder squads",
+    author: {
+      name: "Vaidehi Banabakode",
+      handle: "@vaidehi_b",
+      role: "Product Associate & Research Intern",
+      avatarBg: "from-pink-600 to-rose-700",
+      github: "https://github.com/vaidehi-botmartz",
+      discord: "vaidehi_p#4419"
+    },
+    channel: "show-your-build",
+    tags: ["ProductManagement", "PRD", "SystemDesign", "Research"],
+    content: "A great developer PRD isn't just user stories — it needs sequence diagrams, database entity models, error code taxonomies, and clear SLA benchmarks (latency, throughput, error rates). We authored PRDs for all 50 production systems across 10 industrial domains.",
+    upvotes: 56,
+    replies: 2,
+    commentsList: [
+      { id: "c10", author: "Soham Sharma", handle: "@soham_ai", text: "Strict PRDs are what separate professional engineering squads from amateur hackathons.", timeAgo: "3h ago" },
+      { id: "c11", author: "Arunesh Kher", handle: "@arunesh_k", text: "Students sharing these PRD diagrams on LinkedIn get massive engagement from hiring CTOs!", timeAgo: "1h ago" }
+    ],
+    timeAgo: "6 hours ago",
     isHot: true
   },
   {
-    id: "disc-4",
-    title: "🔥 [Showcase Thursday] Shipped an open-source MCP Server for BigQuery Dataform transformations",
+    id: "disc-6",
+    title: "Fine-tuning PyTorch embedding models with Matryoshka Representation Learning (MRL)",
     author: {
-      name: "Pooja Reddy",
-      handle: "@poojadev",
-      role: "Data Systems Builder",
-      avatarBg: "from-purple-500 to-indigo-600"
+      name: "Bhavya Jain",
+      handle: "@bhavya_j",
+      role: "AI/ML Intern with Backend in Python",
+      avatarBg: "from-purple-600 to-violet-800",
+      github: "https://github.com/bhavya-botmartz",
+      discord: "bhavya_ai#1109"
     },
-    channel: "show-your-build",
-    tags: ["ShowcaseThursday", "MCP", "BigQuery"],
-    content: "Built a Model Context Protocol tool that lets Claude/Gemini inspect Dataform assertions, lineage trees, and run dry-run compilations directly from your IDE. Check out the GitHub repo and give feedback!",
-    upvotes: 38,
+    channel: "enterprise-rag",
+    tags: ["PyTorch", "MRL", "Embeddings", "Qdrant"],
+    content: "With MRL, you can truncate 1536-dim embeddings down to 512-dim or 256-dim while preserving 98.4% of downstream retrieval accuracy in Qdrant, cutting vector RAM costs by 66%! Check out our reference implementation.",
+    upvotes: 39,
     replies: 1,
-    timeAgo: "2 days ago"
+    commentsList: [
+      { id: "c12", author: "Vedansh Trivedi", handle: "@vedansh_t", text: "Huge memory savings when running on smaller cloud instances.", timeAgo: "2h ago" }
+    ],
+    timeAgo: "7 hours ago",
+    isHot: false
+  },
+  {
+    id: "disc-7",
+    title: "Automated Playwright CI/CD testing gates: Catching hydration mismatches before staging",
+    author: {
+      name: "Shruti Jadhav",
+      handle: "@shruti_j",
+      role: "QA Tester & Automation Engineer",
+      avatarBg: "from-teal-600 to-emerald-700",
+      github: "https://github.com/shruti-botmartz",
+      discord: "shruti_qa#8831"
+    },
+    channel: "ai-agents",
+    tags: ["Playwright", "CICD", "Automation", "Quality"],
+    content: "We set up automated GitHub Action runs with Playwright testing 45 critical student user flows and k6 load tests for 1,000 concurrent spike loads. Zero broken links or unhandled exceptions allowed to pass to production.",
+    upvotes: 42,
+    replies: 1,
+    commentsList: [
+      { id: "c13", author: "Vinay Chaware", handle: "@vinay_c", text: "The automated trace viewer on CI failure saves hours of debugging.", timeAgo: "1h ago" }
+    ],
+    timeAgo: "8 hours ago",
+    isHot: false
+  },
+  {
+    id: "disc-8",
+    title: "Building in Public on LinkedIn: How 45-day daily logs convert to inbound recruiter DMs",
+    author: {
+      name: "Arunesh Kher",
+      handle: "@arunesh_k",
+      role: "Social Media & Community Growth Intern",
+      avatarBg: "from-amber-500 to-red-600",
+      github: "https://github.com/arunesh-botmartz",
+      discord: "arunesh_growth#6610"
+    },
+    channel: "resume-review",
+    tags: ["LinkedInGrowth", "BuildInPublic", "UGC", "Career"],
+    content: "Builders who publish daily 150-word architecture snippets with their commit hashes and latency benchmarks see 3.4x more recruiter profile views. Use our built-in LinkedIn progress diary formatter on the Career Checklist page!",
+    upvotes: 61,
+    replies: 2,
+    commentsList: [
+      { id: "c14", author: "Soham Sharma", handle: "@soham_ai", text: "Proof-of-work speaks louder than certificates. Ship in public daily!", timeAgo: "3h ago" },
+      { id: "c15", author: "Vaidehi Banabakode", handle: "@vaidehi_b", text: "Tagging the open-source libraries you used creates organic reciprocity from project maintainers.", timeAgo: "2h ago" }
+    ],
+    timeAgo: "9 hours ago",
+    isHot: true
   }
 ];
 

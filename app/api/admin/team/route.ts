@@ -1,56 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
+import { BOTMARTZ_TEAM } from "@/lib/team";
 
 const SUPER_ADMIN_EMAIL = "soham@botmartz.com";
 
 export async function GET(req: NextRequest) {
   try {
+    const baseAdmins = BOTMARTZ_TEAM.map((t) => ({
+      id: t.id,
+      name: t.name,
+      email: t.email,
+      role: t.role,
+      department: t.department,
+      status: "active",
+      kpis: t.kpis,
+      specialties: t.specialties
+    }));
+
     if (!adminDb) {
       return NextResponse.json({
         superAdmin: SUPER_ADMIN_EMAIL,
-        admins: [
-          {
-            id: "adm_1",
-            name: "Soham Sharma",
-            email: "soham@botmartz.com",
-            role: "Super Admin & Founder",
-            status: "active",
-            kpis: {
-              reviewsCompleted: 48,
-              avgReviewTimeHours: 4.2,
-              bugsVerified: 12,
-              officeHoursAttended: 8
-            }
-          }
-        ]
+        admins: baseAdmins
       });
     }
 
     const snap = await adminDb.collection("community_admins").get();
-    let admins: any[] = [];
+    let dbAdmins: any[] = [];
     if (!snap.empty) {
-      admins = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      dbAdmins = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     }
 
-    if (!admins.some((a) => a.email === SUPER_ADMIN_EMAIL)) {
-      admins.unshift({
-        id: "super_admin",
-        name: "Soham Sharma",
-        email: SUPER_ADMIN_EMAIL,
-        role: "Super Admin & Founder",
-        status: "active",
-        kpis: {
-          reviewsCompleted: 48,
-          avgReviewTimeHours: 4.2,
-          bugsVerified: 12,
-          officeHoursAttended: 8
-        }
-      });
+    // Merge base team with any dynamically added admins
+    const combined = [...baseAdmins];
+    for (const d of dbAdmins) {
+      if (!combined.some(a => a.email.toLowerCase() === d.email.toLowerCase())) {
+        combined.push(d);
+      }
     }
 
     return NextResponse.json({
       superAdmin: SUPER_ADMIN_EMAIL,
-      admins
+      admins: combined
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
