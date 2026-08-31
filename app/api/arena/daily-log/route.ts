@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
+import { adjustStudentWallet } from "@/lib/wallet";
 
 export async function POST(req: Request) {
   try {
@@ -16,31 +17,47 @@ export async function POST(req: Request) {
       discordMessageUrl,
       driveFolderUrl,
       blockers,
+      isLearningPause,
+      learningTopic
     } = body;
 
     if (!studentEmail || !projectId || !dayNumber || !commitUrl) {
       return NextResponse.json(
-        { error: "Student email, project, day number, and GitHub commit URL are required." },
+        { error: "Student email, project selection, day number, and GitHub commit URL are required." },
         { status: 400 }
       );
     }
 
     const cleanEmail = studentEmail.trim().toLowerCase();
+    const cleanCommit = commitUrl.trim();
+    const cleanLinkedin = (linkedinPostUrl || "").trim();
+    const hasLinkedin = cleanLinkedin.length > 10 && cleanLinkedin.includes("linkedin.com");
+
+    // Base reward: +20 coins for commit log. Extra +50 coins if LinkedIn post attached.
+    let baseCoins = 20;
+    let linkedinBonus = hasLinkedin ? 50 : 0;
+    let totalCoinsAwarded = baseCoins + linkedinBonus;
+
     const logData = {
       studentEmail: cleanEmail,
-      studentName: (studentName || "").trim(),
+      studentName: (studentName || "Builder").trim(),
       projectId,
-      projectTitle: projectTitle || "Arena Project",
+      projectTitle: projectTitle || "Arena Production System",
       dayNumber: Number(dayNumber),
-      commitUrl: commitUrl.trim(),
+      commitUrl: cleanCommit,
       researchNotes: (researchNotes || "").trim(),
-      linkedinPostUrl: (linkedinPostUrl || "").trim(),
+      linkedinPostUrl: cleanLinkedin,
+      linkedinStatus: hasLinkedin ? "PENDING_AUDIT" : "NONE", // "PENDING_AUDIT" | "VERIFIED" | "REJECTED_SPAM" | "NONE"
       discordMessageUrl: (discordMessageUrl || "").trim(),
-      driveFolderUrl: (driveFolderUrl || "https://drive.google.com/drive/folders/1KExMwvCxqd1rn9tgcbIFxAK0vw900CfH").trim(),
+      driveFolderUrl: (driveFolderUrl || "").trim(),
       blockers: (blockers || "").trim(),
+      isLearningPause: Boolean(isLearningPause),
+      learningTopic: (learningTopic || "").trim(),
+      coinsAwarded: totalCoinsAwarded,
+      baseCoins,
+      linkedinBonus,
       submittedAt: new Date().toISOString(),
-      score: 10,
-      status: "Submitted",
+      status: "Verified",
     };
 
     let logId = `log_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
@@ -50,7 +67,16 @@ export async function POST(req: Request) {
         const docRef = await adminDb.collection("arena_daily_logs").add(logData);
         logId = docRef.id;
 
-        // Try updating enrollment streak
+        // 1. Award Karma Coins via Atomic Transaction
+        await adjustStudentWallet(
+          cleanEmail,
+          totalCoinsAwarded,
+          "EARN",
+          `Day ${dayNumber} Proof-of-Work Log${hasLinkedin ? " (+50 LinkedIn Bonus)" : ""}: ${projectTitle || projectId}`,
+          logId
+        );
+
+        // 2. Update Enrollment Streak and XP
         const enrollSnap = await adminDb
           .collection("arena_enrollments")
           .where("email", "==", cleanEmail)
@@ -66,6 +92,7 @@ export async function POST(req: Request) {
             streak: currentStreak + 1,
             xp: currentXp + 50,
             lastSubmittedAt: new Date().toISOString(),
+            lastDayLogged: Number(dayNumber)
           });
         }
       } catch (dbErr) {
@@ -75,9 +102,11 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: `Day ${dayNumber} Proof-of-Work successfully logged!`,
+      message: `Day ${dayNumber} Proof-of-Work logged! Earned +${totalCoinsAwarded} Karma Coins.`,
       logId,
       log: logData,
+      coinsAwarded: totalCoinsAwarded,
+      hasLinkedinBonus: hasLinkedin
     });
   } catch (err: any) {
     return NextResponse.json(
@@ -92,22 +121,32 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const email = searchParams.get("email")?.toLowerCase().trim();
     const projectId = searchParams.get("projectId");
+    const status = searchParams.get("status");
 
     let logs: any[] = [];
 
     if (adminDb) {
       try {
-        let query: any = adminDb.collection("arena_daily_logs").orderBy("submittedAt", "desc").limit(50);
+        let query: any = adminDb.collection("arena_daily_logs").orderBy("submittedAt", "desc").limit(100);
         if (email) {
           query = query.where("studentEmail", "==", email);
         }
         if (projectId) {
           query = query.where("projectId", "==", projectId);
         }
+        if (status) {
+          query = query.where("linkedinStatus", "==", status);
+        }
         const snap = await query.get();
         logs = snap.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }));
       } catch (dbErr) {
-        console.error("Firestore daily logs query warning:", dbErr);
+        console.warn("Firestore daily logs query index fallback:", dbErr);
+        let query: any = adminDb.collection("arena_daily_logs");
+        if (email) query = query.where("studentEmail", "==", email);
+        if (projectId) query = query.where("projectId", "==", projectId);
+        const snap = await query.get();
+        logs = snap.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }));
+        logs.sort((a, b) => new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime());
       }
     }
 

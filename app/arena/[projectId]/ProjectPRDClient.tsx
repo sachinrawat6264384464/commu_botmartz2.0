@@ -275,7 +275,7 @@ export default function ProjectPRDClient({ project }: Props) {
           <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
             <button
               onClick={() => {
-                if (!user || !studentProfile?.collegeName || !studentProfile?.studentIdRollNo) {
+                if (!user) {
                   setShowGateModal(true);
                 } else {
                   setShowEnrollModal(true);
@@ -287,11 +287,11 @@ export default function ProjectPRDClient({ project }: Props) {
               <span>Enroll in this Project</span>
             </button>
             <Link
-              href="/arena/daily-log"
+              href={`/arena/daily-log?projectId=${project.id}`}
               className="px-6 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-800 dark:text-white font-bold uppercase tracking-wider transition-all border border-slate-300 dark:border-slate-700 flex items-center gap-2"
             >
               <Terminal size={15} />
-              <span>Submit Daily PoW Log</span>
+              <span>Log Day Proof-of-Work &rarr;</span>
             </Link>
           </div>
         </div>

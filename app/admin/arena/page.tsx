@@ -87,6 +87,31 @@ export default function AdminArenaDashboardPage() {
     loadData();
   }, []);
 
+  const [auditingLogId, setAuditingLogId] = useState<string | null>(null);
+
+  const handleAuditLog = async (logId: string, action: "APPROVE" | "REJECT_SPAM") => {
+    setAuditingLogId(logId);
+    try {
+      const res = await fetch("/api/admin/arena/audit-log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ logId, action })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setRecentLogs((prev) =>
+          prev.map((l) => (l.id === logId ? { ...l, linkedinStatus: action === "APPROVE" ? "VERIFIED" : "REJECTED_SPAM" } : l))
+        );
+      } else {
+        alert(data.error || "Failed to audit log.");
+      }
+    } catch (e: any) {
+      alert(e.message || "Audit request failed.");
+    } finally {
+      setAuditingLogId(null);
+    }
+  };
+
   const filteredEnrollments = enrollments.filter((e) => {
     const matchesDiff = filterDifficulty === "All" || e.difficulty === filterDifficulty;
     const matchesSearch =
@@ -450,14 +475,15 @@ export default function AdminArenaDashboardPage() {
                   <th className="py-3.5 px-4">Project</th>
                   <th className="py-3.5 px-4">Architecture Research Notes</th>
                   <th className="py-3.5 px-4">GitHub Proof</th>
-                  <th className="py-3.5 px-4">LinkedIn / Discord</th>
+                  <th className="py-3.5 px-4">LinkedIn Proof &amp; Coins</th>
+                  <th className="py-3.5 px-4">Admin Audit Action</th>
                   <th className="py-3.5 px-4">Logged At</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {recentLogs.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-8 text-center text-slate-400 font-mono">
+                    <td colSpan={7} className="py-8 text-center text-slate-400 font-mono">
                       No daily standups submitted yet.
                     </td>
                   </tr>
@@ -488,10 +514,53 @@ export default function AdminArenaDashboardPage() {
                       </td>
                       <td className="py-3.5 px-4 text-[11px]">
                         {log.linkedinPostUrl ? (
-                          <a href={log.linkedinPostUrl} target="_blank" rel="noopener noreferrer" className="text-[#0A66C2] hover:underline block">
-                            LinkedIn Post ↗
-                          </a>
-                        ) : <span className="text-slate-400">—</span>}
+                          <div className="space-y-1">
+                            <a href={log.linkedinPostUrl} target="_blank" rel="noopener noreferrer" className="text-[#0A66C2] hover:underline font-bold flex items-center gap-1">
+                              <span>LinkedIn Post ↗</span>
+                            </a>
+                            {log.linkedinStatus === "PENDING_AUDIT" && (
+                              <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold block w-fit">
+                                Pending Audit (+50)
+                              </span>
+                            )}
+                            {log.linkedinStatus === "VERIFIED" && (
+                              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold block w-fit">
+                                ✔ Verified (+50)
+                              </span>
+                            )}
+                            {log.linkedinStatus === "REJECTED_SPAM" && (
+                              <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-bold block w-fit">
+                                ✖ Spam (Coins Deducted)
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-slate-400">Base (+20)</span>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4">
+                        {log.linkedinPostUrl && log.linkedinStatus !== "VERIFIED" && log.linkedinStatus !== "REJECTED_SPAM" ? (
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              disabled={auditingLogId === log.id}
+                              onClick={() => handleAuditLog(log.id, "APPROVE")}
+                              className="px-2 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] transition-all cursor-pointer disabled:opacity-50"
+                            >
+                              Approve
+                            </button>
+                            <button
+                              disabled={auditingLogId === log.id}
+                              onClick={() => handleAuditLog(log.id, "REJECT_SPAM")}
+                              className="px-2 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-[10px] transition-all cursor-pointer disabled:opacity-50"
+                            >
+                              Flag Spam
+                            </button>
+                          </div>
+                        ) : (
+                          <span className="text-slate-400 text-[10px]">
+                            {log.linkedinStatus === "VERIFIED" ? "Audited: Valid" : log.linkedinStatus === "REJECTED_SPAM" ? "Audited: Rejected" : "—"}
+                          </span>
+                        )}
                       </td>
                       <td className="py-3.5 px-4 text-slate-400 text-[11px]">
                         {log.submittedAt ? new Date(log.submittedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Just now"}
