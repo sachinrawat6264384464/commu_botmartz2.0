@@ -138,6 +138,22 @@ export async function POST(req: NextRequest) {
           createdAt: paymentTimestamp
         });
       }
+
+      // 5. Handle Karma Coins Wallet Top-up
+      if (itemCategory === "WALLET_TOPUP" || metadata?.coinsAmount) {
+        const coinsToAdd = Number(metadata?.coinsAmount) || (Number(amount) === 99 ? 500 : Number(amount) === 299 ? 2000 : Number(amount) === 599 ? 5000 : Number(amount) * 5);
+        try {
+          await adjustStudentWallet(
+            cleanEmail,
+            coinsToAdd,
+            "EARN",
+            `Purchased ${itemName || "Karma Credit Pack"} (+${coinsToAdd} Coins for ₹${amount})`,
+            razorpay_payment_id
+          );
+        } catch (wErr) {
+          console.warn("Wallet topup credit warning:", wErr);
+        }
+      }
     }
 
     // 5. Send Email Confirmation via SMTP

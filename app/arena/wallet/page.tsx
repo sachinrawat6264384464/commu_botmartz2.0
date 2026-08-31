@@ -24,6 +24,7 @@ import {
   CreditCard
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import RazorpayModal from "@/app/_components/RazorpayModal";
 
 export default function StudentWalletPage() {
   const { user, studentProfile } = useAuth();
@@ -46,10 +47,9 @@ export default function StudentWalletPage() {
   const [transferring, setTransferring] = useState(false);
   const [transferSuccess, setTransferSuccess] = useState<string | null>(null);
 
-  // Buy Credits State
-  const [showTopupModal, setShowTopupModal] = useState(false);
-  const [selectedPack, setSelectedPack] = useState<any | null>(null);
-  const [buyingCredits, setBuyingCredits] = useState(false);
+  // Razorpay Checkout State for Top-up Packs
+  const [showRazorpayModal, setShowRazorpayModal] = useState(false);
+  const [checkoutPack, setCheckoutPack] = useState<any | null>(null);
   const [buySuccess, setBuySuccess] = useState<string | null>(null);
 
   const CREDIT_PACKS = [
@@ -219,46 +219,14 @@ export default function StudentWalletPage() {
     }
   };
 
-  const handleBuyCredits = async (pack: any) => {
+  const handleInitiatePurchase = (pack: any) => {
     const targetEmail = email || user?.email;
     if (!targetEmail) {
-      alert("Please log in or enter your student email in the box below to purchase Karma Credit Packs.");
+      alert("Please log in or enter your student email below to purchase Karma Credit Packs via Razorpay.");
       return;
     }
-
-    setBuyingCredits(true);
-    try {
-      const res = await fetch("/api/arena/wallet/topup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: targetEmail,
-          packId: pack.name,
-          amountPaid: pack.price,
-          coinsAmount: pack.coins,
-        }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setWallet((prev: any) => ({
-          ...prev,
-          coins: data.newBalance,
-          lifetimeEarned: (prev?.lifetimeEarned || 0) + pack.coins,
-        }));
-        setTransactions((prev) => [
-          { type: "EARN", amount: pack.coins, reason: `Bought ${pack.name} (₹${pack.price})`, timestamp: new Date().toISOString() },
-          ...prev,
-        ]);
-        setBuySuccess(`Successfully added ${pack.coins} Karma Coins to your balance! New Balance: ${data.newBalance} Coins.`);
-        setShowTopupModal(false);
-      } else {
-        alert(data.error || "Failed to process purchase.");
-      }
-    } catch (err: any) {
-      alert(err.message || "Failed to process purchase.");
-    } finally {
-      setBuyingCredits(false);
-    }
+    setCheckoutPack(pack);
+    setShowRazorpayModal(true);
   };
 
   const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
@@ -374,10 +342,7 @@ export default function StudentWalletPage() {
             </div>
 
             <button
-              onClick={() => {
-                setSelectedPack(CREDIT_PACKS[1]);
-                setShowTopupModal(true);
-              }}
+              onClick={() => handleInitiatePurchase(CREDIT_PACKS[1])}
               className="w-full sm:w-auto px-5 py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
               <Zap size={15} className="text-slate-950 fill-slate-950" />
@@ -393,13 +358,13 @@ export default function StudentWalletPage() {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-xs font-mono font-bold text-[#0066FF] uppercase mb-1">
-                INSTANT TOP-UP PACKS
+                INSTANT TOP-UP PACKS (RAZORPAY VERIFIED)
               </div>
               <h2 className="text-xl font-bold text-slate-900 font-sans">
                 Buy Karma Credits &amp; Accelerate Rewards
               </h2>
               <p className="text-xs text-slate-500 font-mono mt-0.5">
-                Need urgent access to mock interviews, cloud compute grants, or founder code clinics? Top-up instantly.
+                Need urgent access to mock interviews, cloud compute grants, or founder code clinics? Top-up securely via UPI / Cards.
               </p>
             </div>
           </div>
@@ -428,10 +393,7 @@ export default function StudentWalletPage() {
                 </div>
 
                 <button
-                  onClick={() => {
-                    setSelectedPack(pack);
-                    setShowTopupModal(true);
-                  }}
+                  onClick={() => handleInitiatePurchase(pack)}
                   className={`w-full mt-5 py-3 rounded-2xl font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                     pack.tag.includes("Popular")
                       ? "bg-[#0066FF] hover:bg-[#0052CC] text-white shadow-xs"
@@ -727,63 +689,29 @@ export default function StudentWalletPage() {
       )}
 
       {/* =========================================================================
-          BUY KARMA CREDITS MODAL
+          RAZORPAY VERIFIED KARMA CREDITS MODAL
       ========================================================================= */}
-      {showTopupModal && selectedPack && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl font-mono text-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-bold text-[10px]">
-                {selectedPack.tag}
-              </span>
-              <button onClick={() => setShowTopupModal(false)} className="text-slate-400 hover:text-slate-600">
-                <X size={16} />
-              </button>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-slate-900 font-sans mb-1">
-                Confirm Karma Pack Purchase
-              </h3>
-              <p className="text-slate-500 text-[11px]">
-                Instant top-up credited to: <strong>{email || user?.email || "Current Active Student"}</strong>
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Selected Pack:</span>
-                <span className="font-bold text-slate-900">{selectedPack.name}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Karma Credits Added:</span>
-                <span className="font-bold text-[#0066FF]">+{selectedPack.coins} Coins</span>
-              </div>
-              <div className="flex justify-between text-sm pt-2 border-t border-slate-200 font-bold">
-                <span className="text-slate-900">Total Price:</span>
-                <span className="text-emerald-600">₹{selectedPack.price}</span>
-              </div>
-            </div>
-
-            <div className="flex gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setShowTopupModal(false)}
-                className="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                disabled={buyingCredits}
-                onClick={() => handleBuyCredits(selectedPack)}
-                className="flex-1 py-3 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md"
-              >
-                {buyingCredits ? <Loader2 size={14} className="animate-spin" /> : <span>Pay ₹{selectedPack.price} &amp; Top-up</span>}
-              </button>
-            </div>
-          </div>
-        </div>
+      {showRazorpayModal && checkoutPack && (
+        <RazorpayModal
+          isOpen={showRazorpayModal}
+          onClose={() => setShowRazorpayModal(false)}
+          amount={checkoutPack.price}
+          itemName={`${checkoutPack.name} (+${checkoutPack.coins} Karma Coins)`}
+          itemCategory="WALLET_TOPUP"
+          description={`Purchase ${checkoutPack.coins} Karma Coins for ₹${checkoutPack.price}`}
+          metadata={{
+            coinsAmount: checkoutPack.coins,
+            packId: checkoutPack.id
+          }}
+          onSuccessCallback={(paymentData) => {
+            const targetEmail = email || user?.email;
+            if (targetEmail) {
+              loadWallet(targetEmail);
+            }
+            setBuySuccess(`🎉 Payment Verified! Successfully added ${checkoutPack.coins} Karma Coins to your balance (Payment ID: ${paymentData?.razorpay_payment_id || "Verified"}).`);
+            setShowRazorpayModal(false);
+          }}
+        />
       )}
 
     </div>
