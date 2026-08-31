@@ -507,6 +507,31 @@ export default function StudentProfilePortal() {
           </div>
         </div>
 
+        {/* Platform Guide & Tour Banner */}
+        <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs font-mono text-xs">
+          <div className="flex items-center gap-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300 shrink-0">
+              <BookOpen size={20} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-sm font-sans text-white">New to Botmartz? Explore the Platform Guide</span>
+                <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold">Interactive Tour</span>
+              </div>
+              <p className="text-xs text-blue-200 font-mono mt-0.5 max-w-xl">
+                Discover what each page does (PRD catalog, daily logs, agile workspaces, karma wallet, squad matchmaking, and conferences) and how to ship faster.
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/arena/antigravity-guide"
+            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-xs"
+          >
+            <span>Open Guide &rarr;</span>
+          </Link>
+        </div>
+
         {/* =========================================================================
             ENROLLED ARENA BLUEPRINTS
         ========================================================================= */}

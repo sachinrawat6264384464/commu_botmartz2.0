@@ -13,20 +13,23 @@ import {
   CheckCircle2,
   Coffee,
   MessageSquare,
-  Loader2
+  Loader2,
+  Check
 } from "lucide-react";
 
 export default function ArenaCalendarPage() {
   const [customEvents, setCustomEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [rsvpd, setRsvpd] = useState(false);
+  const [rsvpCount, setRsvpCount] = useState(38);
 
   const COMMUNITY_RITUALS = [
     {
       title: "Saturday Office Hours & Architecture Teardown",
       dayTime: "Every Saturday • 5:00 PM – 7:00 PM IST",
-      type: "Hybrid: Indore In-Person + Discord Stage",
-      location: "Indore AI Hub (Vijay Nagar / Geeta Bhawan) & Virtual Discord",
-      desc: "Live code walkthroughs, direct debugging with Founder Soham Sharma, offline student networking in Indore, and squad standups.",
+      type: "Hybrid: Indore In-Person (50+ RSVPs) + Discord Stage",
+      location: "Indore AI Hub (Active when 50+ RSVPs confirmed; otherwise streamed globally via Discord)",
+      desc: "Live code walkthroughs, direct debugging with Founder Soham Sharma, offline networking in Indore (physical venue activates when 50+ builders RSVP), or join online globally via Discord Voice Stage & Google Meet.",
       badge: "Flagship Ritual",
       badgeColor: "bg-amber-100 text-amber-800 border-amber-200",
       lumaLink: "https://lu.ma/botmartz-saturday-office-hours"
@@ -42,14 +45,14 @@ export default function ArenaCalendarPage() {
       lumaLink: "https://lu.ma/botmartz-showcase-thursdays"
     },
     {
-      title: "Wednesday Resume & Portfolio Teardown",
+      title: "Wednesday Resume & LinkedIn Profile Optimization",
       dayTime: "Every Wednesday • 7:00 PM – 8:30 PM IST",
       type: "Virtual Google Meet / Discord",
       location: "Discord #resume-review",
-      desc: "Brutally honest 1-on-1 resume dissections. Transforming generic student resumes into ATS-bypassing proof-of-work portfolios.",
-      badge: "Career Surgery",
+      desc: "Constructive 1-on-1 resume dissections. Transforming generic student resumes into ATS-bypassing proof-of-work portfolios.",
+      badge: "Career Lab",
       badgeColor: "bg-blue-100 text-blue-800 border-blue-200",
-      lumaLink: "https://lu.ma/botmartz-resume-surgery"
+      lumaLink: "https://lu.ma/botmartz-resume-review"
     },
     {
       title: "Monthly AI Architect AMA",
@@ -96,6 +99,60 @@ export default function ArenaCalendarPage() {
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-8 space-y-8">
         
+        {/* Indore In-Person 50+ RSVP Activation Tracker */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-mono text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div>
+              <div className="text-xs font-bold text-[#0066FF] uppercase mb-1 flex items-center gap-1.5">
+                <MapPin size={14} className="text-rose-500" /> INDORE IN-PERSON HUB PROTOCOL
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 font-sans">
+                Physical Office Hours Threshold (50+ RSVPs Rule)
+              </h3>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
+                In-person Indore AI Hub meetups unlock when 50+ builders RSVP. Otherwise, sessions are conducted live online via Discord Voice Stage.
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                if (!rsvpd) {
+                  setRsvpCount((c) => c + 1);
+                  setRsvpd(true);
+                }
+              }}
+              className={`px-5 py-2.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 flex items-center gap-2 ${
+                rsvpd
+                  ? "bg-emerald-600 text-white shadow-xs"
+                  : "bg-[#0066FF] hover:bg-blue-600 text-white shadow-xs"
+              }`}
+            >
+              {rsvpd ? <Check size={14} /> : <Users size={14} />}
+              <span>{rsvpd ? "RSVP Confirmed (+50 Coins)" : "RSVP for this Saturday"}</span>
+            </button>
+          </div>
+
+          <div className="space-y-2 pt-2 border-t border-slate-100">
+            <div className="flex justify-between text-[11px]">
+              <span className="text-slate-600 font-bold">This Saturday&apos;s Confirmed RSVPs</span>
+              <span className="font-bold text-slate-900">{rsvpCount} / 50 RSVPs ({Math.round((rsvpCount / 50) * 100)}%)</span>
+            </div>
+            <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+              <div
+                className={`h-2.5 rounded-full transition-all ${
+                  rsvpCount >= 50 ? "bg-emerald-500" : "bg-[#0066FF]"
+                }`}
+                style={{ width: `${Math.min((rsvpCount / 50) * 100, 100)}%` }}
+              />
+            </div>
+            <div className="text-[10px] text-slate-400">
+              {rsvpCount >= 50
+                ? "🎉 Threshold reached! In-Person Indore Hub (Vijay Nagar) is ACTIVE this Saturday."
+                : `⚡ ${50 - rsvpCount} more RSVPs needed to activate physical Indore venue. Online Discord Stage is ready!`}
+            </div>
+          </div>
+        </div>
+
         {/* Lu.ma Live Calendar Card */}
         <div className="bg-gradient-to-r from-blue-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-md border border-blue-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>

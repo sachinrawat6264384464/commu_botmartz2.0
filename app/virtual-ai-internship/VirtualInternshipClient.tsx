@@ -114,7 +114,7 @@ export default function VirtualInternshipPricingClient() {
               </div>
               <div className="flex items-start gap-2 text-slate-900">
                 <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
-                <span>Wednesday Resume Teardown &amp; LinkedIn Surgery</span>
+                <span>Wednesday Resume Teardown &amp; LinkedIn Profile Audit</span>
               </div>
             </div>
           </div>

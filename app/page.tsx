@@ -294,7 +294,7 @@ export default async function CommunityHomePage() {
                   Saturday Indore Office Hours &amp; Architecture Teardowns
                 </h2>
                 <p className="text-slate-300 text-xs sm:text-sm font-mono leading-relaxed mb-6">
-                  Every Saturday from <strong>5:00 PM to 7:00 PM IST</strong>. Join in-person at the Indore AI Hub for 1-on-1 architecture reviews with Founder Soham Sharma, or livestream globally via Discord Voice Stage.
+                  Every Saturday from <strong>5:00 PM to 7:00 PM IST</strong>. In-person meetups at the Indore AI Hub unlock whenever 50+ builders RSVP (otherwise hosted live online via Discord Voice Stage) with 1-on-1 architecture reviews with Founder Soham Sharma.
                 </p>
 
                 <div className="flex flex-wrap gap-3 font-mono text-xs">
@@ -325,7 +325,7 @@ export default async function CommunityHomePage() {
                     <span>SATURDAY 5:00 PM – 7:00 PM IST</span>
                     <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px]">Flagship</span>
                   </div>
-                  <div className="font-bold text-white text-sm font-sans">Indore In-Person &amp; Virtual Office Hours</div>
+                  <div className="font-bold text-white text-sm font-sans">Indore In-Person (50+ RSVPs) &amp; Virtual Stage</div>
                   <p className="text-slate-400 text-[11px] mt-0.5">Code architecture audits, live bug fixes, and 1-on-1 project reviews.</p>
                 </div>
 
@@ -334,7 +334,7 @@ export default async function CommunityHomePage() {
                     <span>WEDNESDAY 6:00 PM IST</span>
                     <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px]">Career</span>
                   </div>
-                  <div className="font-bold text-white text-sm font-sans">Resume Teardown &amp; LinkedIn Surgery</div>
+                  <div className="font-bold text-white text-sm font-sans">Resume Teardown &amp; LinkedIn Profile Audit</div>
                   <p className="text-slate-400 text-[11px] mt-0.5">ATS optimization, GitHub proof-of-work pinned carousels, and HR cold pitches.</p>
                 </div>
 
@@ -458,7 +458,7 @@ export default async function CommunityHomePage() {
                   </div>
                   <div className="flex items-start gap-2 text-slate-900">
                     <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
-                    <span>Wednesday Resume Teardown &amp; LinkedIn Surgery</span>
+                    <span>Wednesday Resume Teardown &amp; LinkedIn Profile Audit</span>
                   </div>
                 </div>
               </div>

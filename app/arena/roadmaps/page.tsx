@@ -168,7 +168,12 @@ export default function ProgressiveRoadmapsPage() {
               {(["beginner", "intermediate", "advanced"] as const).map((lvl) => (
                 <button
                   key={lvl}
-                  onClick={() => setExperienceLevel(lvl)}
+                  onClick={() => {
+                    setExperienceLevel(lvl);
+                    if (lvl === "beginner") setActiveStageNum(1);
+                    if (lvl === "intermediate") setActiveStageNum(2);
+                    if (lvl === "advanced") setActiveStageNum(3);
+                  }}
                   className={`px-3.5 py-1.5 rounded-xl capitalize transition-all cursor-pointer ${
                     experienceLevel === lvl ? "bg-white text-slate-900 shadow-xs" : "text-slate-600 hover:text-slate-900"
                   }`}
@@ -179,16 +184,16 @@ export default function ProgressiveRoadmapsPage() {
             </div>
           </div>
 
-          {/* Roles Horizontal Pill Bar */}
-          <div className="pt-6 flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none font-mono text-xs">
+          {/* Roles Horizontal Pill Bar - Constrained with Custom Scrollbar */}
+          <div className="pt-6 w-full max-w-full overflow-x-auto pb-3 flex items-center gap-2.5 scrollbar-thin font-mono text-xs">
             {availableRoles.map((r) => (
               <button
                 key={r.id}
                 onClick={() => {
                   setSelectedRoleId(r.id);
-                  setActiveStageNum(1);
+                  setActiveStageNum(experienceLevel === "beginner" ? 1 : experienceLevel === "intermediate" ? 2 : 3);
                 }}
-                className={`px-4 py-3 rounded-2xl font-bold whitespace-nowrap transition-all border cursor-pointer ${
+                className={`px-4 py-3 rounded-2xl font-bold whitespace-nowrap shrink-0 transition-all border cursor-pointer ${
                   currentRoadmap.id === r.id
                     ? "bg-[#0066FF] text-white border-[#0066FF] shadow-xs"
                     : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
@@ -205,6 +210,24 @@ export default function ProgressiveRoadmapsPage() {
         ========================================================================= */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
           
+          {/* Experience Level Context Banner */}
+          <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 text-blue-900 font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div className="flex items-center gap-2">
+              <Sparkles size={15} className="text-[#0066FF] shrink-0" />
+              <span>
+                <strong>{experienceLevel.toUpperCase()} TRACK:</strong>{" "}
+                {experienceLevel === "beginner"
+                  ? "Focused on Stage 1 (Foundations, Syntax, REST endpoints & Core Data Structures)."
+                  : experienceLevel === "intermediate"
+                  ? "Focused on Stage 2 (Distributed Systems, Vector Embeddings, Docker & Database Indexing)."
+                  : "Focused on Stage 3 (Sub-150ms SLA gates, ONNX Quantization, Kernel eBPF & Senior Production Mastery)."}
+              </span>
+            </div>
+            <span className="text-[10px] text-[#0066FF] font-bold shrink-0 uppercase bg-white px-2.5 py-1 rounded-lg border border-blue-200 self-start sm:self-auto">
+              Stage {experienceLevel === "beginner" ? 1 : experienceLevel === "intermediate" ? 2 : 3} Active
+            </span>
+          </div>
+
           {/* Header of Active Roadmap */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
             <div>

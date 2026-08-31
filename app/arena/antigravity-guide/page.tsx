@@ -25,7 +25,8 @@ import {
   ExternalLink,
   Code2,
   Lock,
-  Search
+  Search,
+  Users
 } from "lucide-react";
 
 export default function PlatformGuidePage() {
@@ -119,10 +120,49 @@ export default function PlatformGuidePage() {
       icon: Briefcase,
       badge: "Recruiter Optimization",
       color: "from-blue-700 to-indigo-800",
-      what: "An 8-step interactive checklist covering LinkedIn headline surgery, GitHub README setup, proof-of-work post templates, and cold outreach frameworks.",
+      what: "An 8-step interactive checklist covering LinkedIn headline optimization, GitHub README setup, proof-of-work post templates, and cold outreach frameworks.",
       why: "Most students build projects that nobody sees. This system turns your daily proof-of-work into recruiter visibility and inbound interview calls.",
       how: "Follow each checklist card, use the 1-click copy post composer, publish your progress on LinkedIn, and submit your link to claim +50 coins.",
       cta: "Open Career Checklist"
+    },
+    {
+      id: "workspace-qa",
+      title: "Agile Workspace, Kanban & QA Test Suite",
+      href: "/arena/p1/workspace",
+      category: "CORE_ENGINEERING",
+      icon: Layers,
+      badge: "Kanban & Live Squad Chat",
+      color: "from-indigo-600 to-blue-700",
+      what: "A full Jira/Linear-style project management board, SLA latency test assertion matrix, and real-time common squad chat room for every single project.",
+      why: "Simulates working in a tier-1 high-scale engineering team. Distributes responsibilities across Backend, ML, QA, and Frontend leads with automated sprint audit exports.",
+      how: "Navigate to any project PRD, click 'Agile Workspace & QA Suite', manage task states, log SLA assertions, and chat with peers working on the same project in the Squad Room.",
+      cta: "Open Project Workspace"
+    },
+    {
+      id: "collaborate-matchmaking",
+      title: "Builder Matchmaking & Squad Formation",
+      href: "/arena/collaborate",
+      category: "COMMUNITY",
+      icon: Users,
+      badge: "Admin & Peer Pairing",
+      color: "from-purple-600 to-pink-600",
+      what: "The collaborative hub where builders pitch project ideas, find missing teammates (ML Lead, Backend, QA, Frontend), and request 1-on-1 admin matchmaking.",
+      why: "Building alone can be hard. Teaming up allows you to build complex full-stack AI systems that stand out to top tech recruiters.",
+      how: "Post your project pitch and contact handle (Discord/WhatsApp), browse active pitches, or click 'Request Admin Matchmaking' for founder-led squad pairing.",
+      cta: "Find Squad Teammates"
+    },
+    {
+      id: "events-conferences",
+      title: "Events, AI Frontier Summit & QR Check-in",
+      href: "/events",
+      category: "COMMUNITY",
+      icon: Calendar,
+      badge: "+300 to +3,000 Coins",
+      color: "from-rose-600 to-orange-600",
+      what: "Schedule of in-person AI summits (like AI Frontier 2026), local builder hackathons, and hybrid technical keynotes with verifiable QR check-ins.",
+      why: "Meet top founders, senior AI architects, and fellow builders in person to exchange code, build networks, and earn massive Karma wallet grants.",
+      how: "Register for upcoming events on Lu.ma/Razorpay, receive your digital QR pass, and get scanned at the entrance to earn +300 to +3,000 Karma Coins instantly.",
+      cta: "Explore Summit & Events"
     },
     {
       id: "custom-project",
@@ -156,12 +196,12 @@ export default function PlatformGuidePage() {
       href: "/arena/roadmaps",
       category: "CAREER",
       icon: Compass,
-      badge: "Self-Paced Paths",
+      badge: "Beginner / Inter / Adv",
       color: "from-teal-600 to-cyan-700",
-      what: "Step-by-step career path guides for AI Engineers, MLOps Specialists, Fullstack Developers, and Systems Engineers.",
+      what: "Step-by-step career path guides across 50 technical, product, and cross-discipline roles with Beginner, Intermediate, and Advanced milestone stages.",
       why: "Know exactly which foundational concepts, tools, and algorithms to master at each stage of your engineering journey.",
-      how: "Browse the visual roadmap cards, track your milestone progress, and build the corresponding Arena projects.",
-      cta: "View Roadmaps"
+      how: "Select your target domain and experience level, view the key algorithms, and build the corresponding Arena projects.",
+      cta: "View Career Roadmaps"
     }
   ];
 

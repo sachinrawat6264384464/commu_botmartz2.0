@@ -477,7 +477,7 @@ export const ROLE_ROADMAPS: RoleRoadmap[] = [
     stages: [
       {
         stageNumber: 1,
-        stageName: "ICP Persona Mapping & Positioning Surgery",
+        stageName: "ICP Persona Mapping & Positioning Strategy",
         duration: "Week 1 - 2",
         focus: "Ideal Customer Profile (ICP) definition, value proposition matrix, feature-to-benefit mapping, and competitor battlecards.",
         coreSkills: ["Positioning Frameworks", "Competitor Battlecards", "Messaging Hierarchy", "Customer Interviews"],

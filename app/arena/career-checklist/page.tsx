@@ -169,7 +169,7 @@ Building in public alongside 500+ builders across India at Indore AI Hub.
 
   const CHECKLIST_PHASES = [
     {
-      phaseName: "Phase 1: Architecture-First Profile Surgery",
+      phaseName: "Phase 1: Architecture-First Profile Optimization",
       badge: "Foundations",
       tasks: [
         { id: "p1_1", title: "ATS Headline Optimization", desc: "Change headline to: '[Role Aspirant] | Building [Key Production System] (PyTorch / Rust / WebGPU) | Botmartz 45D Cohort'." },

@@ -24,7 +24,9 @@ import {
   Filter,
   X,
   Bug,
-  Activity
+  Activity,
+  MessageSquare,
+  Send
 } from "lucide-react";
 import { ArenaProject } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
@@ -57,10 +59,47 @@ interface QATestCase {
   failureNotes?: string;
 }
 
+interface SquadChatMessage {
+  id: string;
+  senderName: string;
+  senderRole: string;
+  message: string;
+  codeSnippet?: string;
+  timeAgo: string;
+}
+
 export default function ProjectWorkspaceClient({ project }: Props) {
   const { user, studentProfile } = useAuth();
-  const [activeTab, setActiveTab] = useState<"KANBAN" | "QA_TESTS" | "SQUAD">("KANBAN");
+  const [activeTab, setActiveTab] = useState<"KANBAN" | "QA_TESTS" | "SQUAD" | "CHAT">("KANBAN");
   const [filterRole, setFilterRole] = useState<string>("ALL");
+
+  // Squad Common Chat State
+  const [chatMessages, setChatMessages] = useState<SquadChatMessage[]>([
+    {
+      id: "msg-1",
+      senderName: "Vedansh Trivedi",
+      senderRole: "Backend Lead",
+      message: `Hey team! I just configured the connection pool and PostgreSQL indexing for ${project.title}. Check the WAL test case in the QA tab.`,
+      timeAgo: "2h ago"
+    },
+    {
+      id: "msg-2",
+      senderName: "Shruti Jadhav",
+      senderRole: "QA Tester",
+      message: "Spike test executed with k6! p95 latency is comfortably at 74ms under 100 concurrent workers. Zero memory leaks.",
+      codeSnippet: "k6 run --vus 100 --duration 30s load_test.js // p95: 74.2ms | Error Rate: 0.00%",
+      timeAgo: "1h ago"
+    },
+    {
+      id: "msg-3",
+      senderName: "Soham Sharma",
+      senderRole: "Founder / Architect",
+      message: "Solid work squad! Remember to log daily commit hashes on /arena/daily-log to earn +50 Karma Coins and maintain your streak.",
+      timeAgo: "35m ago"
+    }
+  ]);
+  const [newChatInput, setNewChatInput] = useState("");
+  const [newChatSnippet, setNewChatSnippet] = useState("");
 
   // Initial Sprint Tasks
   const [tasks, setTasks] = useState<AgileTask[]>([
@@ -275,6 +314,24 @@ export default function ProjectWorkspaceClient({ project }: Props) {
     setNewTestEndpoint("");
   };
 
+  const handleSendChatMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newChatInput.trim()) return;
+
+    const newMsg: SquadChatMessage = {
+      id: `msg-${Date.now()}`,
+      senderName: user?.displayName || studentProfile?.displayName || "Community Builder",
+      senderRole: studentProfile?.personaType === "STUDENT" ? "AI Engineering Fellow" : "Builder Lead",
+      message: newChatInput.trim(),
+      codeSnippet: newChatSnippet.trim() || undefined,
+      timeAgo: "Just now"
+    };
+
+    setChatMessages([...chatMessages, newMsg]);
+    setNewChatInput("");
+    setNewChatSnippet("");
+  };
+
   const copySprintAuditReport = () => {
     const passedCount = testCases.filter((t) => t.status === "PASSED").length;
     const totalCount = testCases.length;
@@ -401,6 +458,15 @@ Audited & Verified via Botmartz Agile Workspace Simulator`;
               >
                 <Users size={13} />
                 <span>Squad Roles &amp; Team</span>
+              </button>
+              <button
+                onClick={() => setActiveTab("CHAT")}
+                className={`px-4 py-2 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  activeTab === "CHAT" ? "bg-white text-slate-900 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                <MessageSquare size={13} className="text-[#0066FF]" />
+                <span>Squad Common Chat ({chatMessages.length})</span>
               </button>
             </div>
 
@@ -683,6 +749,122 @@ Audited & Verified via Botmartz Agile Workspace Simulator`;
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* =========================================================================
+            TAB 4: SQUAD COMMON CHAT (PROJECT BUILDER CHAT ROOM)
+        ========================================================================= */}
+        {activeTab === "CHAT" && (
+          <div className="space-y-6 font-mono text-xs">
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 mb-6">
+                <div>
+                  <div className="flex items-center gap-2 text-[#0066FF] font-bold uppercase text-[11px] mb-1">
+                    <MessageSquare size={14} /> Real-Time Project Builder Chat
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 font-sans">
+                    {project.title} Squad Room
+                  </h3>
+                  <p className="text-xs text-slate-500 font-mono mt-0.5">
+                    Connect, unblock architecture questions, share test outputs, and coordinate with all builders working on this project.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <a
+                    href="https://discord.gg/k75ZpEnzp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 font-bold transition-colors flex items-center gap-1.5"
+                  >
+                    <span>Discord Squad Voice</span>
+                    <ExternalLink size={12} />
+                  </a>
+                  <a
+                    href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 font-bold transition-colors flex items-center gap-1.5"
+                  >
+                    <span>WhatsApp Group</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Message Feed */}
+              <div className="space-y-4 mb-8 max-h-[480px] overflow-y-auto pr-2">
+                {chatMessages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5"
+                  >
+                    <div className="w-9 h-9 rounded-xl bg-[#0066FF] text-white flex items-center justify-center font-bold text-xs shrink-0 font-sans">
+                      {msg.senderName.charAt(0)}
+                    </div>
+                    <div className="flex-1 space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-slate-900 font-sans text-xs">{msg.senderName}</span>
+                          <span className="px-2 py-0.5 rounded-md bg-blue-50 text-[#0066FF] text-[10px] font-bold border border-blue-200">
+                            {msg.senderRole}
+                          </span>
+                        </div>
+                        <span className="text-[10px] text-slate-400">{msg.timeAgo}</span>
+                      </div>
+
+                      <p className="text-slate-700 leading-relaxed font-sans text-xs">
+                        {msg.message}
+                      </p>
+
+                      {msg.codeSnippet && (
+                        <div className="p-3 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[11px] overflow-x-auto border border-slate-800">
+                          <code>{msg.codeSnippet}</code>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Chat Input Form */}
+              <form onSubmit={handleSendChatMessage} className="space-y-3 pt-4 border-t border-slate-100">
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-bold">
+                  <span>Send Message to Project Squad</span>
+                  <span>Posting as: <strong className="text-slate-900">{user?.displayName || studentProfile?.displayName || "Community Builder"}</strong></span>
+                </div>
+
+                <div className="space-y-2">
+                  <textarea
+                    rows={2}
+                    value={newChatInput}
+                    onChange={(e) => setNewChatInput(e.target.value)}
+                    placeholder={`Ask a question, propose an architecture fix, or discuss test outputs with other builders working on ${project.title}...`}
+                    className="w-full p-3.5 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#0066FF] focus:bg-white text-slate-900 outline-none transition-all resize-none text-xs font-sans"
+                  />
+
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <input
+                      type="text"
+                      value={newChatSnippet}
+                      onChange={(e) => setNewChatSnippet(e.target.value)}
+                      placeholder="Optional: attach code snippet, test assertion, or command (e.g. k6 run --vus 50)"
+                      className="flex-1 w-full p-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-[#0066FF] text-slate-900 outline-none text-xs font-mono"
+                    />
+
+                    <button
+                      type="submit"
+                      disabled={!newChatInput.trim()}
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#0066FF] hover:bg-blue-600 disabled:opacity-50 text-white font-bold transition-all cursor-pointer flex items-center justify-center gap-2 shadow-xs shrink-0"
+                    >
+                      <Send size={14} />
+                      <span>Post to Squad</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         )}
