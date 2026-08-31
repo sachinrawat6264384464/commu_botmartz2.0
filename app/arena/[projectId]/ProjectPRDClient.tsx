@@ -30,7 +30,12 @@ import {
   Briefcase,
   AlertCircle,
   FileText,
-  KanbanSquare
+  KanbanSquare,
+  Coins,
+  Lightbulb,
+  Lock,
+  Unlock,
+  Compass
 } from "lucide-react";
 import { ArenaProject } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
@@ -42,6 +47,58 @@ interface Props {
 
 export default function ProjectPRDClient({ project }: Props) {
   const { user, studentProfile } = useAuth();
+
+  // Hint Unlock State
+  const [hintUnlocked, setHintUnlocked] = useState(false);
+  const [unlockedHintText, setUnlockedHintText] = useState("");
+  const [unlockingHint, setUnlockingHint] = useState(false);
+  const [hintError, setHintError] = useState("");
+
+  // Determine hint coin cost: 1000 coins for Baby Step / Easy, 300 for others
+  const isIntro = project.difficulty === "Baby Step" || project.difficulty === "Easy";
+  const hintCost = isIntro ? 1000 : 300;
+
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`/api/arena/unlock-hint?email=${encodeURIComponent(user.email)}&projectId=${encodeURIComponent(project.id)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.unlocked) {
+            setHintUnlocked(true);
+            setUnlockedHintText(data.hint || project.hint || project.architectureNotes);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user, project]);
+
+  const handleUnlockHint = async () => {
+    if (!user?.email) {
+      setShowGateModal(true);
+      return;
+    }
+
+    setUnlockingHint(true);
+    setHintError("");
+    try {
+      const res = await fetch("/api/arena/unlock-hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, projectId: project.id })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setHintError(data.error || `Insufficient Karma Coins. You need ${hintCost} coins to unlock this hint.`);
+      } else {
+        setHintUnlocked(true);
+        setUnlockedHintText(data.hint);
+      }
+    } catch (e: any) {
+      setHintError(e.message || "Failed to unlock architecture hint.");
+    } finally {
+      setUnlockingHint(false);
+    }
+  };
 
   // Profile Gating State
   const [showGateModal, setShowGateModal] = useState(false);
@@ -222,7 +279,7 @@ export default function ProjectPRDClient({ project }: Props) {
     }
   };
 
-  const isGTH = project.difficulty === "Expert Tier";
+  const isGTH = project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier";
 
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
@@ -251,10 +308,14 @@ export default function ProjectPRDClient({ project }: Props) {
                   ? "bg-rose-500/20 text-rose-400 border border-rose-500/40"
                   : project.difficulty === "Insane"
                   ? "bg-purple-100 text-purple-800"
+                  : project.difficulty === "Baby Step"
+                  ? "bg-emerald-100 text-emerald-800"
+                  : project.difficulty === "Easy"
+                  ? "bg-cyan-100 text-cyan-800"
                   : "bg-blue-100 text-[#0066FF]"
               }`}
             >
-              {project.difficulty} Track
+              {project.difficulty === "Expert Tier" ? "Go To Hell" : project.difficulty} Track
             </span>
             <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-mono font-bold">
               {project.domain}
@@ -321,6 +382,111 @@ export default function ProjectPRDClient({ project }: Props) {
             </Link>
           </div>
         </div>
+
+        {/* =========================================================================
+            ARCHITECTURE HINT UNLOCKER (300 to 1,000 KARMA COINS)
+        ========================================================================= */}
+        <section className="bg-gradient-to-r from-amber-50 via-blue-50 to-purple-50 border border-amber-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+                <Lightbulb size={20} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-slate-900 text-sm font-sans">Architectural Blueprint &amp; Implementation Hint</span>
+                  <span className="px-2 py-0.5 rounded-md bg-amber-200 text-amber-900 font-bold text-[10px]">
+                    {hintUnlocked ? "UNLOCKED" : `COST: ${hintCost} COINS`}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-600 font-mono mt-0.5">
+                  {hintUnlocked
+                    ? "Verified architectural shortcut and edge-case mitigation strategy for this production system."
+                    : `Spend ${hintCost} Karma Coins from your wallet to reveal implementation hints, schema pitfalls, and edge cases.`}
+                </p>
+              </div>
+            </div>
+
+            {!hintUnlocked && (
+              <button
+                onClick={handleUnlockHint}
+                disabled={unlockingHint}
+                className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-slate-950 font-bold transition-all cursor-pointer flex items-center gap-2 shadow-xs shrink-0 self-start sm:self-auto"
+              >
+                {unlockingHint ? (
+                  <>
+                    <Loader2 size={14} className="animate-spin" />
+                    <span>Unlocking...</span>
+                  </>
+                ) : (
+                  <>
+                    <Coins size={14} className="text-amber-950" />
+                    <span>Unlock Hint ({hintCost} Coins)</span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+
+          {hintError && (
+            <div className="p-3 rounded-xl bg-rose-100 text-rose-800 border border-rose-200 mb-3 text-xs flex items-center gap-2">
+              <AlertCircle size={14} />
+              <span>{hintError}</span>
+            </div>
+          )}
+
+          {hintUnlocked ? (
+            <div className="p-4 rounded-2xl bg-white border border-emerald-300 text-slate-800 space-y-2">
+              <div className="flex items-center gap-2 text-emerald-700 font-bold text-[11px] uppercase">
+                <Check size={14} /> Architecture Secret Unlocked
+              </div>
+              <p className="leading-relaxed font-sans text-xs text-slate-700">
+                {unlockedHintText || project.hint || project.architectureNotes || "Follow the low-level design specifications and verify acceptance gates with k6/playwright."}
+              </p>
+            </div>
+          ) : (
+            <div className="p-4 rounded-2xl bg-white/70 border border-dashed border-amber-300 flex items-center justify-between text-slate-400 select-none blur-[2px] hover:blur-none transition-all">
+              <span>🔒 Architectural secret, memory-leak mitigation patterns, and optimal indexing keys are locked behind {hintCost} Karma Coins...</span>
+            </div>
+          )}
+        </section>
+
+        {/* =========================================================================
+            HIGH-LEVEL DESIGN (HLD) & LOW-LEVEL DESIGN (LLD)
+        ========================================================================= */}
+        <section className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-8 shadow-xs font-mono text-xs">
+          <div className="flex items-center gap-2.5 text-xs font-mono font-bold text-indigo-700 uppercase mb-2">
+            <Compass size={16} /> System Design Blueprint
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 font-sans">
+            High-Level Design (HLD) &amp; Low-Level Design (LLD)
+          </h2>
+          <p className="text-slate-600 text-xs font-mono mb-6 leading-relaxed">
+            Every production system in the Arena requires comprehensive design documentation before writing code:
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between font-bold text-slate-900 font-sans text-sm pb-2 border-b border-slate-200">
+                <span>1. High-Level Design (HLD)</span>
+                <span className="text-[10px] text-indigo-600 font-mono">Topology</span>
+              </div>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-mono">
+                {project.highLevelDesign || project.architectureNotes || "Client Ingress -> API Gateway -> Distributed Worker Pool -> PostgreSQL / Vector Store -> Cache / Telemetry Layer."}
+              </p>
+            </div>
+
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+              <div className="flex items-center justify-between font-bold text-slate-900 font-sans text-sm pb-2 border-b border-slate-200">
+                <span>2. Low-Level Design (LLD)</span>
+                <span className="text-[10px] text-purple-600 font-mono">Class &amp; Data Contract</span>
+              </div>
+              <p className="text-[11px] text-slate-600 leading-relaxed font-mono">
+                {project.lowLevelDesign || "Atomic database transactions, strict Pydantic/Zod schemas, mutex locks for concurrent buffer writes, and structured error responses with HTTP standard error codes."}
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* =========================================================================
             SECTION 1: WHERE IS THIS PRODUCT USED & TARGET BUYERS

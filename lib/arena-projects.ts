@@ -1,10 +1,14 @@
+export type ProjectDifficulty = "Baby Step" | "Easy" | "Intermediate" | "Hard" | "Insane" | "Go To Hell";
+
 export interface ArenaProject {
   id: string;
   title: string;
   slug: string;
   tagline: string;
-  difficulty: "Intermediate" | "Hard" | "Insane" | "Expert Tier";
+  difficulty: ProjectDifficulty | "Expert Tier";
   domain: 
+    | "Baby Steps & Starter Kits"
+    | "Easy Foundation Projects"
     | "Geospatial & Satellite AI" 
     | "Edge Drone Vision & Robotics" 
     | "Clinical Healthcare AI" 
@@ -61,6 +65,14 @@ export interface ArenaProject {
     description: string;
   }[];
   productionSla: string;
+  hint?: string;
+  hintCostCoins?: number;
+  highLevelDesign?: string;
+  lowLevelDesign?: string;
+  sdlcPhases?: {
+    phase: string;
+    details: string;
+  }[];
 }
 
 // 50 Full Production Systems for the 45-Day Virtual Internship Playground (14th Sept - Diwali 2026)
@@ -678,8 +690,8 @@ export const ARENA_PROJECTS: ArenaProject[] = [
     id: "p15",
     slug: "kernel-ebpf-chaos-selfhealing-sentinel",
     title: "Autonomous Self-Healing Microservices with eBPF Kernel Probes",
-    tagline: "Expert Tier. Rust eBPF kernel probes, autonomous anomaly mitigation, zero vibe-coding, 1 Lakh INR Prize Pool.",
-    difficulty: "Expert Tier",
+    tagline: "Go To Hell Tier (Insane). Rust eBPF kernel probes, autonomous anomaly mitigation, zero vibe-coding, 1 Lakh INR Prize Pool.",
+    difficulty: "Go To Hell",
     domain: "Kernel eBPF & Autonomous Cloud",
     durationDays: 45,
     prizePool: "₹1,00,000 (5 Finalist Slots)",
@@ -2121,5 +2133,406 @@ export const ARENA_PROJECTS: ArenaProject[] = [
       { rule: "Test Coverage", threshold: ">= 80%", description: "Custom project must include automated test coverage." }
     ],
     productionSla: "Custom SLA defined in approved Technical PRD."
+  },
+
+  // ── BABY STEPS & STARTER KITS (INTRODUCTORY TIER) ──
+  {
+    id: "b1",
+    slug: "cli-markdown-parser-sqlite",
+    title: "CLI Markdown Document Parser & Metadata Extractor",
+    tagline: "Baby Step Tier. Build a Python CLI that parses markdown frontmatter, extracts headings, and indexes notes into SQLite.",
+    difficulty: "Baby Step",
+    domain: "Baby Steps & Starter Kits",
+    durationDays: 14,
+    techStack: ["Python", "Click", "SQLite", "Pydantic", "Pytest"],
+    partnerTools: ["Python", "SQLite"],
+    targetRoles: ["Backend Dev", "AI Engineer", "Product Manager"],
+    keywords: ["python", "cli", "markdown", "sqlite", "parser", "baby step", "beginner"],
+    overview: "A beginner-friendly project to build confidence in command-line tooling and structured data persistence. Create a Python CLI tool that parses markdown files, extracts YAML frontmatter, validates metadata schemas with Pydantic, and indexes document headings and tags into a local SQLite database.",
+    architectureNotes: "Terminal Input -> Click Command Router -> Frontmatter Regex/YAML Parser -> Pydantic Schema Validation -> SQLite Database -> JSON/Table CLI Output.",
+    databaseSchema: [
+      "documents (id INTEGER PRIMARY KEY AUTOINCREMENT, file_path TEXT UNIQUE, title TEXT, author TEXT, word_count INT, created_at TIMESTAMP)",
+      "document_tags (id INTEGER PRIMARY KEY AUTOINCREMENT, doc_id INT REFERENCES documents(id), tag_name TEXT)"
+    ],
+    apiEndpoints: [
+      { method: "CLI", path: "parse <path> --output json", description: "Parse single or recursive markdown files into structured JSON." },
+      { method: "CLI", path: "query --tag <tag_name>", description: "Search indexed documents matching tag filters." }
+    ],
+    milestones: [
+      { phase: "Phase 1: CLI Interface & Frontmatter Parser", days: "Days 1-5", goal: "Implement Click CLI flags and parse YAML frontmatter.", deliverables: ["Working CLI executable", "Unit tests for regex parsing"] },
+      { phase: "Phase 2: SQLite Indexing & Search Queries", days: "Days 6-14", goal: "Store document structures in SQLite and add tag filtering.", deliverables: ["SQLite integration", "CLI query command"] }
+    ],
+    evaluationCriteria: [
+      { metric: "CLI Error Handling", weight: 50, description: "Graceful handling of corrupt markdown and missing frontmatter." },
+      { metric: "SQLite Query Speed", weight: 35, description: "Sub-10ms query response on 1,000 parsed notes." },
+      { metric: "Test Coverage", weight: 15, description: ">= 85% pytest coverage." }
+    ],
+    learningResources: [
+      { title: "Building Python CLIs with Click", type: "Documentation", url: "https://click.palletsprojects.com" }
+    ],
+    strictTestCommand: "pytest tests/test_parser.py -v",
+    acceptanceGates: [
+      { rule: "CLI Execution Time", threshold: "< 100ms", description: "Parsing a 100-file directory must complete in <100ms." }
+    ],
+    productionSla: "< 50ms per parsed document.",
+    hint: "Use python-frontmatter or custom regex /yaml.safe_load/ with Pydantic BaseModel to handle dirty frontmatter without throwing unhandled exceptions.",
+    hintCostCoins: 1000,
+    highLevelDesign: "CLI Entrypoint -> File System Scanner -> Regex YAML Extractor -> Pydantic Validator -> SQLite Transaction Manager.",
+    lowLevelDesign: "Class MarkdownParser(file_path: Path) with parse_metadata() -> DocumentSchema and index_to_sqlite(db_conn).",
+    sdlcPhases: [
+      { phase: "Requirements & PRD", details: "Define CLI parameters (--input, --output, --tag) and schema constraints." },
+      { phase: "High-Level Design (HLD)", details: "Design pipeline flow from disk reading to relational SQLite storage." },
+      { phase: "Low-Level Design (LLD)", details: "Pydantic models for FrontmatterMeta and DocumentNode." },
+      { phase: "Implementation & CI/CD", details: "Python 3.11 with virtualenv, Click CLI, and GitHub Actions test runner." },
+      { phase: "QA Test Assertions", details: "Pytest fixtures covering edge cases (empty frontmatter, unicode characters)." },
+      { phase: "Production SRE Deploy", details: "Package as standalone pip wheel / pipx executable." }
+    ]
+  },
+  {
+    id: "b2",
+    slug: "fastapi-json-validator-sqlite",
+    title: "FastAPI Schema Sanitizer & JSON Validator",
+    tagline: "Baby Step Tier. Build a clean REST endpoint that validates incoming JSON payloads against strict schemas and logs audit history.",
+    difficulty: "Baby Step",
+    domain: "Baby Steps & Starter Kits",
+    durationDays: 14,
+    techStack: ["FastAPI", "Python", "Pydantic", "SQLite", "Uvicorn"],
+    partnerTools: ["FastAPI", "SQLite"],
+    targetRoles: ["Backend Dev", "QA Tester", "Fullstack Dev"],
+    keywords: ["fastapi", "python", "pydantic", "json validation", "rest api", "sqlite"],
+    overview: "Build a production-structured FastAPI microservice that accepts polymorphic JSON payloads (User Profile, Order Event, Telemetry Log), validates strict types using Pydantic V2, strips dangerous XSS/SQLi characters, and records validated payloads to SQLite with request audit timestamps.",
+    architectureNotes: "Client HTTP Request -> Uvicorn -> FastAPI Ingress -> Pydantic Schema Validation -> XSS Sanitizer -> SQLite Repository -> JSON Response.",
+    databaseSchema: [
+      "audit_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, payload_type TEXT, is_valid BOOLEAN, error_details TEXT, client_ip TEXT, timestamp TIMESTAMP)"
+    ],
+    apiEndpoints: [
+      { method: "POST", path: "/api/v1/validate", description: "Validate and sanitize JSON payload." },
+      { method: "GET", path: "/api/v1/audit-logs", description: "Retrieve recent validation logs." }
+    ],
+    milestones: [
+      { phase: "Phase 1: FastAPI Ingress & Pydantic Schemas", days: "Days 1-7", goal: "Build REST endpoints and define strict Pydantic schemas.", deliverables: ["FastAPI app", "Swagger documentation"] },
+      { phase: "Phase 2: Sanitization & SQLite Logging", days: "Days 8-14", goal: "Implement XSS sanitization and persist audit records.", deliverables: ["SQLite audit repository", "Pytest suite"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Schema Accuracy", weight: 50, description: "Correct rejection of malformed or malicious JSON fields." },
+      { metric: "Latency p95", weight: 35, description: "Endpoint p95 latency <= 15ms under local load." },
+      { metric: "Test Suite", weight: 15, description: "100% pass rate on payload test cases." }
+    ],
+    learningResources: [
+      { title: "FastAPI Official Tutorial", type: "Documentation", url: "https://fastapi.tiangolo.com/tutorial/" }
+    ],
+    strictTestCommand: "pytest tests/ -v",
+    acceptanceGates: [
+      { rule: "API Response Time", threshold: "< 25ms", description: "Validation latency must stay under 25ms." }
+    ],
+    productionSla: "< 15ms p95 validation latency.",
+    hint: "Use Pydantic's field_validator decorator combined with bleach or html.escape to sanitize string fields without corrupting JSON structures.",
+    hintCostCoins: 1000
+  },
+  {
+    id: "b3",
+    slug: "llm-prompt-cache-wrapper",
+    title: "Prompt Wrapper & LRU Response Caching Middleware",
+    tagline: "Baby Step Tier. Build a Python/Node.js proxy that hashes prompt text and serves cached LLM responses with sub-5ms latency.",
+    difficulty: "Baby Step",
+    domain: "Baby Steps & Starter Kits",
+    durationDays: 14,
+    techStack: ["Node.js", "Express", "TypeScript", "Crypto", "LRU Cache"],
+    partnerTools: ["Node.js", "TypeScript"],
+    targetRoles: ["AI Engineer", "Backend Dev"],
+    keywords: ["llm", "cache", "prompt engineering", "lru", "token savings", "middleware"],
+    overview: "Build an intelligent caching middleware for LLM applications. Compute SHA-256 hashes of system prompts and user inputs, serve instant cached responses for identical queries, and track API token cost savings in real time.",
+    architectureNotes: "Client Application -> Cache Middleware -> SHA-256 Prompt Hasher -> LRU Memory Cache (Hit) OR Mock LLM Engine (Miss) -> Token Analytics Collector.",
+    databaseSchema: [
+      "cache_metrics (id SERIAL PRIMARY KEY, prompt_hash VARCHAR(64), tokens_saved INT, latency_saved_ms INT, hit_count INT, created_at TIMESTAMP)"
+    ],
+    apiEndpoints: [
+      { method: "POST", path: "/v1/chat/completions", description: "Cached OpenAI-compatible completion proxy." },
+      { method: "GET", path: "/v1/cache/stats", description: "Retrieve token savings and cache hit ratio." }
+    ],
+    milestones: [
+      { phase: "Phase 1: Hash Algorithm & Memory Store", days: "Days 1-7", goal: "Implement SHA-256 prompt normalization and LRU store.", deliverables: ["Cache engine", "Unit tests"] },
+      { phase: "Phase 2: Token Analytics & Metrics Endpoint", days: "Days 8-14", goal: "Build metrics dashboard endpoint calculating cost savings.", deliverables: ["Stats API", "Load test script"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Cache Hit Latency", weight: 50, description: "Cached hits served in <= 5ms." },
+      { metric: "Prompt Normalization", weight: 35, description: "Whitespace and case-insensitive prompt hashing." },
+      { metric: "Code Cleanliness", weight: 15, description: "TypeScript strict mode without any types." }
+    ],
+    learningResources: [
+      { title: "Building High-Speed Caches in Node.js", type: "Documentation", url: "https://nodejs.org/api/crypto.html" }
+    ],
+    strictTestCommand: "npm test",
+    acceptanceGates: [
+      { rule: "Cache Hit SLA", threshold: "< 5ms", description: "In-memory cache lookups must return in under 5ms." }
+    ],
+    productionSla: "< 5ms for cached prompt hits.",
+    hint: "Normalize prompt text by trimming outer whitespace, converting to lowercase for keyword queries, and hashing the JSON-serialized message array.",
+    hintCostCoins: 1000
+  },
+  {
+    id: "b4",
+    slug: "discord-github-webhook-bot",
+    title: "Discord GitHub Webhook & Build Event Dispatcher",
+    tagline: "Baby Step Tier. Build a webhook receiver that parses GitHub commit, PR, and release payloads and formats rich Discord embeds.",
+    difficulty: "Baby Step",
+    domain: "Baby Steps & Starter Kits",
+    durationDays: 14,
+    techStack: ["TypeScript", "Express", "Discord Webhooks", "Crypto HMAC", "Jest"],
+    partnerTools: ["Discord", "GitHub"],
+    targetRoles: ["Backend Dev", "Cloud DevOps", "Product Manager"],
+    keywords: ["discord", "github", "webhooks", "bot", "embeds", "hmac verification"],
+    overview: "Build a reliable GitHub-to-Discord notification gateway. Verify GitHub HMAC SHA-256 signatures, format clean rich markdown cards for commits, pull requests, and CI build failures, and dispatch them to Discord channels.",
+    architectureNotes: "GitHub Webhook Event -> HMAC Signature Verifier -> Event Dispatcher -> Discord Webhook API.",
+    databaseSchema: [
+      "webhook_events (id SERIAL PRIMARY KEY, repo_name VARCHAR(100), event_type VARCHAR(50), author VARCHAR(100), delivered_to_discord BOOLEAN, created_at TIMESTAMP)"
+    ],
+    apiEndpoints: [
+      { method: "POST", path: "/webhooks/github", description: "Receive and verify GitHub webhooks." }
+    ],
+    milestones: [
+      { phase: "Phase 1: HMAC Verification & Parsing", days: "Days 1-7", goal: "Verify GitHub X-Hub-Signature-256 headers.", deliverables: ["Signature middleware", "Security tests"] },
+      { phase: "Phase 2: Discord Embed Dispatcher", days: "Days 8-14", goal: "Format and send rich Discord webhook embeds.", deliverables: ["Discord bot gateway", "E2E webhook simulation"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Security Verification", weight: 50, description: "Strict rejection of unauthenticated webhook payloads." },
+      { metric: "Embed Visual Polish", weight: 35, description: "Color-coded status (Green for merged, Red for CI fail)." },
+      { metric: "Reliability", weight: 15, description: "Graceful error retry on Discord rate limits (HTTP 429)." }
+    ],
+    learningResources: [
+      { title: "Securing GitHub Webhooks", type: "Documentation", url: "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries" }
+    ],
+    strictTestCommand: "npm test",
+    acceptanceGates: [
+      { rule: "Delivery Success Rate", threshold: "100%", description: "All valid GitHub events must deliver to Discord." }
+    ],
+    productionSla: "< 150ms webhook processing time.",
+    hint: "Use crypto.createHmac('sha256', secret).update(rawBody).digest('hex') with crypto.timingSafeEqual to prevent timing attacks.",
+    hintCostCoins: 1000
+  },
+
+  // ── EASY FOUNDATION PROJECTS (BEGINNER-FRIENDLY TIER) ──
+  {
+    id: "e1",
+    slug: "postgres-prisma-task-api",
+    title: "PostgreSQL Task REST API with Prisma ORM & Pagination",
+    tagline: "Easy Foundation Tier. Build an industrial CRUD API with PostgreSQL, Prisma ORM, cursor-based pagination, and Zod validation.",
+    difficulty: "Easy",
+    domain: "Easy Foundation Projects",
+    durationDays: 21,
+    techStack: ["Node.js", "TypeScript", "Express", "Prisma ORM", "PostgreSQL", "Zod", "Jest"],
+    partnerTools: ["PostgreSQL", "Prisma"],
+    targetRoles: ["Backend Dev", "Fullstack Dev", "QA Tester"],
+    keywords: ["postgresql", "prisma", "orm", "crud", "pagination", "zod", "easy foundation"],
+    overview: "Step up to relational databases. Design a clean task management REST API using PostgreSQL and Prisma ORM. Implement cursor-based pagination for high performance, enforce Zod input validation, handle database foreign key constraints, and write comprehensive integration tests with Jest.",
+    architectureNotes: "Express Router -> Zod Validation Middleware -> Prisma Client -> PostgreSQL 16 Engine -> JSON Formatted Response.",
+    databaseSchema: [
+      "users (id UUID PRIMARY KEY, email VARCHAR UNIQUE, name VARCHAR, created_at TIMESTAMP)",
+      "tasks (id UUID PRIMARY KEY, user_id UUID REFERENCES users(id) ON DELETE CASCADE, title VARCHAR, status VARCHAR, priority VARCHAR, due_date TIMESTAMP, created_at TIMESTAMP)",
+      "task_labels (id UUID PRIMARY KEY, task_id UUID REFERENCES tasks(id) ON DELETE CASCADE, label VARCHAR)"
+    ],
+    apiEndpoints: [
+      { method: "GET", path: "/api/v1/tasks?limit=20&cursor=UUID", description: "Fetch paginated tasks with cursor navigation." },
+      { method: "POST", path: "/api/v1/tasks", description: "Create task with labels and validation." },
+      { method: "PATCH", path: "/api/v1/tasks/:id", description: "Update task status." }
+    ],
+    milestones: [
+      { phase: "Phase 1: Prisma Schema & Migrations", days: "Days 1-7", goal: "Define relational schema and run Prisma migrations.", deliverables: ["schema.prisma", "PostgreSQL Docker compose"] },
+      { phase: "Phase 2: REST Endpoints & Pagination", days: "Days 8-14", goal: "Build CRUD endpoints with cursor pagination.", deliverables: ["Express controllers", "Zod schemas"] },
+      { phase: "Phase 3: Integration Tests & Benchmark", days: "Days 15-21", goal: "Write Jest supertest integration tests.", deliverables: ["Integration test suite", "Latency benchmark"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Cursor Pagination Correctness", weight: 45, description: "Zero record skipping or duplication across pages." },
+      { metric: "Query Optimization", weight: 35, description: "Use of compound indexes on (user_id, created_at)." },
+      { metric: "Test Suite Pass Rate", weight: 20, description: "100% passing Jest integration tests." }
+    ],
+    learningResources: [
+      { title: "Prisma ORM Getting Started Guide", type: "Documentation", url: "https://www.prisma.io/docs/getting-started" }
+    ],
+    strictTestCommand: "npx jest --runInBand",
+    acceptanceGates: [
+      { rule: "Paginated Query Latency", threshold: "< 35ms", description: "Fetching 20 records must complete in under 35ms." }
+    ],
+    productionSla: "< 25ms p95 for paginated relational queries.",
+    hint: "Use take: limit + 1 with cursor: { id: cursorId } and skip: 1 to determine hasNextPage without running expensive SQL COUNT(*) queries.",
+    hintCostCoins: 1000,
+    highLevelDesign: "Client HTTP Request -> Express Middleware -> Prisma Service Layer -> PostgreSQL Database (with B-tree indices on foreign keys).",
+    lowLevelDesign: "Interfaces for TaskCreateInput, TaskQueryFilter, and PaginatedResponse<T>. Repository pattern separating database access from business logic.",
+    sdlcPhases: [
+      { phase: "Requirements & PRD", details: "Define pagination limits, sorting rules, and relational cascade deletes." },
+      { phase: "High-Level Design (HLD)", details: "Design client-server interaction and database connection pooling." },
+      { phase: "Low-Level Design (LLD)", details: "Prisma schema models, Zod validation contracts, error middleware." },
+      { phase: "Implementation & CI/CD", details: "TypeScript codebase with Dockerized PostgreSQL container." },
+      { phase: "QA Test Assertions", details: "Supertest suites validating CRUD, status transitions, and pagination edge cases." },
+      { phase: "Production SRE Deploy", details: "Containerized deployment with DATABASE_URL pooling." }
+    ]
+  },
+  {
+    id: "e2",
+    slug: "chromadb-qa-vector-search",
+    title: "ChromaDB Vector Document Search & QA Retrieval Server",
+    tagline: "Easy Foundation Tier. Build an embedded vector search microservice that ingests technical PDFs and performs cosine similarity search.",
+    difficulty: "Easy",
+    domain: "Easy Foundation Projects",
+    durationDays: 21,
+    techStack: ["Python", "FastAPI", "ChromaDB", "sentence-transformers", "Pytest"],
+    partnerTools: ["Python", "ChromaDB"],
+    targetRoles: ["AI Engineer", "Backend Dev", "Data & Financial ML"],
+    keywords: ["chromadb", "vector search", "embeddings", "rag", "fastapi", "cosine similarity"],
+    overview: "Your first practical AI retrieval system. Build a standalone FastAPI vector search microservice that takes plain-text and PDF documents, chunks them into 500-token snippets, generates 384-dimensional dense embeddings using all-MiniLM-L6-v2, and performs cosine similarity queries with sub-50ms latency.",
+    architectureNotes: "Document Ingest -> Recursive Character Chunker -> SentenceTransformer Embedder -> ChromaDB Collection -> Cosine Similarity Query -> Top-K Context Return.",
+    databaseSchema: [
+      "chromadb_collection: documents (id, embedding float[384], document_text, metadata: {source, chunk_index, timestamp})"
+    ],
+    apiEndpoints: [
+      { method: "POST", path: "/api/v1/documents/ingest", description: "Chunk and index text document into ChromaDB." },
+      { method: "POST", path: "/api/v1/search", description: "Perform semantic cosine similarity search returning top-k chunks." }
+    ],
+    milestones: [
+      { phase: "Phase 1: Embedding Pipeline & Chroma Setup", days: "Days 1-7", goal: "Initialize ChromaDB and SentenceTransformer embedding engine.", deliverables: ["Embedding service", "Chunking script"] },
+      { phase: "Phase 2: FastAPI Search & Ingest Endpoints", days: "Days 8-14", goal: "Build REST endpoints for indexing and semantic querying.", deliverables: ["FastAPI app", "Swagger UI testing"] },
+      { phase: "Phase 3: Evaluation & Similarity Benchmarks", days: "Days 15-21", goal: "Evaluate retrieval accuracy against technical FAQs.", deliverables: ["Evaluation benchmark report", "Pytest suite"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Retrieval Latency", weight: 45, description: "Top-5 cosine search completes in <= 50ms." },
+      { metric: "Chunking Quality", weight: 35, description: "No mid-sentence truncation; 50-token overlap preserved." },
+      { metric: "API Usability", weight: 20, description: "Clean JSON responses with similarity distance scores." }
+    ],
+    learningResources: [
+      { title: "ChromaDB Python Getting Started", type: "Documentation", url: "https://docs.trychroma.com/getting-started" }
+    ],
+    strictTestCommand: "pytest tests/ -v",
+    acceptanceGates: [
+      { rule: "Search Latency", threshold: "< 60ms", description: "Semantic search must return top-5 results in under 60ms." }
+    ],
+    productionSla: "< 45ms p95 for vector similarity queries.",
+    hint: "Use chromadb.PersistentClient(path='./data') and batch your document insertions in groups of 50 to prevent memory spikes during ingestion.",
+    hintCostCoins: 1000
+  },
+  {
+    id: "e3",
+    slug: "redis-token-bucket-rate-limiter",
+    title: "Redis Token Bucket API Rate Limiting Middleware",
+    tagline: "Easy Foundation Tier. Build an industrial rate limiter with Redis Lua scripts preventing API abuse with sub-2ms overhead.",
+    difficulty: "Easy",
+    domain: "Easy Foundation Projects",
+    durationDays: 21,
+    techStack: ["Node.js", "Express", "TypeScript", "Redis", "Lua Scripts", "k6"],
+    partnerTools: ["Redis", "Node.js"],
+    targetRoles: ["Backend Dev", "Cloud DevOps", "QA Tester"],
+    keywords: ["redis", "rate limiting", "token bucket", "lua", "middleware", "express"],
+    overview: "Understand production traffic shaping. Implement an atomic Token Bucket rate limiting middleware in Node.js backed by Redis. Use atomic Lua scripts to prevent race conditions across distributed instances, return standard HTTP 429 Retry-After headers, and benchmark throughput with k6.",
+    architectureNotes: "HTTP Client -> Rate Limiter Middleware -> Redis Atomic Lua Script (Token Check & Refill) -> Allow (Next) OR 429 Too Many Requests.",
+    databaseSchema: [
+      "redis_key: ratelimit:{client_ip}:{route} (HASH: tokens, last_refill_timestamp)"
+    ],
+    apiEndpoints: [
+      { method: "GET", path: "/api/v1/protected-resource", description: "Rate-limited endpoint (max 10 requests / min)." },
+      { method: "GET", path: "/api/v1/rate-limit/status", description: "Check current token quota." }
+    ],
+    milestones: [
+      { phase: "Phase 1: Lua Script & Token Bucket Logic", days: "Days 1-7", goal: "Write and unit-test atomic Redis Lua script.", deliverables: ["rate_limit.lua", "Jest unit tests"] },
+      { phase: "Phase 2: Express Middleware & Headers", days: "Days 8-14", goal: "Integrate middleware with standard X-RateLimit-* headers.", deliverables: ["Express middleware", "Header verification"] },
+      { phase: "Phase 3: k6 Load Testing & Concurrency Benchmark", days: "Days 15-21", goal: "Execute 500 VU concurrency test verifying zero race conditions.", deliverables: ["k6 test report", "Sub-2ms latency proof"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Race Condition Resistance", weight: 50, description: "Atomic execution ensures zero over-quota bursts under high concurrency." },
+      { metric: "Middleware Overhead", weight: 35, description: "Rate limit evaluation completes in <= 2ms." },
+      { metric: "Standard Headers", weight: 15, description: "Accurate X-RateLimit-Limit, Remaining, and Reset headers." }
+    ],
+    learningResources: [
+      { title: "Redis Rate Limiting Patterns", type: "Documentation", url: "https://redis.io/glossary/rate-limiting/" }
+    ],
+    strictTestCommand: "npm test && k6 run tests/load_test.js",
+    acceptanceGates: [
+      { rule: "Middleware Latency", threshold: "< 3ms", description: "Redis check overhead must remain under 3ms." }
+    ],
+    productionSla: "< 2ms Redis evaluation overhead.",
+    hint: "Executing the token calculation inside a single Redis EVAL script guarantees atomicity without needing distributed locks.",
+    hintCostCoins: 1000
+  },
+  {
+    id: "e4",
+    slug: "github-pr-summary-action",
+    title: "GitHub Pull Request AI Code Reviewer Action",
+    tagline: "Easy Foundation Tier. Build a GitHub Action that inspects git diffs, detects syntax smells, and posts automated PR review comments.",
+    difficulty: "Easy",
+    domain: "Easy Foundation Projects",
+    durationDays: 21,
+    techStack: ["TypeScript", "GitHub Actions SDK", "Octokit", "Gemini API", "Jest"],
+    partnerTools: ["GitHub", "TypeScript"],
+    targetRoles: ["Cloud DevOps", "Backend Dev", "AI Engineer"],
+    keywords: ["github actions", "octokit", "ai code review", "git diff", "devops"],
+    overview: "Build real developer tooling. Create a custom GitHub Action that triggers on pull request creation, retrieves changed git diffs via Octokit, generates a 3-point architectural summary and security audit using the Gemini API, and comments directly on the PR thread.",
+    architectureNotes: "GitHub PR Event -> Action Workflow Trigger -> Octokit Diff Fetcher -> Prompt Formatter -> LLM Inference -> Octokit Issue Comment Creator.",
+    databaseSchema: [
+      "github_reviews (id SERIAL PRIMARY KEY, repo VARCHAR, pr_number INT, diff_lines INT, review_status VARCHAR, created_at TIMESTAMP)"
+    ],
+    apiEndpoints: [
+      { method: "Action", path: "action.yml", description: "GitHub Action workflow runner." }
+    ],
+    milestones: [
+      { phase: "Phase 1: Octokit PR Diff Extraction", days: "Days 1-7", goal: "Fetch pull request files and diff patches using GitHub token.", deliverables: ["Octokit client", "Mock PR tests"] },
+      { phase: "Phase 2: LLM Review & Comment Formatter", days: "Days 8-14", goal: "Generate structured code review summaries.", deliverables: ["Review engine", "Markdown template"] },
+      { phase: "Phase 3: Live Action Testing on GitHub Repo", days: "Days 15-21", goal: "Deploy action to a live repository and test PR triggers.", deliverables: ["action.yml release", "Live pull request demo"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Summary Conciseness", weight: 45, description: "Clear, non-hallucinated review comments focused on actual changed lines." },
+      { metric: "Execution Speed", weight: 35, description: "Entire action workflow completes in <= 15 seconds." },
+      { metric: "Error Handling", weight: 20, description: "Graceful handling of massive diffs (>5,000 lines)." }
+    ],
+    learningResources: [
+      { title: "Creating JavaScript Actions", type: "Documentation", url: "https://docs.github.com/en/actions/creating-actions/creating-a-javascript-action" }
+    ],
+    strictTestCommand: "npm test",
+    acceptanceGates: [
+      { rule: "Action Runtime", threshold: "< 20s", description: "Action execution must finish in under 20 seconds." }
+    ],
+    productionSla: "< 15s end-to-end pull request review.",
+    hint: "Filter out package-lock.json and generated dist/ files from the git diff before sending the prompt to prevent token exhaustion.",
+    hintCostCoins: 1000
+  },
+  {
+    id: "e5",
+    slug: "websocket-realtime-chat-server",
+    title: "Real-Time WebSocket Echo & Channel Chat Server",
+    tagline: "Easy Foundation Tier. Build a scalable WebSocket room server with Redis pub/sub broadcasting messages to thousands of connected clients.",
+    difficulty: "Easy",
+    domain: "Easy Foundation Projects",
+    durationDays: 21,
+    techStack: ["Node.js", "TypeScript", "WebSocket (ws)", "Redis Pub/Sub", "PostgreSQL", "Jest"],
+    partnerTools: ["Redis", "PostgreSQL"],
+    targetRoles: ["Backend Dev", "Fullstack Dev", "QA Tester"],
+    keywords: ["websockets", "realtime", "redis pubsub", "chat", "broadcast", "concurrency"],
+    overview: "Master bi-directional real-time communication. Build a high-performance WebSocket server supporting multiple rooms, user join/leave events, message history persistence in PostgreSQL, and horizontal scaling via Redis Pub/Sub channels.",
+    architectureNotes: "Browser WebSocket Client -> ws Server -> Room Manager -> Redis Pub/Sub Message Bus -> PostgreSQL Message Archiver.",
+    databaseSchema: [
+      "chat_rooms (id UUID PRIMARY KEY, name VARCHAR(50) UNIQUE, created_at TIMESTAMP)",
+      "room_messages (id UUID PRIMARY KEY, room_id UUID REFERENCES chat_rooms(id), sender_name VARCHAR(50), message_text TEXT, sent_at TIMESTAMP)"
+    ],
+    apiEndpoints: [
+      { method: "WS", path: "/ws/chat?room=general", description: "Bi-directional WebSocket connection for room chat." },
+      { method: "GET", path: "/api/v1/rooms/:roomId/messages", description: "Fetch recent 50 messages for room." }
+    ],
+    milestones: [
+      { phase: "Phase 1: WebSocket Room & Connection Lifecycle", days: "Days 1-7", goal: "Implement room joins, heartbeats (ping/pong), and disconnect cleanup.", deliverables: ["ws server", "Connection manager"] },
+      { phase: "Phase 2: Redis Pub/Sub & Multi-Instance Broadcast", days: "Days 8-14", goal: "Synchronize messages across two server instances using Redis.", deliverables: ["Redis pub/sub adapter", "Broadcast tests"] },
+      { phase: "Phase 3: Database Archiving & Load Testing", days: "Days 15-21", goal: "Archive messages in PostgreSQL and test with 500 concurrent connections.", deliverables: ["PostgreSQL repository", "k6 WebSocket benchmark"] }
+    ],
+    evaluationCriteria: [
+      { metric: "Broadcast Latency", weight: 45, description: "Message received by all room subscribers in <= 15ms." },
+      { metric: "Heartbeat Reliability", weight: 35, description: "Automatic termination of zombie connections after 30s timeout." },
+      { metric: "Test Suite Pass Rate", weight: 20, description: "100% pass on WebSocket mock client tests." }
+    ],
+    learningResources: [
+      { title: "Node.js WebSocket ws Documentation", type: "Documentation", url: "https://github.com/websockets/ws" }
+    ],
+    strictTestCommand: "npm test",
+    acceptanceGates: [
+      { rule: "Broadcast Latency", threshold: "< 20ms", description: "Room broadcast must dispatch in under 20ms." }
+    ],
+    productionSla: "< 15ms p95 message propagation latency.",
+    hint: "Implement an interval timer that pings all clients every 30 seconds and terminates sockets that fail to return a pong frame.",
+    hintCostCoins: 1000
   }
 ];

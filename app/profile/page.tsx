@@ -90,7 +90,34 @@ export default function StudentProfilePortal() {
   const [searchHandle, setSearchHandle] = useState("");
   const [enrolledProjects, setEnrolledProjects] = useState<any[]>([]);
   const [loadingEnrollments, setLoadingEnrollments] = useState(false);
+  const [unenrollingId, setUnenrollingId] = useState<string | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  const handleUnenroll = async (enrollmentId: string, projectId: string, projectTitle: string) => {
+    if (!user?.email) return;
+    if (!confirm(`Are you sure you want to unenroll from "${projectTitle || projectId}"? You can re-enroll at any time.`)) {
+      return;
+    }
+
+    setUnenrollingId(enrollmentId || projectId);
+    try {
+      const res = await fetch("/api/arena/unenroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, enrollmentId, projectId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEnrolledProjects((prev) => prev.filter((p) => p.id !== enrollmentId && p.projectId !== projectId));
+      } else {
+        alert(data.error || "Failed to unenroll from project.");
+      }
+    } catch (e: any) {
+      alert(e.message || "Failed to unenroll from project.");
+    } finally {
+      setUnenrollingId(null);
+    }
+  };
 
   // LinkedIn Checklist State
   const [linkedinTasks, setLinkedinTasks] = useState({
@@ -610,6 +637,19 @@ export default function StudentProfilePortal() {
                     >
                       Log Commit
                     </Link>
+                    <button
+                      type="button"
+                      onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
+                      disabled={unenrollingId === (ep.id || ep.projectId)}
+                      className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
+                      title="Unenroll / Leave this project track"
+                    >
+                      {unenrollingId === (ep.id || ep.projectId) ? (
+                        <Loader2 size={13} className="animate-spin text-rose-500" />
+                      ) : (
+                        <span className="text-[10px] text-rose-600">Leave</span>
+                      )}
+                    </button>
                   </div>
                 </div>
               ))}
@@ -618,7 +658,7 @@ export default function StudentProfilePortal() {
         </div>
 
         {/* =========================================================================
-            SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR
+            SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR (ENROLLED ONLY)
         ========================================================================= */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
@@ -630,29 +670,55 @@ export default function StudentProfilePortal() {
                 Project Resume Builder &amp; STAR Bullet Generator
               </h3>
               <p className="text-xs text-slate-500 font-mono mt-0.5">
-                Automatically generate metric-driven, recruiter-ready bullet points for your resume &amp; LinkedIn.
+                Automatically generate metric-driven, recruiter-ready STAR bullet points for your applied Arena projects.
               </p>
             </div>
 
-            {/* Project Selector Dropdown */}
+            {/* Project Selector Dropdown - Strictly Enrolled Projects */}
             <div className="w-full sm:w-72">
               <select
                 value={selectedResumeId}
                 onChange={(e) => setSelectedResumeId(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                disabled={enrolledProjects.length === 0}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] disabled:opacity-50"
               >
-                {ARENA_PROJECTS.slice(0, 20).map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.title}
-                  </option>
-                ))}
+                {enrolledProjects.length > 0 ? (
+                  enrolledProjects.map((p) => (
+                    <option key={p.id || p.projectId} value={p.projectId}>
+                      {p.projectTitle || p.projectId}
+                    </option>
+                  ))
+                ) : (
+                  <option value="">No Active Enrollments</option>
+                )}
               </select>
             </div>
           </div>
 
           {/* Generated Bullets Display */}
           {(() => {
-            const currentProj = ARENA_PROJECTS.find((p) => p.id === selectedResumeId) || ARENA_PROJECTS[0];
+            if (enrolledProjects.length === 0) {
+              return (
+                <div className="p-8 rounded-2xl bg-slate-50 border border-dashed border-slate-200 text-center space-y-2">
+                  <div className="text-slate-400 font-bold font-sans text-sm">Strict Enrolled-Only Proof-of-Work Gate</div>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    To prevent unverified resume inflation, STAR bullet points are strictly generated only for projects you have enrolled in and actively logged.
+                  </p>
+                  <Link
+                    href="/arena"
+                    className="inline-block mt-2 px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-xs"
+                  >
+                    Enroll in an Arena Track &rarr;
+                  </Link>
+                </div>
+              );
+            }
+
+            const activeEnrolledId = selectedResumeId && enrolledProjects.some((ep) => ep.projectId === selectedResumeId)
+              ? selectedResumeId
+              : enrolledProjects[0]?.projectId;
+
+            const currentProj = ARENA_PROJECTS.find((p) => p.id === activeEnrolledId || p.slug === activeEnrolledId) || ARENA_PROJECTS[0];
             const techList = currentProj.techStack.slice(0, 4).join(", ");
             const bullets = [
               `Architected and deployed a production ${currentProj.title} utilizing ${techList}, processing high-throughput payloads with sub-150ms p95 latency.`,

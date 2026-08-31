@@ -35,7 +35,7 @@ export default function ArenaPage() {
 
   // State for Catalog
   const [allProjectsList, setAllProjectsList] = useState<ArenaProject[]>(ARENA_PROJECTS);
-  const [activeTier, setActiveTier] = useState<"All" | "Insane" | "Hard" | "Intermediate" | "Expert Tier">("All");
+  const [activeTier, setActiveTier] = useState<"All" | "Baby Step" | "Easy" | "Intermediate" | "Hard" | "Insane" | "Go To Hell">("All");
   const [selectedDomain, setSelectedDomain] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -159,62 +159,67 @@ export default function ArenaPage() {
   };
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
-      
-      {/* ── 1. CLEAN HERO SECTION ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 mb-12 text-center">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
-          <Sparkles size={14} /> 50 Production System PRDs
-        </div>
-        <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight max-w-3xl mx-auto leading-tight font-sans">
-          The Engineering Arena
-        </h1>
-        <p className="text-sm sm:text-base text-slate-600 font-mono mt-3 max-w-2xl mx-auto leading-relaxed">
-          Explore 50 production-grade AI system blueprints. Browse full PRDs for free, or enroll with your verified student profile to build proof-of-work and claim hiring referrals.
-        </p>
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pt-24 pb-28 font-sans selection:bg-[#0066FF] selection:text-white">
+      {/* ── 1. HEADER SECTION ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 mb-8 text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-200">
+              <Layers size={13} /> 45-Day Virtual Internship Catalog
+            </div>
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+              Software Engineering Playground
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500 font-mono mt-1">
+              Select an industrial-grade production system, inspect the PRD, and ship verifiable code with daily proof-of-work.
+            </p>
+          </div>
 
-        {/* 3 Quick Benefit Metrics */}
-        <div className="flex items-center justify-center gap-6 mt-8 font-mono text-xs text-slate-600 flex-wrap">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 size={16} className="text-emerald-500" />
-            <span><strong>50 Open PRDs</strong> (Free to Read)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <ShieldCheck size={16} className="text-[#0066FF]" />
-            <span><strong>Profile Gated</strong> Proof-of-Work</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Trophy size={16} className="text-amber-500" />
-            <span><strong>15 AI Startups</strong> Referral Pipeline</span>
+          <div className="flex items-center gap-3 self-center sm:self-auto font-mono text-xs">
+            <Link
+              href="/arena/daily-log"
+              className="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold transition-all shadow-2xs flex items-center gap-2"
+            >
+              <Terminal size={14} className="text-[#0066FF]" />
+              <span>Daily Standup Log</span>
+            </Link>
+            <Link
+              href="/arena/custom-project"
+              className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold transition-all shadow-2xs flex items-center gap-2"
+            >
+              <Sparkles size={14} className="text-amber-400" />
+              <span>Propose Custom</span>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ── 2. SEARCH & FILTER BAR ── */}
+      {/* ── 2. FILTER & SEARCH BAR ── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
-        <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-6 shadow-xs space-y-4">
+        <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-xs space-y-4">
           
-          {/* Search Input & Domain Filter */}
           <div className="flex flex-col sm:flex-row items-center gap-3">
-            <div className="relative flex-1 w-full font-mono text-xs">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            {/* Search Input */}
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search 50 systems by title, domain, or tech stack (e.g. LangGraph, PyTorch, FastAPI)..."
-                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-10 pr-4 py-3 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all"
+                placeholder="Search systems by keyword, algorithm, tech stack (PyTorch, Rust, PostGIS, LangGraph, Docker)..."
+                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all"
               />
               {searchQuery && (
-                <button
+                <button 
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 font-mono text-xs"
                 >
-                  <X size={14} />
+                  Clear
                 </button>
               )}
             </div>
 
+            {/* Domain Dropdown */}
             <select
               value={selectedDomain}
               onChange={(e) => setSelectedDomain(e.target.value)}
@@ -231,17 +236,17 @@ export default function ArenaPage() {
           <div className="flex items-center justify-between gap-2 flex-wrap pt-2 border-t border-slate-100 font-mono text-xs">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-slate-400 text-[11px] uppercase font-bold mr-1">Tier:</span>
-              {(["All", "Insane", "Hard", "Intermediate", "Expert Tier"] as const).map((tier) => (
+              {(["All", "Baby Step", "Easy", "Intermediate", "Hard", "Insane", "Go To Hell"] as const).map((tier) => (
                 <button
                   key={tier}
                   onClick={() => setActiveTier(tier)}
-                  className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
                     activeTier === tier
                       ? "bg-[#0066FF] text-white shadow-xs"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                   }`}
                 >
-                  {tier === "All" ? `All Systems (${filteredProjects.length})` : tier}
+                  {tier === "All" ? `All Systems (${filteredProjects.length})` : tier === "Go To Hell" ? "Go To Hell 💀" : tier}
                 </button>
               ))}
             </div>
@@ -288,13 +293,19 @@ export default function ArenaPage() {
                       {project.domain}
                     </span>
                     <span className={`px-2 py-0.5 rounded-full font-mono text-[10px] font-bold ${
-                      project.difficulty === "Insane" 
+                      project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
+                        ? "bg-slate-950 text-purple-300 border border-purple-800"
+                        : project.difficulty === "Insane" 
                         ? "bg-rose-100 text-rose-800 border border-rose-200" 
                         : project.difficulty === "Hard"
                         ? "bg-amber-100 text-amber-800 border border-amber-200"
+                        : project.difficulty === "Intermediate"
+                        ? "bg-blue-100 text-[#0066FF] border border-blue-200"
+                        : project.difficulty === "Easy"
+                        ? "bg-cyan-100 text-cyan-800 border border-cyan-200"
                         : "bg-emerald-100 text-emerald-800 border border-emerald-200"
                     }`}>
-                      {project.difficulty}
+                      {project.difficulty === "Expert Tier" ? "Go To Hell" : project.difficulty}
                     </span>
                   </div>
 
