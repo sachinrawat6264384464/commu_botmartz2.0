@@ -21,20 +21,22 @@ import {
   Check,
   ExternalLink,
   HelpCircle,
+  Calendar,
+  BookOpen
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 import VirtualInternshipPricingClient from "./VirtualInternshipClient";
 
 export const metadata: Metadata = {
-  title: "45-Day Virtual AI Engineering Fellowship — Built for Indian Tech Students",
+  title: "45-Day Virtual AI Engineering Fellowship — Project-Based Simulator | Botmartz",
   description:
-    "Build production-grade AI systems, conquer the Insane Project benchmark, earn Founder Soham Sharma's recommendation, and get direct job referral assistance. Plans from Free to ₹299 & ₹1,999.",
+    "Build production-grade AI systems, conquer high-difficulty SLA benchmarks, log daily GitHub proof-of-work, and earn Founder Soham Sharma's code audit and portfolio recommendation. Plans from Free to ₹299 & ₹1,999.",
   keywords: [
     "virtual AI internship India",
     "project based AI fellowship",
     "AI engineering portfolio projects",
     "LangGraph multi agent projects",
-    "AI job placement referral",
+    "system design portfolio projects",
     "Botmartz arena fellowship",
   ],
   alternates: {
@@ -43,7 +45,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "45-Day Virtual AI Engineering Fellowship | Botmartz",
     description:
-      "Build real production AI systems. Conquer the Insane Project milestone to unlock Founder Recommendation and direct job referral assistance.",
+      "Build real production AI systems. Conquer the Insane Project milestone to unlock Founder Code Audits, Verified Proof-of-Work, and Portfolio Recommendations.",
     url: "https://community.botmartz.com/virtual-ai-internship",
     images: [{ url: "/logo.png", width: 1200, height: 630 }],
   },
@@ -56,7 +58,7 @@ const jsonLdProgram = {
       "@type": "EducationalOccupationalProgram",
       name: "45-Day Project-Based Virtual AI Engineering Fellowship",
       description:
-        "A structured, project-based engineering program where students build production AI systems, conquer top Insane projects, pass automated SLA gates, and unlock direct founder job referrals.",
+        "A structured, project-based engineering program where students build production AI systems, conquer top Insane projects, pass automated SLA gates, and unlock verified proof-of-work credentials.",
       provider: {
         "@type": "Organization",
         name: "Botmartz AI Solution Pvt Ltd",
@@ -81,10 +83,10 @@ const jsonLdProgram = {
         },
         {
           "@type": "Offer",
-          name: "Elite Founder Placement Track",
+          name: "Elite Founder Track",
           price: "1999",
           priceCurrency: "INR",
-          category: "Placement Assistance",
+          category: "Mentorship",
         },
       ],
       occupationalCategory: "Artificial Intelligence Engineer",
@@ -94,7 +96,7 @@ const jsonLdProgram = {
       mainEntity: [
         {
           "@type": "Question",
-          name: "What is the requirement to get Founder Soham's Recommendation & Job Assistance?",
+          name: "What is the requirement to get Founder Soham's Code Audit & Recommendation?",
           acceptedAnswer: {
             "@type": "Answer",
             text: "You must complete and ship at least 1 top 'Insane Tier' production project (e.g. Satellite Geospatial AI, 3D MRI Segmentation, LangGraph Multi-Agent Checkpointer, or Rust L3 Order Book), pass all automated SLA benchmarks (<150ms latency, zero memory leaks), and submit verified daily GitHub commit logs.",
@@ -110,10 +112,10 @@ const jsonLdProgram = {
         },
         {
           "@type": "Question",
-          name: "How does the ₹1,999 Elite Placement Track work?",
+          name: "Do you guarantee jobs or salaries?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "The ₹1,999 track includes 1-on-1 architecture audits with Founder Soham Sharma, priority mock technical interviews, personalized LinkedIn recommendations upon conquering the Insane Project, and direct dispatch to our 15 partner tech companies.",
+            text: "No. We strictly do not sell or guarantee job placements. We provide an intensive practical simulator with real multi-table database schemas, daily GitHub commit tracking, and rigorous founder code teardowns so you can build an undeniable proof-of-work portfolio.",
           },
         },
       ],
@@ -121,98 +123,95 @@ const jsonLdProgram = {
   ],
 };
 
-export default function VirtualAiInternshipPage() {
+export default function VirtualAIInternshipPage() {
   const insaneProjects = ARENA_PROJECTS.filter(
-    (p) => p.difficulty === "Insane" || p.difficulty === "Expert Tier" || p.featured
+    (p) => p.difficulty === "Insane" || p.difficulty === "Expert Tier"
   ).slice(0, 6);
 
   return (
-    <div className="bg-[#FAFCFF] text-slate-900 min-h-screen">
+    <div className="bg-[#FAFCFF] text-slate-900 min-h-screen font-sans selection:bg-[#0066FF] selection:text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProgram) }}
       />
 
       {/* ── 1. HERO SECTION ── */}
-      <section className="relative pt-16 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/60 via-slate-50/30 to-[#FAFCFF]">
+      <section className="pt-24 pb-16 bg-white border-b border-slate-200 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-            
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-6 shadow-2xs">
-              <Zap size={14} className="text-[#0066FF]" />
-              <span>45-Day AI Engineering Fellowship • Built for Authentic Students</span>
+          
+          {/* Transparency & Integrity Callout */}
+          <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 font-mono text-xs text-center leading-relaxed">
+            <strong>Honest Engineering Notice:</strong> Botmartz is an intensive, practical software simulator. We do not sell or guarantee job placements or salaries. We provide real production architectures, daily GitHub commit tracking, and founder code teardowns to help you build an undeniable portfolio.
+          </div>
+
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
+              <Sparkles size={14} /> 45-Day Virtual AI Engineering Fellowship
             </div>
-
-            {/* Main Headline */}
-            <h1 className="text-[clamp(34px,5vw,64px)] font-black tracking-tight leading-[1.12] text-slate-950 mb-6 font-sans">
-              Build Real AI Systems. <br />
-              <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
-                Conquer the Insane Project. Get Hired.
-              </span>
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6 font-sans">
+              Stop Building Toy Apps. Build{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0066FF] to-blue-700">
+                Production-Grade Systems
+              </span>{" "}
+              With Verifiable Proof of Work.
             </h1>
-
-            {/* Subhead */}
-            <p className="text-base sm:text-lg text-slate-600 max-w-3xl leading-relaxed mb-8 font-mono text-xs sm:text-sm">
-              Stop watching 40-hour tutorial videos. Build production-grade systems in AI Agents, Defence, RAG, and Embedded Edge. Conquer the <strong>top Insane Project</strong> to unlock <strong>Founder Soham Sharma&apos;s Recommendation &amp; Direct Job Placement Assistance</strong> under strict performance criteria.
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8 max-w-3xl font-mono text-xs sm:text-sm">
+              Tackle 50 industrial PRDs with real multi-table relational/vector schemas, REST/gRPC APIs, Docker containers, and strict latency SLA test gates (&lt;150ms). Submit daily commits, build your streak, and earn Founder Soham Sharma&apos;s technical code audits.
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto mb-10">
+            <div className="flex flex-wrap items-center gap-4 font-mono text-xs">
               <a
                 href="#pricing"
-                className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 flex items-center gap-2 cursor-pointer"
               >
-                <span>View Plans (Free / ₹299 / ₹1,999)</span>
-                <ArrowRight size={15} />
+                <span>View Enrollment Plans (Free / ₹299)</span>
+                <ArrowRight size={16} />
               </a>
-
               <Link
                 href="/arena"
-                className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
+                className="px-8 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider transition-all border border-slate-300"
               >
-                <Terminal size={15} className="text-blue-600" />
-                <span>Explore Insane Projects Catalog</span>
+                Explore 50 PRD Blueprints
               </Link>
             </div>
-
-            {/* Proof Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-lg font-black text-slate-900">45 Days</div>
-                <div className="text-[11px] text-slate-500">Structured Sprint</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-lg font-black text-[#0066FF]">₹299 Pass</div>
-                <div className="text-[11px] text-slate-500">Accessible to All</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-lg font-black text-purple-700">Insane Tier</div>
-                <div className="text-[11px] text-slate-500">Production Benchmark</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-lg font-black text-emerald-700">Job Referrals</div>
-                <div className="text-[11px] text-slate-500">Strict SLA Gates</div>
-              </div>
-            </div>
-
           </div>
+
+          {/* Quick Metrics Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-slate-100 font-mono text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="text-2xl font-black text-slate-900 font-sans">50 Systems</div>
+              <div className="text-slate-500 text-[11px] mt-0.5">Production PRDs &amp; Schemas</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="text-2xl font-black text-emerald-600 font-sans">&lt;150ms</div>
+              <div className="text-slate-500 text-[11px] mt-0.5">Strict SLA Latency Gates</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="text-2xl font-black text-blue-600 font-sans">45 Days</div>
+              <div className="text-slate-500 text-[11px] mt-0.5">Daily Commit Proof-of-Work</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="text-2xl font-black text-purple-600 font-sans">Weekly</div>
+              <div className="text-slate-500 text-[11px] mt-0.5">Saturday Founder Office Hours</div>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      {/* ── 2. THE 3-STEP INTUITIVE SITE FLOW ── */}
+      {/* ── 2. HOW THE FELLOWSHIP WORKS ── */}
       <section className="py-20 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
-              The 3-Step Clear Path
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
+              <Layers size={14} /> The 3-Step Milestone Journey
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
-              How You Build &amp; Get Hired
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-sans">
+              How You Build Your Engineering Portfolio
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
-              A transparent, meritocratic funnel where code quality dictates your career outcomes.
+              Follow our clear 3-step pipeline to transform from a student to a production engineer.
             </p>
           </div>
 
@@ -221,19 +220,19 @@ export default function VirtualAiInternshipPage() {
             {/* Step 1 */}
             <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-blue-300 transition-all">
               <div>
-                <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-blue-500/20">
+                <div className="w-12 h-12 rounded-2xl bg-[#0066FF] text-white font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-blue-500/20">
                   01
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
-                  Pick Your Track &amp; Start Solo
+                  Enroll &amp; Start Daily Sprints
                 </h3>
                 <p className="text-slate-600 leading-relaxed mb-6">
-                  Select a warmup project (Intermediate) to build muscle memory with FastAPI, Qdrant, and Docker before advancing.
+                  Select an enrolled project from the 50 PRD blueprints. Read the schema requirements, initialize your repository, and log daily commits on <Link href="/arena/daily-log" className="text-[#0066FF] underline font-bold">/arena/daily-log</Link>.
                 </p>
               </div>
-              <div className="text-blue-600 font-bold flex items-center gap-1">
-                <span>50 Open PRDs Available</span>
-                <ArrowRight size={13} />
+              <div className="text-[#0066FF] font-bold flex items-center gap-1">
+                <CheckCircle2 size={14} />
+                <span>Daily Commit Streaks</span>
               </div>
             </div>
 
@@ -244,10 +243,10 @@ export default function VirtualAiInternshipPage() {
                   02
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
-                  Conquer the &quot;Insane&quot; Project
+                  Conquer the &quot;Insane&quot; Benchmark
                 </h3>
                 <p className="text-slate-600 leading-relaxed mb-6">
-                  Build one of the high-difficulty systems (Satellite Imagery, 3D MRI, Rust Order Book, LangGraph Swarm) and pass automated SLA benchmarks.
+                  Build one of the high-difficulty systems (Satellite Imagery, 3D MRI, Rust Order Book, LangGraph Swarm) and pass automated SLA benchmarks (&lt;150ms latency, zero memory leaks).
                 </p>
               </div>
               <div className="text-amber-700 font-bold flex items-center gap-1">
@@ -263,15 +262,15 @@ export default function VirtualAiInternshipPage() {
                   03
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
-                  Request Founder Job Referral
+                  Founder Code Audit &amp; Recommendation
                 </h3>
                 <p className="text-slate-600 leading-relaxed mb-6">
-                  Once your Insane Project passes code review, Founder Soham Sharma provides a personalized recommendation and direct dispatch to 15 hiring partner companies.
+                  Once your system passes code review, Founder Soham Sharma provides a detailed architecture audit, technical feedback, and a personalized recommendation letter for your portfolio.
                 </p>
               </div>
               <div className="text-emerald-700 font-bold flex items-center gap-1">
                 <Award size={14} />
-                <span>Direct Job Placement Support</span>
+                <span>Verifiable Proof of Work</span>
               </div>
             </div>
 
@@ -280,7 +279,52 @@ export default function VirtualAiInternshipPage() {
         </div>
       </section>
 
-      {/* ── 3. FEATURED INSANE PROJECTS ── */}
+      {/* ── 3. WEEKLY FOUNDER OFFICE HOURS & CLINICS ── */}
+      <section className="py-20 bg-blue-50/50 border-b border-blue-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-slate-950 to-blue-950 text-white rounded-3xl p-8 sm:p-12 border border-blue-500/30 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="space-y-4 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-cyan-300 font-mono text-xs font-bold uppercase tracking-wider border border-blue-400/30">
+                <Calendar size={14} /> Weekly Mentorship &amp; Live Reviews
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans">
+                Saturday Founder Technical Office Hours
+              </h2>
+              <p className="text-slate-300 font-mono text-xs sm:text-sm leading-relaxed">
+                Join Founder Soham Sharma every Saturday from <strong>3:00 PM – 7:00 PM IST</strong> on Discord / Google Meet for live architecture teardowns, latency profiling, schema reviews, and code debugging.
+              </p>
+              <div className="flex flex-wrap gap-4 text-xs font-mono pt-2">
+                <div className="flex items-center gap-2 text-emerald-400 font-bold">
+                  <CheckCircle2 size={15} /> 1-on-1 Code Teardowns
+                </div>
+                <div className="flex items-center gap-2 text-cyan-400 font-bold">
+                  <CheckCircle2 size={15} /> System Design Q&amp;A
+                </div>
+                <div className="flex items-center gap-2 text-amber-400 font-bold">
+                  <CheckCircle2 size={15} /> Architecture Defense
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full lg:w-auto font-mono text-xs">
+              <Link
+                href="/arena/calendar"
+                className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center uppercase tracking-wider transition-all shadow-md"
+              >
+                View Event Calendar ↗
+              </Link>
+              <Link
+                href="/discussions"
+                className="px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-center uppercase tracking-wider transition-all border border-slate-700"
+              >
+                Join Discussions Forum
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4. FEATURED INSANE PROJECTS ── */}
       <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -293,7 +337,7 @@ export default function VirtualAiInternshipPage() {
                 The &quot;Insane&quot; Projects Matrix
               </h2>
               <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
-                Completing any of these 6 production systems unlocks Founder Recommendation &amp; Referral eligibility.
+                Completing any of these 6 production systems unlocks Founder Code Audit &amp; Recommendation eligibility.
               </p>
             </div>
 
@@ -356,7 +400,7 @@ export default function VirtualAiInternshipPage() {
         </div>
       </section>
 
-      {/* ── 4. TRANSPARENT 3-TIER PRICING TABLE (₹0 / ₹299 / ₹1,999) ── */}
+      {/* ── 5. TRANSPARENT 3-TIER PRICING TABLE (₹0 / ₹299 / ₹1,999) ── */}
       <section id="pricing" className="py-20 bg-slate-100 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -368,7 +412,7 @@ export default function VirtualAiInternshipPage() {
               Choose Your Engineering Track
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
-              Free for self-learners, ₹299 for verified students, and ₹1,999 for full placement &amp; founder mentorship.
+              Free for self-learners, ₹299 for verified credentials, and ₹1,999 for 1-on-1 founder code audits &amp; recommendations.
             </p>
           </div>
 
@@ -377,7 +421,7 @@ export default function VirtualAiInternshipPage() {
         </div>
       </section>
 
-      {/* ── 5. STRICT CRITERIA & JOB ASSISTANCE RULES ── */}
+      {/* ── 6. STRICT CRITERIA POLICY ── */}
       <section className="py-20 bg-white border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
@@ -387,11 +431,11 @@ export default function VirtualAiInternshipPage() {
             </div>
             
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-sans mb-4">
-              How Job Referral &amp; Founder Recommendation Actually Works
+              How Founder Code Audit &amp; Recommendation Works
             </h3>
             
             <p className="text-slate-300 font-mono text-xs leading-relaxed mb-6">
-              We do not sell fake job guarantees. We help you get hired by enforcing real engineering rigor. Founder Soham Sharma will recommend you to partner companies <strong>only when you meet these strict gates:</strong>
+              We enforce authentic engineering rigor. Founder Soham Sharma reviews your code and writes your portfolio recommendation <strong>only when you meet these strict gates:</strong>
             </p>
 
             <div className="space-y-3 font-mono text-xs text-slate-300">
@@ -434,7 +478,7 @@ export default function VirtualAiInternshipPage() {
         </div>
       </section>
 
-      {/* ── 6. FAQ ── */}
+      {/* ── 7. FAQ ── */}
       <section className="py-20 bg-[#FAFCFF] border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -442,72 +486,40 @@ export default function VirtualAiInternshipPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
-              Everything about the fellowship, pricing tiers, and job referrals.
+              Everything about the fellowship, pricing tiers, and founder code reviews.
             </p>
           </div>
 
           <div className="space-y-4 font-mono text-xs">
             <div className="p-6 rounded-2xl bg-white border border-slate-200">
-              <h3 className="font-bold text-slate-900 text-sm font-sans mb-2">
-                Can I really participate for 100% free?
-              </h3>
+              <h4 className="font-bold text-slate-900 text-sm font-sans mb-2 flex items-center gap-2">
+                <HelpCircle size={15} className="text-[#0066FF]" />
+                <span>What is the requirement to get Founder Soham&apos;s Recommendation?</span>
+              </h4>
               <p className="text-slate-600 leading-relaxed">
-                Yes! All 50 production PRDs, stage roadmaps, and community Discord channels are completely free for self-paced learning. You only upgrade to ₹299 for verified credentials and office hours, or ₹1,999 for direct placement mentorship.
+                You must complete and ship at least 1 top &quot;Insane Tier&quot; production project, pass all automated SLA benchmarks (&lt;150ms latency, zero memory leaks), and maintain active daily GitHub commits.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white border border-slate-200">
-              <h3 className="font-bold text-slate-900 text-sm font-sans mb-2">
-                What if I start on the Free or ₹299 tier and want to upgrade later?
-              </h3>
+              <h4 className="font-bold text-slate-900 text-sm font-sans mb-2 flex items-center gap-2">
+                <HelpCircle size={15} className="text-[#0066FF]" />
+                <span>Why is the Verified Pass priced at ₹299?</span>
+              </h4>
               <p className="text-slate-600 leading-relaxed">
-                You can upgrade at any time during your 45-day sprint as you make progress on your Insane Project.
+                We believe in radical student accessibility. ₹299 covers cryptographic credential generation and cloud test verification infrastructure while filtering out non-serious builders.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white border border-slate-200">
-              <h3 className="font-bold text-slate-900 text-sm font-sans mb-2">
-                How does Founder Soham Sharma help with job placement?
-              </h3>
+              <h4 className="font-bold text-slate-900 text-sm font-sans mb-2 flex items-center gap-2">
+                <HelpCircle size={15} className="text-[#0066FF]" />
+                <span>Do you offer job guarantees?</span>
+              </h4>
               <p className="text-slate-600 leading-relaxed">
-                Once your Insane Project passes strict code review, Soham conducts a 1-on-1 mock technical interview, writes a personalized LinkedIn recommendation highlighting your production system, and directly forwards your profile to engineering leads across 15 hiring partner companies.
+                No. We strictly do not offer or guarantee job placements. We provide an intensive practical simulator with real multi-table database schemas, daily GitHub commit tracking, and rigorous founder code teardowns to help you build an undeniable portfolio.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 7. FINAL CTA ── */}
-      <section className="py-20 bg-slate-950 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-blue-300 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-blue-500/30">
-            <Sparkles size={14} /> Cohort 1: 14th Sept – Diwali 2026
-          </div>
-
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4 font-sans">
-            Ready to Build Your Engineering Proof-of-Work?
-          </h2>
-
-          <p className="text-slate-400 text-xs sm:text-base font-mono max-w-2xl mx-auto mb-8">
-            Create your builder profile with Google or Phone OTP. Pick your track, start building, and challenge yourself with an Insane Project.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 font-mono text-xs">
-            <Link
-              href="/login"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>Get Started Now</span>
-              <ArrowRight size={14} />
-            </Link>
-
-            <Link
-              href="/arena"
-              className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-800 font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-            >
-              <Terminal size={14} className="text-blue-400" />
-              <span>Explore 50 Projects</span>
-            </Link>
           </div>
         </div>
       </section>

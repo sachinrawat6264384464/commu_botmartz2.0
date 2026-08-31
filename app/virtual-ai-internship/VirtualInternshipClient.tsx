@@ -132,21 +132,21 @@ export default function VirtualInternshipPricingClient() {
           </button>
         </div>
 
-        {/* TIER 3: ₹1,999 ELITE PLACEMENT & FOUNDER TRACK */}
+        {/* TIER 3: ₹1,999 ELITE FOUNDER TRACK */}
         <div className="p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-xl flex flex-col justify-between">
           <div>
             <div className="text-amber-400 font-bold uppercase tracking-wider text-[11px] mb-2 flex items-center gap-1">
-              <Star size={13} /> Track 3: Career Fast-Track
+              <Star size={13} /> Track 3: Founder Mentorship
             </div>
             <h3 className="text-2xl font-black text-white font-sans mb-2">
-              Founder Placement Track
+              Elite Founder Track
             </h3>
             <div className="flex items-baseline gap-1 mb-6">
               <span className="text-4xl font-black text-white font-sans">₹1,999</span>
               <span className="text-slate-400 text-xs">/ 45-Day Cohort</span>
             </div>
             <p className="text-slate-400 leading-relaxed mb-6 font-sans text-xs">
-              Direct mentorship with Founder Soham Sharma, 1-on-1 code reviews, and job referral assistance under strict criteria.
+              Direct mentorship with Founder Soham Sharma, 1-on-1 architecture code audits, and personalized portfolio recommendations.
             </p>
 
             <div className="space-y-3 pt-4 border-t border-slate-800 mb-8">
@@ -156,7 +156,7 @@ export default function VirtualInternshipPricingClient() {
               </div>
               <div className="flex items-start gap-2 text-slate-300">
                 <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
-                <span>1-on-1 Architecture Code Review with Founder Soham</span>
+                <span>1-on-1 Architecture Code Audit with Founder Soham Sharma</span>
               </div>
               <div className="flex items-start gap-2 text-slate-300">
                 <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
@@ -164,7 +164,7 @@ export default function VirtualInternshipPricingClient() {
               </div>
               <div className="flex items-start gap-2 text-slate-300">
                 <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
-                <span>Direct Dispatch to 15 Hiring Partner Companies</span>
+                <span>In-Depth System Architecture Audit &amp; Optimization Blueprint</span>
               </div>
               <div className="flex items-start gap-2 text-slate-300">
                 <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
@@ -176,8 +176,8 @@ export default function VirtualInternshipPricingClient() {
           <button
             onClick={() => handleOpenCheckout(
               1999,
-              "Founder Placement Track (45-Day Elite Mentorship)",
-              "Includes 1-on-1 Code Audits with Founder Soham Sharma & 15 Company Direct Referral Dispatch."
+              "Elite Founder Track (45-Day Mentorship & Code Audit)",
+              "Includes 1-on-1 Code Audits with Founder Soham Sharma & Mock Technical Defense."
             )}
             className="w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
           >

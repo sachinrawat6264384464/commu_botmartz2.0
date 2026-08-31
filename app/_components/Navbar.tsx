@@ -78,12 +78,12 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
-    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Overview, syllabus & 15 company referrals" },
+    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews" },
     { name: "Internship Playground (50 PRDs)", href: "/arena", icon: Layers, desc: "Explore production engineering systems" },
-    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW, pitch deck & get unblocked" },
+    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins" },
     { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles" },
-    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "LinkedIn UGC composer (+50 Coins) & outreach" },
-    { name: "Shippers Circle (15 Referrals)", href: "/arena/shippers", icon: Award, desc: "Ship 3 projects to unlock company dispatch" },
+    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer" },
+    { name: "Platform Guide & Ecosystem Tour", href: "/arena/antigravity-guide", icon: BookOpen, desc: "Interactive guide to all features & pages" },
     { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review" }
   ];
 

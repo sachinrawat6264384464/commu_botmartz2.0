@@ -36,11 +36,14 @@ import {
   Loader2,
   Building,
   Clock,
-  Award
+  Award,
+  Code2,
+  Terminal
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { UNIVERSITIES_DIRECTORY } from "@/lib/universities-directory";
 import { COMPANIES_DIRECTORY } from "@/lib/companies-directory";
+import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
 const GLOBAL_COUNTRIES = [
   "India",
@@ -88,6 +91,23 @@ export default function StudentProfilePortal() {
   const [enrolledProjects, setEnrolledProjects] = useState<any[]>([]);
   const [loadingEnrollments, setLoadingEnrollments] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  // LinkedIn Checklist State
+  const [linkedinTasks, setLinkedinTasks] = useState({
+    headline: true,
+    githubInFeatured: true,
+    day1Post: false,
+    skillTags: true,
+    portfolioLink: false,
+    peerConnect: true
+  });
+  const [copiedHeadline, setCopiedHeadline] = useState(false);
+  const [copiedPostTemplate, setCopiedPostTemplate] = useState(false);
+
+  // Resume Generator State
+  const [selectedResumeId, setSelectedResumeId] = useState<string>("p1");
+  const [copiedResumePlain, setCopiedResumePlain] = useState(false);
+  const [copiedResumeLatex, setCopiedResumeLatex] = useState(false);
 
   // Edit Profile Modal State
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -570,6 +590,280 @@ export default function StudentProfilePortal() {
               ))}
             </div>
           )}
+        </div>
+
+        {/* =========================================================================
+            SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <div className="text-xs font-bold text-[#0066FF] uppercase mb-1">
+                RECRUITER &amp; ATS OPTIMIZATION
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 font-sans">
+                Project Resume Builder &amp; STAR Bullet Generator
+              </h3>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
+                Automatically generate metric-driven, recruiter-ready bullet points for your resume &amp; LinkedIn.
+              </p>
+            </div>
+
+            {/* Project Selector Dropdown */}
+            <div className="w-full sm:w-72">
+              <select
+                value={selectedResumeId}
+                onChange={(e) => setSelectedResumeId(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+              >
+                {ARENA_PROJECTS.slice(0, 20).map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Generated Bullets Display */}
+          {(() => {
+            const currentProj = ARENA_PROJECTS.find((p) => p.id === selectedResumeId) || ARENA_PROJECTS[0];
+            const techList = currentProj.techStack.slice(0, 4).join(", ");
+            const bullets = [
+              `Architected and deployed a production ${currentProj.title} utilizing ${techList}, processing high-throughput payloads with sub-150ms p95 latency.`,
+              `Engineered multi-table relational schemas and vector embedding indexing with strict ACID transaction guarantees and zero data loss.`,
+              `Built automated test suites and SLA benchmark pipelines, achieving >85% code coverage and meeting strict production acceptance criteria (${currentProj.productionSla}).`,
+              `Containerized microservices via Docker and established automated GitHub CI/CD workflows for reproducible staging and cloud deployments.`
+            ];
+
+            const plainText = `• ${bullets.join("\n• ")}`;
+            const latexText = `\\resumeSubheading\n  {${currentProj.title}}{Indore, India}\n  {AI & Systems Engineering Fellow}{Sept 2026 -- Present}\n  \\resumeItemListStart\n    \\resumeItem{${bullets[0]}}\n    \\resumeItem{${bullets[1]}}\n    \\resumeItem{${bullets[2]}}\n    \\resumeItem{${bullets[3]}}\n  \\resumeItemListEnd`;
+
+            return (
+              <div className="space-y-4">
+                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                  <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+                    <span className="font-bold text-slate-900 text-sm font-sans">{currentProj.title}</span>
+                    <span className="text-[10px] text-slate-500 font-bold">{currentProj.difficulty}</span>
+                  </div>
+
+                  {bullets.map((b, bi) => (
+                    <div key={bi} className="flex items-start gap-2 text-slate-700 text-[11px] leading-relaxed">
+                      <span className="text-[#0066FF] font-bold shrink-0">•</span>
+                      <span>{b}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(plainText);
+                      setCopiedResumePlain(true);
+                      setTimeout(() => setCopiedResumePlain(false), 2000);
+                    }}
+                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                  >
+                    {copiedResumePlain ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                    <span>{copiedResumePlain ? "Plain Text Copied!" : "Copy Plain Text Bullets"}</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(latexText);
+                      setCopiedResumeLatex(true);
+                      setTimeout(() => setCopiedResumeLatex(false), 2000);
+                    }}
+                    className="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#0066FF] border border-blue-200 font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    {copiedResumeLatex ? <Check size={13} className="text-emerald-600" /> : <Code2 size={13} />}
+                    <span>{copiedResumeLatex ? "LaTeX Code Copied!" : "Copy LaTeX (Overleaf) Block"}</span>
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* =========================================================================
+            SECTION B: INTERACTIVE LINKEDIN BUILDER CHECKLIST
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <div className="text-xs font-bold text-[#0066FF] uppercase mb-1">
+                LINKEDIN VISIBILITY &amp; REACH
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 font-sans">
+                LinkedIn Builder Optimization Checklist
+              </h3>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
+                Convert your daily proof-of-work into inbound engineering interview invites.
+              </p>
+            </div>
+
+            <Link
+              href="/arena/career-checklist"
+              className="px-4 py-2 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 font-bold hover:bg-purple-100 transition-colors shrink-0"
+            >
+              Full Career Checklist &rarr;
+            </Link>
+          </div>
+
+          {/* Checklist Items */}
+          <div className="space-y-3">
+            {[
+              {
+                key: "headline",
+                label: "Optimized Headline (e.g. AI & Distributed Systems Builder @ Botmartz Arena | PyTorch • LangGraph • FastAPI)",
+                action: () => {
+                  navigator.clipboard.writeText("AI & Systems Engineering Builder @ Botmartz Arena | PyTorch • LangGraph • FastAPI • Rust");
+                  setCopiedHeadline(true);
+                  setTimeout(() => setCopiedHeadline(false), 2000);
+                },
+                actionLabel: copiedHeadline ? "Headline Copied!" : "Copy Headline"
+              },
+              {
+                key: "githubInFeatured",
+                label: "Pinned Active GitHub Repository in Featured Section",
+                action: null,
+                actionLabel: null
+              },
+              {
+                key: "day1Post",
+                label: "Published Day 1 / Milestone Proof-of-Work Post with #BotmartzAI",
+                action: () => {
+                  const postText = `🚀 Excited to announce I am building production systems in the Botmartz Arena!\n\nTackling industrial PRD blueprints with strict <150ms SLA latency gates and daily GitHub proof-of-work commits.\n\nCheck out my builder profile: https://community.botmartz.com${publicProfileUrl}\n\n#BotmartzAI #SystemsEngineering #AI #FullStack`;
+                  navigator.clipboard.writeText(postText);
+                  setCopiedPostTemplate(true);
+                  setTimeout(() => setCopiedPostTemplate(false), 2000);
+                },
+                actionLabel: copiedPostTemplate ? "Post Template Copied!" : "Copy Post Template"
+              },
+              {
+                key: "skillTags",
+                label: "Added Top 5 Technical Skills (Python, FastAPI, PyTorch, Vector DBs, Docker)",
+                action: null,
+                actionLabel: null
+              },
+              {
+                key: "portfolioLink",
+                label: `Attached Verified Botmartz Profile Link (community.botmartz.com${publicProfileUrl}) in Bio`,
+                action: handleCopyPublicProfile,
+                actionLabel: copiedLink ? "Link Copied!" : "Copy Link"
+              },
+              {
+                key: "peerConnect",
+                label: "Connected with 10+ Fellow Builders in the Community",
+                action: null,
+                actionLabel: null
+              }
+            ].map((item, idx) => {
+              const isDone = (linkedinTasks as any)[item.key];
+              return (
+                <div
+                  key={idx}
+                  className={`p-3.5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
+                    isDone ? "bg-emerald-50/40 border-emerald-200 text-slate-800" : "bg-slate-50 border-slate-200 text-slate-600"
+                  }`}
+                >
+                  <label className="flex items-center gap-3 cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(isDone)}
+                      onChange={() => {
+                        setLinkedinTasks((prev) => ({
+                          ...prev,
+                          [item.key]: !isDone
+                        }));
+                      }}
+                      className="w-4 h-4 rounded text-[#0066FF] border-slate-300 focus:ring-[#0066FF]"
+                    />
+                    <span className={isDone ? "font-bold text-slate-900" : ""}>{item.label}</span>
+                  </label>
+
+                  {item.action && (
+                    <button
+                      onClick={item.action}
+                      className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-[#0066FF] text-[#0066FF] font-bold text-[11px] shrink-0 transition-colors cursor-pointer"
+                    >
+                      {item.actionLabel}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-4 p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 flex items-center justify-between gap-4">
+            <div className="text-[11px] text-blue-900">
+              <strong>Tip:</strong> Submitting your live LinkedIn post URL on the Daily Log awards an instant <strong>+50 Karma Coins</strong>!
+            </div>
+            <Link
+              href="/arena/daily-log"
+              className="px-4 py-1.5 rounded-xl bg-[#0066FF] text-white font-bold text-xs shrink-0 hover:bg-blue-600 transition-colors"
+            >
+              Submit Post Link (+50)
+            </Link>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            SECTION C: BOTMARTZ PLATFORM TOUR & FEATURE SITEMAP
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="text-xs font-bold text-emerald-700 uppercase mb-1">
+                PLATFORM ECOSYSTEM TOUR
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 font-sans">
+                Guide to All Platform Features
+              </h3>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
+                Every page on Botmartz and how to make the most of it.
+              </p>
+            </div>
+
+            <Link
+              href="/arena/antigravity-guide"
+              className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-colors"
+            >
+              Full Guide &rarr;
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+            {[
+              { title: "The Arena (50 PRDs)", desc: "Production system blueprints with SLA gates.", href: "/arena", icon: Layers },
+              { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log", icon: Terminal },
+              { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship", icon: Sparkles },
+              { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet", icon: Coins },
+              { title: "Saturday Office Hours", desc: "Weekly live architecture clinics with founder.", href: "/arena/calendar", icon: Calendar },
+              { title: "Discussion Channels", desc: "Community forum for code reviews & blockers.", href: "/discussions", icon: MessageSquare }
+            ].map((card, ci) => {
+              const IconComp = card.icon;
+              return (
+                <Link
+                  key={ci}
+                  href={card.href}
+                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/20 transition-all flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <IconComp size={15} className="text-[#0066FF]" />
+                      <span className="font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">{card.title}</span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 font-sans leading-relaxed">{card.desc}</p>
+                  </div>
+                  <div className="text-[10px] text-[#0066FF] font-bold mt-3 flex items-center gap-1">
+                    <span>Open Page</span>
+                    <ArrowRight size={10} />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
       </div>

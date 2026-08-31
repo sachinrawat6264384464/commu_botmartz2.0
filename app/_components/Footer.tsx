@@ -159,9 +159,9 @@ export default function CommunityFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/arena/shippers" className="hover:text-white transition-colors flex items-center gap-1.5">
+                <Link href="/arena/antigravity-guide" className="hover:text-white transition-colors flex items-center gap-1.5">
                   <Award size={13} className="text-emerald-400" />
-                  <span>Shippers Circle (15 Referrals)</span>
+                  <span>Platform Guide &amp; Tour</span>
                 </Link>
               </li>
               <li>

@@ -59,34 +59,34 @@ export default function StudentWalletPage() {
   ];
 
   const EARN_CHANNELS = [
-    { title: "Daily PoW Standup Log", reward: "+50 Coins", desc: "Submit your daily GitHub commit and streak report.", icon: Zap },
-    { title: "Publish LinkedIn Progress Diary", reward: "+50 Coins", desc: "Post verified architecture updates on LinkedIn with #BotmartzInternship.", icon: TrendingUp },
-    { title: "Peer Code Review & PR Audit", reward: "+100 Coins", desc: "Review and approve a peer student's pull request on GitHub.", icon: CheckCircle2 },
-    { title: "Report Verified Pentest Bug / CVE", reward: "+200 Coins", desc: "Discover and document an OWASP vulnerability in a staging build.", icon: ShieldCheck },
-    { title: "Discord Technical Blocker Rescue", reward: "+150 Coins", desc: "Help another student squad unblock a database deadlock or build error.", icon: MessageSquare },
-    { title: "Ship Verified 45-Day Production Project", reward: "+500 Coins", desc: "Pass all 3 quality gates (Tests, Code Audit, Pen-test) on cloud.", icon: Trophy }
+    { title: "Daily PoW Standup Log", reward: "+50 Coins", desc: "Submit your daily GitHub commit and streak report.", icon: Zap, href: "/arena/daily-log", action: "Log Commit" },
+    { title: "Publish LinkedIn Progress Diary", reward: "+50 Coins", desc: "Post verified architecture updates on LinkedIn with #BotmartzAI.", icon: TrendingUp, href: "/arena/career-checklist", action: "Open Checklist" },
+    { title: "Peer Code Review & PR Audit", reward: "+100 Coins", desc: "Review and approve a peer student's pull request on GitHub.", icon: CheckCircle2, href: "/discussions", action: "Review PRs" },
+    { title: "Report Verified Pentest Bug / CVE", reward: "+200 Coins", desc: "Discover and document an OWASP vulnerability in a staging build.", icon: ShieldCheck, href: "/arena/bounties", action: "View Bounties" },
+    { title: "Discord Technical Blocker Rescue", reward: "+150 Coins", desc: "Help another student squad unblock a database deadlock or build error.", icon: MessageSquare, href: "/discussions", action: "Join Forum" },
+    { title: "Ship Verified 45-Day Production Project", reward: "+500 Coins", desc: "Pass all quality gates (Tests, Code Audit, Pen-test) on cloud.", icon: Trophy, href: "/arena", action: "Explore PRDs" }
   ];
 
   const REDEEMABLE_PERKS = [
     {
       id: "perk_1",
-      title: "1-on-1 Founder Technical Clinic (Earned Milestone)",
+      title: "1-on-1 Founder Technical Clinic",
       cost: 300,
       desc: "20-minute structured architecture teardown with Founder Soham Sharma. (Requires Agenda Submission).",
       badge: "Founder Clinic"
     },
     {
       id: "perk_2",
-      title: "Fast-Track 15-Company Referral Dispatch",
+      title: "Priority Portfolio Feature & Founder Recommendation",
       cost: 1000,
-      desc: "Direct profile dispatch to 15 partner tech companies with founder LinkedIn recommendation.",
-      badge: "VIP Referral"
+      desc: "Featured showcase on the Botmartz community homepage + personalized LinkedIn recommendation letter for your portfolio.",
+      badge: "Portfolio Feature"
     },
     {
       id: "perk_3",
       title: "Official Botmartz Builder Swag & Roadmap Book",
       cost: 800,
-      desc: "Printed AI & Systems Engineering Architecture Roadmap + Official Builder Tee delivered to your college.",
+      desc: "Printed AI & Systems Engineering Architecture Roadmap + Official Builder Tee delivered to your address.",
       badge: "Physical Swag"
     },
     {
@@ -464,19 +464,23 @@ export default function StudentWalletPage() {
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-bold text-slate-900 font-sans text-sm">{perk.title}</span>
+                          <span className="px-2 py-0.5 rounded-md bg-purple-100 text-purple-700 font-bold text-[9px]">
+                            {perk.badge}
+                          </span>
                         </div>
                         <p className="text-[11px] text-slate-500 font-mono leading-relaxed">{perk.desc}</p>
                       </div>
 
                       <button
                         onClick={() => setSelectedPerk(perk)}
-                        className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-center ${
+                        className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-center flex items-center justify-center gap-1.5 ${
                           canAfford
                             ? "bg-slate-900 hover:bg-slate-800 text-white shadow-xs"
-                            : "bg-slate-200 text-slate-500 cursor-not-allowed"
+                            : "bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200"
                         }`}
                       >
-                        Redeem {perk.cost} Coins
+                        <span>Redeem {perk.cost} Coins</span>
+                        <ArrowRight size={12} />
                       </button>
                     </div>
                   );
@@ -503,23 +507,27 @@ export default function StudentWalletPage() {
               {EARN_CHANNELS.map((ch, idx) => {
                 const IconComponent = ch.icon;
                 return (
-                  <div
+                  <Link
                     key={idx}
-                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3"
+                    href={ch.href}
+                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/30 transition-all flex items-center justify-between gap-3 group cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white transition-colors flex items-center justify-center shrink-0">
                         <IconComponent size={16} />
                       </div>
                       <div>
-                        <div className="font-bold text-slate-900">{ch.title}</div>
+                        <div className="font-bold text-slate-900 group-hover:text-emerald-800 transition-colors flex items-center gap-1.5">
+                          <span>{ch.title}</span>
+                          <ArrowRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-emerald-600" />
+                        </div>
                         <div className="text-[11px] text-slate-500 font-sans">{ch.desc}</div>
                       </div>
                     </div>
-                    <span className="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 shrink-0">
+                    <span className="px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 font-bold border border-emerald-200 shrink-0">
                       {ch.reward}
                     </span>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -589,21 +597,53 @@ export default function StudentWalletPage() {
               <span className="font-bold text-purple-700 text-sm">{selectedPerk.cost} Karma Coins</span>
             </div>
 
-            <div className="flex gap-3">
-              <button
-                onClick={() => setSelectedPerk(null)}
-                className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => handleRedeemPerk(selectedPerk)}
-                disabled={redeeming}
-                className="flex-1 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold flex items-center justify-center gap-1.5"
-              >
-                {redeeming ? <Loader2 size={14} className="animate-spin" /> : <span>Confirm &amp; Redeem</span>}
-              </button>
-            </div>
+            {currentCoins >= selectedPerk.cost ? (
+              <div className="space-y-4">
+                <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-[11px]">
+                  <strong>Balance Available:</strong> You have {currentCoins} coins. Redeeming will leave {currentCoins - selectedPerk.cost} coins.
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setSelectedPerk(null)}
+                    className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleRedeemPerk(selectedPerk)}
+                    disabled={redeeming}
+                    className="flex-1 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                  >
+                    {redeeming ? <Loader2 size={14} className="animate-spin" /> : <span>Confirm &amp; Redeem</span>}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-[11px]">
+                  <strong>Insufficient Balance:</strong> You have <strong>{currentCoins} coins</strong> ({selectedPerk.cost - currentCoins} more needed). You can earn coins via daily commit logs or top up instantly.
+                </div>
+                <div className="flex flex-col sm:flex-row gap-2.5">
+                  <Link
+                    href="/arena/daily-log"
+                    onClick={() => setSelectedPerk(null)}
+                    className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center flex items-center justify-center gap-1"
+                  >
+                    <span>Log Daily Commit (+50)</span>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      const targetPack = CREDIT_PACKS.find(p => p.coins >= selectedPerk.cost) || CREDIT_PACKS[0];
+                      setSelectedPerk(null);
+                      handleInitiatePurchase(targetPack);
+                    }}
+                    className="flex-1 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <span>Top-Up via Razorpay</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

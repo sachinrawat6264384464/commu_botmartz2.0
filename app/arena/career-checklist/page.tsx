@@ -283,10 +283,10 @@ Best,
 
             <div className="flex items-center gap-3 shrink-0 font-mono text-xs">
               <Link
-                href="/arena/shippers"
-                className="px-5 py-3 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-wider transition-all shadow-xs"
+                href="/profile"
+                className="px-5 py-3 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold uppercase tracking-wider transition-all shadow-xs"
               >
-                Claim 15 Referrals
+                View Builder Profile &rarr;
               </Link>
             </div>
           </div>

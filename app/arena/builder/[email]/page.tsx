@@ -78,10 +78,10 @@ export default async function BuilderProfilePage({ params }: Props) {
         
         {/* Back Link */}
         <Link
-          href="/arena/shippers"
+          href="/arena"
           className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-500 hover:text-[#0066FF] transition-colors mb-6"
         >
-          <ArrowLeft size={14} /> Back to Shippers Circle
+          <ArrowLeft size={14} /> Back to Arena
         </Link>
 
         {/* Profile Card */}
@@ -139,20 +139,20 @@ export default async function BuilderProfilePage({ params }: Props) {
           <div className="mt-6 p-5 rounded-2xl bg-blue-50/70 border border-blue-200 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
               <div className="text-xs font-mono font-bold text-[#0066FF] uppercase mb-1">
-                {totalProjects >= 3 ? "15-Company Referral Unlocked!" : "3-Project Milestone Progress"}
+                {totalProjects >= 3 ? "Milestone Unlocked!" : "3-Project Milestone Progress"}
               </div>
               <div className="text-sm font-bold text-slate-900">
                 {totalProjects >= 3
-                  ? "Eligible for fast-track dispatch to 15 tech companies & Founder LinkedIn Recommendation."
-                  : `${totalProjects} / 3 Projects Completed. Complete ${3 - totalProjects} more to unlock 15-company referral!`}
+                  ? "Eligible for Founder Code Audit & LinkedIn Recommendation."
+                  : `${totalProjects} / 3 Projects Completed. Complete ${3 - totalProjects} more to unlock milestone recognition!`}
               </div>
             </div>
             {totalProjects >= 3 ? (
               <Link
-                href="/arena/shippers#claim-referral"
+                href="/profile"
                 className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all whitespace-nowrap shadow-xs"
               >
-                Claim Referral ↗
+                View Profile ↗
               </Link>
             ) : (
               <Link

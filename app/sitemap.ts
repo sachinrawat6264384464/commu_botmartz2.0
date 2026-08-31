@@ -50,9 +50,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
-      url: `${baseUrl}/arena/shippers`,
+      url: `${baseUrl}/arena/antigravity-guide`,
       lastModified: now,
-      changeFrequency: "daily",
+      changeFrequency: "weekly",
       priority: 0.75,
     },
     {
