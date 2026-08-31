@@ -667,20 +667,20 @@ function DailyPoWLogPageInner() {
 
 export default function DailyPoWLogPage() {
   return (
-    <AuthGate
-      featureTitle="Daily Standup Logger"
-      featureDescription="Sign in with your builder account to log daily GitHub commits, earn Karma Coins, and maintain your 45-day proof-of-work streak."
+    <React.Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-100 flex items-center justify-center font-mono text-xs text-slate-500">
+          <Loader2 size={20} className="animate-spin text-[#0066FF] mr-2" />
+          <span>Loading 45-Day Proof-of-Work Logger...</span>
+        </div>
+      }
     >
-      <React.Suspense
-        fallback={
-          <div className="min-h-screen bg-slate-100 flex items-center justify-center font-mono text-xs text-slate-500">
-            <Loader2 size={20} className="animate-spin text-[#0066FF] mr-2" />
-            <span>Loading 45-Day Proof-of-Work Logger...</span>
-          </div>
-        }
+      <AuthGate
+        featureTitle="Daily Standup Logger"
+        featureDescription="Sign in with your builder account to log daily GitHub commits, earn Karma Coins, and maintain your 45-day proof-of-work streak."
       >
         <DailyPoWLogPageInner />
-      </React.Suspense>
-    </AuthGate>
+      </AuthGate>
+    </React.Suspense>
   );
 }

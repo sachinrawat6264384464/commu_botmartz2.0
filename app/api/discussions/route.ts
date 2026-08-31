@@ -8,11 +8,62 @@ export async function GET(request: Request) {
       return NextResponse.json({ discussions: [] });
     }
     const snap = await adminDb.collection("discussions").orderBy("createdAt", "desc").limit(50).get();
-    const discussions = snap.docs.map(d => ({
-      id: d.id,
-      ...d.data(),
-      createdAt: d.data().createdAt?.toDate ? d.data().createdAt.toDate().toISOString() : d.data().createdAt
-    }));
+    const discussions = snap.docs.map(d => {
+      const data = d.data();
+      const rawAuthor = data.author;
+      const authorObj = typeof rawAuthor === "object" && rawAuthor !== null
+        ? {
+            name: rawAuthor.name || "Community Builder",
+            handle: rawAuthor.handle || `@${(rawAuthor.email || "builder").split("@")[0]}`,
+            role: rawAuthor.role || "AI Builder",
+            avatarBg: rawAuthor.avatarBg || "from-blue-600 to-indigo-700",
+            github: rawAuthor.github || "",
+            discord: rawAuthor.discord || "",
+            email: rawAuthor.email || data.authorEmail || ""
+          }
+        : {
+            name: typeof rawAuthor === "string" ? rawAuthor : "Community Builder",
+            handle: `@${(data.authorEmail || "builder").split("@")[0]}`,
+            role: "AI Builder",
+            avatarBg: "from-blue-600 to-indigo-700",
+            github: "",
+            discord: "",
+            email: data.authorEmail || ""
+          };
+
+      const rawTags = data.tags;
+      const tagsArray = Array.isArray(rawTags)
+        ? rawTags.map(t => String(t).trim()).filter(Boolean)
+        : typeof rawTags === "string"
+        ? rawTags.split(",").map(t => t.trim()).filter(Boolean)
+        : ["Discussion"];
+
+      const rawComments = data.commentsList;
+      const commentsArray = Array.isArray(rawComments)
+        ? rawComments.map((c, idx) => ({
+            id: c.id || `c-${idx}`,
+            author: c.author || "Builder",
+            handle: c.handle || "@builder",
+            text: c.text || c.content || "",
+            timeAgo: c.timeAgo || "Recently"
+          }))
+        : [];
+
+      return {
+        id: d.id,
+        title: data.title || "Untitled Discussion",
+        content: data.content || "",
+        channel: data.channel || "all",
+        tags: tagsArray.length > 0 ? tagsArray : ["General"],
+        author: authorObj,
+        upvotes: typeof data.upvotes === "number" ? data.upvotes : 0,
+        replies: typeof data.replies === "number" ? data.replies : commentsArray.length,
+        commentsList: commentsArray,
+        timeAgo: data.timeAgo || "Recently",
+        isHot: Boolean(data.isHot),
+        createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : data.createdAt || new Date().toISOString()
+      };
+    });
     return NextResponse.json({ discussions });
   } catch (err: any) {
     return NextResponse.json({ discussions: [] });

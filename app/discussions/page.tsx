@@ -331,11 +331,31 @@ function DiscussionsContent() {
     fetch("/api/discussions")
       .then(res => res.json())
       .then(data => {
-        if (data.discussions && data.discussions.length > 0) {
+        if (data?.discussions && Array.isArray(data.discussions)) {
+          const sanitized: DiscussionPost[] = data.discussions.map((d: any) => ({
+            id: d.id || `disc-${Math.random()}`,
+            title: d.title || "Untitled Discussion",
+            content: d.content || "",
+            channel: d.channel || "all",
+            tags: Array.isArray(d.tags) ? d.tags : typeof d.tags === "string" ? d.tags.split(",").map((t: string) => t.trim()).filter(Boolean) : ["General"],
+            author: {
+              name: d.author?.name || "Community Builder",
+              handle: d.author?.handle || "@builder",
+              role: d.author?.role || "AI Builder",
+              avatarBg: d.author?.avatarBg || "from-blue-600 to-indigo-700",
+              github: d.author?.github || "",
+              discord: d.author?.discord || ""
+            },
+            upvotes: typeof d.upvotes === "number" ? d.upvotes : 0,
+            replies: typeof d.replies === "number" ? d.replies : (Array.isArray(d.commentsList) ? d.commentsList.length : 0),
+            commentsList: Array.isArray(d.commentsList) ? d.commentsList : [],
+            timeAgo: d.timeAgo || "Recently",
+            isHot: Boolean(d.isHot)
+          }));
+
           setPosts(prev => {
-            // merge unique
             const existingIds = new Set(prev.map(p => p.id));
-            const newOnes = data.discussions.filter((d: any) => !existingIds.has(d.id));
+            const newOnes = sanitized.filter((d: any) => !existingIds.has(d.id));
             return [...newOnes, ...prev];
           });
         }
@@ -474,11 +494,13 @@ function DiscussionsContent() {
   const POSTS_PER_PAGE = 4;
 
   const filteredPosts = posts.filter(p => {
+    if (!p) return false;
     const matchesChannel = selectedChannel === "all" || p.channel === selectedChannel;
-    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesChannel && matchesSearch;
+    const searchLower = (searchQuery || "").toLowerCase();
+    const titleMatch = (p.title || "").toLowerCase().includes(searchLower);
+    const contentMatch = (p.content || "").toLowerCase().includes(searchLower);
+    const tagsMatch = Array.isArray(p.tags) && p.tags.some(t => String(t || "").toLowerCase().includes(searchLower));
+    return matchesChannel && (titleMatch || contentMatch || tagsMatch);
   });
 
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE) || 1;
@@ -658,81 +680,92 @@ function DiscussionsContent() {
 
             {/* Post Feed */}
             <div className="space-y-4">
-              {paginatedPosts.map(post => (
-                <div
-                  key={post.id}
-                  className="bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all"
-                >
-                  {/* Author Header */}
-                  <div className="flex items-center justify-between gap-3 mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-xl bg-gradient-to-tr ${post.author.avatarBg} flex items-center justify-center font-bold font-mono text-white text-xs shadow-xs`}>
-                        {post.author.name.split(' ').map(n=>n[0]).join('')}
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold text-slate-900 flex items-center gap-2">
-                          <span>{post.author.name}</span>
-                          <span className="text-[10px] font-mono text-slate-400">{post.author.handle}</span>
+              {paginatedPosts.map(post => {
+                const authorName = post.author?.name || "Community Builder";
+                const authorHandle = post.author?.handle || "@builder";
+                const authorRole = post.author?.role || "AI Builder";
+                const avatarBg = post.author?.avatarBg || "from-[#0066FF] to-[#0092D7]";
+                const initials = authorName.split(' ').map(n=>n[0]).join('').slice(0, 2) || "B";
+                const postTags = Array.isArray(post.tags) ? post.tags : [];
+
+                return (
+                  <div
+                    key={post.id}
+                    className="bg-white border border-slate-200 hover:border-slate-300 rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all"
+                  >
+                    {/* Author Header */}
+                    <div className="flex items-center justify-between gap-3 mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-9 h-9 rounded-xl bg-gradient-to-tr ${avatarBg} flex items-center justify-center font-bold font-mono text-white text-xs shadow-xs`}>
+                          {initials}
                         </div>
-                        <div className="text-[10px] font-mono text-[#0066FF]">{post.author.role}</div>
+                        <div>
+                          <div className="text-xs font-bold text-slate-900 flex items-center gap-2">
+                            <span>{authorName}</span>
+                            <span className="text-[10px] font-mono text-slate-400">{authorHandle}</span>
+                          </div>
+                          <div className="text-[10px] font-mono text-[#0066FF]">{authorRole}</div>
+                        </div>
                       </div>
+
+                      <div className="text-[11px] font-mono text-slate-400">{post.timeAgo || "Recently"}</div>
                     </div>
 
-                    <div className="text-[11px] font-mono text-slate-400">{post.timeAgo}</div>
-                  </div>
+                    {/* Title & Content */}
+                    <h2 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
+                      {post.title}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
+                      {post.content}
+                    </p>
 
-                  {/* Title & Content */}
-                  <h2 className="text-lg font-bold text-slate-900 mb-2 leading-snug">
-                    {post.title}
-                  </h2>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
-                    {post.content}
-                  </p>
+                    {/* Tags */}
+                    {postTags.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-5">
+                        {postTags.map((t, tIdx) => (
+                          <span key={`${t}-${tIdx}`} className="px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-[#0066FF] font-mono text-[10px]">
+                            #{t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-5">
-                    {post.tags.map(t => (
-                      <span key={t} className="px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-[#0066FF] font-mono text-[10px]">
-                        #{t}
-                      </span>
-                    ))}
-                  </div>
+                    {/* Actions Footer */}
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => toggleUpvote(post.id)}
+                          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl font-mono text-xs transition-all cursor-pointer ${
+                            upvotedIds[post.id]
+                              ? "bg-[#0066FF] text-white font-bold shadow-xs"
+                              : "bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200"
+                          }`}
+                        >
+                          <ThumbsUp size={13} className={upvotedIds[post.id] ? "fill-current" : ""} />
+                          <span>{post.upvotes || 0} Upvotes</span>
+                        </button>
 
-                  {/* Actions Footer */}
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => setActiveThread(post)}
+                          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-mono border border-slate-200 transition-colors cursor-pointer"
+                        >
+                          <MessageCircle size={14} className="text-[#0066FF]" />
+                          <span>{post.replies || (post.commentsList?.length || 0)} Comments / Live Replies</span>
+                        </button>
+                      </div>
+
                       <button
-                        onClick={() => toggleUpvote(post.id)}
-                        className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl font-mono text-xs transition-all cursor-pointer ${
-                          upvotedIds[post.id]
-                            ? "bg-[#0066FF] text-white font-bold shadow-xs"
-                            : "bg-slate-50 text-slate-600 hover:text-slate-900 border border-slate-200"
-                        }`}
+                        onClick={() => alert("Link copied to clipboard!")}
+                        className="p-2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                        title="Share Post"
                       >
-                        <ThumbsUp size={13} className={upvotedIds[post.id] ? "fill-current" : ""} />
-                        <span>{post.upvotes} Upvotes</span>
-                      </button>
-
-                      <button
-                        onClick={() => setActiveThread(post)}
-                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-mono border border-slate-200 transition-colors cursor-pointer"
-                      >
-                        <MessageCircle size={14} className="text-[#0066FF]" />
-                        <span>{post.replies} Comments / Live Replies</span>
+                        <Share2 size={15} />
                       </button>
                     </div>
 
-                    <button
-                      onClick={() => alert("Link copied to clipboard!")}
-                      className="p-2 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
-                      title="Share Post"
-                    >
-                      <Share2 size={15} />
-                    </button>
                   </div>
-
-                </div>
-              ))}
+                );
+              })}
 
               {/* Pagination Controls */}
               {totalPages > 1 && (
@@ -1024,17 +1057,17 @@ function DiscussionsContent() {
 
 export default function CommunityDiscussionsPage() {
   return (
-    <AuthGate
-      featureTitle="Technical Discussions & Engineering Forum"
-      featureDescription="Sign in to start technical threads, share code snippets, reply to peers, and earn Karma Coins for solving blockers."
-    >
-      <Suspense fallback={
-        <div className="min-h-screen bg-[#FAFCFF] flex items-center justify-center text-slate-500 py-32">
-          <Loader2 className="animate-spin text-[#0066FF]" size={28} />
-        </div>
-      }>
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#FAFCFF] flex items-center justify-center text-slate-500 py-32">
+        <Loader2 className="animate-spin text-[#0066FF]" size={28} />
+      </div>
+    }>
+      <AuthGate
+        featureTitle="Technical Discussions & Engineering Forum"
+        featureDescription="Sign in to start technical threads, share code snippets, reply to peers, and earn Karma Coins for solving blockers."
+      >
         <DiscussionsContent />
-      </Suspense>
-    </AuthGate>
+      </AuthGate>
+    </Suspense>
   );
 }
