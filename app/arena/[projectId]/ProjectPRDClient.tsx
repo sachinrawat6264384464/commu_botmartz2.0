@@ -67,34 +67,36 @@ export default function ProjectPRDClient({ project }: Props) {
   const [enrollError, setEnrollError] = useState("");
 
   // Testimonials State
-  const [testimonials, setTestimonials] = useState<
-    { author: string; role: string; college: string; rating: number; text: string; date: string }[]
-  >([
-    {
-      author: "Aditya Jain",
-      role: "AI/ML Engineer",
-      college: "SGSITS Indore",
-      rating: 5,
-      text: `Building ${project.title} gave me more production insights than 6 months of college courses. The database schema and latency benchmark requirements forced us to write high-throughput code.`,
-      date: "2 days ago"
-    },
-    {
-      author: "Neha Sharma",
-      role: "Backend & Systems Lead",
-      college: "IET DAVV",
-      rating: 5,
-      text: "The 3-tier verification gate (Automated tests + Core Team audit + Pen-test) made our GitHub repo stand out during technical recruiter screens.",
-      date: "1 week ago"
-    }
-  ]);
+  // Testimonials State
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [loadingTestimonials, setLoadingTestimonials] = useState(true);
 
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [reviewName, setReviewName] = useState("");
-  const [reviewRole, setReviewRole] = useState("Backend Dev");
+  const [reviewRole, setReviewRole] = useState("AI Engineer");
   const [reviewCollege, setReviewCollege] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(5);
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
+
+  const fetchTestimonials = async () => {
+    try {
+      const res = await fetch(`/api/testimonials?targetId=${encodeURIComponent(project.id)}`);
+      const data = await res.json();
+      if (data.success && Array.isArray(data.testimonials)) {
+        setTestimonials(data.testimonials);
+      }
+    } catch (e) {
+      console.warn("Failed to load testimonials:", e);
+    } finally {
+      setLoadingTestimonials(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTestimonials();
+  }, [project.id]);
 
   // Autofill user details if logged in
   useEffect(() => {
@@ -179,28 +181,44 @@ export default function ProjectPRDClient({ project }: Props) {
     }
   };
 
-  const handleAddTestimonial = (e: React.FormEvent) => {
+  const handleAddTestimonial = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!reviewText.trim()) return;
 
-    setTestimonials([
-      {
-        author: reviewName || "Verified Builder",
-        role: reviewRole,
-        college: reviewCollege || "Botmartz Student",
-        rating: reviewRating,
-        text: reviewText.trim(),
-        date: "Just now"
-      },
-      ...testimonials
-    ]);
+    setReviewSubmitting(true);
+    try {
+      const res = await fetch("/api/testimonials", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          targetType: "PROJECT_PRD",
+          targetId: project.id,
+          targetTitle: project.title,
+          authorName: reviewName.trim() || "Verified Builder",
+          authorEmail: user?.email || "",
+          authorRole: reviewRole,
+          authorCollegeOrCompany: reviewCollege.trim() || "Botmartz Student",
+          rating: reviewRating,
+          content: reviewText.trim()
+        })
+      });
 
-    setReviewSubmitted(true);
-    setTimeout(() => {
-      setShowReviewModal(false);
-      setReviewSubmitted(false);
-      setReviewText("");
-    }, 1500);
+      const data = await res.json();
+      if (data.success) {
+        setReviewSubmitted(true);
+        setTimeout(() => {
+          setShowReviewModal(false);
+          setReviewSubmitted(false);
+          setReviewText("");
+        }, 3000);
+      } else {
+        alert(data.error || "Failed to submit testimonial.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Failed to submit review.");
+    } finally {
+      setReviewSubmitting(false);
+    }
   };
 
   const isGTH = project.difficulty === "Expert Tier";
@@ -452,25 +470,29 @@ export default function ProjectPRDClient({ project }: Props) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
             {testimonials.map((t, idx) => (
-              <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+              <div key={t.id || idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <div>
-                      <span className="font-bold text-slate-900 font-sans text-sm block">{t.author}</span>
-                      <span className="text-[10px] text-slate-400">{t.role} • {t.college}</span>
+                      <span className="font-bold text-slate-900 font-sans text-sm block">
+                        {t.authorName || t.author}
+                      </span>
+                      <span className="text-[10px] text-slate-400">
+                        {t.authorRole || t.role} • {t.authorCollegeOrCompany || t.college}
+                      </span>
                     </div>
                     <div className="flex text-amber-400">
-                      {Array.from({ length: t.rating }).map((_, i) => (
+                      {Array.from({ length: t.rating || 5 }).map((_, i) => (
                         <Star key={i} size={13} className="fill-amber-400" />
                       ))}
                     </div>
                   </div>
                   <p className="text-slate-700 text-xs font-sans leading-relaxed my-2">
-                    &quot;{t.text}&quot;
+                    &quot;{t.content || t.text}&quot;
                   </p>
                 </div>
                 <div className="text-[10px] text-slate-400 text-right pt-2 border-t border-slate-200/60">
-                  {t.date}
+                  {t.createdAt ? new Date(t.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }) : t.date || "Verified Cohort"}
                 </div>
               </div>
             ))}
@@ -751,9 +773,12 @@ export default function ProjectPRDClient({ project }: Props) {
             </div>
 
             {reviewSubmitted ? (
-              <div className="py-6 text-center text-emerald-700 font-bold">
-                <CheckCircle2 size={28} className="mx-auto mb-2 text-emerald-600" />
-                Thank you! Your testimonial has been posted.
+              <div className="py-6 text-center text-emerald-700 font-bold space-y-2">
+                <CheckCircle2 size={32} className="mx-auto text-emerald-600" />
+                <div className="text-sm">Thank You for Your Feedback!</div>
+                <p className="text-xs text-slate-500 font-normal font-sans">
+                  Your testimonial has been submitted for admin approval and will appear publicly once verified by our team.
+                </p>
               </div>
             ) : (
               <form onSubmit={handleAddTestimonial} className="space-y-3.5">
@@ -768,11 +793,28 @@ export default function ProjectPRDClient({ project }: Props) {
                   />
                 </div>
                 <div>
+                  <label className="block text-slate-700 font-bold mb-1">Role / Domain *</label>
+                  <select
+                    value={reviewRole}
+                    onChange={(e) => setReviewRole(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                  >
+                    <option value="AI Engineer">AI Engineer</option>
+                    <option value="Backend Dev">Backend Dev</option>
+                    <option value="Frontend Dev">Frontend Dev</option>
+                    <option value="Fullstack Dev">Fullstack Dev</option>
+                    <option value="Cloud DevOps">Cloud DevOps</option>
+                    <option value="QA Tester">QA Tester</option>
+                    <option value="Product Manager">Product Manager</option>
+                    <option value="Data & Financial ML">Data & Financial ML</option>
+                  </select>
+                </div>
+                <div>
                   <label className="block text-slate-700 font-bold mb-1">College / Organization *</label>
                   <input
                     type="text"
                     required
-                    placeholder="e.g. SGSITS Indore"
+                    placeholder="e.g. SGSITS Indore or Company"
                     value={reviewCollege}
                     onChange={(e) => setReviewCollege(e.target.value)}
                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
@@ -786,7 +828,7 @@ export default function ProjectPRDClient({ project }: Props) {
                         type="button"
                         key={num}
                         onClick={() => setReviewRating(num)}
-                        className={`p-2 rounded-lg border ${
+                        className={`p-2 rounded-lg border cursor-pointer ${
                           reviewRating >= num ? "bg-amber-100 text-amber-800 border-amber-300" : "bg-slate-50 text-slate-400"
                         }`}
                       >
@@ -808,9 +850,17 @@ export default function ProjectPRDClient({ project }: Props) {
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold"
+                  disabled={reviewSubmitting}
+                  className="w-full py-3 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold cursor-pointer transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Publish Testimonial
+                  {reviewSubmitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Submitting for Review...</span>
+                    </>
+                  ) : (
+                    <span>Submit for Admin Approval &rarr;</span>
+                  )}
                 </button>
               </form>
             )}

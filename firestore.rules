@@ -267,6 +267,12 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+
     match /newsletter/{subId} {
       allow read: if isAdmin();
       allow create: if true;
