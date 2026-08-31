@@ -1250,84 +1250,91 @@ export default function StudentProfilePortal() {
           UNIVERSAL EDIT PROFILE MODAL (STUDENTS & PROFESSIONALS WORLDWIDE)
       ========================================================================= */}
       {isEditModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs overflow-y-auto">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full p-6 sm:p-8 my-8 relative text-slate-900">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-2xl max-w-xl lg:max-w-2xl w-full max-h-[90vh] sm:max-h-[86vh] flex flex-col relative text-slate-900 overflow-hidden">
             
-            <button
-              onClick={() => setIsEditModalOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-            >
-              <X size={18} />
-            </button>
+            {/* Modal Header (Fixed at top) */}
+            <div className="px-5 sm:px-6 pt-5 pb-4 border-b border-slate-100 flex items-start justify-between bg-white shrink-0">
+              <div>
+                <div className="text-[10px] sm:text-[11px] font-mono text-[#0066FF] font-bold uppercase tracking-wider mb-0.5 flex items-center gap-1.5">
+                  <ShieldCheck size={13} className="text-emerald-600" />
+                  <span>Universal Builder Profile</span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-sans tracking-tight">
+                  Edit Profile &amp; Verification
+                </h3>
+                <p className="text-[11px] text-slate-500 font-sans mt-0.5">
+                  Update your identity, university / company credentials, and public developer handles.
+                </p>
+              </div>
 
-            <div className="text-[11px] font-mono text-[#0066FF] font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
-              <ShieldCheck size={14} className="text-emerald-600" />
-              <span>Universal Builder Profile</span>
+              <button
+                type="button"
+                onClick={() => setIsEditModalOpen(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer shrink-0 -mr-1"
+              >
+                <X size={18} />
+              </button>
             </div>
-            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-sans">
-              Edit Profile &amp; Verification
-            </h3>
-            <p className="text-xs text-slate-500 font-sans mt-0.5">
-              Support for students &amp; professionals across India and worldwide.
-            </p>
 
-            {editSuccessMsg && (
-              <div className="mt-4 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-mono text-xs flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
-                <span>{editSuccessMsg}</span>
-              </div>
-            )}
-
-            {editErrorMsg && (
-              <div className="mt-4 p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 font-mono text-xs flex items-center gap-2">
-                <AlertCircle size={16} className="text-rose-600 shrink-0" />
-                <span>{editErrorMsg}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSaveProfile} className="mt-6 space-y-4 font-mono text-xs">
+            {/* Scrollable Form Body */}
+            <form id="profile-edit-form" onSubmit={handleSaveProfile} className="flex-1 overflow-y-auto px-5 sm:px-6 py-4 space-y-4 font-mono text-xs">
               
+              {editSuccessMsg && (
+                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-mono text-xs flex items-center gap-2">
+                  <CheckCircle2 size={15} className="text-emerald-600 shrink-0" />
+                  <span>{editSuccessMsg}</span>
+                </div>
+              )}
+
+              {editErrorMsg && (
+                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 font-mono text-xs flex items-center gap-2">
+                  <AlertCircle size={15} className="text-rose-600 shrink-0" />
+                  <span>{editErrorMsg}</span>
+                </div>
+              )}
+
               {/* Persona Selector */}
               <div>
-                <label className="block text-slate-700 font-bold mb-1.5">Select Your Builder Persona *</label>
+                <label className="block text-[11px] text-slate-700 font-bold uppercase tracking-wider mb-1.5">Builder Persona *</label>
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "STUDENT" })}
-                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer font-sans ${
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${
                       formData.personaType === "STUDENT"
                         ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
                         : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
                     }`}
                   >
-                    <GraduationCap size={16} className="mx-auto mb-1" />
-                    <span className="text-xs">Student / University</span>
+                    <GraduationCap size={15} className="mx-auto mb-0.5" />
+                    <span className="text-[11px] block leading-tight">Student</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "WORKING_PROFESSIONAL" })}
-                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer font-sans ${
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${
                       formData.personaType === "WORKING_PROFESSIONAL"
                         ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
                         : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
                     }`}
                   >
-                    <Briefcase size={16} className="mx-auto mb-1" />
-                    <span className="text-xs">Working Professional</span>
+                    <Briefcase size={15} className="mx-auto mb-0.5" />
+                    <span className="text-[11px] block leading-tight">Professional</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "FOUNDER_BUILDER" })}
-                    className={`p-3 rounded-xl border text-center transition-all cursor-pointer font-sans ${
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${
                       formData.personaType === "FOUNDER_BUILDER"
                         ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
                         : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
                     }`}
                   >
-                    <Building size={16} className="mx-auto mb-1" />
-                    <span className="text-xs">Founder / Freelancer</span>
+                    <Building size={15} className="mx-auto mb-0.5" />
+                    <span className="text-[11px] block leading-tight">Founder / Solo</span>
                   </button>
                 </div>
               </div>
@@ -1335,53 +1342,53 @@ export default function StudentProfilePortal() {
               {/* Name & Handle */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Full Name *</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">Full Name *</label>
                   <input
                     type="text"
                     required
                     value={formData.displayName}
                     onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
                     placeholder="e.g. Soham Sharma"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Username / Public @handle *</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">Username / Public @handle *</label>
                   <input
                     type="text"
                     required
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value.toLowerCase().replace(/[^a-z0-9_]/g, "") })}
                     placeholder="e.g. rahul_ai"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-colors"
                   />
                 </div>
               </div>
 
               {/* Bio */}
               <div>
-                <label className="block text-slate-700 font-bold mb-1">Short Bio</label>
+                <label className="block text-[11px] text-slate-700 font-bold mb-1">Short Bio</label>
                 <input
                   type="text"
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                   placeholder="e.g. Fullstack AI Engineer developing multi-agent LangGraph architectures."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-colors"
                 />
               </div>
 
               {/* ── CONDITIONAL SECTION: STUDENT ── */}
               {formData.personaType === "STUDENT" && (
-                <div className="p-4 rounded-2xl bg-blue-50/40 border border-blue-100 space-y-3">
-                  <div className="font-bold text-[#0066FF] font-sans flex items-center gap-1.5">
-                    <GraduationCap size={15} />
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-blue-50/50 border border-blue-100 space-y-2.5">
+                  <div className="font-bold text-[#0066FF] font-sans text-xs flex items-center gap-1.5">
+                    <GraduationCap size={14} />
                     <span>University &amp; Academic Credentials</span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">College / University *</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">College / University *</label>
                       <select
                         value={formData.collegeName}
                         onChange={(e) => setFormData({ ...formData, collegeName: e.target.value })}
@@ -1398,7 +1405,7 @@ export default function StudentProfilePortal() {
                     </div>
 
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Student Roll / Enrollment No *</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Student Roll / Enrollment No *</label>
                       <input
                         type="text"
                         required
@@ -1412,7 +1419,7 @@ export default function StudentProfilePortal() {
 
                   {formData.collegeName === "Other" && (
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Custom College Name &amp; City *</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Custom College Name &amp; City *</label>
                       <input
                         type="text"
                         required
@@ -1424,9 +1431,9 @@ export default function StudentProfilePortal() {
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Degree &amp; Branch</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Degree &amp; Branch</label>
                       <input
                         type="text"
                         value={formData.degreeBranch}
@@ -1437,7 +1444,7 @@ export default function StudentProfilePortal() {
                     </div>
 
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Graduation Year *</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Graduation Year *</label>
                       <select
                         value={formData.graduationYear}
                         onChange={(e) => setFormData({ ...formData, graduationYear: e.target.value })}
@@ -1457,15 +1464,15 @@ export default function StudentProfilePortal() {
 
               {/* ── CONDITIONAL SECTION: WORKING PROFESSIONAL OR FOUNDER ── */}
               {(formData.personaType === "WORKING_PROFESSIONAL" || formData.personaType === "FOUNDER_BUILDER") && (
-                <div className="p-4 rounded-2xl bg-indigo-50/40 border border-indigo-100 space-y-3">
-                  <div className="font-bold text-indigo-700 font-sans flex items-center gap-1.5">
-                    <Briefcase size={15} />
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-2.5">
+                  <div className="font-bold text-indigo-700 font-sans text-xs flex items-center gap-1.5">
+                    <Briefcase size={14} />
                     <span>Company &amp; Professional Experience</span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Company / Organization *</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Company / Organization *</label>
                       <select
                         value={formData.companyName}
                         onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
@@ -1482,7 +1489,7 @@ export default function StudentProfilePortal() {
                     </div>
 
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Designation / Role *</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Designation / Role *</label>
                       <input
                         type="text"
                         required
@@ -1496,7 +1503,7 @@ export default function StudentProfilePortal() {
 
                   {formData.companyName === "Other" && (
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Custom Company / Startup Name *</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Custom Company / Startup Name *</label>
                       <input
                         type="text"
                         required
@@ -1508,9 +1515,9 @@ export default function StudentProfilePortal() {
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Years of Experience</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Years of Experience</label>
                       <select
                         value={formData.yearsOfExperience}
                         onChange={(e) => setFormData({ ...formData, yearsOfExperience: e.target.value })}
@@ -1525,7 +1532,7 @@ export default function StudentProfilePortal() {
                     </div>
 
                     <div>
-                      <label className="block text-slate-700 font-bold mb-1">Domain Focus</label>
+                      <label className="block text-[11px] text-slate-700 font-bold mb-1">Domain Focus</label>
                       <input
                         type="text"
                         value={formData.workDomain}
@@ -1539,9 +1546,9 @@ export default function StudentProfilePortal() {
               )}
 
               {/* Location & Timezone (Global Scope) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Country *</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">Country *</label>
                   <select
                     value={formData.country}
                     onChange={(e) => setFormData({ ...formData, country: e.target.value })}
@@ -1554,7 +1561,7 @@ export default function StudentProfilePortal() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">City / Region *</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">City / Region *</label>
                   <input
                     type="text"
                     required
@@ -1566,7 +1573,7 @@ export default function StudentProfilePortal() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">Timezone *</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">Timezone *</label>
                   <select
                     value={formData.timezone}
                     onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
@@ -1580,32 +1587,32 @@ export default function StudentProfilePortal() {
               </div>
 
               {/* GitHub & LinkedIn */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">GitHub Username *</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">GitHub Username *</label>
                   <div className="relative">
-                    <Github className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                    <Github className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={13} />
                     <input
                       type="text"
                       required
                       value={formData.githubUsername}
                       onChange={(e) => setFormData({ ...formData, githubUsername: e.target.value })}
                       placeholder="github_handle"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-bold mb-1">LinkedIn Profile URL *</label>
+                  <label className="block text-[11px] text-slate-700 font-bold mb-1">LinkedIn Profile URL *</label>
                   <div className="relative">
-                    <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                    <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={13} />
                     <input
                       type="url"
                       value={formData.linkedinUrl}
                       onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
                       placeholder="https://linkedin.com/in/..."
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                     />
                   </div>
                 </div>
@@ -1613,7 +1620,7 @@ export default function StudentProfilePortal() {
 
               {/* Specialization */}
               <div>
-                <label className="block text-slate-700 font-bold mb-1">AI Specialization Track</label>
+                <label className="block text-[11px] text-slate-700 font-bold mb-1">AI Specialization Track</label>
                 <select
                   value={formData.aiSpecialization}
                   onChange={(e) => setFormData({ ...formData, aiSpecialization: e.target.value })}
@@ -1626,8 +1633,8 @@ export default function StudentProfilePortal() {
               </div>
 
               {/* Consent */}
-              <div className="pt-2">
-                <label className="flex items-start gap-2.5 cursor-pointer text-slate-700 text-xs font-sans">
+              <div className="pt-1">
+                <label className="flex items-start gap-2 cursor-pointer text-slate-700 text-[11px] font-sans">
                   <input
                     type="checkbox"
                     checked={formData.dpdpConsent}
@@ -1639,33 +1646,33 @@ export default function StudentProfilePortal() {
                   </span>
                 </label>
               </div>
-
-              {/* Submit Buttons */}
-              <div className="pt-4 flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={savingProfile}
-                  className="flex-2 py-3 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                >
-                  {savingProfile ? (
-                    <>
-                      <Loader2 size={14} className="animate-spin" />
-                      <span>Saving Profile...</span>
-                    </>
-                  ) : (
-                    <span>Save &amp; Update Profile</span>
-                  )}
-                </button>
-              </div>
-
             </form>
+
+            {/* Modal Footer (Fixed at bottom) */}
+            <div className="px-5 sm:px-6 py-3.5 border-t border-slate-100 bg-slate-50/90 flex items-center justify-end gap-2.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => setIsEditModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="profile-edit-form"
+                disabled={savingProfile}
+                className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-xs transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                {savingProfile ? (
+                  <>
+                    <Loader2 size={14} className="animate-spin" />
+                    <span>Saving Profile...</span>
+                  </>
+                ) : (
+                  <span>Save &amp; Update Profile</span>
+                )}
+              </button>
+            </div>
 
           </div>
         </div>
