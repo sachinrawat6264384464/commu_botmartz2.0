@@ -21,16 +21,32 @@ export interface StudentProfile {
   username: string;
   photoURL?: string;
   phoneNumber?: string;
-  collegeName: string;
-  degreeBranch: string;
-  graduationYear: string;
-  studentIdRollNo: string;
+  bio?: string;
+  personaType?: "STUDENT" | "WORKING_PROFESSIONAL" | "FOUNDER_BUILDER" | "RESEARCHER";
+  collegeName?: string;
+  collegeCountry?: string;
+  degreeBranch?: string;
+  graduationYear?: string;
+  studentIdRollNo?: string;
+  companyName?: string;
+  companyCountry?: string;
+  designationRole?: string;
+  yearsOfExperience?: string;
+  workDomain?: string;
+  country?: string;
+  cityLocation?: string;
+  timezone?: string;
   githubUsername?: string;
   linkedinUrl?: string;
+  portfolioUrl?: string;
+  primaryTechStack?: string[];
+  aiSpecialization?: string;
   karmaCoins?: number;
   reputationLevel?: number;
   phoneVerified?: boolean;
   collegeVerified?: boolean;
+  isPaidFellow?: boolean;
+  fellowshipTrack?: string;
   dpdpConsent?: boolean;
   createdAt?: any;
   updatedAt?: any;
@@ -73,11 +89,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (snap.exists()) {
         setStudentProfile(snap.data() as StudentProfile);
       } else {
-        // Check if there is an existing wallet by email to pull karma
-        setStudentProfile({
+        const starterProfile: StudentProfile = {
           uid,
           email: email || "",
-          displayName: auth.currentUser?.displayName || "Student Builder",
+          displayName: auth.currentUser?.displayName || "Builder",
           username: (email?.split("@")[0] || `builder_${uid.slice(0, 5)}`).toLowerCase().replace(/[^a-z0-9_]/g, "_"),
           photoURL: auth.currentUser?.photoURL || "",
           collegeName: "",
@@ -89,7 +104,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           phoneVerified: !!auth.currentUser?.phoneNumber,
           collegeVerified: false,
           dpdpConsent: true
-        });
+        };
+
+        try {
+          await setDoc(docRef, starterProfile, { merge: true });
+        } catch (setErr) {
+          console.warn("Starter profile save warning:", setErr);
+        }
+
+        setStudentProfile(starterProfile);
       }
     } catch (e) {
       console.error("Error fetching student profile:", e);
@@ -162,10 +185,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const uid = auth.currentUser.uid;
     const email = auth.currentUser.email || profileData.email || "";
 
-    const updatedData: StudentProfile = {
+    const updatedData: Partial<StudentProfile> = {
       uid,
       email,
-      displayName: profileData.displayName || auth.currentUser.displayName || "Student Builder",
+      displayName: profileData.displayName || auth.currentUser.displayName || "Builder",
       username: (profileData.username || email.split("@")[0] || `builder_${uid.slice(0, 5)}`).toLowerCase().trim(),
       photoURL: auth.currentUser.photoURL || profileData.photoURL || "",
       phoneNumber: auth.currentUser.phoneNumber || profileData.phoneNumber || "",
@@ -178,27 +201,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       karmaCoins: studentProfile?.karmaCoins || 100,
       reputationLevel: studentProfile?.reputationLevel || 1,
       phoneVerified: !!auth.currentUser.phoneNumber || !!profileData.phoneNumber,
-      collegeVerified: !!profileData.collegeName && !!profileData.studentIdRollNo,
+      collegeVerified: !!profileData.collegeName,
       dpdpConsent: true,
-      updatedAt: serverTimestamp(),
-      createdAt: studentProfile?.createdAt || serverTimestamp()
+      updatedAt: serverTimestamp()
     };
 
     const docRef = doc(db, "student_profiles", uid);
     await setDoc(docRef, updatedData, { merge: true });
-    setStudentProfile(updatedData);
+    setStudentProfile((prev) => ({ ...(prev || {}), ...(updatedData as any) }));
 
-    // Also link email in student_wallets
+    // Also link email in student_wallets safely
     if (email) {
-      const walletRef = doc(db, "student_wallets", email.toLowerCase().trim());
-      await setDoc(walletRef, {
-        studentEmail: email.toLowerCase().trim(),
-        balance: 100,
-        totalEarned: 100,
-        totalSpent: 0,
-        reputationLevel: 1,
-        unlockedPerks: ["Community Member Access"]
-      }, { merge: true });
+      try {
+        const walletRef = doc(db, "student_wallets", email.toLowerCase().trim());
+        await setDoc(walletRef, {
+          studentEmail: email.toLowerCase().trim(),
+          balance: studentProfile?.karmaCoins || 100,
+          totalEarned: studentProfile?.karmaCoins || 100,
+          totalSpent: 0,
+          reputationLevel: 1,
+          unlockedPerks: ["Community Member Access"]
+        }, { merge: true });
+      } catch (wErr) {
+        console.warn("Wallet write warning:", wErr);
+      }
     }
   };
 

@@ -90,12 +90,12 @@ export default function BuilderProfileGateModal({
           </div>
 
           <div className="flex items-center gap-2.5 text-slate-700">
-            {studentProfile?.collegeName ? (
+            {(studentProfile?.collegeName || (studentProfile as any)?.companyName) ? (
               <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
             ) : (
               <div className="w-4 h-4 rounded-full border-2 border-slate-300 shrink-0" />
             )}
-            <span>2. Verified College &amp; Roll Number</span>
+            <span>2. College / University or Company Credential</span>
           </div>
 
           <div className="flex items-center gap-2.5 text-slate-700">
