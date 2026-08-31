@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { 
@@ -38,7 +38,9 @@ import {
   Clock,
   Award,
   Code2,
-  Terminal
+  Terminal,
+  Bell,
+  Mail
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { UNIVERSITIES_DIRECTORY } from "@/lib/universities-directory";
@@ -130,6 +132,53 @@ export default function StudentProfilePortal() {
   });
   const [copiedHeadline, setCopiedHeadline] = useState(false);
   const [copiedPostTemplate, setCopiedPostTemplate] = useState(false);
+
+  // Email Notification Preferences State
+  const [notificationPrefs, setNotificationPrefs] = useState({
+    deadlineWarnings: true,
+    dailyStandupReminder: true,
+    walletAlerts: true,
+    discussionAlerts: true,
+    saturdayMeetups: true,
+    recruiterAlerts: true
+  });
+  const [savingPrefs, setSavingPrefs] = useState(false);
+  const [prefsSuccessMsg, setPrefsSuccessMsg] = useState("");
+
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`/api/profile/notifications?email=${encodeURIComponent(user.email)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.preferences) {
+            setNotificationPrefs((prev) => ({ ...prev, ...data.preferences }));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user?.email]);
+
+  const handleSaveNotificationPrefs = async () => {
+    if (!user?.email) return;
+    setSavingPrefs(true);
+    setPrefsSuccessMsg("");
+    try {
+      const res = await fetch("/api/profile/notifications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, preferences: notificationPrefs })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPrefsSuccessMsg("Notification preferences updated successfully.");
+        setTimeout(() => setPrefsSuccessMsg(""), 3500);
+      }
+    } catch (e: any) {
+      alert("Failed to save notification preferences: " + e.message);
+    } finally {
+      setSavingPrefs(false);
+    }
+  };
 
   // Resume Generator State
   const [selectedResumeId, setSelectedResumeId] = useState<string>("p1");
@@ -237,6 +286,24 @@ export default function StudentProfilePortal() {
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2500);
   };
+
+  const earliestEnrollmentDate = useMemo(() => {
+    if (!enrolledProjects || enrolledProjects.length === 0) {
+      return studentProfile?.createdAt ? new Date(studentProfile.createdAt).getTime() : null;
+    }
+    const dates = enrolledProjects
+      .map((p) => (p.createdAt ? new Date(p.createdAt).getTime() : null))
+      .filter((t): t is number => Boolean(t && !isNaN(t)));
+    if (dates.length === 0) return Date.now();
+    return Math.min(...dates);
+  }, [enrolledProjects, studentProfile]);
+
+  const daysElapsed = earliestEnrollmentDate
+    ? Math.min(45, Math.max(1, Math.floor((Date.now() - earliestEnrollmentDate) / (1000 * 60 * 60 * 24)) + 1))
+    : 1;
+
+  const daysRemaining = Math.max(0, 45 - daysElapsed);
+  const percentComplete = Math.min(100, Math.round((daysElapsed / 45) * 100));
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -542,21 +609,144 @@ export default function StudentProfilePortal() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-sm font-sans text-white">New to Botmartz? Explore the Platform Guide</span>
-                <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold">Interactive Tour</span>
+                <span className="font-bold text-sm font-sans text-white">Explore the Botmartz Platform &amp; Product Tour</span>
+                <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold">Interactive Walkthrough</span>
               </div>
               <p className="text-xs text-blue-200 font-mono mt-0.5 max-w-xl">
-                Discover what each page does (PRD catalog, daily logs, agile workspaces, karma wallet, squad matchmaking, and conferences) and how to ship faster.
+                Discover what each page does (50 PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
               </p>
             </div>
           </div>
 
           <Link
-            href="/arena/antigravity-guide"
+            href="/product-tour"
             className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-xs"
           >
-            <span>Open Guide &rarr;</span>
+            <span>Open Tour &rarr;</span>
           </Link>
+        </div>
+
+        {/* =========================================================================
+            PERSONAL 45-DAY VIRTUAL AI INTERNSHIP COUNTDOWN & MILESTONES
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-bold text-xs uppercase mb-2 border border-blue-200">
+                <Clock size={13} /> Rolling 45-Day Internship Sprint
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 font-sans">
+                Personal 45-Day Progress &amp; Milestone Timer
+              </h3>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
+                Every builder operates on their own 45-day window from the day of first enrollment.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="px-4 py-2 rounded-2xl bg-slate-900 text-white font-mono text-xs font-bold flex items-center gap-2">
+                <Flame size={14} className="text-amber-400" />
+                <span>Day {daysElapsed} / 45</span>
+              </div>
+              <div className={`px-4 py-2 rounded-2xl font-mono text-xs font-bold border ${
+                daysRemaining <= 7
+                  ? "bg-rose-50 text-rose-700 border-rose-200 animate-pulse"
+                  : daysRemaining <= 15
+                  ? "bg-amber-50 text-amber-800 border-amber-200"
+                  : "bg-emerald-50 text-emerald-800 border-emerald-200"
+              }`}>
+                {daysRemaining > 0 ? `${daysRemaining} Days Left` : "Sprint Complete"}
+              </div>
+            </div>
+          </div>
+
+          {/* Milestone Warnings */}
+          {daysRemaining <= 7 && daysRemaining > 0 && (
+            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 mb-6 flex items-start gap-3">
+              <AlertCircle size={18} className="text-rose-600 shrink-0 mt-0.5" />
+              <div>
+                <div className="font-bold text-sm font-sans">🚨 Final Week Sprint Alert: Complete Cloud Deploy &amp; Audit!</div>
+                <p className="text-xs text-rose-700 mt-0.5">
+                  You have less than 7 days remaining in your 45-day sprint. Ensure your QA test pass rate is 100%, deploy your Docker container to cloud, and push your final commit!
+                </p>
+              </div>
+            </div>
+          )}
+
+          {daysRemaining <= 15 && daysRemaining > 7 && (
+            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 mb-6 flex items-start gap-3">
+              <AlertCircle size={18} className="text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <div className="font-bold text-sm font-sans">⚠️ 15-Day Milestone Warning: Finalize Core APIs &amp; QA Test Suite</div>
+                <p className="text-xs text-amber-800 mt-0.5">
+                  You have 15 days left. Make sure all core microservices are built and your k6 load test scripts demonstrate &lt;150ms p95 latency.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Progress Bar */}
+          <div className="space-y-2 mb-6">
+            <div className="flex justify-between text-[11px] text-slate-500 font-mono font-bold">
+              <span>Overall Sprint Completion: {percentComplete}%</span>
+              <span>{45 - daysRemaining} / 45 Days Logged</span>
+            </div>
+            <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+              <div
+                className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-500 rounded-full transition-all duration-500"
+                style={{ width: `${percentComplete}%` }}
+              />
+            </div>
+          </div>
+
+          {/* 4-Stage Milestone Matrix */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
+            {[
+              { phase: "Stage 1: Days 1–10", title: "Architecture & HLD/LLD", status: daysElapsed >= 10 ? "PASSED" : daysElapsed >= 1 ? "IN_PROGRESS" : "PENDING", desc: "System PRD, schemas & design matrices" },
+              { phase: "Stage 2: Days 11–25", title: "Core Microservices & APIs", status: daysElapsed >= 25 ? "PASSED" : daysElapsed >= 11 ? "IN_PROGRESS" : "PENDING", desc: "Pipeline logic, SLM/agent swarms & Redis" },
+              { phase: "Stage 3: Days 26–35", title: "QA Suite & SLA Benchmarking", status: daysElapsed >= 35 ? "PASSED" : daysElapsed >= 26 ? "IN_PROGRESS" : "PENDING", desc: "k6 load assertions & edge failure tests" },
+              { phase: "Stage 4: Days 36–45", title: "Cloud Deploy & Founder Audit", status: daysElapsed >= 45 ? "PASSED" : daysElapsed >= 36 ? "IN_PROGRESS" : "PENDING", desc: "Container deploy & referral verification" }
+            ].map((stg, idx) => (
+              <div
+                key={idx}
+                className={`p-3.5 rounded-2xl border transition-all ${
+                  stg.status === "PASSED"
+                    ? "bg-emerald-50/60 border-emerald-200 text-emerald-950"
+                    : stg.status === "IN_PROGRESS"
+                    ? "bg-blue-50/80 border-[#0066FF] shadow-xs text-slate-900"
+                    : "bg-slate-50 border-slate-200 text-slate-500"
+                }`}
+              >
+                <div className="flex items-center justify-between text-[10px] font-bold mb-1">
+                  <span>{stg.phase}</span>
+                  <span className={`px-1.5 py-0.5 rounded-md ${
+                    stg.status === "PASSED"
+                      ? "bg-emerald-200 text-emerald-800"
+                      : stg.status === "IN_PROGRESS"
+                      ? "bg-blue-600 text-white"
+                      : "bg-slate-200 text-slate-600"
+                  }`}>
+                    {stg.status === "PASSED" ? "✓ Done" : stg.status === "IN_PROGRESS" ? "Active" : "Upcoming"}
+                  </span>
+                </div>
+                <div className="font-bold font-sans text-xs mb-0.5">{stg.title}</div>
+                <div className="text-[10px] opacity-80 leading-relaxed">{stg.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
+            <div className="text-[11px] text-slate-500">
+              Submit daily GitHub commits to keep your streak unbroken and earn +20 to +70 Karma Coins every day.
+            </div>
+            <Link
+              href="/arena/daily-log"
+              className="px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-xs hover:bg-blue-600 transition-colors flex items-center gap-1.5 shadow-xs"
+            >
+              <Terminal size={13} />
+              <span>Log Daily Commit &rarr;</span>
+            </Link>
+          </div>
         </div>
 
         {/* =========================================================================
@@ -896,6 +1086,103 @@ export default function StudentProfilePortal() {
             >
               Submit Post Link (+50)
             </Link>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            SECTION B2: EMAIL NOTIFICATIONS & SPRINT ALERT PREFERENCES
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-bold text-xs uppercase mb-1 border border-blue-200">
+                <Bell size={13} /> Communications &amp; Dispatch Control
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 font-sans">
+                Email Notification &amp; Milestone Alerts
+              </h3>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
+                Choose exactly which email notifications and reminders you want to receive. No spam — only critical sprint alerts.
+              </p>
+            </div>
+
+            <button
+              onClick={handleSaveNotificationPrefs}
+              disabled={savingPrefs}
+              className="px-5 py-2.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-xs flex items-center gap-2 cursor-pointer shrink-0 disabled:opacity-50"
+            >
+              {savingPrefs ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+              <span>{savingPrefs ? "Saving..." : "Save Preferences"}</span>
+            </button>
+          </div>
+
+          {prefsSuccessMsg && (
+            <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs mb-6 flex items-center gap-2">
+              <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+              <span>{prefsSuccessMsg}</span>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              {
+                key: "deadlineWarnings",
+                title: "45-Day Milestone & Deadline Warnings",
+                desc: "Receive automated alerts at Day 30 (15 days left) and Day 38 (7 days left) to keep your internship sprint on track."
+              },
+              {
+                key: "dailyStandupReminder",
+                title: "Daily Proof-of-Work Logging Reminder (8:00 PM IST)",
+                desc: "Gentle daily ping to submit your GitHub commit, build your streak, and claim daily Karma Coins."
+              },
+              {
+                key: "walletAlerts",
+                title: "Karma Coins & Wallet Activity",
+                desc: "Instant notifications when coins are credited for PoW logs, tips from squad mates, or hint purchases."
+              },
+              {
+                key: "discussionAlerts",
+                title: "Discussion Replies & Solution Mentions",
+                desc: "Get notified when another engineer answers your question or replies to your technical thread."
+              },
+              {
+                key: "saturdayMeetups",
+                title: "Saturday Indore AI Lab & Wednesday Stage",
+                desc: "Notifications for in-person Indore teardowns (50+ RSVPs) and weekly online Discord voice stages."
+              },
+              {
+                key: "recruiterAlerts",
+                title: "Founder & Partner Job Referrals",
+                desc: "Direct interview dispatches from hiring partners looking for top-ranking 45-day internship graduates."
+              }
+            ].map((pref) => {
+              const isChecked = (notificationPrefs as any)[pref.key];
+              return (
+                <div
+                  key={pref.key}
+                  className={`p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
+                    isChecked ? "bg-blue-50/40 border-blue-200" : "bg-slate-50 border-slate-200 opacity-70"
+                  }`}
+                >
+                  <div className="space-y-1">
+                    <div className="font-bold text-slate-900 font-sans text-sm">{pref.title}</div>
+                    <p className="text-[11px] text-slate-600 leading-relaxed font-mono">{pref.desc}</p>
+                  </div>
+
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={(e) => {
+                      setNotificationPrefs({
+                        ...notificationPrefs,
+                        [pref.key]: e.target.checked
+                      });
+                    }}
+                    className="w-5 h-5 mt-0.5 rounded text-[#0066FF] border-slate-300 focus:ring-[#0066FF] cursor-pointer"
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 

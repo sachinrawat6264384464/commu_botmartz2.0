@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { ArenaProject } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
+import AuthGate from "@/app/_components/AuthGate";
 
 interface Props {
   project: ArenaProject;
@@ -374,8 +375,12 @@ Audited & Verified via Botmartz Agile Workspace Simulator`;
   const passRatePercent = Math.round((passedTests / testCases.length) * 100) || 0;
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pt-24 pb-28 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <AuthGate
+      featureTitle="Agile Workspace & QA Suite"
+      featureDescription="Sign in with your builder profile to access the Kanban board, execute automated QA test suites, and collaborate in the live squad chat room."
+    >
+      <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pt-24 pb-28 font-sans">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between gap-4 mb-6">
@@ -1048,6 +1053,7 @@ Audited & Verified via Botmartz Agile Workspace Simulator`;
         </div>
       )}
 
-    </div>
+      </div>
+    </AuthGate>
   );
 }

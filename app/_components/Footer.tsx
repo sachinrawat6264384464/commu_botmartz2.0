@@ -12,19 +12,23 @@ import {
   Users,
   MapPin,
   Calendar,
-  Lock,
   ExternalLink,
   Activity,
   Award,
   Terminal,
-  Sparkles
+  Sparkles,
+  BookOpen,
+  Layers,
+  Code2,
+  Lock,
+  MessageSquare
 } from "lucide-react";
 
 export default function CommunityFooter() {
   return (
     <footer className="bg-slate-950 text-slate-400 font-mono text-xs border-t border-slate-800">
       
-      {/* Top Banner: Indore Hybrid Hub & Next Cohort */}
+      {/* Top Banner: Indore Hybrid Hub & Weekly Rituals */}
       <div className="border-b border-slate-800/80 bg-slate-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -33,13 +37,13 @@ export default function CommunityFooter() {
             </div>
             <div>
               <div className="font-bold text-white text-sm font-sans flex items-center gap-2">
-                <span>Indore AI Hub &amp; Global Discord Stage</span>
+                <span>Indore AI Tech Lab &amp; Global Discord Stage</span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] border border-emerald-500/30">
-                  Every Saturday 5:00 PM – 7:00 PM IST
+                  Every Saturday 5:00 PM IST (50+ RSVP Trigger)
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                Join in-person technical architecture teardowns in Indore or livestream via Discord Voice &amp; Stage.
+                In-person architecture teardowns in Indore when 50+ RSVP; otherwise livestreamed globally via Discord Voice Stage.
               </p>
             </div>
           </div>
@@ -50,7 +54,7 @@ export default function CommunityFooter() {
               className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all border border-slate-700 flex items-center gap-1.5 shadow-2xs"
             >
               <Calendar size={13} className="text-amber-400" />
-              <span>Sync Lu.ma Calendar</span>
+              <span>Indian Community Calendar</span>
             </Link>
             <a
               href="https://discord.gg/k75ZpEnzp"
@@ -58,7 +62,7 @@ export default function CommunityFooter() {
               rel="noopener noreferrer"
               className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-2xs"
             >
-              <span>Join Discord</span>
+              <span>Join Discord Stage</span>
               <ExternalLink size={13} />
             </a>
           </div>
@@ -83,24 +87,24 @@ export default function CommunityFooter() {
               </div>
               <div>
                 <div className="font-bold text-white text-base tracking-tight font-sans">BOTMARTZ</div>
-                <div className="text-[10px] text-[#0066FF] font-black uppercase -mt-1">BUILDERS</div>
+                <div className="text-[10px] text-[#0066FF] font-black uppercase -mt-1">BUILDERS COMMUNITY</div>
               </div>
             </Link>
 
             <p className="text-slate-400 text-xs font-sans leading-relaxed">
-              <strong>Build. Ship. Learn. Connect.</strong> Strictly for authentic students building frontier production systems in AI, Defence, FinTech, and Systems.
+              <strong>Build. Ship. Learn. Connect.</strong> Strictly for authentic builders constructing frontier production architectures in AI, Systems, and Distributed Computing.
             </p>
 
             <div className="pt-2 text-[11px] text-slate-500 space-y-1">
-              <div><strong>Cohort 1:</strong> 14th Sept – Diwali 2026</div>
-              <div><strong>Cohort 2:</strong> January 2027</div>
+              <div className="text-blue-400 font-bold">⚡ Rolling 45-Day Internship</div>
+              <div>Start anytime — your personal 45-day milestone sprint clock begins on enrollment.</div>
             </div>
           </div>
 
-          {/* Column 2: 45-Day Internship Playground & Roadmaps */}
+          {/* Column 2: 45-Day Internship & System Catalog */}
           <div className="space-y-3">
             <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
-              Internship Playground
+              Virtual Internship
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
@@ -111,30 +115,32 @@ export default function CommunityFooter() {
               </li>
               <li>
                 <Link href="/arena" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Terminal size={13} className="text-blue-400" />
-                  <span>50-Project Matrix</span>
+                  <Layers size={13} className="text-blue-400" />
+                  <span>50-System PRD Catalog</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/daily-log" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Terminal size={13} className="text-emerald-400" />
+                  <span>Daily Standup &amp; Proof-of-Work</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/product-tour" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <BookOpen size={13} className="text-amber-400" />
+                  <span>Platform &amp; Product Tour</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/arena/custom-project" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Code2 size={13} className="text-purple-400" />
+                  <span>Propose Custom Blueprint</span>
                 </Link>
               </li>
               <li>
                 <Link href="/arena/roadmaps" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Compass size={13} className="text-purple-400" />
-                  <span>Role Stage Roadmaps</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/progress" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Activity size={13} className="text-emerald-400" />
-                  <span>Live Progress Diaries</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/antigravity-guide" className="hover:text-white transition-colors">
-                  Antigravity Research Swarms
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/custom-project" className="hover:text-white transition-colors">
-                  Pitch Custom Project
+                  <Compass size={13} className="text-teal-400" />
+                  <span>Stage-by-Stage Roadmaps</span>
                 </Link>
               </li>
             </ul>
@@ -159,59 +165,60 @@ export default function CommunityFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="/arena/antigravity-guide" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Award size={13} className="text-emerald-400" />
-                  <span>Platform Guide &amp; Tour</span>
-                </Link>
-              </li>
-              <li>
                 <Link href="/arena/career-checklist" className="hover:text-white transition-colors flex items-center gap-1.5">
                   <Briefcase size={13} className="text-purple-400" />
-                  <span>LinkedIn &amp; HR Outreach</span>
+                  <span>Career &amp; LinkedIn Strategy</span>
                 </Link>
               </li>
               <li>
                 <Link href="/arena/collaborate" className="hover:text-white transition-colors flex items-center gap-1.5">
                   <Users size={13} className="text-indigo-400" />
-                  <span>Discord Squad Matchmaker</span>
+                  <span>Squad Matchmaking</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/showcase" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Award size={13} className="text-emerald-400" />
+                  <span>Proof-of-Work Showcases</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Community & Resources */}
+          {/* Column 4: Community & Events */}
           <div className="space-y-3">
             <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
-              Community &amp; Resources
+              Community &amp; Summits
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
+                <Link href="/events" className="hover:text-white transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
+                  <Calendar size={13} />
+                  <span>AI Summits &amp; Conferences</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/discussions" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Terminal size={13} className="text-blue-400" />
+                  <MessageSquare size={13} className="text-cyan-400" />
                   <span>Discussions &amp; Technical Q&amp;A</span>
                 </Link>
               </li>
               <li>
-                <Link href="/arena/antigravity-guide" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Compass size={13} className="text-purple-400" />
-                  <span>System Design &amp; AI Core</span>
+                <Link href="/workshops" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <Code2 size={13} className="text-amber-400" />
+                  <span>Hands-on Workshops</span>
                 </Link>
               </li>
               <li>
-                <a href="https://luma.com/botmartz" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-1.5 text-amber-400 font-bold">
-                  <ExternalLink size={13} />
-                  <span>Free AMAs on Luma</span>
-                </a>
+                <Link href="/magazine" className="hover:text-white transition-colors flex items-center gap-1.5">
+                  <BookOpen size={13} className="text-purple-400" />
+                  <span>Developer Magazine</span>
+                </Link>
               </li>
               <li>
                 <Link href="/certificates" className="hover:text-white transition-colors flex items-center gap-1.5">
                   <ShieldCheck size={13} className="text-emerald-400" />
                   <span>Verify Student Credentials</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="hover:text-white transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
-                  <span>Student Verification Portal</span>
                 </Link>
               </li>
             </ul>
@@ -229,12 +236,16 @@ export default function CommunityFooter() {
 
           <div className="flex items-center gap-4">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-              <div className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span>Zero-Trust Score: 100/100</span>
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Zero-Trust Security WAF Active</span>
             </span>
             <span>•</span>
-            <Link href="/admin/login" className="hover:text-slate-400 transition-colors">
-              Admin Portal
+            <Link href="/product-tour" className="hover:text-slate-300 transition-colors">
+              Platform Tour
+            </Link>
+            <span>•</span>
+            <Link href="/login" className="hover:text-slate-300 transition-colors">
+              Sign In
             </Link>
           </div>
         </div>

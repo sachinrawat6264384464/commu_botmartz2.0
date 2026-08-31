@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import RazorpayModal from "@/app/_components/RazorpayModal";
+import AuthGate from "@/app/_components/AuthGate";
 
 export default function StudentWalletPage() {
   const { user, studentProfile } = useAuth();
@@ -232,7 +233,11 @@ export default function StudentWalletPage() {
   const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
 
   return (
-    <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+    <AuthGate
+      featureTitle="Student Karma Wallet"
+      featureDescription="Sign in to view your earned Karma Coins balance, tip squad members, redeem compute grants, and unlock architectural hints."
+    >
+      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
       
       {/* Header Banner */}
       <div className="bg-white border-b border-slate-200">
@@ -754,6 +759,7 @@ export default function StudentWalletPage() {
         />
       )}
 
-    </div>
+      </div>
+    </AuthGate>
   );
 }

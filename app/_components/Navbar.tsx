@@ -83,7 +83,7 @@ export default function CommunityNavbar() {
     { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins" },
     { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles" },
     { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer" },
-    { name: "Platform Guide & Ecosystem Tour", href: "/arena/antigravity-guide", icon: BookOpen, desc: "Interactive guide to all features & pages" },
+    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages" },
     { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review" }
   ];
 
@@ -97,7 +97,7 @@ export default function CommunityNavbar() {
   ];
 
   const RESOURCE_ITEMS = [
-    { name: "System Design & AI Core Curriculum", href: "/arena/antigravity-guide", icon: BookOpen, desc: "Anti-vibe coding concepts & AWS foundation" },
+    { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools" },
     { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers" },
     { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials" },
     { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers" }
@@ -259,7 +259,7 @@ export default function CommunityNavbar() {
                 setCommunityOpen(false);
               }}
               className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
-                pathname.includes("/wallet") || pathname.includes("/certificates") || pathname.includes("/magazine") || pathname.includes("/antigravity-guide")
+                pathname.includes("/wallet") || pathname.includes("/certificates") || pathname.includes("/magazine") || pathname.includes("/product-tour")
                   ? "text-[#0066FF] bg-blue-50/80 font-bold"
                   : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
               }`}

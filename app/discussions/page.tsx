@@ -30,6 +30,7 @@ import {
   Award
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import AuthGate from "@/app/_components/AuthGate";
 
 interface Comment {
   id: string;
@@ -1023,12 +1024,17 @@ function DiscussionsContent() {
 
 export default function CommunityDiscussionsPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-[#FAFCFF] flex items-center justify-center text-slate-500 py-32">
-        <Loader2 className="animate-spin text-[#0066FF]" size={28} />
-      </div>
-    }>
-      <DiscussionsContent />
-    </Suspense>
+    <AuthGate
+      featureTitle="Technical Discussions & Engineering Forum"
+      featureDescription="Sign in to start technical threads, share code snippets, reply to peers, and earn Karma Coins for solving blockers."
+    >
+      <Suspense fallback={
+        <div className="min-h-screen bg-[#FAFCFF] flex items-center justify-center text-slate-500 py-32">
+          <Loader2 className="animate-spin text-[#0066FF]" size={28} />
+        </div>
+      }>
+        <DiscussionsContent />
+      </Suspense>
+    </AuthGate>
   );
 }

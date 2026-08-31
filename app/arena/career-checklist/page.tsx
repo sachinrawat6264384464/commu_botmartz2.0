@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import BuilderProfileGateModal from "@/app/_components/BuilderProfileGateModal";
+import AuthGate from "@/app/_components/AuthGate";
 
 export default function CareerChecklistPage() {
   const { user, studentProfile, loading } = useAuth();
@@ -263,10 +264,14 @@ Best,
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
-      
-      {/* Header Banner */}
-      <div className="bg-white border-b border-slate-200">
+    <AuthGate
+      featureTitle="Career OS & Profile Strategy"
+      featureDescription="Sign in with your builder profile to access the 8-step recruiter checklist, copy cold outreach templates, and claim +50 Karma Coins for LinkedIn posts."
+    >
+      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+        
+        {/* Header Banner */}
+        <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-3xl">
@@ -685,6 +690,7 @@ Best,
         requiredActionName="Claiming UGC Rewards"
       />
 
-    </div>
+      </div>
+    </AuthGate>
   );
 }

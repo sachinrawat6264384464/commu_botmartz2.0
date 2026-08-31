@@ -24,6 +24,7 @@ import {
   AlertCircle,
   MessageCircle
 } from "lucide-react";
+import AuthGate from "@/app/_components/AuthGate";
 
 interface Challenge {
   id: string;
@@ -175,8 +176,12 @@ export default function ChallengesPage() {
   };
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <AuthGate
+      featureTitle="Community Hackathons & Arena Challenges"
+      featureDescription="Sign in to register your team, submit GitHub repositories, and compete for cash prizes and cloud compute credits."
+    >
+      <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -613,6 +618,7 @@ export default function ChallengesPage() {
         </div>
       )}
 
-    </div>
+      </div>
+    </AuthGate>
   );
 }

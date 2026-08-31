@@ -23,6 +23,7 @@ import {
   UserCheck
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import AuthGate from "@/app/_components/AuthGate";
 
 interface SquadRequest {
   id: string;
@@ -199,9 +200,13 @@ export default function SquadCollaborationPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans">
-      {/* Header Banner */}
-      <div className="bg-white border-b border-slate-200 pt-24 pb-10">
+    <AuthGate
+      featureTitle="Squad Matchmaker & Team Finder"
+      featureDescription="Sign in to post project pitches, find cross-functional squad teammates (Backend, ML, QA, Frontend), or request admin squad pairing."
+    >
+      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans">
+        {/* Header Banner */}
+        <div className="bg-white border-b border-slate-200 pt-24 pb-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
@@ -534,6 +539,7 @@ export default function SquadCollaborationPage() {
         </div>
       )}
 
-    </div>
+      </div>
+    </AuthGate>
   );
 }

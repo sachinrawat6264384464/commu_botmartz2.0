@@ -25,6 +25,7 @@ import {
   GraduationCap
 } from "lucide-react";
 import { ROLE_ROADMAPS, RoleRoadmap } from "@/lib/roadmaps";
+import AuthGate from "@/app/_components/AuthGate";
 
 const PRIMARY_DOMAINS = [
   { id: "Core Engineering", label: "Core Software & Engineering", icon: Code2, desc: "Backend, Frontend, Full Stack, Systems, Low-Latency Rust, Cloud/DevOps" },
@@ -73,10 +74,14 @@ export default function ProgressiveRoadmapsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
-      
-      {/* Header Banner */}
-      <div className="bg-white border-b border-slate-200">
+    <AuthGate
+      featureTitle="50 Progressive Career Roadmaps"
+      featureDescription="Sign in to explore stage-by-stage engineering milestones, foundational prerequisites, and systems design concepts for all 50 specialized roles."
+    >
+      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+        
+        {/* Header Banner */}
+        <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-3xl">
@@ -380,6 +385,7 @@ export default function ProgressiveRoadmapsPage() {
 
       </div>
 
-    </div>
+      </div>
+    </AuthGate>
   );
 }

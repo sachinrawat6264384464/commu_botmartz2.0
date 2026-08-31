@@ -19,6 +19,7 @@ import {
   ArrowRight,
   Code2
 } from "lucide-react";
+import AuthGate from "@/app/_components/AuthGate";
 
 export default function CustomProjectProposalPage() {
   const [name, setName] = useState("");
@@ -123,10 +124,14 @@ export default function CustomProjectProposalPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
-      
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 pt-24 pb-12">
+    <AuthGate
+      featureTitle="Custom Blueprint Proposal"
+      featureDescription="Sign in to propose your own unique production architecture, define industry problem statements, and submit PRDs for founder review."
+    >
+      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+        
+        {/* Header */}
+        <div className="bg-white border-b border-slate-200 pt-24 pb-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <Link
             href="/arena"
@@ -506,6 +511,7 @@ export default function CustomProjectProposalPage() {
 
       </div>
 
-    </div>
+      </div>
+    </AuthGate>
   );
 }

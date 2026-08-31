@@ -20,7 +20,9 @@ import {
   ShieldCheck,
   Trophy,
   Flame,
-  Lock
+  Lock,
+  Coins,
+  Activity
 } from "lucide-react";
 import { UserRole, ROLE_PERMISSIONS } from "@/lib/rbac";
 
@@ -37,8 +39,10 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
   const NAV_ITEMS = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard, allowed: true },
     { label: "Zero-Trust Security", href: "/admin/security", icon: Lock, allowed: permissions.canManageFinance },
+    { label: "Activity Audit Stream", href: "/admin/activity", icon: Activity, allowed: true },
+    { label: "Wallets & Karma Coins", href: "/admin/wallets", icon: Coins, allowed: permissions.canManageFinance },
     { label: "Builder Arena & 45D Logs", href: "/admin/arena", icon: Flame, allowed: permissions.canManageEvents },
-    { label: "Admin Team & KPIs", href: "/admin/team", icon: ShieldCheck, allowed: permissions.canManageFinance },
+    { label: "Admin Team & Custom Roles", href: "/admin/team", icon: ShieldCheck, allowed: permissions.canManageFinance },
     { label: "Deep Analytics", href: "/admin/analytics", icon: BarChart3, allowed: permissions.canViewAnalytics },
     { label: "Discussions & Moderation", href: "/admin/discussions", icon: MessageSquare, allowed: permissions.canModerateDiscussions },
     { label: "Newsletters & Broadcasts", href: "/admin/newsletter", icon: Mail, allowed: permissions.canSendNewsletters },
