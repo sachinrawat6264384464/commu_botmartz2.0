@@ -495,17 +495,17 @@ export default async function MemberProfilePage({ params }: Props) {
               </div>
             </div>
 
-            {/* Recruiter / Founder Referral Guarantee Card */}
+            {/* Recruiter / Founder Audit Card */}
             <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-950 to-blue-950 text-white border border-blue-500/30 space-y-3 shadow-lg font-mono text-xs">
               <div className="flex items-center gap-2 text-cyan-400 font-bold text-[11px] uppercase">
                 <Sparkles size={14} />
-                <span>VERIFIED RECRUITER DISPATCH</span>
+                <span>FOUNDER-AUDITED PORTFOLIO</span>
               </div>
               <h4 className="text-sm font-bold font-sans text-white">
-                15-Company Placement Guarantee
+                Cryptographic Proof-of-Work Dossier
               </h4>
               <p className="text-[11px] text-slate-300 font-sans leading-relaxed">
-                All daily commits, PRD solutions, and code repositories on this profile are cryptographically timestamped and forwarded directly to AI engineering leads.
+                All daily commits, PRD solutions, and code repositories on this profile are cryptographically timestamped and verifiable for engineering hiring managers.
               </p>
               <div className="pt-2">
                 <Link

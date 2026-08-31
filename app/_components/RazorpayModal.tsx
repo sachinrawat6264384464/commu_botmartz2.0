@@ -232,7 +232,7 @@ export default function RazorpayModal({
   };
 
   const copyUpiId = () => {
-    navigator.clipboard.writeText("botmartz@axl");
+    navigator.clipboard.writeText("botmartz-5@oksbi");
     setCopiedUpi(true);
     setTimeout(() => setCopiedUpi(false), 2500);
   };
@@ -330,7 +330,13 @@ export default function RazorpayModal({
               </div>
               <div className="px-3 py-1.5 rounded-xl bg-white border border-blue-200 text-[#0066FF] font-mono text-xs font-bold flex items-center gap-1">
                 <Coins size={13} className="text-amber-500" />
-                <span>+300 Karma Reward</span>
+                <span>
+                  {itemCategory === "WALLET_TOPUP"
+                    ? `+${metadata?.coinsAmount || 500} Karma Coins`
+                    : itemCategory === "EVENT_TICKET"
+                    ? `+300 Karma Coins`
+                    : `+300 Karma Coins Included`}
+                </span>
               </div>
             </div>
 
@@ -393,7 +399,7 @@ export default function RazorpayModal({
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="name@college.edu"
+                      placeholder="rahul@college.edu"
                       className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                     />
                   </div>
@@ -410,7 +416,7 @@ export default function RazorpayModal({
                   </div>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-500 font-sans">
+                <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/80 text-[11px] text-amber-900 leading-relaxed">
                   🔒 Supports UPI (GPay, PhonePe, Paytm), All Debit/Credit Cards, Netbanking, and Wallets via 256-bit encrypted Razorpay gateway.
                 </div>
 
@@ -437,7 +443,7 @@ export default function RazorpayModal({
                 <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-2">
                   <div className="text-[11px] text-slate-500 font-bold uppercase">Scan &amp; Pay ₹{amount} via any UPI App</div>
                   <div className="inline-flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200">
-                    <span className="font-bold text-slate-900">botmartz@axl</span>
+                    <span className="font-bold text-slate-900">botmartz-5@oksbi</span>
                     <button
                       type="button"
                       onClick={copyUpiId}

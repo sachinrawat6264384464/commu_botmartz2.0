@@ -29,7 +29,8 @@ import {
   UserPlus,
   Briefcase,
   AlertCircle,
-  FileText
+  FileText,
+  KanbanSquare
 } from "lucide-react";
 import { ArenaProject } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
@@ -304,6 +305,13 @@ export default function ProjectPRDClient({ project }: Props) {
               <UserPlus size={15} />
               <span>Enroll in this Project</span>
             </button>
+            <Link
+              href={`/arena/${project.slug || project.id}/workspace`}
+              className="px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-2"
+            >
+              <KanbanSquare size={15} />
+              <span>Agile Workspace &amp; QA Suite &rarr;</span>
+            </Link>
             <Link
               href={`/arena/daily-log?projectId=${project.id}`}
               className="px-6 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-800 dark:text-white font-bold uppercase tracking-wider transition-all border border-slate-300 dark:border-slate-700 flex items-center gap-2"

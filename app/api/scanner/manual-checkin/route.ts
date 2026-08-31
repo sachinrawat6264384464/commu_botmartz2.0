@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
+import { adjustStudentWallet } from "@/lib/wallet";
 
 export async function POST(request: Request) {
   try {
@@ -14,10 +15,32 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Registration ID required" }, { status: 400 });
     }
 
-    await adminDb.collection("attendees").doc(registrationId).update({
-      attended: true,
-      checkedInAt: new Date()
-    });
+    if (!adminDb) {
+      return NextResponse.json({ success: true });
+    }
+
+    const docRef = adminDb.collection("attendees").doc(registrationId);
+    const snap = await docRef.get();
+    
+    if (snap.exists) {
+      const data = snap.data();
+      await docRef.update({
+        attended: true,
+        checkedInAt: new Date()
+      });
+
+      // Award Karma Coins for verified attendance
+      const awardCoins = Number(data?.coinsReward) || (data?.tier === "VIP" || data?.tier === "HACKATHON_BUILDER" ? 1000 : 300);
+      if (data?.email) {
+        await adjustStudentWallet(
+          data.email,
+          awardCoins,
+          "EARN",
+          `Event Attendance Verified (Manual Desk): ${data?.eventName || "Botmartz Summit"}`,
+          registrationId
+        ).catch(() => null);
+      }
+    }
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

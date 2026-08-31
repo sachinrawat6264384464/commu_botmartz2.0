@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Ticket, Sparkles, ArrowRight, Clock } from "lucide-react";
+import { Calendar, MapPin, Ticket, Sparkles, ArrowRight, Clock, Coins, Image as ImageIcon } from "lucide-react";
 import { adminDb } from "@/lib/firebase-admin";
 
 export const revalidate = 60;
@@ -17,16 +17,33 @@ export default async function EventsDirectoryPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-4 font-semibold">
             <Calendar size={14} /> Schedule &amp; Conferences
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 mb-4">
+          <h1 className="text-3xl sm:text-5xl font-bold text-slate-900 mb-4 tracking-tight">
             Botmartz Events &amp; Meetups
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto">
-            Discover in-person summits, technical keynotes, builder meetups, and developer community gatherings.
+          <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto font-mono text-xs">
+            Discover in-person summits, technical keynotes, builder hackathons, and developer community gatherings.
           </p>
+
+          {/* Karma Coin Attendance Incentive Banner */}
+          <div className="mt-6 max-w-2xl mx-auto p-4 rounded-2xl bg-gradient-to-r from-amber-50 via-blue-50 to-purple-50 border border-amber-200 text-slate-800 font-mono text-xs flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xs">
+            <div className="flex items-center gap-2.5 text-left">
+              <Coins size={18} className="text-amber-500 shrink-0" />
+              <span>
+                <strong>Earn +300 to +3,000 Karma Coins:</strong> Verified check-in by admin scanner at any meetup/hackathon credits your wallet instantly!
+              </span>
+            </div>
+            <Link
+              href="/gallery"
+              className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-[#0066FF] text-[#0066FF] font-bold text-[11px] shrink-0 transition-colors flex items-center gap-1"
+            >
+              <ImageIcon size={12} />
+              <span>View Gallery</span>
+            </Link>
+          </div>
         </div>
 
         {/* Events Grid */}

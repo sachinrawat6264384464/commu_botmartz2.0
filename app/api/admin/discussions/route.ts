@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
+import { adjustStudentWallet } from "@/lib/wallet";
 
 // GET all discussions & comments for admin moderation
 export async function GET(req: Request) {
@@ -90,6 +91,7 @@ export async function DELETE(req: Request) {
     if (commentId) {
       const data = snap.data();
       const existingComments = data?.commentsList || [];
+      const targetComment = existingComments.find((c: any) => c.id === commentId);
       const updatedComments = existingComments.filter((c: any) => c.id !== commentId);
 
       await docRef.update({
@@ -98,17 +100,30 @@ export async function DELETE(req: Request) {
         updatedAt: new Date().toISOString(),
       });
 
+      // Deduct 20 negative karma coins for spam comment if author email exists
+      if (targetComment?.author?.email) {
+        await adjustStudentWallet(targetComment.author.email, 20, "SPEND", `Moderation Penalty: Toxic/Spam Comment Removed on Discussion`, discussionId).catch(() => null);
+      }
+
       return NextResponse.json({
         success: true,
-        message: "Comment removed by admin moderation.",
+        message: "Comment removed by admin moderation (-20 Karma Coins penalty applied).",
       });
     }
 
     // Otherwise, delete the entire discussion post
+    const postData = snap.data();
     await docRef.delete();
+
+    // Deduct 20 negative karma coins for spam post
+    const authorEmail = postData?.author?.email || postData?.authorEmail;
+    if (authorEmail) {
+      await adjustStudentWallet(authorEmail, 20, "SPEND", `Moderation Penalty: Spam Thread Removed from Community`, discussionId).catch(() => null);
+    }
+
     return NextResponse.json({
       success: true,
-      message: "Discussion thread deleted by admin moderation.",
+      message: "Discussion thread deleted by admin moderation (-20 Karma Coins penalty applied).",
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || "Failed to delete item." }, { status: 500 });

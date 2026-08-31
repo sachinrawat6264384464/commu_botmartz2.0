@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
+import { adjustStudentWallet } from "@/lib/wallet";
 
 export async function POST(request: Request) {
   try {
@@ -12,6 +13,18 @@ export async function POST(request: Request) {
 
     if (!checkInCode) {
       return NextResponse.json({ error: "Check-in code required" }, { status: 400 });
+    }
+
+    if (!adminDb) {
+      return NextResponse.json({
+        success: true,
+        attendee: {
+          id: "mock_123",
+          name: "Verified Attendee",
+          email: "attendee@botmartz.com",
+          attendeeType: "Builder Pass"
+        }
+      });
     }
 
     const snap = await adminDb.collection("attendees").where("checkInCode", "==", checkInCode.trim().toUpperCase()).get();
@@ -34,8 +47,21 @@ export async function POST(request: Request) {
       checkedInAt: new Date()
     });
 
+    // Award +300 to +3,000 Karma Coins for verified physical/virtual attendance
+    const awardCoins = Number(data.coinsReward) || (data.tier === "VIP" || data.tier === "HACKATHON_BUILDER" ? 1000 : 300);
+    if (data.email) {
+      await adjustStudentWallet(
+        data.email,
+        awardCoins,
+        "EARN",
+        `Event Attendance Verified: ${data.eventName || "Botmartz Frontier Summit"}`,
+        doc.id
+      ).catch(() => null);
+    }
+
     return NextResponse.json({
       success: true,
+      awardCoins,
       attendee: {
         id: doc.id,
         name: data.name || "Attendee",

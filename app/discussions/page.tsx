@@ -24,8 +24,12 @@ import {
   Calendar,
   FileText,
   HelpCircle,
-  Loader2
+  Loader2,
+  Coins,
+  ShieldCheck,
+  Award
 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 
 interface Comment {
   id: string;
@@ -264,6 +268,7 @@ const CHANNELS = [
 ];
 
 function DiscussionsContent() {
+  const { user, studentProfile } = useAuth();
   const searchParams = useSearchParams();
   const initialChannel = searchParams.get("channel") || "all";
 
@@ -275,19 +280,36 @@ function DiscussionsContent() {
   // Active Thread for Comments
   const [activeThread, setActiveThread] = useState<DiscussionPost | null>(null);
   const [newCommentText, setNewCommentText] = useState("");
+  const [submittingComment, setSubmittingComment] = useState(false);
+  const [rewardBanner, setRewardBanner] = useState<string | null>(null);
 
   // User Profile State
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [profile, setProfile] = useState<UserProfile>({
-    name: "Soham Sharma",
-    handle: "@soham_ai",
-    role: "Founder & AI Architect",
-    bio: "Building enterprise RAG, deterministic agents, and applied AI systems.",
-    github: "https://github.com/soham2710",
-    linkedin: "https://linkedin.com/in/soham-sharma",
-    discord: "soham_ai#0001",
-    whatsapp: "+91 98765 43210"
+    name: user?.displayName || "Soham Sharma",
+    handle: studentProfile?.username ? `@${studentProfile.username}` : "@builder",
+    role: studentProfile?.personaType === "STUDENT" ? "AI Engineering Fellow" : "Founder & AI Architect",
+    bio: studentProfile?.bio || "Building enterprise RAG, deterministic agents, and applied AI systems.",
+    github: studentProfile?.githubUrl || "https://github.com/soham2710",
+    linkedin: studentProfile?.linkedinUrl || "https://linkedin.com/in/soham-sharma",
+    discord: studentProfile?.discordHandle || "builder#0001",
+    whatsapp: studentProfile?.whatsappNumber || "+91 98765 43210"
   });
+
+  useEffect(() => {
+    if (user || studentProfile) {
+      setProfile({
+        name: user?.displayName || studentProfile?.displayName || "Community Builder",
+        handle: studentProfile?.username ? `@${studentProfile.username}` : (user?.email ? `@${user.email.split("@")[0]}` : "@builder"),
+        role: studentProfile?.personaType === "STUDENT" ? "AI Engineering Fellow" : (studentProfile?.currentRole || "AI Builder"),
+        bio: studentProfile?.bio || "Building enterprise RAG and production AI systems.",
+        github: studentProfile?.githubUrl || "https://github.com",
+        linkedin: studentProfile?.linkedinUrl || "https://linkedin.com",
+        discord: studentProfile?.discordHandle || "builder#0001",
+        whatsapp: studentProfile?.whatsappNumber || ""
+      });
+    }
+  }, [user, studentProfile]);
 
   // Modal state for new discussion
   const [showModal, setShowModal] = useState(false);
@@ -295,6 +317,7 @@ function DiscussionsContent() {
   const [newContent, setNewContent] = useState("");
   const [newChannel, setNewChannel] = useState("ai-agents");
   const [newTags, setNewTags] = useState("LangGraph, Production");
+  const [creatingPost, setCreatingPost] = useState(false);
 
   useEffect(() => {
     if (searchParams.get("channel")) {
@@ -302,21 +325,51 @@ function DiscussionsContent() {
     }
   }, [searchParams]);
 
-  const toggleUpvote = (id: string) => {
-    setUpvotedIds(prev => ({ ...prev, [id]: !prev[id] }));
+  // Fetch live discussions from Firestore
+  useEffect(() => {
+    fetch("/api/discussions")
+      .then(res => res.json())
+      .then(data => {
+        if (data.discussions && data.discussions.length > 0) {
+          setPosts(prev => {
+            // merge unique
+            const existingIds = new Set(prev.map(p => p.id));
+            const newOnes = data.discussions.filter((d: any) => !existingIds.has(d.id));
+            return [...newOnes, ...prev];
+          });
+        }
+      })
+      .catch(() => null);
+  }, []);
+
+  const toggleUpvote = async (id: string) => {
+    const isUp = upvotedIds[id];
+    setUpvotedIds(prev => ({ ...prev, [id]: !isUp }));
     setPosts(prev => prev.map(p => {
       if (p.id === id) {
-        const isUp = upvotedIds[id];
         return { ...p, upvotes: isUp ? p.upvotes - 1 : p.upvotes + 1 };
       }
       return p;
     }));
+
+    if (!isUp) {
+      setRewardBanner("Upvoted! +1 Karma Coin awarded to author.");
+      setTimeout(() => setRewardBanner(null), 3000);
+      try {
+        await fetch("/api/discussions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "UPVOTE", postId: id })
+        });
+      } catch (err) {}
+    }
   };
 
-  const handleAddComment = (e: React.FormEvent) => {
+  const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newCommentText.trim() || !activeThread) return;
 
+    setSubmittingComment(true);
     const newComment: Comment = {
       id: `c-${Date.now()}`,
       author: profile.name,
@@ -336,12 +389,36 @@ function DiscussionsContent() {
     }));
 
     setNewCommentText("");
+    setRewardBanner("🎉 Comment posted! +3 Karma Coins awarded to your wallet.");
+    setTimeout(() => setRewardBanner(null), 4000);
+
+    try {
+      await fetch("/api/discussions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "REPLY",
+          postId: activeThread.id,
+          comment: {
+            content: newComment.text,
+            author: {
+              name: profile.name,
+              handle: profile.handle,
+              email: user?.email || ""
+            }
+          }
+        })
+      });
+    } catch (err) {} finally {
+      setSubmittingComment(false);
+    }
   };
 
-  const handleCreatePost = (e: React.FormEvent) => {
+  const handleCreatePost = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim() || !newContent.trim()) return;
 
+    setCreatingPost(true);
     const newPost: DiscussionPost = {
       id: `disc-${Date.now()}`,
       title: newTitle.trim(),
@@ -367,6 +444,29 @@ function DiscussionsContent() {
     setShowModal(false);
     setNewTitle("");
     setNewContent("");
+    setRewardBanner("🚀 Discussion created! +5 Karma Coins awarded to your wallet.");
+    setTimeout(() => setRewardBanner(null), 4000);
+
+    try {
+      await fetch("/api/discussions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "CREATE",
+          title: newPost.title,
+          content: newPost.content,
+          channel: newPost.channel,
+          tags: newPost.tags,
+          author: {
+            name: profile.name,
+            handle: profile.handle,
+            email: user?.email || ""
+          }
+        })
+      });
+    } catch (err) {} finally {
+      setCreatingPost(false);
+    }
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -421,6 +521,19 @@ function DiscussionsContent() {
             </button>
           </div>
         </div>
+
+        {/* Dynamic Reward Banner Notification */}
+        {rewardBanner && (
+          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-mono text-xs font-bold shadow-lg flex items-center justify-between animate-fade-in">
+            <div className="flex items-center gap-2.5">
+              <Coins size={16} className="text-amber-300" />
+              <span>{rewardBanner}</span>
+            </div>
+            <button onClick={() => setRewardBanner(null)} className="p-1 hover:bg-white/20 rounded-lg">
+              <X size={14} />
+            </button>
+          </div>
+        )}
 
         {/* WhatsApp & Discord Callout Bar */}
         <div className="bg-gradient-to-r from-emerald-50 via-indigo-50 to-blue-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
@@ -494,6 +607,34 @@ function DiscussionsContent() {
                   <div className="font-bold text-amber-900">3rd Saturday AMAs</div>
                   <div className="text-[11px] text-amber-700">Live technical Q&amp;A with founders</div>
                 </div>
+              </div>
+            </div>
+
+            {/* Karma Coin Earning Rules Card */}
+            <div className="bg-gradient-to-br from-amber-50 to-blue-50 border border-amber-200/80 rounded-3xl p-5 shadow-xs font-mono text-xs">
+              <div className="text-xs text-amber-900 font-bold uppercase mb-3 flex items-center gap-1.5">
+                <Coins size={14} className="text-amber-600" /> Discussion Karma
+              </div>
+              <div className="space-y-2 text-[11px] text-slate-700">
+                <div className="flex items-center justify-between p-2 rounded-xl bg-white/80 border border-amber-100">
+                  <span>Start Discussion Topic</span>
+                  <strong className="text-emerald-600 font-bold">+5 Coins</strong>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-xl bg-white/80 border border-amber-100">
+                  <span>Constructive Reply</span>
+                  <strong className="text-emerald-600 font-bold">+3 Coins</strong>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-xl bg-white/80 border border-amber-100">
+                  <span>Received Peer Upvote</span>
+                  <strong className="text-emerald-600 font-bold">+1 Coin</strong>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-xl bg-rose-50 border border-rose-100 text-rose-800">
+                  <span>Spam / Toxicity Penalty</span>
+                  <strong className="text-rose-600 font-bold">-20 Coins</strong>
+                </div>
+              </div>
+              <div className="mt-3 text-[10px] text-slate-500 font-sans leading-relaxed">
+                Admins review all posts. Coins are automatically credited/debited to your builder wallet.
               </div>
             </div>
 

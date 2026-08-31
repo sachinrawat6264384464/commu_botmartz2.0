@@ -37,8 +37,12 @@ export interface StudentProfile {
   cityLocation?: string;
   timezone?: string;
   githubUsername?: string;
+  githubUrl?: string;
   linkedinUrl?: string;
   portfolioUrl?: string;
+  discordHandle?: string;
+  whatsappNumber?: string;
+  currentRole?: string;
   primaryTechStack?: string[];
   aiSpecialization?: string;
   karmaCoins?: number;
