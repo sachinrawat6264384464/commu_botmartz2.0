@@ -259,6 +259,7 @@ export default function SingleLandingPage() {
                 className="object-cover object-top"
                 quality={100}
                 priority
+                unoptimized
               />
             </div>
             <div className="text-center md:text-left pt-2 md:pt-4">
