@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
         const htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
             <div style="text-align: center; margin-bottom: 24px;">
-              <img src="https://community.botmartz.com/logo.png" alt="Botmartz Logo" style="height: 60px; margin-bottom: 12px;" />
+              <img src="https://community.botmartz.com/logo.png" alt="Botmartz Logo" style="height: 120px; width: auto; margin-bottom: 12px;" />
               <h1 style="color: #0066FF; margin: 0; font-size: 24px; font-weight: 800;">BOTMARTZ COMMUNITY</h1>
               <p style="color: #64748b; font-size: 12px; text-transform: uppercase; margin-top: 4px;">Welcome to the next generation of builders</p>
             </div>
@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
         `;
 
         await smtp.transporter.sendMail({
-          from: `"Botmartz Workshops" <${fromEmail}>`,
+          from: `"Botmartz Community" <${fromEmail}>`,
           to: cleanEmail,
           subject: emailSubject,
           html: htmlContent
