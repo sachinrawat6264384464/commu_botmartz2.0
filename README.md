@@ -4,6 +4,7 @@ The official open-source developer hub, builder community, and virtual AI intern
 
 * **Live Platform**: [community.botmartz.com](https://community.botmartz.com)
 * **Enterprise Main Site**: [botmartz.com](https://www.botmartz.com)
+* **Flagship Workshop Launch**: **9th September 2026 @ 9:00 PM IST** (Flash Pass: **₹9**)
 * **Official Payment Handle**: `botmartz-5@oksbi`
 
 ---

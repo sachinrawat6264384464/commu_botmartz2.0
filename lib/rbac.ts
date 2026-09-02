@@ -56,6 +56,8 @@ export function isPathAllowed(role: UserRole, pathname: string): boolean {
   const perms = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS['volunteer'];
 
   if (pathname === '/admin' || pathname === '/admin/login') return true;
+  if (pathname.startsWith('/admin/workshops')) return perms.canManageEvents;
+  if (pathname.startsWith('/admin/page-locks')) return perms.canManageFinance;
   if (pathname.startsWith('/admin/events')) return perms.canManageEvents;
   if (pathname.startsWith('/admin/arena')) return perms.canManageEvents;
   if (pathname.startsWith('/admin/challenges')) return perms.canManageEvents;
@@ -68,6 +70,8 @@ export function isPathAllowed(role: UserRole, pathname: string): boolean {
   if (pathname.startsWith('/admin/newsletter')) return perms.canSendNewsletters;
   if (pathname.startsWith('/admin/team')) return perms.canManageFinance; // Super Admin only
   if (pathname.startsWith('/admin/security')) return perms.canManageFinance; // Super Admin only
+  if (pathname.startsWith('/admin/activity')) return true;
+  if (pathname.startsWith('/admin/wallets')) return perms.canManageFinance;
   if (pathname.startsWith('/admin/feedback')) return perms.canManageEvents;
   if (pathname.startsWith('/admin/discussions')) return perms.canModerateDiscussions;
 

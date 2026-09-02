@@ -51,6 +51,9 @@ export interface StudentProfile {
   collegeVerified?: boolean;
   isPaidFellow?: boolean;
   fellowshipTrack?: string;
+  isWorkshopEnrolled?: boolean;
+  workshopTrack?: string;
+  role?: string;
   dpdpConsent?: boolean;
   createdAt?: any;
   updatedAt?: any;

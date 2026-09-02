@@ -127,9 +127,23 @@ Today we engineered, enhanced, audited, and deployed the comprehensive full-stac
 
 ---
 
+#### 10. Flagship Workshop Hub, Razorpay Gateway & Page Locking Engine
+* **9th September @ 9:00 PM IST Live Masterclass**:
+  * Flagship 1-page landing experience on `/` and `/workshops` featuring live kickoff countdown timer.
+  * Special Flash Launch Pass configured at **₹9** with instant Razorpay checkout (Cards, UPI, Netbanking) and direct UPI QR fallback (`botmartz-5@oksbi`).
+  * Automated backend database storage in Cloud Firestore (`workshop_registrations`, `orders`, `payments`).
+  * Automated SMTP email receipt dispatch with unique ticket check-in codes.
+* **Dynamic Page Locking & Cohort Scheduler (`lib/page-locks.ts` & `/admin/page-locks`)**:
+  * **Workshop Focus Mode**: Locks sub-pages (`/arena`, `/virtual-ai-internship`, `/challenges`, `/discussions`, `/magazine`, `/showcase`, `/leaderboard`) displaying a live countdown to 9th Sept 9 PM and a direct CTA to claim the ₹9 pass.
+  * Admin / Reviewer bypass mechanism with full control panel in `/admin/page-locks`.
+* **Workshop Registrations CMS (`/admin/workshops`)**:
+  * Real-time attendee list, payment telemetry, search filters, and CSV export for broadcast communications.
+
+---
+
 ### 🧪 Quality & Build Verification
-* **TypeScript & JSX Compilation**: Passed `npm run build` with **0 errors**.
-* **Route Generation**: Successfully compiled all **333 static and dynamic routes**.
+* **TypeScript & JSX Compilation**: Passed `npx next build` with **0 errors**.
+* **Route Generation**: Successfully compiled all **335 static and dynamic routes**.
 * **Git Status**: Fully committed and synchronized to `https://github.com/soham2710/botmartz-community.git` on branch `main`.
 
 ---

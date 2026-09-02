@@ -29,7 +29,8 @@ import {
   CheckCircle2,
   Lock,
   Globe,
-  BookOpen
+  BookOpen,
+  Code2
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
@@ -78,29 +79,29 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
-    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews" },
-    { name: "Internship Playground (50 PRDs)", href: "/arena", icon: Layers, desc: "Explore production engineering systems" },
-    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins" },
-    { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles" },
-    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer" },
-    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages" },
-    { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review" }
+    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: true },
+    { name: "Internship Playground (50 PRDs)", href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: true },
+    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: true },
+    { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: true },
+    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: true },
+    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages", locked: true },
+    { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: true }
   ];
 
   const COMMUNITY_ITEMS = [
-    { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits" },
-    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards" },
-    { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates" },
-    { name: "Builder Leaderboard", href: "/arena/leaderboard", icon: Award, desc: "Real-time student karma rankings" },
+    { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits", locked: true },
+    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards", locked: true },
+    { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates", locked: true },
+    { name: "Builder Leaderboard", href: "/arena/leaderboard", icon: Award, desc: "Real-time student karma rankings", locked: true },
     { name: "Free Community Events (Luma)", href: "https://luma.com/botmartz", icon: ExternalLink, desc: "Weekly AMAs, workshops & teardowns", external: true },
-    { name: "Schedule & Calendar", href: "/arena/calendar", icon: Calendar, desc: "Cohort milestones and office hours" }
+    { name: "Schedule & Calendar", href: "/arena/calendar", icon: Calendar, desc: "Cohort milestones and office hours", locked: true }
   ];
 
   const RESOURCE_ITEMS = [
-    { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools" },
-    { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers" },
-    { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials" },
-    { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers" }
+    { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools", locked: true },
+    { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers", locked: true },
+    { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials", locked: false },
+    { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: true }
   ];
 
   return (
@@ -122,10 +123,10 @@ export default function CommunityNavbar() {
           <div>
             <div className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5 font-sans">
               <span>BOTMARTZ</span>
-              <span className="text-[#0066FF] font-black text-sm">BUILDERS</span>
+              <span className="text-[#0066FF] font-black text-sm">AI WORKSHOP</span>
             </div>
             <p className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-bold -mt-0.5">
-              Virtual Internship Playground
+              Production Engineering Cohort
             </p>
           </div>
         </Link>
@@ -133,7 +134,33 @@ export default function CommunityNavbar() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-1.5 font-mono text-xs font-bold">
           
-          {/* 1. Internship Dropdown */}
+          {/* 1. Flagship Workshop Direct Tab */}
+          <Link
+            href="/"
+            className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
+              pathname === "/"
+                ? "text-[#0066FF] bg-blue-50/80 font-bold"
+                : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
+            }`}
+          >
+            <Sparkles size={14} className="text-[#0066FF]" />
+            <span>AI Workshop (Live)</span>
+            <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[9px] font-bold">₹9</span>
+          </Link>
+
+          {/* 2. All Workshops */}
+          <Link
+            href="/workshops"
+            className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
+              pathname.startsWith("/workshops")
+                ? "text-[#0066FF] bg-blue-50/80 font-bold"
+                : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
+            }`}
+          >
+            <span>All Bootcamps</span>
+          </Link>
+
+          {/* 3. Internship Dropdown */}
           <div className="relative" ref={internshipMenuRef}>
             <button
               onClick={() => {
@@ -142,7 +169,7 @@ export default function CommunityNavbar() {
                 setResourcesOpen(false);
               }}
               className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
-                pathname.startsWith("/arena") && !pathname.includes("/progress") && !pathname.includes("/calendar") && !pathname.includes("/bounties") && !pathname.includes("/wallet")
+                pathname.startsWith("/arena") || pathname.startsWith("/virtual-ai-internship")
                   ? "text-[#0066FF] bg-blue-50/80 font-bold"
                   : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
               }`}
@@ -164,8 +191,15 @@ export default function CommunityNavbar() {
                       <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
                         <IconComponent size={16} />
                       </div>
-                      <div>
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors">{item.name}</div>
+                      <div className="flex-1">
+                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
+                          <span>{item.name}</span>
+                          {item.locked && (
+                            <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                              <Lock size={9} /> Scheduled
+                            </span>
+                          )}
+                        </div>
                         <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
                       </div>
                     </Link>
@@ -175,19 +209,7 @@ export default function CommunityNavbar() {
             )}
           </div>
 
-          {/* 2. Direct Discussions Link */}
-          <Link
-            href="/discussions"
-            className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
-              pathname.startsWith("/discussions")
-                ? "text-[#0066FF] bg-blue-50/80 font-bold"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
-            }`}
-          >
-            <span>Discussions</span>
-          </Link>
-
-          {/* 3. Community Dropdown */}
+          {/* 4. Community Dropdown */}
           <div className="relative" ref={communityMenuRef}>
             <button
               onClick={() => {
@@ -239,8 +261,15 @@ export default function CommunityNavbar() {
                       <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
                         <IconComponent size={16} />
                       </div>
-                      <div>
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors">{item.name}</div>
+                      <div className="flex-1">
+                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
+                          <span>{item.name}</span>
+                          {item.locked && (
+                            <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                              <Lock size={9} /> Scheduled
+                            </span>
+                          )}
+                        </div>
                         <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
                       </div>
                     </Link>
@@ -250,52 +279,31 @@ export default function CommunityNavbar() {
             )}
           </div>
 
-          {/* 4. Resources Dropdown */}
-          <div className="relative" ref={resourcesMenuRef}>
-            <button
-              onClick={() => {
-                setResourcesOpen(!resourcesOpen);
-                setInternshipOpen(false);
-                setCommunityOpen(false);
-              }}
-              className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer ${
-                pathname.includes("/wallet") || pathname.includes("/certificates") || pathname.includes("/magazine") || pathname.includes("/product-tour")
-                  ? "text-[#0066FF] bg-blue-50/80 font-bold"
-                  : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
-              }`}
-            >
-              <span>Resources</span>
-              <ChevronDown size={14} className={`transition-transform duration-200 ${resourcesOpen ? "rotate-180 text-[#0066FF]" : "text-slate-400"}`} />
-            </button>
-
-            {resourcesOpen && (
-              <div className="absolute top-full right-0 mt-2 w-84 bg-white border border-slate-200 rounded-2xl shadow-xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                {RESOURCE_ITEMS.map((item) => {
-                  const IconComponent = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                        <IconComponent size={16} />
-                      </div>
-                      <div>
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-emerald-700 transition-colors">{item.name}</div>
-                        <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </div>
+          {/* 5. Certificates */}
+          <Link
+            href="/certificates"
+            className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
+              pathname.startsWith("/certificates")
+                ? "text-[#0066FF] bg-blue-50/80 font-bold"
+                : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
+            }`}
+          >
+            <span>Certificates</span>
+          </Link>
 
         </nav>
 
-        {/* User Auth Action & Profile */}
+        {/* User Auth Action & Register CTA */}
         <div className="hidden lg:flex items-center gap-3">
+          
+          <a
+            href="/#registration"
+            className="px-5 py-2.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 cursor-pointer"
+          >
+            <span>Register &amp; Pay (₹9)</span>
+            <Sparkles size={13} />
+          </a>
+
           {user ? (
             <div className="relative" ref={userMenuRef}>
               <button
@@ -312,12 +320,8 @@ export default function CommunityNavbar() {
                 </div>
 
                 <div className="text-left font-mono">
-                  <div className="text-xs font-bold text-slate-900 truncate max-w-[120px]">
+                  <div className="text-xs font-bold text-slate-900 truncate max-w-[110px]">
                     {user.displayName || user.email?.split("@")[0]}
-                  </div>
-                  <div className="text-[10px] text-amber-600 font-bold flex items-center gap-1">
-                    <Coins size={10} />
-                    <span>{studentProfile?.karmaCoins || 100} Coins</span>
                   </div>
                 </div>
 
@@ -329,31 +333,16 @@ export default function CommunityNavbar() {
                   <div className="p-3 border-b border-slate-100 mb-1">
                     <div className="font-bold text-slate-900 font-sans">{user.displayName || "Student Builder"}</div>
                     <div className="text-[11px] text-slate-500 truncate">{user.email}</div>
-                    <div className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5 mt-1.5 inline-block font-bold">
-                      {studentProfile?.collegeName || "Verified Student"}
-                    </div>
                   </div>
 
                   <Link
                     href="/profile"
                     className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#0066FF] transition-colors"
                   >
-                    <User size={14} /> My Profile &amp; Heatmap
-                  </Link>
-                  <Link
-                    href="/arena/daily-log"
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#0066FF] transition-colors"
-                  >
-                    <Terminal size={14} /> Submit Daily PoW
-                  </Link>
-                  <Link
-                    href="/arena/wallet"
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#0066FF] transition-colors"
-                  >
-                    <Coins size={14} /> Karma Wallet ({studentProfile?.karmaCoins || 100})
+                    <User size={14} /> My Profile &amp; Passes
                   </Link>
 
-                  {user.email?.toLowerCase().includes("botmartz.com") && (
+                  {(user.email?.toLowerCase().includes("botmartz.com") || studentProfile?.role === "ADMIN") && (
                     <Link
                       href="/admin"
                       className="flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-purple-50 text-purple-700 transition-colors font-bold"
@@ -374,14 +363,12 @@ export default function CommunityNavbar() {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <Link
-                href="/login"
-                className="px-5 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs"
-              >
-                Sign In / Verify
-              </Link>
-            </div>
+            <Link
+              href="/login"
+              className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs"
+            >
+              Sign In
+            </Link>
           )}
         </div>
 
@@ -407,53 +394,39 @@ export default function CommunityNavbar() {
       {mobileOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-8 space-y-4 font-mono text-xs max-h-[85vh] overflow-y-auto">
           
+          <a
+            href="/#registration"
+            className="w-full py-3.5 rounded-2xl bg-[#0066FF] text-white font-bold text-center block uppercase tracking-wider shadow-md"
+          >
+            Register for Workshop (₹9)
+          </a>
+
           <div className="space-y-1">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Virtual Internship</div>
+            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Virtual Internship (Scheduled)</div>
             {INTERNSHIP_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
+                className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
               >
-                <item.icon size={15} className="text-[#0066FF]" />
-                <span className="font-bold">{item.name}</span>
+                <div className="flex items-center gap-2.5">
+                  <item.icon size={15} className="text-[#0066FF]" />
+                  <span className="font-bold">{item.name}</span>
+                </div>
+                {item.locked && <Lock size={12} className="text-amber-500" />}
               </Link>
             ))}
           </div>
 
           <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Community &amp; Discussions</div>
+            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Resources</div>
             <Link
-              href="/discussions"
+              href="/certificates"
               className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50 font-bold"
             >
-              <MessageSquare size={15} className="text-[#0066FF]" />
-              <span>Discussions &amp; Q&amp;A</span>
+              <ShieldCheck size={15} className="text-emerald-600" />
+              <span>Verified Certificates</span>
             </Link>
-            {COMMUNITY_ITEMS.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
-              >
-                <item.icon size={15} className="text-[#0066FF]" />
-                <span>{item.name}</span>
-              </Link>
-            ))}
-          </div>
-
-          <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Resources &amp; Grants</div>
-            {RESOURCE_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
-              >
-                <item.icon size={15} className="text-emerald-600" />
-                <span>{item.name}</span>
-              </Link>
-            ))}
           </div>
 
           <div className="border-t border-slate-100 pt-4">
@@ -475,9 +448,9 @@ export default function CommunityNavbar() {
             ) : (
               <Link
                 href="/login"
-                className="w-full py-3 rounded-xl bg-[#0066FF] text-white font-bold text-center block uppercase tracking-wider"
+                className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-center block uppercase tracking-wider"
               >
-                Sign In / Student Register
+                Sign In
               </Link>
             )}
           </div>

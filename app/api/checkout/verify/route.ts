@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       razorpay_signature,
       amount, // In INR
       itemName,
-      itemCategory, // "FELLOWSHIP_PASS" | "EVENT_TICKET" | "WALLET_TOPUP"
+      itemCategory, // "WORKSHOP_PASS" | "FELLOWSHIP_PASS" | "EVENT_TICKET" | "WALLET_TOPUP"
       customerName,
       customerEmail,
       customerPhone,
@@ -47,8 +47,8 @@ export async function POST(req: NextRequest) {
     const cleanEmail = (customerEmail || "").toLowerCase().trim();
     const cleanName = customerName || "Builder";
     const paymentTimestamp = new Date().toISOString();
-    const invoiceNumber = `INV-${Date.now().toString().slice(-6)}`;
-    const checkInCode = `TC-${Math.floor(1000 + Math.random() * 9000)}`;
+    const invoiceNumber = `INV-BMZ-${Date.now().toString().slice(-6)}`;
+    const checkInCode = `WS-${Math.floor(10000 + Math.random() * 90000)}`;
 
     if (adminDb) {
       // 1. Record Order in Firestore
@@ -56,8 +56,8 @@ export async function POST(req: NextRequest) {
         orderId: razorpay_order_id || `ORD_${Date.now()}`,
         paymentId: razorpay_payment_id || `PAY_${Date.now()}`,
         invoiceNumber,
-        itemName: itemName || "Botmartz Fellowship Pass",
-        itemCategory: itemCategory || "FELLOWSHIP_PASS",
+        itemName: itemName || "Production AI Engineering Workshop Pass",
+        itemCategory: itemCategory || "WORKSHOP_PASS",
         amount: Number(amount) || 0,
         currency: "INR",
         email: cleanEmail,
@@ -82,66 +82,86 @@ export async function POST(req: NextRequest) {
         createdAt: paymentTimestamp
       });
 
-      // 3. Handle Fellowship Pass Upgrade & Karma Award
-      if (itemCategory === "FELLOWSHIP_PASS" || itemName?.toLowerCase().includes("fellow") || itemName?.toLowerCase().includes("internship")) {
-        // Upgrade Profile
-        try {
-          const profileQuery = await adminDb
-            .collection("student_profiles")
-            .where("email", "==", cleanEmail)
-            .limit(1)
-            .get();
+      // 3. Save Dedicated Workshop Registration
+      const isWorkshop =
+        itemCategory === "WORKSHOP_PASS" ||
+        itemName?.toLowerCase().includes("workshop") ||
+        itemName?.toLowerCase().includes("accelerator") ||
+        itemName?.toLowerCase().includes("bootcamp");
 
-          if (!profileQuery.empty) {
-            const profileRef = profileQuery.docs[0].ref;
-            await profileRef.set({
-              isPaidFellow: true,
-              fellowshipTrack: itemName || "Verified Student Fellow Track",
-              paidAmount: Number(amount) || 299,
-              paidAt: paymentTimestamp,
-              reputationLevel: 3,
-              updatedAt: paymentTimestamp
-            }, { merge: true });
-          }
-        } catch (pErr) {
-          console.warn("Profile fellowship upgrade non-fatal warning:", pErr);
-        }
-
-        // Award +300 Karma Coins to Student Wallet
-        try {
-          await adjustStudentWallet(
-            cleanEmail,
-            300,
-            "EARN",
-            `Bonus +300 Karma Coins for Enrolling in ${itemName || "Fellowship Track"}`,
-            razorpay_payment_id
-          );
-        } catch (wErr) {
-          console.warn("Wallet bonus credit non-fatal warning:", wErr);
-        }
-      }
-
-      // 4. Handle Event Attendee Pass
-      if (itemCategory === "EVENT_TICKET" || metadata?.eventId) {
-        await adminDb.collection("attendees").add({
+      if (isWorkshop) {
+        await adminDb.collection("workshop_registrations").add({
+          registrationId: `REG_${Date.now().toString().slice(-6)}`,
           name: cleanName,
           email: cleanEmail,
           phone: customerPhone || "",
-          tier: itemName || "Standard Pass",
+          collegeOrCompany: metadata?.college || metadata?.collegeOrCompany || "Independent Builder",
+          experienceLevel: metadata?.experienceLevel || "Intermediate",
+          track: itemName || "Production AI Engineering & Multi-Agent Workshop",
           amount: Number(amount) || 0,
-          paymentId: razorpay_payment_id,
-          orderId: razorpay_order_id,
+          currency: "INR",
+          orderId: razorpay_order_id || `ORD_${Date.now()}`,
+          paymentId: razorpay_payment_id || `PAY_${Date.now()}`,
           checkInCode,
-          attended: false,
-          eventId: metadata?.eventId || "ai-frontier-2026",
-          eventTitle: metadata?.eventTitle || "AI Frontier 2026 Summit",
+          invoiceNumber,
+          status: "PAID",
+          paymentMethod: "RAZORPAY",
+          metadata: metadata || {},
           createdAt: paymentTimestamp
         });
       }
 
+      // 4. Handle Profile Upgrade & Wallet Bonus (+300 Karma Coins)
+      try {
+        const profileQuery = await adminDb
+          .collection("student_profiles")
+          .where("email", "==", cleanEmail)
+          .limit(1)
+          .get();
+
+        if (!profileQuery.empty) {
+          const profileRef = profileQuery.docs[0].ref;
+          await profileRef.set(
+            {
+              isPaidFellow: true,
+              isWorkshopEnrolled: true,
+              workshopTrack: itemName || "Production AI Engineering Workshop",
+              paidAmount: Number(amount) || 0,
+              paidAt: paymentTimestamp,
+              reputationLevel: 3,
+              updatedAt: paymentTimestamp
+            },
+            { merge: true }
+          );
+        }
+      } catch (pErr) {
+        console.warn("Profile fellowship upgrade non-fatal warning:", pErr);
+      }
+
+      // Award +300 Bonus Karma Coins to Student Wallet
+      try {
+        await adjustStudentWallet(
+          cleanEmail,
+          300,
+          "EARN",
+          `Bonus +300 Karma Coins for Enrolling in ${itemName || "AI Workshop"}`,
+          razorpay_payment_id
+        );
+      } catch (wErr) {
+        console.warn("Wallet bonus credit non-fatal warning:", wErr);
+      }
+
       // 5. Handle Karma Coins Wallet Top-up
       if (itemCategory === "WALLET_TOPUP" || metadata?.coinsAmount) {
-        const coinsToAdd = Number(metadata?.coinsAmount) || (Number(amount) === 99 ? 500 : Number(amount) === 299 ? 2000 : Number(amount) === 599 ? 5000 : Number(amount) * 5);
+        const coinsToAdd =
+          Number(metadata?.coinsAmount) ||
+          (Number(amount) === 99
+            ? 500
+            : Number(amount) === 299
+            ? 2000
+            : Number(amount) === 599
+            ? 5000
+            : Number(amount) * 5);
         try {
           await adjustStudentWallet(
             cleanEmail,
@@ -156,62 +176,70 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 5. Send Email Confirmation via SMTP
+    // 6. Send Email Confirmation via SMTP
     try {
       const smtp = await getSmtpTransporter();
       if (smtp && cleanEmail) {
         const fromEmail = smtp.smtpUser || process.env.SMTP_USER || "team@botmartz.com";
-        const emailSubject = `Payment Confirmed: ${itemName || "Botmartz Fellowship Pass"} (${invoiceNumber})`;
+        const emailSubject = `Pass Confirmed: ${itemName || "Botmartz Workshop Pass"} (${invoiceNumber})`;
         const htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
             <div style="text-align: center; margin-bottom: 24px;">
-              <h1 style="color: #0066FF; margin: 0; font-size: 24px;">BOTMARTZ</h1>
-              <p style="color: #64748b; font-size: 12px; text-transform: uppercase; margin-top: 4px;">Payment Receipt &amp; Verification</p>
+              <h1 style="color: #0066FF; margin: 0; font-size: 24px; font-weight: 800;">BOTMARTZ</h1>
+              <p style="color: #64748b; font-size: 12px; text-transform: uppercase; margin-top: 4px; letter-spacing: 1px;">Workshop Pass &amp; Official Verification</p>
             </div>
 
             <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: center;">
-              <h2 style="color: #166534; margin: 0 0 8px 0; font-size: 18px;">✔ Payment Successful (₹${amount})</h2>
+              <h2 style="color: #166534; margin: 0 0 8px 0; font-size: 18px;">✔ Registration &amp; Payment Successful (₹${amount})</h2>
               <p style="color: #15803d; font-size: 13px; margin: 0;">Payment ID: <strong>${razorpay_payment_id}</strong></p>
             </div>
 
             <table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 24px;">
               <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 8px 0; color: #64748b;">Invoice Number</td>
-                <td style="padding: 8px 0; text-align: right; font-weight: bold; color: #0f172a;">${invoiceNumber}</td>
+                <td style="padding: 10px 0; color: #64748b;">Invoice Number</td>
+                <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #0f172a;">${invoiceNumber}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 8px 0; color: #64748b;">Item / Pass</td>
-                <td style="padding: 8px 0; text-align: right; font-weight: bold; color: #0f172a;">${itemName}</td>
+                <td style="padding: 10px 0; color: #64748b;">Workshop / Track</td>
+                <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #0f172a;">${itemName}</td>
               </tr>
               <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 8px 0; color: #64748b;">Customer</td>
-                <td style="padding: 8px 0; text-align: right; font-weight: bold; color: #0f172a;">${cleanName} (${cleanEmail})</td>
+                <td style="padding: 10px 0; color: #64748b;">Registered Attendee</td>
+                <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #0f172a;">${cleanName} (${cleanEmail})</td>
               </tr>
               <tr style="border-bottom: 1px solid #f1f5f9;">
-                <td style="padding: 8px 0; color: #64748b;">Total Amount Paid</td>
-                <td style="padding: 8px 0; text-align: right; font-weight: bold; color: #0066FF; font-size: 15px;">₹${amount}</td>
+                <td style="padding: 10px 0; color: #64748b;">Total Amount Paid</td>
+                <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #0066FF; font-size: 15px;">₹${amount}</td>
               </tr>
-              ${checkInCode ? `
               <tr>
-                <td style="padding: 8px 0; color: #64748b;">Pass Check-in Code</td>
-                <td style="padding: 8px 0; text-align: right; font-weight: bold; color: #7c3aed; font-size: 14px;">${checkInCode}</td>
-              </tr>` : ""}
+                <td style="padding: 10px 0; color: #64748b;">Check-in Pass Code</td>
+                <td style="padding: 10px 0; text-align: right; font-weight: bold; color: #7c3aed; font-size: 16px;">${checkInCode}</td>
+              </tr>
             </table>
 
+            <div style="background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+              <h3 style="color: #0f172a; margin: 0 0 6px 0; font-size: 14px;">Next Steps:</h3>
+              <p style="color: #475569; font-size: 12px; line-height: 1.6; margin: 0;">
+                1. Keep your check-in code <strong>${checkInCode}</strong> handy.<br/>
+                2. Live workshop meeting links and GitHub starter repositories will be shared 24 hours prior to the session.<br/>
+                3. +300 Karma Coins have been credited to your Botmartz account.
+              </p>
+            </div>
+
             <div style="text-align: center; margin-top: 24px;">
-              <a href="https://community.botmartz.com/profile" style="display: inline-block; background-color: #0066FF; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; font-size: 13px;">
-                Open Builder Profile Workspace &rarr;
+              <a href="https://community.botmartz.com/profile" style="display: inline-block; background-color: #0066FF; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-weight: bold; font-size: 13px;">
+                Open Student Dashboard &rarr;
               </a>
             </div>
 
             <p style="color: #94a3b8; font-size: 11px; text-align: center; margin-top: 32px;">
-              Botmartz AI Solution Pvt Ltd &bull; 100% Verified &bull; Indore, India
+              Botmartz AI Solution Pvt Ltd &bull; 100% Verified Payment Gateway &bull; Indore, India
             </p>
           </div>
         `;
 
         await smtp.transporter.sendMail({
-          from: `"Botmartz Payments" <${fromEmail}>`,
+          from: `"Botmartz Workshops" <${fromEmail}>`,
           to: cleanEmail,
           subject: emailSubject,
           html: htmlContent
@@ -227,7 +255,7 @@ export async function POST(req: NextRequest) {
       orderId: razorpay_order_id,
       invoiceNumber,
       checkInCode,
-      message: "Payment successfully verified! Pass activated and receipt dispatched."
+      message: "Workshop registration and payment successfully verified! Pass activated and receipt dispatched."
     });
   } catch (err: any) {
     console.error("Payment verification error:", err);
