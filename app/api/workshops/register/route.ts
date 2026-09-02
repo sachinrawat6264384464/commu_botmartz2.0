@@ -80,8 +80,27 @@ export async function POST(req: NextRequest) {
         const htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
             <div style="text-align: center; margin-bottom: 24px;">
-              <h1 style="color: #0066FF; margin: 0; font-size: 24px; font-weight: 800;">BOTMARTZ</h1>
-              <p style="color: #64748b; font-size: 12px; text-transform: uppercase; margin-top: 4px;">Workshop Registration Pass</p>
+              <img src="https://raw.githubusercontent.com/soham2710/botmartz-community/main/public/logo.png" alt="Botmartz Logo" style="height: 60px; margin-bottom: 12px;" />
+              <h1 style="color: #0066FF; margin: 0; font-size: 24px; font-weight: 800;">BOTMARTZ COMMUNITY</h1>
+              <p style="color: #64748b; font-size: 12px; text-transform: uppercase; margin-top: 4px;">Welcome to the next generation of builders</p>
+            </div>
+
+            <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+              <h2 style="color: #0f172a; margin: 0 0 12px 0; font-size: 18px;">Welcome, ${cleanName}!</h2>
+              <p style="color: #475569; font-size: 14px; margin: 0 0 16px 0; line-height: 1.5;">
+                We are thrilled to welcome you to the <strong>Botmartz Community</strong>. You have successfully registered for our upcoming workshop. Botmartz is a premier community for elite builders and AI enthusiasts. Here you'll gain real skills, build real projects, and make a real impact.
+              </p>
+              <h3 style="color: #0f172a; margin: 0 0 8px 0; font-size: 16px;">Community Features:</h3>
+              <ul style="color: #475569; font-size: 14px; margin: 0 0 16px 0; padding-left: 20px; line-height: 1.6;">
+                <li><strong>Exclusive AI Engineering Workshops</strong> taught by industry experts.</li>
+                <li><strong>Private WhatsApp Group</strong> for networking, updates, and Q&A.</li>
+                <li><strong>Project Collaboration</strong> with peers to build production-ready applications.</li>
+                <li><strong>Career Opportunities</strong> and continuous skill enhancement.</li>
+              </ul>
+              
+              <div style="text-align: center; margin-top: 20px;">
+                <a href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ" style="display: inline-block; background-color: #10b981; color: white; padding: 10px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px;">Join our WhatsApp Group</a>
+              </div>
             </div>
 
             <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: center;">

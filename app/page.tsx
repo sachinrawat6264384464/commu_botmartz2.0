@@ -214,12 +214,24 @@ export default function SingleLandingPage() {
 
         <div className="relative z-10 max-w-xl mx-auto md:mx-0 text-center md:text-left">
           
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-white italic tracking-wide">THINK AGAIN.</h2>
-            <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 tracking-tight mb-2 uppercase">
-              BUILD <br/> BETTER.
-            </h1>
-            <p className="text-lg text-slate-300 font-medium">Real Skills. Real Projects. <span className="text-purple-400">Real Impact.</span></p>
+          <div className="mb-6 flex items-start justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-white italic tracking-wide">THINK AGAIN.</h2>
+              <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 tracking-tight mb-2 uppercase">
+                BUILD <br/> BETTER.
+              </h1>
+              <p className="text-lg text-slate-300 font-medium">Real Skills. Real Projects. <span className="text-purple-400">Real Impact.</span></p>
+            </div>
+            
+            <div className="flex flex-col items-center justify-center p-3 bg-slate-900/60 border border-slate-700/50 rounded-2xl shrink-0 ml-4 hidden md:flex">
+              <p className="text-slate-300 font-bold mb-2 text-[10px] tracking-widest text-center uppercase">Join WhatsApp</p>
+              <img src="/qr_code_community.jpeg" alt="Community QR Code" className="w-24 h-24 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-slate-600 object-cover" />
+            </div>
+          </div>
+          {/* Mobile QR */}
+          <div className="flex md:hidden flex-col items-center justify-center p-4 bg-slate-900/60 border border-slate-700/50 rounded-2xl w-full mb-6">
+            <p className="text-slate-300 font-bold mb-3 text-xs tracking-widest text-center uppercase">Join WhatsApp Community</p>
+            <img src="/qr_code_community.jpeg" alt="Community QR Code" className="w-32 h-32 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-slate-600 object-cover" />
           </div>
           
           {/* Instructor Image & Info */}
@@ -307,12 +319,6 @@ export default function SingleLandingPage() {
             LEARN. BUILD. IMPACT.
           </div>
 
-          <div className="mt-8 flex flex-col items-center justify-center p-6 bg-slate-900/60 border border-slate-700/50 rounded-2xl w-full max-w-sm mx-auto">
-            <p className="text-slate-300 font-bold mb-3 text-sm tracking-wide">Join the Community WhatsApp</p>
-            <img src="/qr_code_community.jpeg" alt="Community QR Code" className="w-40 h-40 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.2)] border border-slate-600 mb-2 object-cover" />
-            <p className="text-xs text-slate-500 font-mono text-center px-4">Scan this QR code to join our exclusive WhatsApp community for updates.</p>
-          </div>
-
         </div>
       </div>
 
@@ -321,10 +327,10 @@ export default function SingleLandingPage() {
         
         <div className="max-w-md mx-auto w-full">
           {/* Logo and Name on the white side */}
-          <div className="flex flex-col items-center justify-center mb-8 gap-3">
-            <img src="/logo.png" alt="Botmartz Logo" className="h-20 md:h-24 object-contain" />
-            <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight text-center">
-              Botmartz Community
+          <div className="flex flex-row items-center justify-center mb-10 gap-4 md:gap-6">
+            <img src="/logo.png" alt="Botmartz Logo" className="h-20 md:h-28 object-contain shrink-0" />
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-tight text-left">
+              Botmartz<br/><span className="text-[#0066FF]">Community</span>
             </h1>
           </div>
 
@@ -405,7 +411,9 @@ export default function SingleLandingPage() {
                   All workshop announcements, resources, and the meeting link will be shared here. Scan or click the image below to join!
                 </p>
                 <div className="flex justify-center">
-                  <img src="/Untitled.jpeg" alt="Join WhatsApp Community" className="w-56 md:w-64 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] border-2 border-emerald-500/50 hover:scale-105 transition-transform duration-300 cursor-pointer" />
+                  <a href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ" target="_blank" rel="noopener noreferrer">
+                    <img src="/Untitled.jpeg" alt="Join WhatsApp Community" className="w-56 md:w-64 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] border-2 border-emerald-500/50 hover:scale-105 transition-transform duration-300 cursor-pointer" />
+                  </a>
                 </div>
               </div>
             </div>
