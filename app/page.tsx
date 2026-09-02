@@ -249,7 +249,7 @@ export default function SingleLandingPage() {
             </div>
             <div className="text-center md:text-left pt-2 md:pt-4">
               <p className="text-slate-400 text-sm font-semibold tracking-widest uppercase mb-1">Hands-On Session By</p>
-              <h3 className="text-3xl font-black text-orange-400 mb-2">SOHAM SHARMA</h3>
+              <h3 className="text-3xl font-black text-orange-400 mb-2">EXPERT SOHAM SHARMA</h3>
               <p className="text-slate-300 text-sm mb-4 leading-relaxed">
                 Founder @ Botmartz AI Solutions Pvt Ltd |<br/>
                 Owner @ Botmartz Community |<br/>
