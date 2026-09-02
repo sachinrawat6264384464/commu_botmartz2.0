@@ -250,16 +250,18 @@ export default function SingleLandingPage() {
           </div>
           
           {/* Instructor Image & Info */}
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
-            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] bg-slate-800 shrink-0 relative">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-slate-900/50 p-6 md:p-8 rounded-2xl border border-slate-800">
+            <div className="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-[4px] border-blue-500/80 shadow-[0_0_25px_rgba(59,130,246,0.4)] bg-gradient-to-b from-slate-700 to-slate-900 shrink-0 relative flex items-center justify-center">
               <Image 
-                src="/my_image.png" 
+                src="/soham_transparent.png" 
                 alt="Soham Sharma" 
                 fill
-                className="object-cover"
+                className="object-cover object-top"
+                quality={100}
+                priority
               />
             </div>
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left pt-2 md:pt-4">
               <p className="text-slate-400 text-sm font-semibold tracking-widest uppercase mb-1">Hands-On Session By</p>
               <h3 className="text-3xl font-black text-orange-400 mb-2">SOHAM SHARMA</h3>
               <p className="text-slate-300 text-sm mb-4 leading-relaxed">
