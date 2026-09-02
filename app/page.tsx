@@ -34,8 +34,35 @@ export default function SingleLandingPage() {
   const [copiedUpi, setCopiedUpi] = useState(false);
   const [utrNumber, setUtrNumber] = useState("");
 
-  const tierPrice = 9;
+  const tierPrice = 1;
   const tierName = "Botmartz Platform & AI Engineering Access Pass";
+
+  // Countdown Timer State
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    // Target: September 9, 2026, 19:30:00 IST
+    const targetDate = new Date("2026-09-09T19:30:00+05:30").getTime();
+    
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      
+      if (distance < 0) {
+        clearInterval(interval);
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      } else {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        });
+      }
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   // Auto-fill if user is logged in
   useEffect(() => {
@@ -293,7 +320,7 @@ export default function SingleLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">For Only</span>
-              <div className="text-3xl font-black text-white">RS. <span className="text-orange-400">9</span>/-</div>
+              <div className="text-3xl font-black text-white">RS. <span className="text-orange-400">1</span>/-</div>
             </div>
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Date</span>
@@ -301,7 +328,7 @@ export default function SingleLandingPage() {
             </div>
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Time</span>
-              <div className="text-lg font-bold text-purple-400 whitespace-nowrap">7:00 PM -<br/>8:30 PM</div>
+              <div className="text-lg font-bold text-purple-400 whitespace-nowrap">7:30 PM -<br/>8:30 PM</div>
             </div>
           </div>
 
@@ -344,8 +371,36 @@ export default function SingleLandingPage() {
         
         <div className="max-w-md mx-auto w-full">
           {/* Logo moved to the white side and made bigger */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6">
             <img src="/logo.png" alt="Botmartz Logo" className="h-16 md:h-20 object-contain" />
+          </div>
+
+          {/* Countdown Timer */}
+          <div className="mb-8">
+            <div className="text-center text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">
+              Registration Closes In
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
+                <span className="text-xl font-black">{timeLeft.days}</span>
+                <span className="text-[9px] uppercase tracking-wider text-slate-400">Days</span>
+              </div>
+              <span className="text-slate-300 font-bold">:</span>
+              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
+                <span className="text-xl font-black">{timeLeft.hours}</span>
+                <span className="text-[9px] uppercase tracking-wider text-slate-400">Hours</span>
+              </div>
+              <span className="text-slate-300 font-bold">:</span>
+              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
+                <span className="text-xl font-black">{timeLeft.minutes}</span>
+                <span className="text-[9px] uppercase tracking-wider text-slate-400">Mins</span>
+              </div>
+              <span className="text-slate-300 font-bold">:</span>
+              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
+                <span className="text-xl font-black">{timeLeft.seconds}</span>
+                <span className="text-[9px] uppercase tracking-wider text-slate-400">Secs</span>
+              </div>
+            </div>
           </div>
 
           <div className="text-center mb-10">
@@ -353,7 +408,7 @@ export default function SingleLandingPage() {
               Secure Your Spot
             </h2>
             <p className="text-slate-500 text-sm font-mono">
-              Fill in your details below. Complete the <strong>₹{tierPrice}</strong> registration to get the workshop link and unlock community access.
+              Fill in your details below. Complete the <strong>₹1</strong> registration to get the workshop link and unlock community access.
             </p>
           </div>
 
