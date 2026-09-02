@@ -232,63 +232,105 @@ export default function SingleLandingPage() {
   return (
     <div className="min-h-screen bg-[#0A0F1C] text-slate-200 font-sans flex flex-col md:flex-row">
       
-      {/* ── LEFT SIDE: THE PITCH & THE FEAR ── */}
-      <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* ── LEFT SIDE: THE PAMPHLET CONTENT ── */}
+      <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
         
         {/* Glow Effects */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
 
-        <div className="relative z-10 max-w-lg mx-auto md:mx-0 text-center md:text-left">
+        <div className="relative z-10 max-w-xl mx-auto md:mx-0 text-center md:text-left">
           
-          {/* Logo & Instructor Image */}
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-10">
-            <div className="w-32 h-32 rounded-2xl overflow-hidden border-2 border-slate-700 shadow-xl bg-slate-800 shrink-0 relative">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-white italic tracking-wide">THINK AGAIN.</h2>
+            <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 tracking-tight mb-2 uppercase">
+              BUILD <br/> BETTER.
+            </h1>
+            <p className="text-lg text-slate-300 font-medium">Real Skills. Real Projects. <span className="text-purple-400">Real Impact.</span></p>
+          </div>
+          
+          {/* Instructor Image & Info */}
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] bg-slate-800 shrink-0 relative">
               <Image 
                 src="/my_image.png" 
-                alt="Soham Sharma - Lead AI Engineer" 
+                alt="Soham Sharma" 
                 fill
                 className="object-cover"
               />
             </div>
             <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold text-white mb-1">Soham Sharma</h3>
-              <p className="text-blue-400 font-mono text-sm uppercase font-semibold mb-3">Lead AI Engineer</p>
-              <img src="/logo.png" alt="Botmartz Logo" className="h-8 mx-auto md:mx-0 object-contain" />
+              <p className="text-slate-400 text-sm font-semibold tracking-widest uppercase mb-1">Hands-On Session By</p>
+              <h3 className="text-3xl font-black text-orange-400 mb-2">SOHAM SHARMA</h3>
+              <p className="text-slate-300 text-sm mb-4 leading-relaxed">
+                Founder @ Botmartz AI Solutions Pvt Ltd |<br/>
+                Trained 3000+ Students & Professionals in AI
+              </p>
+              
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-center">
+                <div className="flex flex-col items-center">
+                  <span className="text-2xl font-bold text-white">3000+</span>
+                  <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider">Students<br/>Trained</span>
+                </div>
+                <div className="w-px h-8 bg-slate-700"></div>
+                <div className="flex flex-col items-center">
+                  <span className="text-2xl font-bold text-white">10+</span>
+                  <span className="text-[10px] text-purple-400 font-bold uppercase tracking-wider">Years<br/>Experience</span>
+                </div>
+                <div className="w-px h-8 bg-slate-700"></div>
+                <div className="flex flex-col items-center">
+                  <span className="text-2xl font-bold text-white">500+</span>
+                  <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Projects<br/>Delivered</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 font-mono text-xs font-bold uppercase tracking-wider mb-6">
-            <Zap size={14} className="text-red-400" />
-            <span>Wake Up Call</span>
+          {/* Event Details */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
+            <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">For Only</span>
+              <div className="text-3xl font-black text-white">RS. <span className="text-orange-400">9</span>/-</div>
+            </div>
+            <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Date</span>
+              <div className="text-2xl font-black text-blue-400">9/9/26</div>
+            </div>
+            <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Time</span>
+              <div className="text-lg font-bold text-purple-400 whitespace-nowrap">7:00 PM -<br/>8:30 PM</div>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-6 font-sans leading-tight">
-            AI is replacing average engineers. <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-400">
-              Don't be left behind.
-            </span>
-          </h1>
+          <div className="bg-blue-600/10 border border-blue-500/30 rounded-xl p-4 flex items-center justify-center gap-3 mb-8">
+            <Zap className="text-blue-400" size={24} />
+            <div className="text-blue-100 font-bold">
+              ON <span className="text-blue-400">ZOOM MEETINGS</span> (LIVE & INTERACTIVE)
+            </div>
+          </div>
 
-          <p className="text-slate-400 text-base leading-relaxed font-mono mb-8">
-            The tech industry is evolving faster than ever. If you aren't building production AI systems, you are becoming obsolete. 
-            <br/><br/>
-            We are launching the ultimate AI community and virtual internship platform to train the top 1% of AI engineers. Learn why AI is taking over, how our 45-day virtual internship works, and how to survive the incoming wave.
-          </p>
+          {/* Perks */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-semibold text-slate-300">
+            <div className="flex items-center gap-3">
+              <div className="text-green-400"><CheckCircle2 size={20} /></div>
+              <span>DURATION: 90 MINS</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-green-400"><CheckCircle2 size={20} /></div>
+              <span>CERTIFICATE OF PARTICIPATION</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-green-400"><CheckCircle2 size={20} /></div>
+              <span>EXPERT GUIDANCE: LEARN. BUILD. GROW.</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-green-400"><CheckCircle2 size={20} /></div>
+              <span>LIVE Q&A SESSION</span>
+            </div>
+          </div>
 
-          <div className="space-y-4 mb-8 font-mono text-sm">
-            <div className="flex items-start gap-3">
-              <CheckCircle2 size={18} className="text-blue-500 shrink-0 mt-0.5" />
-              <span className="text-slate-300">Understand the exact blueprint of the AI Engineering landscape.</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <CheckCircle2 size={18} className="text-blue-500 shrink-0 mt-0.5" />
-              <span className="text-slate-300">Get access to 50 production AI project blueprints and our private community.</span>
-            </div>
-            <div className="flex items-start gap-3">
-              <CheckCircle2 size={18} className="text-blue-500 shrink-0 mt-0.5" />
-              <span className="text-slate-300">Without this pass, you will not be granted access to the Botmartz Community platform.</span>
-            </div>
+          <div className="mt-8 text-center text-sm font-black tracking-[0.2em] text-slate-500">
+            LEARN. BUILD. IMPACT.
           </div>
 
         </div>
@@ -298,12 +340,17 @@ export default function SingleLandingPage() {
       <div className="w-full md:w-1/2 p-6 md:p-12 lg:p-20 bg-white flex flex-col justify-center relative shadow-2xl z-20">
         
         <div className="max-w-md mx-auto w-full">
+          {/* Logo moved to the white side and made bigger */}
+          <div className="flex justify-center mb-8">
+            <img src="/logo.png" alt="Botmartz Logo" className="h-16 md:h-20 object-contain" />
+          </div>
+
           <div className="text-center mb-10">
             <h2 className="text-3xl font-extrabold text-slate-900 font-sans tracking-tight mb-2">
-              Secure Your Access
+              Secure Your Spot
             </h2>
             <p className="text-slate-500 text-sm font-mono">
-              Fill in your details below. You must complete the <strong>₹{tierPrice}</strong> registration to unlock community access and platform onboarding instructions.
+              Fill in your details below. Complete the <strong>₹{tierPrice}</strong> registration to get the workshop link and unlock community access.
             </p>
           </div>
 
