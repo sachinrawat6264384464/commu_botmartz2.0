@@ -76,11 +76,11 @@ export async function POST(req: NextRequest) {
       const smtp = await getSmtpTransporter();
       if (smtp && cleanEmail) {
         const fromEmail = smtp.smtpUser || process.env.SMTP_USER || "team@botmartz.com";
-        const emailSubject = `Registration Confirmed: ${track || "Production AI Engineering Workshop"} (${checkInCode})`;
+        const emailSubject = `Registration Confirmed: Botmartz Community Commencement Session (${checkInCode})`;
         const htmlContent = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
             <div style="text-align: center; margin-bottom: 24px;">
-              <img src="https://raw.githubusercontent.com/soham2710/botmartz-community/main/public/logo.png" alt="Botmartz Logo" style="height: 60px; margin-bottom: 12px;" />
+              <img src="https://community.botmartz.com/logo.png" alt="Botmartz Logo" style="height: 60px; margin-bottom: 12px;" />
               <h1 style="color: #0066FF; margin: 0; font-size: 24px; font-weight: 800;">BOTMARTZ COMMUNITY</h1>
               <p style="color: #64748b; font-size: 12px; text-transform: uppercase; margin-top: 4px;">Welcome to the next generation of builders</p>
             </div>
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
             <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
               <h2 style="color: #0f172a; margin: 0 0 12px 0; font-size: 18px;">Welcome, ${cleanName}!</h2>
               <p style="color: #475569; font-size: 14px; margin: 0 0 16px 0; line-height: 1.5;">
-                We are thrilled to welcome you to the <strong>Botmartz Community</strong>. You have successfully registered for our upcoming workshop. Botmartz is a premier community for elite builders and AI enthusiasts. Here you'll gain real skills, build real projects, and make a real impact.
+                We are thrilled to welcome you to the <strong>Botmartz Community</strong>. You have successfully registered for the Botmartz Community Commencement Session. Botmartz is a premier community for elite builders and AI enthusiasts. Here you'll gain real skills, build real projects, and make a real impact.
               </p>
               <h3 style="color: #0f172a; margin: 0 0 8px 0; font-size: 16px;">Community Features:</h3>
               <ul style="color: #475569; font-size: 14px; margin: 0 0 16px 0; padding-left: 20px; line-height: 1.6;">
