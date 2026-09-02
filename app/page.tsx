@@ -27,12 +27,9 @@ export default function SingleLandingPage() {
   const [experienceLevel, setExperienceLevel] = useState("Intermediate (Python / APIs)");
 
   // Payment UI State
-  const [paymentMethod, setPaymentMethod] = useState<"RAZORPAY" | "MANUAL_UPI">("RAZORPAY");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successData, setSuccessData] = useState<any>(null);
-  const [copiedUpi, setCopiedUpi] = useState(false);
-  const [utrNumber, setUtrNumber] = useState("");
 
   const tierPrice = 1;
   const tierName = "Botmartz Platform & AI Engineering Access Pass";
@@ -205,57 +202,6 @@ export default function SingleLandingPage() {
     }
   };
 
-  const handleManualUpiSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!utrNumber || utrNumber.length < 8) {
-      setErrorMsg("Please enter a valid 12-digit UPI / Bank Transaction UTR reference.");
-      return;
-    }
-
-    setLoading(true);
-    setErrorMsg("");
-
-    try {
-      const res = await fetch("/api/workshops/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          phone,
-          collegeOrCompany: college,
-          experienceLevel,
-          track: tierName,
-          amount: tierPrice,
-          paymentId: `UTR_${utrNumber.trim()}`,
-          orderId: `MANUAL_${Date.now()}`
-        })
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || "Failed to submit UTR reference.");
-      }
-
-      setSuccessData({
-        paymentId: `UTR_${utrNumber.trim()}`,
-        orderId: `MANUAL_${Date.now()}`,
-        invoiceNumber: data.invoiceNumber,
-        checkInCode: data.checkInCode
-      });
-    } catch (err: any) {
-      setErrorMsg(err.message || "Failed to submit manual UPI verification.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const copyUpiId = () => {
-    navigator.clipboard.writeText("botmartz-5@oksbi");
-    setCopiedUpi(true);
-    setTimeout(() => setCopiedUpi(false), 2500);
-  };
-
   return (
     <div className="min-h-screen bg-[#0A0F1C] text-slate-200 font-sans flex flex-col md:flex-row">
       
@@ -361,16 +307,25 @@ export default function SingleLandingPage() {
             LEARN. BUILD. IMPACT.
           </div>
 
+          <div className="mt-8 flex flex-col items-center justify-center p-6 bg-slate-900/60 border border-slate-700/50 rounded-2xl w-full max-w-sm mx-auto">
+            <p className="text-slate-300 font-bold mb-3 text-sm tracking-wide">Join the Community WhatsApp</p>
+            <img src="/qr_code_community.jpeg" alt="Community QR Code" className="w-40 h-40 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.2)] border border-slate-600 mb-2 object-cover" />
+            <p className="text-xs text-slate-500 font-mono text-center px-4">Scan this QR code to join our exclusive WhatsApp community for updates.</p>
+          </div>
+
         </div>
       </div>
 
       {/* ── RIGHT SIDE: THE FORM & CHECKOUT ── */}
-      <div className="w-full md:w-1/2 p-6 md:p-12 lg:p-20 bg-white flex flex-col justify-center relative shadow-2xl z-20">
+      <div className="w-full md:w-1/2 p-6 md:p-12 lg:p-20 bg-white flex flex-col justify-center relative shadow-2xl z-20 overflow-y-auto">
         
         <div className="max-w-md mx-auto w-full">
-          {/* Logo moved to the white side and made bigger */}
-          <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="Botmartz Logo" className="h-16 md:h-20 object-contain" />
+          {/* Logo and Name on the white side */}
+          <div className="flex flex-col items-center justify-center mb-8 gap-3">
+            <img src="/logo.png" alt="Botmartz Logo" className="h-20 md:h-24 object-contain" />
+            <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight text-center">
+              Botmartz Community
+            </h1>
           </div>
 
           {/* Countdown Timer */}
@@ -496,39 +451,11 @@ export default function SingleLandingPage() {
                 </div>
               </div>
 
-              {/* PAYMENT METHOD TABS */}
+              {/* RAZORPAY CHECKOUT */}
               <div className="pt-4 border-t border-slate-100">
                 <label className="block text-xs font-mono text-slate-500 uppercase font-bold mb-3">
                   Secure Payment (₹{tierPrice})
                 </label>
-
-                <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl font-mono text-xs mb-4">
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("RAZORPAY")}
-                    className={`py-2.5 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${
-                      paymentMethod === "RAZORPAY"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500 hover:text-slate-900"
-                    }`}
-                  >
-                    <CreditCard size={14} className="text-[#0066FF]" />
-                    <span>Razorpay</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("MANUAL_UPI")}
-                    className={`py-2.5 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${
-                      paymentMethod === "MANUAL_UPI"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500 hover:text-slate-900"
-                    }`}
-                  >
-                    <QrCode size={14} className="text-emerald-600" />
-                    <span>Direct UPI</span>
-                  </button>
-                </div>
 
                 {errorMsg && (
                   <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-mono text-xs flex items-center gap-2 mb-4">
@@ -537,85 +464,29 @@ export default function SingleLandingPage() {
                   </div>
                 )}
 
-                {/* RAZORPAY SUBMIT FORM */}
-                {paymentMethod === "RAZORPAY" && (
-                  <form onSubmit={handleRazorpaySubmit}>
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full py-4 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-sans text-sm font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 size={16} className="animate-spin" />
-                          <span>Processing...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Pay ₹{tierPrice} &amp; Unlock Access</span>
-                          <ArrowRight size={15} />
-                        </>
-                      )}
-                    </button>
-                    <div className="text-center mt-3 text-[10px] text-slate-400 flex items-center justify-center gap-1">
-                      <ShieldCheck size={12} />
-                      <span>256-bit Encrypted Checkout</span>
-                    </div>
-                  </form>
-                )}
-
-                {/* MANUAL UPI / QR SCAN */}
-                {paymentMethod === "MANUAL_UPI" && (
-                  <form onSubmit={handleManualUpiSubmit} className="space-y-4 font-mono text-sm">
-                    <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 text-center space-y-3">
-                      <div className="text-[11px] text-slate-500 font-bold uppercase">
-                        Scan &amp; Pay ₹{tierPrice} via any UPI App
-                      </div>
-                      
-                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-slate-300 shadow-sm">
-                        <span className="font-bold text-slate-900">botmartz-5@oksbi</span>
-                        <button
-                          type="button"
-                          onClick={copyUpiId}
-                          className="p-1.5 rounded-md hover:bg-slate-100 text-slate-500"
-                        >
-                          {copiedUpi ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-slate-700 font-bold mb-1">
-                        12-Digit UPI UTR Reference *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={utrNumber}
-                        onChange={(e) => setUtrNumber(e.target.value)}
-                        placeholder="e.g. 423910482910"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:outline-none focus:border-emerald-600"
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-sans text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 size={16} className="animate-spin" />
-                          <span>Verifying...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Verify Payment &amp; Enter</span>
-                        </>
-                      )}
-                    </button>
-                  </form>
-                )}
+                <form onSubmit={handleRazorpaySubmit}>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-4 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-sans text-sm font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>Processing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Pay ₹{tierPrice} &amp; Unlock Access</span>
+                        <ArrowRight size={15} />
+                      </>
+                    )}
+                  </button>
+                  <div className="text-center mt-3 text-[10px] text-slate-400 flex items-center justify-center gap-1">
+                    <ShieldCheck size={12} />
+                    <span>256-bit Encrypted Checkout via Razorpay</span>
+                  </div>
+                </form>
               </div>
             </div>
           )}
