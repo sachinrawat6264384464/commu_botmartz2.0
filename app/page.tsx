@@ -41,8 +41,8 @@ export default function SingleLandingPage() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    // Target: September 9, 2026, 19:30:00 IST
-    const targetDate = new Date("2026-09-09T19:30:00+05:30").getTime();
+    // Target: September 9, 2026, 19:00:00 IST
+    const targetDate = new Date("2026-09-09T19:00:00+05:30").getTime();
     
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -294,12 +294,14 @@ export default function SingleLandingPage() {
               <h3 className="text-3xl font-black text-orange-400 mb-2">SOHAM SHARMA</h3>
               <p className="text-slate-300 text-sm mb-4 leading-relaxed">
                 Founder @ Botmartz AI Solutions Pvt Ltd |<br/>
-                Trained 3000+ Students & Professionals in AI
+                Owner @ Botmartz Community |<br/>
+                Lead Trainer @ Botmartz Academy<br/>
+                Trained 5000+ Students & Professionals in AI
               </p>
               
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-center">
                 <div className="flex flex-col items-center">
-                  <span className="text-2xl font-bold text-white">3000+</span>
+                  <span className="text-2xl font-bold text-white">5000+</span>
                   <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider">Students<br/>Trained</span>
                 </div>
                 <div className="w-px h-8 bg-slate-700"></div>
@@ -328,7 +330,7 @@ export default function SingleLandingPage() {
             </div>
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Time</span>
-              <div className="text-lg font-bold text-purple-400 whitespace-nowrap">7:30 PM -<br/>8:30 PM</div>
+              <div className="text-lg font-bold text-purple-400 whitespace-nowrap">7:00 PM -<br/>8:30 PM</div>
             </div>
           </div>
 
@@ -344,10 +346,6 @@ export default function SingleLandingPage() {
             <div className="flex items-center gap-3">
               <div className="text-green-400"><CheckCircle2 size={20} /></div>
               <span>DURATION: 90 MINS</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-green-400"><CheckCircle2 size={20} /></div>
-              <span>CERTIFICATE OF PARTICIPATION</span>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-green-400"><CheckCircle2 size={20} /></div>
@@ -443,6 +441,16 @@ export default function SingleLandingPage() {
                 <div className="flex justify-between">
                   <span className="text-slate-400">Invoice:</span>
                   <span className="font-bold">{successData.invoiceNumber}</span>
+                </div>
+              </div>
+
+              <div className="mt-8 text-center bg-emerald-50/5 border-2 border-emerald-500/30 rounded-xl p-6 shadow-sm">
+                <h4 className="text-lg font-extrabold text-slate-200 mb-2">Step 2: Join the WhatsApp Community</h4>
+                <p className="text-sm text-slate-400 mb-6 font-sans">
+                  All workshop announcements, resources, and the meeting link will be shared here. Scan or click the image below to join!
+                </p>
+                <div className="flex justify-center">
+                  <img src="/Untitled.jpeg" alt="Join WhatsApp Community" className="w-56 md:w-64 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] border-2 border-emerald-500/50 hover:scale-105 transition-transform duration-300 cursor-pointer" />
                 </div>
               </div>
             </div>
