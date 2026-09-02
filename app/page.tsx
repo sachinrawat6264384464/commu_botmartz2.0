@@ -31,7 +31,7 @@ export default function SingleLandingPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [successData, setSuccessData] = useState<any>(null);
 
-  const tierPrice = 1;
+  const tierPrice = 9;
   const tierName = "Botmartz Platform & AI Engineering Access Pass";
 
   // Countdown Timer State
@@ -224,7 +224,7 @@ export default function SingleLandingPage() {
             </div>
             
             <div className="flex flex-col items-center justify-center p-3 bg-slate-900/60 border border-slate-700/50 rounded-2xl shrink-0 ml-4 hidden md:flex">
-              <p className="text-slate-300 font-bold mb-2 text-[10px] tracking-widest text-center uppercase">Join WhatsApp</p>
+              <p className="text-slate-300 font-bold mb-2 text-[10px] tracking-widest text-center uppercase">Join WhatsApp<br/>Community</p>
               <img src="/qr_code_community.jpeg" alt="Community QR Code" className="w-24 h-24 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-slate-600 object-cover" />
             </div>
           </div>
@@ -280,7 +280,7 @@ export default function SingleLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">For Only</span>
-              <div className="text-3xl font-black text-white">RS. <span className="text-orange-400">1</span>/-</div>
+              <div className="text-3xl font-black text-white">RS. <span className="text-orange-400">{tierPrice}</span>/-</div>
             </div>
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Date</span>
@@ -367,7 +367,7 @@ export default function SingleLandingPage() {
               Secure Your Spot
             </h2>
             <p className="text-slate-500 text-sm font-mono">
-              Fill in your details below. Complete the <strong>₹1</strong> registration to get the workshop link and unlock community access.
+              Fill in your details below. Complete the <strong>₹{tierPrice}</strong> registration to get the workshop link and unlock community access.
             </p>
           </div>
 
