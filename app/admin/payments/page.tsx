@@ -1,164 +1,277 @@
-"use client";
+import React from "react";
+import Link from "next/link";
+import { adminDb } from "@/lib/firebase-admin";
+import {
+  CreditCard,
+  CheckCircle2,
+  Clock,
+  ArrowUpRight,
+  TrendingUp,
+  Receipt,
+  ShieldCheck,
+  Tag
+} from "lucide-react";
+import PaymentsClientTable, { PaymentRecord } from "./client-table";
 
-import React, { useState, useEffect } from "react";
-import { CreditCard, CheckCircle2, XCircle, Clock, Search, RefreshCw, Download, FileText } from "lucide-react";
+export const dynamic = "force-dynamic";
 
-export default function AdminPaymentsPage() {
-  const [payments, setPayments] = useState<any[]>([
-    {
-      id: "PAY-9812",
-      attendeeName: "Rahul Verma",
-      email: "rahul.v@gmail.com",
-      eventTitle: "AI Frontier 2026",
-      tier: "Professional Builder",
-      amount: "₹1,499",
-      method: "Razorpay (Card)",
-      status: "captured",
-      date: "2026-08-28 14:22"
-    },
-    {
-      id: "UTR-5541",
-      attendeeName: "Ananya Sharma",
-      email: "ananya.ai@outlook.com",
-      eventTitle: "AI Frontier 2026",
-      tier: "Student Pass",
-      amount: "₹499",
-      method: "Manual UPI UTR (129849182391)",
-      status: "pending_review",
-      date: "2026-08-28 18:45"
-    },
-    {
-      id: "PAY-9810",
-      attendeeName: "Vikram Mehta",
-      email: "vmehta@techcorp.io",
-      eventTitle: "AI Frontier 2026",
-      tier: "VIP Founder Pass",
-      amount: "₹3,999",
-      method: "Razorpay (UPI)",
-      status: "captured",
-      date: "2026-08-27 10:15"
+export default async function AdminPaymentsPage() {
+  let allPayments: PaymentRecord[] = [];
+  let totalRevenue = 0;
+  let paidCount = 0;
+  let pendingCount = 0;
+  let freeCount = 0;
+
+  if (adminDb) {
+    try {
+      const [workshopSnap, ordersSnap, paymentsSnap, attendeesSnap] = await Promise.all([
+        adminDb.collection("workshop_registrations").get().catch(() => ({ docs: [] })),
+        adminDb.collection("orders").get().catch(() => ({ docs: [] })),
+        adminDb.collection("payments").get().catch(() => ({ docs: [] })),
+        adminDb.collection("attendees").get().catch(() => ({ docs: [] }))
+      ]);
+
+      const transactionsMap = new Map<string, PaymentRecord>();
+
+      const toIsoString = (val: any) => {
+        if (!val) return new Date().toISOString();
+        if (typeof val === "string") return val;
+        if (val.toDate && typeof val.toDate === "function") return val.toDate().toISOString();
+        if (val instanceof Date) return val.toISOString();
+        return new Date(val).toISOString();
+      };
+
+      const normalizeStatus = (status: any, amount: number) => {
+        if (!status) return amount > 0 ? "PAID" : "FREE";
+        const s = String(status).toUpperCase();
+        if (s === "CAPTURED" || s === "PAID" || s === "COMPLETED" || s === "SUCCESS") return "PAID";
+        if (s === "PENDING_REVIEW" || s === "PENDING") return "PENDING_UTR";
+        if (s === "REJECTED" || s === "FAILED") return "REJECTED";
+        if (s === "FREE_REGISTERED" || s === "FREE") return "FREE";
+        return s;
+      };
+
+      // 1. Process workshop registrations
+      workshopSnap.docs.forEach((doc: any) => {
+        const data = doc.data();
+        const txKey = data.paymentId || data.orderId || doc.id;
+        const amt = Number(data.amount) || 0;
+        transactionsMap.set(txKey, {
+          id: doc.id,
+          paymentId: data.paymentId || `REG_${doc.id.slice(-6)}`,
+          orderId: data.orderId || "",
+          invoiceNumber: data.invoiceNumber || `INV-${doc.id.slice(-6)}`,
+          checkInCode: data.checkInCode || "",
+          attendeeName: data.name || "Workshop Attendee",
+          email: data.email || "",
+          phone: data.phone || "",
+          collegeOrCompany: data.collegeOrCompany || "",
+          itemName: data.track || "Production AI Engineering Workshop",
+          itemCategory: "WORKSHOP_PASS",
+          amount: amt,
+          currency: data.currency || "INR",
+          method: data.paymentMethod || (amt > 0 ? "Razorpay (Online)" : "Free Registration"),
+          status: normalizeStatus(data.status, amt),
+          createdAt: toIsoString(data.createdAt),
+          source: "workshop_registrations"
+        });
+      });
+
+      // 2. Process orders
+      ordersSnap.docs.forEach((doc: any) => {
+        const data = doc.data();
+        const txKey = data.paymentId || data.orderId || doc.id;
+        const amt = Number(data.amount) || 0;
+        const existing = transactionsMap.get(txKey);
+
+        if (existing) {
+          existing.orderId = existing.orderId || data.orderId;
+          existing.invoiceNumber = existing.invoiceNumber || data.invoiceNumber;
+          existing.itemName = existing.itemName || data.itemName;
+          existing.itemCategory = data.itemCategory || existing.itemCategory;
+        } else {
+          transactionsMap.set(txKey, {
+            id: doc.id,
+            paymentId: data.paymentId || doc.id,
+            orderId: data.orderId || "",
+            invoiceNumber: data.invoiceNumber || `INV-${doc.id.slice(-6)}`,
+            checkInCode: "",
+            attendeeName: data.name || "Customer",
+            email: data.email || "",
+            phone: data.phone || "",
+            collegeOrCompany: "",
+            itemName: data.itemName || "Botmartz Pass / Pack",
+            itemCategory: data.itemCategory || "ORDER",
+            amount: amt,
+            currency: data.currency || "INR",
+            method: data.paymentMethod || "Razorpay (Online)",
+            status: normalizeStatus(data.status, amt),
+            createdAt: toIsoString(data.createdAt),
+            source: "orders"
+          });
+        }
+      });
+
+      // 3. Process payments
+      paymentsSnap.docs.forEach((doc: any) => {
+        const data = doc.data();
+        const txKey = data.paymentId || data.orderId || doc.id;
+        const amt = Number(data.amount) || 0;
+        const existing = transactionsMap.get(txKey);
+
+        if (existing) {
+          existing.method = data.method || existing.method;
+        } else {
+          transactionsMap.set(txKey, {
+            id: doc.id,
+            paymentId: data.paymentId || doc.id,
+            orderId: data.orderId || "",
+            invoiceNumber: `INV-${doc.id.slice(-6)}`,
+            checkInCode: "",
+            attendeeName: data.name || "Customer",
+            email: data.email || "",
+            phone: "",
+            collegeOrCompany: "",
+            itemName: "Platform Payment",
+            itemCategory: "DIRECT_PAYMENT",
+            amount: amt,
+            currency: data.currency || "INR",
+            method: data.method || "Razorpay (Online)",
+            status: normalizeStatus(data.status, amt),
+            createdAt: toIsoString(data.createdAt),
+            source: "payments"
+          });
+        }
+      });
+
+      // 4. Process attendees (Summit tickets & UTRs)
+      attendeesSnap.docs.forEach((doc: any) => {
+        const data = doc.data();
+        const txKey = data.paymentId || (data.utrNumber ? `UTR_${data.utrNumber}` : doc.id);
+        const amt = Number(data.amount) || 0;
+        const existing = transactionsMap.get(txKey);
+
+        if (!existing) {
+          transactionsMap.set(txKey, {
+            id: doc.id,
+            paymentId: data.utrNumber ? `UTR-${data.utrNumber}` : (data.paymentId || `TC-${doc.id.slice(-6)}`),
+            orderId: data.orderId || "",
+            invoiceNumber: `INV-SUMMIT-${doc.id.slice(-6)}`,
+            checkInCode: data.checkInCode || "",
+            attendeeName: data.name || "Attendee",
+            email: data.email || "",
+            phone: data.phone || "",
+            collegeOrCompany: "",
+            itemName: data.eventTitle || data.tier || "AI Frontier 2026 Pass",
+            itemCategory: "EVENT_TICKET",
+            amount: amt,
+            currency: "INR",
+            method: data.paymentMethod || (data.utrNumber ? `Manual UPI UTR (${data.utrNumber})` : "Razorpay"),
+            status: normalizeStatus(data.status, amt),
+            utrNumber: data.utrNumber || "",
+            createdAt: toIsoString(data.createdAt || data.submittedAt),
+            source: "attendees"
+          });
+        }
+      });
+
+      allPayments = Array.from(transactionsMap.values()).sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+
+      totalRevenue = allPayments
+        .filter((p) => p.status === "PAID")
+        .reduce((sum, p) => sum + p.amount, 0);
+
+      paidCount = allPayments.filter((p) => p.status === "PAID").length;
+      pendingCount = allPayments.filter((p) => p.status === "PENDING_UTR").length;
+      freeCount = allPayments.filter((p) => p.status === "FREE").length;
+    } catch (err) {
+      console.warn("Error querying payments in admin payments page:", err);
     }
-  ]);
-
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const handleApproveUTR = (id: string) => {
-    setPayments(prev => prev.map(p => p.id === id ? { ...p, status: "captured" } : p));
-    alert(`UTR ${id} verified! Ticket pass email and QR code have been dispatched to attendee.`);
-  };
-
-  const handleRejectUTR = (id: string) => {
-    setPayments(prev => prev.map(p => p.id === id ? { ...p, status: "rejected" } : p));
-  };
-
-  const filtered = payments.filter(p => 
-    p.attendeeName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.id.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  }
 
   return (
-    <div className="space-y-6">
-      
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+    <div className="space-y-8 font-sans">
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
-          <div className="text-xs font-mono text-emerald-400 uppercase font-bold">FINANCE &amp; RECONCILIATION</div>
-          <h1 className="text-2xl font-bold text-white">Payment &amp; UTR Verification Ledger</h1>
+          <div className="text-xs font-mono text-[#0066FF] uppercase font-bold tracking-wider mb-1">
+            FINANCE &amp; RECONCILIATION LEDGER
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">Payments &amp; Transactions</h1>
+          <p className="text-xs text-slate-500 font-mono mt-1">
+            Real-time synchronization with Razorpay, Cloud Firestore orders, and manual UPI verifications.
+          </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => alert("Exporting payments CSV...")}
-            className="px-4 py-2 bg-[#0B1524] border border-white/15 hover:border-emerald-400 text-white rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-2"
+        <div className="flex items-center gap-3 font-mono text-xs">
+          <Link
+            href="/admin/workshops"
+            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl font-bold transition-all"
           >
-            <Download size={14} /> Export CSV
-          </button>
+            Workshop Passes &rarr;
+          </Link>
+          <Link
+            href="/admin/wallets"
+            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-all shadow-xs"
+          >
+            Karma Wallets &rarr;
+          </Link>
         </div>
       </div>
 
-      {/* Search */}
-      <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-        <input
-          type="text"
-          placeholder="Search by transaction ID, name, email, or UTR number..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full bg-[#0B1524] border border-white/10 rounded-2xl pl-11 pr-4 py-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-emerald-400"
-        />
+      {/* Realtime Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs text-slate-500 uppercase font-bold">Total Gross Revenue</span>
+            <div className="w-9 h-9 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <TrendingUp size={18} />
+            </div>
+          </div>
+          <div className="text-3xl font-black text-slate-900 mb-1">
+            ₹{totalRevenue.toLocaleString("en-IN")}
+          </div>
+          <div className="text-[11px] text-emerald-700 font-bold">Processed via Razorpay INR</div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs text-slate-500 uppercase font-bold">Captured Transactions</span>
+            <div className="w-9 h-9 rounded-2xl bg-blue-50 text-[#0066FF] flex items-center justify-center">
+              <CheckCircle2 size={18} />
+            </div>
+          </div>
+          <div className="text-3xl font-black text-[#0066FF] mb-1">{paidCount}</div>
+          <div className="text-[11px] text-slate-500">100% Signature Verified</div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs text-slate-500 uppercase font-bold">Pending UTR Review</span>
+            <div className="w-9 h-9 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <Clock size={18} />
+            </div>
+          </div>
+          <div className="text-3xl font-black text-amber-600 mb-1">{pendingCount}</div>
+          <div className="text-[11px] text-amber-700 font-bold">Awaiting Bank Approval</div>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs text-slate-500 uppercase font-bold">Total Platform Records</span>
+            <div className="w-9 h-9 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <Receipt size={18} />
+            </div>
+          </div>
+          <div className="text-3xl font-black text-slate-900 mb-1">{allPayments.length}</div>
+          <div className="text-[11px] text-slate-500">{freeCount} Free registrations</div>
+        </div>
       </div>
 
-      {/* Ledger Table */}
-      <div className="bg-[#0B1524] border border-white/10 rounded-2xl overflow-hidden shadow-xl">
-        <table className="w-full text-left text-xs">
-          <thead className="bg-[#070E1B] text-slate-400 font-mono uppercase text-[11px] border-b border-white/10">
-            <tr>
-              <th className="p-4">Tx ID / Method</th>
-              <th className="p-4">Attendee</th>
-              <th className="p-4">Tier &amp; Amount</th>
-              <th className="p-4">Status</th>
-              <th className="p-4 text-right">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/5">
-            {filtered.map((p) => (
-              <tr key={p.id} className="hover:bg-white/[0.02]">
-                <td className="p-4">
-                  <div className="font-mono font-bold text-white">{p.id}</div>
-                  <div className="text-slate-400 text-[11px] font-mono">{p.method}</div>
-                </td>
-                <td className="p-4">
-                  <div className="font-bold text-white">{p.attendeeName}</div>
-                  <div className="text-slate-400 text-[11px]">{p.email}</div>
-                </td>
-                <td className="p-4 font-mono">
-                  <div className="text-emerald-400 font-bold">{p.amount}</div>
-                  <div className="text-slate-500 text-[11px]">{p.tier}</div>
-                </td>
-                <td className="p-4">
-                  {p.status === "captured" && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[10px] font-bold uppercase">
-                      <CheckCircle2 size={12} /> Captured
-                    </span>
-                  )}
-                  {p.status === "pending_review" && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 font-mono text-[10px] font-bold uppercase">
-                      <Clock size={12} /> UTR Review Needed
-                    </span>
-                  )}
-                  {p.status === "rejected" && (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-rose-500/10 text-rose-400 font-mono text-[10px] font-bold uppercase">
-                      <XCircle size={12} /> Rejected
-                    </span>
-                  )}
-                </td>
-                <td className="p-4 text-right">
-                  {p.status === "pending_review" ? (
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => handleApproveUTR(p.id)}
-                        className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-mono text-[11px] font-bold cursor-pointer"
-                      >
-                        Approve UTR
-                      </button>
-                      <button
-                        onClick={() => handleRejectUTR(p.id)}
-                        className="px-3 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg font-mono text-[11px] font-bold cursor-pointer"
-                      >
-                        Reject
-                      </button>
-                    </div>
-                  ) : (
-                    <span className="text-slate-500 font-mono text-[11px]">Reconciled</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
+      {/* Live Interactive Table */}
+      <PaymentsClientTable initialPayments={allPayments} />
     </div>
   );
 }

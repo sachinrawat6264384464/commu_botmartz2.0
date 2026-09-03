@@ -68,6 +68,18 @@ export async function POST(req: NextRequest) {
           paymentMethod: "RAZORPAY",
           createdAt: paymentTimestamp
         });
+
+        await adminDb.collection("payments").add({
+          paymentId,
+          orderId,
+          amount: Number(amount),
+          currency: "INR",
+          email: cleanEmail,
+          name: cleanName,
+          method: "Razorpay (Cards/UPI/Netbanking)",
+          status: "COMPLETED",
+          createdAt: paymentTimestamp
+        });
       }
     }
 
