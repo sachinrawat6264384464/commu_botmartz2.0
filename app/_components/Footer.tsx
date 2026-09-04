@@ -234,11 +234,15 @@ export default function CommunityFooter() {
             <span>© 2026 Botmartz Community. Governed by Founder Soham Sharma.</span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Zero-Trust Security WAF Active</span>
             </span>
+            <span>•</span>
+            <Link href="/refund-policy" className="text-blue-400 hover:text-blue-300 transition-colors font-bold">
+              Refund Policy
+            </Link>
             <span>•</span>
             <Link href="/product-tour" className="hover:text-slate-300 transition-colors">
               Platform Tour

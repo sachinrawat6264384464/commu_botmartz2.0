@@ -17,7 +17,14 @@ import {
   Sparkles,
   ExternalLink,
   ShieldCheck,
-  Filter
+  Filter,
+  Trash2,
+  AlertTriangle,
+  CheckSquare,
+  Square,
+  Layers,
+  ArrowRight,
+  ShieldAlert
 } from "lucide-react";
 
 export interface PaymentRecord {
@@ -56,6 +63,21 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
   const [refreshing, setRefreshing] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
+  // Multi-select state
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+
+  // Delete Confirmation Modal state
+  const [deleteModal, setDeleteModal] = useState<{
+    isOpen: boolean;
+    records: PaymentRecord[];
+    cascade: boolean;
+  }>({
+    isOpen: false,
+    records: [],
+    cascade: true
+  });
+  const [isDeleting, setIsDeleting] = useState(false);
+
   // Sync if prop changes
   React.useEffect(() => {
     setPayments(initialPayments);
@@ -69,6 +91,7 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
       const data = await res.json();
       if (data.success) {
         setPayments(data.payments || []);
+        setSelectedIds(new Set());
         if (onRefresh) onRefresh();
         setFeedbackMsg({ type: "success", text: "Latest payments successfully refreshed from database!" });
       } else {
@@ -142,6 +165,100 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
     }
   };
 
+  // Trigger single deletion modal
+  const openDeleteSingleModal = (tx: PaymentRecord) => {
+    setDeleteModal({
+      isOpen: true,
+      records: [tx],
+      cascade: true
+    });
+  };
+
+  // Trigger bulk deletion modal
+  const openDeleteBulkModal = () => {
+    const recordsToDelete = payments.filter((p) => selectedIds.has(p.id));
+    if (recordsToDelete.length === 0) return;
+    setDeleteModal({
+      isOpen: true,
+      records: recordsToDelete,
+      cascade: true
+    });
+  };
+
+  // Confirm and execute deletion
+  const handleExecuteDelete = async () => {
+    if (deleteModal.records.length === 0) return;
+    setIsDeleting(true);
+
+    try {
+      if (deleteModal.records.length === 1) {
+        const item = deleteModal.records[0];
+        const res = await fetch("/api/admin/payments", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: item.id,
+            source: item.source,
+            paymentId: item.paymentId,
+            orderId: item.orderId,
+            cascade: deleteModal.cascade
+          })
+        });
+        const data = await res.json();
+        if (data.success) {
+          setPayments((prev) => prev.filter((p) => p.id !== item.id && p.paymentId !== item.paymentId));
+          setSelectedIds((prev) => {
+            const next = new Set(prev);
+            next.delete(item.id);
+            return next;
+          });
+          if (selectedTx?.id === item.id) setSelectedTx(null);
+          setFeedbackMsg({
+            type: "success",
+            text: `Payment ${item.paymentId} for ${item.attendeeName} deleted successfully (${data.deletedCount || 1} entries purged).`
+          });
+        } else {
+          setFeedbackMsg({ type: "error", text: data.error || "Failed to delete payment." });
+        }
+      } else {
+        // Bulk delete
+        const items = deleteModal.records.map((r) => ({
+          id: r.id,
+          source: r.source,
+          paymentId: r.paymentId,
+          orderId: r.orderId,
+          cascade: deleteModal.cascade
+        }));
+
+        const res = await fetch("/api/admin/payments", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ items })
+        });
+        const data = await res.json();
+        if (data.success) {
+          const removedIds = new Set(deleteModal.records.map((r) => r.id));
+          const removedPaymentIds = new Set(deleteModal.records.map((r) => r.paymentId).filter(Boolean));
+          setPayments((prev) => prev.filter((p) => !removedIds.has(p.id) && !removedPaymentIds.has(p.paymentId)));
+          setSelectedIds(new Set());
+          if (selectedTx && removedIds.has(selectedTx.id)) setSelectedTx(null);
+          setFeedbackMsg({
+            type: "success",
+            text: `Successfully purged ${deleteModal.records.length} transactions from the ledger.`
+          });
+        } else {
+          setFeedbackMsg({ type: "error", text: data.error || "Failed to delete payments." });
+        }
+      }
+    } catch (err: any) {
+      setFeedbackMsg({ type: "error", text: err.message || "Network error while deleting payments." });
+    } finally {
+      setIsDeleting(false);
+      setDeleteModal({ isOpen: false, records: [], cascade: true });
+      setTimeout(() => setFeedbackMsg(null), 5000);
+    }
+  };
+
   // Filter logic
   const filtered = payments.filter((p) => {
     const q = searchQuery.toLowerCase();
@@ -171,6 +288,25 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
 
     return matchSearch && matchStatus && matchCategory;
   });
+
+  // Toggle single select
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  // Toggle select all filtered
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filtered.length && filtered.length > 0) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map((p) => p.id)));
+    }
+  };
 
   const exportToCSV = () => {
     if (filtered.length === 0) {
@@ -227,12 +363,14 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
     document.body.removeChild(link);
   };
 
+  const isAllSelected = filtered.length > 0 && selectedIds.size === filtered.length;
+
   return (
     <div className="space-y-6">
       {/* Toast Feedback */}
       {feedbackMsg && (
         <div
-          className={`p-4 rounded-2xl text-xs font-mono font-semibold flex items-center justify-between shadow-xs transition-all ${
+          className={`p-4 rounded-2xl text-xs font-mono font-semibold flex items-center justify-between shadow-xs transition-all animate-in fade-in ${
             feedbackMsg.type === "success"
               ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
               : "bg-rose-50 text-rose-800 border border-rose-200"
@@ -248,10 +386,40 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
           </div>
           <button
             onClick={() => setFeedbackMsg(null)}
-            className="text-slate-400 hover:text-slate-600 cursor-pointer"
+            className="text-slate-400 hover:text-slate-600 cursor-pointer font-bold px-2 py-1"
           >
             &times;
           </button>
+        </div>
+      )}
+
+      {/* Multi-Select Action Bar (Shows when items are selected) */}
+      {selectedIds.size > 0 && (
+        <div className="p-4 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg animate-in fade-in slide-in-from-top-2">
+          <div className="flex items-center gap-3">
+            <span className="w-7 h-7 rounded-xl bg-[#0066FF] flex items-center justify-center font-bold text-xs font-mono">
+              {selectedIds.size}
+            </span>
+            <span className="text-xs font-mono font-bold">
+              {selectedIds.size} transaction{selectedIds.size > 1 ? "s" : ""} selected
+            </span>
+            <button
+              onClick={() => setSelectedIds(new Set())}
+              className="text-xs text-slate-400 hover:text-white underline cursor-pointer ml-2"
+            >
+              Clear selection
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <button
+              onClick={openDeleteBulkModal}
+              className="w-full sm:w-auto px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+            >
+              <Trash2 size={14} />
+              <span>Delete Selected ({selectedIds.size})</span>
+            </button>
+          </div>
         </div>
       )}
 
@@ -349,7 +517,20 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 text-slate-500 font-mono uppercase text-[11px] border-b border-slate-200">
               <tr>
-                <th className="p-4 pl-6">Tx &amp; Order ID</th>
+                <th className="p-4 pl-6 w-10">
+                  <button
+                    onClick={toggleSelectAll}
+                    title={isAllSelected ? "Deselect all" : "Select all"}
+                    className="cursor-pointer text-slate-400 hover:text-slate-700 flex items-center"
+                  >
+                    {isAllSelected ? (
+                      <CheckSquare size={16} className="text-[#0066FF]" />
+                    ) : (
+                      <Square size={16} />
+                    )}
+                  </button>
+                </th>
+                <th className="p-4">Tx &amp; Order ID</th>
                 <th className="p-4">Customer / Attendee</th>
                 <th className="p-4">Item &amp; Category</th>
                 <th className="p-4">Amount</th>
@@ -361,7 +542,7 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
             <tbody className="divide-y divide-slate-100">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-12 text-center text-slate-400 font-mono">
+                  <td colSpan={8} className="p-12 text-center text-slate-400 font-mono">
                     <CreditCard size={32} className="mx-auto mb-3 text-slate-300 opacity-60" />
                     <p className="font-bold text-slate-700">No matching payments found</p>
                     <p className="text-[11px] text-slate-400 mt-1">
@@ -375,11 +556,31 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
                   const isPaid = p.status === "PAID";
                   const isFree = p.status === "FREE";
                   const isRejected = p.status === "REJECTED";
+                  const isSelected = selectedIds.has(p.id);
 
                   return (
-                    <tr key={p.id} className="hover:bg-slate-50/70 transition-colors">
+                    <tr
+                      key={p.id}
+                      className={`transition-colors ${
+                        isSelected ? "bg-blue-50/50 hover:bg-blue-50/80" : "hover:bg-slate-50/70"
+                      }`}
+                    >
+                      {/* Checkbox */}
+                      <td className="p-4 pl-6">
+                        <button
+                          onClick={() => toggleSelect(p.id)}
+                          className="cursor-pointer text-slate-400 hover:text-slate-700 flex items-center"
+                        >
+                          {isSelected ? (
+                            <CheckSquare size={16} className="text-[#0066FF]" />
+                          ) : (
+                            <Square size={16} />
+                          )}
+                        </button>
+                      </td>
+
                       {/* Transaction ID & Invoice */}
-                      <td className="p-4 pl-6 font-mono">
+                      <td className="p-4 font-mono">
                         <div className="font-bold text-slate-900 flex items-center gap-1.5">
                           <span>{p.paymentId}</span>
                           {p.checkInCode && (
@@ -398,6 +599,9 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
                             {p.invoiceNumber}
                           </div>
                         )}
+                        <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                          DB: <span className="uppercase text-slate-500">{p.source}</span>
+                        </div>
                       </td>
 
                       {/* Attendee Info */}
@@ -476,31 +680,43 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
 
                       {/* Actions */}
                       <td className="p-4 pr-6 text-right">
-                        {isPendingUtr ? (
-                          <div className="flex items-center justify-end gap-1.5 font-mono">
-                            <button
-                              onClick={() => handleApproveUTR(p)}
-                              disabled={actionLoadingId === p.id}
-                              className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-[10px] font-bold cursor-pointer disabled:opacity-50"
-                            >
-                              Approve
-                            </button>
-                            <button
-                              onClick={() => handleRejectUTR(p)}
-                              disabled={actionLoadingId === p.id}
-                              className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-[10px] font-bold cursor-pointer disabled:opacity-50"
-                            >
-                              Reject
-                            </button>
-                          </div>
-                        ) : (
+                        <div className="flex items-center justify-end gap-1.5 font-mono">
+                          {isPendingUtr && (
+                            <>
+                              <button
+                                onClick={() => handleApproveUTR(p)}
+                                disabled={actionLoadingId === p.id}
+                                className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-[10px] font-bold cursor-pointer disabled:opacity-50"
+                              >
+                                Approve
+                              </button>
+                              <button
+                                onClick={() => handleRejectUTR(p)}
+                                disabled={actionLoadingId === p.id}
+                                className="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-lg text-[10px] font-bold cursor-pointer disabled:opacity-50"
+                              >
+                                Reject
+                              </button>
+                            </>
+                          )}
+
                           <button
                             onClick={() => setSelectedTx(p)}
                             className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-mono text-[11px] font-bold cursor-pointer transition-all"
+                            title="Inspect Details"
                           >
                             Inspect
                           </button>
-                        )}
+
+                          {/* Delete Payment Button */}
+                          <button
+                            onClick={() => openDeleteSingleModal(p)}
+                            className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer border border-transparent hover:border-rose-200"
+                            title="Delete / Purge Payment Record"
+                          >
+                            <Trash2 size={15} />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -510,6 +726,126 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
           </table>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {deleteModal.isOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl border border-rose-100 shadow-2xl max-w-lg w-full p-6 space-y-5 animate-in fade-in zoom-in-95 duration-150 font-sans">
+            <div className="flex items-center gap-3 text-rose-600 pb-3 border-b border-rose-100">
+              <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold">
+                <ShieldAlert size={22} />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  {deleteModal.records.length > 1
+                    ? `Purge ${deleteModal.records.length} Payment Records?`
+                    : "Delete Payment Record?"}
+                </h3>
+                <p className="text-xs text-slate-500 font-mono">
+                  Permanent removal from Firestore databases &amp; audit ledger.
+                </p>
+              </div>
+            </div>
+
+            {/* Record details */}
+            {deleteModal.records.length === 1 ? (
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2 font-mono text-xs">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Payment ID:</span>
+                  <span className="font-bold text-slate-900">{deleteModal.records[0].paymentId}</span>
+                </div>
+                {deleteModal.records[0].orderId && (
+                  <div className="flex justify-between">
+                    <span className="text-slate-400">Order ID:</span>
+                    <span className="text-slate-700">{deleteModal.records[0].orderId}</span>
+                  </div>
+                )}
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Customer:</span>
+                  <span className="font-bold text-slate-900">{deleteModal.records[0].attendeeName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Amount:</span>
+                  <span className="font-black text-rose-600">
+                    {deleteModal.records[0].amount > 0 ? `₹${deleteModal.records[0].amount}` : "Free"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Primary Collection:</span>
+                  <span className="font-bold text-slate-600 uppercase text-[10px]">{deleteModal.records[0].source}</span>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 font-mono text-xs max-h-40 overflow-y-auto space-y-1.5">
+                <div className="font-bold text-slate-700 mb-2">
+                  Targeted Transactions ({deleteModal.records.length}):
+                </div>
+                {deleteModal.records.map((r) => (
+                  <div key={r.id} className="flex justify-between text-[11px] text-slate-600">
+                    <span className="font-bold text-slate-900">{r.paymentId}</span>
+                    <span>{r.attendeeName}</span>
+                    <span className="font-bold">{r.amount > 0 ? `₹${r.amount}` : "Free"}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Cascade Option Checkbox */}
+            <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
+              <label className="flex items-start gap-2.5 cursor-pointer text-xs font-mono">
+                <input
+                  type="checkbox"
+                  checked={deleteModal.cascade}
+                  onChange={(e) =>
+                    setDeleteModal((prev) => ({ ...prev, cascade: e.target.checked }))
+                  }
+                  className="mt-0.5 rounded text-rose-600 focus:ring-rose-500 cursor-pointer"
+                />
+                <div>
+                  <span className="font-bold text-slate-900">
+                    Cascade cleanup linked records (Recommended)
+                  </span>
+                  <p className="text-[11px] text-slate-500 font-sans mt-0.5">
+                    Automatically cleans matching entries with the same Payment ID / Order ID across{" "}
+                    <code>orders</code>, <code>payments</code>, <code>workshop_registrations</code>, and{" "}
+                    <code>attendees</code>.
+                  </p>
+                </div>
+              </label>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setDeleteModal({ isOpen: false, records: [], cascade: true })}
+                className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all disabled:opacity-50"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleExecuteDelete}
+                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-mono font-bold cursor-pointer transition-all flex items-center gap-2 shadow-md shadow-rose-600/20 disabled:opacity-50"
+              >
+                {isDeleting ? (
+                  <>
+                    <RefreshCw size={14} className="animate-spin" />
+                    <span>Purging...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 size={14} />
+                    <span>Confirm &amp; Delete Permanently</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Inspect Modal */}
       {selectedTx && (
@@ -588,7 +924,21 @@ export default function PaymentsClientTable({ initialPayments, onRefresh }: Clie
               </div>
             </div>
 
-            <div className="pt-2 flex justify-end">
+            <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+              {/* Delete Trigger from inside Inspect Modal */}
+              <button
+                type="button"
+                onClick={() => {
+                  const tx = selectedTx;
+                  setSelectedTx(null);
+                  openDeleteSingleModal(tx);
+                }}
+                className="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all flex items-center gap-1.5"
+              >
+                <Trash2 size={14} />
+                <span>Delete This Payment</span>
+              </button>
+
               <button
                 onClick={() => setSelectedTx(null)}
                 className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-mono font-bold cursor-pointer"

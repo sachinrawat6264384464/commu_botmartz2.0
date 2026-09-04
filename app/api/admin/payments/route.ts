@@ -229,6 +229,14 @@ export async function POST(req: NextRequest) {
         { merge: true }
       );
       return NextResponse.json({ success: true, message: `Payment ${id} rejected.` });
+    } else if (action === "DELETE" || action === "DELETE_PAYMENT") {
+      const { paymentId, orderId, cascade = true } = body;
+      const result = await purgePaymentRecords({ id, source: targetCollection, paymentId, orderId, cascade });
+      return NextResponse.json({
+        success: true,
+        message: `Payment record and associated entries successfully removed (${result.deletedCount} items purged).`,
+        deletedCount: result.deletedCount
+      });
     }
 
     return NextResponse.json({ success: false, error: "Unknown action" }, { status: 400 });
@@ -237,3 +245,154 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: error.message || "Failed to update payment" }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    if (!adminDb) {
+      return NextResponse.json({ success: false, error: "Database unavailable" }, { status: 500 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    const source = searchParams.get("source") || searchParams.get("collectionName") || "attendees";
+    const paymentId = searchParams.get("paymentId") || "";
+    const orderId = searchParams.get("orderId") || "";
+    const cascade = searchParams.get("cascade") !== "false";
+
+    // Also support JSON body if passed
+    let bodyData: any = {};
+    try {
+      bodyData = await req.json();
+    } catch {
+      // Body not provided or already read
+    }
+
+    const finalId = id || bodyData.id;
+    const finalSource = source || bodyData.source || bodyData.collectionName || "attendees";
+    const finalPaymentId = paymentId || bodyData.paymentId || "";
+    const finalOrderId = orderId || bodyData.orderId || "";
+    const finalCascade = cascade ?? (bodyData.cascade !== false);
+
+    // Support batch delete
+    if (bodyData.items && Array.isArray(bodyData.items) && bodyData.items.length > 0) {
+      let totalPurged = 0;
+      for (const item of bodyData.items) {
+        const res = await purgePaymentRecords({
+          id: item.id,
+          source: item.source || "attendees",
+          paymentId: item.paymentId,
+          orderId: item.orderId,
+          cascade: item.cascade !== false
+        });
+        totalPurged += res.deletedCount;
+      }
+      return NextResponse.json({
+        success: true,
+        message: `Successfully deleted ${bodyData.items.length} payment records (${totalPurged} database items purged).`,
+        deletedCount: totalPurged
+      });
+    }
+
+    if (!finalId && !finalPaymentId && !finalOrderId) {
+      return NextResponse.json(
+        { success: false, error: "Record ID, Payment ID, or Order ID is required for deletion." },
+        { status: 400 }
+      );
+    }
+
+    const result = await purgePaymentRecords({
+      id: finalId,
+      source: finalSource,
+      paymentId: finalPaymentId,
+      orderId: finalOrderId,
+      cascade: finalCascade
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: `Payment record successfully deleted (${result.deletedCount} entries purged).`,
+      deletedCount: result.deletedCount
+    });
+  } catch (error: any) {
+    console.error("Failed to delete payment:", error);
+    return NextResponse.json({ success: false, error: error.message || "Failed to delete payment" }, { status: 500 });
+  }
+}
+
+/**
+ * Helper function to safely and completely purge wrong or erroneous payment records
+ * from primary collection and associated ledger collections.
+ */
+async function purgePaymentRecords({
+  id,
+  source,
+  paymentId,
+  orderId,
+  cascade = true
+}: {
+  id?: string;
+  source?: string;
+  paymentId?: string;
+  orderId?: string;
+  cascade?: boolean;
+}) {
+  if (!adminDb) return { deletedCount: 0 };
+  let deletedCount = 0;
+  const collections = ["workshop_registrations", "orders", "payments", "attendees"];
+
+  // 1. Delete by direct document ID if specified
+  if (id && source) {
+    try {
+      const docRef = adminDb.collection(source).doc(id);
+      const docSnap = await docRef.get();
+      if (docSnap.exists) {
+        await docRef.delete();
+        deletedCount++;
+      }
+    } catch (err) {
+      console.warn(`[Payment Delete] Warning deleting doc ${id} from ${source}:`, err);
+    }
+  }
+
+  // 2. If cascade is true, search and remove linked documents across all payment collections
+  if (cascade) {
+    // Purge by paymentId
+    if (paymentId && paymentId.trim() && !paymentId.startsWith("FREE_")) {
+      const pid = paymentId.trim();
+      for (const coll of collections) {
+        try {
+          const snap = await adminDb.collection(coll).where("paymentId", "==", pid).get();
+          for (const doc of snap.docs) {
+            if (doc.id !== id || coll !== source) {
+              await doc.ref.delete();
+              deletedCount++;
+            }
+          }
+        } catch (e) {
+          // Continue with next collection
+        }
+      }
+    }
+
+    // Purge by orderId
+    if (orderId && orderId.trim()) {
+      const oid = orderId.trim();
+      for (const coll of collections) {
+        try {
+          const snap = await adminDb.collection(coll).where("orderId", "==", oid).get();
+          for (const doc of snap.docs) {
+            if (doc.id !== id || coll !== source) {
+              await doc.ref.delete();
+              deletedCount++;
+            }
+          }
+        } catch (e) {
+          // Continue with next collection
+        }
+      }
+    }
+  }
+
+  return { deletedCount };
+}
+

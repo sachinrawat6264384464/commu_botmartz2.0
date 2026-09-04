@@ -434,6 +434,18 @@ export default function RazorpayModal({
                     <span>Pay ₹{amount} with Razorpay &rarr;</span>
                   )}
                 </button>
+
+                <p className="text-[10px] text-center text-slate-400 font-sans mt-2">
+                  Protected by 256-bit encryption. Covered by our{" "}
+                  <Link
+                    href="/refund-policy"
+                    target="_blank"
+                    className="text-[#0066FF] hover:underline font-bold"
+                  >
+                    Refund &amp; Cancellation Policy
+                  </Link>
+                  .
+                </p>
               </form>
             )}
 
@@ -509,6 +521,18 @@ export default function RazorpayModal({
                     <span>Verify UTR &amp; Activate Pass &rarr;</span>
                   )}
                 </button>
+
+                <p className="text-[10px] text-center text-slate-400 font-sans mt-2">
+                  Protected by automated ledger audits. Covered by our{" "}
+                  <Link
+                    href="/refund-policy"
+                    target="_blank"
+                    className="text-emerald-600 hover:underline font-bold"
+                  >
+                    Refund &amp; Cancellation Policy
+                  </Link>
+                  .
+                </p>
               </form>
             )}
 

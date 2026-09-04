@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import {
   CheckCircle2,
@@ -490,9 +491,17 @@ export default function SingleLandingPage() {
                       </>
                     )}
                   </button>
-                  <div className="text-center mt-3 text-[10px] text-slate-400 flex items-center justify-center gap-1">
-                    <ShieldCheck size={12} />
-                    <span>256-bit Encrypted Checkout via Razorpay</span>
+                  <div className="text-center mt-3 text-[10px] text-slate-400 flex flex-col items-center justify-center gap-1">
+                    <div className="flex items-center gap-1">
+                      <ShieldCheck size={12} className="text-emerald-500" />
+                      <span>256-bit Encrypted Checkout via Razorpay</span>
+                    </div>
+                    <div>
+                      Covered by our{" "}
+                      <Link href="/refund-policy" className="text-[#0066FF] hover:underline font-bold">
+                        Refund &amp; Cancellation Policy
+                      </Link>
+                    </div>
                   </div>
                 </form>
               </div>
