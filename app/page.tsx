@@ -324,7 +324,7 @@ export default function SingleLandingPage() {
       </div>
 
       {/* ── RIGHT SIDE: THE FORM & CHECKOUT ── */}
-      <div className="w-full md:w-1/2 p-6 md:p-12 lg:p-20 bg-white flex flex-col justify-center relative shadow-2xl z-20 overflow-y-auto">
+      <div id="registration" className="w-full md:w-1/2 p-6 md:p-12 lg:p-20 bg-white flex flex-col justify-center relative shadow-2xl z-20 overflow-y-auto">
         
         <div className="max-w-md mx-auto w-full">
           {/* Logo and Name on the white side */}

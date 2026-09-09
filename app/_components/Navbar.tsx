@@ -79,29 +79,29 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
-    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: true },
-    { name: "Internship Playground (50 PRDs)", href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: true },
-    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: true },
-    { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: true },
-    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: true },
-    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages", locked: true },
-    { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: true }
+    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: false },
+    { name: "Internship Playground (50 PRDs)", href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false },
+    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false },
+    { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: false },
+    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: false },
+    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages", locked: false },
+    { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: false }
   ];
 
   const COMMUNITY_ITEMS = [
-    { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits", locked: true },
-    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards", locked: true },
-    { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates", locked: true },
-    { name: "Builder Leaderboard", href: "/arena/leaderboard", icon: Award, desc: "Real-time student karma rankings", locked: true },
+    { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits", locked: false },
+    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards", locked: false },
+    { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates", locked: false },
+    { name: "Builder Leaderboard", href: "/arena/leaderboard", icon: Award, desc: "Real-time student karma rankings", locked: false },
     { name: "Free Community Events (Luma)", href: "https://luma.com/botmartz", icon: ExternalLink, desc: "Weekly AMAs, workshops & teardowns", external: true },
-    { name: "Schedule & Calendar", href: "/arena/calendar", icon: Calendar, desc: "Cohort milestones and office hours", locked: true }
+    { name: "Schedule & Calendar", href: "/arena/calendar", icon: Calendar, desc: "Cohort milestones and office hours", locked: false }
   ];
 
   const RESOURCE_ITEMS = [
-    { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools", locked: true },
-    { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers", locked: true },
+    { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools", locked: false },
+    { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers", locked: false },
     { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials", locked: false },
-    { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: true }
+    { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: false }
   ];
 
   return (
@@ -402,7 +402,7 @@ export default function CommunityNavbar() {
           </a>
 
           <div className="space-y-1">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Virtual Internship (Scheduled)</div>
+            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Virtual AI Internship &amp; Arena</div>
             {INTERNSHIP_ITEMS.map((item) => (
               <Link
                 key={item.href}
@@ -413,20 +413,58 @@ export default function CommunityNavbar() {
                   <item.icon size={15} className="text-[#0066FF]" />
                   <span className="font-bold">{item.name}</span>
                 </div>
-                {item.locked && <Lock size={12} className="text-amber-500" />}
               </Link>
             ))}
           </div>
 
           <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Resources</div>
-            <Link
-              href="/certificates"
-              className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50 font-bold"
-            >
-              <ShieldCheck size={15} className="text-emerald-600" />
-              <span>Verified Certificates</span>
-            </Link>
+            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Community Hub</div>
+            {COMMUNITY_ITEMS.map((item) => {
+              if (item.external) {
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <item.icon size={15} className="text-purple-600" />
+                      <span className="font-bold">{item.name}</span>
+                    </div>
+                  </a>
+                );
+              }
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <item.icon size={15} className="text-[#0066FF]" />
+                    <span className="font-bold">{item.name}</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="space-y-1 border-t border-slate-100 pt-3">
+            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Resources &amp; Credentials</div>
+            {RESOURCE_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
+              >
+                <div className="flex items-center gap-2.5">
+                  <item.icon size={15} className="text-emerald-600" />
+                  <span className="font-bold">{item.name}</span>
+                </div>
+              </Link>
+            ))}
           </div>
 
           <div className="border-t border-slate-100 pt-4">

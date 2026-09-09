@@ -10,13 +10,16 @@ export interface PageLockConfig {
 }
 
 export const DEFAULT_PAGE_LOCK_CONFIG: PageLockConfig = {
-  mode: "WORKSHOP_FOCUS",
-  // Scheduled release date for 9th September, 9:00 PM IST
-  scheduledUnlockTime: "2026-09-09T21:00:00+05:30",
-  announcementTitle: "Going Live on 9th September at 9:00 PM IST",
+  mode: "OPEN_ACCESS",
+  // Scheduled release date (platform is now open access)
+  scheduledUnlockTime: "2026-09-09T00:00:00+05:30",
+  announcementTitle: "Platform Open Access",
   announcementMessage:
-    "This section is currently restricted and will unlock live on 9th September at 9:00 PM IST with the ₹9 Flagship AI Workshop. Register now for the ₹9 pass to secure your seat and receive early VIP platform access.",
-  lockedRoutes: [
+    "All community tools, internship playgrounds, 50-system PRD matrix, roadmaps, and discussions are completely open and accessible.",
+  lockedRoutes: [],
+  publicRoutes: [
+    "/",
+    "/workshops",
     "/arena",
     "/virtual-ai-internship",
     "/challenges",
@@ -27,11 +30,7 @@ export const DEFAULT_PAGE_LOCK_CONFIG: PageLockConfig = {
     "/leaderboard",
     "/member",
     "/event-desk",
-    "/product-tour"
-  ],
-  publicRoutes: [
-    "/",
-    "/workshops",
+    "/product-tour",
     "/login",
     "/certificates",
     "/admin",
