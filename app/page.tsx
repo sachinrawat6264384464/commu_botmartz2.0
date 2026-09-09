@@ -1,515 +1,568 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  CheckCircle2,
   ArrowRight,
-  AlertCircle,
-  Loader2,
-  Copy,
-  Check,
-  CreditCard,
-  QrCode,
+  CheckCircle2,
+  Terminal,
   ShieldCheck,
-  Zap,
+  Award,
+  Coins,
+  Compass,
+  Globe,
+  Briefcase,
+  Users,
+  MapPin,
+  Calendar,
+  Sparkles,
+  ExternalLink,
+  Lock,
+  Layers,
+  Cpu,
+  Code2,
+  Activity,
+  Star,
+  Check,
+  Flame
 } from "lucide-react";
-import { useAuth } from "@/lib/auth-context";
+import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { ROLE_ROADMAPS } from "@/lib/roadmaps";
+import { INDUSTRY_ECOSYSTEMS } from "@/lib/ecosystems";
 
-export default function SingleLandingPage() {
-  const { user, studentProfile } = useAuth();
+export const revalidate = 60; // ISR 1 min
 
-  // Workshop Registration State
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [college, setCollege] = useState("");
-  const [experienceLevel, setExperienceLevel] = useState("Intermediate (Python / APIs)");
-
-  // Payment UI State
-  const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successData, setSuccessData] = useState<any>(null);
-
-  const tierPrice = 9;
-  const tierName = "Botmartz Platform & AI Engineering Access Pass";
-
-  // Countdown Timer State
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-
-  useEffect(() => {
-    // Target: September 9, 2026, 19:00:00 IST
-    const targetDate = new Date("2026-09-09T19:00:00+05:30").getTime();
-    
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-      
-      if (distance < 0) {
-        clearInterval(interval);
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      } else {
-        setTimeLeft({
-          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-          seconds: Math.floor((distance % (1000 * 60)) / 1000)
-        });
-      }
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  // Auto-fill if user is logged in
-  useEffect(() => {
-    if (studentProfile || user) {
-      if (!name) setName(studentProfile?.displayName || user?.displayName || "");
-      if (!email) setEmail(studentProfile?.email || user?.email || "");
-      if (!phone) setPhone(studentProfile?.phoneNumber || "");
-      if (!college) setCollege(studentProfile?.collegeName || "");
-    }
-  }, [studentProfile, user]);
-
-  // Dynamically load Razorpay SDK
-  useEffect(() => {
-    if (typeof window !== "undefined" && !(window as any).Razorpay) {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
-
-  const handleRazorpaySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !email.includes("@")) {
-      setErrorMsg("Please enter a valid email address.");
-      return;
-    }
-    if (!name.trim()) {
-      setErrorMsg("Please enter your full name.");
-      return;
-    }
-
-    setLoading(true);
-    setErrorMsg("");
-
-    try {
-      // 1. Create Razorpay Order on server
-      const orderRes = await fetch("/api/checkout/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: tierPrice,
-          itemName: tierName,
-          itemCategory: "PLATFORM_ACCESS",
-          customerName: name,
-          customerEmail: email,
-          customerPhone: phone || "9999999999",
-          metadata: {
-            college,
-            experienceLevel,
-            tier: "STANDARD",
-          }
-        })
-      });
-
-      const orderData = await orderRes.json();
-      if (!orderRes.ok || !orderData.success) {
-        throw new Error(orderData.error || "Failed to initialize Razorpay checkout order.");
-      }
-
-      if (typeof window === "undefined" || !(window as any).Razorpay) {
-        throw new Error("Razorpay SDK is initializing. Please try again in 2 seconds.");
-      }
-
-      // 2. Launch Razorpay UI
-      const options = {
-        key: orderData.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: orderData.amount,
-        currency: orderData.currency || "INR",
-        name: "Botmartz",
-        description: tierName,
-        image: "/logo.png",
-        order_id: orderData.orderId,
-        prefill: {
-          name,
-          email,
-          contact: phone || "",
-        },
-        theme: {
-          color: "#0066FF",
-        },
-        modal: {
-          ondismiss: () => {
-            setLoading(false);
-          }
-        },
-        handler: async function (response: any) {
-          try {
-            // 3. Verify Payment and store all details
-            const verifyRes = await fetch("/api/checkout/verify", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                amount: tierPrice,
-                itemName: tierName,
-                itemCategory: "PLATFORM_ACCESS",
-                customerName: name,
-                customerEmail: email,
-                customerPhone: phone,
-                metadata: {
-                  college,
-                  experienceLevel,
-                  tier: "STANDARD",
-                }
-              })
-            });
-
-            const verifyData = await verifyRes.json();
-            if (!verifyRes.ok || !verifyData.success) {
-              throw new Error(verifyData.error || "Payment signature verification failed.");
-            }
-
-            setSuccessData({
-              paymentId: response.razorpay_payment_id,
-              orderId: response.razorpay_order_id,
-              invoiceNumber: verifyData.invoiceNumber,
-              checkInCode: verifyData.checkInCode
-            });
-          } catch (verErr: any) {
-            setErrorMsg(verErr.message || "Failed to complete payment verification.");
-          } finally {
-            setLoading(false);
-          }
-        }
-      };
-
-      const razorpayInstance = new (window as any).Razorpay(options);
-      razorpayInstance.on("payment.failed", function (resp: any) {
-        setErrorMsg(`Payment Failed: ${resp.error?.description || "Transaction declined by bank."}`);
-        setLoading(false);
-      });
-
-      razorpayInstance.open();
-    } catch (err: any) {
-      setErrorMsg(err.message || "Unable to launch Razorpay checkout.");
-      setLoading(false);
-    }
-  };
+export default async function CommunityHomePage() {
+  const featuredProjects = ARENA_PROJECTS.filter((p) => p.featured).slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-[#0A0F1C] text-slate-200 font-sans flex flex-col md:flex-row">
+    <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
-      {/* ── LEFT SIDE: THE PAMPHLET CONTENT ── */}
-      <div className="w-full md:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-        
-        {/* Glow Effects */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none -ml-20 -mb-20" />
-
-        <div className="relative z-10 max-w-xl mx-auto md:mx-0 text-center md:text-left">
+      {/* ── 1. HERO SECTION: PROFESSIONAL VALUE PROPOSITION ── */}
+      <section className="relative pt-16 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <div className="mb-6 flex items-start justify-between">
-            <div>
-              <h2 className="text-2xl font-bold text-white italic tracking-wide">THINK AGAIN.</h2>
-              <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 tracking-tight mb-2 uppercase">
-                BUILD <br/> BETTER.
-              </h1>
-              <p className="text-lg text-slate-300 font-medium">Real Skills. Real Projects. <span className="text-purple-400">Real Impact.</span></p>
-            </div>
+          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
             
-            <div className="flex flex-col items-center justify-center p-3 bg-slate-900/60 border border-slate-700/50 rounded-2xl shrink-0 ml-4 hidden md:flex">
-              <p className="text-slate-300 font-bold mb-2 text-[10px] tracking-widest text-center uppercase">Join WhatsApp<br/>Community</p>
-              <img src="/qr_code_community.jpeg" alt="Community QR Code" className="w-24 h-24 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-slate-600 object-cover" />
+            {/* Cohort 1 Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-6 shadow-2xs">
+              <Activity size={14} className="text-[#0066FF]" />
+              <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
             </div>
-          </div>
-          {/* Mobile QR */}
-          <div className="flex md:hidden flex-col items-center justify-center p-4 bg-slate-900/60 border border-slate-700/50 rounded-2xl w-full mb-6">
-            <p className="text-slate-300 font-bold mb-3 text-xs tracking-widest text-center uppercase">Join WhatsApp Community</p>
-            <img src="/qr_code_community.jpeg" alt="Community QR Code" className="w-32 h-32 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-slate-600 object-cover" />
-          </div>
-          
-          {/* Instructor Image & Info */}
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-slate-900/50 p-6 md:p-8 rounded-2xl border border-slate-800">
-            <div className="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-[4px] border-blue-500/80 shadow-[0_0_25px_rgba(59,130,246,0.4)] bg-gradient-to-b from-slate-700 to-slate-900 shrink-0 relative flex items-center justify-center">
-              <Image 
-                src="/soham_transparent.png" 
-                alt="Soham Sharma" 
-                fill
-                className="object-cover object-top"
-                quality={100}
-                priority
-                unoptimized
-              />
-            </div>
-            <div className="text-center md:text-left pt-2 md:pt-4">
-              <p className="text-slate-400 text-sm font-semibold tracking-widest uppercase mb-1">Hands-On Session By</p>
-              <h3 className="text-3xl font-black text-orange-400 mb-2">EXP. SOHAM SHARMA</h3>
-              <p className="text-slate-300 text-sm mb-4 leading-relaxed">
-                Founder @ Botmartz AI Solutions Pvt Ltd |<br/>
-                Owner @ Botmartz Community |<br/>
-                Lead Trainer @ Botmartz Academy<br/>
-                Trained 5000+ Students & Professionals in AI
-              </p>
+
+            {/* Main Headline */}
+            <h1 className="text-[clamp(38px,6vw,72px)] font-black tracking-tight leading-[1.08] text-slate-950 mb-6 font-sans">
+              Build Production Systems. <br />
+              <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
+                Ship Daily. Get Hired.
+              </span>
+            </h1>
+
+            {/* Subhead */}
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8 font-mono text-xs sm:text-sm">
+              The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies and founder recommendation</strong>.
+            </p>
+
+            {/* Primary Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto mb-10">
+              <Link
+                href="/login"
+                className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Join 45-Day Cohort (Free)</span>
+                <ArrowRight size={15} />
+              </Link>
               
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-center">
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl font-bold text-white">5000+</span>
-                  <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider">Students<br/>Trained</span>
-                </div>
-                <div className="w-px h-8 bg-slate-700"></div>
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl font-bold text-white">10+</span>
-                  <span className="text-[10px] text-purple-400 font-bold uppercase tracking-wider">Years<br/>Experience</span>
-                </div>
-                <div className="w-px h-8 bg-slate-700"></div>
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl font-bold text-white">500+</span>
-                  <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Projects<br/>Delivered</span>
-                </div>
+              <Link
+                href="/arena"
+                className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
+              >
+                <Terminal size={15} className="text-blue-600" />
+                <span>Explore 50 Projects Matrix</span>
+              </Link>
+
+              <Link
+                href="/arena/calendar"
+                className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-6 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+              >
+                <MapPin size={15} className="text-slate-600" />
+                <span>Indore Office Hours</span>
+              </Link>
+            </div>
+
+            {/* Quick Proof Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-slate-900">50 Systems</div>
+                <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-[#0066FF]">15 Companies</div>
+                <div className="text-[11px] text-slate-500">Referral Guarantee</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-purple-700">Indore Hub</div>
+                <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-emerald-700">100% Free</div>
+                <div className="text-[11px] text-slate-500">For Verified Students</div>
               </div>
             </div>
-          </div>
 
-          {/* Event Details */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
-            <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
-              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">For Only</span>
-              <div className="text-3xl font-black text-white">RS. <span className="text-orange-400">{tierPrice}</span>/-</div>
-            </div>
-            <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
-              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Date</span>
-              <div className="text-2xl font-black text-blue-400">9/9/26</div>
-            </div>
-            <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
-              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Time</span>
-              <div className="text-lg font-bold text-purple-400 whitespace-nowrap">7:00 PM -<br/>8:30 PM</div>
-            </div>
-          </div>
-
-          <div className="bg-blue-600/10 border border-blue-500/30 rounded-xl p-4 flex items-center justify-center gap-3 mb-8">
-            <Zap className="text-blue-400" size={24} />
-            <div className="text-blue-100 font-bold">
-              ON <span className="text-blue-400">ZOOM MEETINGS</span> (LIVE & INTERACTIVE)
-            </div>
-          </div>
-
-          {/* Perks */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-semibold text-slate-300">
-            <div className="flex items-center gap-3">
-              <div className="text-green-400"><CheckCircle2 size={20} /></div>
-              <span>DURATION: 90 MINS</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-green-400"><CheckCircle2 size={20} /></div>
-              <span>EXPERT GUIDANCE: LEARN. BUILD. GROW.</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-green-400"><CheckCircle2 size={20} /></div>
-              <span>LIVE Q&A SESSION</span>
-            </div>
-          </div>
-
-          <div className="mt-8 text-center text-sm font-black tracking-[0.2em] text-slate-500">
-            LEARN. BUILD. IMPACT.
           </div>
 
         </div>
-      </div>
+      </section>
 
-      {/* ── RIGHT SIDE: THE FORM & CHECKOUT ── */}
-      <div id="registration" className="w-full md:w-1/2 p-6 md:p-12 lg:p-20 bg-white flex flex-col justify-center relative shadow-2xl z-20 overflow-y-auto">
-        
-        <div className="max-w-md mx-auto w-full">
-          {/* Logo and Name on the white side */}
-          <div className="flex flex-row items-center justify-center mb-10 gap-4 md:gap-6">
-            <img src="/logo.png" alt="Botmartz Logo" className="h-20 md:h-28 object-contain shrink-0" />
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-tight text-left">
-              Botmartz<br/><span className="text-[#0066FF]">Community</span>
-            </h1>
-          </div>
-
-          {/* Countdown Timer */}
-          <div className="mb-8">
-            <div className="text-center text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">
-              Registration Closes In
+      {/* ── 2. THE 3-STEP OPERATING MACHINE ("HOW IT WORKS") ── */}
+      <section className="py-20 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
+              The 3-Step Clear Path
             </div>
-            <div className="flex items-center justify-center gap-3">
-              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
-                <span className="text-xl font-black">{timeLeft.days}</span>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400">Days</span>
-              </div>
-              <span className="text-slate-300 font-bold">:</span>
-              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
-                <span className="text-xl font-black">{timeLeft.hours}</span>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400">Hours</span>
-              </div>
-              <span className="text-slate-300 font-bold">:</span>
-              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
-                <span className="text-xl font-black">{timeLeft.minutes}</span>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400">Mins</span>
-              </div>
-              <span className="text-slate-300 font-bold">:</span>
-              <div className="flex flex-col items-center bg-slate-900 text-white rounded-lg p-2 min-w-[60px] shadow-md">
-                <span className="text-xl font-black">{timeLeft.seconds}</span>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400">Secs</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-extrabold text-slate-900 font-sans tracking-tight mb-2">
-              Secure Your Spot
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+              How You Build, Conquer &amp; Get Hired
             </h2>
-            <p className="text-slate-500 text-sm font-mono">
-              Fill in your details below. Complete the <strong>₹{tierPrice}</strong> registration to get the workshop link and unlock community access.
+            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
+              No endless video watching. You build real production systems tested against automated benchmarks.
             </p>
           </div>
 
-          {/* SUCCESS CONFIRMATION STATE */}
-          {successData ? (
-            <div className="text-center py-6 space-y-6">
-              <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
-                <CheckCircle2 size={44} />
-              </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Step 1 */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-blue-300 transition-all">
               <div>
-                <div className="text-xs font-mono text-emerald-600 font-bold uppercase tracking-wider mb-1">
-                  ✔ ACCESS GRANTED
+                <div className="w-12 h-12 rounded-2xl bg-[#0066FF] text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-blue-500/20">
+                  01
                 </div>
-                <h3 className="text-3xl font-extrabold text-slate-900 font-sans">
-                  Welcome aboard, {name}!
+                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                  Pick a Track &amp; Warmup PRD
                 </h3>
-                <p className="text-xs text-slate-500 font-mono mt-2 leading-relaxed">
-                  You are officially verified. Please check your email inbox for your official onboarding pass and instructions to access the Botmartz community.
+                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                  Select from 50 projects (AI Agents, Defence, RAG, Embedded Edge, High-Frequency Telemetry) or follow our 6 Role Roadmaps.
                 </p>
               </div>
+              <Link
+                href="/arena"
+                className="text-[#0066FF] font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
+              >
+                <span>Browse 50 Projects Matrix</span>
+                <ArrowRight size={13} />
+              </Link>
+            </div>
 
-              <div className="p-6 rounded-2xl bg-slate-900 text-white font-mono text-xs border border-slate-800 text-left space-y-3 mt-4">
-                <div className="flex justify-between border-b border-slate-800 pb-2">
-                  <span className="text-slate-400">Payment Status:</span>
-                  <span className="font-bold text-emerald-400">PAID (₹{tierPrice})</span>
+            {/* Step 2 */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-amber-300 transition-all">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-amber-500/20">
+                  02
                 </div>
-                <div className="flex justify-between border-b border-slate-800 pb-2">
-                  <span className="text-slate-400">Check-in Code:</span>
-                  <span className="font-bold text-blue-400">{successData.checkInCode}</span>
+                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                  Conquer the &quot;Insane&quot; Project
+                </h3>
+                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                  Build one of the high-difficulty systems (Satellite AI, 3D MRI, Rust Order Book, LangGraph Swarm) and pass automated SLA benchmarks with daily GitHub commit logs.
+                </p>
+              </div>
+              <Link
+                href="/arena/daily-log"
+                className="text-amber-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
+              >
+                <span>Daily Proof-of-Work Log</span>
+                <ArrowRight size={13} />
+              </Link>
+            </div>
+
+            {/* Step 3 */}
+            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition-all">
+              <div>
+                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-emerald-500/20">
+                  03
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Invoice:</span>
-                  <span className="font-bold">{successData.invoiceNumber}</span>
+                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                  Founder Recommendation &amp; Referral
+                </h3>
+                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                  Pass strict code review on your Insane Project to unlock a personalized recommendation from Founder Soham Sharma and direct job referral assistance to 15 partner companies.
+                </p>
+              </div>
+              <Link
+                href="/virtual-ai-internship#pricing"
+                className="text-emerald-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
+              >
+                <span>View Plans (Free / ₹299 / ₹1,999)</span>
+                <ArrowRight size={13} />
+              </Link>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
+      <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-blue-400 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-500/20">
+                <Activity size={13} /> Frontier Engineering Projects
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
+                Featured Internship Playground Systems
+              </h2>
+              <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
+                Zero toy apps. Every project has strict test commands and SLA acceptance gates.
+              </p>
+            </div>
+
+            <Link
+              href="/arena"
+              className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-mono text-xs font-bold uppercase tracking-wider hover:bg-slate-100 transition-all shrink-0 flex items-center gap-2"
+            >
+              <span>View All 50 Projects</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+            {featuredProjects.map((p) => (
+              <div
+                key={p.id}
+                className="p-6 rounded-3xl bg-slate-900 border border-slate-800 flex flex-col justify-between hover:border-blue-500/50 transition-all group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold text-[10px] border border-blue-500/30">
+                      {p.difficulty}
+                    </span>
+                    <span className="text-[10px] text-slate-400">{p.durationDays} Days Cohort</span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-white font-sans mb-1.5 group-hover:text-blue-400 transition-colors">
+                    {p.title}
+                  </h3>
+                  <p className="text-slate-400 text-xs font-sans line-clamp-3 mb-4 leading-relaxed">
+                    {p.overview}
+                  </p>
+
+                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400 mb-4">
+                    <span className="text-emerald-400 font-bold">Strict SLA:</span> {p.productionSla}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
+                  <div className="flex flex-wrap gap-1">
+                    {p.techStack.slice(0, 2).map((t, ti) => (
+                      <span key={ti} className="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <Link
+                    href={`/arena/${p.id}`}
+                    className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1 transition-all"
+                  >
+                    <span>View Spec</span>
+                    <ArrowRight size={12} />
+                  </Link>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div className="mt-8 text-center bg-emerald-50/5 border-2 border-emerald-500/30 rounded-xl p-6 shadow-sm">
-                <h4 className="text-lg font-extrabold text-slate-200 mb-2">Step 2: Join the WhatsApp Community</h4>
-                <p className="text-sm text-slate-400 mb-6 font-sans">
-                  All workshop announcements, resources, and the meeting link will be shared here. Scan or click the image below to join!
+        </div>
+      </section>
+
+      {/* ── 4. INDORE OFFLINE HUB + VIRTUAL DISCORD RITUALS ── */}
+      <section className="py-20 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              
+              <div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 text-slate-300 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-slate-700">
+                  <MapPin size={14} /> Indore Flagship Meetup &amp; Global Discord
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4 font-sans">
+                  Saturday Indore Office Hours &amp; Architecture Teardowns
+                </h2>
+                <p className="text-slate-300 text-xs sm:text-sm font-mono leading-relaxed mb-6">
+                  Every Saturday from <strong>5:00 PM to 7:00 PM IST</strong>. In-person meetups at the Indore AI Hub unlock whenever 50+ builders RSVP (otherwise hosted live online via Discord Voice Stage) with 1-on-1 architecture reviews with Founder Soham Sharma.
                 </p>
-                <div className="flex justify-center">
-                  <a href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ" target="_blank" rel="noopener noreferrer">
-                    <img src="/Untitled.jpeg" alt="Join WhatsApp Community" className="w-56 md:w-64 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)] border-2 border-emerald-500/50 hover:scale-105 transition-transform duration-300 cursor-pointer" />
+
+                <div className="flex flex-wrap gap-3 font-mono text-xs">
+                  <Link
+                    href="/arena/calendar"
+                    className="px-6 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider transition-all flex items-center gap-2"
+                  >
+                    <Calendar size={14} />
+                    <span>Sync Lu.ma Calendar</span>
+                  </Link>
+
+                  <a
+                    href="https://discord.gg/k75ZpEnzp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold uppercase tracking-wider transition-all flex items-center gap-2"
+                  >
+                    <span>Join Discord Stage</span>
+                    <ExternalLink size={14} />
                   </a>
                 </div>
               </div>
-            </div>
-          ) : (
-            /* ACTIVE REGISTRATION FORM */
-            <div className="space-y-6">
-              
-              <div className="grid grid-cols-1 gap-4 font-mono text-sm">
-                <div>
-                  <label className="block text-slate-700 font-bold mb-1">Full Name *</label>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Yash Patel"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
-                  />
+
+              {/* Weekly Rituals Schedule */}
+              <div className="space-y-3 font-mono text-xs">
+                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                  <div className="flex items-center justify-between text-amber-400 font-bold mb-1">
+                    <span>SATURDAY 5:00 PM – 7:00 PM IST</span>
+                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px]">Flagship</span>
+                  </div>
+                  <div className="font-bold text-white text-sm font-sans">Indore In-Person (50+ RSVPs) &amp; Virtual Stage</div>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Code architecture audits, live bug fixes, and 1-on-1 project reviews.</p>
                 </div>
 
-                <div>
-                  <label className="block text-slate-700 font-bold mb-1">Email Address *</label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="yash@college.edu"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
-                  />
+                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                  <div className="flex items-center justify-between text-blue-400 font-bold mb-1">
+                    <span>WEDNESDAY 6:00 PM IST</span>
+                    <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px]">Career</span>
+                  </div>
+                  <div className="font-bold text-white text-sm font-sans">Resume Teardown &amp; LinkedIn Profile Audit</div>
+                  <p className="text-slate-400 text-[11px] mt-0.5">ATS optimization, GitHub proof-of-work pinned carousels, and HR cold pitches.</p>
                 </div>
 
-                <div>
-                  <label className="block text-slate-700 font-bold mb-1">WhatsApp / Contact Phone *</label>
-                  <input
-                    type="tel"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="9876543210"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
-                  />
+                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
+                  <div className="flex items-center justify-between text-emerald-400 font-bold mb-1">
+                    <span>THURSDAY 7:00 PM IST</span>
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">Demo Day</span>
+                  </div>
+                  <div className="font-bold text-white text-sm font-sans">Showcase Thursdays</div>
+                  <p className="text-slate-400 text-[11px] mt-0.5">Students demo live working systems to peers and invited engineering leads.</p>
                 </div>
               </div>
 
-              {/* RAZORPAY CHECKOUT */}
-              <div className="pt-4 border-t border-slate-100">
-                <label className="block text-xs font-mono text-slate-500 uppercase font-bold mb-3">
-                  Secure Payment (₹{tierPrice})
-                </label>
-
-                {errorMsg && (
-                  <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-mono text-xs flex items-center gap-2 mb-4">
-                    <AlertCircle size={15} className="shrink-0" />
-                    <span>{errorMsg}</span>
-                  </div>
-                )}
-
-                <form onSubmit={handleRazorpaySubmit}>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full py-4 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-sans text-sm font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2 size={16} className="animate-spin" />
-                        <span>Processing...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Pay ₹{tierPrice} &amp; Unlock Access</span>
-                        <ArrowRight size={15} />
-                      </>
-                    )}
-                  </button>
-                  <div className="text-center mt-3 text-[10px] text-slate-400 flex flex-col items-center justify-center gap-1">
-                    <div className="flex items-center gap-1">
-                      <ShieldCheck size={12} className="text-emerald-500" />
-                      <span>256-bit Encrypted Checkout via Razorpay</span>
-                    </div>
-                    <div>
-                      Covered by our{" "}
-                      <Link href="/refund-policy" className="text-[#0066FF] hover:underline font-bold">
-                        Refund &amp; Cancellation Policy
-                      </Link>
-                    </div>
-                  </div>
-                </form>
-              </div>
             </div>
-          )}
+          </div>
 
         </div>
-      </div>
+      </section>
+
+      {/* ── 5. TRANSPARENT 3-TIER PRICING & FELLOWSHIP TRACKS (₹0 / ₹299 / ₹1,999) ── */}
+      <section id="pricing" className="py-20 bg-slate-50 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-200">
+              <ShieldCheck size={14} /> Honest Student Pricing
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+              Choose Your Engineering Track
+            </h2>
+            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
+              Free for self-learners, ₹299 for verified credentials &amp; office hours, and ₹1,999 for full founder placement assistance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch font-mono text-xs">
+            
+            {/* TIER 1: FREE OPEN BUILDER */}
+            <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div className="text-slate-500 font-bold uppercase tracking-wider text-[11px] mb-2">
+                  Track 1: Self-Paced
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 font-sans mb-2">
+                  Open Builder
+                </h3>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-black text-slate-950 font-sans">₹0</span>
+                  <span className="text-slate-500 text-xs">/ Forever Free</span>
+                </div>
+                <p className="text-slate-600 leading-relaxed mb-6 font-sans text-xs">
+                  Full open access to all 50 production PRDs and open Discord channels for self-directed builders.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-slate-100 mb-8">
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>Access to all 50 Production System PRDs</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>Open Discord Builder Community</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>6 Progressive Role Roadmaps</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-700">
+                    <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>Public GitHub Proof-of-Work Log</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/login"
+                className="w-full py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"
+              >
+                <span>Start Free (Self-Paced)</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            {/* TIER 2: ₹299 VERIFIED BUILDER PASS */}
+            <div className="p-8 rounded-3xl bg-blue-50/70 border-2 border-blue-500 shadow-xl flex flex-col justify-between relative">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#0066FF] text-white font-mono text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                Most Popular for Students ⭐
+              </div>
+
+              <div>
+                <div className="text-blue-600 font-bold uppercase tracking-wider text-[11px] mb-2">
+                  Track 2: Verified Cohort
+                </div>
+                <h3 className="text-2xl font-black text-slate-950 font-sans mb-2">
+                  Verified Builder Pass
+                </h3>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-black text-slate-950 font-sans">₹299</span>
+                  <span className="text-slate-500 text-xs">/ One-time micro fee</span>
+                </div>
+                <p className="text-slate-700 leading-relaxed mb-6 font-sans text-xs">
+                  Micro-ticket pass for students wanting verified cryptographic credentials, SLA benchmark audits, and weekly reviews.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-blue-200/60 mb-8">
+                  <div className="flex items-start gap-2 text-slate-900 font-semibold">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Everything in Open Builder</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Cryptographic PDF Certificate with QR Verification</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Automated SLA Benchmark &amp; Acceptance Gates</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Saturday Live Architecture Teardowns (Indore / Discord)</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-900">
+                    <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <span>Wednesday Resume Teardown &amp; LinkedIn Profile Audit</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/login"
+                className="w-full py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider text-center transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Get Verified Pass (₹299)</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            {/* TIER 3: ₹1,999 FOUNDER PLACEMENT TRACK */}
+            <div className="p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-xl flex flex-col justify-between">
+              <div>
+                <div className="text-amber-400 font-bold uppercase tracking-wider text-[11px] mb-2 flex items-center gap-1">
+                  <Star size={13} /> Track 3: Career Fast-Track
+                </div>
+                <h3 className="text-2xl font-black text-white font-sans mb-2">
+                  Founder Placement Track
+                </h3>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-4xl font-black text-white font-sans">₹1,999</span>
+                  <span className="text-slate-400 text-xs">/ 45-Day Cohort</span>
+                </div>
+                <p className="text-slate-400 leading-relaxed mb-6 font-sans text-xs">
+                  Direct mentorship with Founder Soham Sharma, 1-on-1 code reviews, and job referral assistance under strict criteria.
+                </p>
+
+                <div className="space-y-3 pt-4 border-t border-slate-800 mb-8">
+                  <div className="flex items-start gap-2 text-white font-semibold">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>Everything in Verified Pass</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>1-on-1 Architecture Code Review with Founder Soham</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>Personalized LinkedIn Recommendation upon Insane PRD Completion</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>Direct Dispatch to 15 Hiring Partner Companies</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-slate-300">
+                    <Check size={15} className="text-amber-400 shrink-0 mt-0.5" />
+                    <span>1-on-1 Mock Technical Interview &amp; Architecture Defense</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/login"
+                className="w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>Join Founder Track (₹1,999)</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── 6. ZERO-TRUST STUDENT TRUST & READY TO JOIN CTA ── */}
+      <section className="py-20 bg-slate-100 border-b border-slate-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200">
+            <ShieldCheck size={14} /> 100% Free &amp; Zero-Spam Verification
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 font-sans">
+            Ready to Build in the Internship Playground?
+          </h2>
+
+          <p className="text-slate-600 text-xs sm:text-base font-mono max-w-2xl mx-auto mb-8">
+            Create your verified student profile with Google or Phone OTP. Claim your <strong>100 Welcome Karma Coins</strong> and start building today.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 font-mono text-xs">
+            <Link
+              href="/login"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Get Started with Google / Phone OTP</span>
+              <ArrowRight size={14} />
+            </Link>
+            
+            <Link
+              href="/arena/roadmaps"
+              className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+            >
+              <Compass size={14} className="text-purple-600" />
+              <span>Explore Stage Roadmaps</span>
+            </Link>
+          </div>
+
+        </div>
+      </section>
 
     </div>
   );

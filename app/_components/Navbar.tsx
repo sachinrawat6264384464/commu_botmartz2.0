@@ -136,9 +136,9 @@ export default function CommunityNavbar() {
           
           {/* 1. Flagship Workshop Direct Tab */}
           <Link
-            href="/"
+            href="/workshops/flagship"
             className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
-              pathname === "/"
+              pathname.startsWith("/workshops/flagship")
                 ? "text-[#0066FF] bg-blue-50/80 font-bold"
                 : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
             }`}
@@ -296,13 +296,13 @@ export default function CommunityNavbar() {
         {/* User Auth Action & Register CTA */}
         <div className="hidden lg:flex items-center gap-3">
           
-          <a
-            href="/#registration"
+          <Link
+            href="/workshops/flagship"
             className="px-5 py-2.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 cursor-pointer"
           >
             <span>Register &amp; Pay (₹9)</span>
             <Sparkles size={13} />
-          </a>
+          </Link>
 
           {user ? (
             <div className="relative" ref={userMenuRef}>
@@ -394,12 +394,12 @@ export default function CommunityNavbar() {
       {mobileOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-8 space-y-4 font-mono text-xs max-h-[85vh] overflow-y-auto">
           
-          <a
-            href="/#registration"
+          <Link
+            href="/workshops/flagship"
             className="w-full py-3.5 rounded-2xl bg-[#0066FF] text-white font-bold text-center block uppercase tracking-wider shadow-md"
           >
             Register for Workshop (₹9)
-          </a>
+          </Link>
 
           <div className="space-y-1">
             <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Virtual AI Internship &amp; Arena</div>
