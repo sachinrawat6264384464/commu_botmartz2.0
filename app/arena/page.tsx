@@ -160,36 +160,88 @@ export default function ArenaPage() {
 
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pt-24 pb-28 font-sans selection:bg-[#0066FF] selection:text-white">
-      {/* ── 1. HEADER SECTION ── */}
-      <section className="w-full px-4 sm:px-8 lg:px-12 mb-8 text-center sm:text-left">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-200 shadow-2xs">
-              <Layers size={14} /> 45-Day Virtual Internship Catalog
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight font-sans">
-              Software Engineering Playground
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 font-mono mt-1">
-              Select an industrial-grade production system, inspect the PRD, and ship verifiable code with daily proof-of-work.
-            </p>
-          </div>
+      {/* ── 1. HEADER SECTION (REDESIGNED HERO CARD) ── */}
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 p-6 sm:p-10 border border-slate-800 shadow-2xl">
+          {/* Background Ambient Glows */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="flex items-center gap-3 self-center sm:self-auto font-mono text-xs">
-            <Link
-              href="/arena/daily-log"
-              className="px-4 py-2.5 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold transition-all shadow-2xs flex items-center gap-2"
-            >
-              <Terminal size={14} className="text-[#0066FF]" />
-              <span>Daily Standup Log</span>
-            </Link>
-            <Link
-              href="/arena/custom-project"
-              className="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold transition-all shadow-2xs flex items-center gap-2"
-            >
-              <Sparkles size={14} className="text-amber-400" />
-              <span>Propose Custom</span>
-            </Link>
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            {/* Left Column: Badge, Title & Description */}
+            <div className="space-y-4 max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold border border-cyan-500/20 backdrop-blur-md shadow-xs">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                <Layers size={14} className="text-cyan-400" />
+                <span>45-DAY VIRTUAL INTERNSHIP & PRODUCTION SYSTEMS</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
+                Software Engineering <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Playground</span>
+              </h1>
+
+              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+                Select an industrial-grade production system, inspect the PRD, and ship verifiable code with daily proof-of-work.
+              </p>
+
+              {/* Stats Strip */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Layers size={16} className="text-blue-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">59+</div>
+                    <div className="text-slate-400 text-[10px]">Production PRDs</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">100%</div>
+                    <div className="text-slate-400 text-[10px]">Verifiable PoW</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Flame size={16} className="text-amber-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">Daily</div>
+                    <div className="text-slate-400 text-[10px]">Standup Streak</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Briefcase size={16} className="text-purple-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">45-Day</div>
+                    <div className="text-slate-400 text-[10px]">Virtual Internship</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: CTA Buttons */}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-mono text-xs shrink-0 self-start lg:self-center">
+              <Link
+                href="/arena/custom-project"
+                className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white font-bold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2.5 group"
+              >
+                <Sparkles size={16} className="text-amber-300 group-hover:scale-110 transition-transform" />
+                <span>Propose Custom System</span>
+                <ArrowRight size={14} className="text-cyan-300 group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link
+                href="/arena/daily-log"
+                className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold transition-all backdrop-blur-md flex items-center justify-center gap-2.5"
+              >
+                <Terminal size={16} className="text-cyan-400" />
+                <span>Daily Standup Log</span>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
