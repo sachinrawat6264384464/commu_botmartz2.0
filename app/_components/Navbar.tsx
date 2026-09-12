@@ -106,12 +106,12 @@ export default function CommunityNavbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/75 shadow-[0_4px_20px_rgba(0,102,255,0.03)] transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b-2 border-slate-100 shadow-md transition-all duration-300">
       <div className="w-full px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
         
         {/* Brand Logo & Live Cohort Badge */}
         <Link href="/" className="flex items-center gap-3.5 group shrink-0">
-          <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-slate-100 border border-blue-100 group-hover:border-blue-300 group-hover:shadow-md group-hover:shadow-blue-500/10 transition-all duration-300">
+          <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200/80 group-hover:border-[#0066FF] group-hover:shadow-md group-hover:shadow-blue-500/15 transition-all duration-300">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
@@ -122,17 +122,17 @@ export default function CommunityNavbar() {
             />
           </div>
           <div className="flex flex-col">
-            <div className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-950 flex items-center gap-2 font-sans">
+            <div className="font-black text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-2 font-sans">
               <span>BOTMARTZ</span>
-              <span className="bg-gradient-to-r from-[#0066FF] to-[#0092D7] bg-clip-text text-transparent font-black text-sm uppercase tracking-wide">
+              <span className="bg-gradient-to-r from-[#0066FF] via-blue-600 to-cyan-500 bg-clip-text text-transparent font-black text-sm uppercase tracking-wide">
                 AI WORKSHOP
               </span>
             </div>
             <div className="flex items-center gap-2 -mt-0.5">
-              <span className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-bold">
+              <span className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-extrabold">
                 Production Engineering Cohort
               </span>
-              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[9px] font-bold border border-emerald-200">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[9px] font-extrabold border border-emerald-300 shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live
               </span>
@@ -141,15 +141,15 @@ export default function CommunityNavbar() {
         </Link>
 
         {/* Desktop Pill Navigation */}
-        <nav className="hidden lg:flex items-center gap-2 bg-slate-100/70 p-1.5 rounded-full border border-slate-200/80 font-mono text-xs font-bold shadow-2xs backdrop-blur-md">
+        <nav className="hidden lg:flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-full border-2 border-slate-200/90 font-sans text-xs font-extrabold shadow-sm backdrop-blur-md">
           
           {/* 1. 50 Systems Catalog */}
           <Link
             href="/arena"
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname === "/arena"
-                ? "bg-white text-[#0066FF] shadow-xs font-bold"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+                ? "bg-gradient-to-r from-[#0066FF] to-blue-600 text-white shadow-md font-black"
+                : "text-slate-700 hover:text-[#0066FF] hover:bg-white/90 font-bold"
             }`}
           >
             <span>50 Systems</span>
@@ -160,8 +160,8 @@ export default function CommunityNavbar() {
             href="/workshops"
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname.startsWith("/workshops")
-                ? "bg-white text-[#0066FF] shadow-xs font-bold"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+                ? "bg-gradient-to-r from-[#0066FF] to-blue-600 text-white shadow-md font-black"
+                : "text-slate-700 hover:text-[#0066FF] hover:bg-white/90 font-bold"
             }`}
           >
             <span>All Bootcamps</span>
@@ -177,8 +177,8 @@ export default function CommunityNavbar() {
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                 pathname.startsWith("/arena") || pathname.startsWith("/virtual-ai-internship")
-                  ? "bg-white text-[#0066FF] shadow-xs font-bold"
-                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+                  ? "bg-gradient-to-r from-[#0066FF] to-blue-600 text-white shadow-md font-black"
+                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white/90 font-bold"
               }`}
             >
               <span>Internship</span>
@@ -186,8 +186,8 @@ export default function CommunityNavbar() {
             </button>
 
             {internshipOpen && (
-              <div className="absolute top-full left-0 mt-3 w-80 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                <div className="text-[10px] font-mono text-slate-400 uppercase font-bold px-3 py-1.5 border-b border-slate-100 mb-1">
+              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
+                <div className="text-[10px] font-mono text-slate-500 uppercase font-extrabold px-3 py-1.5 border-b border-slate-100 mb-1">
                   Virtual Internship Playground
                 </div>
                 {INTERNSHIP_ITEMS.map((item) => {
@@ -196,13 +196,13 @@ export default function CommunityNavbar() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-blue-50/60 transition-all group"
+                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-blue-50/80 transition-all group"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-all duration-200 shadow-2xs">
+                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-all duration-200 shadow-xs border border-blue-100">
                         <IconComponent size={16} />
                       </div>
                       <div className="flex-1">
-                        <div className="text-slate-950 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
+                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
                           <span>{item.name}</span>
                           {item.locked && (
                             <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
@@ -229,8 +229,8 @@ export default function CommunityNavbar() {
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                 pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar")
-                  ? "bg-white text-[#0066FF] shadow-xs font-bold"
-                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+                  ? "bg-gradient-to-r from-[#0066FF] to-blue-600 text-white shadow-md font-black"
+                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white/90 font-bold"
               }`}
             >
               <span>Community</span>
@@ -238,8 +238,8 @@ export default function CommunityNavbar() {
             </button>
 
             {communityOpen && (
-              <div className="absolute top-full left-0 mt-3 w-84 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                <div className="text-[10px] font-mono text-slate-400 uppercase font-bold px-3 py-1.5 border-b border-slate-100 mb-1">
+              <div className="absolute top-full left-0 mt-3 w-84 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
+                <div className="text-[10px] font-mono text-slate-500 uppercase font-extrabold px-3 py-1.5 border-b border-slate-100 mb-1">
                   Builder Network &amp; Events
                 </div>
                 {COMMUNITY_ITEMS.map((item) => {
@@ -251,13 +251,13 @@ export default function CommunityNavbar() {
                         href={item.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-purple-50/60 transition-all group"
+                        className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-purple-50/80 transition-all group"
                       >
-                        <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-600 group-hover:text-white transition-all duration-200 shadow-2xs">
+                        <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-600 group-hover:text-white transition-all duration-200 shadow-xs border border-purple-100">
                           <IconComponent size={16} />
                         </div>
                         <div>
-                          <div className="text-slate-950 font-bold text-xs font-sans group-hover:text-purple-600 transition-colors flex items-center gap-1">
+                          <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-purple-600 transition-colors flex items-center gap-1">
                             <span>{item.name}</span>
                           </div>
                           <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
@@ -269,13 +269,13 @@ export default function CommunityNavbar() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-blue-50/60 transition-all group"
+                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-blue-50/80 transition-all group"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-all duration-200 shadow-2xs">
+                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-all duration-200 shadow-xs border border-blue-100">
                         <IconComponent size={16} />
                       </div>
                       <div className="flex-1">
-                        <div className="text-slate-950 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
+                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
                           <span>{item.name}</span>
                           {item.locked && (
                             <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
@@ -302,8 +302,8 @@ export default function CommunityNavbar() {
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                 pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine")
-                  ? "bg-white text-[#0066FF] shadow-xs font-bold"
-                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+                  ? "bg-gradient-to-r from-[#0066FF] to-blue-600 text-white shadow-md font-black"
+                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white/90 font-bold"
               }`}
             >
               <span>Resources</span>
@@ -311,8 +311,8 @@ export default function CommunityNavbar() {
             </button>
 
             {resourcesOpen && (
-              <div className="absolute top-full left-0 mt-3 w-80 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                <div className="text-[10px] font-mono text-slate-400 uppercase font-bold px-3 py-1.5 border-b border-slate-100 mb-1">
+              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
+                <div className="text-[10px] font-mono text-slate-500 uppercase font-extrabold px-3 py-1.5 border-b border-slate-100 mb-1">
                   Developer Resources &amp; Credentials
                 </div>
                 {RESOURCE_ITEMS.map((item) => {
@@ -321,13 +321,13 @@ export default function CommunityNavbar() {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-emerald-50/60 transition-all group"
+                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-emerald-50/80 transition-all group"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-200 shadow-2xs">
+                      <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-200 shadow-xs border border-emerald-100">
                         <IconComponent size={16} />
                       </div>
                       <div className="flex-1">
-                        <div className="text-slate-950 font-bold text-xs font-sans group-hover:text-emerald-600 transition-colors flex items-center justify-between">
+                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-emerald-600 transition-colors flex items-center justify-between">
                           <span>{item.name}</span>
                         </div>
                         <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
@@ -344,8 +344,8 @@ export default function CommunityNavbar() {
             href="/certificates"
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname.startsWith("/certificates")
-                ? "bg-white text-[#0066FF] shadow-xs font-bold"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+                ? "bg-gradient-to-r from-[#0066FF] to-blue-600 text-white shadow-md font-black"
+                : "text-slate-700 hover:text-[#0066FF] hover:bg-white/90 font-bold"
             }`}
           >
             <span>Certificates</span>
@@ -360,7 +360,7 @@ export default function CommunityNavbar() {
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                className="flex items-center gap-3 p-1.5 pr-3.5 rounded-full border border-slate-200/90 hover:border-blue-300 bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer shadow-2xs"
+                className="flex items-center gap-3 p-1.5 pr-3.5 rounded-full border-2 border-slate-200 hover:border-[#0066FF] bg-white hover:bg-slate-50 transition-all duration-200 cursor-pointer shadow-xs"
               >
                 <div className="relative w-8 h-8 rounded-full bg-gradient-to-tr from-[#0066FF] to-[#00B8F0] text-white font-mono text-xs font-bold flex items-center justify-center shadow-xs">
                   {user.photoURL ? (
@@ -371,8 +371,8 @@ export default function CommunityNavbar() {
                   <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full" />
                 </div>
 
-                <div className="text-left font-mono">
-                  <div className="text-xs font-bold text-slate-900 truncate max-w-[110px]">
+                <div className="text-left font-sans">
+                  <div className="text-xs font-black text-slate-900 truncate max-w-[110px]">
                     {user.displayName || user.email?.split("@")[0]}
                   </div>
                 </div>
@@ -381,15 +381,15 @@ export default function CommunityNavbar() {
               </button>
 
               {userDropdownOpen && (
-                <div className="absolute right-0 top-full mt-3 w-68 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 font-mono text-xs animate-in fade-in slide-in-from-top-3 duration-200">
+                <div className="absolute right-0 top-full mt-3 w-68 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 font-sans text-xs animate-in fade-in slide-in-from-top-3 duration-200">
                   <div className="p-3 border-b border-slate-100 mb-1 rounded-2xl bg-slate-50/80">
-                    <div className="font-bold text-slate-950 font-sans">{user.displayName || "Student Builder"}</div>
-                    <div className="text-[11px] text-slate-500 truncate">{user.email}</div>
+                    <div className="font-black text-slate-900 font-sans">{user.displayName || "Student Builder"}</div>
+                    <div className="text-[11px] text-slate-500 font-mono truncate">{user.email}</div>
                   </div>
 
                   <Link
                     href="/profile"
-                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-slate-100/80 text-slate-700 hover:text-[#0066FF] transition-colors font-bold"
+                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-blue-50 text-slate-700 hover:text-[#0066FF] transition-colors font-bold"
                   >
                     <User size={15} /> My Profile &amp; Passes
                   </Link>
@@ -417,10 +417,10 @@ export default function CommunityNavbar() {
           ) : (
             <Link
               href="/login"
-              className="px-6 py-2.5 rounded-full bg-slate-950 hover:bg-[#0066FF] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md hover:shadow-blue-500/25 flex items-center gap-2 cursor-pointer group"
+              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-xs sm:text-sm font-black transition-all duration-300 shadow-lg hover:shadow-blue-500/25 border border-blue-400/30 hover:scale-[1.03] active:scale-[0.97] flex items-center gap-2 cursor-pointer group"
             >
               <span>Sign In</span>
-              <Sparkles size={13} className="text-blue-400 group-hover:text-white transition-colors" />
+              <Sparkles size={14} className="text-cyan-300 group-hover:rotate-12 transition-transform duration-300" />
             </Link>
           )}
         </div>
