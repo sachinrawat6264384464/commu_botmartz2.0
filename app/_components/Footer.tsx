@@ -253,6 +253,4 @@ export default function CommunityFooter() {
 
     </footer>
   );
-}r>
-  );
 }
