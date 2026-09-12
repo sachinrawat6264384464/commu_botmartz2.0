@@ -831,82 +831,124 @@ export default function WorkshopLandingPage() {
         </div>
       </section>
 
-      {/* ── SECTION 6: 100% FULL-WIDTH LEAD INSTRUCTOR SECTION ── */}
-      <section className="py-20 px-4 sm:px-8 lg:px-12 bg-white text-slate-900 border-t-2 border-b-2 border-slate-200">
-        <div className="w-full flex flex-col md:flex-row items-center justify-center gap-12">
+      {/* ── SECTION 6: 100% FULL-WIDTH LEAD INSTRUCTOR EXECUTIVE CARD ── */}
+      <section className="py-20 px-4 sm:px-8 lg:px-12 bg-[#040914] text-white border-t border-b border-slate-800/80 relative overflow-hidden">
+        
+        {/* Ambient Backlight Glow */}
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[300px] bg-blue-600/15 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="w-full relative z-10">
           
-          {/* Avatar Image */}
-          <div className="relative w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-[#040914] p-2 shadow-2xl shrink-0">
-            <div className="w-full h-full rounded-full overflow-hidden bg-slate-900 border-4 border-[#0066FF] relative">
-              <img
-                src="/Sohamsharma.jpeg"
-                alt="Soham Sharma"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
+          {/* Executive Card */}
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-[#0A142B] to-[#040816] p-8 sm:p-12 lg:p-14 border-2 border-slate-800 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            {/* Background Grid Pattern */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b18_1px,transparent_1px),linear-gradient(to_bottom,#1e293b18_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
-          {/* Instructor Content */}
-          <div className="space-y-4 text-center md:text-left font-sans max-w-2xl">
-            <div className="text-xs font-mono font-bold text-[#0066FF] uppercase tracking-wider flex items-center justify-center md:justify-start gap-1.5">
-              <ShieldCheck size={16} />
-              <span>LEAD INSTRUCTOR &amp; FOUNDER</span>
-            </div>
-
-            <h2 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight">
-              Soham Sharma
-            </h2>
-
-            <div className="text-sm sm:text-base font-bold text-slate-700">
-              Founder &amp; AI Architect, Botmartz AI Solutions
+            {/* Left Column: Glowing Avatar */}
+            <div className="lg:col-span-4 flex justify-center relative z-10">
+              <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-3xl bg-slate-900 p-2 shadow-2xl border-4 border-[#0066FF] shadow-blue-500/25 group overflow-hidden">
+                <div className="w-full h-full rounded-2xl overflow-hidden relative">
+                  <img
+                    src="/Sohamsharma.jpeg"
+                    alt="Soham Sharma"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3 right-3 text-center font-mono text-[10px] text-cyan-300 font-bold bg-slate-950/80 backdrop-blur-md px-2 py-1 rounded-lg border border-cyan-500/30 uppercase tracking-wider">
+                    SOHAM SHARMA &bull; LEAD ARCHITECT
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
-              Soham is an AI Architect specializing in Enterprise RAG, agentic workflows, and deploying LLMs into production. He has trained hundreds of developers and works daily on the frontier of applied AI. He brings real-world production engineering experience directly to the classroom.
-            </p>
+            {/* Right Column: Instructor Profile & Credentials */}
+            <div className="lg:col-span-8 space-y-6 text-center lg:text-left relative z-10 font-sans">
+              
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0066FF]/20 text-[#00B8F0] font-mono text-xs font-bold uppercase border border-[#0066FF]/40 shadow-sm">
+                <ShieldCheck size={16} className="text-[#00B8F0]" />
+                <span>LEAD INSTRUCTOR &amp; FOUNDER</span>
+              </div>
 
-            {/* Social Icons */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2 font-mono text-xs">
-              <a
-                href="https://www.linkedin.com/in/soham-sharma/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-[#0066FF] flex items-center gap-1.5 transition-colors border border-slate-300 font-semibold text-xs"
-                title="Soham Sharma LinkedIn"
-              >
-                <Linkedin size={14} />
-                <span>Founder LinkedIn</span>
-              </a>
-              <a
-                href="https://twitter.com/sohamsharma"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-[#0066FF] flex items-center gap-1.5 transition-colors border border-slate-300 font-semibold text-xs"
-                title="Soham Sharma Twitter"
-              >
-                <Twitter size={14} />
-                <span>Founder Twitter</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/company/botmartz-ai-solutions"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-[#0066FF] flex items-center gap-1.5 transition-colors border border-slate-300 font-semibold text-xs"
-                title="Botmartz Company LinkedIn"
-              >
-                <Linkedin size={14} />
-                <span>Company LinkedIn</span>
-              </a>
-              <a
-                href="https://x.com/botmartz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-[#0066FF] flex items-center gap-1.5 transition-colors border border-slate-300 font-semibold text-xs"
-                title="Botmartz Official X"
-              >
-                <Twitter size={14} />
-                <span>Botmartz X</span>
-              </a>
+              <h2 className="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+                <span className="bg-gradient-to-r from-white via-slate-100 to-cyan-300 bg-clip-text text-transparent">Soham Sharma</span>
+              </h2>
+
+              <div className="text-base sm:text-lg font-bold text-cyan-400 font-sans">
+                Founder &amp; AI Architect, Botmartz AI Solutions
+              </div>
+
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-sans max-w-2xl">
+                Soham is an AI Architect specializing in Enterprise RAG, agentic workflows, and deploying LLMs into production. He has trained hundreds of developers and works daily on the frontier of applied AI. He brings real-world production engineering experience directly to the classroom.
+              </p>
+
+              {/* Verified Expertise Pills Matrix */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 font-mono text-xs pt-2">
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-slate-200">
+                  <div className="text-white font-bold text-xs font-sans">100+ Engineers</div>
+                  <div className="text-slate-400 text-[10px]">Trained in Bootcamps</div>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-slate-200">
+                  <div className="text-white font-bold text-xs font-sans">Enterprise RAG</div>
+                  <div className="text-slate-400 text-[10px]">Production Teardowns</div>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-slate-200">
+                  <div className="text-white font-bold text-xs font-sans">LangGraph Agents</div>
+                  <div className="text-slate-400 text-[10px]">State Graphs &amp; MCP</div>
+                </div>
+
+                <div className="p-3 rounded-2xl bg-white/5 border border-white/10 text-slate-200">
+                  <div className="text-white font-bold text-xs font-sans">Production LLMs</div>
+                  <div className="text-slate-400 text-[10px]">Deployment &amp; Evals</div>
+                </div>
+              </div>
+
+              {/* Social Link Buttons */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-3 font-mono text-xs">
+                <a
+                  href="https://www.linkedin.com/in/soham-sharma/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold flex items-center gap-2 transition-all shadow-md shadow-blue-500/20"
+                  title="Soham Sharma LinkedIn"
+                >
+                  <Linkedin size={15} />
+                  <span>Founder LinkedIn &rarr;</span>
+                </a>
+                <a
+                  href="https://twitter.com/sohamsharma"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center gap-2 transition-all border border-white/10"
+                  title="Soham Sharma Twitter"
+                >
+                  <Twitter size={15} />
+                  <span>Founder Twitter</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/botmartz-ai-solutions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center gap-2 transition-all border border-white/10"
+                  title="Botmartz Company LinkedIn"
+                >
+                  <Linkedin size={15} />
+                  <span>Company Page</span>
+                </a>
+                <a
+                  href="https://x.com/botmartz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center gap-2 transition-all border border-white/10"
+                  title="Botmartz Official X"
+                >
+                  <Twitter size={15} />
+                  <span>Official X</span>
+                </a>
+              </div>
+
             </div>
 
           </div>
