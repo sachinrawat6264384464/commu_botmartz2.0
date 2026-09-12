@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import CommunityNavbar from "./_components/Navbar";
 import CommunityFooter from "./_components/Footer";
 import PageLockGate from "./_components/PageLockGate";
+import AccessibilityToolbox from "./_components/AccessibilityToolbox";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { isRouteLocked, DEFAULT_PAGE_LOCK_CONFIG, PageLockConfig } from "@/lib/page-locks";
 
@@ -54,7 +55,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const isAdminOrDesk = mounted && (pathname.startsWith("/admin") || pathname.startsWith("/event-desk"));
 
   if (isAdminOrDesk) {
-    return <main className="min-h-screen bg-[#FAFCFF] text-slate-900">{children}</main>;
+    return (
+      <main className="min-h-screen bg-[#FAFCFF] text-slate-900">
+        {children}
+        <AccessibilityToolbox />
+      </main>
+    );
   }
 
   // Check if route is locked
@@ -75,6 +81,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         )}
       </main>
       <CommunityFooter />
+      <AccessibilityToolbox />
     </>
   );
 }
