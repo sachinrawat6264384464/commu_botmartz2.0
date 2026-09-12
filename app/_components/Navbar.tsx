@@ -107,7 +107,7 @@ export default function CommunityNavbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/75 shadow-[0_4px_20px_rgba(0,102,255,0.03)] transition-all duration-300">
-      <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto h-20 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
         
         {/* Brand Logo & Live Cohort Badge */}
         <Link href="/" className="flex items-center gap-3.5 group shrink-0">
