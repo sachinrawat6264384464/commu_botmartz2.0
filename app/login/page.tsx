@@ -62,10 +62,14 @@ function StudentLoginInner() {
     try {
       setSubmitting(true);
       setError("");
-      await signInWithGoogle();
-      router.push(redirectUrl);
+      const loggedUser = await signInWithGoogle();
+      if (loggedUser) {
+        router.push(redirectUrl);
+      }
     } catch (err: any) {
-      setError(err.message || "Google Sign-In failed. Please try again.");
+      if (err?.code !== "auth/popup-closed-by-user" && !err?.message?.includes("popup-closed-by-user")) {
+        setError(err.message || "Google Sign-In failed. Please try again.");
+      }
     } finally {
       setSubmitting(false);
     }

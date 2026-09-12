@@ -150,6 +150,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await fetchProfile(u.uid, u.email || "");
       return u;
     } catch (err: any) {
+      if (err?.code === "auth/popup-closed-by-user" || err?.message?.includes("popup-closed-by-user")) {
+        console.warn("Google sign-in popup was closed by user.");
+        return null;
+      }
       console.error("Google Sign-In error:", err);
       throw err;
     }
