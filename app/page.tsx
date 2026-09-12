@@ -125,7 +125,7 @@ export default async function CommunityHomePage() {
 
       {/* ── 2. THE 3-STEP OPERATING MACHINE ("HOW IT WORKS") ── */}
       <section className="py-20 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
@@ -214,7 +214,7 @@ export default async function CommunityHomePage() {
 
       {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
       <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
@@ -290,7 +290,7 @@ export default async function CommunityHomePage() {
 
       {/* ── 4. INDORE OFFLINE HUB + VIRTUAL DISCORD RITUALS ── */}
       <section className="py-20 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           
           <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -365,7 +365,7 @@ export default async function CommunityHomePage() {
 
       {/* ── 5. TRANSPARENT 3-TIER PRICING & FELLOWSHIP TRACKS (₹0 / ₹299 / ₹1,999) ── */}
       <section id="pricing" className="py-20 bg-slate-50 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-200">
@@ -538,7 +538,7 @@ export default async function CommunityHomePage() {
 
       {/* ── 6. ZERO-TRUST STUDENT TRUST & READY TO JOIN CTA ── */}
       <section className="py-20 bg-slate-100 border-b border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto text-center">
           
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200">
             <ShieldCheck size={14} /> 100% Free &amp; Zero-Spam Verification
