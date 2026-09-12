@@ -22,7 +22,10 @@ import {
   Layers,
   Terminal,
   KanbanSquare,
-  BookOpen
+  BookOpen,
+  Star,
+  Quote,
+  Check
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
@@ -266,12 +269,12 @@ function StudentLoginInner() {
                 
                 <div className="space-y-6">
                   {/* Form Header */}
-                  <div className="text-center space-y-3">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto border-2 border-blue-200 shadow-sm">
-                      <Lock size={26} />
+                  <div className="text-center space-y-2">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto border-2 border-blue-200 shadow-sm">
+                      <Lock size={24} />
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-100/70 text-[#0066FF] font-mono text-xs font-black uppercase tracking-wider border border-blue-300">
-                      <ShieldCheck size={14} /> Zero-Trust Builder Gate
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/70 text-[#0066FF] font-mono text-[11px] font-black uppercase tracking-wider border border-blue-300">
+                      <ShieldCheck size={13} /> Zero-Trust Builder Gate
                     </div>
                     <h2 className="text-2xl sm:text-3xl font-black text-slate-950 font-sans tracking-tight">
                       Sign In to Builder Portal
@@ -283,14 +286,14 @@ function StudentLoginInner() {
 
                   {/* Error & Info Messages */}
                   {error && (
-                    <div className="p-4 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-800 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
+                    <div className="p-3.5 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-800 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
                       <AlertCircle size={18} className="shrink-0 mt-0.5 text-rose-600" />
                       <span>{error}</span>
                     </div>
                   )}
 
                   {infoMsg && (
-                    <div className="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-emerald-900 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
+                    <div className="p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-emerald-900 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
                       <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-600" />
                       <span>{infoMsg}</span>
                     </div>
@@ -304,7 +307,7 @@ function StudentLoginInner() {
                         setAuthMethod("google");
                         setError("");
                       }}
-                      className={`py-3 rounded-xl font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                      className={`py-2.5 rounded-xl font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 ${
                         authMethod === "google"
                           ? "bg-[#0066FF] text-white shadow-md"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
@@ -319,7 +322,7 @@ function StudentLoginInner() {
                         setAuthMethod("phone");
                         setError("");
                       }}
-                      className={`py-3 rounded-xl font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                      className={`py-2.5 rounded-xl font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 ${
                         authMethod === "phone"
                           ? "bg-[#0066FF] text-white shadow-md"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
@@ -332,12 +335,12 @@ function StudentLoginInner() {
 
                   {/* GOOGLE SIGN IN */}
                   {authMethod === "google" && (
-                    <div className="space-y-5">
+                    <div className="space-y-4">
                       <button
                         type="button"
                         onClick={handleGoogleLogin}
                         disabled={submitting}
-                        className="w-full py-4 px-5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-sans text-sm font-extrabold transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl cursor-pointer disabled:opacity-50 border border-slate-700"
+                        className="w-full py-3.5 px-5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-sans text-sm font-extrabold transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl cursor-pointer disabled:opacity-50 border border-slate-700"
                       >
                         {submitting ? (
                           <Loader2 size={18} className="animate-spin text-cyan-400" />
@@ -364,7 +367,7 @@ function StudentLoginInner() {
                         <span>Continue with Google Sign-In &rarr;</span>
                       </button>
 
-                      <div className="p-4.5 rounded-2xl bg-blue-50/80 border-2 border-blue-200/80 text-slate-800 font-sans text-xs space-y-2">
+                      <div className="p-4 rounded-2xl bg-blue-50/80 border-2 border-blue-200/80 text-slate-800 font-sans text-xs space-y-2">
                         <div className="flex items-center gap-1.5 text-[#0066FF] font-black uppercase tracking-wider text-[11px] font-mono">
                           <Sparkles size={14} />
                           <span>Instant Community Perks:</span>
@@ -384,12 +387,43 @@ function StudentLoginInner() {
                           </div>
                         </div>
                       </div>
+
+                      {/* Verified Builder Quote / Proof Widget */}
+                      <div className="p-4 rounded-2xl bg-slate-950 text-white space-y-2 border-2 border-slate-800 shadow-md">
+                        <div className="flex items-center justify-between text-xs text-amber-400 font-mono font-bold">
+                          <span className="flex items-center gap-1.5">
+                            <Star size={13} className="fill-amber-400 text-amber-400" />
+                            <span>Verified Builder Proof</span>
+                          </span>
+                          <span className="text-slate-400 text-[10px] uppercase tracking-wider">Cohort Alum</span>
+                        </div>
+                        <p className="text-xs text-slate-300 italic font-sans leading-relaxed">
+                          &ldquo;Logging daily commits and building frontier AI system architectures got me recognized directly by top technical founders.&rdquo;
+                        </p>
+                        <div className="text-[11px] text-cyan-300 font-mono font-bold pt-1.5 border-t border-slate-800 flex items-center justify-between">
+                          <span>— AI Engineering Intern</span>
+                          <span className="text-emerald-400 flex items-center gap-1">
+                            <Check size={12} /> 100% Karma Verified
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Active Cohort Indicator Bar */}
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-xs font-mono text-emerald-900 font-bold">
+                        <span className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span>Live Cohort Enrollment Active</span>
+                        </span>
+                        <span className="bg-emerald-600 text-white px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black">
+                          84% Filled
+                        </span>
+                      </div>
                     </div>
                   )}
 
                   {/* PHONE OTP SIGN IN */}
                   {authMethod === "phone" && (
-                    <div>
+                    <div className="space-y-4">
                       {!confirmationResult ? (
                         <form onSubmit={handleSendPhoneOtp} className="space-y-4 font-sans text-xs sm:text-sm">
                           <div>
@@ -412,7 +446,7 @@ function StudentLoginInner() {
                           <button
                             type="submit"
                             disabled={submitting}
-                            className="w-full py-4 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-extrabold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 text-xs sm:text-sm font-mono"
+                            className="w-full py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-extrabold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 text-xs sm:text-sm font-mono"
                           >
                             {submitting ? (
                               <>
@@ -442,7 +476,7 @@ function StudentLoginInner() {
                           <button
                             type="submit"
                             disabled={submitting}
-                            className="w-full py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 text-xs sm:text-sm font-mono"
+                            className="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 text-xs sm:text-sm font-mono"
                           >
                             {submitting ? (
                               <>
@@ -465,6 +499,37 @@ function StudentLoginInner() {
                           </div>
                         </form>
                       )}
+
+                      {/* Verified Builder Quote / Proof Widget */}
+                      <div className="p-4 rounded-2xl bg-slate-950 text-white space-y-2 border-2 border-slate-800 shadow-md">
+                        <div className="flex items-center justify-between text-xs text-amber-400 font-mono font-bold">
+                          <span className="flex items-center gap-1.5">
+                            <Star size={13} className="fill-amber-400 text-amber-400" />
+                            <span>Verified Builder Proof</span>
+                          </span>
+                          <span className="text-slate-400 text-[10px] uppercase tracking-wider">Cohort Alum</span>
+                        </div>
+                        <p className="text-xs text-slate-300 italic font-sans leading-relaxed">
+                          &ldquo;Logging daily commits and building frontier AI system architectures got me recognized directly by top technical founders.&rdquo;
+                        </p>
+                        <div className="text-[11px] text-cyan-300 font-mono font-bold pt-1.5 border-t border-slate-800 flex items-center justify-between">
+                          <span>— AI Engineering Intern</span>
+                          <span className="text-emerald-400 flex items-center gap-1">
+                            <Check size={12} /> 100% Karma Verified
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Active Cohort Indicator Bar */}
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-xs font-mono text-emerald-900 font-bold">
+                        <span className="flex items-center gap-2">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                          <span>Live Cohort Enrollment Active</span>
+                        </span>
+                        <span className="bg-emerald-600 text-white px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black">
+                          84% Filled
+                        </span>
+                      </div>
                     </div>
                   )}
                 </div>
