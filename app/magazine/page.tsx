@@ -27,7 +27,8 @@ import {
   Zap,
   Award,
   Layers,
-  Copy
+  Copy,
+  Code2
 } from "lucide-react";
 
 interface Article {
