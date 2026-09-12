@@ -161,13 +161,13 @@ export default function ArenaPage() {
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pt-24 pb-28 font-sans selection:bg-[#0066FF] selection:text-white">
       {/* ── 1. HEADER SECTION ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 mb-8 text-center sm:text-left">
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-8 text-center sm:text-left">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-200">
-              <Layers size={13} /> 45-Day Virtual Internship Catalog
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-200 shadow-2xs">
+              <Layers size={14} /> 45-Day Virtual Internship Catalog
             </div>
-            <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+            <h1 className="text-3xl sm:text-5xl font-black text-slate-950 tracking-tight font-sans">
               Software Engineering Playground
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 font-mono mt-1">
@@ -195,7 +195,7 @@ export default function ArenaPage() {
       </section>
 
       {/* ── 2. FILTER & SEARCH BAR ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
         <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 shadow-xs space-y-4">
           
           <div className="flex flex-col sm:flex-row items-center gap-3">
@@ -240,7 +240,7 @@ export default function ArenaPage() {
                 <button
                   key={tier}
                   onClick={() => setActiveTier(tier)}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
                     activeTier === tier
                       ? "bg-[#0066FF] text-white shadow-xs"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -259,8 +259,8 @@ export default function ArenaPage() {
         </div>
       </section>
 
-      {/* ── 3. SIMPLIFIED 3-COLUMN PROJECTS GRID ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 mb-12">
+      {/* ── 3. SIMPLIFIED 4-COLUMN PROJECTS GRID ── */}
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-12">
         {paginatedProjects.length === 0 ? (
           <div className="p-12 rounded-3xl bg-white border border-slate-200 text-center space-y-3 shadow-xs">
             <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
@@ -280,7 +280,7 @@ export default function ArenaPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {paginatedProjects.map((project) => (
               <div
                 key={project.id}
@@ -384,7 +384,7 @@ export default function ArenaPage() {
       </section>
 
       {/* ── 5. QUICK FREE TOOLS STRIP ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section className="w-full px-4 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
           <Link
             href="/arena/roadmaps"
