@@ -135,65 +135,170 @@ export default function VirtualAIInternshipPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProgram) }}
       />
 
-      {/* ── 1. HERO SECTION ── */}
-      <section className="pt-24 pb-16 bg-white border-b border-slate-200 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* ── 1. HERO SECTION: FULL-WIDTH 2-COLUMN SPLIT LAYOUT ── */}
+      <section className="pt-8 pb-16 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF] border-b border-slate-200/80 relative overflow-hidden">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto relative z-10">
           
           {/* Transparency & Integrity Callout */}
-          <div className="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 font-mono text-xs text-center leading-relaxed">
+          <div className="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 font-mono text-xs text-center leading-relaxed shadow-2xs">
             <strong>Honest Engineering Notice:</strong> Botmartz is an intensive, practical software simulator. We do not sell or guarantee job placements or salaries. We provide real production architectures, daily GitHub commit tracking, and founder code teardowns to help you build an undeniable portfolio.
           </div>
 
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
-              <Sparkles size={14} /> 45-Day Virtual AI Engineering Fellowship
-            </div>
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6 font-sans">
-              Stop Building Toy Apps. Build{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0066FF] to-blue-700">
-                Production-Grade Systems
-              </span>{" "}
-              With Verifiable Proof of Work.
-            </h1>
-            <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8 max-w-3xl font-mono text-xs sm:text-sm">
-              Tackle 50 industrial PRDs with real multi-table relational/vector schemas, REST/gRPC APIs, Docker containers, and strict latency SLA test gates (&lt;150ms). Submit daily commits, build your streak, and earn Founder Soham Sharma&apos;s technical code audits.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* LEFT COLUMN: HEADLINE, SUBHEAD & ACTIONS */}
+            <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
+              
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider border border-blue-200 shadow-2xs">
+                <Sparkles size={14} className="text-[#0066FF]" />
+                <span>45-Day Virtual AI Engineering Fellowship</span>
+              </div>
 
-            <div className="flex flex-wrap items-center gap-4 font-mono text-xs">
-              <a
-                href="#pricing"
-                className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 flex items-center gap-2 cursor-pointer"
-              >
-                <span>View Enrollment Plans (Free / ₹299)</span>
-                <ArrowRight size={16} />
-              </a>
-              <Link
-                href="/arena"
-                className="px-8 py-4 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold uppercase tracking-wider transition-all border border-slate-300"
-              >
-                Explore 50 PRD Blueprints
-              </Link>
-            </div>
-          </div>
+              <h1 className="text-4xl sm:text-6xl font-black text-slate-950 tracking-tight leading-[1.08] font-sans">
+                Stop Building Toy Apps. <br />
+                Build{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7]">
+                  Production-Grade Systems
+                </span>{" "}
+                With Verifiable Proof of Work.
+              </h1>
 
-          {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-slate-100 font-mono text-xs">
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="text-2xl font-black text-slate-900 font-sans">50 Systems</div>
-              <div className="text-slate-500 text-[11px] mt-0.5">Production PRDs &amp; Schemas</div>
+              <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-mono text-xs sm:text-sm max-w-2xl">
+                Tackle 50 industrial PRDs with real multi-table relational/vector schemas, REST/gRPC APIs, Docker containers, and strict latency SLA test gates (&lt;150ms). Submit daily commits, build your streak, and earn Founder Soham Sharma&apos;s technical code audits.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 font-mono text-xs pt-2">
+                <a
+                  href="#pricing"
+                  className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center gap-2 cursor-pointer"
+                >
+                  <span>View Enrollment Plans (Free / ₹299)</span>
+                  <ArrowRight size={16} />
+                </a>
+
+                <Link
+                  href="/arena"
+                  className="px-8 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-bold uppercase tracking-wider transition-all border border-slate-300 shadow-2xs"
+                >
+                  Explore 50 PRD Blueprints
+                </Link>
+              </div>
+
+              {/* Quick Metrics Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-6 border-t border-slate-200/80 font-mono text-xs">
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-xl font-black text-slate-950 font-sans">50 Systems</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">Production PRDs</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-xl font-black text-emerald-600 font-sans">&lt;150ms</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">Strict SLA Gates</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-xl font-black text-[#0066FF] font-sans">45 Days</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">Daily GitHub Log</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-xl font-black text-purple-600 font-sans">Weekly</div>
+                  <div className="text-slate-500 text-[11px] mt-0.5">Founder Reviews</div>
+                </div>
+              </div>
+
             </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="text-2xl font-black text-emerald-600 font-sans">&lt;150ms</div>
-              <div className="text-slate-500 text-[11px] mt-0.5">Strict SLA Latency Gates</div>
+
+            {/* RIGHT COLUMN: HIGH-TECH LIVE FELLOWSHIP SIMULATOR TERMINAL CARD */}
+            <div className="lg:col-span-5 w-full">
+              <div className="bg-slate-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl relative overflow-hidden font-mono">
+                {/* Header bar */}
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-rose-500" />
+                    <div className="w-3 h-3 rounded-full bg-amber-500" />
+                    <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                    <span className="text-xs text-slate-400 font-bold ml-2">botmartz-pow-simulator.v2</span>
+                  </div>
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    LIVE RUNNER
+                  </span>
+                </div>
+
+                {/* Simulated Benchmarks */}
+                <div className="space-y-4 text-xs">
+                  <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span className="font-bold text-white flex items-center gap-1.5">
+                        <Terminal size={14} className="text-[#0066FF]" />
+                        <span>LangGraph Multi-Agent Checkpointer</span>
+                      </span>
+                      <span className="text-emerald-400 font-bold text-[11px]">SLA PASS</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800">
+                      <span>p95 Latency: <strong className="text-white">42ms</strong> (&lt;150ms)</span>
+                      <span>Memory Leak: <strong className="text-emerald-400">0 KB</strong></span>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span className="font-bold text-white flex items-center gap-1.5">
+                        <Layers size={14} className="text-amber-400" />
+                        <span>Enterprise Qdrant Hybrid BM25 RAG</span>
+                      </span>
+                      <span className="text-emerald-400 font-bold text-[11px]">SLA PASS</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800">
+                      <span>Precision @ k=5: <strong className="text-white">96.4%</strong></span>
+                      <span>RAGAS Score: <strong className="text-emerald-400">0.94</strong></span>
+                    </div>
+                  </div>
+
+                  <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+                    <div className="flex items-center justify-between text-xs text-slate-300 font-bold">
+                      <span className="flex items-center gap-1.5">
+                        <Flame size={14} className="text-amber-500" />
+                        <span>45-Day Proof-of-Work Streak</span>
+                      </span>
+                      <span className="text-amber-400">45/45 DAYS (100%)</span>
+                    </div>
+                    
+                    {/* Simulated Heatmap Grid */}
+                    <div className="grid grid-cols-9 gap-1.5 pt-1">
+                      {Array.from({ length: 27 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className={`h-4 rounded-sm transition-all ${
+                            i % 4 === 0
+                              ? "bg-emerald-500"
+                              : i % 3 === 0
+                              ? "bg-emerald-600"
+                              : i % 2 === 0
+                              ? "bg-emerald-400"
+                              : "bg-emerald-700"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Founder Recommendation Tag */}
+                  <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-900/40 via-purple-900/40 to-slate-900 border border-blue-500/30 flex items-center justify-between gap-3">
+                    <div>
+                      <div className="font-bold text-white text-xs font-sans">Founder Technical Audit</div>
+                      <div className="text-[10px] text-slate-300 mt-0.5">Governed &amp; Reviewed by Soham Sharma</div>
+                    </div>
+                    <Link
+                      href="/login"
+                      className="px-4 py-2 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white text-[11px] font-bold uppercase tracking-wider transition-all shrink-0 cursor-pointer shadow-md"
+                    >
+                      Start Sprint
+                    </Link>
+                  </div>
+
+                </div>
+              </div>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="text-2xl font-black text-blue-600 font-sans">45 Days</div>
-              <div className="text-slate-500 text-[11px] mt-0.5">Daily Commit Proof-of-Work</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="text-2xl font-black text-purple-600 font-sans">Weekly</div>
-              <div className="text-slate-500 text-[11px] mt-0.5">Saturday Founder Office Hours</div>
-            </div>
+
           </div>
 
         </div>
@@ -201,7 +306,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 2. HOW THE FELLOWSHIP WORKS ── */}
       <section className="py-20 bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
@@ -281,7 +386,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 3. WEEKLY FOUNDER OFFICE HOURS & CLINICS ── */}
       <section className="py-20 bg-blue-50/50 border-b border-blue-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           <div className="bg-gradient-to-br from-slate-950 to-blue-950 text-white rounded-3xl p-8 sm:p-12 border border-blue-500/30 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="space-y-4 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-cyan-300 font-mono text-xs font-bold uppercase tracking-wider border border-blue-400/30">
@@ -326,7 +431,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 4. FEATURED INSANE PROJECTS ── */}
       <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
@@ -402,7 +507,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 5. TRANSPARENT 3-TIER PRICING TABLE (₹0 / ₹299 / ₹1,999) ── */}
       <section id="pricing" className="py-20 bg-slate-100 border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-200">
