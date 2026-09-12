@@ -249,42 +249,42 @@ function CertificatesContent() {
             
             {/* 4 Feature Badges Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
-              <div className="p-6 rounded-3xl bg-white border border-slate-200 hover:border-blue-300 transition-all shadow-xs space-y-3">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0066FF] border border-blue-100 flex items-center justify-center">
+              <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-[#0066FF] transition-all shadow-md hover:shadow-xl space-y-3 group">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0066FF] border border-blue-200 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Lock size={22} />
                 </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm">Tamper-Proof Ledger</h3>
-                <p className="text-slate-500 text-xs font-sans leading-relaxed">
+                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-[#0066FF] transition-colors">Tamper-Proof Ledger</h3>
+                <p className="text-slate-600 text-xs font-sans leading-relaxed">
                   Cryptographically signed records stored securely in Firestore ledger prevent forgery or altering of completion credentials.
                 </p>
               </div>
 
-              <div className="p-6 rounded-3xl bg-white border border-slate-200 hover:border-cyan-300 transition-all shadow-xs space-y-3">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 border border-cyan-100 flex items-center justify-center">
+              <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-cyan-500 transition-all shadow-md hover:shadow-xl space-y-3 group">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 border border-cyan-200 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <QrCode size={22} />
                 </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm">Scannable QR Verification</h3>
-                <p className="text-slate-500 text-xs font-sans leading-relaxed">
+                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-cyan-600 transition-colors">Scannable QR Verification</h3>
+                <p className="text-slate-600 text-xs font-sans leading-relaxed">
                   Every physical badge or digital PDF includes a direct QR link for instant verification by recruiters and employers.
                 </p>
               </div>
 
-              <div className="p-6 rounded-3xl bg-white border border-slate-200 hover:border-purple-300 transition-all shadow-xs space-y-3">
-                <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center">
+              <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-purple-500 transition-all shadow-md hover:shadow-xl space-y-3 group">
+                <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 border border-purple-200 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Building2 size={22} />
                 </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm">Industry Standard</h3>
-                <p className="text-slate-500 text-xs font-sans leading-relaxed">
+                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-purple-600 transition-colors">Industry Standard</h3>
+                <p className="text-slate-600 text-xs font-sans leading-relaxed">
                   Recognized across frontier AI startups, defense labs, and AI engineering cohorts for verifiable proof of work.
                 </p>
               </div>
 
-              <div className="p-6 rounded-3xl bg-white border border-slate-200 hover:border-emerald-300 transition-all shadow-xs space-y-3">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center">
+              <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-emerald-500 transition-all shadow-md hover:shadow-xl space-y-3 group">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Award size={22} />
                 </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm">Vector &amp; PDF Dispatch</h3>
-                <p className="text-slate-500 text-xs font-sans leading-relaxed">
+                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-emerald-600 transition-colors">Vector &amp; PDF Dispatch</h3>
+                <p className="text-slate-600 text-xs font-sans leading-relaxed">
                   Generate high-resolution vector PDF certificates with 1-click instant download anytime.
                 </p>
               </div>
