@@ -22,7 +22,12 @@ import {
   CheckCircle2,
   Cpu,
   Terminal,
-  ExternalLink
+  ExternalLink,
+  ShieldCheck,
+  Zap,
+  Award,
+  Layers,
+  Copy
 } from "lucide-react";
 
 interface Article {
@@ -109,6 +114,7 @@ Combining dense vector representations with sparse BM25 token frequencies via Re
       handle: "@aaravn",
       avatar: "bg-purple-600",
     },
+    featured: true,
     upvotes: 95,
     summary: "Step-by-step implementation guide using ONNX Runtime Web and WebGPU shaders to power on-device summarization with zero cloud latency.",
     content: `Running small language models (SLMs) directly in the user's browser unlocks client-side privacy, zero server billing, and offline availability.
@@ -167,6 +173,7 @@ export default function MagazinePage() {
   const [activeArticle, setActiveArticle] = useState<Article | null>(null);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [copiedCitation, setCopiedCitation] = useState(false);
 
   const toggleBookmark = (id: string) => {
     setBookmarkedIds(prev => 
@@ -184,109 +191,223 @@ export default function MagazinePage() {
     return matchesCat && matchesSearch;
   });
 
+  const leadArticle = ARTICLES[0];
+
+  const handleCopyCitation = (article: Article) => {
+    const citation = `Sharma, S. et al. (2026). "${article.title}". Botmartz Applied AI Magazine, Vol. IV. https://botmartz.com/magazine#${article.id}`;
+    navigator.clipboard.writeText(citation);
+    setCopiedCitation(true);
+    setTimeout(() => setCopiedCitation(false), 2500);
+  };
+
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24 font-sans selection:bg-[#0066FF] selection:text-white">
+      
+      {/* 100% Full-Width Container */}
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
-        {/* Masthead */}
-        <div className="border-b border-slate-200 pb-12 mb-12">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 font-mono text-xs font-bold uppercase">
-                Vol. IV • Quarterly Issue
-              </span>
-              <span className="text-xs font-mono text-slate-400">August 2026</span>
+        {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 p-6 sm:p-12 border border-slate-800 shadow-2xl mb-12">
+          {/* Background Ambient Glows */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            {/* Left Column: Title & Description */}
+            <div className="space-y-4 max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold border border-cyan-500/20 backdrop-blur-md shadow-xs">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                <BookOpen size={14} className="text-cyan-400" />
+                <span>VOL. IV &bull; QUARTERLY ISSUE &bull; AUGUST 2026</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
+                Botmartz Applied AI <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Magazine</span>
+              </h1>
+
+              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+                In-depth architectural teardowns, production evaluation benchmarks, and applied engineering dissertations published by Botmartz researchers and community fellows.
+              </p>
+
+              {/* Stats Bar */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <BookOpen size={16} className="text-blue-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">15+ Dissertations</div>
+                    <div className="text-slate-400 text-[10px]">Applied AI Teardowns</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">Peer Reviewed</div>
+                    <div className="text-slate-400 text-[10px]">Editorial Board</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Code2 size={16} className="text-cyan-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">100% Code</div>
+                    <div className="text-slate-400 text-[10px]">Verifiable Repos</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Award size={16} className="text-purple-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">Quarterly</div>
+                    <div className="text-slate-400 text-[10px]">Open Research</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <button
-              onClick={() => setSubmitModalOpen(true)}
-              className="self-start sm:self-auto px-4 py-2 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
-            >
-              <Send size={13} />
-              <span>Submit Research Article</span>
-            </button>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-slate-900 mb-4">
-            Botmartz Applied AI Magazine
-          </h1>
-          <p className="text-slate-600 text-sm sm:text-base max-w-3xl leading-relaxed">
-            In-depth architectural teardowns, production evaluation benchmarks, and applied engineering dissertations published by Botmartz researchers and community fellows.
-          </p>
-        </div>
-
-        {/* Toolbar & Filter */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
-          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-            {CATEGORIES.map(cat => (
+            {/* Right Column: CTA Buttons */}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-mono text-xs shrink-0 self-start lg:self-center">
               <button
-                key={cat}
-                onClick={() => setSelectedCat(cat)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer ${
-                  selectedCat === cat
-                    ? "bg-slate-900 text-white font-bold shadow-xs"
-                    : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200"
-                }`}
+                onClick={() => setSubmitModalOpen(true)}
+                className="px-7 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white font-bold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2.5 group cursor-pointer"
               >
-                #{cat}
+                <Send size={15} className="text-cyan-300 group-hover:scale-110 transition-transform" />
+                <span>Submit Research Article</span>
+                <ArrowRight size={14} className="text-cyan-300 group-hover:translate-x-1 transition-transform" />
               </button>
-            ))}
-          </div>
-
-          <div className="relative w-full md:w-72">
-            <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search articles, topics, authors..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-[#0066FF]"
-            />
+            </div>
           </div>
         </div>
 
-        {/* Featured Top Stories Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        {/* ── 2. EDITORIAL FEATURED LEAD STORY BANNER (ADD-ON) ── */}
+        <div 
+          onClick={() => setActiveArticle(leadArticle)}
+          className="bg-white border-2 border-blue-500/50 rounded-3xl p-6 sm:p-10 mb-12 shadow-lg hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group"
+        >
+          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600" />
+          
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            <div className="space-y-3 flex-1">
+              <div className="flex items-center gap-2 flex-wrap font-mono text-xs">
+                <span className="px-3 py-1 rounded-full bg-blue-100/80 text-[#0066FF] font-bold uppercase border border-blue-200">
+                  ⭐ Lead Research Story
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold border border-slate-200">
+                  #{leadArticle.tag}
+                </span>
+                <span className="text-slate-400 flex items-center gap-1">
+                  <Clock size={12} /> {leadArticle.readingTime}
+                </span>
+              </div>
+
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 font-sans group-hover:text-[#0066FF] transition-colors leading-tight">
+                {leadArticle.title}
+              </h2>
+
+              <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed line-clamp-2">
+                {leadArticle.summary}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4 shrink-0 font-mono text-xs border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-8">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full text-white font-bold flex items-center justify-center text-sm font-mono ${leadArticle.author.avatar}`}>
+                  {leadArticle.author.name[0]}
+                </div>
+                <div>
+                  <div className="font-bold text-slate-900 text-sm font-sans">{leadArticle.author.name}</div>
+                  <div className="text-slate-500 text-[11px]">{leadArticle.author.role}</div>
+                </div>
+              </div>
+
+              <span className="px-5 py-3 rounded-2xl bg-[#0066FF] text-white font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-blue-500/20 group-hover:bg-blue-600 transition-colors">
+                <span>Read Teardown</span>
+                <ArrowRight size={14} />
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 3. SEARCH & CATEGORY FILTER BAR ── */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-5 mb-8 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            {/* Category Pills */}
+            <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto font-mono text-xs">
+              {CATEGORIES.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCat(cat)}
+                  className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                    selectedCat === cat
+                      ? "bg-[#0066FF] text-white shadow-xs"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  #{cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Search Input */}
+            <div className="relative w-full sm:w-80 font-mono text-xs">
+              <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search articles, topics, authors..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* ── 4. 4-COLUMN RESPONSIVE ARTICLES GRID ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
           {filtered.map(article => (
             <article
               key={article.id}
               onClick={() => setActiveArticle(article)}
-              className={`bg-white border rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group ${
-                article.featured ? "border-[#0066FF]/40 bg-gradient-to-b from-blue-50/20 to-white" : "border-slate-200"
+              className={`bg-white border rounded-3xl p-6 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group ${
+                article.featured ? "border-blue-400/80 bg-gradient-to-b from-blue-50/20 to-white" : "border-slate-200"
               }`}
             >
               <div>
-                <div className="flex items-center justify-between gap-2 mb-4">
+                <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-100 font-mono text-[10px] font-bold">
                     #{article.tag}
                   </span>
-                  <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400">
                     <Clock size={12} />
                     <span>{article.readingTime}</span>
                   </div>
                 </div>
 
-                <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 leading-snug group-hover:text-[#0066FF] transition-colors">
+                <h3 className="text-base font-bold text-slate-900 font-sans group-hover:text-[#0066FF] transition-colors leading-snug mb-2 line-clamp-2">
                   {article.title}
-                </h2>
+                </h3>
 
-                <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 mb-6">
+                <p className="text-xs text-slate-500 font-sans leading-relaxed line-clamp-3 mb-4">
                   {article.summary}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between font-mono text-xs">
+                <div className="flex items-center gap-2">
                   <div className={`w-7 h-7 rounded-full text-white text-xs font-bold flex items-center justify-center font-mono ${article.author.avatar}`}>
                     {article.author.name[0]}
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-slate-800">{article.author.name}</div>
-                    <div className="text-[10px] font-mono text-slate-400">{article.author.role}</div>
+                    <div className="text-xs font-bold text-slate-800 font-sans">{article.author.name}</div>
+                    <div className="text-[10px] text-slate-400">{article.author.role}</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -300,7 +421,7 @@ export default function MagazinePage() {
                   >
                     <Bookmark size={13} />
                   </button>
-                  <span className="text-xs font-mono text-[#0066FF] font-bold group-hover:translate-x-1 transition-transform">
+                  <span className="text-xs font-bold text-[#0066FF] group-hover:translate-x-0.5 transition-transform">
                     Read →
                   </span>
                 </div>
@@ -315,11 +436,11 @@ export default function MagazinePage() {
       {activeArticle && (
         <div 
           onClick={() => setActiveArticle(null)}
-          className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-10 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-10 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto relative text-slate-900"
           >
             {/* Header */}
             <div className="flex items-start justify-between gap-4 pb-4 border-b border-slate-100 mb-6">
@@ -327,7 +448,7 @@ export default function MagazinePage() {
                 <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-[10px] font-bold">
                   #{activeArticle.tag} • {activeArticle.readingTime}
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-2 leading-tight">
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2 leading-tight font-sans">
                   {activeArticle.title}
                 </h2>
               </div>
@@ -340,19 +461,25 @@ export default function MagazinePage() {
             </div>
 
             {/* Author bar */}
-            <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-200 mb-8 text-xs">
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-200 mb-8 text-xs font-mono">
               <div className="flex items-center gap-3">
                 <div className={`w-9 h-9 rounded-full text-white font-bold flex items-center justify-center font-mono ${activeArticle.author.avatar}`}>
                   {activeArticle.author.name[0]}
                 </div>
                 <div>
-                  <div className="font-bold text-slate-900">{activeArticle.author.name}</div>
-                  <div className="text-slate-500 font-mono text-[11px]">{activeArticle.author.role} • {activeArticle.author.handle}</div>
+                  <div className="font-bold text-slate-900 font-sans">{activeArticle.author.name}</div>
+                  <div className="text-slate-500 text-[11px]">{activeArticle.author.role} • {activeArticle.author.handle}</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-slate-400 font-mono">{activeArticle.publishedDate}</span>
+                <button
+                  onClick={() => handleCopyCitation(activeArticle)}
+                  className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold transition-all flex items-center gap-1 cursor-pointer"
+                >
+                  <Copy size={12} className="text-[#0066FF]" />
+                  <span>{copiedCitation ? "Citation Copied!" : "Cite Article"}</span>
+                </button>
               </div>
             </div>
 
@@ -362,18 +489,18 @@ export default function MagazinePage() {
             </div>
 
             {/* Footer */}
-            <div className="pt-8 mt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="pt-8 mt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => alert("Thanks for upvoting this research article!")}
-                  className="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#0066FF] font-mono text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#0066FF] font-bold flex items-center gap-1.5 cursor-pointer"
                 >
                   <ThumbsUp size={14} />
                   <span>Upvote ({activeArticle.upvotes})</span>
                 </button>
                 <Link
                   href="/discussions"
-                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono text-xs font-bold flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold flex items-center gap-1.5"
                 >
                   <MessageSquare size={14} />
                   <span>Discuss in Forum</span>
@@ -382,7 +509,7 @@ export default function MagazinePage() {
 
               <button
                 onClick={() => setActiveArticle(null)}
-                className="text-xs font-mono text-slate-500 hover:text-slate-900 cursor-pointer"
+                className="text-xs font-bold text-slate-500 hover:text-slate-900 cursor-pointer"
               >
                 Close Article ✕
               </button>
@@ -395,19 +522,19 @@ export default function MagazinePage() {
       {submitModalOpen && (
         <div 
           onClick={() => setSubmitModalOpen(false)}
-          className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4"
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200"
+            className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 text-slate-900"
           >
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
-              <h3 className="text-xl font-bold text-slate-900">Submit Research Proposal</h3>
+              <h3 className="text-xl font-bold font-sans text-slate-900">Submit Research Proposal</h3>
               <button onClick={() => setSubmitModalOpen(false)} className="p-1 text-slate-400 hover:text-slate-700">
                 <X size={18} />
               </button>
             </div>
-            <p className="text-xs text-slate-600 mb-4 leading-relaxed">
+            <p className="text-xs text-slate-600 mb-4 leading-relaxed font-sans">
               We publish technical deep-dives on Agent State Machines, Hybrid RAG, SLMs, and Production Evaluations. Submissions are peer-reviewed by the Botmartz Editorial Board.
             </p>
             <form 
@@ -416,23 +543,23 @@ export default function MagazinePage() {
                 alert("Proposal submitted! Our editorial team will review your pitch within 48 hours.");
                 setSubmitModalOpen(false);
               }}
-              className="space-y-3 text-xs"
+              className="space-y-3 font-mono text-xs"
             >
               <div>
-                <label className="block font-mono text-slate-700 font-bold mb-1">Author Name *</label>
+                <label className="block text-slate-700 font-bold mb-1">Author Name *</label>
                 <input required type="text" placeholder="e.g. Soham Sharma" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5" />
               </div>
               <div>
-                <label className="block font-mono text-slate-700 font-bold mb-1">Email Address *</label>
+                <label className="block text-slate-700 font-bold mb-1">Email Address *</label>
                 <input required type="email" placeholder="soham@botmartz.com" className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5" />
               </div>
               <div>
-                <label className="block font-mono text-slate-700 font-bold mb-1">Article Title &amp; Outline *</label>
+                <label className="block text-slate-700 font-bold mb-1">Article Title &amp; Outline *</label>
                 <textarea required rows={4} placeholder="Summarize your key thesis, benchmark methodology, and code snippets..." className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5" />
               </div>
               <button
                 type="submit"
-                className="w-full bg-[#0066FF] hover:bg-[#0052CC] text-white py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all mt-2 cursor-pointer"
+                className="w-full bg-[#0066FF] hover:bg-blue-600 text-white py-3 rounded-xl font-bold uppercase tracking-wider transition-all mt-2 cursor-pointer shadow-md shadow-blue-500/20"
               >
                 Submit Proposal to Editorial Board
               </button>
