@@ -123,7 +123,8 @@ export default function AuthGate({
 
             {/* ── RIGHT COLUMN (5 COLS): AUTH GATE CARD ── */}
             <div className="lg:col-span-5 flex flex-col justify-center">
-              <div className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 shadow-xl text-center space-y-6">
+              <div className="bg-white border-2 border-slate-300 shadow-2xl rounded-3xl p-8 sm:p-10 text-center space-y-6 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-cyan-500 to-indigo-600" />
                 
                 {/* Lock Icon */}
                 <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 text-[#0066FF] flex items-center justify-center mx-auto shadow-xs">

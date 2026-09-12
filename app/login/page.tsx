@@ -208,7 +208,8 @@ function StudentLoginInner() {
             
             {/* ALREADY LOGGED IN STATE */}
             {user ? (
-              <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-8 text-center space-y-6 font-mono text-xs">
+              <div className="bg-white rounded-3xl border-2 border-slate-300 shadow-2xl p-8 text-center space-y-6 font-mono text-xs relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-cyan-500 to-indigo-600" />
                 <div className="w-16 h-16 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto overflow-hidden border-2 border-blue-200 shadow-xs">
                   {user.photoURL ? (
                     <img src={user.photoURL} alt={user.displayName || "User"} className="w-full h-full object-cover" />
@@ -253,7 +254,8 @@ function StudentLoginInner() {
               </div>
             ) : (
               /* SIGN IN FORM CARD */
-              <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-8 sm:p-10 space-y-6">
+              <div className="bg-white rounded-3xl border-2 border-slate-300 shadow-2xl p-8 sm:p-10 space-y-6 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-cyan-500 to-indigo-600" />
                 
                 {/* Form Header */}
                 <div className="text-center space-y-2">
