@@ -133,6 +133,85 @@ export default function AccessibilityToolbox() {
     docEl.classList.toggle("a11y-focus-ring", state.focusRing);
   }, [state]);
 
+  const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [hasDragged, setHasDragged] = useState(false);
+
+  // Set default initial position safely clear of footer
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const defaultX = 24;
+      const defaultY = Math.max(100, window.innerHeight - 130);
+      setPosition({ x: defaultX, y: defaultY });
+    }
+  }, []);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setHasDragged(false);
+    setDragStart({
+      x: e.clientX - (position?.x || 24),
+      y: e.clientY - (position?.y || (typeof window !== "undefined" ? window.innerHeight - 130 : 500)),
+    });
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      const newX = Math.max(10, Math.min(window.innerWidth - 70, e.clientX - dragStart.x));
+      const newY = Math.max(10, Math.min(window.innerHeight - 70, e.clientY - dragStart.y));
+      if (position && (Math.abs(newX - position.x) > 3 || Math.abs(newY - position.y) > 3)) {
+        setHasDragged(true);
+      }
+      setPosition({ x: newX, y: newY });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, dragStart, position]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setIsDragging(true);
+    setHasDragged(false);
+    setDragStart({
+      x: touch.clientX - (position?.x || 24),
+      y: touch.clientY - (position?.y || (typeof window !== "undefined" ? window.innerHeight - 130 : 500)),
+    });
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const newX = Math.max(10, Math.min(window.innerWidth - 70, touch.clientX - dragStart.x));
+    const newY = Math.max(10, Math.min(window.innerHeight - 70, touch.clientY - dragStart.y));
+    if (position && (Math.abs(newX - position.x) > 3 || Math.abs(newY - position.y) > 3)) {
+      setHasDragged(true);
+    }
+    setPosition({ x: newX, y: newY });
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
+
+  const handleButtonClick = () => {
+    if (!hasDragged) {
+      setIsOpen((prev) => !prev);
+    }
+  };
+
   // Keyboard shortcut listener (Alt + A & Esc)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -303,29 +382,51 @@ export default function AccessibilityToolbox() {
         />
       )}
 
-      {/* ── FLOATING ACCESSIBILITY TRIGGER BUTTON (FRONT FLOATING WITH SWASTIK LOGO & LIVE BLUE POINTER) ── */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open Accessibility Toolbox"
-        className="fixed bottom-6 left-6 z-[99999] group w-14 h-14 sm:w-16 sm:h-16 shrink-0 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-[0_0_25px_rgba(0,102,255,0.7)] hover:shadow-[0_0_35px_rgba(0,229,255,0.9)] border-2 border-white/80 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer relative"
+      {/* ── DRAGGABLE FLOATING ACCESSIBILITY BUTTON (SWASTIK LOGO & LIVE BLUE POINTER) ── */}
+      <div
+        style={{
+          position: "fixed",
+          left: position ? `${position.x}px` : "24px",
+          top: position ? `${position.y}px` : "calc(100vh - 130px)",
+        }}
+        className="z-[999999] select-none touch-none"
       >
-        {/* Live Blue Glowing Pointer Dot */}
-        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-95" />
-          <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#00E5FF]" />
-        </span>
+        <button
+          type="button"
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onClick={handleButtonClick}
+          aria-label="Open Accessibility Toolbox"
+          className={`group w-14 h-14 sm:w-16 sm:h-16 shrink-0 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-[0_0_25px_rgba(0,102,255,0.8)] hover:shadow-[0_0_35px_rgba(0,229,255,1)] border-2 border-white/90 transition-transform duration-100 relative ${
+            isDragging ? "cursor-grabbing scale-110 shadow-2xl" : "cursor-grab hover:scale-105 active:scale-95"
+          }`}
+        >
+          {/* Live Blue Glowing Pointer Dot */}
+          <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 pointer-events-none">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-95" />
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#00E5FF]" />
+          </span>
 
-        <SwastikIcon className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-300 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(52,211,153,1)]" />
-        <span className="sr-only">Accessibility Toolbox</span>
-        <span className="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
-          Accessibility (Alt+A)
-        </span>
-      </button>
+          <SwastikIcon className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-300 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(52,211,153,1)] pointer-events-none" />
+          <span className="sr-only">Accessibility Toolbox</span>
+          <span className="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
+            Drag anywhere with cursor &bull; Alt+A
+          </span>
+        </button>
+      </div>
 
-      {/* ── ACCESSIBILITY TOOLBOX FLOATING PANEL (NO SCREEN-BLOCKING BACKDROP) ── */}
+      {/* ── ACCESSIBILITY TOOLBOX FLOATING PANEL ── */}
       {isOpen && (
-        <div className="fixed bottom-22 left-6 z-[99999] w-[460px] sm:w-[480px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-7.5rem)] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-5 duration-200">
+        <div
+          style={{
+            position: "fixed",
+            left: position ? `${Math.min(window.innerWidth - 490, Math.max(10, position.x))}px` : "24px",
+            top: position ? `${Math.max(10, position.y - 490)}px` : "calc(100vh - 600px)",
+          }}
+          className="z-[999999] w-[460px] sm:w-[480px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-5 duration-200"
+        >
           
           {/* ── HEADER ── */}
           <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 shrink-0">
