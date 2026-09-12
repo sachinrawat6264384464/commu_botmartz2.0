@@ -126,17 +126,17 @@ function StudentLoginInner() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFCFF] text-slate-900 py-12 pt-24 font-sans selection:bg-[#0066FF] selection:text-white">
+    <div className="min-h-[calc(100vh-80px)] bg-[#FAFCFF] text-slate-900 pt-24 pb-8 font-sans selection:bg-[#0066FF] selection:text-white flex flex-col justify-center">
       <div id="recaptcha-container"></div>
 
       {/* Dynamic 100% Full-Width Container */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto flex-1 flex flex-col justify-center">
         
         {/* ── 2-COLUMN SPLIT HERO LOGIN LAYOUT ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full flex-1">
           
           {/* ── LEFT COLUMN (7 COLS): HIGH-TECH DARK HERO BRANDING BANNER ── */}
-          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl flex flex-col justify-between min-h-[580px]">
+          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl flex flex-col justify-between min-h-[calc(100vh-180px)] lg:min-h-[650px]">
             {/* Background Ambient Glows */}
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/25 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none" />
@@ -208,7 +208,7 @@ function StudentLoginInner() {
           </div>
 
           {/* ── RIGHT COLUMN (5 COLS): AUTH FORM CARD ── */}
-          <div className="lg:col-span-5 flex flex-col h-full min-h-[580px]">
+          <div className="lg:col-span-5 flex flex-col h-full min-h-[calc(100vh-180px)] lg:min-h-[650px]">
             
             {/* ALREADY LOGGED IN STATE */}
             {user ? (
