@@ -110,14 +110,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en" className="overflow-x-hidden max-w-full" suppressHydrationWarning={true}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
         />
       </head>
-      <body className="bg-[#FAFCFF] text-slate-900 min-h-screen flex flex-col antialiased" suppressHydrationWarning={true}>
+      <body className="bg-[#FAFCFF] text-slate-900 min-h-screen flex flex-col antialiased overflow-x-hidden max-w-full" suppressHydrationWarning={true}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

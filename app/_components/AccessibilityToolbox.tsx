@@ -303,20 +303,20 @@ export default function AccessibilityToolbox() {
         />
       )}
 
-      {/* ── FLOATING ACCESSIBILITY TRIGGER BUTTON (WITH SWASTIK LOGO) ── */}
+      {/* ── FLOATING ACCESSIBILITY TRIGGER BUTTON (WITH SWASTIK LOGO & LIVE BLUE POINTER) ── */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Open Accessibility Toolbox"
-        className="fixed bottom-6 left-6 z-50 group flex items-center justify-center p-3.5 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-[#0A1633] text-white shadow-2xl hover:shadow-blue-500/40 border-2 border-blue-400/50 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer relative"
+        className="fixed bottom-6 left-6 z-[999999] group flex items-center justify-center p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-[0_0_25px_rgba(0,102,255,0.6)] hover:shadow-[0_0_35px_rgba(0,229,255,0.8)] border-2 border-white/80 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer relative"
       >
         {/* Live Blue Glowing Pointer Dot */}
         <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-90" />
-          <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#0066FF]" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-95" />
+          <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#00E5FF]" />
         </span>
 
-        <SwastikIcon className="w-6 h-6 text-emerald-400 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+        <SwastikIcon className="w-6 h-6 sm:w-7 sm:h-7 text-emerald-300 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(52,211,153,1)]" />
         <span className="sr-only">Accessibility Toolbox</span>
         <span className="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
           Accessibility (Alt+A)

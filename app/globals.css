@@ -22,6 +22,11 @@
   --grid-bg: #EFF5FA;
 }
 
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
