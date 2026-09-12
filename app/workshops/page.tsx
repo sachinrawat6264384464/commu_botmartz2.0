@@ -274,13 +274,13 @@ export default function WorkshopsPage() {
               <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-4 font-mono text-xs">
                 <div>
                   <div className="text-[10px] text-slate-400 uppercase font-bold">Tuition Fee</div>
-                  <div className="text-2xl sm:text-3xl font-black text-slate-950 font-sans">₹499</div>
+                  <div className="text-2xl sm:text-3xl font-black text-slate-950 font-sans">₹299</div>
                 </div>
                 <button
-                  onClick={() => handleEnroll("Enterprise RAG & Hybrid Retrieval Bootcamp", 499, "Deep Dive Track + 1-on-1 Founder Review")}
+                  onClick={() => handleEnroll("Enterprise RAG & Hybrid Retrieval Bootcamp", 299, "Deep Dive Track + 1-on-1 Founder Review")}
                   className="bg-amber-500 hover:bg-amber-400 text-slate-950 px-7 py-3.5 rounded-2xl font-bold uppercase tracking-wider transition-all shadow-md shadow-amber-500/20 cursor-pointer flex items-center gap-2"
                 >
-                  <span>Enroll ₹499</span>
+                  <span>Enroll ₹299</span>
                   <ArrowRight size={15} />
                 </button>
               </div>

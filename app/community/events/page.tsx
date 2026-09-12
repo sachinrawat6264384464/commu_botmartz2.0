@@ -256,18 +256,11 @@ export default function PublicEventsPage() {
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 pt-4 font-mono text-xs">
                 <button
-                  onClick={() =>
-                    setSelectedEventForWizard({
-                      title: "AI Frontier 2026 — The Future of AI Engineering",
-                      slug: "ai-frontier-2026",
-                      date: "Sunday, Aug 23, 2026",
-                      location: "Indore, India",
-                    })
-                  }
-                  className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2 cursor-pointer"
+                  disabled
+                  className="px-8 py-4 rounded-2xl bg-slate-800 text-slate-400 font-bold uppercase tracking-wider border border-slate-700/60 flex items-center gap-2 cursor-not-allowed opacity-75 pointer-events-none"
                 >
                   <Ticket size={16} />
-                  <span>Register Interest &rarr;</span>
+                  <span>Registration Closed</span>
                 </button>
 
                 <Link
@@ -286,128 +279,128 @@ export default function PublicEventsPage() {
         </div>
       </section>
 
-      {/* ── SECTION 3: 100% FULL-WIDTH THE GOLDEN THREAD RUN OF SHOW (AGENDA) ── */}
+      {/* ── SECTION 3: 100% FULL-WIDTH CORE ENGINEERING PILLARS ── */}
       <section className="py-16 px-4 sm:px-8 lg:px-12 bg-slate-50 text-slate-900 border-t-2 border-b-2 border-slate-200">
         <div className="w-full space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <div className="text-xs font-mono text-[#0066FF] font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                <Clock size={14} />
-                <span>AI FRONTIER 2026 TIMELINE</span>
+                <Zap size={14} className="text-[#0066FF]" />
+                <span>COMMUNITY CURRICULUM &amp; FOCUS AREAS</span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-black text-slate-950 font-sans tracking-tight">
-                The Golden Thread Run of Show
+                Production AI Engineering Highlights
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 font-sans mt-1 max-w-3xl">
-                Every session answers one step along the production AI lifecycle. Four key pillars (&lsquo;Agents&rsquo;, &lsquo;Enterprise AI&rsquo;, &lsquo;AI-Assisted Dev&rsquo;, &lsquo;Responsible AI&rsquo;) under one roof.
+                Master the 5 essential pillars of modern AI engineering through hands-on teardowns, open-source architectures, and live coding exercises.
               </p>
             </div>
 
             <Link
-              href="/community/events/ai-frontier-2026"
+              href="/workshops"
               className="text-xs font-mono font-bold text-[#0066FF] hover:underline flex items-center gap-1 shrink-0"
             >
-              <span>Explore Full Agenda &amp; Speakers &rarr;</span>
+              <span>Explore All Bootcamps &amp; Tracks &rarr;</span>
             </Link>
           </div>
 
-          {/* Agenda Grid Cards */}
+          {/* Core Pillars Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 font-sans text-xs">
             
-            {/* Item 1 */}
-            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-rose-400 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all">
+            {/* Pillar 1 */}
+            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-rose-500 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all group">
               <div className="space-y-2">
-                <span className="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 font-mono text-[10px] font-bold">
-                  09:45 AM &bull; 15 mins
+                <span className="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 font-mono text-[10px] font-bold uppercase">
+                  PILLAR 01 &bull; AGENTS
                 </span>
-                <h3 className="font-bold text-slate-950 text-sm">Anchoring &amp; Kickoff</h3>
+                <h3 className="font-bold text-slate-950 text-sm group-hover:text-rose-600 transition-colors">Autonomous AI State Machines</h3>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Setting the stage, energy, and crowd coordination for the entire event.
+                  LangGraph state graphs, checkpointing, multi-agent delegation &amp; human-in-the-loop loops.
                 </p>
               </div>
               <div className="font-mono text-[11px] text-rose-700 font-bold border-t border-slate-100 pt-3">
-                Vaidehi &amp; Yash
+                LangGraph &bull; Pydantic
               </div>
             </div>
 
-            {/* Item 2 */}
-            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-[#0066FF] shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all">
+            {/* Pillar 2 */}
+            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-[#0066FF] shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all group">
               <div className="space-y-2">
-                <span className="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 font-mono text-[10px] font-bold">
-                  10:15 AM &bull; 15 mins
+                <span className="px-2.5 py-1 rounded-lg bg-blue-100 text-blue-800 font-mono text-[10px] font-bold uppercase">
+                  PILLAR 02 &bull; SEARCH
                 </span>
-                <h3 className="font-bold text-slate-950 text-sm">Welcome: Set the Frame</h3>
+                <h3 className="font-bold text-slate-950 text-sm group-hover:text-[#0066FF] transition-colors">Enterprise RAG &amp; Hybrid Vectors</h3>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Why does AI engineering matter? Framing the journey from raw LLM calls to production systems.
+                  Hybrid dense/sparse indexing in Qdrant &amp; OpenSearch with BGE cross-encoder rerankers.
                 </p>
               </div>
               <div className="font-mono text-[11px] text-[#0066FF] font-bold border-t border-slate-100 pt-3">
-                Soham Sharma
+                Qdrant &bull; BGE Reranker
               </div>
             </div>
 
-            {/* Item 3 */}
-            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-purple-500 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all">
+            {/* Pillar 3 */}
+            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-purple-500 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all group">
               <div className="space-y-2">
-                <span className="px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800 font-mono text-[10px] font-bold">
-                  10:30 AM &bull; 75 mins
+                <span className="px-2.5 py-1 rounded-lg bg-purple-100 text-purple-800 font-mono text-[10px] font-bold uppercase">
+                  PILLAR 03 &bull; PROTOCOLS
                 </span>
-                <h3 className="font-bold text-slate-950 text-sm">Keynote &amp; Flagship Deep Dive</h3>
+                <h3 className="font-bold text-slate-950 text-sm group-hover:text-purple-600 transition-colors">MCP &amp; Tool Integration</h3>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Where is AI heading? Rigorous look at foundation models, reasoning architectures &amp; evals.
+                  Model Context Protocol tools, OpenAPI schemas, PostgreSQL tool calling &amp; secure sandboxes.
                 </p>
               </div>
               <div className="font-mono text-[11px] text-purple-700 font-bold border-t border-slate-100 pt-3">
-                Dr. Promit Ray
+                MCP &bull; FastAPI &bull; Docker
               </div>
             </div>
 
-            {/* Item 4 */}
-            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-amber-500 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all">
+            {/* Pillar 4 */}
+            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-amber-500 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all group">
               <div className="space-y-2">
-                <span className="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-mono text-[10px] font-bold">
-                  12:00 PM &bull; 60 mins
+                <span className="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-mono text-[10px] font-bold uppercase">
+                  PILLAR 04 &bull; EVALS
                 </span>
-                <h3 className="font-bold text-slate-950 text-sm">Workshop Part 1</h3>
+                <h3 className="font-bold text-slate-950 text-sm group-hover:text-amber-600 transition-colors">RAGAS &amp; SLA Benchmarks</h3>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Build Your First AI Agent: EdTech RAG Case Study. Hands-on orchestrating pipelines.
+                  Automated metric evaluation, LLM-as-a-Judge validation harnesses &amp; regression testing.
                 </p>
               </div>
               <div className="font-mono text-[11px] text-amber-700 font-bold border-t border-slate-100 pt-3">
-                Harsh Sahu
+                RAGAS &bull; Pytest AI
               </div>
             </div>
 
-            {/* Item 5 */}
-            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-emerald-500 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all">
+            {/* Pillar 5 */}
+            <div className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-emerald-500 shadow-md hover:shadow-xl flex flex-col justify-between space-y-4 transition-all group">
               <div className="space-y-2">
-                <span className="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-mono text-[10px] font-bold">
-                  02:00 PM &bull; 60 mins
+                <span className="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-mono text-[10px] font-bold uppercase">
+                  PILLAR 05 &bull; INFRA
                 </span>
-                <h3 className="font-bold text-slate-950 text-sm">Workshop Part 2</h3>
+                <h3 className="font-bold text-slate-950 text-sm group-hover:text-emerald-600 transition-colors">Production Deployment</h3>
                 <p className="text-slate-600 leading-relaxed text-[11px]">
-                  Evaluation, memory &amp; deployment. Rig up testing harnesses for our tutor agent.
+                  Streaming responses, token caching, latency optimization &amp; zero-downtime serverless infra.
                 </p>
               </div>
               <div className="font-mono text-[11px] text-emerald-700 font-bold border-t border-slate-100 pt-3">
-                Harsh Sahu
+                Vercel &bull; Docker &bull; Redis
               </div>
             </div>
 
           </div>
 
-          {/* Footer Schedule Bar */}
+          {/* Highlights Info Banner */}
           <div className="p-5 rounded-2xl bg-white border-2 border-slate-300 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
             <div className="flex items-center gap-3">
               <span className="px-3 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs shrink-0">
-                03:00 PM &bull; AI Engineering Journey
+                Live Hands-On Coding
               </span>
-              <span className="text-slate-700 font-medium">Roadmap to production mindset &amp; community launch (Soham Sharma)</span>
+              <span className="text-slate-700 font-medium">Build end-to-end production AI applications from scratch with step-by-step guidance.</span>
             </div>
 
             <div className="px-4 py-2 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 font-bold text-xs shrink-0">
-              Open AMA &amp; Networking: 03:25 &ndash; 04:00 PM
+              Cryptographic QR Verified Certificates Included
             </div>
           </div>
 
@@ -461,17 +454,11 @@ export default function PublicEventsPage() {
               </div>
 
               <button
-                onClick={() =>
-                  setSelectedEventForWizard({
-                    title: "AI Accelerator Workshop Series 1: Build Your First AI Full-Stack App",
-                    slug: "ai-accelerator-workshop-series-1",
-                    date: "August 9, 2026",
-                    location: "Indore, India",
-                  })
-                }
-                className="w-full py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider text-center transition-all shadow-md cursor-pointer"
+                disabled
+                className="w-full py-3.5 rounded-xl bg-slate-200 text-slate-500 font-mono text-xs font-bold uppercase tracking-wider text-center border border-slate-300 opacity-75 pointer-events-none flex items-center justify-center gap-2 cursor-not-allowed"
               >
-                Register / View Details
+                <CheckCircle2 size={14} className="text-emerald-600" />
+                <span>Completed / Closed</span>
               </button>
             </div>
 
@@ -480,8 +467,8 @@ export default function PublicEventsPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between font-mono text-xs font-bold">
                   <span className="px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200">WORKSHOP</span>
-                  <span className="text-cyan-600 font-bold uppercase flex items-center gap-1">
-                    <Radio size={13} className="animate-pulse" /> Upcoming
+                  <span className="text-emerald-600 font-bold uppercase flex items-center gap-1">
+                    <CheckCircle2 size={13} /> Completed
                   </span>
                 </div>
 
@@ -506,17 +493,11 @@ export default function PublicEventsPage() {
               </div>
 
               <button
-                onClick={() =>
-                  setSelectedEventForWizard({
-                    title: "AI Accelerator Workshop Series 2: Build Smarter AI Agents",
-                    slug: "ai-accelerator-workshop-series-2",
-                    date: "August 16, 2026",
-                    location: "Indore, India",
-                  })
-                }
-                className="w-full py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider text-center transition-all shadow-md cursor-pointer"
+                disabled
+                className="w-full py-3.5 rounded-xl bg-slate-200 text-slate-500 font-mono text-xs font-bold uppercase tracking-wider text-center border border-slate-300 opacity-75 pointer-events-none flex items-center justify-center gap-2 cursor-not-allowed"
               >
-                Register / View Details
+                <CheckCircle2 size={14} className="text-emerald-600" />
+                <span>Completed / Closed</span>
               </button>
             </div>
 
@@ -525,8 +506,8 @@ export default function PublicEventsPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between font-mono text-xs font-bold">
                   <span className="px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200">WORKSHOP</span>
-                  <span className="text-cyan-600 font-bold uppercase flex items-center gap-1">
-                    <Radio size={13} className="animate-pulse" /> Upcoming
+                  <span className="text-emerald-600 font-bold uppercase flex items-center gap-1">
+                    <CheckCircle2 size={13} /> Completed
                   </span>
                 </div>
 
@@ -551,17 +532,11 @@ export default function PublicEventsPage() {
               </div>
 
               <button
-                onClick={() =>
-                  setSelectedEventForWizard({
-                    title: "AI Accelerator Workshop Series 3: Build Production Ready AI Applications",
-                    slug: "ai-accelerator-workshop-series-3",
-                    date: "August 22, 2026",
-                    location: "Indore, India",
-                  })
-                }
-                className="w-full py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider text-center transition-all shadow-md cursor-pointer"
+                disabled
+                className="w-full py-3.5 rounded-xl bg-slate-200 text-slate-500 font-mono text-xs font-bold uppercase tracking-wider text-center border border-slate-300 opacity-75 pointer-events-none flex items-center justify-center gap-2 cursor-not-allowed"
               >
-                Register / View Details
+                <CheckCircle2 size={14} className="text-emerald-600" />
+                <span>Completed / Closed</span>
               </button>
             </div>
 
