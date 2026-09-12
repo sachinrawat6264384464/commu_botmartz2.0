@@ -88,13 +88,14 @@ export default function CommunityNavbar() {
     { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: false }
   ];
 
-  const COMMUNITY_ITEMS = [
-    { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits", locked: false },
-    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards", locked: false },
-    { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates", locked: false },
-    { name: "Builder Leaderboard", href: "/arena/leaderboard", icon: Award, desc: "Real-time student karma rankings", locked: false },
-    { name: "Free Community Events (Luma)", href: "https://luma.com/botmartz", icon: ExternalLink, desc: "Weekly AMAs, workshops & teardowns", external: true },
-    { name: "Schedule & Calendar", href: "/arena/calendar", icon: Calendar, desc: "Cohort milestones and office hours", locked: false }
+  const COMMUNITY_ITEMS: Array<{ name: string; href: string; icon: any; desc: string; locked?: boolean; external?: boolean }> = [
+    { name: "Events Directory", href: "/community/events", icon: Calendar, desc: "Browse upcoming & past AI conferences, summits & meetups", locked: false, external: false },
+    { name: "AI Accelerator Workshop", href: "/community/ai-accelerator-workshop", icon: Sparkles, desc: "Hands-on bootcamp series landing page & certificate showcase", locked: false, external: false },
+    { name: "Discord & Forum Hub", href: "/community", icon: MessageSquare, desc: "Community hub with Discord links, projects & reading club", locked: false, external: false },
+    { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits", locked: false, external: false },
+    { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards", locked: false, external: false },
+    { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates", locked: false, external: false },
+    { name: "Builder Leaderboard", href: "/arena/leaderboard", icon: Award, desc: "Real-time student karma rankings", locked: false, external: false }
   ];
 
   const RESOURCE_ITEMS = [
@@ -145,7 +146,6 @@ export default function CommunityNavbar() {
           >
             <Sparkles size={14} className="text-[#0066FF]" />
             <span>AI Workshop (Live)</span>
-            <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[9px] font-bold">₹9</span>
           </Link>
 
           {/* 2. All Workshops */}
@@ -293,17 +293,9 @@ export default function CommunityNavbar() {
 
         </nav>
 
-        {/* User Auth Action & Register CTA */}
+        {/* User Auth Action */}
         <div className="hidden lg:flex items-center gap-3">
           
-          <Link
-            href="/workshops/flagship"
-            className="px-5 py-2.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 cursor-pointer"
-          >
-            <span>Register &amp; Pay (₹9)</span>
-            <Sparkles size={13} />
-          </Link>
-
           {user ? (
             <div className="relative" ref={userMenuRef}>
               <button
@@ -394,13 +386,6 @@ export default function CommunityNavbar() {
       {mobileOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-8 space-y-4 font-mono text-xs max-h-[85vh] overflow-y-auto">
           
-          <Link
-            href="/workshops/flagship"
-            className="w-full py-3.5 rounded-2xl bg-[#0066FF] text-white font-bold text-center block uppercase tracking-wider shadow-md"
-          >
-            Register for Workshop (₹9)
-          </Link>
-
           <div className="space-y-1">
             <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Virtual AI Internship &amp; Arena</div>
             {INTERNSHIP_ITEMS.map((item) => (

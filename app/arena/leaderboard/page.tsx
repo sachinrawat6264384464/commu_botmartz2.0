@@ -34,7 +34,7 @@ export default async function DualLeaderboardPage() {
         dailyLogs = logsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
       }
     } catch (e) {
-      console.error("Firestore leaderboard error:", e);
+      console.warn("Firestore leaderboard query info:", e instanceof Error ? e.message : e);
     }
   }
 

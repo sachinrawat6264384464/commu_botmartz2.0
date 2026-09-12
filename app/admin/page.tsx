@@ -17,42 +17,17 @@ import {
   Lock,
   UserCheck
 } from "lucide-react";
-import { adminDb } from "@/lib/firebase-admin";
+import { fetchCollectionCount } from "@/lib/firebase-admin-helper";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  let enrollmentCount = 0;
-  let workshopCount = 0;
-  let logsCount = 0;
-  let certsCount = 0;
-  let bountiesCount = 0;
-  let eventsCount = 0;
-  let attendeeCount = 0;
-
-  if (adminDb) {
-    try {
-      const [enrollSnap, workshopSnap, logsSnap, certsSnap, bountiesSnap, eventsSnap, attendeesSnap] = await Promise.all([
-        adminDb.collection("arena_enrollments").get().catch(() => ({ size: 0 })),
-        adminDb.collection("workshop_registrations").get().catch(() => ({ size: 0 })),
-        adminDb.collection("arena_daily_logs").get().catch(() => ({ size: 0 })),
-        adminDb.collection("certificates").get().catch(() => ({ size: 0 })),
-        adminDb.collection("arena_bounties").get().catch(() => ({ size: 0 })),
-        adminDb.collection("events").get().catch(() => ({ size: 0 })),
-        adminDb.collection("attendees").get().catch(() => ({ size: 0 })),
-      ]);
-
-      enrollmentCount = enrollSnap.size;
-      workshopCount = workshopSnap.size;
-      logsCount = logsSnap.size;
-      certsCount = certsSnap.size;
-      bountiesCount = bountiesSnap.size;
-      eventsCount = eventsSnap.size;
-      attendeeCount = attendeesSnap.size;
-    } catch (e) {
-      console.warn("Admin stats live query fallback:", e);
-    }
-  }
+  const [enrollmentCount, workshopCount, logsCount, certsCount] = await Promise.all([
+    fetchCollectionCount("arena_enrollments"),
+    fetchCollectionCount("workshop_registrations"),
+    fetchCollectionCount("arena_daily_logs"),
+    fetchCollectionCount("certificates"),
+  ]);
 
   const METRICS = [
     { label: "Workshop Registrations", value: workshopCount, icon: UserCheck, change: "Flagship 2-Day Cohort", color: "text-[#0066FF] bg-blue-50" },

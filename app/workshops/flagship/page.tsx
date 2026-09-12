@@ -280,8 +280,8 @@ export default function SingleLandingPage() {
           {/* Event Details */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-center">
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
-              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">For Only</span>
-              <div className="text-3xl font-black text-white">RS. <span className="text-orange-400">{tierPrice}</span>/-</div>
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Pass Status</span>
+              <div className="text-xl font-black text-emerald-400">OPEN NOW</div>
             </div>
             <div className="bg-slate-900/80 border border-slate-700 rounded-xl p-4 flex flex-col items-center justify-center">
               <span className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Date</span>
@@ -368,7 +368,7 @@ export default function SingleLandingPage() {
               Secure Your Spot
             </h2>
             <p className="text-slate-500 text-sm font-mono">
-              Fill in your details below. Complete the <strong>₹{tierPrice}</strong> registration to get the workshop link and unlock community access.
+              Fill in your details below to get the workshop link and unlock community access.
             </p>
           </div>
 
@@ -394,7 +394,7 @@ export default function SingleLandingPage() {
               <div className="p-6 rounded-2xl bg-slate-900 text-white font-mono text-xs border border-slate-800 text-left space-y-3 mt-4">
                 <div className="flex justify-between border-b border-slate-800 pb-2">
                   <span className="text-slate-400">Payment Status:</span>
-                  <span className="font-bold text-emerald-400">PAID (₹{tierPrice})</span>
+                  <span className="font-bold text-emerald-400">VERIFIED &amp; REGISTERED</span>
                 </div>
                 <div className="flex justify-between border-b border-slate-800 pb-2">
                   <span className="text-slate-400">Check-in Code:</span>
@@ -463,7 +463,7 @@ export default function SingleLandingPage() {
               {/* RAZORPAY CHECKOUT */}
               <div className="pt-4 border-t border-slate-100">
                 <label className="block text-xs font-mono text-slate-500 uppercase font-bold mb-3">
-                  Secure Payment (₹{tierPrice})
+                  Registration Checkout
                 </label>
 
                 {errorMsg && (
@@ -477,7 +477,7 @@ export default function SingleLandingPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-4 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-sans text-sm font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full py-4 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-sans text-sm font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
                   >
                     {loading ? (
                       <>
@@ -486,7 +486,7 @@ export default function SingleLandingPage() {
                       </>
                     ) : (
                       <>
-                        <span>Pay ₹{tierPrice} &amp; Unlock Access</span>
+                        <span>Complete Registration &amp; Unlock Access</span>
                         <ArrowRight size={15} />
                       </>
                     )}

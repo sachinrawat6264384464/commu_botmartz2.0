@@ -28,7 +28,7 @@ export default function PageLockGate({
   pathname,
   unlockTime = "2026-09-09T21:00:00+05:30",
   announcementTitle = "Going Live on 9th September at 9:00 PM IST",
-  announcementMessage = "This section unlocks live on 9th September at 9:00 PM IST during our Flagship AI Engineering Workshop. Claim your ₹9 Flash Pass now for instant seat confirmation."
+  announcementMessage = "This section unlocks live on 9th September at 9:00 PM IST during our Flagship AI Engineering Workshop. Claim your Launch Pass now for instant seat confirmation."
 }: PageLockGateProps) {
   // Realtime Countdown State
   const [timeLeft, setTimeLeft] = useState<{
@@ -178,7 +178,7 @@ export default function PageLockGate({
               href="/#registration"
               className="w-full sm:flex-1 py-4 px-6 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Get ₹9 Launch Pass &amp; Early Access &rarr;</span>
+              <span>Get Launch Pass &amp; Early Access &rarr;</span>
               <ArrowRight size={14} />
             </Link>
 

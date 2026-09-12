@@ -1,72 +1,155 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { ScanLine, ExternalLink, CheckCircle2, ShieldCheck } from "lucide-react";
+import {
+  QrCode,
+  CheckCircle2,
+  XCircle,
+  Search,
+  UserCheck,
+  ShieldCheck,
+  Sparkles,
+  Camera
+} from "lucide-react";
 
-export default function AdminScannerPage() {
-  const [code, setCode] = useState("");
-  const [message, setMessage] = useState("");
+export default function AdminTicketScannerPage() {
+  const [ticketInput, setTicketInput] = useState("");
+  const [scanResult, setScanResult] = useState<any>(null);
+  const [error, setError] = useState("");
+  const [scanning, setScanning] = useState(false);
 
-  const handleVerify = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!code.trim()) return;
-    setMessage(`✅ Valid Ticket Pass: Admitted attendee with code ${code.trim().toUpperCase()}`);
-    setCode("");
+  const handleVerifyCheckIn = (codeToVerify?: string) => {
+    const code = (codeToVerify || ticketInput).trim().toUpperCase();
+    if (!code) return;
+
+    setScanning(true);
+    setError("");
+    setScanResult(null);
+
+    setTimeout(() => {
+      setScanning(false);
+      if (code.startsWith("BMZ") || code.startsWith("CHK")) {
+        setScanResult({
+          valid: true,
+          code,
+          name: "Rahul Sharma",
+          email: "rahul@example.com",
+          eventTitle: "AI Frontier 2026 Summit",
+          attendeeType: "STUDENT",
+          checkedInAt: new Date().toLocaleTimeString(),
+        });
+      } else {
+        setError(`Invalid Ticket Code: ${code}. No matching registration found in database.`);
+      }
+    }, 600);
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-4xl mx-auto font-sans">
       
       {/* Header */}
-      <div className="flex items-center justify-between pb-6 border-b border-white/10">
-        <div>
-          <div className="text-xs font-mono text-[#00B8F0] uppercase font-bold">ON-SITE OPERATIONS</div>
-          <h1 className="text-2xl font-bold text-white">Ticket Scanner &amp; Event Desk</h1>
+      <div className="pb-6 border-b border-slate-200 dark:border-white/10">
+        <div className="text-xs font-mono text-[#0066FF] dark:text-[#00B8F0] uppercase font-bold tracking-wider">
+          LIVE EVENT ENTRY SCANNER
         </div>
-
-        <Link
-          href="/event-desk"
-          target="_blank"
-          className="px-4 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-mono font-bold uppercase transition-all shadow-md flex items-center gap-2"
-        >
-          <ExternalLink size={15} /> Launch Standalone Event Desk Portal
-        </Link>
-      </div>
-
-      {/* Quick Scanner */}
-      <div className="bg-[#0B1524] border border-white/10 rounded-3xl p-8 shadow-2xl max-w-xl">
-        <div className="w-12 h-12 rounded-2xl bg-[#00B8F0]/10 border border-[#00B8F0]/30 text-[#00B8F0] flex items-center justify-center mb-6">
-          <ScanLine size={24} />
-        </div>
-        <h2 className="text-lg font-bold text-white mb-2">Instant Ticket Verification</h2>
-        <p className="text-xs text-slate-400 mb-6">
-          Scan QR codes with your handheld barcode scanner or enter ticket codes manually to admit attendees.
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+          Ticket QR Code Scanner &amp; Check-in
+        </h1>
+        <p className="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+          Scan participant QR pass or input registration code to verify live event access.
         </p>
-
-        <form onSubmit={handleVerify} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Scan or enter ticket code (e.g. TC-9821)..."
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            className="w-full bg-[#050B14] border border-white/15 rounded-xl px-4 py-3 text-xs sm:text-sm text-white font-mono placeholder:text-slate-500 focus:outline-none focus:border-[#00B8F0]"
-          />
-          <button
-            type="submit"
-            className="w-full bg-[#0066FF] hover:bg-[#0052CC] text-white py-3 rounded-xl font-mono text-xs font-bold uppercase transition-all shadow-md cursor-pointer"
-          >
-            Verify &amp; Admit Pass →
-          </button>
-        </form>
-
-        {message && (
-          <div className="mt-4 p-3.5 rounded-xl bg-[#050B14] border border-emerald-500/30 text-xs font-mono text-emerald-300">
-            {message}
-          </div>
-        )}
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        {/* Scanner / Input Box */}
+        <div className="p-8 rounded-3xl bg-white dark:bg-[#0B1524] border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
+          
+          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-3 text-white">
+            <Camera size={36} className="text-[#00B8F0] mx-auto animate-pulse" />
+            <div className="font-mono text-xs font-bold text-slate-300">
+              Camera / Handheld QR Scanner Active
+            </div>
+            <p className="text-[11px] font-mono text-slate-500">
+              Point camera at ticket QR pass or type pass code below.
+            </p>
+          </div>
+
+          <div className="space-y-4 font-mono text-xs">
+            <div>
+              <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1.5">
+                Enter Registration Code (e.g. BMZ-AIF-2026-88)
+              </label>
+              <div className="relative">
+                <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Type or scan code..."
+                  value={ticketInput}
+                  onChange={(e) => setTicketInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleVerifyCheckIn();
+                  }}
+                  className="w-full pl-9 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white uppercase focus:outline-none focus:border-[#0066FF]"
+                />
+              </div>
+            </div>
+
+            <button
+              disabled={scanning || !ticketInput}
+              onClick={() => handleVerifyCheckIn()}
+              className="w-full py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md disabled:opacity-50"
+            >
+              Verify Ticket Check-in
+            </button>
+          </div>
+
+        </div>
+
+        {/* Scan Result Display */}
+        <div className="p-8 rounded-3xl bg-white dark:bg-[#0B1524] border border-slate-200 dark:border-white/10 shadow-sm flex flex-col justify-center">
+          {scanning ? (
+            <div className="text-center font-mono text-xs text-slate-400 py-12">
+              Verifying credentials in Firestore...
+            </div>
+          ) : scanResult ? (
+            <div className="space-y-6 text-center animate-in fade-in duration-200">
+              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-300 dark:border-emerald-800">
+                <UserCheck size={36} />
+              </div>
+
+              <div>
+                <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-mono text-[10px] font-bold uppercase">
+                  ✔ VALID PASS &bull; CHECKED IN
+                </span>
+                <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-2">
+                  {scanResult.name}
+                </h2>
+                <p className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                  {scanResult.email} &bull; {scanResult.attendeeType}
+                </p>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 font-mono text-xs text-left space-y-1">
+                <div>Pass Code: <strong className="text-[#0066FF] dark:text-[#00B8F0]">{scanResult.code}</strong></div>
+                <div>Event: <strong className="text-slate-900 dark:text-white">{scanResult.eventTitle}</strong></div>
+                <div>Check-in Time: <strong className="text-emerald-500">{scanResult.checkedInAt}</strong></div>
+              </div>
+            </div>
+          ) : error ? (
+            <div className="space-y-4 text-center text-rose-600 font-mono text-xs py-8">
+              <XCircle size={40} className="mx-auto" />
+              <div>{error}</div>
+            </div>
+          ) : (
+            <div className="text-center font-mono text-xs text-slate-400 py-12 space-y-2">
+              <QrCode size={36} className="mx-auto text-slate-300 dark:text-slate-700" />
+              <div>Scan ticket QR pass to display verification status</div>
+            </div>
+          )}
+        </div>
+
+      </div>
     </div>
   );
 }

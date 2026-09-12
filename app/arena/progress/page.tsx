@@ -30,7 +30,7 @@ export default async function ProgressDiariesPage() {
         dailyLogs = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       }
     } catch (e) {
-      console.error("Firestore progress diaries query error:", e);
+      console.warn("Firestore progress diaries query info:", e instanceof Error ? e.message : e);
     }
   }
 

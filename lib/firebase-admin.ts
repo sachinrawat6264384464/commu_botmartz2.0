@@ -38,6 +38,8 @@ function cleanPemKey(key: string | undefined): string | undefined {
   return formatted;
 }
 
+export let hasAdminCredentials = false;
+
 function getAdminApp(): App {
   if (getApps().length > 0) {
     return getApps()[0];
@@ -53,6 +55,7 @@ function getAdminApp(): App {
       adminApp = initializeApp({
         credential: cert(parsed),
       });
+      hasAdminCredentials = true;
       return adminApp;
     } catch (e) {}
   }
@@ -75,6 +78,7 @@ function getAdminApp(): App {
         adminApp = initializeApp({
           credential: cert(serviceAccount),
         });
+        hasAdminCredentials = true;
         return adminApp;
       }
     }
@@ -94,6 +98,7 @@ function getAdminApp(): App {
           privateKey,
         }),
       });
+      hasAdminCredentials = true;
       return adminApp;
     } catch (err: any) {
       console.warn('Firebase Admin cert initialization warning (falling back to projectId):', err?.message);
@@ -105,6 +110,7 @@ function getAdminApp(): App {
     adminApp = initializeApp({
       projectId,
     });
+    hasAdminCredentials = false;
   } catch (fallbackErr) {
     if (getApps().length > 0) {
       adminApp = getApps()[0];

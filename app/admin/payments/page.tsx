@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import PaymentsClientTable, { PaymentRecord } from "./client-table";
 
+import { fetchCollectionDocs } from "@/lib/firebase-admin-helper";
+
 export const dynamic = "force-dynamic";
 
 export default async function AdminPaymentsPage() {
@@ -22,14 +24,13 @@ export default async function AdminPaymentsPage() {
   let pendingCount = 0;
   let freeCount = 0;
 
-  if (adminDb) {
-    try {
-      const [workshopSnap, ordersSnap, paymentsSnap, attendeesSnap] = await Promise.all([
-        adminDb.collection("workshop_registrations").get().catch(() => ({ docs: [] })),
-        adminDb.collection("orders").get().catch(() => ({ docs: [] })),
-        adminDb.collection("payments").get().catch(() => ({ docs: [] })),
-        adminDb.collection("attendees").get().catch(() => ({ docs: [] }))
-      ]);
+  try {
+    const [workshopDocs, ordersDocs, paymentsDocs, attendeesDocs] = await Promise.all([
+      fetchCollectionDocs("workshop_registrations"),
+      fetchCollectionDocs("orders"),
+      fetchCollectionDocs("payments"),
+      fetchCollectionDocs("attendees")
+    ]);
 
       const transactionsMap = new Map<string, PaymentRecord>();
 
@@ -52,21 +53,20 @@ export default async function AdminPaymentsPage() {
       };
 
       // 1. Process workshop registrations
-      workshopSnap.docs.forEach((doc: any) => {
-        const data = doc.data();
-        const txKey = data.paymentId || data.orderId || doc.id;
+      workshopDocs.forEach((data: any) => {
+        const txKey = data.paymentId || data.orderId || data.id;
         const amt = Number(data.amount) || 0;
         transactionsMap.set(txKey, {
-          id: doc.id,
-          paymentId: data.paymentId || `REG_${doc.id.slice(-6)}`,
+          id: data.id,
+          paymentId: data.paymentId || `REG_${String(data.id).slice(-6)}`,
           orderId: data.orderId || "",
-          invoiceNumber: data.invoiceNumber || `INV-${doc.id.slice(-6)}`,
+          invoiceNumber: data.invoiceNumber || `INV-${String(data.id).slice(-6)}`,
           checkInCode: data.checkInCode || "",
           attendeeName: data.name || "Workshop Attendee",
           email: data.email || "",
           phone: data.phone || "",
           collegeOrCompany: data.collegeOrCompany || "",
-          itemName: data.track || "Production AI Engineering Workshop",
+          itemName: data.itemName || data.track || "Production AI Engineering Workshop",
           itemCategory: "WORKSHOP_PASS",
           amount: amt,
           currency: data.currency || "INR",
@@ -78,9 +78,8 @@ export default async function AdminPaymentsPage() {
       });
 
       // 2. Process orders
-      ordersSnap.docs.forEach((doc: any) => {
-        const data = doc.data();
-        const txKey = data.paymentId || data.orderId || doc.id;
+      ordersDocs.forEach((data: any) => {
+        const txKey = data.paymentId || data.orderId || data.id;
         const amt = Number(data.amount) || 0;
         const existing = transactionsMap.get(txKey);
 
@@ -91,10 +90,10 @@ export default async function AdminPaymentsPage() {
           existing.itemCategory = data.itemCategory || existing.itemCategory;
         } else {
           transactionsMap.set(txKey, {
-            id: doc.id,
-            paymentId: data.paymentId || doc.id,
+            id: data.id,
+            paymentId: data.paymentId || data.id,
             orderId: data.orderId || "",
-            invoiceNumber: data.invoiceNumber || `INV-${doc.id.slice(-6)}`,
+            invoiceNumber: data.invoiceNumber || `INV-${String(data.id).slice(-6)}`,
             checkInCode: "",
             attendeeName: data.name || "Customer",
             email: data.email || "",
@@ -113,9 +112,8 @@ export default async function AdminPaymentsPage() {
       });
 
       // 3. Process payments
-      paymentsSnap.docs.forEach((doc: any) => {
-        const data = doc.data();
-        const txKey = data.paymentId || data.orderId || doc.id;
+      paymentsDocs.forEach((data: any) => {
+        const txKey = data.paymentId || data.orderId || data.id;
         const amt = Number(data.amount) || 0;
         const existing = transactionsMap.get(txKey);
 
@@ -123,10 +121,10 @@ export default async function AdminPaymentsPage() {
           existing.method = data.method || existing.method;
         } else {
           transactionsMap.set(txKey, {
-            id: doc.id,
-            paymentId: data.paymentId || doc.id,
+            id: data.id,
+            paymentId: data.paymentId || data.id,
             orderId: data.orderId || "",
-            invoiceNumber: `INV-${doc.id.slice(-6)}`,
+            invoiceNumber: `INV-${String(data.id).slice(-6)}`,
             checkInCode: "",
             attendeeName: data.name || "Customer",
             email: data.email || "",
@@ -145,18 +143,17 @@ export default async function AdminPaymentsPage() {
       });
 
       // 4. Process attendees (Summit tickets & UTRs)
-      attendeesSnap.docs.forEach((doc: any) => {
-        const data = doc.data();
-        const txKey = data.paymentId || (data.utrNumber ? `UTR_${data.utrNumber}` : doc.id);
+      attendeesDocs.forEach((data: any) => {
+        const txKey = data.paymentId || (data.utrNumber ? `UTR_${data.utrNumber}` : data.id);
         const amt = Number(data.amount) || 0;
         const existing = transactionsMap.get(txKey);
 
         if (!existing) {
           transactionsMap.set(txKey, {
-            id: doc.id,
-            paymentId: data.utrNumber ? `UTR-${data.utrNumber}` : (data.paymentId || `TC-${doc.id.slice(-6)}`),
+            id: data.id,
+            paymentId: data.utrNumber ? `UTR-${data.utrNumber}` : (data.paymentId || `TC-${String(data.id).slice(-6)}`),
             orderId: data.orderId || "",
-            invoiceNumber: `INV-SUMMIT-${doc.id.slice(-6)}`,
+            invoiceNumber: `INV-SUMMIT-${String(data.id).slice(-6)}`,
             checkInCode: data.checkInCode || "",
             attendeeName: data.name || "Attendee",
             email: data.email || "",
@@ -189,7 +186,6 @@ export default async function AdminPaymentsPage() {
     } catch (err) {
       console.warn("Error querying payments in admin payments page:", err);
     }
-  }
 
   return (
     <div className="space-y-8 font-sans">

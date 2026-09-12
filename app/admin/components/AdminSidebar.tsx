@@ -55,7 +55,8 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
     { label: "Coupons & Promo Codes", href: "/admin/coupons", icon: Tag, allowed: permissions.canManageCoupons },
     { label: "Ticket Scanner", href: "/admin/scanner", icon: ScanLine, allowed: permissions.canScanTickets },
     { label: "Certificates", href: "/admin/certificates", icon: Award, allowed: permissions.canIssueCertificates },
-    { label: "Attendee Feedback", href: "/admin/feedback", icon: MessageSquare, allowed: permissions.canManageEvents },
+    { label: "Event Feedback", href: "/admin/feedback", icon: MessageSquare, allowed: permissions.canManageEvents },
+    { label: "Bootcamps", href: "/admin/bootcamps", icon: Flame, allowed: permissions.canManageEvents },
   ];
 
   return (

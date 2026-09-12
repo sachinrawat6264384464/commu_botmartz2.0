@@ -17,33 +17,24 @@ import {
 } from "lucide-react";
 import WorkshopsClientTable from "./client-table";
 
+import { fetchCollectionDocs } from "@/lib/firebase-admin-helper";
+
 export const dynamic = "force-dynamic";
 
 export default async function AdminWorkshopsPage() {
-  let registrations: any[] = [];
-  let totalRevenue = 0;
-  let paidCount = 0;
+  const registrations = await fetchCollectionDocs("workshop_registrations");
+  
+  // Sort by createdAt desc if available
+  registrations.sort((a, b) => {
+    const da = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const db = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return db - da;
+  });
 
-  if (adminDb) {
-    try {
-      const snap = await adminDb
-        .collection("workshop_registrations")
-        .orderBy("createdAt", "desc")
-        .get();
-
-      registrations = snap.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-
-      paidCount = registrations.filter((r) => r.status === "PAID").length;
-      totalRevenue = registrations
-        .filter((r) => r.status === "PAID")
-        .reduce((sum, r) => sum + (Number(r.amount) || 0), 0);
-    } catch (err) {
-      console.warn("Error fetching workshop registrations:", err);
-    }
-  }
+  const paidCount = registrations.filter((r) => r.status === "PAID" || r.status === "VERIFIED" || r.status === "Active" || r.paymentId).length || registrations.length;
+  const totalRevenue = registrations
+    .filter((r) => r.status === "PAID" || r.paymentId)
+    .reduce((sum, r) => sum + (Number(r.amount) || 0), 0);
 
   return (
     <div className="space-y-8 font-sans">

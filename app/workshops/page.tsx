@@ -32,7 +32,7 @@ export default function WorkshopsPage() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-4 font-semibold">
             <Zap size={14} className="text-amber-500 fill-amber-500" />
-            <span>Going Live: 9th Sept @ 9:00 PM IST &bull; Flash Pass ₹9</span>
+            <span>Going Live: 9th Sept @ 9:00 PM IST &bull; Live Flash Masterclass</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 mb-4 font-sans tracking-tight">
             AI Engineering Bootcamps &amp; Cohorts
@@ -98,14 +98,14 @@ export default function WorkshopsPage() {
 
             <div className="pt-6 border-t border-slate-100 flex items-center justify-between gap-4 font-mono text-xs">
               <div>
-                <div className="text-[10px] text-slate-400 uppercase">Flash Launch Fee</div>
-                <div className="text-3xl font-black text-slate-900">₹9</div>
+                <div className="text-[10px] text-slate-400 uppercase font-bold">Community Access</div>
+                <div className="text-2xl font-black text-emerald-600">Open Access</div>
               </div>
               <button
-                onClick={() => handleEnroll("Hands-on AI Agent Accelerator (9th Sept 9 PM)", 9, "Live on 9th Sept @ 9:00 PM IST")}
+                onClick={() => handleEnroll("Hands-on AI Agent Accelerator (9th Sept 9 PM)", 0, "Live on 9th Sept @ 9:00 PM IST")}
                 className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-6 py-3.5 rounded-xl font-bold uppercase tracking-wider transition-all shadow-sm cursor-pointer"
               >
-                Enroll for ₹9 &rarr;
+                Enroll Now &rarr;
               </button>
             </div>
           </div>

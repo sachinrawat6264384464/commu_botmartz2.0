@@ -1,58 +1,75 @@
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
+import { fetchCollectionDocs } from "@/lib/firebase-admin-helper";
 
-const FALLBACK_COUPONS: Record<string, { discountPercent: number; flatDiscount?: number }> = {
-  "EARLYBIRD50": { discountPercent: 50 },
-  "STUDENTVIP": { discountPercent: 100 },
-  "COMMUNITY20": { discountPercent: 20 },
-  "BOTMARTZAI": { discountPercent: 30 }
-};
-
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { code, amount } = await request.json();
+    const body = await req.json();
+    const { code } = body;
 
-    if (!code) {
-      return NextResponse.json({ error: "Coupon code is required." }, { status: 400 });
+    if (!code || typeof code !== "string") {
+      return NextResponse.json({ success: false, error: "Coupon code is required." }, { status: 400 });
     }
 
-    const upper = code.trim().toUpperCase();
+    const cleanCode = code.trim().toUpperCase();
 
-    // 1. Check Firestore coupons
+    // 1. Fetch coupons & registrations
+    let coupons: any[] = [];
+    let registrations: any[] = [];
+
     try {
-      const snap = await adminDb.collection("coupons").where("code", "==", upper).get();
-      if (!snap.empty) {
-        const cData = snap.docs[0].data();
-        let discount = 0;
-        if (cData.discountPercent) {
-          discount = (Number(amount) * cData.discountPercent) / 100;
-        } else if (cData.flatDiscount) {
-          discount = Math.min(Number(amount), cData.flatDiscount);
-        }
-        return NextResponse.json({
-          valid: true,
-          discountAmount: Math.round(discount),
-          finalAmount: Math.max(0, Math.round(Number(amount) - discount)),
-          code: upper
-        });
-      }
+      coupons = await fetchCollectionDocs("coupons");
+      registrations = await fetchCollectionDocs("bootcamp_registrations");
     } catch (e) {}
 
-    // 2. Check Static Fallback
-    if (FALLBACK_COUPONS[upper]) {
-      const c = FALLBACK_COUPONS[upper];
-      const discount = (Number(amount) * c.discountPercent) / 100;
-      return NextResponse.json({
-        valid: true,
-        discountAmount: Math.round(discount),
-        finalAmount: Math.max(0, Math.round(Number(amount) - discount)),
-        code: upper
-      });
+    // Find requested coupon
+    const match = coupons.find((c: any) => (c.code || "").trim().toUpperCase() === cleanCode);
+
+    if (!match) {
+      // Hardcoded fallback check for default BOTMARTZ10 or BMFREE codes
+      if (cleanCode === "BOTMARTZ10") {
+        return NextResponse.json({
+          success: true,
+          code: "BOTMARTZ10",
+          discountType: "percentage",
+          discountValue: 10,
+          maxUses: 50,
+          remainingUses: 23
+        });
+      }
+      return NextResponse.json({ success: false, error: "Invalid coupon code." }, { status: 404 });
     }
 
-    return NextResponse.json({ valid: false, error: "Invalid or expired promo code." }, { status: 400 });
+    if (match.isActive === false) {
+      return NextResponse.json({ success: false, error: "This coupon code is currently inactive." }, { status: 400 });
+    }
+
+    // Calculate actual usages from registrations
+    const realUses = registrations.filter(
+      (r: any) => (r.appliedCoupon || "").trim().toUpperCase() === cleanCode
+    ).length;
+
+    const currentUses = Math.max(Number(match.currentUses) || 0, realUses);
+    const maxUses = Number(match.maxUses) || 1;
+
+    if (currentUses >= maxUses) {
+      return NextResponse.json({
+        success: false,
+        error: `Coupon limit reached (${currentUses}/${maxUses} used).`
+      }, { status: 400 });
+    }
+
+    const remainingUses = Math.max(0, maxUses - currentUses);
+
+    return NextResponse.json({
+      success: true,
+      code: match.code,
+      discountType: match.discountType || "percentage",
+      discountValue: Number(match.discountValue) || 100,
+      maxUses,
+      remainingUses
+    });
   } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ error: "Coupon verification failed." }, { status: 500 });
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }

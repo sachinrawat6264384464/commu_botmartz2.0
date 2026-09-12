@@ -110,14 +110,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
         />
       </head>
-      <body className="bg-[#FAFCFF] text-slate-900 min-h-screen flex flex-col antialiased">
+      <body className="bg-[#FAFCFF] text-slate-900 min-h-screen flex flex-col antialiased" suppressHydrationWarning={true}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
