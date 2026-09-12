@@ -155,18 +155,11 @@ export default function WorkshopLandingPage() {
                 {/* CTAs */}
                 <div className="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs">
                   <button
-                    onClick={() =>
-                      setSelectedWorkshopForWizard({
-                        title: "AI Accelerator Workshop Series Live Pass",
-                        slug: "ai-accelerator-workshop",
-                        date: "August 2026 Series",
-                        location: "Online & Indore AI Lab",
-                      })
-                    }
-                    className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-[#0052CC] hover:from-blue-500 hover:to-[#0066FF] text-white font-bold uppercase tracking-wider transition-all shadow-xl shadow-blue-600/35 flex items-center gap-2.5 cursor-pointer group"
+                    disabled
+                    className="px-8 py-4 rounded-2xl bg-slate-800 text-slate-400 font-bold uppercase tracking-wider border border-slate-700/60 flex items-center gap-2.5 cursor-not-allowed opacity-75 pointer-events-none"
                   >
-                    <Sparkles size={16} className="text-cyan-300 group-hover:rotate-12 transition-transform" />
-                    <span>Register Live Pass &rarr;</span>
+                    <Sparkles size={16} className="text-slate-500" />
+                    <span>Registration Closed</span>
                   </button>
 
                   <button
