@@ -37,146 +37,76 @@ export default async function CommunityHomePage() {
   return (
     <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
-      {/* ── 1. HERO SECTION: FULL-WIDTH FUTURISTIC PLAYGROUND ── */}
-      <section className="relative w-full pt-20 pb-24 overflow-hidden border-b border-slate-800/80 bg-[#040914] text-white">
-        
-        {/* Animated Radial Background Glows & Grid Pattern */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(0,102,255,0.35),transparent_70%)]" />
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,rgba(0,184,240,0.18),transparent_70%)]" />
-          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#040914] to-transparent" />
-          {/* Cyber Grid SVG */}
-          <svg className="absolute inset-0 w-full h-full opacity-20 stroke-slate-700/60 [mask-image:radial-gradient(ellipse_70%_70%_at_50%_30%,black_20%,transparent_100%)]" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#hero-grid)" />
-          </svg>
-        </div>
-
+      {/* ── 1. HERO SECTION: PROFESSIONAL VALUE PROPOSITION ── */}
+      <section className="relative pt-16 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
           <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
             
-            {/* Live Cohort Badge */}
-            <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-slate-900/80 border border-[#0066FF]/40 text-blue-300 font-mono text-xs font-bold uppercase tracking-wider mb-8 backdrop-blur-xl shadow-[0_0_25px_rgba(0,102,255,0.25)] hover:border-[#0066FF] transition-all">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
-              </span>
-              <Activity size={15} className="text-[#00B8F0]" />
+            {/* Cohort 1 Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-6 shadow-2xs">
+              <Activity size={14} className="text-[#0066FF]" />
               <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-[clamp(40px,6.5vw,78px)] font-black tracking-tight leading-[1.05] text-white mb-6 font-sans">
+            <h1 className="text-[clamp(38px,6vw,72px)] font-black tracking-tight leading-[1.08] text-slate-950 mb-6 font-sans">
               Build Production Systems. <br />
-              <span className="bg-gradient-to-r from-[#00B8F0] via-[#0066FF] to-[#A855F7] bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(0,102,255,0.45)]">
+              <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
                 Ship Daily. Get Hired.
               </span>
             </h1>
 
             {/* Subhead */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-3xl leading-relaxed mb-10 font-mono text-xs sm:text-sm">
-              The 45-Day Virtual Internship Playground for authentic college students. Pick from{" "}
-              <strong className="text-white bg-blue-500/20 px-2 py-0.5 rounded border border-blue-500/30">
-                50 production systems
-              </strong>{" "}
-              in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock{" "}
-              <strong className="text-cyan-300 bg-cyan-500/20 px-2 py-0.5 rounded border border-cyan-500/30">
-                direct dispatch to 15 partner companies &amp; founder recommendation
-              </strong>.
+            <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8 font-mono text-xs sm:text-sm">
+              The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies and founder recommendation</strong>.
             </p>
 
             {/* Primary Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-14">
+            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto mb-10">
               <Link
                 href="/login"
-                className="w-full sm:w-auto bg-gradient-to-r from-[#0066FF] via-[#0088FF] to-[#00B8F0] hover:from-[#0052CC] hover:to-[#0092D7] text-white px-9 py-4.5 rounded-2xl text-xs font-mono font-black uppercase tracking-wider transition-all duration-300 shadow-[0_0_35px_rgba(0,102,255,0.45)] hover:shadow-[0_0_50px_rgba(0,184,240,0.6)] hover:scale-105 flex items-center justify-center gap-2.5 cursor-pointer"
+                className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Join 45-Day Cohort (Free)</span>
-                <ArrowRight size={16} />
+                <ArrowRight size={15} />
               </Link>
               
               <Link
                 href="/arena"
-                className="w-full sm:w-auto bg-slate-900/80 hover:bg-slate-800 text-white border border-slate-700/80 hover:border-blue-500/50 px-8 py-4.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all backdrop-blur-md shadow-lg flex items-center justify-center gap-2.5"
+                className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
               >
-                <Terminal size={16} className="text-[#00B8F0]" />
+                <Terminal size={15} className="text-blue-600" />
                 <span>Explore 50 Projects Matrix</span>
               </Link>
 
               <Link
                 href="/arena/calendar"
-                className="w-full sm:w-auto bg-purple-950/40 hover:bg-purple-900/50 text-purple-300 border border-purple-500/30 px-7 py-4.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2.5"
+                className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-6 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
               >
-                <MapPin size={16} className="text-purple-400" />
+                <MapPin size={15} className="text-slate-600" />
                 <span>Indore Office Hours</span>
               </Link>
             </div>
 
-            {/* Glassmorphic Stat Cards Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-4xl font-mono text-xs text-left">
-              
-              <div className="p-5 rounded-3xl bg-slate-900/70 backdrop-blur-2xl border border-slate-800 hover:border-[#0066FF]/60 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Catalog</span>
-                  <Code2 size={16} className="text-[#00B8F0]" />
-                </div>
-                <div className="text-2xl font-black text-white font-sans group-hover:text-[#00B8F0] transition-colors">
-                  50 Systems
-                </div>
-                <div className="text-[11px] text-slate-400 mt-1">Multi-Domain PRDs</div>
+            {/* Quick Proof Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-slate-900">50 Systems</div>
+                <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
               </div>
-
-              <div className="p-5 rounded-3xl bg-slate-900/70 backdrop-blur-2xl border border-slate-800 hover:border-[#0066FF]/60 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Hiring</span>
-                  <Briefcase size={16} className="text-[#0066FF]" />
-                </div>
-                <div className="text-2xl font-black text-[#00B8F0] font-sans group-hover:text-blue-400 transition-colors">
-                  15 Companies
-                </div>
-                <div className="text-[11px] text-slate-400 mt-1">Referral Guarantee</div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-[#0066FF]">15 Companies</div>
+                <div className="text-[11px] text-slate-500">Referral Guarantee</div>
               </div>
-
-              <div className="p-5 rounded-3xl bg-slate-900/70 backdrop-blur-2xl border border-slate-800 hover:border-purple-500/60 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Offline</span>
-                  <Users size={16} className="text-purple-400" />
-                </div>
-                <div className="text-2xl font-black text-purple-300 font-sans group-hover:text-purple-200 transition-colors">
-                  Indore Hub
-                </div>
-                <div className="text-[11px] text-slate-400 mt-1">Saturday Teardowns</div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-purple-700">Indore Hub</div>
+                <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
               </div>
-
-              <div className="p-5 rounded-3xl bg-slate-900/70 backdrop-blur-2xl border border-slate-800 hover:border-emerald-500/60 transition-all duration-300 hover:-translate-y-1 group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Access</span>
-                  <Award size={16} className="text-emerald-400" />
-                </div>
-                <div className="text-2xl font-black text-emerald-400 font-sans group-hover:text-emerald-300 transition-colors">
-                  100% Free
-                </div>
-                <div className="text-[11px] text-slate-400 mt-1">Verified Students</div>
+              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="text-xl font-black text-emerald-700">100% Free</div>
+                <div className="text-[11px] text-slate-500">For Verified Students</div>
               </div>
-
-            </div>
-
-            {/* Floating Trust Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-10 text-[11px] font-mono text-slate-400">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300">
-                <Flame size={12} className="text-amber-400" /> Zero Toy Apps Policy
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300">
-                <CheckCircle2 size={12} className="text-[#00B8F0]" /> Automated SLA Benchmark Gates
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300">
-                <Sparkles size={12} className="text-purple-400" /> Founder Code Reviews
-              </span>
             </div>
 
           </div>

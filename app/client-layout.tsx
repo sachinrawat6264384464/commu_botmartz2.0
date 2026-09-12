@@ -44,8 +44,14 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       });
   }, []);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Suppress public header and footer on Admin routes and Scanner Desk
-  const isAdminOrDesk = pathname.startsWith("/admin") || pathname.startsWith("/event-desk");
+  const isAdminOrDesk = mounted && (pathname.startsWith("/admin") || pathname.startsWith("/event-desk"));
 
   if (isAdminOrDesk) {
     return <main className="min-h-screen bg-[#FAFCFF] text-slate-900">{children}</main>;
