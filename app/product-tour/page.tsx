@@ -244,18 +244,18 @@ export default function ProductTourPage() {
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
       {/* 100% Full-Width Container */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto">
         
         {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 p-6 sm:p-12 border border-slate-800 shadow-2xl mb-12">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl mb-12 hover:border-blue-500/40 transition-all duration-500 group">
           {/* Background Ambient Glows */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/25 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             {/* Left Column: Title & Description */}
             <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold border border-cyan-500/20 backdrop-blur-md shadow-xs">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/15 text-cyan-300 font-mono text-xs font-extrabold border border-cyan-500/30 backdrop-blur-md shadow-xs">
                 <BookOpen size={14} className="text-cyan-400" />
                 <span>COMPREHENSIVE PLATFORM &amp; PRODUCT TOUR</span>
               </div>
@@ -264,41 +264,41 @@ export default function ProductTourPage() {
                 How Botmartz Community <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Works</span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-300 font-sans leading-relaxed font-normal">
                 Every feature on Botmartz is engineered with one goal: helping authentic builders ship verifiable production architectures, build undeniable proof-of-work, and unlock top-tier engineering roles.
               </p>
 
               {/* Stats Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <Layers size={16} className="text-blue-400 shrink-0" />
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-2 font-mono text-xs">
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
+                  <Layers size={18} className="text-blue-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-sm">14 Modules</div>
-                    <div className="text-slate-400 text-[10px]">Platform Suite</div>
+                    <div className="text-slate-300 text-[10px]">Platform Suite</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <Zap size={16} className="text-cyan-400 shrink-0" />
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
+                  <Zap size={18} className="text-cyan-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-sm">45-Day</div>
-                    <div className="text-slate-400 text-[10px]">Sprint Window</div>
+                    <div className="text-slate-300 text-[10px]">Sprint Window</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
+                  <ShieldCheck size={18} className="text-emerald-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-sm">100% PoW</div>
-                    <div className="text-slate-400 text-[10px]">Verified Commits</div>
+                    <div className="text-emerald-300 text-[10px] font-bold">Verified Commits</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <Coins size={16} className="text-amber-400 shrink-0" />
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
+                  <Coins size={18} className="text-amber-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-sm">Karma Ledger</div>
-                    <div className="text-slate-400 text-[10px]">Daily Bounties</div>
+                    <div className="text-amber-300 text-[10px] font-bold">Daily Bounties</div>
                   </div>
                 </div>
               </div>
@@ -308,88 +308,94 @@ export default function ProductTourPage() {
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-mono text-xs shrink-0 self-start lg:self-center">
               <Link
                 href="/arena"
-                className="px-7 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white font-bold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 group"
+                className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-600 hover:to-indigo-500 text-white font-extrabold transition-all duration-300 shadow-xl hover:shadow-blue-500/30 flex items-center justify-center gap-2 group text-sm cursor-pointer hover:scale-105 active:scale-95"
               >
                 <span>Get Started in Arena</span>
-                <ArrowRight size={15} className="text-cyan-300 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight size={16} className="text-cyan-300 group-hover:translate-x-1.5 transition-transform duration-300" />
               </Link>
             </div>
           </div>
         </div>
 
         {/* ── 2. 4-STEP STUDENT LIFECYCLE JOURNEY BANNER ── */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-12 shadow-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-slate-100 pb-5">
+        <div className="bg-white border-2 border-slate-300 rounded-3xl p-6 sm:p-10 mb-12 shadow-md hover:shadow-xl transition-all duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b-2 border-slate-100 pb-6">
             <div>
-              <div className="text-xs font-mono font-bold text-[#0066FF] uppercase tracking-wider mb-1">THE 4-STEP JOURNEY</div>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-sans tracking-tight">How A Student Progresses in 45 Days</h2>
+              <div className="text-xs font-mono font-black text-[#0066FF] uppercase tracking-wider mb-1">THE 4-STEP JOURNEY</div>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-950 font-sans tracking-tight">How A Student Progresses in 45 Days</h2>
             </div>
             <Link
               href="/arena"
-              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-2 shrink-0 self-start sm:self-auto"
+              className="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-extrabold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 shrink-0 self-start sm:self-auto hover:-translate-y-0.5"
             >
               <span>Explore 50 PRDs</span>
-              <ArrowRight size={13} />
+              <ArrowRight size={14} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
-            <div className="p-6 rounded-3xl bg-blue-50/60 border border-blue-100 space-y-3 relative overflow-hidden group hover:border-blue-300 transition-all">
-              <div className="w-9 h-9 rounded-xl bg-[#0066FF] text-white flex items-center justify-center font-bold text-sm shadow-xs">1</div>
-              <h3 className="font-bold text-slate-900 font-sans text-base">Select Production PRD</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-sans">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-sans text-xs">
+            
+            {/* Step 1 */}
+            <div className="p-6 rounded-3xl bg-blue-50/70 border-2 border-blue-200/90 hover:border-[#0066FF] hover:bg-blue-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
+              <div className="w-10 h-10 rounded-2xl bg-[#0066FF] text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">1</div>
+              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-[#0066FF] transition-colors">Select Production PRD</h3>
+              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
                 Browse 50 open blueprints from Baby Step to Go To Hell 💀. Complete profile verification and enroll in your chosen track.
               </p>
             </div>
 
-            <div className="p-6 rounded-3xl bg-indigo-50/60 border border-indigo-100 space-y-3 relative overflow-hidden group hover:border-indigo-300 transition-all">
-              <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">2</div>
-              <h3 className="font-bold text-slate-900 font-sans text-base">Daily Proof-of-Work</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-sans">
+            {/* Step 2 */}
+            <div className="p-6 rounded-3xl bg-indigo-50/70 border-2 border-indigo-200/90 hover:border-indigo-600 hover:bg-indigo-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
+              <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">2</div>
+              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-indigo-600 transition-colors">Daily Proof-of-Work</h3>
+              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
                 Write code daily, log your GitHub commit URLs, and post LinkedIn updates to earn +20 to +70 Karma Coins every single day.
               </p>
             </div>
 
-            <div className="p-6 rounded-3xl bg-purple-50/60 border border-purple-100 space-y-3 relative overflow-hidden group hover:border-purple-300 transition-all">
-              <div className="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">3</div>
-              <h3 className="font-bold text-slate-900 font-sans text-base">Agile &amp; QA Benchmark</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-sans">
+            {/* Step 3 */}
+            <div className="p-6 rounded-3xl bg-purple-50/70 border-2 border-purple-200/90 hover:border-purple-600 hover:bg-purple-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
+              <div className="w-10 h-10 rounded-2xl bg-purple-600 text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">3</div>
+              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-purple-600 transition-colors">Agile &amp; QA Benchmark</h3>
+              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
                 Manage sprint tasks in your Agile Workspace, collaborate with squad peers in the live room, and pass strict k6 load assertions.
               </p>
             </div>
 
-            <div className="p-6 rounded-3xl bg-emerald-50/60 border border-emerald-100 space-y-3 relative overflow-hidden group hover:border-emerald-300 transition-all">
-              <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">4</div>
-              <h3 className="font-bold text-slate-900 font-sans text-base">Audit &amp; Referrals</h3>
-              <p className="text-xs text-slate-600 leading-relaxed font-sans">
+            {/* Step 4 */}
+            <div className="p-6 rounded-3xl bg-emerald-50/70 border-2 border-emerald-200/90 hover:border-emerald-600 hover:bg-emerald-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
+              <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">4</div>
+              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-emerald-700 transition-colors">Audit &amp; Referrals</h3>
+              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
                 Pass the 5-point proof-of-work audit by Soham Sharma, receive cryptographic credentials, and claim direct startup referrals.
               </p>
             </div>
+
           </div>
         </div>
 
         {/* ── 3. SEARCH & CATEGORY FILTER BAR ── */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-5 mb-8 shadow-xs space-y-4">
+        <div className="bg-white border-2 border-slate-300 rounded-3xl p-6 mb-10 shadow-md hover:shadow-lg transition-all duration-300 space-y-5">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search features (e.g. daily log, karma wallet, squad chat, resume generator, roadmaps, SLA)..."
-              className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-11 pr-4 py-3 text-xs font-mono text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all"
+              className="w-full bg-slate-50 border-2 border-slate-300 rounded-2xl pl-12 pr-4 py-3.5 text-xs sm:text-sm font-mono text-slate-950 placeholder:text-slate-500 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all duration-200 font-bold"
             />
           </div>
 
-          <div className="flex items-center gap-2 flex-wrap font-mono text-xs">
+          <div className="flex items-center gap-2.5 flex-wrap font-sans text-xs">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.key}
                 onClick={() => setSelectedCategory(cat.key)}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                className={`px-4 py-2 rounded-xl font-extrabold transition-all duration-200 cursor-pointer border-2 ${
                   selectedCategory === cat.key
-                    ? "bg-[#0066FF] text-white shadow-xs"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md scale-[1.02]"
+                    : "bg-slate-100 text-slate-700 border-slate-200 hover:border-slate-400 hover:bg-slate-200/70"
                 }`}
               >
                 {cat.label}
@@ -399,29 +405,29 @@ export default function ProductTourPage() {
         </div>
 
         {/* ── 4. MODULES BREAKDOWN 2-COLUMN GRID ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           {filteredModules.map((module, idx) => {
             const Icon = module.icon;
             return (
               <div
                 key={module.id}
                 id={module.id}
-                className="bg-white border border-slate-200 hover:border-blue-400/80 rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-6 group"
+                className="bg-white border-2 border-slate-300 hover:border-[#0066FF] rounded-3xl p-7 sm:p-9 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-6 group"
               >
                 <div>
                   {/* Header */}
-                  <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-5 mb-5">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${module.color} text-white flex items-center justify-center shrink-0 shadow-xs`}>
-                        <Icon size={22} />
+                  <div className="flex items-start justify-between gap-4 border-b-2 border-slate-100 pb-5 mb-5">
+                    <div className="flex items-center gap-3.5">
+                      <div className={`w-13 h-13 rounded-2xl bg-gradient-to-br ${module.color} text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                        <Icon size={24} />
                       </div>
                       <div>
                         <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 className="text-base sm:text-lg font-extrabold text-slate-900 font-sans group-hover:text-[#0066FF] transition-colors">
+                          <h3 className="text-lg sm:text-xl font-black text-slate-950 font-sans group-hover:text-[#0066FF] transition-colors duration-200">
                             {idx + 1}. {module.title}
                           </h3>
                         </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-[10px] font-bold border border-blue-100">
+                        <span className="px-3 py-1 rounded-full bg-blue-100/70 text-[#0066FF] font-mono text-[11px] font-black border border-blue-300 uppercase tracking-wider">
                           {module.badge}
                         </span>
                       </div>
@@ -429,45 +435,45 @@ export default function ProductTourPage() {
 
                     <Link
                       href={module.href}
-                      className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-mono text-xs font-bold transition-all shrink-0 flex items-center justify-center"
+                      className="p-3 rounded-2xl bg-slate-100 hover:bg-[#0066FF] border-2 border-slate-200 hover:border-[#0066FF] text-slate-800 hover:text-white font-mono text-xs font-bold transition-all duration-300 shrink-0 flex items-center justify-center shadow-xs"
                       title={module.cta}
                     >
-                      <ArrowRight size={15} />
+                      <ArrowRight size={16} />
                     </Link>
                   </div>
 
                   {/* 3 Pillars: What / Why / How */}
-                  <div className="space-y-3 font-mono text-xs">
+                  <div className="space-y-3 font-sans text-xs">
                     
                     {/* What */}
-                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                      <div className="flex items-center gap-1.5 text-blue-700 font-bold font-sans text-[11px] uppercase">
-                        <HelpCircle size={13} />
+                    <div className="p-4 rounded-2xl bg-blue-50/70 border-2 border-blue-200/80 space-y-1">
+                      <div className="flex items-center gap-1.5 text-[#0066FF] font-black font-mono text-[11px] uppercase tracking-wider">
+                        <HelpCircle size={14} />
                         <span>What It Is</span>
                       </div>
-                      <p className="text-slate-600 leading-relaxed font-sans text-xs">
+                      <p className="text-slate-700 leading-relaxed font-sans text-xs font-medium">
                         {module.what}
                       </p>
                     </div>
 
                     {/* Why */}
-                    <div className="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-100 space-y-1">
-                      <div className="flex items-center gap-1.5 text-amber-800 font-bold font-sans text-[11px] uppercase">
-                        <Zap size={13} />
+                    <div className="p-4 rounded-2xl bg-amber-50/70 border-2 border-amber-200/80 space-y-1">
+                      <div className="flex items-center gap-1.5 text-amber-800 font-black font-mono text-[11px] uppercase tracking-wider">
+                        <Zap size={14} />
                         <span>Why It Exists</span>
                       </div>
-                      <p className="text-slate-600 leading-relaxed font-sans text-xs">
+                      <p className="text-slate-700 leading-relaxed font-sans text-xs font-medium">
                         {module.why}
                       </p>
                     </div>
 
                     {/* How */}
-                    <div className="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 space-y-1">
-                      <div className="flex items-center gap-1.5 text-emerald-800 font-bold font-sans text-[11px] uppercase">
-                        <CheckCircle2 size={13} />
+                    <div className="p-4 rounded-2xl bg-emerald-50/70 border-2 border-emerald-200/80 space-y-1">
+                      <div className="flex items-center gap-1.5 text-emerald-800 font-black font-mono text-[11px] uppercase tracking-wider">
+                        <CheckCircle2 size={14} />
                         <span>How To Use It</span>
                       </div>
-                      <p className="text-slate-600 leading-relaxed font-sans text-xs">
+                      <p className="text-slate-700 leading-relaxed font-sans text-xs font-medium">
                         {module.how}
                       </p>
                     </div>
@@ -475,14 +481,14 @@ export default function ProductTourPage() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between font-mono text-xs">
-                  <span className="text-[11px] text-slate-400">Route: {module.href}</span>
+                <div className="pt-4 border-t-2 border-slate-100 flex items-center justify-between font-mono text-xs">
+                  <span className="text-xs text-slate-500 font-bold">Route: {module.href}</span>
                   <Link
                     href={module.href}
-                    className="text-[#0066FF] font-bold hover:underline flex items-center gap-1"
+                    className="text-[#0066FF] font-black hover:underline flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200"
                   >
                     <span>{module.cta}</span>
-                    <ArrowRight size={12} />
+                    <ArrowRight size={13} />
                   </Link>
                 </div>
 
@@ -492,30 +498,30 @@ export default function ProductTourPage() {
         </div>
 
         {/* ── 5. CALL TO ACTION FOOTER BANNER ── */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-slate-950 text-white text-center space-y-6 shadow-2xl relative overflow-hidden">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-blue-300 font-mono text-xs font-bold uppercase border border-blue-500/30">
+        <div className="p-8 sm:p-12 rounded-3xl bg-slate-950 text-white text-center space-y-6 shadow-2xl relative overflow-hidden border-2 border-slate-800 hover:border-blue-500/40 transition-all duration-500 group">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 text-blue-300 font-mono text-xs font-extrabold uppercase border border-blue-500/30">
             <Sparkles size={14} /> START YOUR 45-DAY SPRINT TODAY
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold font-sans max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-4xl font-black font-sans max-w-2xl mx-auto tracking-tight">
             Ready to Build Authentic Production Proof-of-Work?
           </h2>
-          <p className="text-slate-400 font-mono text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+          <p className="text-slate-300 font-sans text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
             Select an industrial system blueprint, enroll with your verified student profile, and start building with daily founder accountability.
           </p>
 
-          <div className="flex items-center justify-center gap-4 pt-2 flex-wrap font-mono text-xs">
+          <div className="flex items-center justify-center gap-4 pt-2 flex-wrap font-sans text-xs sm:text-sm">
             <Link
               href="/arena"
-              className="px-7 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-md flex items-center gap-2"
+              className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-extrabold transition-all duration-300 shadow-xl hover:shadow-blue-500/30 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
             >
-              <Layers size={15} />
+              <Layers size={16} />
               <span>Browse 50 PRDs</span>
             </Link>
             <Link
               href="/login"
-              className="px-7 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all border border-slate-700 flex items-center gap-2"
+              className="px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-extrabold transition-all duration-300 border-2 border-slate-700 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
             >
-              <User size={15} />
+              <User size={16} />
               <span>Create Builder Profile</span>
             </Link>
           </div>
