@@ -689,40 +689,40 @@ export default function WorkshopLandingPage() {
             </h2>
           </div>
 
-          {/* Feedback Cards Grid */}
+          {/* Feedback Cards Grid (3 Reviews Per Row) */}
           {loadingFeedbacks ? (
             <div className="py-12 text-center text-slate-400 font-mono text-xs flex items-center justify-center gap-2">
               <Loader2 size={16} className="animate-spin text-[#0066FF]" />
               <span>Loading verified reviews...</span>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 font-sans">
               {feedbacks.map((fb) => (
                 <div
                   key={fb.id}
-                  className="p-6 rounded-3xl bg-white border-2 border-slate-300 hover:border-[#0066FF] shadow-md hover:shadow-xl transition-all flex flex-col justify-between space-y-4 group"
+                  className="p-7 rounded-3xl bg-white border-2 border-slate-300 hover:border-[#0066FF] shadow-md hover:shadow-xl transition-all flex flex-col justify-between space-y-4 group"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center gap-1 text-amber-400">
                       {[...Array(fb.overallRating || 5)].map((_, i) => (
-                        <Star key={i} size={15} fill="currentColor" />
+                        <Star key={i} size={16} fill="currentColor" />
                       ))}
                     </div>
-                    <p className="text-xs text-slate-700 italic font-sans leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-700 italic font-sans leading-relaxed">
                       &ldquo;{fb.takeaways || fb.comments || "Great workshop!"}&rdquo;
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-100 font-mono text-xs flex items-center justify-between">
+                  <div className="pt-4 border-t border-slate-100 font-mono text-xs flex items-center justify-between">
                     <div>
-                      <div className="font-bold text-slate-900 font-sans truncate max-w-[130px]">
+                      <div className="font-bold text-slate-900 font-sans truncate max-w-[160px] text-sm">
                         {fb.participantName || fb.participantEmail?.split("@")[0] || "Verified Builder"}
                       </div>
                       <div className="text-slate-500 text-[10px] uppercase font-semibold">
                         {fb.attendeeType || "student"}
                       </div>
                     </div>
-                    <div className="px-2.5 py-1 rounded-full bg-blue-50 text-[#0066FF] text-[10px] font-bold border border-blue-200">
+                    <div className="px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] text-[10px] font-bold border border-blue-200">
                       AI Accelerator
                     </div>
                   </div>
