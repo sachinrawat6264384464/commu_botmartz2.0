@@ -143,7 +143,19 @@ export default function CommunityNavbar() {
         {/* Desktop Pill Navigation */}
         <nav className="hidden lg:flex items-center gap-2 bg-slate-100/70 p-1.5 rounded-full border border-slate-200/80 font-mono text-xs font-bold shadow-2xs backdrop-blur-md">
           
-          {/* 1. All Bootcamps */}
+          {/* 1. 50 Systems Catalog */}
+          <Link
+            href="/arena"
+            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              pathname === "/arena"
+                ? "bg-white text-[#0066FF] shadow-xs font-bold"
+                : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+            }`}
+          >
+            <span>50 Systems</span>
+          </Link>
+
+          {/* 2. All Bootcamps */}
           <Link
             href="/workshops"
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
@@ -155,7 +167,7 @@ export default function CommunityNavbar() {
             <span>All Bootcamps</span>
           </Link>
 
-          {/* 2. Internship Dropdown */}
+          {/* 3. Internship Dropdown */}
           <div className="relative" ref={internshipMenuRef}>
             <button
               onClick={() => {
@@ -207,7 +219,7 @@ export default function CommunityNavbar() {
             )}
           </div>
 
-          {/* 3. Community Dropdown */}
+          {/* 4. Community Dropdown */}
           <div className="relative" ref={communityMenuRef}>
             <button
               onClick={() => {
@@ -280,7 +292,54 @@ export default function CommunityNavbar() {
             )}
           </div>
 
-          {/* 4. Certificates */}
+          {/* 5. Resources Dropdown */}
+          <div className="relative" ref={resourcesMenuRef}>
+            <button
+              onClick={() => {
+                setResourcesOpen(!resourcesOpen);
+                setInternshipOpen(false);
+                setCommunityOpen(false);
+              }}
+              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+                pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine")
+                  ? "bg-white text-[#0066FF] shadow-xs font-bold"
+                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white/60"
+              }`}
+            >
+              <span>Resources</span>
+              <ChevronDown size={13} className={`transition-transform duration-200 ${resourcesOpen ? "rotate-180 text-[#0066FF]" : "text-slate-400"}`} />
+            </button>
+
+            {resourcesOpen && (
+              <div className="absolute top-full left-0 mt-3 w-80 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
+                <div className="text-[10px] font-mono text-slate-400 uppercase font-bold px-3 py-1.5 border-b border-slate-100 mb-1">
+                  Developer Resources &amp; Credentials
+                </div>
+                {RESOURCE_ITEMS.map((item) => {
+                  const IconComponent = item.icon;
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-emerald-50/60 transition-all group"
+                    >
+                      <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-200 shadow-2xs">
+                        <IconComponent size={16} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-slate-950 font-bold text-xs font-sans group-hover:text-emerald-600 transition-colors flex items-center justify-between">
+                          <span>{item.name}</span>
+                        </div>
+                        <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* 6. Certificates */}
           <Link
             href="/certificates"
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
