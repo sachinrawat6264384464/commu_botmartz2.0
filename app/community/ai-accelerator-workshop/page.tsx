@@ -915,71 +915,92 @@ export default function WorkshopLandingPage() {
       </section>
 
 
-      {/* ── SECTION 7: 100% FULL-WIDTH FREQUENTLY ASKED QUESTIONS (FAQ) ── */}
+      {/* ── SECTION 7: 100% FULL-WIDTH 2-COLUMN FREQUENTLY ASKED QUESTIONS (FAQ) ── */}
       <section className="py-20 px-4 sm:px-8 lg:px-12 bg-slate-50 text-slate-900 border-b-2 border-slate-200">
         <div className="w-full space-y-12">
           
           <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider">
+              HELP &amp; SUPPORT &bull; FAQ
+            </div>
             <h2 className="text-3xl sm:text-5xl font-black text-slate-950 font-sans tracking-tight">
               Frequently Asked Questions
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-2xl mx-auto">
-              Everything you need to know about the bootcamps and the AI Engineering Pass.
+              Everything you need to know about the bootcamps, schedule, prerequisites, and the AI Engineering Pass.
             </p>
           </div>
 
-          {/* Accordions */}
-          <div className="space-y-4 max-w-5xl mx-auto">
+          {/* 2-Column Full-Width Accordion Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans">
             {[
               {
+                id: 1,
                 q: "What are the prerequisites for these bootcamps?",
                 a: "Basic programming knowledge (Python or JavaScript) is recommended. Familiarity with Web development or APIs is helpful but not strictly required. We start from AI fundamentals and scale quickly to production architecture.",
               },
               {
-                q: "Are the sessions recorded?",
-                a: "Yes! All live sessions are recorded in high-definition and uploaded to your student portal along with code repositories, starter kits, and slide decks.",
+                id: 2,
+                q: "Are the sessions recorded and available on-demand?",
+                a: "Yes! All live sessions are recorded in high-definition and uploaded to your student portal along with code repositories, starter kits, slide decks, and project templates.",
               },
               {
+                id: 3,
                 q: "What is the refund policy?",
-                a: "We offer a 100% no-questions-asked refund policy prior to the start of the first live cohort session.",
+                a: "We offer a 100% no-questions-asked refund policy prior to the start of the first live cohort session for any paid tier passes.",
               },
               {
-                q: "Do I get a certificate?",
-                a: "Yes. Upon completing workshop projects and submitting feedback, you receive a cryptographically verifiable PDF certificate of completion which can be shared on LinkedIn.",
+                id: 4,
+                q: "Do I get a verifiable certificate?",
+                a: "Yes. Upon completing workshop projects and submitting feedback, you receive a cryptographically verifiable PDF certificate of completion which can be shared directly on LinkedIn.",
               },
               {
+                id: 5,
                 q: "How does the AI Engineering Pass work?",
-                a: "The pass grants you full access to all three workshop series, live Q&A, developer resource packs, Zoom sessions, and community Discord channels.",
+                a: "The pass grants you full access to all three workshop series, live Q&A, developer resource packs, Zoom office hours, and community Discord channels.",
               },
               {
-                q: "Where is the community hosted?",
-                a: "Our active engineering community is hosted on Discord, GitHub, and weekly Zoom office hours.",
+                id: 6,
+                q: "Where is the builder community hosted?",
+                a: "Our active engineering community is hosted on Discord, GitHub, and weekly Zoom office hours with direct access to mentors.",
               },
-            ].map((faq, index) => (
-              <div
-                key={index}
-                className="rounded-2xl bg-white border-2 border-slate-300 shadow-sm overflow-hidden transition-all"
-              >
-                <button
-                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
-                  className="w-full p-5 text-left font-sans font-bold text-slate-900 text-sm sm:text-base flex items-center justify-between gap-4 cursor-pointer hover:text-[#0066FF]"
+            ].map((faq, index) => {
+              const isOpen = openFaqIndex === index;
+              return (
+                <div
+                  key={faq.id}
+                  className={`rounded-3xl bg-white border-2 transition-all duration-200 shadow-md hover:shadow-xl overflow-hidden flex flex-col justify-between ${
+                    isOpen ? "border-[#0066FF] shadow-blue-500/10" : "border-slate-300 hover:border-[#0066FF]"
+                  }`}
                 >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    size={18}
-                    className={`text-slate-400 shrink-0 transition-transform duration-200 ${
-                      openFaqIndex === index ? "rotate-180 text-[#0066FF]" : ""
-                    }`}
-                  />
-                </button>
+                  <button
+                    onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                    className="w-full p-6 text-left font-sans font-bold text-slate-900 text-sm sm:text-base flex items-start justify-between gap-4 cursor-pointer group"
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className="w-7 h-7 rounded-lg bg-blue-50 text-[#0066FF] font-mono text-xs font-bold flex items-center justify-center shrink-0 border border-blue-200 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-colors">
+                        0{faq.id}
+                      </span>
+                      <span className="group-hover:text-[#0066FF] transition-colors leading-snug pt-0.5">
+                        {faq.q}
+                      </span>
+                    </div>
+                    <ChevronDown
+                      size={20}
+                      className={`text-slate-400 shrink-0 transition-transform duration-200 mt-1 ${
+                        isOpen ? "rotate-180 text-[#0066FF]" : ""
+                      }`}
+                    />
+                  </button>
 
-                {openFaqIndex === index && (
-                  <div className="px-5 pb-5 text-xs sm:text-sm text-slate-600 font-sans leading-relaxed border-t border-slate-100 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
+                  {isOpen && (
+                    <div className="px-6 pb-6 text-xs sm:text-sm text-slate-600 font-sans leading-relaxed border-t border-slate-100 pt-4 bg-slate-50/50">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
         </div>
