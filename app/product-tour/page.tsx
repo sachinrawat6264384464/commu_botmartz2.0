@@ -244,7 +244,7 @@ export default function ProductTourPage() {
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
       {/* 100% Full-Width Container */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl mb-12 hover:border-blue-500/40 transition-all duration-500 group">
