@@ -52,7 +52,7 @@ export default function PublicEventsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#040914] text-white pt-20 pb-20 font-sans selection:bg-[#0066FF] selection:text-white">
+    <main className="min-h-screen bg-[#040914] text-white pt-4 pb-20 font-sans selection:bg-[#0066FF] selection:text-white">
       
       {/* ── SECTION 1: 100% FULL-WIDTH HERO BANNER ── */}
       <section className="relative pt-12 pb-20 px-4 sm:px-8 lg:px-12 border-b border-slate-800/80 overflow-hidden">

@@ -162,7 +162,7 @@ export default function ShowcasePage() {
   });
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pb-12 pt-4">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

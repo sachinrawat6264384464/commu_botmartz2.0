@@ -69,7 +69,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <>
       <CommunityNavbar />
-      <main className="flex-1 pt-18">
+      <main className="flex-1 pt-20">
         {lockStatus.isLocked ? (
           <PageLockGate
             pathname={pathname}

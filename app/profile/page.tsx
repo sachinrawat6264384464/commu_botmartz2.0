@@ -373,7 +373,7 @@ export default function StudentProfilePortal() {
   const publicProfileUrl = `/member/${username}`;
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-4 pb-28 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* =========================================================================

@@ -106,7 +106,7 @@ function CertificatesContent() {
   };
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24 font-sans selection:bg-[#0066FF] selection:text-white">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pb-12 pt-4 font-sans selection:bg-[#0066FF] selection:text-white">
       {/* Dynamic 100% Full-Width Container */}
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         

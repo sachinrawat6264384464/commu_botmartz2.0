@@ -105,7 +105,7 @@ export default function WorkshopLandingPage() {
     <main className="min-h-screen bg-[#040914] text-white font-sans selection:bg-[#0066FF] selection:text-white pb-20">
       
       {/* ── SECTION 1: 100% FULL-WIDTH ULTRA-PREMIUM TECH HERO BANNER ── */}
-      <section className="relative pt-24 pb-16 px-4 sm:px-8 lg:px-12 overflow-hidden">
+      <section className="relative pt-4 pb-16 px-4 sm:px-8 lg:px-12 overflow-hidden">
         
         {/* Ambient Radial Glows */}
         <div className="absolute top-0 left-1/4 w-[900px] h-[450px] bg-gradient-to-tr from-[#0066FF]/25 via-[#00B8F0]/15 to-purple-600/10 blur-[170px] pointer-events-none" />
