@@ -163,6 +163,71 @@ By decoupling tool implementation from specific agent orchestration frameworks, 
 1. **Faithfulness**: Are all claims supported by the retrieved context?
 2. **Answer Relevance**: Did the agent directly answer the query without fluff?
 3. **Context Recall**: Did the retrieval stage fetch all ground-truth reference chunks?`
+  },
+  {
+    id: "mag-06",
+    title: "eBPF-Based Microservice Tracing for Distributed LLM Inference Swarms",
+    category: "AgentSystems",
+    tag: "eBPF",
+    readingTime: "11 min read",
+    publishedDate: "July 2026",
+    author: {
+      name: "Vikram Malhotra",
+      role: "Infrastructure Lead",
+      handle: "@vikram_ebpf",
+      avatar: "bg-teal-600",
+    },
+    upvotes: 112,
+    summary: "Kernel-level observability for tracking inter-node prompt payloads, token stream latency overheads, and network socket buffer bottlenecks.",
+    content: `Monitoring latency spikes in decentralized multi-agent topologies requires non-intrusive kernel-level instrumentation.
+
+### Why User-Space Logging Fails
+Traditional HTTP tracing libraries introduce GC pauses and buffer serialization overhead that skew micro-benchmark measurements.
+
+### The eBPF Approach
+Attaching kernel probes to socket read/write syscalls allows zero-overhead capture of raw token stream throughput across GPU nodes.`
+  },
+  {
+    id: "mag-07",
+    title: "WebGPU Accelerated Speculative Decoding for Real-Time On-Device Voice Agents",
+    category: "LocalAI",
+    tag: "EdgeAI",
+    readingTime: "7 min read",
+    publishedDate: "July 2026",
+    author: {
+      name: "Ananya Iyer",
+      role: "Graphics & AI Engineer",
+      handle: "@ananya_webgpu",
+      avatar: "bg-rose-600",
+    },
+    upvotes: 99,
+    summary: "Combining draft 0.5B target models with quantized 8B backbone models in WebGPU compute shaders for 3x decoding speedups.",
+    content: `Speculative decoding uses a small draft model to generate candidate tokens in parallel before verification by the main target model.
+
+### Key Innovations:
+- **Parallel Compute Pass**: Draft model generates 4 candidate tokens in a single WebGPU command buffer dispatch.
+- **Verification Shader**: Target model verifies candidate tokens in a single forward pass, achieving 3.2x latency improvement in browser engines.`
+  },
+  {
+    id: "mag-08",
+    title: "Geospatial SAM 2: Fine-Tuning Segment Anything for Real-Time Satellite Intelligence",
+    category: "Evaluations",
+    tag: "VisionAI",
+    readingTime: "14 min read",
+    publishedDate: "June 2026",
+    author: {
+      name: "Kabir Mehta",
+      role: "Computer Vision Researcher",
+      handle: "@kabir_sam",
+      avatar: "bg-cyan-600",
+    },
+    upvotes: 135,
+    summary: "Adapting Meta's SAM 2 architecture for multi-temporal optical and SAR satellite imagery segmentation at 30fps pipeline throughput.",
+    content: `Zero-shot segmentation models like SAM 2 excel at natural images but encounter domain drift when analyzing orbital synthetic aperture radar (SAR) data.
+
+### Domain Adaptation Strategy:
+1. **LoRA Fine-Tuning**: Injecting Low-Rank Adaptation matrices into image encoder attention layers.
+2. **Temporal Mask Propagation**: Leveraging SAM 2's memory module to track building footprint changes over time.`
   }
 ];
 
@@ -333,7 +398,7 @@ export default function MagazinePage() {
         </div>
 
         {/* ── 3. SEARCH & CATEGORY FILTER BAR ── */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-5 mb-8 shadow-xs space-y-4">
+        <div className="bg-white border-2 border-slate-300 rounded-3xl p-5 mb-8 shadow-sm space-y-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             
             {/* Category Pills */}
@@ -345,7 +410,7 @@ export default function MagazinePage() {
                   className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
                     selectedCat === cat
                       ? "bg-[#0066FF] text-white shadow-xs"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                      : "bg-slate-100 text-slate-700 border border-slate-300 hover:bg-slate-200"
                   }`}
                 >
                   #{cat}
@@ -361,7 +426,7 @@ export default function MagazinePage() {
                 placeholder="Search articles, topics, authors..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all"
+                className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border-2 border-slate-300 rounded-2xl text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all font-semibold"
               />
             </div>
           </div>
@@ -373,16 +438,16 @@ export default function MagazinePage() {
             <article
               key={article.id}
               onClick={() => setActiveArticle(article)}
-              className={`bg-white border rounded-3xl p-6 shadow-xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group ${
-                article.featured ? "border-blue-400/80 bg-gradient-to-b from-blue-50/20 to-white" : "border-slate-200"
+              className={`bg-white border-2 rounded-3xl p-6 shadow-md hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between group relative overflow-hidden ${
+                article.featured ? "border-[#0066FF] bg-gradient-to-b from-blue-50/40 via-white to-white" : "border-slate-300 hover:border-[#0066FF]"
               }`}
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-100 font-mono text-[10px] font-bold">
+                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 font-mono text-[10px] font-bold">
                     #{article.tag}
                   </span>
-                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-400">
+                  <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-500 font-medium">
                     <Clock size={12} />
                     <span>{article.readingTime}</span>
                   </div>
