@@ -81,7 +81,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         )}
       </main>
       <CommunityFooter />
-      <AccessibilityToolbox />
     </>
   );
 }

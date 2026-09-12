@@ -8,6 +8,7 @@ import {
   Calendar,
   ExternalLink
 } from "lucide-react";
+import AccessibilityToolbox from "./AccessibilityToolbox";
 
 export default function CommunityFooter() {
   return (
@@ -225,8 +226,9 @@ export default function CommunityFooter() {
 
       {/* Bottom Bar */}
       <div className="border-t border-slate-900 bg-slate-950 py-6 w-full">
-        <div className="w-full px-4 sm:px-8 lg:px-12 pl-20 sm:pl-24 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px] font-sans">
-          <div className="flex items-center gap-2">
+        <div className="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px] font-sans">
+          <div className="flex items-center gap-3">
+            <AccessibilityToolbox />
             <span>© 2026 Botmartz Community. Governed by Founder Soham Sharma.</span>
           </div>
 

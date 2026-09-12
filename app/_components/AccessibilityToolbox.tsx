@@ -303,29 +303,29 @@ export default function AccessibilityToolbox() {
         />
       )}
 
-      {/* ── FLOATING ACCESSIBILITY TRIGGER BUTTON (WITH SWASTIK LOGO & LIVE BLUE POINTER) ── */}
+      {/* ── ACCESSIBILITY TRIGGER BUTTON (STATIC INLINE IN FOOTER WITH SWASTIK LOGO) ── */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Open Accessibility Toolbox"
-        className="fixed bottom-6 left-6 z-[999999] group w-14 h-14 sm:w-16 sm:h-16 shrink-0 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-[0_0_25px_rgba(0,102,255,0.6)] hover:shadow-[0_0_35px_rgba(0,229,255,0.8)] border-2 border-white/80 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer relative"
+        className="relative group w-11 h-11 shrink-0 inline-flex items-center justify-center rounded-xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-md hover:shadow-blue-500/50 border border-white/80 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
       >
         {/* Live Blue Glowing Pointer Dot */}
-        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
+        <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-95" />
-          <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#00E5FF]" />
+          <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#0066FF] border border-white shadow-[0_0_10px_#00E5FF]" />
         </span>
 
-        <SwastikIcon className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-300 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(52,211,153,1)]" />
+        <SwastikIcon className="w-6 h-6 text-emerald-300 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_8px_rgba(52,211,153,1)]" />
         <span className="sr-only">Accessibility Toolbox</span>
-        <span className="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
+        <span className="absolute bottom-full mb-2.5 left-1/2 -translate-x-1/2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
           Accessibility (Alt+A)
         </span>
       </button>
 
       {/* ── ACCESSIBILITY TOOLBOX FLOATING PANEL (NO SCREEN-BLOCKING BACKDROP) ── */}
       {isOpen && (
-        <div className="fixed bottom-22 left-6 z-[9999] w-[460px] sm:w-[480px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-7.5rem)] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-5 duration-200">
+        <div className="fixed bottom-20 left-6 sm:left-12 z-[9999] w-[460px] sm:w-[480px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-7.5rem)] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-5 duration-200">
           
           {/* ── HEADER ── */}
           <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 shrink-0">
