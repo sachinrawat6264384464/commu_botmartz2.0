@@ -4,29 +4,14 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-  ShieldCheck,
-  Compass,
-  Globe,
-  Briefcase,
-  Coins,
-  Users,
   MapPin,
   Calendar,
-  ExternalLink,
-  Activity,
-  Award,
-  Terminal,
-  Sparkles,
-  BookOpen,
-  Layers,
-  Code2,
-  Lock,
-  MessageSquare
+  ExternalLink
 } from "lucide-react";
 
 export default function CommunityFooter() {
   return (
-    <footer className="bg-slate-950 text-slate-400 font-mono text-xs border-t border-slate-800">
+    <footer className="bg-slate-950 text-slate-400 font-sans text-xs border-t border-slate-800">
       
       {/* Top Banner: Indore Hybrid Hub & Weekly Rituals */}
       <div className="border-b border-slate-800/80 bg-slate-900/50">
@@ -60,7 +45,7 @@ export default function CommunityFooter() {
               href="https://discord.gg/k75ZpEnzp"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-all flex items-center gap-1.5 shadow-2xs"
+              className="px-4 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all flex items-center gap-1.5 shadow-2xs"
             >
               <span>Join Discord Stage</span>
               <ExternalLink size={13} />
@@ -92,55 +77,49 @@ export default function CommunityFooter() {
             </Link>
 
             <p className="text-slate-400 text-xs font-sans leading-relaxed">
-              <strong>Build. Ship. Learn. Connect.</strong> Strictly for authentic builders constructing frontier production architectures in AI, Systems, and Distributed Computing.
+              <strong className="text-slate-200">Build. Ship. Learn. Connect.</strong> Strictly for authentic builders constructing frontier production architectures in AI, Systems, and Distributed Computing.
             </p>
 
-            <div className="pt-2 text-[11px] text-slate-500 space-y-1">
-              <div className="text-blue-400 font-bold">⚡ Rolling 45-Day Internship</div>
+            <div className="pt-2 text-[11px] text-slate-400 space-y-1 font-sans">
+              <div className="text-[#0066FF] font-bold">⚡ Rolling 45-Day Internship</div>
               <div>Start anytime — your personal 45-day milestone sprint clock begins on enrollment.</div>
             </div>
           </div>
 
           {/* Column 2: 45-Day Internship & System Catalog */}
           <div className="space-y-3">
-            <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
+            <h4 className="text-slate-200 font-bold uppercase text-[11px] tracking-wider font-sans">
               Virtual Internship
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2.5 text-xs font-sans">
               <li>
-                <Link href="/virtual-ai-internship" className="hover:text-white transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
-                  <Sparkles size={13} />
-                  <span>45-Day Virtual AI Internship</span>
+                <Link href="/virtual-ai-internship" className="text-slate-300 hover:text-[#0066FF] transition-colors font-medium block">
+                  45-Day Virtual AI Internship
                 </Link>
               </li>
               <li>
-                <Link href="/arena" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Layers size={13} className="text-blue-400" />
-                  <span>50-System PRD Catalog</span>
+                <Link href="/arena" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  50-System PRD Catalog
                 </Link>
               </li>
               <li>
-                <Link href="/arena/daily-log" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Terminal size={13} className="text-emerald-400" />
-                  <span>Daily Standup &amp; Proof-of-Work</span>
+                <Link href="/arena/daily-log" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Daily Standup &amp; Proof-of-Work
                 </Link>
               </li>
               <li>
-                <Link href="/product-tour" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <BookOpen size={13} className="text-amber-400" />
-                  <span>Platform &amp; Product Tour</span>
+                <Link href="/product-tour" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Platform &amp; Product Tour
                 </Link>
               </li>
               <li>
-                <Link href="/arena/custom-project" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Code2 size={13} className="text-purple-400" />
-                  <span>Propose Custom Blueprint</span>
+                <Link href="/arena/custom-project" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Propose Custom Blueprint
                 </Link>
               </li>
               <li>
-                <Link href="/arena/roadmaps" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Compass size={13} className="text-teal-400" />
-                  <span>Stage-by-Stage Roadmaps</span>
+                <Link href="/arena/roadmaps" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Stage-by-Stage Roadmaps
                 </Link>
               </li>
             </ul>
@@ -148,77 +127,67 @@ export default function CommunityFooter() {
 
           {/* Column 3: Career OS & Bounties */}
           <div className="space-y-3">
-            <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
+            <h4 className="text-slate-200 font-bold uppercase text-[11px] tracking-wider font-sans">
               Career OS &amp; Bounties
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2.5 text-xs font-sans">
               <li>
-                <Link href="/arena/wallet" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Coins size={13} className="text-amber-400" />
-                  <span>Student Karma Wallet</span>
+                <Link href="/arena/wallet" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Student Karma Wallet
                 </Link>
               </li>
               <li>
-                <Link href="/arena/bounties" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Terminal size={13} className="text-blue-400" />
-                  <span>Blocker Bounty Board</span>
+                <Link href="/arena/bounties" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Blocker Bounty Board
                 </Link>
               </li>
               <li>
-                <Link href="/arena/career-checklist" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Briefcase size={13} className="text-purple-400" />
-                  <span>Career &amp; LinkedIn Strategy</span>
+                <Link href="/arena/career-checklist" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Career &amp; LinkedIn Strategy
                 </Link>
               </li>
               <li>
-                <Link href="/arena/collaborate" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Users size={13} className="text-indigo-400" />
-                  <span>Squad Matchmaking</span>
+                <Link href="/arena/collaborate" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Squad Matchmaking
                 </Link>
               </li>
               <li>
-                <Link href="/showcase" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Award size={13} className="text-emerald-400" />
-                  <span>Proof-of-Work Showcases</span>
+                <Link href="/showcase" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Proof-of-Work Showcases
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Community & Events */}
+          {/* Column 4: Community & Summits */}
           <div className="space-y-3">
-            <h4 className="text-white font-bold uppercase text-[11px] tracking-wider text-slate-300">
+            <h4 className="text-slate-200 font-bold uppercase text-[11px] tracking-wider font-sans">
               Community &amp; Summits
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2.5 text-xs font-sans">
               <li>
-                <Link href="/events" className="hover:text-white transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
-                  <Calendar size={13} />
-                  <span>AI Summits &amp; Conferences</span>
+                <Link href="/events" className="text-slate-300 hover:text-[#0066FF] transition-colors font-medium block">
+                  AI Summits &amp; Conferences
                 </Link>
               </li>
               <li>
-                <Link href="/discussions" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <MessageSquare size={13} className="text-cyan-400" />
-                  <span>Discussions &amp; Technical Q&amp;A</span>
+                <Link href="/discussions" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Discussions &amp; Technical Q&amp;A
                 </Link>
               </li>
               <li>
-                <Link href="/workshops" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <Code2 size={13} className="text-amber-400" />
-                  <span>Hands-on Workshops</span>
+                <Link href="/workshops" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Hands-on Workshops
                 </Link>
               </li>
               <li>
-                <Link href="/magazine" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <BookOpen size={13} className="text-purple-400" />
-                  <span>Developer Magazine</span>
+                <Link href="/magazine" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Developer Magazine
                 </Link>
               </li>
               <li>
-                <Link href="/certificates" className="hover:text-white transition-colors flex items-center gap-1.5">
-                  <ShieldCheck size={13} className="text-emerald-400" />
-                  <span>Verify Student Credentials</span>
+                <Link href="/certificates" className="text-slate-300 hover:text-[#0066FF] transition-colors block">
+                  Verify Student Credentials
                 </Link>
               </li>
             </ul>
@@ -229,25 +198,25 @@ export default function CommunityFooter() {
 
       {/* Social Links Row */}
       <div className="border-t border-slate-900 bg-slate-950/80 py-4">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-4 text-xs font-sans">
           <div className="flex flex-wrap items-center gap-4 text-slate-400">
             <span className="text-slate-200 font-bold">Connect Official:</span>
-            <a href="https://discord.gg/QfxuHQAZz" target="_blank" rel="noopener noreferrer" className="hover:text-[#00B8F0] transition-colors flex items-center gap-1 text-[#0066FF] font-bold">
+            <a href="https://discord.gg/QfxuHQAZz" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors font-medium flex items-center gap-1">
               <span>Discord Hub</span> &rarr;
             </a>
-            <a href="https://discord.gg/k75ZpEnzp" target="_blank" rel="noopener noreferrer" className="hover:text-[#00B8F0] transition-colors flex items-center gap-1">
+            <a href="https://discord.gg/k75ZpEnzp" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors flex items-center gap-1">
               <span>Event Discord</span> &rarr;
             </a>
-            <a href="https://www.linkedin.com/company/botmartz-ai-solutions" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
+            <a href="https://www.linkedin.com/company/botmartz-ai-solutions" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors">
               Botmartz LinkedIn
             </a>
-            <a href="https://www.linkedin.com/in/soham-sharma/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors">
+            <a href="https://www.linkedin.com/in/soham-sharma/" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors">
               Soham Sharma (Founder)
             </a>
-            <a href="https://x.com/botmartz" target="_blank" rel="noopener noreferrer" className="hover:text-slate-200 transition-colors">
+            <a href="https://x.com/botmartz" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors">
               Official X
             </a>
-            <a href="https://twitter.com/sohamsharma" target="_blank" rel="noopener noreferrer" className="hover:text-slate-200 transition-colors">
+            <a href="https://twitter.com/sohamsharma" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors">
               Soham X
             </a>
           </div>
@@ -256,7 +225,7 @@ export default function CommunityFooter() {
 
       {/* Bottom Bar */}
       <div className="border-t border-slate-900 bg-slate-950 py-6">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px] font-sans">
           <div className="flex items-center gap-2">
             <span>© 2026 Botmartz Community. Governed by Founder Soham Sharma.</span>
           </div>
@@ -267,15 +236,15 @@ export default function CommunityFooter() {
               <span>Zero-Trust Security WAF Active</span>
             </span>
             <span>•</span>
-            <Link href="/refund-policy" className="text-blue-400 hover:text-blue-300 transition-colors font-bold">
+            <Link href="/refund-policy" className="text-slate-300 hover:text-[#0066FF] transition-colors font-bold">
               Refund Policy
             </Link>
             <span>•</span>
-            <Link href="/product-tour" className="hover:text-slate-300 transition-colors">
+            <Link href="/product-tour" className="text-slate-400 hover:text-slate-200 transition-colors">
               Platform Tour
             </Link>
             <span>•</span>
-            <Link href="/login" className="hover:text-slate-300 transition-colors">
+            <Link href="/login" className="text-slate-400 hover:text-slate-200 transition-colors">
               Sign In
             </Link>
           </div>
@@ -283,5 +252,7 @@ export default function CommunityFooter() {
       </div>
 
     </footer>
+  );
+}r>
   );
 }
