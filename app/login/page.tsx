@@ -121,20 +121,20 @@ function StudentLoginInner() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center font-mono text-xs text-slate-400">
+      <div className="min-h-screen bg-white flex items-center justify-center font-mono text-xs text-slate-600">
         <Loader2 size={22} className="animate-spin text-[#0066FF] mr-2.5" />
-        <span>Authenticating zero-trust session...</span>
+        <span className="font-semibold text-slate-700">Authenticating zero-trust session...</span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-[calc(100vh-80px)] bg-slate-950 text-white pt-24 pb-8 font-sans selection:bg-[#0066FF] selection:text-white flex flex-col justify-center relative overflow-hidden">
+    <div className="min-h-[calc(100vh-80px)] bg-slate-50 text-slate-900 pt-20 pb-12 font-sans selection:bg-[#0066FF] selection:text-white flex flex-col justify-center relative overflow-hidden">
       <div id="recaptcha-container"></div>
 
-      {/* Futuristic Background Mesh Glows */}
-      <div className="absolute top-1/4 -left-48 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-48 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
+      {/* Soft Background Mesh Glows for White Theme */}
+      <div className="absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-48 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Dynamic 100% Full-Width Container */}
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 flex-1 flex flex-col justify-center">
@@ -142,15 +142,15 @@ function StudentLoginInner() {
         {/* ── 2-COLUMN SPLIT HERO LOGIN LAYOUT ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full flex-1">
           
-          {/* ── LEFT COLUMN (7 COLS): HIGH-TECH DARK HERO BRANDING BANNER ── */}
-          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-slate-900/90 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl flex flex-col justify-between min-h-[calc(100vh-180px)] lg:min-h-[650px] backdrop-blur-xl hover:border-blue-500/40 transition-all duration-500 group">
+          {/* ── LEFT COLUMN (7 COLS): HIGH-TECH HERO BRANDING BANNER ── */}
+          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-850 to-blue-950 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl flex flex-col justify-between min-h-[calc(100vh-180px)] lg:min-h-[620px] backdrop-blur-xl hover:border-blue-500/50 transition-all duration-500 group text-white">
             {/* Background Ambient Glows */}
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
 
             <div className="relative z-10 space-y-6">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/15 text-cyan-300 font-mono text-xs font-black border border-cyan-500/30 backdrop-blur-md shadow-xs">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 text-cyan-300 font-mono text-xs font-black border border-cyan-400/30 backdrop-blur-md shadow-xs">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
@@ -170,7 +170,7 @@ function StudentLoginInner() {
 
               {/* 4 Feature Badges Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-4 font-sans">
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/80 border-2 border-slate-700/80 hover:border-cyan-500/50 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-cyan-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
                   <Terminal size={22} className="text-cyan-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-xs sm:text-sm">Daily Git Commit Logger</div>
@@ -178,7 +178,7 @@ function StudentLoginInner() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/80 border-2 border-slate-700/80 hover:border-blue-500/50 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-blue-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
                   <Layers size={22} className="text-blue-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-xs sm:text-sm">50 Production System PRDs</div>
@@ -186,7 +186,7 @@ function StudentLoginInner() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/80 border-2 border-slate-700/80 hover:border-purple-500/50 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-purple-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
                   <KanbanSquare size={22} className="text-purple-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-xs sm:text-sm">Agile Workspaces &amp; Chat</div>
@@ -194,7 +194,7 @@ function StudentLoginInner() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/80 border-2 border-slate-700/80 hover:border-emerald-500/50 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-emerald-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
                   <Award size={22} className="text-emerald-400 shrink-0" />
                   <div>
                     <div className="text-white font-bold text-xs sm:text-sm">Cryptographic Credentials</div>
@@ -210,20 +210,20 @@ function StudentLoginInner() {
                 <ShieldCheck size={16} className="text-emerald-400" />
                 <span>Zero-Trust Authenticated Sessions</span>
               </span>
-              <span className="text-cyan-300 font-extrabold px-3.5 py-1 rounded-full bg-cyan-500/15 border border-cyan-500/30">100 Free Welcome Coins</span>
+              <span className="text-cyan-300 font-extrabold px-3.5 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/40">100 Free Welcome Coins</span>
             </div>
           </div>
 
           {/* ── RIGHT COLUMN (5 COLS): AUTH FORM CARD ── */}
-          <div className="lg:col-span-5 flex flex-col h-full min-h-[calc(100vh-180px)] lg:min-h-[650px]">
+          <div className="lg:col-span-5 flex flex-col h-full min-h-[calc(100vh-180px)] lg:min-h-[620px]">
             
             {/* ALREADY LOGGED IN STATE */}
             {user ? (
-              <div className="h-full bg-slate-900/90 rounded-3xl border-2 border-slate-800 shadow-2xl p-8 sm:p-10 text-center space-y-6 font-sans text-xs relative overflow-hidden flex flex-col justify-between backdrop-blur-xl">
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-cyan-400 to-indigo-500" />
+              <div className="h-full bg-white rounded-3xl border-2 border-slate-200 shadow-xl p-8 sm:p-10 text-center space-y-6 font-sans text-xs relative overflow-hidden flex flex-col justify-between hover:border-[#0066FF] transition-all">
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-blue-500 to-cyan-500" />
                 
                 <div className="space-y-4 pt-4">
-                  <div className="w-20 h-20 rounded-full bg-blue-500/20 text-cyan-300 flex items-center justify-center mx-auto overflow-hidden border-4 border-blue-500/40 shadow-md">
+                  <div className="w-20 h-20 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto overflow-hidden border-4 border-blue-200 shadow-md">
                     {user.photoURL ? (
                       <img src={user.photoURL} alt={user.displayName || "User"} className="w-full h-full object-cover" />
                     ) : (
@@ -232,27 +232,27 @@ function StudentLoginInner() {
                   </div>
 
                   <div>
-                    <div className="text-xs text-emerald-400 font-extrabold uppercase tracking-wider mb-1 flex items-center justify-center gap-1.5 font-mono">
+                    <div className="text-xs text-emerald-600 font-extrabold uppercase tracking-wider mb-1 flex items-center justify-center gap-1.5 font-mono">
                       <CheckCircle2 size={16} /> Already Signed In
                     </div>
-                    <h3 className="text-2xl font-black text-white font-sans">
+                    <h3 className="text-2xl font-black text-slate-900 font-sans">
                       {studentProfile?.displayName || user.displayName || "Builder"}
                     </h3>
-                    <p className="text-slate-400 font-semibold text-sm mt-1">{user.email}</p>
+                    <p className="text-slate-500 font-semibold text-sm mt-1">{user.email}</p>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-slate-800/80 border-2 border-slate-700/80 flex items-center justify-between text-left">
+                <div className="p-5 rounded-2xl bg-slate-50 border-2 border-slate-200 flex items-center justify-between text-left">
                   <div>
-                    <span className="text-xs text-slate-400 uppercase font-extrabold font-mono">Karma Balance</span>
-                    <div className="text-base font-black text-white flex items-center gap-2 mt-0.5">
-                      <Coins size={18} className="text-amber-400" />
+                    <span className="text-xs text-slate-500 uppercase font-extrabold font-mono">Karma Balance</span>
+                    <div className="text-base font-black text-slate-900 flex items-center gap-2 mt-0.5">
+                      <Coins size={18} className="text-amber-500" />
                       <span>{studentProfile?.karmaCoins ?? 100} Coins</span>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-slate-400 uppercase font-extrabold font-mono">Role Status</span>
-                    <div className="text-sm font-black text-cyan-300 mt-0.5">
+                    <span className="text-xs text-slate-500 uppercase font-extrabold font-mono">Role Status</span>
+                    <div className="text-sm font-black text-[#0066FF] mt-0.5">
                       {studentProfile?.personaType || "Verified Builder"}
                     </div>
                   </div>
@@ -260,7 +260,7 @@ function StudentLoginInner() {
 
                 <Link
                   href={redirectUrl}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer text-sm font-mono"
+                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-700 hover:to-blue-600 text-white font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer text-sm font-mono"
                 >
                   <span>Continue to Workspace</span>
                   <ArrowRight size={16} />
@@ -268,43 +268,43 @@ function StudentLoginInner() {
               </div>
             ) : (
               /* SIGN IN FORM CARD */
-              <div className="h-full bg-slate-900/90 rounded-3xl border-2 border-slate-800 shadow-2xl p-8 sm:p-10 space-y-6 relative overflow-hidden flex flex-col justify-between backdrop-blur-xl hover:border-blue-500/40 transition-all duration-500">
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-cyan-400 to-indigo-500" />
+              <div className="h-full bg-white rounded-3xl border-2 border-slate-200 shadow-xl p-8 sm:p-10 space-y-6 relative overflow-hidden flex flex-col justify-between hover:border-[#0066FF] hover:shadow-2xl transition-all duration-500">
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-blue-500 to-cyan-500" />
                 
                 <div className="space-y-6">
                   {/* Form Header */}
                   <div className="text-center space-y-2">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-500/15 text-cyan-400 flex items-center justify-center mx-auto border-2 border-cyan-500/30 shadow-md">
+                    <div className="w-14 h-14 rounded-2xl bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto border-2 border-blue-100 shadow-xs">
                       <Lock size={26} />
                     </div>
-                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-500/15 text-cyan-300 font-mono text-[11px] font-black uppercase tracking-wider border border-cyan-500/30">
+                    <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-[11px] font-black uppercase tracking-wider border border-blue-200">
                       <ShieldCheck size={13} /> Zero-Trust Builder Gate
                     </div>
-                    <h2 className="text-2xl sm:text-3xl font-black text-white font-sans tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-sans tracking-tight">
                       Sign In to Builder Portal
                     </h2>
-                    <p className="text-slate-300 text-xs sm:text-sm font-sans font-medium">
+                    <p className="text-slate-600 text-xs sm:text-sm font-sans font-medium">
                       Access your student Karma Wallet &amp; active 45-day sprint clock.
                     </p>
                   </div>
 
                   {/* Error & Info Messages */}
                   {error && (
-                    <div className="p-3.5 rounded-2xl bg-rose-950/60 border-2 border-rose-800/80 text-rose-300 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
-                      <AlertCircle size={18} className="shrink-0 mt-0.5 text-rose-400" />
+                    <div className="p-3.5 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
+                      <AlertCircle size={18} className="shrink-0 mt-0.5 text-rose-600" />
                       <span>{error}</span>
                     </div>
                   )}
 
                   {infoMsg && (
-                    <div className="p-3.5 rounded-2xl bg-emerald-950/60 border-2 border-emerald-800/80 text-emerald-300 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
-                      <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-400" />
+                    <div className="p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-emerald-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
+                      <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-600" />
                       <span>{infoMsg}</span>
                     </div>
                   )}
 
                   {/* Auth Method Switcher */}
-                  <div className="grid grid-cols-2 gap-2 p-1.5 bg-slate-950 rounded-2xl font-sans text-xs sm:text-sm border-2 border-slate-800">
+                  <div className="grid grid-cols-2 gap-2 p-1.5 bg-slate-100 rounded-2xl font-sans text-xs sm:text-sm border-2 border-slate-200">
                     <button
                       type="button"
                       onClick={() => {
@@ -313,8 +313,8 @@ function StudentLoginInner() {
                       }}
                       className={`py-2.5 rounded-xl font-extrabold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${
                         authMethod === "google"
-                          ? "bg-[#0066FF] text-white shadow-lg shadow-blue-600/30"
-                          : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                          ? "bg-[#0066FF] text-white shadow-md"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
                       }`}
                     >
                       <span>Google Sign-In</span>
@@ -328,8 +328,8 @@ function StudentLoginInner() {
                       }}
                       className={`py-2.5 rounded-xl font-extrabold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${
                         authMethod === "phone"
-                          ? "bg-[#0066FF] text-white shadow-lg shadow-blue-600/30"
-                          : "text-slate-400 hover:text-white hover:bg-slate-800/60"
+                          ? "bg-[#0066FF] text-white shadow-md"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
                       }`}
                     >
                       <Phone size={15} />
@@ -344,12 +344,12 @@ function StudentLoginInner() {
                         type="button"
                         onClick={handleGoogleLogin}
                         disabled={submitting}
-                        className="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-blue-600 via-[#0066FF] to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-sans text-sm font-black transition-all duration-300 flex items-center justify-center gap-3 shadow-xl hover:shadow-blue-500/30 cursor-pointer border border-blue-400/30 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                        className="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-sm font-black transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-blue-500/25 cursor-pointer border border-blue-400/30 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
                       >
                         {submitting ? (
-                          <Loader2 size={18} className="animate-spin text-cyan-300" />
+                          <Loader2 size={18} className="animate-spin text-white" />
                         ) : (
-                          <svg className="w-5 h-5 shrink-0 bg-white rounded-full p-0.5" viewBox="0 0 24 24">
+                          <svg className="w-5 h-5 shrink-0 bg-white rounded-full p-0.5 shadow-xs" viewBox="0 0 24 24">
                             <path
                               fill="#4285F4"
                               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -371,29 +371,29 @@ function StudentLoginInner() {
                         <span>Continue with Google Sign-In &rarr;</span>
                       </button>
 
-                      <div className="p-4 rounded-2xl bg-slate-800/80 border-2 border-slate-700/80 text-slate-200 font-sans text-xs space-y-2">
-                        <div className="flex items-center gap-1.5 text-cyan-300 font-black uppercase tracking-wider text-[11px] font-mono">
+                      <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 text-slate-700 font-sans text-xs space-y-2">
+                        <div className="flex items-center gap-1.5 text-[#0066FF] font-black uppercase tracking-wider text-[11px] font-mono">
                           <Sparkles size={14} />
                           <span>Instant Community Perks:</span>
                         </div>
-                        <div className="text-slate-300 font-medium space-y-1.5">
+                        <div className="text-slate-600 font-medium space-y-1.5">
                           <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                            <span>Claim <strong className="text-white font-bold">100 Welcome Karma Coins</strong> instantly</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+                            <span>Claim <strong className="text-slate-900 font-bold">100 Welcome Karma Coins</strong> instantly</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                             <span>Open all 50 Production System PRDs &amp; Roadmaps</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
                             <span>Open to Students, Engineers &amp; Founders worldwide</span>
                           </div>
                         </div>
                       </div>
 
                       {/* Verified Builder Quote / Proof Widget */}
-                      <div className="p-4 rounded-2xl bg-slate-950 text-white space-y-2 border-2 border-slate-800 shadow-md">
+                      <div className="p-4 rounded-2xl bg-slate-900 text-white space-y-2 border-2 border-slate-800 shadow-md">
                         <div className="flex items-center justify-between text-xs text-amber-400 font-mono font-bold">
                           <span className="flex items-center gap-1.5">
                             <Star size={13} className="fill-amber-400 text-amber-400" />
@@ -413,12 +413,12 @@ function StudentLoginInner() {
                       </div>
 
                       {/* Active Cohort Indicator Bar */}
-                      <div className="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-500/10 border-2 border-emerald-500/30 text-xs font-mono text-emerald-300 font-bold">
+                      <div className="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-xs font-mono text-emerald-800 font-bold">
                         <span className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
                           <span>Live Cohort Enrollment Active</span>
                         </span>
-                        <span className="bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black border border-emerald-500/40">
+                        <span className="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full text-[10px] uppercase font-black border border-emerald-300">
                           84% Filled
                         </span>
                       </div>
