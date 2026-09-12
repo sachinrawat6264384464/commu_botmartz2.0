@@ -15,7 +15,8 @@ import {
   Loader2,
   Percent,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  ShieldCheck
 } from "lucide-react";
 
 interface CouponItem {
@@ -235,7 +236,7 @@ export default function CouponManagerDashboard() {
           <button
             onClick={() => {
               setGeneratedBatchCodes([]);
-              setShowBatchModal(true);
+              setShowBatchModal((prev) => !prev);
             }}
             className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all shadow-lg shadow-emerald-600/20 flex items-center gap-2 cursor-pointer"
           >
@@ -252,6 +253,124 @@ export default function CouponManagerDashboard() {
           </button>
         </div>
       </div>
+
+      {/* ── BULK FREE PASS COUPON GENERATOR CARD (EXACT USER SPECIFIED DESIGN) ── */}
+      {showBatchModal && (
+        <div className="p-6 rounded-2xl bg-[#091124] border border-emerald-500/30 space-y-5 font-mono text-xs shadow-2xl transition-all">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                <ShieldCheck size={18} />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-white font-sans">
+                  Bulk Free Pass Coupon Generator
+                </h3>
+                <p className="text-xs text-slate-400 font-normal">
+                  Generates truly random, unguessable 100% FREE single-use codes. Format:{" "}
+                  <span className="text-emerald-400 font-bold">PREFIX-XXXX-XXXX</span>
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowBatchModal(false)}
+              className="p-1 rounded-lg text-slate-400 hover:text-white"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          <form onSubmit={handleBatchGenerate} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-end">
+              <div>
+                <label className="block text-slate-400 text-[11px] font-medium mb-1.5">
+                  Code Prefix
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={genPrefix}
+                  onChange={(e) => setGenPrefix(e.target.value.toUpperCase())}
+                  placeholder="BMFREE"
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-800 text-white font-mono uppercase focus:outline-none focus:border-emerald-500"
+                />
+                <p className="text-[10px] text-slate-500 mt-1">e.g. BMFREE → BMFREE-K7NP-Q3RW</p>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-[11px] font-medium mb-1.5">
+                  How Many Codes?
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  value={genCount}
+                  onChange={(e) => setGenCount(Number(e.target.value))}
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-800 text-white font-mono focus:outline-none focus:border-emerald-500"
+                />
+                <p className="text-[10px] text-slate-500 mt-1">Max 100 per batch</p>
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  disabled={generating}
+                  className="w-full px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+                >
+                  {generating ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <Sparkles size={16} />
+                  )}
+                  <span>{generating ? "Generating..." : `Generate ${genCount} Codes`}</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          {/* Generated Batch Output Horizontal Badges Bar */}
+          {generatedBatchCodes.length > 0 && (
+            <div className="p-4 rounded-2xl bg-[#040914] border border-emerald-500/20 space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+                  <CheckCircle2 size={15} />
+                  <span>{generatedBatchCodes.length} codes generated &amp; saved!</span>
+                </div>
+                <button
+                  onClick={() => copyToClipboard(generatedBatchCodes.join("\n"))}
+                  className="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Copy size={13} />
+                  <span>Copy All</span>
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                {generatedBatchCodes.map((code) => (
+                  <div
+                    key={code}
+                    className="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-bold text-xs flex items-center gap-2"
+                  >
+                    <span>{code}</span>
+                    <button
+                      onClick={() => copyToClipboard(code)}
+                      className="text-slate-400 hover:text-white transition-all cursor-pointer"
+                      title="Copy code"
+                    >
+                      {copiedCode === code ? (
+                        <Check size={13} className="text-emerald-300" />
+                      ) : (
+                        <Copy size={13} />
+                      )}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* ── CREATE CUSTOM DISCOUNT COUPON CARD (EXACT USER SPECIFIED DESIGN) ── */}
       {showCustomModal && (
@@ -536,113 +655,6 @@ export default function CouponManagerDashboard() {
           </table>
         </div>
       </div>
-
-      {/* ── BATCH FREE COUPONS GENERATOR MODAL ── */}
-      {showBatchModal && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-lg rounded-3xl bg-[#091124] border border-slate-800 p-6 space-y-6 font-mono text-xs shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-              <div className="flex items-center gap-2">
-                <Gift className="text-emerald-400" size={18} />
-                <h3 className="text-lg font-bold text-white font-sans">Generate 100% Free Pass Coupons</h3>
-              </div>
-              <button onClick={() => setShowBatchModal(false)} className="text-slate-400 hover:text-white">
-                <X size={18} />
-              </button>
-            </div>
-
-            {generatedBatchCodes.length > 0 ? (
-              <div className="space-y-4">
-                <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
-                  <div className="font-bold text-sm mb-1 flex items-center gap-2">
-                    <CheckCircle2 size={16} /> Generated {generatedBatchCodes.length} Codes!
-                  </div>
-                  <p className="text-xs font-sans text-slate-300">
-                    All generated codes have been saved to Firestore database.
-                  </p>
-                </div>
-
-                <div className="max-h-48 overflow-y-auto p-3 rounded-xl bg-[#040914] border border-slate-800 space-y-1">
-                  {generatedBatchCodes.map((code) => (
-                    <div key={code} className="flex items-center justify-between py-1 text-white font-bold">
-                      <span>{code}</span>
-                      <button
-                        onClick={() => copyToClipboard(code)}
-                        className="text-slate-400 hover:text-white text-[10px]"
-                      >
-                        Copy
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between pt-2">
-                  <button
-                    onClick={() => copyToClipboard(generatedBatchCodes.join("\n"))}
-                    className="px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold hover:bg-[#0052CC]"
-                  >
-                    Copy All Codes
-                  </button>
-                  <button
-                    onClick={() => setShowBatchModal(false)}
-                    className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold hover:text-white"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <form onSubmit={handleBatchGenerate} className="space-y-4">
-                <div>
-                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-[10px] mb-1.5">
-                    COUPON PREFIX *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={genPrefix}
-                    onChange={(e) => setGenPrefix(e.target.value.toUpperCase())}
-                    placeholder="e.g. BMFREE"
-                    className="w-full px-4 py-3 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono uppercase focus:outline-none focus:border-[#0066FF]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-[10px] mb-1.5">
-                    NUMBER OF CODES TO GENERATE (1 to 100) *
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={100}
-                    value={genCount}
-                    onChange={(e) => setGenCount(Number(e.target.value))}
-                    className="w-full px-4 py-3 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono focus:outline-none focus:border-[#0066FF]"
-                  />
-                </div>
-
-                <div className="pt-2 flex items-center justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowBatchModal(false)}
-                    className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold hover:text-white"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={generating}
-                    className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center gap-2 cursor-pointer disabled:opacity-50"
-                  >
-                    {generating ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
-                    <span>{generating ? "Generating..." : `Generate ${genCount} Free Codes`}</span>
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
 
     </div>
   );
