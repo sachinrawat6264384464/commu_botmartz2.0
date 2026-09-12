@@ -31,36 +31,84 @@ export default function WorkshopsPage() {
       {/* Dynamic Full-Width Container */}
       <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto relative z-10">
         
-        {/* Top Live Banner Badge */}
-        <div className="text-center mb-16 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs uppercase tracking-wider mb-4 font-bold shadow-2xs">
-            <Zap size={14} className="text-amber-500 fill-amber-500 animate-pulse" />
-            <span>Cohort 1 Live Masterclasses &bull; 14th Sept &ndash; Diwali 2026</span>
-          </div>
-          
-          <h1 className="text-4xl sm:text-6xl font-black text-slate-950 mb-4 font-sans tracking-tight leading-tight">
-            AI Engineering Bootcamps &amp; Cohorts
-          </h1>
-          
-          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-mono text-xs sm:text-sm leading-relaxed">
-            Zero-fluff live masterclasses where you architect and deploy production RAG clusters, autonomous agent state machines, and real-time telemetry systems.
-          </p>
+        {/* ── REDESIGNED BOOTCAMPS HERO BANNER ── */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 p-6 sm:p-10 border border-slate-800 shadow-2xl mb-12">
+          {/* Background Ambient Glows */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Interactive Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-6 font-mono text-xs">
-            {["ALL", "AI AGENTS", "ENTERPRISE RAG", "DEFENCE & EMBEDDED"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveFilter(tab)}
-                className={`px-4 py-2 rounded-full transition-all duration-200 cursor-pointer font-bold ${
-                  activeFilter === tab
-                    ? "bg-[#0066FF] text-white shadow-md shadow-blue-500/20"
-                    : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50"
-                }`}
-              >
-                {tab === "ALL" ? "All Masterclasses" : tab}
-              </button>
-            ))}
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            {/* Left Column: Badge, Title & Subtitle */}
+            <div className="space-y-4 max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold border border-cyan-500/20 backdrop-blur-md shadow-xs">
+                <Zap size={14} className="text-amber-400 fill-amber-400 animate-pulse" />
+                <span>COHORT 1 LIVE MASTERCLASSES &bull; 14TH SEPT &ndash; DIWALI 2026</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
+                AI Engineering <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Bootcamps &amp; Cohorts</span>
+              </h1>
+
+              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+                Zero-fluff live masterclasses where you architect and deploy production RAG clusters, autonomous agent state machines, and real-time telemetry systems.
+              </p>
+
+              {/* Live Stats Strip */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Zap size={16} className="text-amber-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">Live 100%</div>
+                    <div className="text-slate-400 text-[10px]">Cohort Masterclasses</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Award size={16} className="text-cyan-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">PDF QR</div>
+                    <div className="text-slate-400 text-[10px]">Verified Credentials</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Code2 size={16} className="text-emerald-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">LangGraph</div>
+                    <div className="text-slate-400 text-[10px]">RAG &amp; Tool Pipelines</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <UserCheck size={16} className="text-purple-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">Top 1%</div>
+                    <div className="text-slate-400 text-[10px]">AI Engineering Track</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Filter Selector Pill Tabs */}
+            <div className="flex flex-col gap-3 shrink-0 self-start lg:self-center font-mono text-xs">
+              <span className="text-slate-400 text-[11px] font-bold uppercase tracking-wider">Filter Masterclasses:</span>
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-2">
+                {["ALL", "AI AGENTS", "ENTERPRISE RAG", "DEFENCE & EMBEDDED"].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveFilter(tab)}
+                    className={`px-4 py-2.5 rounded-2xl font-bold transition-all cursor-pointer flex items-center justify-between gap-3 text-left ${
+                      activeFilter === tab
+                        ? "bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-500/25 border border-blue-400/30"
+                        : "bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10"
+                    }`}
+                  >
+                    <span>{tab === "ALL" ? "All Masterclasses" : tab}</span>
+                    {activeFilter === tab && <Check size={14} className="text-cyan-300" />}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
