@@ -244,7 +244,7 @@ export default function CouponManagerDashboard() {
           </button>
 
           <button
-            onClick={() => setShowCustomModal(true)}
+            onClick={() => setShowCustomModal((prev) => !prev)}
             className="px-4 py-2.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold transition-all shadow-lg shadow-blue-600/30 flex items-center gap-1.5 cursor-pointer"
           >
             <Plus size={15} />
@@ -252,6 +252,88 @@ export default function CouponManagerDashboard() {
           </button>
         </div>
       </div>
+
+      {/* ── CREATE CUSTOM DISCOUNT COUPON CARD (EXACT USER SPECIFIED DESIGN) ── */}
+      {showCustomModal && (
+        <div className="p-6 rounded-2xl bg-[#091124] border border-[#00B8F0]/40 space-y-4 font-mono text-xs shadow-2xl transition-all">
+          <div className="flex items-center gap-2 text-white font-bold text-base font-sans">
+            <Tag size={18} className="text-[#00B8F0]" />
+            <span>Create Custom Discount Coupon</span>
+          </div>
+
+          <form onSubmit={handleCreateCustom} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-slate-400 text-[11px] font-medium mb-1.5">
+                  Coupon Code *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="E.G. VIP50"
+                  value={customForm.code}
+                  onChange={(e) => setCustomForm({ ...customForm, code: e.target.value.toUpperCase() })}
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono uppercase focus:outline-none focus:border-[#00B8F0]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-[11px] font-medium mb-1.5">
+                  Discount Type
+                </label>
+                <select
+                  value={customForm.discountType}
+                  onChange={(e) => setCustomForm({ ...customForm, discountType: e.target.value as any })}
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-sans focus:outline-none focus:border-[#00B8F0]"
+                >
+                  <option value="percentage">Percentage (%)</option>
+                  <option value="fixed">Fixed (₹)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-[11px] font-medium mb-1.5">
+                  Value
+                </label>
+                <input
+                  type="number"
+                  value={customForm.discountValue}
+                  onChange={(e) => setCustomForm({ ...customForm, discountValue: Number(e.target.value) })}
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono focus:outline-none focus:border-[#00B8F0]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-400 text-[11px] font-medium mb-1.5">
+                  Max Uses
+                </label>
+                <input
+                  type="number"
+                  value={customForm.maxUses}
+                  onChange={(e) => setCustomForm({ ...customForm, maxUses: Number(e.target.value) })}
+                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono focus:outline-none focus:border-[#00B8F0]"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="submit"
+                className="px-6 py-2.5 rounded-full bg-[#00B8F0] hover:bg-[#0096C7] text-slate-950 font-bold transition-all cursor-pointer shadow-lg shadow-cyan-500/20"
+              >
+                Save Coupon
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCustomModal(false)}
+                className="px-5 py-2.5 rounded-full bg-[#091124] hover:bg-slate-800 text-slate-300 border border-slate-700 font-bold transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* ── 4 TOP STAT CARDS GRID ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
@@ -558,92 +640,6 @@ export default function CouponManagerDashboard() {
                 </div>
               </form>
             )}
-          </div>
-        </div>
-      )}
-
-      {/* ── CUSTOM COUPON MODAL ── */}
-      {showCustomModal && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-lg rounded-3xl bg-[#091124] border border-slate-800 p-6 space-y-6 font-mono text-xs shadow-2xl">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-              <h3 className="text-lg font-bold text-white font-sans">Create Custom Discount Coupon</h3>
-              <button onClick={() => setShowCustomModal(false)} className="text-slate-400 hover:text-white">
-                <X size={18} />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateCustom} className="space-y-4">
-              <div>
-                <label className="block text-slate-300 font-bold uppercase tracking-wider text-[10px] mb-1">
-                  Coupon Code *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. BOTMARTZ20"
-                  value={customForm.code}
-                  onChange={(e) => setCustomForm({ ...customForm, code: e.target.value.toUpperCase() })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono uppercase"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-[10px] mb-1">
-                    Discount Type
-                  </label>
-                  <select
-                    value={customForm.discountType}
-                    onChange={(e) => setCustomForm({ ...customForm, discountType: e.target.value as any })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-sans"
-                  >
-                    <option value="percentage">Percentage (%)</option>
-                    <option value="fixed">Fixed Amount (₹)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-[10px] mb-1">
-                    Value ({customForm.discountType === "percentage" ? "%" : "₹"})
-                  </label>
-                  <input
-                    type="number"
-                    value={customForm.discountValue}
-                    onChange={(e) => setCustomForm({ ...customForm, discountValue: Number(e.target.value) })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-slate-300 font-bold uppercase tracking-wider text-[10px] mb-1">
-                  Maximum Uses Limit *
-                </label>
-                <input
-                  type="number"
-                  value={customForm.maxUses}
-                  onChange={(e) => setCustomForm({ ...customForm, maxUses: Number(e.target.value) })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#040914] border border-slate-700 text-white font-mono"
-                />
-              </div>
-
-              <div className="pt-4 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setShowCustomModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold hover:text-white"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-5 py-2 rounded-xl bg-[#0066FF] text-white font-bold hover:bg-[#0052CC]"
-                >
-                  Create Coupon
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
