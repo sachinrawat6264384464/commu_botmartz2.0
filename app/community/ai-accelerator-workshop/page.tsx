@@ -689,15 +689,15 @@ export default function WorkshopLandingPage() {
             </h2>
           </div>
 
-          {/* Feedback Cards Grid (3 Reviews Per Row) */}
+          {/* Feedback Cards Grid (Exactly 3 Featured Reviews Total) */}
           {loadingFeedbacks ? (
             <div className="py-12 text-center text-slate-400 font-mono text-xs flex items-center justify-center gap-2">
               <Loader2 size={16} className="animate-spin text-[#0066FF]" />
               <span>Loading verified reviews...</span>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 font-sans">
-              {feedbacks.map((fb) => (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 font-sans">
+              {feedbacks.slice(0, 3).map((fb) => (
                 <div
                   key={fb.id}
                   className="p-7 rounded-3xl bg-white border-2 border-slate-300 hover:border-[#0066FF] shadow-md hover:shadow-xl transition-all flex flex-col justify-between space-y-4 group"
