@@ -29,7 +29,7 @@ export default function WorkshopsPage() {
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24 font-sans relative overflow-hidden">
       
       {/* Dynamic Full-Width Container */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto relative z-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── REDESIGNED BOOTCAMPS HERO BANNER ── */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-indigo-950 p-6 sm:p-10 border border-slate-800 shadow-2xl mb-12">
