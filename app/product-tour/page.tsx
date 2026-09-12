@@ -243,74 +243,133 @@ export default function ProductTourPage() {
 
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 100% Full-Width Container */}
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
-        {/* Hero Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-blue-200">
-            <BookOpen size={14} /> Comprehensive Platform &amp; Product Tour
+        {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 p-6 sm:p-12 border border-slate-800 shadow-2xl mb-12">
+          {/* Background Ambient Glows */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            {/* Left Column: Title & Description */}
+            <div className="space-y-4 max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold border border-cyan-500/20 backdrop-blur-md shadow-xs">
+                <BookOpen size={14} className="text-cyan-400" />
+                <span>COMPREHENSIVE PLATFORM &amp; PRODUCT TOUR</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
+                How Botmartz Community <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Works</span>
+              </h1>
+
+              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+                Every feature on Botmartz is engineered with one goal: helping authentic builders ship verifiable production architectures, build undeniable proof-of-work, and unlock top-tier engineering roles.
+              </p>
+
+              {/* Stats Bar */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Layers size={16} className="text-blue-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">14 Modules</div>
+                    <div className="text-slate-400 text-[10px]">Platform Suite</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Zap size={16} className="text-cyan-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">45-Day</div>
+                    <div className="text-slate-400 text-[10px]">Sprint Window</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">100% PoW</div>
+                    <div className="text-slate-400 text-[10px]">Verified Commits</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <Coins size={16} className="text-amber-400 shrink-0" />
+                  <div>
+                    <div className="text-white font-bold text-sm">Karma Ledger</div>
+                    <div className="text-slate-400 text-[10px]">Daily Bounties</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: CTA */}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-mono text-xs shrink-0 self-start lg:self-center">
+              <Link
+                href="/arena"
+                className="px-7 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-600 text-white font-bold transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 group"
+              >
+                <span>Get Started in Arena</span>
+                <ArrowRight size={15} className="text-cyan-300 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight font-sans">
-            How Botmartz Community Works
-          </h1>
-          <p className="text-sm sm:text-base text-slate-600 font-mono mt-3 leading-relaxed">
-            Every feature on Botmartz is engineered with one goal: helping authentic builders ship verifiable production architectures, build undeniable proof-of-work, and unlock top-tier engineering roles.
-          </p>
         </div>
 
-        {/* 4-Step Student Lifecycle Journey */}
+        {/* ── 2. 4-STEP STUDENT LIFECYCLE JOURNEY BANNER ── */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-12 shadow-xs">
-          <div className="flex items-center justify-between gap-4 mb-6 border-b border-slate-100 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-slate-100 pb-5">
             <div>
-              <div className="text-xs font-mono font-bold text-[#0066FF] uppercase">The 4-Step Journey</div>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-sans">How A Student Progresses in 45 Days</h2>
+              <div className="text-xs font-mono font-bold text-[#0066FF] uppercase tracking-wider mb-1">THE 4-STEP JOURNEY</div>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-sans tracking-tight">How A Student Progresses in 45 Days</h2>
             </div>
             <Link
               href="/arena"
-              className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0"
+              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-2 shrink-0 self-start sm:self-auto"
             >
-              <span>Get Started</span>
+              <span>Explore 50 PRDs</span>
               <ArrowRight size={13} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
-            <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-100 space-y-2">
-              <div className="w-7 h-7 rounded-lg bg-[#0066FF] text-white flex items-center justify-center font-bold text-xs">1</div>
-              <h3 className="font-bold text-slate-900 font-sans text-sm">Select Production PRD</h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
+            <div className="p-6 rounded-3xl bg-blue-50/60 border border-blue-100 space-y-3 relative overflow-hidden group hover:border-blue-300 transition-all">
+              <div className="w-9 h-9 rounded-xl bg-[#0066FF] text-white flex items-center justify-center font-bold text-sm shadow-xs">1</div>
+              <h3 className="font-bold text-slate-900 font-sans text-base">Select Production PRD</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans">
                 Browse 50 open blueprints from Baby Step to Go To Hell 💀. Complete profile verification and enroll in your chosen track.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-100 space-y-2">
-              <div className="w-7 h-7 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">2</div>
-              <h3 className="font-bold text-slate-900 font-sans text-sm">Daily Proof-of-Work</h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
+            <div className="p-6 rounded-3xl bg-indigo-50/60 border border-indigo-100 space-y-3 relative overflow-hidden group hover:border-indigo-300 transition-all">
+              <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">2</div>
+              <h3 className="font-bold text-slate-900 font-sans text-base">Daily Proof-of-Work</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans">
                 Write code daily, log your GitHub commit URLs, and post LinkedIn updates to earn +20 to +70 Karma Coins every single day.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-purple-50/60 border border-purple-100 space-y-2">
-              <div className="w-7 h-7 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold text-xs">3</div>
-              <h3 className="font-bold text-slate-900 font-sans text-sm">Agile &amp; QA Benchmark</h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
+            <div className="p-6 rounded-3xl bg-purple-50/60 border border-purple-100 space-y-3 relative overflow-hidden group hover:border-purple-300 transition-all">
+              <div className="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">3</div>
+              <h3 className="font-bold text-slate-900 font-sans text-base">Agile &amp; QA Benchmark</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans">
                 Manage sprint tasks in your Agile Workspace, collaborate with squad peers in the live room, and pass strict k6 load assertions.
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-2">
-              <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">4</div>
-              <h3 className="font-bold text-slate-900 font-sans text-sm">Audit &amp; Referrals</h3>
-              <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
+            <div className="p-6 rounded-3xl bg-emerald-50/60 border border-emerald-100 space-y-3 relative overflow-hidden group hover:border-emerald-300 transition-all">
+              <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">4</div>
+              <h3 className="font-bold text-slate-900 font-sans text-base">Audit &amp; Referrals</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-sans">
                 Pass the 5-point proof-of-work audit by Soham Sharma, receive cryptographic credentials, and claim direct startup referrals.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Search & Category Filter */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 mb-8 shadow-xs space-y-4">
+        {/* ── 3. SEARCH & CATEGORY FILTER BAR ── */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-5 mb-8 shadow-xs space-y-4">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input
@@ -327,7 +386,7 @@ export default function ProductTourPage() {
               <button
                 key={cat.key}
                 onClick={() => setSelectedCategory(cat.key)}
-                className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
                   selectedCategory === cat.key
                     ? "bg-[#0066FF] text-white shadow-xs"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -339,90 +398,103 @@ export default function ProductTourPage() {
           </div>
         </div>
 
-        {/* Modules Breakdown Grid */}
-        <div className="space-y-8">
+        {/* ── 4. MODULES BREAKDOWN 2-COLUMN GRID ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16">
           {filteredModules.map((module, idx) => {
             const Icon = module.icon;
             return (
               <div
                 key={module.id}
                 id={module.id}
-                className="bg-white border border-slate-200 hover:border-blue-300 rounded-3xl p-6 sm:p-8 shadow-xs transition-all space-y-6"
+                className="bg-white border border-slate-200 hover:border-blue-400/80 rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-6 group"
               >
-                {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${module.color} text-white flex items-center justify-center shrink-0 shadow-xs`}>
-                      <Icon size={22} />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 font-sans">
-                          {idx + 1}. {module.title}
-                        </h3>
+                <div>
+                  {/* Header */}
+                  <div className="flex items-start justify-between gap-4 border-b border-slate-100 pb-5 mb-5">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${module.color} text-white flex items-center justify-center shrink-0 shadow-xs`}>
+                        <Icon size={22} />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 flex-wrap mb-1">
+                          <h3 className="text-base sm:text-lg font-extrabold text-slate-900 font-sans group-hover:text-[#0066FF] transition-colors">
+                            {idx + 1}. {module.title}
+                          </h3>
+                        </div>
                         <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-[10px] font-bold border border-blue-100">
                           {module.badge}
                         </span>
                       </div>
-                      <span className="text-xs text-slate-400 font-mono">Route: {module.href}</span>
                     </div>
+
+                    <Link
+                      href={module.href}
+                      className="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-mono text-xs font-bold transition-all shrink-0 flex items-center justify-center"
+                      title={module.cta}
+                    >
+                      <ArrowRight size={15} />
+                    </Link>
                   </div>
 
+                  {/* 3 Pillars: What / Why / How */}
+                  <div className="space-y-3 font-mono text-xs">
+                    
+                    {/* What */}
+                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
+                      <div className="flex items-center gap-1.5 text-blue-700 font-bold font-sans text-[11px] uppercase">
+                        <HelpCircle size={13} />
+                        <span>What It Is</span>
+                      </div>
+                      <p className="text-slate-600 leading-relaxed font-sans text-xs">
+                        {module.what}
+                      </p>
+                    </div>
+
+                    {/* Why */}
+                    <div className="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-100 space-y-1">
+                      <div className="flex items-center gap-1.5 text-amber-800 font-bold font-sans text-[11px] uppercase">
+                        <Zap size={13} />
+                        <span>Why It Exists</span>
+                      </div>
+                      <p className="text-slate-600 leading-relaxed font-sans text-xs">
+                        {module.why}
+                      </p>
+                    </div>
+
+                    {/* How */}
+                    <div className="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 space-y-1">
+                      <div className="flex items-center gap-1.5 text-emerald-800 font-bold font-sans text-[11px] uppercase">
+                        <CheckCircle2 size={13} />
+                        <span>How To Use It</span>
+                      </div>
+                      <p className="text-slate-600 leading-relaxed font-sans text-xs">
+                        {module.how}
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between font-mono text-xs">
+                  <span className="text-[11px] text-slate-400">Route: {module.href}</span>
                   <Link
                     href={module.href}
-                    className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
+                    className="text-[#0066FF] font-bold hover:underline flex items-center gap-1"
                   >
                     <span>{module.cta}</span>
-                    <ArrowRight size={13} />
+                    <ArrowRight size={12} />
                   </Link>
                 </div>
 
-                {/* 3 Pillars: What / Why / How */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-                  
-                  {/* What */}
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-                    <div className="flex items-center gap-1.5 text-blue-700 font-bold font-sans text-xs uppercase">
-                      <HelpCircle size={14} />
-                      <span>What It Is</span>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed font-sans text-xs">
-                      {module.what}
-                    </p>
-                  </div>
-
-                  {/* Why */}
-                  <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-100 space-y-2">
-                    <div className="flex items-center gap-1.5 text-amber-800 font-bold font-sans text-xs uppercase">
-                      <Zap size={14} />
-                      <span>Why It Exists</span>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed font-sans text-xs">
-                      {module.why}
-                    </p>
-                  </div>
-
-                  {/* How */}
-                  <div className="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-100 space-y-2">
-                    <div className="flex items-center gap-1.5 text-emerald-800 font-bold font-sans text-xs uppercase">
-                      <CheckCircle2 size={14} />
-                      <span>How To Use It</span>
-                    </div>
-                    <p className="text-slate-600 leading-relaxed font-sans text-xs">
-                      {module.how}
-                    </p>
-                  </div>
-
-                </div>
               </div>
             );
           })}
         </div>
 
-        {/* Call to Action Footer */}
-        <div className="mt-14 p-8 sm:p-12 rounded-3xl bg-slate-950 text-white text-center space-y-6 shadow-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 font-mono text-xs font-bold uppercase border border-blue-500/30">
-            <Sparkles size={14} /> Start Your 45-Day Sprint Today
+        {/* ── 5. CALL TO ACTION FOOTER BANNER ── */}
+        <div className="p-8 sm:p-12 rounded-3xl bg-slate-950 text-white text-center space-y-6 shadow-2xl relative overflow-hidden">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-blue-300 font-mono text-xs font-bold uppercase border border-blue-500/30">
+            <Sparkles size={14} /> START YOUR 45-DAY SPRINT TODAY
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold font-sans max-w-2xl mx-auto">
             Ready to Build Authentic Production Proof-of-Work?
@@ -434,14 +506,14 @@ export default function ProductTourPage() {
           <div className="flex items-center justify-center gap-4 pt-2 flex-wrap font-mono text-xs">
             <Link
               href="/arena"
-              className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-md flex items-center gap-2"
+              className="px-7 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-md flex items-center gap-2"
             >
               <Layers size={15} />
               <span>Browse 50 PRDs</span>
             </Link>
             <Link
               href="/login"
-              className="px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all border border-slate-700 flex items-center gap-2"
+              className="px-7 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all border border-slate-700 flex items-center gap-2"
             >
               <User size={15} />
               <span>Create Builder Profile</span>
