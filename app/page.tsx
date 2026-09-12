@@ -26,8 +26,7 @@ import {
   Flame
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
-import { ROLE_ROADMAPS } from "@/lib/roadmaps";
-import { INDUSTRY_ECOSYSTEMS } from "@/lib/ecosystems";
+import HeroAuthForm from "./_components/HeroAuthForm";
 
 export const revalidate = 60; // ISR 1 min
 
@@ -37,76 +36,86 @@ export default async function CommunityHomePage() {
   return (
     <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
-      {/* ── 1. HERO SECTION: PROFESSIONAL VALUE PROPOSITION ── */}
-      <section className="relative pt-16 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* ── 1. HERO SECTION: FULL-WIDTH 2-COLUMN LAYOUT WITH AUTH FORM ── */}
+      <section className="relative pt-12 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
+        <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto">
           
-          <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Cohort 1 Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-6 shadow-2xs">
-              <Activity size={14} className="text-[#0066FF]" />
-              <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
-            </div>
-
-            {/* Main Headline */}
-            <h1 className="text-[clamp(38px,6vw,72px)] font-black tracking-tight leading-[1.08] text-slate-950 mb-6 font-sans">
-              Build Production Systems. <br />
-              <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
-                Ship Daily. Get Hired.
-              </span>
-            </h1>
-
-            {/* Subhead */}
-            <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed mb-8 font-mono text-xs sm:text-sm">
-              The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies and founder recommendation</strong>.
-            </p>
-
-            {/* Primary Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto mb-10">
-              <Link
-                href="/login"
-                className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-8 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>Join 45-Day Cohort (Free)</span>
-                <ArrowRight size={15} />
-              </Link>
+            {/* LEFT COLUMN: HERO HEADLINE, SUBHEAD & METRICS */}
+            <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
               
-              <Link
-                href="/arena"
-                className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-7 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
-              >
-                <Terminal size={15} className="text-blue-600" />
-                <span>Explore 50 Projects Matrix</span>
-              </Link>
+              {/* Cohort 1 Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider shadow-2xs">
+                <Activity size={14} className="text-[#0066FF]" />
+                <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
+              </div>
 
-              <Link
-                href="/arena/calendar"
-                className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-6 py-4 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-              >
-                <MapPin size={15} className="text-slate-600" />
-                <span>Indore Office Hours</span>
-              </Link>
+              {/* Main Headline */}
+              <h1 className="text-[clamp(36px,4.8vw,68px)] font-black tracking-tight leading-[1.08] text-slate-950 font-sans">
+                Build Production Systems. <br />
+                <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
+                  Ship Daily. Get Hired.
+                </span>
+              </h1>
+
+              {/* Subhead */}
+              <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-mono text-xs sm:text-sm">
+                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies and founder recommendation</strong>.
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3.5 w-full pt-2">
+                <Link
+                  href="/login"
+                  className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Join 45-Day Cohort (Free)</span>
+                  <ArrowRight size={15} />
+                </Link>
+                
+                <Link
+                  href="/arena"
+                  className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
+                >
+                  <Terminal size={15} className="text-blue-600" />
+                  <span>Explore 50 Projects Matrix</span>
+                </Link>
+
+                <Link
+                  href="/arena/calendar"
+                  className="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                >
+                  <MapPin size={15} className="text-slate-600" />
+                  <span>Indore Office Hours</span>
+                </Link>
+              </div>
+
+              {/* Quick Proof Metrics Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-slate-900">50 Systems</div>
+                  <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-[#0066FF]">15 Companies</div>
+                  <div className="text-[11px] text-slate-500">Referral Guarantee</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-purple-700">Indore Hub</div>
+                  <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-emerald-700">100% Free</div>
+                  <div className="text-[11px] text-slate-500">For Verified Students</div>
+                </div>
+              </div>
+
             </div>
 
-            {/* Quick Proof Metrics */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-3xl pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-xl font-black text-slate-900">50 Systems</div>
-                <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-xl font-black text-[#0066FF]">15 Companies</div>
-                <div className="text-[11px] text-slate-500">Referral Guarantee</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-xl font-black text-purple-700">Indore Hub</div>
-                <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="text-xl font-black text-emerald-700">100% Free</div>
-                <div className="text-[11px] text-slate-500">For Verified Students</div>
-              </div>
+            {/* RIGHT COLUMN: SIGN IN / SIGN UP AUTH FORM CARD */}
+            <div className="lg:col-span-5 w-full">
+              <HeroAuthForm />
             </div>
 
           </div>
