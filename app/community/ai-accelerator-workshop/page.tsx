@@ -104,60 +104,179 @@ export default function WorkshopLandingPage() {
   return (
     <main className="min-h-screen bg-[#040914] text-white font-sans selection:bg-[#0066FF] selection:text-white pb-20">
       
-      {/* ── SECTION 1: 100% FULL-WIDTH HERO SECTION ── */}
-      <section className="relative pt-28 pb-20 px-4 sm:px-8 lg:px-12 border-b border-slate-800/80 overflow-hidden text-center">
+      {/* ── SECTION 1: 100% FULL-WIDTH ULTRA-PREMIUM TECH HERO BANNER ── */}
+      <section className="relative pt-24 pb-16 px-4 sm:px-8 lg:px-12 overflow-hidden">
         
-        {/* Background Grid Pattern & Radial Glow */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b18_1px,transparent_1px),linear-gradient(to_bottom,#1e293b18_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-tr from-[#0066FF]/25 via-[#00B8F0]/15 to-purple-600/10 blur-[160px] pointer-events-none" />
+        {/* Ambient Radial Glows */}
+        <div className="absolute top-0 left-1/4 w-[900px] h-[450px] bg-gradient-to-tr from-[#0066FF]/25 via-[#00B8F0]/15 to-purple-600/10 blur-[170px] pointer-events-none" />
+        <div className="absolute bottom-0 right-10 w-[500px] h-[300px] bg-blue-600/10 blur-[130px] pointer-events-none" />
 
-        <div className="w-full relative z-10 space-y-6">
+        <div className="w-full relative z-10">
           
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#0066FF]/20 to-[#00B8F0]/10 border border-[#0066FF]/40 text-[#00B8F0] font-mono text-xs font-bold tracking-wider uppercase shadow-lg shadow-blue-500/10">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
-            </span>
-            <Radio size={14} className="text-[#00B8F0] animate-pulse" />
-            <span>BOTMARTZ AI SOLUTIONS PRESENTS &bull; LIVE BOOTCAMP SERIES</span>
-          </div>
+          {/* Breadcrumb */}
+          <nav className="flex items-center gap-2 text-xs font-mono text-slate-400 mb-6">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <span>&rsaquo;</span>
+            <Link href="/community" className="hover:text-white transition-colors">Community</Link>
+            <span>&rsaquo;</span>
+            <span className="text-[#00B8F0] font-bold">AI Accelerator Workshop</span>
+          </nav>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] font-sans">
-            AI ACCELERATOR <br />
-            <span className="bg-gradient-to-r from-[#00B8F0] via-cyan-300 to-blue-400 bg-clip-text text-transparent">WORKSHOP SERIES</span>
-          </h1>
+          {/* 12-Column Split Hero Card */}
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-[#0A142B] to-[#040816] p-8 sm:p-12 lg:p-14 border-2 border-slate-800 shadow-2xl">
+            
+            {/* Background Mesh Lines */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b20_1px,transparent_1px),linear-gradient(to_bottom,#1e293b20_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+            <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#0066FF]/20 rounded-full blur-3xl pointer-events-none" />
 
-          <p className="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed font-sans max-w-3xl mx-auto">
-            The official runway to <span className="text-[#00B8F0] font-bold">AI Frontier 2026</span>. Build production-ready AI applications through three live, hands-on engineering bootcamps leading up to our free, in-person main summit.
-          </p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+              
+              {/* Left Column: Title, Subtitle, CTAs & Stats */}
+              <div className="lg:col-span-7 space-y-6">
+                
+                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#0066FF]/25 to-[#00B8F0]/15 border border-[#0066FF]/50 text-[#00B8F0] font-mono text-xs font-bold tracking-wider uppercase backdrop-blur-md shadow-lg shadow-blue-500/15">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
+                  </span>
+                  <Radio size={14} className="text-[#00B8F0] animate-pulse" />
+                  <span>BOTMARTZ AI SOLUTIONS PRESENTS &bull; LIVE BOOTCAMP COHORT</span>
+                </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4 font-mono text-xs">
-            <button
-              onClick={() =>
-                setSelectedWorkshopForWizard({
-                  title: "AI Accelerator Workshop Series Live Pass",
-                  slug: "ai-accelerator-workshop",
-                  date: "August 2026 Series",
-                  location: "Online & Indore AI Lab",
-                })
-              }
-              className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-[#0052CC] hover:from-blue-500 hover:to-[#0066FF] text-white font-bold uppercase tracking-wider transition-all shadow-xl shadow-blue-600/30 flex items-center gap-2.5 cursor-pointer group"
-            >
-              <Sparkles size={16} className="text-cyan-300 group-hover:rotate-12 transition-transform" />
-              <span>Register Now &rarr;</span>
-            </button>
+                <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] font-sans">
+                  AI ACCELERATOR <br />
+                  <span className="bg-gradient-to-r from-[#00B8F0] via-cyan-300 to-blue-400 bg-clip-text text-transparent">WORKSHOP SERIES</span>
+                </h1>
 
-            <button
-              onClick={() => handleScrollToSection("curriculum")}
-              className="px-8 py-4 rounded-2xl bg-[#0A1224] hover:bg-slate-800 text-white font-bold transition-all border border-white/20 cursor-pointer shadow-md"
-            >
-              View Bootcamps &amp; Curriculum
-            </button>
-          </div>
+                <p className="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed font-sans max-w-2xl">
+                  The official runway to <span className="text-[#00B8F0] font-bold">AI Frontier 2026</span>. Build production-ready AI applications through three live, hands-on engineering bootcamps leading up to our free, in-person main summit.
+                </p>
 
-          <div className="pt-8 flex flex-col items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-widest">
-            <span>SCROLL TO EXPLORE THE LEARNING JOURNEY</span>
-            <ChevronDown size={16} className="animate-bounce text-[#00B8F0]" />
+                {/* CTAs */}
+                <div className="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs">
+                  <button
+                    onClick={() =>
+                      setSelectedWorkshopForWizard({
+                        title: "AI Accelerator Workshop Series Live Pass",
+                        slug: "ai-accelerator-workshop",
+                        date: "August 2026 Series",
+                        location: "Online & Indore AI Lab",
+                      })
+                    }
+                    className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-[#0052CC] hover:from-blue-500 hover:to-[#0066FF] text-white font-bold uppercase tracking-wider transition-all shadow-xl shadow-blue-600/35 flex items-center gap-2.5 cursor-pointer group"
+                  >
+                    <Sparkles size={16} className="text-cyan-300 group-hover:rotate-12 transition-transform" />
+                    <span>Register Live Pass &rarr;</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleScrollToSection("curriculum")}
+                    className="px-8 py-4 rounded-2xl bg-white/10 hover:bg-white/15 text-white font-bold transition-all border border-white/20 backdrop-blur-md cursor-pointer shadow-md"
+                  >
+                    View Curriculum &amp; Core Topics
+                  </button>
+                </div>
+
+                {/* Quick Stats Bar */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-white/10 font-mono text-xs">
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <div className="text-white font-bold text-sm font-sans flex items-center gap-1.5">
+                      <Calendar size={14} className="text-blue-400" />
+                      <span>3 Series</span>
+                    </div>
+                    <div className="text-slate-400 text-[10px]">Live Bootcamps</div>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <div className="text-white font-bold text-sm font-sans flex items-center gap-1.5">
+                      <Star size={14} className="text-amber-400 fill-amber-400" />
+                      <span>4.8 / 5.0</span>
+                    </div>
+                    <div className="text-slate-400 text-[10px]">48 Student Reviews</div>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <div className="text-white font-bold text-sm font-sans flex items-center gap-1.5">
+                      <Award size={14} className="text-purple-400" />
+                      <span>PDF Certs</span>
+                    </div>
+                    <div className="text-slate-400 text-[10px]">Verifiable Badge</div>
+                  </div>
+
+                  <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                    <div className="text-white font-bold text-sm font-sans flex items-center gap-1.5">
+                      <ShieldCheck size={14} className="text-emerald-400" />
+                      <span>100% Free</span>
+                    </div>
+                    <div className="text-slate-400 text-[10px]">Community Summit</div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Right Column: Live Bootcamp Status Panel */}
+              <div className="lg:col-span-5 space-y-4">
+                <div className="p-6 sm:p-8 rounded-3xl bg-[#060E21]/90 border-2 border-blue-500/40 shadow-2xl backdrop-blur-xl space-y-4 relative overflow-hidden">
+                  
+                  <div className="flex items-center justify-between font-mono text-xs border-b border-white/10 pb-4">
+                    <div className="flex items-center gap-2">
+                      <Terminal size={16} className="text-[#00B8F0]" />
+                      <span className="font-bold text-white font-sans">AI BOOTCAMP COHORT MATRIX</span>
+                    </div>
+                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/40">
+                      LIVE TRACK
+                    </span>
+                  </div>
+
+                  {/* Bootcamp 01 Status Card */}
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition-all flex items-center justify-between gap-3 font-mono text-xs">
+                    <div>
+                      <div className="text-slate-400 text-[10px]">SERIES 01 &bull; AUG 9, 2026</div>
+                      <div className="text-white font-bold font-sans">Full-Stack AI Application</div>
+                    </div>
+                    <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-[11px] border border-emerald-500/40 shrink-0">
+                      Completed ✓
+                    </span>
+                  </div>
+
+                  {/* Bootcamp 02 Status Card */}
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition-all flex items-center justify-between gap-3 font-mono text-xs">
+                    <div>
+                      <div className="text-slate-400 text-[10px]">SERIES 02 &bull; AUG 16, 2026</div>
+                      <div className="text-white font-bold font-sans">Smarter AI Agents &amp; MCP</div>
+                    </div>
+                    <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-[11px] border border-emerald-500/40 shrink-0">
+                      Completed ✓
+                    </span>
+                  </div>
+
+                  {/* Bootcamp 03 Status Card */}
+                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition-all flex items-center justify-between gap-3 font-mono text-xs">
+                    <div>
+                      <div className="text-slate-400 text-[10px]">SERIES 03 &bull; AUG 22, 2026</div>
+                      <div className="text-white font-bold font-sans">Production AI &amp; Guardrails</div>
+                    </div>
+                    <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-[11px] border border-emerald-500/40 shrink-0">
+                      Completed ✓
+                    </span>
+                  </div>
+
+                  {/* Flagship Summit Card */}
+                  <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-900/50 via-cyan-900/40 to-slate-900 border border-cyan-500/50 flex items-center justify-between gap-3 font-mono text-xs">
+                    <div>
+                      <div className="text-cyan-300 text-[10px] font-bold">FLAGSHIP SUMMIT &bull; AUG 23, 2026</div>
+                      <div className="text-white font-bold font-sans">AI Frontier 2026 (Indore)</div>
+                    </div>
+                    <span className="px-3 py-1 rounded-xl bg-[#0066FF] text-white font-bold text-[11px] shadow-md shrink-0">
+                      Main Summit ★
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
           </div>
 
         </div>
