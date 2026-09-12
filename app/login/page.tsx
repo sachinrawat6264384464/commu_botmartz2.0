@@ -133,7 +133,7 @@ function StudentLoginInner() {
       <div id="recaptcha-container"></div>
 
       {/* Dynamic 100% Full-Width Container */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto flex-1 flex flex-col justify-center">
+      <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 flex-1 flex flex-col justify-center">
         
         {/* ── 2-COLUMN SPLIT HERO LOGIN LAYOUT ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full flex-1">
