@@ -153,15 +153,15 @@ export default function AuthGate({
                   {/* Benefit Highlights */}
                   <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 text-left font-sans text-xs space-y-2.5 text-slate-700">
                     <div className="flex items-center gap-2.5">
-                      <Sparkles size={15} className="text-amber-500 shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF] shrink-0" />
                       <span>Log daily Git commits &amp; earn <strong className="text-slate-900 font-bold">+20 to +70 Karma Coins</strong></span>
                     </div>
                     <div className="flex items-center gap-2.5">
-                      <Sparkles size={15} className="text-[#0066FF] shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF] shrink-0" />
                       <span>Access Agile Kanban workspaces &amp; real-time squad chat</span>
                     </div>
                     <div className="flex items-center gap-2.5">
-                      <Sparkles size={15} className="text-emerald-600 shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF] shrink-0" />
                       <span>Track your rolling 45-day virtual internship progress</span>
                     </div>
                   </div>
