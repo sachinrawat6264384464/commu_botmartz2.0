@@ -11,11 +11,11 @@ import {
 
 export default function CommunityFooter() {
   return (
-    <footer className="bg-slate-950 text-slate-400 font-sans text-xs border-t border-slate-800">
+    <footer className="w-full bg-slate-950 text-slate-400 font-sans text-xs border-t border-slate-800">
       
       {/* Top Banner: Indore Hybrid Hub & Weekly Rituals */}
-      <div className="border-b border-slate-800/80 bg-slate-900/50">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="border-b border-slate-800/80 bg-slate-900/50 w-full">
+        <div className="w-full px-4 sm:px-8 lg:px-12 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0">
               <MapPin size={20} />
@@ -55,7 +55,7 @@ export default function CommunityFooter() {
       </div>
 
       {/* Main 4-Column Navigation */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto py-14">
+      <div className="w-full px-4 sm:px-8 lg:px-12 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
           {/* Column 1: Brand Info */}
@@ -197,8 +197,8 @@ export default function CommunityFooter() {
       </div>
 
       {/* Social Links Row */}
-      <div className="border-t border-slate-900 bg-slate-950/80 py-4">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto flex flex-wrap items-center justify-between gap-4 text-xs font-sans">
+      <div className="border-t border-slate-900 bg-slate-950/80 py-4 w-full">
+        <div className="w-full px-4 sm:px-8 lg:px-12 flex flex-wrap items-center justify-between gap-4 text-xs font-sans">
           <div className="flex flex-wrap items-center gap-4 text-slate-400">
             <span className="text-slate-200 font-bold">Connect Official:</span>
             <a href="https://discord.gg/QfxuHQAZz" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors font-medium flex items-center gap-1">
@@ -224,8 +224,8 @@ export default function CommunityFooter() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-slate-900 bg-slate-950 py-6">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px] font-sans">
+      <div className="border-t border-slate-900 bg-slate-950 py-6 w-full">
+        <div className="w-full px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px] font-sans">
           <div className="flex items-center gap-2">
             <span>© 2026 Botmartz Community. Governed by Founder Soham Sharma.</span>
           </div>
