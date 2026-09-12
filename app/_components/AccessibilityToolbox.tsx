@@ -308,9 +308,15 @@ export default function AccessibilityToolbox() {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Open Accessibility Toolbox"
-        className="fixed bottom-6 left-6 z-50 group flex items-center justify-center p-3.5 rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-2xl hover:shadow-blue-500/40 border-2 border-blue-300/40 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer"
+        className="fixed bottom-6 left-6 z-50 group flex items-center justify-center p-3.5 rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-[#0A1633] text-white shadow-2xl hover:shadow-blue-500/40 border-2 border-blue-400/50 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer relative"
       >
-        <SwastikIcon className="w-6 h-6 text-white group-hover:rotate-45 transition-transform duration-500" />
+        {/* Live Blue Glowing Pointer Dot */}
+        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-90" />
+          <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#0066FF]" />
+        </span>
+
+        <SwastikIcon className="w-6 h-6 text-emerald-400 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
         <span className="sr-only">Accessibility Toolbox</span>
         <span className="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
           Accessibility (Alt+A)
@@ -324,8 +330,8 @@ export default function AccessibilityToolbox() {
           {/* ── HEADER ── */}
           <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#0066FF] text-white flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0 border border-blue-400/40">
-                <SwastikIcon className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-2xl bg-[#0066FF]/20 text-emerald-400 flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0 border border-blue-400/40">
+                <SwastikIcon className="w-5 h-5 text-emerald-400 drop-shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
