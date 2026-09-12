@@ -135,20 +135,7 @@ export default function CommunityNavbar() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-1.5 font-mono text-xs font-bold">
           
-          {/* 1. Flagship Workshop Direct Tab */}
-          <Link
-            href="/workshops/flagship"
-            className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
-              pathname.startsWith("/workshops/flagship")
-                ? "text-[#0066FF] bg-blue-50/80 font-bold"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-slate-50"
-            }`}
-          >
-            <Sparkles size={14} className="text-[#0066FF]" />
-            <span>AI Workshop (Live)</span>
-          </Link>
-
-          {/* 2. All Workshops */}
+          {/* 1. All Workshops */}
           <Link
             href="/workshops"
             className={`px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 ${
