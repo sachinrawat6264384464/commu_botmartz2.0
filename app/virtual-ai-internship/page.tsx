@@ -137,7 +137,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 1. HERO SECTION: FULL-WIDTH 2-COLUMN SPLIT LAYOUT ── */}
       <section className="pt-8 pb-16 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF] border-b border-slate-200/80 relative overflow-hidden">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto relative z-10">
+        <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
           
           {/* Transparency & Integrity Callout */}
           <div className="mb-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 font-mono text-xs text-center leading-relaxed shadow-2xs">
@@ -306,7 +306,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 2. HOW THE FELLOWSHIP WORKS ── */}
       <section className="py-20 bg-white border-b border-slate-200">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+        <div className="w-full px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-blue-200">
@@ -386,7 +386,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 3. WEEKLY FOUNDER OFFICE HOURS & CLINICS ── */}
       <section className="py-20 bg-blue-50/50 border-b border-blue-100">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+        <div className="w-full px-4 sm:px-8 lg:px-12">
           <div className="bg-gradient-to-br from-slate-950 to-blue-950 text-white rounded-3xl p-8 sm:p-12 border border-blue-500/30 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="space-y-4 max-w-2xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-cyan-300 font-mono text-xs font-bold uppercase tracking-wider border border-blue-400/30">
@@ -431,7 +431,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 4. FEATURED INSANE PROJECTS ── */}
       <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+        <div className="w-full px-4 sm:px-8 lg:px-12">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
@@ -507,7 +507,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 5. TRANSPARENT 3-TIER PRICING TABLE (₹0 / ₹299 / ₹1,999) ── */}
       <section id="pricing" className="py-20 bg-slate-100 border-b border-slate-200">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+        <div className="w-full px-4 sm:px-8 lg:px-12">
           
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-200">
@@ -528,7 +528,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 6. STRICT CRITERIA POLICY ── */}
       <section className="py-20 bg-white border-b border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12">
           
           <div className="p-8 rounded-3xl bg-slate-950 text-white border border-slate-800">
             <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider mb-3">
@@ -585,7 +585,7 @@ export default function VirtualAIInternshipPage() {
 
       {/* ── 7. FAQ ── */}
       <section className="py-20 bg-[#FAFCFF] border-b border-slate-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-8 lg:px-12">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
               Frequently Asked Questions
