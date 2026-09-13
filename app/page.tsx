@@ -23,7 +23,8 @@ import {
   Activity,
   Star,
   Check,
-  Flame
+  Flame,
+  QrCode
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 import HeroAuthForm from "./_components/HeroAuthForm";
@@ -118,8 +119,56 @@ export default async function CommunityHomePage() {
               <HeroAuthForm />
             </div>
 
-          </div>
+        </div>
+        </div>
+      </section>
 
+      {/* ── FEATURED ANNOUNCEMENT: HACK IT BROS '26 & CAMPUS TOUR ── */}
+      <section className="py-12 bg-gradient-to-r from-slate-950 via-[#19090D] to-slate-950 text-white border-b border-rose-500/30">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+          <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/80 border-2 border-rose-500/50 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Ambient Lighting */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-rose-600/15 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="lg:col-span-8 space-y-4 relative z-10">
+              <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs font-bold">
+                <span className="px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 uppercase tracking-wider flex items-center gap-1.5">
+                  <Flame size={13} className="text-rose-400 animate-pulse" />
+                  <span>UPCOMING HACKATHON 2026</span>
+                </span>
+                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-cyan-300 border border-blue-500/40 uppercase tracking-wider flex items-center gap-1.5">
+                  <ShieldCheck size={13} className="text-cyan-400" />
+                  <span>TECHNICAL PARTNER: BOTMARTZ AI SOLUTIONS</span>
+                </span>
+              </div>
+
+              <h2 className="text-3xl sm:text-5xl font-black text-white font-sans uppercase tracking-tight">
+                HACK IT <span className="text-rose-500 drop-shadow-[0_0_20px_rgba(244,63,94,0.6)]">BROS &apos;26</span>
+              </h2>
+
+              <p className="text-slate-300 text-xs sm:text-sm font-sans leading-relaxed max-w-2xl">
+                Presented by <strong>SlowBros LABS</strong> &bull; Technical Partner: <strong>Botmartz AI Solutions</strong>. Production build sprint on <strong>Sunday, 20th Sept 2026</strong>.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs">
+                <Link
+                  href="/community/events"
+                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-rose-600 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-rose-600/30 flex items-center gap-2 cursor-pointer"
+                >
+                  <QrCode size={16} />
+                  <span>Scan Pass &amp; View QR Code &rarr;</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 flex justify-center relative z-10">
+              <Link href="/community/events" className="group/poster cursor-pointer p-2.5 bg-slate-950 border border-rose-500/40 rounded-2xl shadow-xl hover:scale-105 transition-all max-w-[200px] overflow-hidden block">
+                <img src="/hack-it-bros-poster.png" alt="Hack It Bros 26 Poster" className="w-full h-auto rounded-xl object-cover" />
+              </Link>
+            </div>
+
+          </div>
         </div>
       </section>
 

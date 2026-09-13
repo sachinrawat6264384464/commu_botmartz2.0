@@ -47,6 +47,7 @@ interface Props {
 
 export default function ProjectPRDClient({ project }: Props) {
   const { user, studentProfile } = useAuth();
+  const [userEnrollments, setUserEnrollments] = useState<any[]>([]);
 
   // Hint Unlock State
   const [hintUnlocked, setHintUnlocked] = useState(false);
@@ -60,6 +61,15 @@ export default function ProjectPRDClient({ project }: Props) {
 
   useEffect(() => {
     if (user?.email) {
+      fetch(`/api/arena/enroll?email=${encodeURIComponent(user.email)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.enrollments)) {
+            setUserEnrollments(data.enrollments);
+          }
+        })
+        .catch(() => {});
+
       fetch(`/api/arena/unlock-hint?email=${encodeURIComponent(user.email)}&projectId=${encodeURIComponent(project.id)}`)
         .then((res) => res.json())
         .then((data) => {
@@ -71,6 +81,12 @@ export default function ProjectPRDClient({ project }: Props) {
         .catch(() => {});
     }
   }, [user, project]);
+
+  const activeEnrollment = userEnrollments.find(
+    (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled"
+  );
+  const isEnrolledInThisProject = activeEnrollment?.projectId === project.id;
+  const isEnrolledInAnotherProject = !!activeEnrollment && activeEnrollment.projectId !== project.id;
 
   const handleUnlockHint = async () => {
     if (!user?.email) {
@@ -283,7 +299,7 @@ export default function ProjectPRDClient({ project }: Props) {
 
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
         
         {/* Back Link */}
         <Link
@@ -295,91 +311,117 @@ export default function ProjectPRDClient({ project }: Props) {
 
         {/* Hero Header Card */}
         <div
-          className={`rounded-3xl p-8 sm:p-12 mb-10 relative overflow-hidden border ${
+          className={`rounded-3xl p-8 sm:p-12 mb-10 relative overflow-hidden border shadow-2xl ${
             isGTH
-              ? "bg-slate-950 text-white border-rose-600/80 shadow-2xl shadow-rose-950/40"
-              : "bg-white border-slate-200 shadow-sm"
+              ? "bg-slate-950 text-white border-rose-600/80 shadow-rose-950/40"
+              : "bg-gradient-to-r from-slate-950 via-[#0B1528] to-slate-950 text-white border-slate-800/80"
           }`}
         >
-          <div className="flex flex-wrap items-center gap-2 mb-4">
-            <span
-              className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase ${
-                isGTH
-                  ? "bg-rose-500/20 text-rose-400 border border-rose-500/40"
-                  : project.difficulty === "Insane"
-                  ? "bg-purple-100 text-purple-800"
-                  : project.difficulty === "Baby Step"
-                  ? "bg-emerald-100 text-emerald-800"
-                  : project.difficulty === "Easy"
-                  ? "bg-cyan-100 text-cyan-800"
-                  : "bg-blue-100 text-[#0066FF]"
-              }`}
-            >
-              {project.difficulty === "Expert Tier" ? "Go To Hell" : project.difficulty} Track
-            </span>
-            <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-mono font-bold">
-              {project.domain}
-            </span>
-            <span className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-xs font-mono font-bold">
-              Cohort 1 Flagship System
-            </span>
-          </div>
+          {/* Ambient Lighting Orbs */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
-          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
-            {project.title}
-          </h1>
-          <p className={`text-sm sm:text-base leading-relaxed mb-6 ${isGTH ? "text-slate-300" : "text-slate-600"}`}>
-            {project.overview}
-          </p>
-
-          {project.prizePool && (
-            <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm font-mono font-bold flex items-center gap-2">
-              <Trophy size={18} className="text-amber-400" />
-              <span>Finalist Prize Pool: {project.prizePool}</span>
-            </div>
-          )}
-
-          {/* Stacks */}
-          <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-            {project.techStack.map((t) => (
+          <div className="relative z-10">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               <span
-                key={t}
-                className="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 text-xs font-mono font-bold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                className={`px-3 py-1 rounded-full text-xs font-mono font-bold uppercase ${
+                  isGTH
+                    ? "bg-rose-500/20 text-rose-400 border border-rose-500/40"
+                    : project.difficulty === "Insane"
+                    ? "bg-purple-500/20 text-purple-300 border border-purple-500/40"
+                    : project.difficulty === "Baby Step"
+                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
+                    : project.difficulty === "Easy"
+                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+                    : "bg-blue-500/20 text-cyan-300 border border-cyan-500/40"
+                }`}
               >
-                {t}
+                {project.difficulty === "Expert Tier" ? "Go To Hell" : project.difficulty} Track
               </span>
-            ))}
-          </div>
+              <span className="px-3 py-1 rounded-full bg-slate-900/80 border border-slate-700/80 text-slate-200 text-xs font-mono font-bold">
+                {project.domain}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold flex items-center gap-1.5">
+                <CheckCircle2 size={13} /> Cohort 1 Flagship System
+              </span>
+            </div>
 
-          {/* Quick Actions */}
-          <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
-            <button
-              onClick={() => {
-                if (!user) {
-                  setShowGateModal(true);
-                } else {
-                  setShowEnrollModal(true);
-                }
-              }}
-              className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md cursor-pointer flex items-center gap-2"
-            >
-              <UserPlus size={15} />
-              <span>Enroll in this Project</span>
-            </button>
-            <Link
-              href={`/arena/${project.slug || project.id}/workspace`}
-              className="px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase tracking-wider transition-all shadow-md flex items-center gap-2"
-            >
-              <KanbanSquare size={15} />
-              <span>Agile Workspace &amp; QA Suite &rarr;</span>
-            </Link>
-            <Link
-              href={`/arena/daily-log?projectId=${project.id}`}
-              className="px-6 py-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-800 dark:text-white font-bold uppercase tracking-wider transition-all border border-slate-300 dark:border-slate-700 flex items-center gap-2"
-            >
-              <Terminal size={15} />
-              <span>Log Day Proof-of-Work &rarr;</span>
-            </Link>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-cyan-400 tracking-tight mb-4 font-sans">
+              {project.title}
+            </h1>
+            <p className="text-slate-300 text-xs sm:text-base leading-relaxed mb-6 max-w-4xl font-mono">
+              {project.overview}
+            </p>
+
+            {project.prizePool && (
+              <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-sm font-mono font-bold flex items-center gap-2">
+                <Trophy size={18} className="text-amber-400" />
+                <span>Finalist Prize Pool: {project.prizePool}</span>
+              </div>
+            )}
+
+            {/* Tech Stack Chips */}
+            <div className="flex flex-wrap gap-2 pt-3 border-t border-slate-800/80">
+              {project.techStack.map((t) => (
+                <span
+                  key={t}
+                  className="px-3 py-1 rounded-xl bg-slate-900/90 text-cyan-300 text-xs font-mono font-bold border border-slate-700/70 shadow-xs"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            {/* Quick Actions */}
+            <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
+              {isEnrolledInThisProject ? (
+                <div className="px-6 py-3.5 rounded-2xl bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider border border-emerald-500/40 flex items-center gap-2">
+                  <CheckCircle2 size={15} />
+                  <span>✓ Currently Enrolled</span>
+                </div>
+              ) : isEnrolledInAnotherProject ? (
+                <div className="relative group">
+                  <button
+                    disabled
+                    className="px-6 py-3.5 rounded-2xl bg-slate-900/90 text-amber-400/90 font-bold uppercase tracking-wider cursor-not-allowed flex items-center gap-2 border border-amber-500/30 opacity-90"
+                  >
+                    <Lock size={15} className="text-amber-400" />
+                    <span>🔒 Locked (Active: {activeEnrollment?.projectTitle?.slice(0, 18) || "Track"}...)</span>
+                  </button>
+                  <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-72 p-3 bg-slate-900 text-white text-[11px] font-sans rounded-xl border border-slate-700 shadow-xl z-30">
+                    Single Active Project Policy: You are currently enrolled in <strong>{activeEnrollment?.projectTitle || "another track"}</strong>. Finish or leave that project before enrolling in a new one!
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    if (!user) {
+                      setShowGateModal(true);
+                    } else {
+                      setShowEnrollModal(true);
+                    }
+                  }}
+                  className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 cursor-pointer flex items-center gap-2"
+                >
+                  <UserPlus size={15} />
+                  <span>Enroll in this Project</span>
+                </button>
+              )}
+              <Link
+                href={`/arena/${project.slug || project.id}/workspace`}
+                className="px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/20 flex items-center gap-2"
+              >
+                <KanbanSquare size={15} />
+                <span>Agile Workspace &amp; QA Suite &rarr;</span>
+              </Link>
+              <Link
+                href={`/arena/daily-log?projectId=${project.id}`}
+                className="px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-wider transition-all border border-slate-700/80 flex items-center gap-2 shadow-xs"
+              >
+                <Terminal size={15} />
+                <span>Log Day Proof-of-Work &rarr;</span>
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -395,7 +437,7 @@ export default function ProjectPRDClient({ project }: Props) {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-slate-900 text-sm font-sans">Architectural Blueprint &amp; Implementation Hint</span>
-                  <span className="px-2 py-0.5 rounded-md bg-amber-200 text-amber-900 font-bold text-[10px]">
+                  <span className="px-2.5 py-0.5 rounded-md bg-amber-200 text-amber-900 font-bold text-[10px]">
                     {hintUnlocked ? "UNLOCKED" : `COST: ${hintCost} COINS`}
                   </span>
                 </div>
@@ -503,21 +545,21 @@ export default function ProjectPRDClient({ project }: Props) {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="font-bold text-slate-900 mb-1 font-sans">1. Target Ecosystem</div>
-              <p className="text-[11px] text-slate-500 leading-relaxed">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="font-bold text-slate-900 mb-1 font-sans text-sm">1. Target Ecosystem</div>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
                 Deployed across {project.domain} teams at enterprises, research labs, and defence agencies.
               </p>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="font-bold text-slate-900 mb-1 font-sans">2. Primary Buyer / User</div>
-              <p className="text-[11px] text-slate-500 leading-relaxed">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="font-bold text-slate-900 mb-1 font-sans text-sm">2. Primary Buyer / User</div>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
                 VP of Engineering, Operations Chiefs, Quantitative Hedge Funds, or Disaster Response Wings.
               </p>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="font-bold text-slate-900 mb-1 font-sans">3. Commercial Value</div>
-              <p className="text-[11px] text-slate-500 leading-relaxed">
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="font-bold text-slate-900 mb-1 font-sans text-sm">3. Commercial Value</div>
+              <p className="text-[11px] text-slate-600 leading-relaxed">
                 Replaces high-latency manual workflows with real-time autonomous pipelines, cutting costs by 60%+.
               </p>
             </div>
@@ -534,18 +576,18 @@ export default function ProjectPRDClient({ project }: Props) {
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 font-sans">
             System Topology &amp; Component Pipeline
           </h2>
-          <div className="bg-slate-950 text-slate-200 p-5 rounded-2xl font-mono text-xs leading-relaxed mb-6 border border-slate-800">
+          <div className="bg-slate-950 text-slate-200 p-6 rounded-2xl font-mono text-xs leading-relaxed mb-6 border border-slate-800 shadow-inner">
             {project.architectureNotes}
           </div>
 
           <h3 className="text-sm font-bold font-mono uppercase text-slate-800 mb-3 flex items-center gap-2">
             <Database size={15} className="text-[#0066FF]" /> Database Schema &amp; Storage DDL
           </h3>
-          <div className="space-y-2 mb-8">
+          <div className="space-y-3 mb-8">
             {project.databaseSchema.map((schema, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50 border border-slate-200 p-3.5 rounded-xl font-mono text-xs text-slate-800"
+                className="bg-slate-950 border border-slate-800 p-4 rounded-2xl font-mono text-xs text-cyan-300 shadow-inner overflow-x-auto"
               >
                 <code>{schema}</code>
               </div>
@@ -559,23 +601,23 @@ export default function ProjectPRDClient({ project }: Props) {
             {project.apiEndpoints.map((ep, idx) => (
               <div
                 key={idx}
-                className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200 font-mono text-xs gap-2"
+                className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-200/90 font-mono text-xs gap-2"
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <span
-                    className={`px-2 py-0.5 rounded font-bold text-[10px] ${
+                    className={`px-2.5 py-1 rounded-lg font-bold text-[10px] uppercase ${
                       ep.method === "GET"
-                        ? "bg-blue-100 text-blue-800"
+                        ? "bg-blue-100 text-blue-800 border border-blue-200"
                         : ep.method === "POST"
-                        ? "bg-emerald-100 text-emerald-800"
-                        : "bg-amber-100 text-amber-800"
+                        ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+                        : "bg-amber-100 text-amber-800 border border-amber-200"
                     }`}
                   >
                     {ep.method}
                   </span>
                   <span className="font-bold text-slate-900">{ep.path}</span>
                 </div>
-                <span className="text-slate-500 text-[11px]">{ep.description}</span>
+                <span className="text-slate-600 text-[11px] font-sans">{ep.description}</span>
               </div>
             ))}
           </div>
@@ -595,26 +637,26 @@ export default function ProjectPRDClient({ project }: Props) {
             To pass the final engineering audit by Soham Sharma &amp; squad, students must submit:
           </p>
 
-          <div className="space-y-3">
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-              <span className="font-bold text-slate-800">1. Clean Public GitHub Repository</span>
-              <span className="text-slate-500 text-[11px]">Passing tests, Dockerfile, and architecture diagram</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+              <div className="font-bold text-slate-900 font-sans text-xs mb-1">1. Clean GitHub Repo</div>
+              <p className="text-slate-500 text-[10px]">Passing tests, Dockerfile, &amp; arch diagram</p>
             </div>
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-              <span className="font-bold text-slate-800">2. Live Production URL</span>
-              <span className="text-slate-500 text-[11px]">Deployed on AWS / Vercel / Railway with SSL</span>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+              <div className="font-bold text-slate-900 font-sans text-xs mb-1">2. Live Production URL</div>
+              <p className="text-slate-500 text-[10px]">Deployed on AWS / Vercel with SSL</p>
             </div>
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-              <span className="font-bold text-slate-800">3. System Architecture &amp; Pitch Deck</span>
-              <span className="text-slate-500 text-[11px]">5-Slide deck on target market, system topology &amp; KPIs</span>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+              <div className="font-bold text-slate-900 font-sans text-xs mb-1">3. Pitch Deck</div>
+              <p className="text-slate-500 text-[10px]">5-Slide deck on market, topology &amp; KPIs</p>
             </div>
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-              <span className="font-bold text-slate-800">4. 2-Minute Loom Demo Video</span>
-              <span className="text-slate-500 text-[11px]">Code walkthrough &amp; live request benchmark demonstration</span>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+              <div className="font-bold text-slate-900 font-sans text-xs mb-1">4. Loom Demo Video</div>
+              <p className="text-slate-500 text-[10px]">2-Min code walkthrough &amp; live requests</p>
             </div>
-            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-              <span className="font-bold text-slate-800">5. Automated Benchmark Log</span>
-              <span className="text-slate-500 text-[11px]">k6 load test report showing p95 latency under SLA</span>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+              <div className="font-bold text-slate-900 font-sans text-xs mb-1">5. Benchmark Report</div>
+              <p className="text-slate-500 text-[10px]">k6 load test report showing p95 SLA</p>
             </div>
           </div>
         </section>
@@ -674,6 +716,7 @@ export default function ProjectPRDClient({ project }: Props) {
         </section>
 
       </div>
+
 
       {/* =========================================================================
           INTERACTIVE DIRECT ENROLLMENT MODAL

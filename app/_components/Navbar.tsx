@@ -30,7 +30,8 @@ import {
   Lock,
   Globe,
   BookOpen,
-  Code2
+  Code2,
+  Flame
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
@@ -107,7 +108,30 @@ export default function CommunityNavbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b-2 border-slate-100 shadow-md transition-all duration-300">
-      <div className="w-full px-4 sm:px-8 lg:px-12 h-20 flex items-center justify-between">
+      
+      {/* ── TOP ANNOUNCEMENT TICKER STRIP ── */}
+      <div className="w-full bg-gradient-to-r from-slate-950 via-[#1F080D] to-slate-950 text-white border-b border-rose-500/30 px-4 sm:px-8 lg:px-12 py-1.5 text-xs font-mono">
+        <div className="w-full max-w-[1700px] mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <span className="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-extrabold uppercase text-[9px] tracking-wider shrink-0 flex items-center gap-1 shadow-xs">
+              <Flame size={11} className="text-white animate-pulse" />
+              <span>UPCOMING HACKATHON</span>
+            </span>
+            <span className="truncate font-sans font-medium text-slate-200 text-[11px] sm:text-xs">
+              <strong className="text-white font-bold">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Technical Partner: Botmartz AI Solutions &bull; <span className="text-rose-400 font-mono font-bold">Sunday, 20th Sept 2026</span>
+            </span>
+          </div>
+
+          <Link
+            href="/community/events"
+            className="px-3.5 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold text-[11px] font-mono transition-all shrink-0 flex items-center gap-1 shadow-md shadow-rose-600/30 cursor-pointer"
+          >
+            <span>Scan Pass &amp; QR Code &rarr;</span>
+          </Link>
+        </div>
+      </div>
+
+      <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Logo & Live Cohort Badge */}
         <Link href="/" className="flex items-center gap-3.5 group shrink-0">
@@ -153,18 +177,6 @@ export default function CommunityNavbar() {
             }`}
           >
             <span>50 Systems</span>
-          </Link>
-
-          {/* 2. All Bootcamps */}
-          <Link
-            href="/workshops"
-            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
-              pathname.startsWith("/workshops")
-                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
-            }`}
-          >
-            <span>All Bootcamps</span>
           </Link>
 
           {/* 3. Internship Dropdown */}
@@ -338,18 +350,6 @@ export default function CommunityNavbar() {
               </div>
             )}
           </div>
-
-          {/* 6. Certificates */}
-          <Link
-            href="/certificates"
-            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
-              pathname.startsWith("/certificates")
-                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
-            }`}
-          >
-            <span>Certificates</span>
-          </Link>
 
         </nav>
 

@@ -129,6 +129,17 @@ export function compileTemplate(templateKey: string, vars: Record<string, any>):
           </ul>
         </div>
 
+        <!-- Official WhatsApp Community Group Invite -->
+        <div style="background:rgba(37,211,102,0.08);border:1.5px solid rgba(37,211,102,0.3);border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
+          <h4 style="margin:0 0 6px 0;font-size:15px;color:#25D366;font-weight:800;text-transform:uppercase;font-family:sans-serif;">💬 Join Official WhatsApp Builder Group</h4>
+          <p style="margin:0 0 16px 0;font-size:13px;color:#CBD5E1;line-height:1.5;">
+            Connect directly with founders, AI mentors, and fellow builders. Get instant notifications for live bootcamps and sprint teardowns.
+          </p>
+          <a href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:12px 28px;background:#25D366;color:#000000;text-decoration:none;font-weight:900;font-size:13px;border-radius:10px;text-transform:uppercase;letter-spacing:0.05em;box-shadow:0 4px 14px rgba(37,211,102,0.35);">
+            Join WhatsApp Community &rarr;
+          </a>
+        </div>
+
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
           <tr>
             <td align="center">
@@ -149,7 +160,7 @@ export function compileTemplate(templateKey: string, vars: Record<string, any>):
           unsubscribeUrl: unsubUrl,
           recipientEmail: email,
         }),
-        text: `Hi ${name}, welcome to Botmartz Community! Access your dashboard: ${defaultVars.action_url}`,
+        text: `Hi ${name}, welcome to Botmartz Community! Join WhatsApp Community: https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ | Dashboard: ${defaultVars.action_url}`,
       };
     }
 

@@ -9,7 +9,10 @@ import {
   Layers,
   ArrowRight,
   Filter,
-  CheckCircle2
+  CheckCircle2,
+  Activity,
+  ShieldCheck,
+  Award
 } from "lucide-react";
 import { adminDb } from "@/lib/firebase-admin";
 
@@ -35,121 +38,132 @@ export default async function ProgressDiariesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 pb-20">
-      {/* Header Banner */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-emerald-200">
-                <Flame size={14} className="text-emerald-600" /> Community Proof of Work
+    <div className="min-h-screen bg-slate-50 text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+      
+      {/* ── HERO HEADER BANNER ── */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-850 to-blue-950 text-white pt-24 pb-16 border-b-2 border-slate-800 shadow-xl">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-3 max-w-3xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-black border border-emerald-400/30 backdrop-blur-md">
+                <Flame size={14} className="text-emerald-400 animate-pulse" />
+                <span>COMMUNITY PROOF-OF-WORK FEED</span>
               </div>
-              <h1 className="text-3xl font-extrabold text-slate-900">
-                Live Progress Diaries
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white font-sans leading-tight">
+                Live Public <span className="bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent">Progress Diaries</span>
               </h1>
-              <p className="text-slate-600 text-xs sm:text-sm font-mono mt-1">
-                Real-time standup stream from students building across the 45-day cohort (14th Sept - Diwali).
+              <p className="text-sm sm:text-base text-slate-300 font-sans leading-relaxed">
+                Real-time standup stream &amp; GitHub commit audit log from student builders across the 45-day virtual cohort.
               </p>
             </div>
 
             <div className="flex items-center gap-3">
               <Link
                 href="/arena/daily-log"
-                className="px-5 py-3 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-xs"
+                className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-700 hover:to-blue-600 text-white font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-blue-500/25 flex items-center gap-2 border border-blue-400/30"
               >
-                + Post Today's Standup
+                <span>+ Post Today's Standup</span>
+                <ArrowRight size={15} />
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 mt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Main Feed Column (2 cols) */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* ── MAIN FEED COLUMN (8 COLS) ── */}
+          <div className="lg:col-span-8 space-y-6">
             
-            {/* Filter Tabs */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-3 flex items-center gap-2 overflow-x-auto text-xs font-mono font-bold">
-              <button className="px-3.5 py-1.5 rounded-xl bg-slate-900 text-white shadow-xs">
-                All Logs
+            {/* Filter Tabs Header */}
+            <div className="bg-white border-2 border-slate-200 rounded-2xl p-2 flex items-center gap-2 overflow-x-auto text-xs font-mono font-bold shadow-sm">
+              <button className="px-4 py-2 rounded-xl bg-[#0066FF] text-white shadow-sm font-black">
+                All Logs ({dailyLogs.length})
               </button>
-              <button className="px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200">
-                Progress Diaries
+              <button className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+                PoW Standups
               </button>
-              <button className="px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200">
+              <button className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
                 Architecture &amp; Schemas
               </button>
-              <button className="px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200">
-                Blockers &amp; Questions
+              <button className="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+                Blockers &amp; Help
               </button>
             </div>
 
             {/* Standup Feed Items */}
             {dailyLogs.length === 0 ? (
-              <div className="bg-white border border-slate-200 rounded-3xl p-10 text-center font-mono text-xs text-slate-500">
-                <Flame size={32} className="mx-auto text-slate-300 mb-3" />
-                <p className="font-bold text-slate-700 text-sm mb-1">Cohort 1 Opens 14th Sept 2026</p>
-                <p>Be the first student builder to publish Day 1 proof-of-work on Ganesh Chaturthi!</p>
+              <div className="bg-white border-2 border-slate-200 rounded-3xl p-12 text-center font-sans space-y-4 shadow-lg">
+                <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border-2 border-emerald-200">
+                  <Flame size={32} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-900">Cohort 1 Standup Stream Open</h3>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto mt-1 font-mono">
+                    Be the first student builder to publish Day 1 proof-of-work log!
+                  </p>
+                </div>
                 <Link
                   href="/arena/daily-log"
-                  className="inline-block mt-4 px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#0066FF] text-white font-mono text-xs font-black uppercase shadow-md"
                 >
-                  Open Daily Standup Portal
+                  <span>Open Standup Portal &rarr;</span>
                 </Link>
               </div>
             ) : (
               dailyLogs.map((log, idx) => (
                 <div
                   key={idx}
-                  className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs transition-all hover:border-slate-300"
+                  className="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-7 shadow-lg transition-all duration-300 hover:border-[#0066FF] space-y-4 font-sans"
                 >
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-blue-100 text-[#0066FF] font-bold text-sm flex items-center justify-center font-mono">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0066FF] to-blue-500 text-white font-black text-base flex items-center justify-center font-mono shadow-md border border-blue-400/40">
                         {(log.studentName || log.studentEmail || "B").charAt(0).toUpperCase()}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
                           <Link
                             href={`/member/${encodeURIComponent(log.studentEmail || "builder")}`}
-                            className="font-bold text-slate-900 text-sm hover:text-[#0066FF] transition-colors"
+                            className="font-black text-slate-900 text-base hover:text-[#0066FF] transition-colors flex items-center gap-1.5"
                           >
-                            {log.studentName || log.studentEmail?.split("@")[0] || "Student Builder"}
+                            <span>{log.studentName || log.studentEmail?.split("@")[0] || "Student Builder"}</span>
+                            <ShieldCheck size={16} className="text-[#0066FF]" />
                           </Link>
-                          <span className="px-2 py-0.5 rounded bg-blue-50 text-[#0066FF] font-mono text-[10px] font-bold border border-blue-100">
+                          <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-[10px] font-extrabold border border-blue-200">
                             Day {log.dayNumber || idx + 1}
                           </span>
                         </div>
-                        <p className="text-slate-500 text-[11px] font-mono">
+                        <p className="text-slate-500 text-xs font-mono font-medium mt-0.5">
                           {log.projectTitle || "Arena Production System"}
                         </p>
                       </div>
                     </div>
 
-                    <div className="text-right">
-                      <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-lg border border-orange-200">
-                        <Flame size={12} /> {log.streakDays || 1}d Streak
-                      </span>
-                    </div>
+                    <span className="inline-flex items-center gap-1.5 text-xs font-mono font-black text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-200 shadow-2xs">
+                      <Flame size={13} /> {log.streakDays || 1}d Streak
+                    </span>
                   </div>
 
-                  {/* Task Description */}
-                  <div className="space-y-2 mb-4 text-xs font-sans text-slate-800 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                  {/* Task Description Card */}
+                  <div className="space-y-3 text-xs font-sans text-slate-800 leading-relaxed bg-slate-50 p-4.5 rounded-2xl border border-slate-200">
                     <div>
-                      <span className="font-bold font-mono text-slate-500 text-[11px] uppercase block mb-0.5">
+                      <span className="font-black font-mono text-slate-500 text-[10px] uppercase tracking-wider block mb-1">
                         What was shipped today:
                       </span>
-                      <p>{log.todayTask}</p>
+                      <p className="font-medium text-slate-900 leading-relaxed text-sm">{log.todayTask}</p>
                     </div>
 
                     {log.tomorrowPlan && (
-                      <div className="pt-2 border-t border-slate-200/60">
-                        <span className="font-bold font-mono text-slate-500 text-[11px] uppercase block mb-0.5">
+                      <div className="pt-2.5 border-t border-slate-200">
+                        <span className="font-black font-mono text-slate-500 text-[10px] uppercase tracking-wider block mb-1">
                           Tomorrow's Plan:
                         </span>
-                        <p className="text-slate-600">{log.tomorrowPlan}</p>
+                        <p className="text-slate-600 font-medium">{log.tomorrowPlan}</p>
                       </div>
                     )}
                   </div>
@@ -163,17 +177,17 @@ export default async function ProgressDiariesPage() {
                         rel="noopener noreferrer"
                         className="text-[#0066FF] hover:underline font-bold inline-flex items-center gap-1.5"
                       >
-                        <Github size={13} /> View Verified Commit
+                        <Github size={15} /> View Verified GitHub Commit &rarr;
                       </a>
                     ) : (
-                      <span className="text-slate-400">Commit attached</span>
+                      <span className="text-slate-400 flex items-center gap-1">
+                        <CheckCircle2 size={13} className="text-emerald-500" /> PoW Verified
+                      </span>
                     )}
 
-                    <div className="flex items-center gap-4 text-slate-500 text-[11px]">
-                      <span className="text-slate-400">
-                        {log.submittedAt?.toDate?.() ? log.submittedAt.toDate().toLocaleDateString() : "Today"}
-                      </span>
-                    </div>
+                    <span className="text-slate-400 font-medium">
+                      {log.submittedAt?.toDate?.() ? log.submittedAt.toDate().toLocaleDateString() : "Live Today"}
+                    </span>
                   </div>
                 </div>
               ))
@@ -181,62 +195,62 @@ export default async function ProgressDiariesPage() {
 
           </div>
 
-          {/* Right Sidebar: Guidelines & Office Hours Info (1 col) */}
-          <div className="space-y-6">
+          {/* ── RIGHT SIDEBAR (4 COLS) ── */}
+          <div className="lg:col-span-4 space-y-6">
             
             {/* Saturday Indore & Virtual Office Hours */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#0066FF] uppercase mb-2">
-                <Calendar size={14} /> Weekly Office Hours
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-6 shadow-xl space-y-3 font-sans">
+              <div className="flex items-center gap-2 text-xs font-mono font-black text-[#0066FF] uppercase tracking-wider">
+                <Calendar size={15} /> Weekly Office Hours
               </div>
-              <h3 className="text-sm font-bold text-slate-900 mb-1">
+              <h3 className="text-base font-black text-slate-900">
                 Every Saturday 5:00 PM – 7:00 PM
               </h3>
-              <p className="text-xs text-slate-600 font-mono leading-relaxed mb-4">
+              <p className="text-xs text-slate-600 font-mono leading-relaxed">
                 In-person architecture teardowns at Indore Hub + Virtual Discord Stage for all builders.
               </p>
               <Link
                 href="/arena/calendar"
-                className="block text-center w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all"
+                className="block text-center w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all shadow-md"
               >
-                View Community Calendar →
+                View Community Calendar &rarr;
               </Link>
             </div>
 
             {/* Daily Proof of Work Rules */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs text-xs font-mono">
-              <h3 className="font-bold text-slate-900 mb-3 uppercase tracking-wider text-[11px] text-slate-500">
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-6 shadow-xl space-y-3 font-sans">
+              <h3 className="font-black text-slate-900 uppercase tracking-wider text-xs font-mono text-slate-500 border-b border-slate-100 pb-2">
                 PoW Standup Checklist
               </h3>
-              <ul className="space-y-2.5 text-slate-600">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0 mt-0.5" />
+              <ul className="space-y-3 text-xs text-slate-700 font-medium">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                   <span>Attach active GitHub PR or commit SHA.</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0 mt-0.5" />
-                  <span>Share blocker or architectural lesson.</span>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                  <span>Share blocker or architectural lesson learned.</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 size={14} className="text-emerald-600 shrink-0 mt-0.5" />
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                   <span>Maintain daily streak for Level 10 Shipper rank.</span>
                 </li>
               </ul>
             </div>
 
-            {/* Project Leaderboard Link */}
-            <div className="bg-gradient-to-br from-blue-900 to-indigo-950 text-white rounded-3xl p-6 shadow-md border border-blue-800">
-              <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-bold mb-2">
-                <Sparkles size={14} /> Dual Leaderboards
+            {/* Dual Leaderboard Link */}
+            <div className="bg-gradient-to-br from-blue-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 shadow-2xl border-2 border-blue-500/30 space-y-3 font-sans">
+              <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-black uppercase tracking-wider">
+                <Award size={16} /> Dual Leaderboards
               </div>
-              <p className="text-xs text-blue-200 leading-relaxed font-mono mb-4">
+              <p className="text-xs text-slate-300 leading-relaxed font-sans">
                 Track top student builders by verified commits and see the most shipped projects in Cohort 1.
               </p>
               <Link
                 href="/arena/leaderboard"
-                className="block text-center w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold font-mono text-xs transition-all"
+                className="block text-center w-full py-3 rounded-2xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-amber-400/20"
               >
-                Open Dual Leaderboards
+                Open Dual Leaderboards &rarr;
               </Link>
             </div>
 
