@@ -930,11 +930,11 @@ export default function PublicEventsPage() {
               />
             </div>
 
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-2">
               <span className="text-[11px] text-slate-400">Date: <strong>20th Sept 2026 (Sunday)</strong></span>
               <button
                 onClick={() => setShowPosterModal(false)}
-                className="px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold cursor-pointer transition-all shadow-md shadow-rose-600/30"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold cursor-pointer transition-all shadow-md shadow-rose-600/30"
               >
                 Done / Close
               </button>

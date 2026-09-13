@@ -53,7 +53,7 @@ export default async function CommunityHomePage() {
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-[clamp(36px,4.8vw,68px)] font-black tracking-tight leading-[1.08] text-slate-950 font-sans">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.08] text-slate-950 font-sans">
                 Build Production Systems. <br />
                 <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
                   Ship Daily. Get Hired.
@@ -66,10 +66,10 @@ export default async function CommunityHomePage() {
               </p>
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-3.5 w-full pt-2">
+              <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 w-full pt-2">
                 <Link
                   href="/login"
-                  className="bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Join 45-Day Cohort (Free)</span>
                   <ArrowRight size={15} />
@@ -77,7 +77,7 @@ export default async function CommunityHomePage() {
                 
                 <Link
                   href="/arena"
-                  className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
                 >
                   <Terminal size={15} className="text-blue-600" />
                   <span>Explore 50 Projects Matrix</span>
@@ -85,7 +85,7 @@ export default async function CommunityHomePage() {
 
                 <Link
                   href="/arena/calendar"
-                  className="bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
                 >
                   <MapPin size={15} className="text-slate-600" />
                   <span>Indore Office Hours</span>

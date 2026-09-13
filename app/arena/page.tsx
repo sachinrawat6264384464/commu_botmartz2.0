@@ -360,7 +360,7 @@ export default function ArenaPage() {
                 <button
                   key={tier}
                   onClick={() => setActiveTier(tier)}
-                  className={`px-4 py-2 rounded-xl font-extrabold transition-all duration-200 cursor-pointer border-2 ${
+                  className={`px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-xs rounded-xl font-extrabold transition-all duration-200 cursor-pointer border-2 ${
                     activeTier === tier
                       ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md scale-[1.02]"
                       : "bg-slate-100 text-slate-700 border-slate-200 hover:border-slate-400 hover:bg-slate-200/70"

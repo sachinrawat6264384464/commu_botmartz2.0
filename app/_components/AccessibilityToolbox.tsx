@@ -411,7 +411,7 @@ export default function AccessibilityToolbox() {
             left: position ? `${Math.min(window.innerWidth - 490, Math.max(10, position.x))}px` : "24px",
             top: position ? `${Math.max(10, position.y - 490)}px` : "calc(100vh - 600px)",
           }}
-          className="z-[999999] w-[460px] sm:w-[480px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-5 duration-200"
+          className="z-[999999] w-full max-w-[480px] max-w-[calc(100vw-1.5rem)] max-h-[calc(100vh-5rem)] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-5 duration-200"
         >
           
           {/* ── HEADER ── */}

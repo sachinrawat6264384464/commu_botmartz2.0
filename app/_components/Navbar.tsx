@@ -110,21 +110,21 @@ export default function CommunityNavbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b-2 border-slate-100 shadow-md transition-all duration-300">
       
       {/* ── TOP ANNOUNCEMENT TICKER STRIP ── */}
-      <div className="w-full bg-gradient-to-r from-slate-950 via-[#1F080D] to-slate-950 text-white border-b border-rose-500/30 px-4 sm:px-8 lg:px-12 py-1.5 text-xs font-mono">
-        <div className="w-full max-w-[1700px] mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span className="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-extrabold uppercase text-[9px] tracking-wider shrink-0 flex items-center gap-1 shadow-xs">
+      <div className="w-full bg-gradient-to-r from-slate-950 via-[#1F080D] to-slate-950 text-white border-b border-rose-500/30 px-3 sm:px-8 lg:px-12 py-1.5 text-xs font-mono">
+        <div className="w-full max-w-[1700px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 sm:gap-4">
+          <div className="flex items-center gap-2 min-w-0 flex-wrap">
+            <span className="px-2 py-0.5 rounded-full bg-rose-600 text-white font-extrabold uppercase text-[9px] tracking-wider shrink-0 flex items-center gap-1 shadow-xs">
               <Flame size={11} className="text-white animate-pulse" />
               <span>UPCOMING HACKATHON</span>
             </span>
-            <span className="truncate font-sans font-medium text-slate-200 text-[11px] sm:text-xs">
-              <strong className="text-white font-bold">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Technical Partner: Botmartz AI Solutions &bull; <span className="text-rose-400 font-mono font-bold">Sunday, 20th Sept 2026</span>
+            <span className="truncate font-sans font-medium text-slate-200 text-[10px] sm:text-xs">
+              <strong className="text-white font-bold">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Botmartz &bull; <span className="text-rose-400 font-mono font-bold">20th Sept 2026</span>
             </span>
           </div>
 
           <Link
             href="/community/events"
-            className="px-3.5 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold text-[11px] font-mono transition-all shrink-0 flex items-center gap-1 shadow-md shadow-rose-600/30 cursor-pointer"
+            className="px-3 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold text-[10px] sm:text-[11px] font-mono transition-all shrink-0 flex items-center gap-1 shadow-md shadow-rose-600/30 cursor-pointer self-end sm:self-auto"
           >
             <span>Scan Pass &amp; QR Code &rarr;</span>
           </Link>
@@ -134,29 +134,29 @@ export default function CommunityNavbar() {
       <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Logo & Live Cohort Badge */}
-        <Link href="/" className="flex items-center gap-3.5 group shrink-0">
-          <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200/80 group-hover:border-[#0066FF] group-hover:shadow-md group-hover:shadow-blue-500/15 transition-all duration-300">
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3.5 group shrink-0">
+          <div className="relative w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200/80 group-hover:border-[#0066FF] group-hover:shadow-md group-hover:shadow-blue-500/15 transition-all duration-300">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
-              width={38}
-              height={38}
+              width={34}
+              height={34}
               className="object-contain drop-shadow-xs group-hover:scale-105 transition-transform duration-300"
               priority
             />
           </div>
           <div className="flex flex-col">
-            <div className="font-black text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-2 font-sans">
+            <div className="font-black text-base sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5 sm:gap-2 font-sans">
               <span>BOTMARTZ</span>
-              <span className="bg-gradient-to-r from-[#0066FF] via-blue-600 to-cyan-500 bg-clip-text text-transparent font-black text-sm uppercase tracking-wide">
+              <span className="bg-gradient-to-r from-[#0066FF] via-blue-600 to-cyan-500 bg-clip-text text-transparent font-black text-xs sm:text-sm uppercase tracking-wide">
                 AI WORKSHOP
               </span>
             </div>
             <div className="flex items-center gap-2 -mt-0.5">
-              <span className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-extrabold">
+              <span className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-extrabold hidden sm:inline-block">
                 Production Engineering Cohort
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[9px] font-extrabold border border-emerald-300 shadow-2xs">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[9px] font-extrabold border border-emerald-300 shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live
               </span>
