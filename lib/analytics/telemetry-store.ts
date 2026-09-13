@@ -19,30 +19,17 @@ interface TelemetryState {
   topPages: Record<string, number>;
 }
 
-const initialTopPages: Record<string, number> = {
-  '/': 142,
-  '/virtual-ai-internship': 86,
-  '/arena': 64,
-  '/bootcamps': 50,
-  '/workshops': 28,
-};
-
 // Use globalThis singleton pattern so Next.js HMR fast-refresh never resets live events
 const g = globalThis as unknown as {
   _botmartz_telemetry_state?: TelemetryState;
 };
 
 if (!g._botmartz_telemetry_state) {
-  const now = Date.now();
   g._botmartz_telemetry_state = {
-    events: [
-      { id: 'ev_init_1', eventName: 'page_view', pagePath: '/', anonymousId: 'anon_builder_101', timestamp: now - 300000, createdAt: now - 300000 },
-      { id: 'ev_init_2', eventName: 'arena_prd_viewed', pagePath: '/arena', anonymousId: 'anon_builder_101', timestamp: now - 240000, createdAt: now - 240000 },
-      { id: 'ev_init_3', eventName: 'newsletter_subscribed', pagePath: '/', anonymousId: 'anon_subscriber_55', timestamp: now - 180000, createdAt: now - 180000 },
-    ],
-    basePageViews: 370,
-    baseEventsCount: 370,
-    topPages: { ...initialTopPages },
+    events: [],
+    basePageViews: 0,
+    baseEventsCount: 0,
+    topPages: {},
   };
 }
 
@@ -65,8 +52,8 @@ export function recordLiveTelemetryEvent(event: Omit<TelemetryEvent, 'id'>): Tel
     state.topPages[path] = (state.topPages[path] || 0) + 1;
   }
 
-  // Keep last 500 events
-  if (state.events.length > 500) {
+  // Keep last 1000 events
+  if (state.events.length > 1000) {
     state.events.pop();
   }
 

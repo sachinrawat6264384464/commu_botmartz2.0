@@ -43,23 +43,21 @@ export async function GET(req: NextRequest) {
       eventCounts[ev.eventName] = (eventCounts[ev.eventName] || 0) + 1;
     });
 
-    const activeCount = Math.max(activeUsersSet.size, 14);
-
     const funnel = {
-      landingPageViews: telemetryData.topPages['/'] || 142,
-      internshipViews: telemetryData.topPages['/virtual-ai-internship'] || 86,
-      arenaViews: telemetryData.topPages['/arena'] || 64,
-      bootcampViews: telemetryData.topPages['/bootcamps'] || 50,
-      signups: eventCounts['signup_completed'] || 12,
-      newsletterSubs: eventCounts['newsletter_subscribed'] || 18,
-      dailyLogs: eventCounts['daily_log_submitted'] || 28,
+      landingPageViews: telemetryData.topPages['/'] || 0,
+      internshipViews: (telemetryData.topPages['/virtual-ai-internship'] || 0) + (telemetryData.topPages['/arena'] || 0),
+      arenaViews: telemetryData.topPages['/arena'] || 0,
+      bootcampViews: telemetryData.topPages['/bootcamps'] || 0,
+      signups: eventCounts['signup_completed'] || 0,
+      newsletterSubs: eventCounts['newsletter_subscribed'] || 0,
+      dailyLogs: eventCounts['daily_log_submitted'] || 0,
     };
 
     return NextResponse.json({
       success: true,
       metrics: {
-        activeUsers30m: activeCount,
-        totalEventsRecorded: telemetryData.baseEventsCount,
+        activeUsers30m: activeUsersSet.size,
+        totalEventsRecorded: telemetryData.baseEventsCount + dbEvents.length,
         totalPageViews: telemetryData.basePageViews,
         eventCounts,
         topPages: telemetryData.topPages,
@@ -72,19 +70,19 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       success: true,
       metrics: {
-        activeUsers30m: 14,
+        activeUsers30m: 0,
         totalEventsRecorded: telemetryData.baseEventsCount,
         totalPageViews: telemetryData.basePageViews,
-        eventCounts: { page_view: telemetryData.basePageViews },
+        eventCounts: {},
         topPages: telemetryData.topPages,
         funnel: {
-          landingPageViews: telemetryData.topPages['/'] || 142,
-          internshipViews: telemetryData.topPages['/virtual-ai-internship'] || 86,
-          arenaViews: telemetryData.topPages['/arena'] || 64,
-          bootcampViews: telemetryData.topPages['/bootcamps'] || 50,
-          signups: 12,
-          newsletterSubs: 18,
-          dailyLogs: 28,
+          landingPageViews: telemetryData.topPages['/'] || 0,
+          internshipViews: 0,
+          arenaViews: 0,
+          bootcampViews: 0,
+          signups: 0,
+          newsletterSubs: 0,
+          dailyLogs: 0,
         },
       },
       recentEvents: telemetryData.events.slice(0, 30),
