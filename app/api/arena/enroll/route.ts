@@ -75,6 +75,37 @@ export async function POST(req: Request) {
     }
 
     const cleanEmail = email.trim().toLowerCase();
+
+    // Enforce 1 active project enrollment limit per student email
+    if (adminDb) {
+      try {
+        const existingSnap = await adminDb
+          .collection("arena_enrollments")
+          .where("email", "==", cleanEmail)
+          .get();
+
+        const activeDoc: any = existingSnap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .find((e: any) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled");
+
+        if (activeDoc) {
+          if (activeDoc.projectId === projectId) {
+            return NextResponse.json(
+              { error: `You are already enrolled in "${activeDoc.projectTitle}". Visit your profile or daily log workspace to continue.` },
+              { status: 400 }
+            );
+          } else {
+            return NextResponse.json(
+              { error: `Single Project Limit: You are currently enrolled in "${activeDoc.projectTitle}". You must complete or leave your active project before enrolling in a new one.` },
+              { status: 400 }
+            );
+          }
+        }
+      } catch (checkErr) {
+        console.warn("Active enrollment verification check warning:", checkErr);
+      }
+    }
+
     const enrollmentData = {
       name: name.trim(),
       email: cleanEmail,

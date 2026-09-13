@@ -47,6 +47,7 @@ interface Props {
 
 export default function ProjectPRDClient({ project }: Props) {
   const { user, studentProfile } = useAuth();
+  const [userEnrollments, setUserEnrollments] = useState<any[]>([]);
 
   // Hint Unlock State
   const [hintUnlocked, setHintUnlocked] = useState(false);
@@ -60,6 +61,15 @@ export default function ProjectPRDClient({ project }: Props) {
 
   useEffect(() => {
     if (user?.email) {
+      fetch(`/api/arena/enroll?email=${encodeURIComponent(user.email)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.enrollments)) {
+            setUserEnrollments(data.enrollments);
+          }
+        })
+        .catch(() => {});
+
       fetch(`/api/arena/unlock-hint?email=${encodeURIComponent(user.email)}&projectId=${encodeURIComponent(project.id)}`)
         .then((res) => res.json())
         .then((data) => {
@@ -71,6 +81,12 @@ export default function ProjectPRDClient({ project }: Props) {
         .catch(() => {});
     }
   }, [user, project]);
+
+  const activeEnrollment = userEnrollments.find(
+    (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled"
+  );
+  const isEnrolledInThisProject = activeEnrollment?.projectId === project.id;
+  const isEnrolledInAnotherProject = !!activeEnrollment && activeEnrollment.projectId !== project.id;
 
   const handleUnlockHint = async () => {
     if (!user?.email) {
@@ -358,19 +374,39 @@ export default function ProjectPRDClient({ project }: Props) {
 
             {/* Quick Actions */}
             <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
-              <button
-                onClick={() => {
-                  if (!user) {
-                    setShowGateModal(true);
-                  } else {
-                    setShowEnrollModal(true);
-                  }
-                }}
-                className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 cursor-pointer flex items-center gap-2"
-              >
-                <UserPlus size={15} />
-                <span>Enroll in this Project</span>
-              </button>
+              {isEnrolledInThisProject ? (
+                <div className="px-6 py-3.5 rounded-2xl bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider border border-emerald-500/40 flex items-center gap-2">
+                  <CheckCircle2 size={15} />
+                  <span>✓ Currently Enrolled</span>
+                </div>
+              ) : isEnrolledInAnotherProject ? (
+                <div className="relative group">
+                  <button
+                    disabled
+                    className="px-6 py-3.5 rounded-2xl bg-slate-900/90 text-amber-400/90 font-bold uppercase tracking-wider cursor-not-allowed flex items-center gap-2 border border-amber-500/30 opacity-90"
+                  >
+                    <Lock size={15} className="text-amber-400" />
+                    <span>🔒 Locked (Active: {activeEnrollment?.projectTitle?.slice(0, 18) || "Track"}...)</span>
+                  </button>
+                  <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-72 p-3 bg-slate-900 text-white text-[11px] font-sans rounded-xl border border-slate-700 shadow-xl z-30">
+                    Single Active Project Policy: You are currently enrolled in <strong>{activeEnrollment?.projectTitle || "another track"}</strong>. Finish or leave that project before enrolling in a new one!
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    if (!user) {
+                      setShowGateModal(true);
+                    } else {
+                      setShowEnrollModal(true);
+                    }
+                  }}
+                  className="px-6 py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 cursor-pointer flex items-center gap-2"
+                >
+                  <UserPlus size={15} />
+                  <span>Enroll in this Project</span>
+                </button>
+              )}
               <Link
                 href={`/arena/${project.slug || project.id}/workspace`}
                 className="px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-indigo-600/20 flex items-center gap-2"

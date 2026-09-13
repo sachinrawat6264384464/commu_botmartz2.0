@@ -42,6 +42,7 @@ export default function ArenaPage() {
   const itemsPerPage = 9;
 
   // Enrollment & Gating States
+  const [userEnrollments, setUserEnrollments] = useState<any[]>([]);
   const [selectedProjectForEnroll, setSelectedProjectForEnroll] = useState<ArenaProject | null>(null);
   const [showGateModal, setShowGateModal] = useState(false);
   const [showEnrollModal, setShowEnrollModal] = useState(false);
@@ -64,6 +65,28 @@ export default function ArenaPage() {
       })
       .catch((e) => console.warn("Could not fetch custom projects:", e));
   }, []);
+
+  // Fetch user enrollments when user is logged in
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`/api/arena/enroll?email=${encodeURIComponent(user.email)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.enrollments)) {
+            setUserEnrollments(data.enrollments);
+          }
+        })
+        .catch((e) => console.warn("Failed to load user enrollments:", e));
+    } else {
+      setUserEnrollments([]);
+    }
+  }, [user?.email]);
+
+  const activeEnrollment = useMemo(() => {
+    return userEnrollments.find(
+      (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled"
+    );
+  }, [userEnrollments]);
 
   // Extract unique domains
   const allDomains = useMemo(() => {
@@ -111,6 +134,11 @@ export default function ArenaPage() {
   );
 
   const handleEnrollClick = (project: ArenaProject) => {
+    if (activeEnrollment && activeEnrollment.projectId !== project.id) {
+      alert(`Single Project Limit: You are currently enrolled in "${activeEnrollment.projectTitle}". Please complete or leave your active project before enrolling in a new one.`);
+      return;
+    }
+
     setSelectedProjectForEnroll(project);
     if (!isProfileComplete) {
       setShowGateModal(true);
@@ -151,6 +179,9 @@ export default function ArenaPage() {
       }
 
       setEnrollSuccess(true);
+      if (data.enrollment) {
+        setUserEnrollments((prev) => [data.enrollment, ...prev]);
+      }
     } catch (err: any) {
       setEnrollError(err.message || "Enrollment failed. Please try again.");
     } finally {
@@ -246,6 +277,43 @@ export default function ArenaPage() {
         </div>
       </section>
 
+      {/* ── ACTIVE ENROLLMENT NOTIFICATION BANNER ── */}
+      {activeEnrollment && (
+        <section className="w-full px-4 sm:px-8 lg:px-12 mb-6">
+          <div className="p-4 sm:p-5 rounded-3xl bg-blue-50/90 border-2 border-[#0066FF]/40 text-[#0066FF] font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[#0066FF] text-white flex items-center justify-center shrink-0 shadow-xs">
+                <Lock size={18} />
+              </div>
+              <div>
+                <div className="font-extrabold font-sans text-slate-900 text-sm flex items-center gap-2">
+                  <span>Single Project Enrollment Limit Active</span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-mono">1 Active Track</span>
+                </div>
+                <p className="text-xs text-slate-600 font-mono mt-0.5">
+                  You are currently building <strong>{activeEnrollment.projectTitle}</strong>. Complete or leave this track to unlock other projects.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5 shrink-0">
+              <Link
+                href={`/arena/${activeEnrollment.projectId}`}
+                className="px-4 py-2 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-xs"
+              >
+                Open PRD &rarr;
+              </Link>
+              <Link
+                href="/profile"
+                className="px-4 py-2 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border-2 border-slate-300 font-bold transition-all"
+              >
+                My Profile
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── 2. FILTER & SEARCH BAR ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
         <div className="bg-white border-2 border-slate-300 rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-lg transition-all duration-300 space-y-4">
@@ -333,81 +401,121 @@ export default function ArenaPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {paginatedProjects.map((project) => (
-              <div
-                key={project.id}
-                className="bg-white border-2 border-slate-300 hover:border-[#0066FF] rounded-3xl p-6 sm:p-7 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-5 group"
-              >
-                <div>
-                  {/* Card Header: Difficulty & Domain */}
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="px-3 py-1 rounded-full bg-blue-100/70 text-[#0066FF] font-mono text-[10px] font-black border border-blue-300 uppercase tracking-wider">
-                      {project.domain}
-                    </span>
-                    <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] font-black uppercase tracking-wider border-2 ${
-                      project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
-                        ? "bg-slate-950 text-purple-300 border-purple-800"
-                        : project.difficulty === "Insane" 
-                        ? "bg-rose-100 text-rose-800 border-rose-300" 
-                        : project.difficulty === "Hard"
-                        ? "bg-amber-100 text-amber-900 border-amber-300"
-                        : project.difficulty === "Intermediate"
-                        ? "bg-blue-100 text-[#0066FF] border-blue-300"
-                        : project.difficulty === "Easy"
-                        ? "bg-cyan-100 text-cyan-900 border-cyan-300"
-                        : "bg-emerald-100 text-emerald-900 border-emerald-300"
-                    }`}>
-                      {project.difficulty === "Expert Tier" ? "Go To Hell" : project.difficulty}
-                    </span>
+            {paginatedProjects.map((project) => {
+              const isThisEnrolled = activeEnrollment?.projectId === project.id;
+              const isOtherEnrolled = Boolean(activeEnrollment && !isThisEnrolled);
+
+              return (
+                <div
+                  key={project.id}
+                  className={`bg-white border-2 rounded-3xl p-6 sm:p-7 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-5 group ${
+                    isThisEnrolled
+                      ? "border-emerald-500 ring-2 ring-emerald-500/20"
+                      : isOtherEnrolled
+                      ? "border-slate-200 opacity-90"
+                      : "border-slate-300 hover:border-[#0066FF] hover:-translate-y-1.5"
+                  }`}
+                >
+                  <div>
+                    {/* Card Header: Difficulty & Domain */}
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="px-3 py-1 rounded-full bg-blue-100/70 text-[#0066FF] font-mono text-[10px] font-black border border-blue-300 uppercase tracking-wider">
+                        {project.domain}
+                      </span>
+                      {isThisEnrolled ? (
+                        <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 border-2 border-emerald-300 flex items-center gap-1">
+                          <CheckCircle2 size={10} /> Active Track
+                        </span>
+                      ) : isOtherEnrolled ? (
+                        <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 border-2 border-slate-200 flex items-center gap-1">
+                          <Lock size={10} /> Locked
+                        </span>
+                      ) : (
+                        <span className={`px-2.5 py-0.5 rounded-full font-mono text-[10px] font-black uppercase tracking-wider border-2 ${
+                          project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
+                            ? "bg-slate-950 text-purple-300 border-purple-800"
+                            : project.difficulty === "Insane" 
+                            ? "bg-rose-100 text-rose-800 border-rose-300" 
+                            : project.difficulty === "Hard"
+                            ? "bg-amber-100 text-amber-900 border-amber-300"
+                            : project.difficulty === "Intermediate"
+                            ? "bg-blue-100 text-[#0066FF] border-blue-300"
+                            : project.difficulty === "Easy"
+                            ? "bg-cyan-100 text-cyan-900 border-cyan-300"
+                            : "bg-emerald-100 text-emerald-900 border-emerald-300"
+                        }`}>
+                          {project.difficulty === "Expert Tier" ? "Go To Hell" : project.difficulty}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title & Overview */}
+                    <h3 className="text-base font-extrabold text-slate-950 font-sans group-hover:text-[#0066FF] transition-colors duration-200 line-clamp-2 mb-2 leading-snug">
+                      {project.title}
+                    </h3>
+                    <p className="text-xs text-slate-600 font-sans line-clamp-3 leading-relaxed mb-4 font-medium">
+                      {project.overview}
+                    </p>
+
+                    {/* Tech Stack Pills */}
+                    <div className="flex flex-wrap gap-1.5 pt-3 border-t-2 border-slate-100">
+                      {project.techStack.slice(0, 4).map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-mono text-[10px] font-bold border border-slate-300"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                      {project.techStack.length > 4 && (
+                        <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 font-mono text-[10px] font-bold border border-slate-300">
+                          +{project.techStack.length - 4}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Title & Overview */}
-                  <h3 className="text-base font-extrabold text-slate-950 font-sans group-hover:text-[#0066FF] transition-colors duration-200 line-clamp-2 mb-2 leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="text-xs text-slate-600 font-sans line-clamp-3 leading-relaxed mb-4 font-medium">
-                    {project.overview}
-                  </p>
+                  {/* 2 Clean Action Buttons */}
+                  <div className="flex items-center gap-2.5 pt-4 border-t-2 border-slate-100 font-mono text-xs">
+                    <Link
+                      href={`/arena/${project.id}`}
+                      className="flex-1 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-800 font-extrabold text-center transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs"
+                    >
+                      <span>Inspect PRD</span>
+                      <ExternalLink size={12} />
+                    </Link>
 
-                  {/* Tech Stack Pills */}
-                  <div className="flex flex-wrap gap-1.5 pt-3 border-t-2 border-slate-100">
-                    {project.techStack.slice(0, 4).map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-mono text-[10px] font-bold border border-slate-300"
+                    {isThisEnrolled ? (
+                      <Link
+                        href={`/arena/${project.id}`}
+                        className="flex-1 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 border-2 border-emerald-600 text-white font-extrabold text-center transition-all duration-200 shadow-md flex items-center justify-center gap-1.5"
                       >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.techStack.length > 4 && (
-                      <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 font-mono text-[10px] font-bold border border-slate-300">
-                        +{project.techStack.length - 4}
-                      </span>
+                        <CheckCircle2 size={13} />
+                        <span>Enrolled</span>
+                      </Link>
+                    ) : isOtherEnrolled ? (
+                      <button
+                        disabled
+                        title={`Locked: You are currently enrolled in "${activeEnrollment.projectTitle}". Complete or leave it on your profile to unlock this project.`}
+                        className="flex-1 py-3 rounded-2xl bg-slate-100 border-2 border-slate-200 text-slate-400 font-extrabold text-center transition-all duration-200 opacity-70 cursor-not-allowed flex items-center justify-center gap-1.5"
+                      >
+                        <Lock size={12} className="text-slate-400" />
+                        <span>Locked</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleEnrollClick(project)}
+                        className="flex-1 py-3 rounded-2xl bg-[#0066FF] hover:bg-blue-600 border-2 border-[#0066FF] text-white font-extrabold text-center transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <span>Enroll</span>
+                        <ArrowRight size={13} />
+                      </button>
                     )}
                   </div>
+
                 </div>
-
-                {/* 2 Clean Action Buttons */}
-                <div className="flex items-center gap-2.5 pt-4 border-t-2 border-slate-100 font-mono text-xs">
-                  <Link
-                    href={`/arena/${project.id}`}
-                    className="flex-1 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-800 font-extrabold text-center transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs"
-                  >
-                    <span>Inspect PRD</span>
-                    <ExternalLink size={12} />
-                  </Link>
-
-                  <button
-                    onClick={() => handleEnrollClick(project)}
-                    className="flex-1 py-3 rounded-2xl bg-[#0066FF] hover:bg-blue-600 border-2 border-[#0066FF] text-white font-extrabold text-center transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <span>Enroll</span>
-                    <ArrowRight size={13} />
-                  </button>
-                </div>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
