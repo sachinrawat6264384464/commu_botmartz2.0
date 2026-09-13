@@ -26,7 +26,10 @@ import {
   ShieldCheck,
   Check,
   GraduationCap,
-  Building2
+  Building2,
+  QrCode,
+  Maximize2,
+  X
 } from "lucide-react";
 import EventRegistrationWizard from "./[slug]/EventRegistrationWizard";
 
@@ -36,6 +39,7 @@ export default function PublicEventsPage() {
   const [selectedEventForWizard, setSelectedEventForWizard] = useState<any | null>(null);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+  const [showPosterModal, setShowPosterModal] = useState(false);
 
   const campusSessions = [
     {
@@ -265,6 +269,110 @@ export default function PublicEventsPage() {
                 <option value="recent">Recent Past</option>
               </select>
             </div>
+          </div>
+
+          {/* ── 🚨 HOT FEATURED HACKATHON: HACK IT BROS '26 (SlowBros LABS x Botmartz AI Solutions) 🚨 ── */}
+          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-slate-950 via-[#1A090D] to-slate-950 text-white border-2 border-rose-600/80 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center group">
+            
+            {/* Ambient Red & Gold Lighting Accents */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-rose-600/20 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+            {/* Left Column: Event Announcement & Details */}
+            <div className="lg:col-span-8 space-y-6 relative z-10">
+              
+              <div className="flex flex-wrap items-center gap-3 font-mono text-xs font-bold">
+                <span className="px-3.5 py-1.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-rose-950/50">
+                  <Flame size={14} className="text-rose-400 animate-bounce" />
+                  <span>UPCOMING HACKATHON &bull; 2026</span>
+                </span>
+                <span className="px-3.5 py-1.5 rounded-full bg-blue-500/20 text-cyan-300 border border-blue-500/40 uppercase tracking-wider flex items-center gap-1.5">
+                  <ShieldCheck size={14} className="text-cyan-400" />
+                  <span>TECHNICAL PARTNER: BOTMARTZ AI SOLUTIONS</span>
+                </span>
+              </div>
+
+              <div>
+                <div className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-1">
+                  SLOWBROS LABS PRESENTS
+                </div>
+                <h2 className="text-4xl sm:text-6xl font-black text-white font-sans tracking-tight leading-none uppercase">
+                  HACK IT <span className="text-rose-500 drop-shadow-[0_0_25px_rgba(244,63,94,0.7)]">BROS &apos;26</span>
+                </h2>
+                <p className="text-xs sm:text-sm font-mono text-rose-300/90 font-bold mt-2 tracking-wide">
+                  POWERING THE BUILD, TOGETHER. SLOWBROS LABS &times; BOTMARTZ AI SOLUTIONS
+                </p>
+              </div>
+
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-sans max-w-2xl">
+                Join the ultimate production build challenge presented by <strong>SlowBros Labs</strong> with <strong>Botmartz AI Solutions</strong> powering the technical stack, infrastructure teardowns, and direct mentor support.
+              </p>
+
+              {/* Event Details & QR Pass Info */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs max-w-xl">
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <div className="w-10 h-10 rounded-xl bg-rose-600 text-white font-bold font-sans text-base flex items-center justify-center shadow-lg shrink-0">
+                    20
+                  </div>
+                  <div>
+                    <div className="font-bold text-white text-sm font-sans">Sunday, 20th Sept 2026</div>
+                    <div className="text-slate-400 text-[11px]">All-Day Build Sprint</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center border border-cyan-500/30 shrink-0">
+                    <QrCode size={18} />
+                  </div>
+                  <div>
+                    <div className="font-bold text-white text-sm font-sans">Scan QR Code Below</div>
+                    <div className="text-cyan-300 text-[11px] font-bold">Instant Pass Registration</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs">
+                <button
+                  onClick={() => setShowPosterModal(true)}
+                  className="px-7 py-4 rounded-2xl bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-rose-600 text-white font-bold uppercase tracking-wider transition-all shadow-xl shadow-rose-600/30 flex items-center gap-2.5 cursor-pointer group"
+                >
+                  <QrCode size={16} className="group-hover:rotate-12 transition-transform" />
+                  <span>Scan QR Code to Register</span>
+                  <Maximize2 size={14} className="opacity-80" />
+                </button>
+
+                <button
+                  onClick={() => setShowPosterModal(true)}
+                  className="px-6 py-4 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold transition-all border border-white/20 flex items-center gap-2 cursor-pointer"
+                >
+                  <span>View Official Poster</span>
+                </button>
+              </div>
+
+            </div>
+
+            {/* Right Column: Interactive Poster & QR Code Preview */}
+            <div className="lg:col-span-4 flex justify-center relative z-10">
+              <div
+                onClick={() => setShowPosterModal(true)}
+                className="relative group/poster cursor-pointer p-3 bg-slate-900 border-2 border-rose-500/50 hover:border-rose-400 rounded-3xl shadow-2xl transition-all duration-300 hover:scale-105 max-w-xs overflow-hidden"
+              >
+                <img
+                  src="/hack-it-bros-poster.png"
+                  alt="Hack It Bros 26 SlowBros Labs x Botmartz AI Solutions Poster"
+                  className="w-full h-auto rounded-2xl object-cover"
+                />
+                
+                {/* Hover Lightbox Hint */}
+                <div className="absolute inset-0 bg-slate-950/75 opacity-0 group-hover/poster:opacity-100 transition-opacity flex flex-col items-center justify-center text-white font-mono text-xs p-4 text-center space-y-2 rounded-3xl backdrop-blur-xs">
+                  <Maximize2 size={28} className="text-rose-400 animate-pulse" />
+                  <span className="font-bold text-sm text-white">Click to Zoom &amp; Scan QR</span>
+                  <span className="text-[10px] text-slate-300">Hack It Bros '26 Registration</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           {/* Featured Card (AI Frontier 2026 Summit) */}
@@ -790,6 +898,50 @@ export default function PublicEventsPage() {
           eventLocation={selectedEventForWizard.location}
           onClose={() => setSelectedEventForWizard(null)}
         />
+      )}
+
+      {/* ── HACK IT BROS '26 QR CODE & POSTER LIGHTBOX MODAL ── */}
+      {showPosterModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 border-2 border-rose-500/60 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative font-mono text-xs text-white max-h-[95vh] overflow-y-auto space-y-4">
+            
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <span className="text-rose-400 text-[10px] font-bold uppercase tracking-wider block">Official Registration Poster &amp; QR Code</span>
+                <h3 className="text-xl font-black text-white font-sans">HACK IT BROS &apos;26</h3>
+              </div>
+              <button
+                onClick={() => setShowPosterModal(false)}
+                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors cursor-pointer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-300 font-sans leading-relaxed">
+              Scan the QR code below using your mobile camera or Google Lens to complete registration for <strong>Hack It Bros &apos;26</strong> (SlowBros Labs &times; Botmartz AI Solutions).
+            </p>
+
+            <div className="p-3 bg-slate-950 rounded-2xl border border-slate-800 flex justify-center shadow-inner">
+              <img
+                src="/hack-it-bros-poster.png"
+                alt="Hack It Bros 26 QR Code Poster"
+                className="max-h-[60vh] w-auto object-contain rounded-xl shadow-lg"
+              />
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-[11px] text-slate-400">Date: <strong>20th Sept 2026 (Sunday)</strong></span>
+              <button
+                onClick={() => setShowPosterModal(false)}
+                className="px-6 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold cursor-pointer transition-all shadow-md shadow-rose-600/30"
+              >
+                Done / Close
+              </button>
+            </div>
+
+          </div>
+        </div>
       )}
 
     </main>

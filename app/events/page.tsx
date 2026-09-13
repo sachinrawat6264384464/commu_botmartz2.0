@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Ticket, Sparkles, ArrowRight, Clock, Coins, Image as ImageIcon, GraduationCap, Building2, Users } from "lucide-react";
+import { Calendar, MapPin, Ticket, Sparkles, ArrowRight, Clock, Coins, Image as ImageIcon, GraduationCap, Building2, Users, QrCode } from "lucide-react";
 import { adminDb } from "@/lib/firebase-admin";
 
 export const revalidate = 60;
@@ -159,6 +159,43 @@ export default async function EventsDirectoryPage() {
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          {/* HACK IT BROS '26 Featured Hackathon Card */}
+          <div className="bg-gradient-to-br from-slate-950 via-[#1A090D] to-slate-950 text-white border-2 border-rose-600/80 hover:border-rose-500 rounded-3xl p-8 shadow-xl hover:shadow-2xl flex flex-col justify-between relative overflow-hidden transition-all group">
+            <div className="absolute top-0 right-0 px-4 py-1.5 bg-rose-600 text-white font-mono text-[10px] font-bold uppercase rounded-bl-xl shadow-md">
+              SEPTEMBER 20, 2026
+            </div>
+            <div>
+              <div className="text-xs font-mono text-rose-400 mb-1 uppercase font-bold tracking-wider">SLOWBROS LABS PRESENTS</div>
+              <h2 className="text-3xl font-black text-white font-sans uppercase mb-2">
+                HACK IT <span className="text-rose-500">BROS &apos;26</span>
+              </h2>
+              <div className="text-[11px] font-mono text-cyan-300 font-bold mb-4">
+                Technical Partner: Botmartz AI Solutions
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed mb-6 font-sans">
+                Powering the build, together. Production hackathon sprint with AI stack infrastructure, mentor support &amp; QR pass registration.
+              </p>
+
+              {/* QR Code Mini Preview */}
+              <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl flex items-center gap-3 mb-6">
+                <img src="/hack-it-bros-poster.png" alt="Hack It Bros QR Code" className="w-14 h-14 object-cover rounded-lg border border-slate-700 shrink-0" />
+                <div className="text-[11px] font-mono text-slate-300">
+                  <div className="font-bold text-white">Official Pass QR Code</div>
+                  <div className="text-slate-400 text-[10px]">Scan image to register</div>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="/hack-it-bros-poster.png"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-rose-600 text-white py-3.5 rounded-xl font-mono text-xs font-bold uppercase text-center transition-all shadow-md flex items-center justify-center gap-2"
+            >
+              <QrCode size={14} /> Open Pass &amp; Scan QR Code &rarr;
+            </a>
+          </div>
           
           {/* AI Frontier 2026 Featured Card */}
           <div className="bg-white border-2 border-blue-200 hover:border-[#0066FF] rounded-3xl p-8 shadow-sm hover:shadow-md flex flex-col justify-between relative overflow-hidden transition-all">
