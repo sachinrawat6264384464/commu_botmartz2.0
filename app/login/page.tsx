@@ -142,7 +142,7 @@ function StudentLoginInner() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-80px)] bg-slate-50 text-slate-900 pt-20 pb-12 font-sans selection:bg-[#0066FF] selection:text-white flex flex-col justify-center relative overflow-hidden">
+    <div className="min-h-[calc(100vh-80px)] bg-slate-50 text-slate-900 pt-6 sm:pt-10 pb-10 font-sans selection:bg-[#0066FF] selection:text-white flex flex-col justify-center relative overflow-hidden">
       <div id="recaptcha-container" suppressHydrationWarning={true}></div>
 
       {/* Soft Background Mesh Glows for White Theme */}
@@ -156,69 +156,101 @@ function StudentLoginInner() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full flex-1">
           
           {/* ── LEFT COLUMN (7 COLS): HIGH-TECH HERO BRANDING BANNER ── */}
-          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-850 to-blue-950 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl flex flex-col justify-between min-h-[calc(100vh-180px)] lg:min-h-[620px] backdrop-blur-xl hover:border-blue-500/50 transition-all duration-500 group text-white">
+          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-850 to-blue-950 p-6 sm:p-8 border-2 border-slate-800 shadow-2xl flex flex-col justify-between h-full backdrop-blur-xl hover:border-blue-500/50 transition-all duration-500 group text-white">
             {/* Background Ambient Glows */}
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
 
-            <div className="relative z-10 space-y-6">
+            <div className="relative z-10 space-y-5">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 text-cyan-300 font-mono text-xs font-black border border-cyan-400/30 backdrop-blur-md shadow-xs">
-                <span className="relative flex h-2.5 w-2.5">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 text-cyan-300 font-mono text-[11px] font-black border border-cyan-400/30 backdrop-blur-md shadow-xs">
+                <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-400"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
                 </span>
-                <Sparkles size={14} className="text-cyan-400" />
+                <Sparkles size={13} className="text-cyan-400" />
                 <span>45-DAY VIRTUAL AI INTERNSHIP &amp; BUILDER NETWORK</span>
               </div>
 
               {/* Heading */}
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
+              <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight font-sans leading-tight">
                 Build Real Systems with <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Verifiable Proof-of-Work</span>
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-300 font-sans leading-relaxed font-normal">
+              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed font-normal">
                 Sign in to access your student Karma Wallet, daily Git commit standup log, Agile sprint workspaces, and founder architecture teardowns.
               </p>
 
               {/* 4 Feature Badges Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-4 font-sans">
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-cyan-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
-                  <Terminal size={22} className="text-cyan-400 shrink-0" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 font-sans">
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-cyan-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                  <Terminal size={20} className="text-cyan-400 shrink-0" />
                   <div>
-                    <div className="text-white font-bold text-xs sm:text-sm">Daily Git Commit Logger</div>
-                    <div className="text-cyan-300 text-xs font-mono font-medium">+20 to +70 Coins Every Day</div>
+                    <div className="text-white font-bold text-xs">Daily Git Commit Logger</div>
+                    <div className="text-cyan-300 text-[11px] font-mono font-medium">+20 to +70 Coins Every Day</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-blue-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
-                  <Layers size={22} className="text-blue-400 shrink-0" />
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-blue-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                  <Layers size={20} className="text-blue-400 shrink-0" />
                   <div>
-                    <div className="text-white font-bold text-xs sm:text-sm">50 Production System PRDs</div>
-                    <div className="text-slate-300 text-xs font-mono">LangGraph, eBPF, PostGIS</div>
+                    <div className="text-white font-bold text-xs">50 Production System PRDs</div>
+                    <div className="text-slate-300 text-[11px] font-mono">LangGraph, eBPF, PostGIS</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-purple-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
-                  <KanbanSquare size={22} className="text-purple-400 shrink-0" />
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-purple-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                  <KanbanSquare size={20} className="text-purple-400 shrink-0" />
                   <div>
-                    <div className="text-white font-bold text-xs sm:text-sm">Agile Workspaces &amp; Chat</div>
-                    <div className="text-slate-300 text-xs font-mono">Jira/Linear Boards &amp; Live Squad</div>
+                    <div className="text-white font-bold text-xs">Agile Workspaces &amp; Chat</div>
+                    <div className="text-slate-300 text-[11px] font-mono">Jira/Linear Boards &amp; Live Squad</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-emerald-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
-                  <Award size={22} className="text-emerald-400 shrink-0" />
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-emerald-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
+                  <Award size={20} className="text-emerald-400 shrink-0" />
                   <div>
-                    <div className="text-white font-bold text-xs sm:text-sm">Cryptographic Credentials</div>
-                    <div className="text-emerald-300 text-xs font-mono font-medium">QR Verifiable PDF Certificates</div>
+                    <div className="text-white font-bold text-xs">Cryptographic Credentials</div>
+                    <div className="text-emerald-300 text-[11px] font-mono font-medium">QR Verifiable PDF Certificates</div>
                   </div>
+                </div>
+              </div>
+
+              {/* ── RICH HIGH-TECH SPRINT & KARMA PIPELINE WIDGET (FILLS EMPTY SPACE BEAUTIFULLY) ── */}
+              <div className="p-4 rounded-2xl bg-slate-900/95 border-2 border-blue-500/30 backdrop-blur-md shadow-xl space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-2 text-xs font-extrabold text-cyan-300 font-mono uppercase tracking-wider">
+                    <Flame size={15} className="text-amber-400 animate-bounce" />
+                    <span>Active Cohort Architecture Pipeline</span>
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/30">
+                    Live Telemetry: Active
+                  </span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-[11px] font-mono text-slate-300">
+                    <span>Welcome Bonus Status</span>
+                    <span className="text-cyan-300 font-bold">100 / 100 Coins Unlocked</span>
+                  </div>
+                  <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden p-0.5 border border-slate-700">
+                    <div className="bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 h-full rounded-full w-full animate-pulse" />
+                  </div>
+                </div>
+
+                {/* Tech Stack Pills */}
+                <div className="flex flex-wrap items-center gap-1.5 pt-1 text-[10px] font-mono text-slate-300">
+                  <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-cyan-300 font-bold">LangGraph</span>
+                  <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-purple-300 font-bold">Firestore Pipelines</span>
+                  <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-blue-300 font-bold">Hostinger SMTP</span>
+                  <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-emerald-300 font-bold">PostGIS</span>
+                  <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-amber-300 font-bold">RBAC Security</span>
                 </div>
               </div>
             </div>
 
             {/* Bottom Founder Stat Ticker */}
-            <div className="relative z-10 pt-6 mt-6 border-t-2 border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-300">
+            <div className="relative z-10 pt-4 mt-4 border-t-2 border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-300">
               <span className="flex items-center gap-2 font-bold text-slate-200">
                 <ShieldCheck size={16} className="text-emerald-400" />
                 <span>Zero-Trust Authenticated Sessions</span>
