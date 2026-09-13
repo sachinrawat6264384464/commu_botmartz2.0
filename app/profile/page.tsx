@@ -374,37 +374,150 @@ export default function StudentProfilePortal() {
 
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-4 pb-28 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
         
         {/* =========================================================================
-            HEADER & PUBLIC PROFILE SEARCH
+            DARK GRADIENT HERO BANNER & BUILDER PROFILE CARD
         ========================================================================= */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8 border-b border-slate-200/80 pb-8">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-2">
-              <ShieldCheck size={14} className="text-emerald-600" />
-              <span>Universal Builder Identity &bull; India &amp; Global</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
-              Builder Profile &amp; Proof-of-Work
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-600 font-mono mt-1">
-              Your verified identity, contributions, and verified university or company credentials.
-            </p>
-          </div>
+        <div className="relative bg-gradient-to-r from-slate-950 via-[#0B1528] to-slate-950 border border-slate-800/80 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden text-white mb-10">
+          {/* Ambient Glow Lights */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
-          <form onSubmit={handleSearch} className="w-full md:w-80">
-            <div className="relative font-mono text-xs">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-              <input
-                type="text"
-                value={searchHandle}
-                onChange={(e) => setSearchHandle(e.target.value)}
-                placeholder="Lookup builder @handle or email..."
-                className="w-full bg-white border border-slate-200 rounded-2xl pl-10 pr-4 py-2.5 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#0066FF] transition-all shadow-xs"
-              />
+          <div className="relative z-10 space-y-6">
+            {/* Top Bar: Subheader Badge & Search Builder Form */}
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-cyan-500/30 backdrop-blur-xs">
+                  <ShieldCheck size={14} className="text-emerald-400" />
+                  <span>Universal Builder Identity &bull; Global Verified Proof-of-Work</span>
+                </div>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-cyan-400 tracking-tight font-sans">
+                  Builder Profile &amp; Portfolio
+                </h1>
+              </div>
+
+              <form onSubmit={handleSearch} className="w-full md:w-80">
+                <div className="relative font-mono text-xs">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                  <input
+                    type="text"
+                    value={searchHandle}
+                    onChange={(e) => setSearchHandle(e.target.value)}
+                    placeholder="Lookup builder @handle..."
+                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-2xl pl-10 pr-4 py-2.5 text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-400 transition-all shadow-inner"
+                  />
+                </div>
+              </form>
             </div>
-          </form>
+
+            {/* Main Builder Avatar & Meta Details */}
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+              <div className="flex items-center gap-5">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-tr from-[#0066FF] via-indigo-600 to-cyan-400 text-white font-mono text-3xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border border-white/20">
+                  {(studentProfile?.displayName || user?.displayName || "B")[0].toUpperCase()}
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-sans tracking-tight">
+                      {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
+                    </h2>
+                    <span className="text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/80 px-2.5 py-0.5 rounded-full">
+                      @{username}
+                    </span>
+                    {score >= 80 && (
+                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-[10px] font-bold flex items-center gap-1">
+                        <CheckCircle2 size={12} /> VERIFIED BUILDER
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-2xl leading-relaxed">
+                    {(studentProfile as any)?.bio || "Building production AI systems, agent swarms, and high-frequency backend telemetry."}
+                  </p>
+
+                  {/* Badges Pill Row */}
+                  <div className="flex items-center gap-3 pt-1 font-mono text-xs text-slate-300 flex-wrap">
+                    {isProfessional ? (
+                      <span className="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-200">
+                        <Building size={14} className="text-cyan-400" />
+                        {(studentProfile as any)?.companyName || "Tech Professional"} &bull; {(studentProfile as any)?.designationRole || "Engineer"}
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-200">
+                        <GraduationCap size={14} className="text-cyan-400" />
+                        {studentProfile?.collegeName || "Engineering Student"} &bull; {studentProfile?.degreeBranch || "B.Tech CSE"} ({studentProfile?.graduationYear || "2026"})
+                      </span>
+                    )}
+                    <span className="flex items-center gap-1 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-300">
+                      <MapPin size={13} className="text-rose-400" />
+                      {(studentProfile as any)?.cityLocation || "Indore / India"} ({(studentProfile as any)?.country || "India"})
+                    </span>
+                    <span className="flex items-center gap-1 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-300">
+                      <Clock size={13} className="text-purple-400" />
+                      {(studentProfile as any)?.timezone || "IST"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons & Karma Balance */}
+              <div className="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end gap-3 w-full lg:w-auto shrink-0">
+                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-amber-300 font-mono text-xs font-bold shadow-xs">
+                  <Coins size={16} className="text-amber-400" />
+                  <span>Karma Balance: {coins} Coins</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleCopyPublicProfile}
+                    className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  >
+                    {copiedLink ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                    <span>{copiedLink ? "Copied!" : "Copy Link"}</span>
+                  </button>
+
+                  <Link
+                    href={publicProfileUrl}
+                    className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                  >
+                    <span>Public Portfolio</span>
+                    <ExternalLink size={13} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Social Links Row */}
+            <div className="flex items-center justify-between gap-4 pt-4 border-t border-slate-800/80 flex-wrap font-mono text-xs">
+              <div className="flex items-center gap-4 flex-wrap">
+                {studentProfile?.githubUsername && (
+                  <a
+                    href={`https://github.com/${studentProfile.githubUsername}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-slate-300 hover:text-white font-bold transition-colors"
+                  >
+                    <Github size={15} className="text-cyan-400" />
+                    <span>github.com/{studentProfile.githubUsername}</span>
+                  </a>
+                )}
+                {studentProfile?.linkedinUrl && (
+                  <a
+                    href={studentProfile.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-bold transition-colors"
+                  >
+                    <Linkedin size={15} />
+                    <span>LinkedIn Profile</span>
+                  </a>
+                )}
+              </div>
+            </div>
+
+          </div>
         </div>
 
         {/* =========================================================================
@@ -487,116 +600,6 @@ export default function StudentProfilePortal() {
             }`}>
               {studentProfile?.dpdpConsent !== false ? <CheckCircle2 size={15} className="text-emerald-600 shrink-0" /> : <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />}
               <span className="truncate">DPDP Consent (20%)</span>
-            </div>
-          </div>
-        </div>
-
-        {/* =========================================================================
-            MAIN PROFILE HERO CARD
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-8 shadow-xs">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            
-            <div className="flex items-center gap-5">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#0066FF] to-indigo-500 text-white font-mono text-2xl font-bold flex items-center justify-center shadow-md">
-                {(studentProfile?.displayName || user?.displayName || "B")[0].toUpperCase()}
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-2xl font-extrabold text-slate-900 font-sans">
-                    {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
-                  </h2>
-                  <span className="text-xs font-mono text-slate-500">
-                    @{username}
-                  </span>
-                  {score >= 80 && (
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-[10px] font-bold">
-                      VERIFIED BUILDER
-                    </span>
-                  )}
-                </div>
-
-                <p className="text-xs text-slate-600 font-sans mt-1 max-w-xl">
-                  {(studentProfile as any)?.bio || "Building production AI systems, agent swarms, and high-frequency backend telemetry."}
-                </p>
-
-                {/* Badges */}
-                <div className="flex items-center gap-3 mt-3 font-mono text-xs text-slate-600 flex-wrap">
-                  {isProfessional ? (
-                    <span className="flex items-center gap-1 text-slate-700 font-medium">
-                      <Building size={14} className="text-indigo-600" />
-                      {(studentProfile as any)?.companyName || "Tech Professional"} &bull; {(studentProfile as any)?.designationRole || "Engineer"}
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 text-slate-700 font-medium">
-                      <GraduationCap size={14} className="text-[#0066FF]" />
-                      {studentProfile?.collegeName || "Engineering Student"} &bull; {studentProfile?.degreeBranch || "B.Tech CSE"} ({studentProfile?.graduationYear || "2026"})
-                    </span>
-                  )}
-                  <span className="flex items-center gap-1 text-slate-500">
-                    <MapPin size={13} className="text-rose-500" />
-                    {(studentProfile as any)?.cityLocation || "Indore / India"} ({(studentProfile as any)?.country || "India"})
-                  </span>
-                  <span className="flex items-center gap-1 text-slate-500">
-                    <Clock size={13} className="text-purple-500" />
-                    {(studentProfile as any)?.timezone || "IST"}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Public Profile Actions */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-              <button
-                onClick={handleCopyPublicProfile}
-                className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                {copiedLink ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
-                <span>{copiedLink ? "Link Copied!" : "Copy Public Link"}</span>
-              </button>
-
-              <Link
-                href={publicProfileUrl}
-                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-xs"
-              >
-                <span>View Public Portfolio</span>
-                <ExternalLink size={13} />
-              </Link>
-            </div>
-
-          </div>
-
-          {/* Social Links & Wallet Balance */}
-          <div className="flex items-center justify-between gap-4 mt-6 pt-6 border-t border-slate-100 flex-wrap font-mono text-xs">
-            <div className="flex items-center gap-4 flex-wrap">
-              {studentProfile?.githubUsername && (
-                <a
-                  href={`https://github.com/${studentProfile.githubUsername}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-slate-700 hover:text-black font-bold"
-                >
-                  <Github size={15} />
-                  <span>github.com/{studentProfile.githubUsername}</span>
-                </a>
-              )}
-              {studentProfile?.linkedinUrl && (
-                <a
-                  href={studentProfile.linkedinUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-[#0066FF] hover:underline font-bold"
-                >
-                  <Linkedin size={15} />
-                  <span>LinkedIn Profile</span>
-                </a>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-bold">
-              <Coins size={15} className="text-amber-600" />
-              <span>Karma Coins Balance: {coins}</span>
             </div>
           </div>
         </div>
