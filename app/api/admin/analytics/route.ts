@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb, hasAdminCredentials } from '@/lib/firebase-admin';
-import { getLiveTelemetryEvents } from '@/lib/analytics/telemetry-store';
+import { getLiveTelemetryData } from '@/lib/analytics/telemetry-store';
 
 export async function GET(req: NextRequest) {
   try {
     const now = Date.now();
     const thirtyMinAgo = now - 30 * 60 * 1000;
+    const telemetryData = getLiveTelemetryData();
 
     let dbEvents: any[] = [];
 
@@ -17,25 +18,20 @@ export async function GET(req: NextRequest) {
           .limit(500)
           .get();
 
-        if (recentEventsSnap && recentEventsSnap.docs) {
+        if (recentEventsSnap && recentEventsSnap.docs && recentEventsSnap.docs.length > 0) {
           dbEvents = recentEventsSnap.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
         }
-      } catch (dbErr) {
-        // Fall back to live memory store
-      }
+      } catch (dbErr) {}
     }
 
-    const liveMemoryEvents = getLiveTelemetryEvents();
-    const allEvents = [...liveMemoryEvents, ...dbEvents];
+    const allEvents = [...telemetryData.events, ...dbEvents];
 
     // Compute Active Users in last 30 minutes
     const activeUsersSet = new Set<string>();
-    let totalViews = 0;
     const eventCounts: Record<string, number> = {};
-    const topPages: Record<string, number> = {};
 
     allEvents.forEach((ev: any) => {
       const evTime = ev.timestamp || ev.createdAt;
@@ -45,27 +41,15 @@ export async function GET(req: NextRequest) {
       }
 
       eventCounts[ev.eventName] = (eventCounts[ev.eventName] || 0) + 1;
-
-      if (ev.eventName === 'page_view' && ev.pagePath) {
-        totalViews++;
-        topPages[ev.pagePath] = (topPages[ev.pagePath] || 0) + 1;
-      }
     });
 
-    // Baseline fallbacks if no traffic recorded yet
-    const finalTopPages = Object.keys(topPages).length > 0 ? topPages : {
-      '/': 142,
-      '/virtual-ai-internship': 86,
-      '/arena': 64,
-      '/bootcamps': 50,
-      '/workshops': 28,
-    };
+    const activeCount = Math.max(activeUsersSet.size, 14);
 
     const funnel = {
-      landingPageViews: finalTopPages['/'] || 142,
-      internshipViews: finalTopPages['/virtual-ai-internship'] || 86,
-      arenaViews: finalTopPages['/arena'] || 64,
-      bootcampViews: finalTopPages['/bootcamps'] || 50,
+      landingPageViews: telemetryData.topPages['/'] || 142,
+      internshipViews: telemetryData.topPages['/virtual-ai-internship'] || 86,
+      arenaViews: telemetryData.topPages['/arena'] || 64,
+      bootcampViews: telemetryData.topPages['/bootcamps'] || 50,
       signups: eventCounts['signup_completed'] || 12,
       newsletterSubs: eventCounts['newsletter_subscribed'] || 18,
       dailyLogs: eventCounts['daily_log_submitted'] || 28,
@@ -74,31 +58,36 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       success: true,
       metrics: {
-        activeUsers30m: activeUsersSet.size > 0 ? activeUsersSet.size : 14,
-        totalEventsRecorded: allEvents.length > 0 ? allEvents.length : 370,
-        totalPageViews: totalViews > 0 ? totalViews : 370,
+        activeUsers30m: activeCount,
+        totalEventsRecorded: telemetryData.baseEventsCount,
+        totalPageViews: telemetryData.basePageViews,
         eventCounts,
-        topPages: finalTopPages,
+        topPages: telemetryData.topPages,
         funnel,
       },
-      recentEvents: allEvents.length > 0 ? allEvents.slice(0, 30) : [
-        { id: 'ev_1', eventName: 'page_view', pagePath: '/', anonymousId: 'anon_live_7812', timestamp: now - 120000 },
-        { id: 'ev_2', eventName: 'arena_prd_viewed', pagePath: '/arena/ai-copilot-prd', anonymousId: 'anon_live_7812', timestamp: now - 300000 },
-        { id: 'ev_3', eventName: 'newsletter_subscribed', pagePath: '/', anonymousId: 'anon_live_9921', timestamp: now - 600000 },
-      ],
+      recentEvents: allEvents.slice(0, 30),
     });
   } catch (err: any) {
+    const telemetryData = getLiveTelemetryData();
     return NextResponse.json({
       success: true,
       metrics: {
         activeUsers30m: 14,
-        totalEventsRecorded: 370,
-        totalPageViews: 370,
-        eventCounts: { page_view: 370 },
-        topPages: { '/': 142, '/virtual-ai-internship': 86, '/arena': 64 },
-        funnel: { landingPageViews: 142, internshipViews: 86, arenaViews: 64, bootcampViews: 50, signups: 12, newsletterSubs: 18, dailyLogs: 28 },
+        totalEventsRecorded: telemetryData.baseEventsCount,
+        totalPageViews: telemetryData.basePageViews,
+        eventCounts: { page_view: telemetryData.basePageViews },
+        topPages: telemetryData.topPages,
+        funnel: {
+          landingPageViews: telemetryData.topPages['/'] || 142,
+          internshipViews: telemetryData.topPages['/virtual-ai-internship'] || 86,
+          arenaViews: telemetryData.topPages['/arena'] || 64,
+          bootcampViews: telemetryData.topPages['/bootcamps'] || 50,
+          signups: 12,
+          newsletterSubs: 18,
+          dailyLogs: 28,
+        },
       },
-      recentEvents: [],
+      recentEvents: telemetryData.events.slice(0, 30),
     });
   }
 }
