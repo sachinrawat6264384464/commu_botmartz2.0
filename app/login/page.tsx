@@ -98,7 +98,15 @@ function StudentLoginInner() {
       setConfirmationResult(confirmRes);
       setInfoMsg(`OTP code sent via SMS to ${phone}. Enter below:`);
     } catch (err: any) {
-      setError(err.message || "Failed to send SMS OTP.");
+      if (
+        err?.code === "auth/operation-not-allowed" ||
+        err?.message?.includes("operation-not-allowed") ||
+        err?.message?.includes("region enabled")
+      ) {
+        setError("auth/operation-not-allowed");
+      } else {
+        setError(err.message || "Failed to send SMS OTP.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -295,10 +303,43 @@ function StudentLoginInner() {
 
                   {/* Error & Info Messages */}
                   {error && (
-                    <div className="p-3.5 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
-                      <AlertCircle size={18} className="shrink-0 mt-0.5 text-rose-600" />
-                      <span>{error}</span>
-                    </div>
+                    error === "auth/operation-not-allowed" ? (
+                      <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-amber-900 text-xs font-sans space-y-3 shadow-sm">
+                        <div className="flex items-center gap-2 font-bold text-amber-800 text-sm">
+                          <AlertCircle size={20} className="shrink-0 text-amber-600" />
+                          <span>Firebase Phone Auth &amp; SMS Region Policy Not Enabled</span>
+                        </div>
+                        
+                        <p className="text-amber-800 font-medium">
+                          Firebase requires enabling Phone Authentication and granting permission to send SMS to country codes like <strong>+91 (India)</strong>.
+                        </p>
+
+                        <div className="p-3 rounded-xl bg-amber-100/80 border border-amber-300 text-amber-950 font-mono text-[11px] space-y-1.5">
+                          <div className="font-bold text-amber-900">How to Fix in Firebase Console:</div>
+                          <div>1. Go to <strong>Firebase Console &rarr; Authentication &rarr; Sign-in method</strong> &rarr; Enable <strong>Phone</strong>.</div>
+                          <div>2. Go to <strong>Authentication &rarr; Settings &rarr; SMS Region Policy</strong> &rarr; Add <strong>India (+91)</strong>.</div>
+                          <div>3. Or add a test number (e.g. <code>+91 99999 99999</code> pin <code>123456</code>) under <i>Phone numbers for testing</i>.</div>
+                        </div>
+
+                        <div className="pt-1 flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAuthMethod("google");
+                              setError("");
+                            }}
+                            className="px-3.5 py-2 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold font-mono text-xs flex items-center gap-1.5 cursor-pointer shadow-xs"
+                          >
+                            <span>Sign In with Google Instead &rarr;</span>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="p-3.5 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
+                        <AlertCircle size={18} className="shrink-0 mt-0.5 text-rose-600" />
+                        <span>{error}</span>
+                      </div>
+                    )
                   )}
 
                   {infoMsg && (

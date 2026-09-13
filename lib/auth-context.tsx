@@ -186,7 +186,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const confirmationResult = await signInWithPhoneNumber(auth, cleanPhone, recaptcha);
       return confirmationResult;
     } catch (err: any) {
-      console.error("Phone OTP Error:", err);
+      console.warn("Phone OTP Notice:", err?.code || err?.message);
+      if (
+        err?.code === "auth/operation-not-allowed" ||
+        err?.message?.includes("operation-not-allowed") ||
+        err?.message?.includes("region enabled")
+      ) {
+        const errorMsg = "Firebase Phone Authentication & SMS Region Policy (+91 India) is not enabled in Firebase Console.";
+        const customErr: any = new Error(errorMsg);
+        customErr.code = "auth/operation-not-allowed";
+        throw customErr;
+      }
       throw err;
     }
   };
