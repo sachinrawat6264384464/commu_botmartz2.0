@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Ticket, Sparkles, ArrowRight, Clock, Coins, Image as ImageIcon } from "lucide-react";
+import { Calendar, MapPin, Ticket, Sparkles, ArrowRight, Clock, Coins, Image as ImageIcon, GraduationCap, Building2, Users } from "lucide-react";
 import { adminDb } from "@/lib/firebase-admin";
 
 export const revalidate = 60;
@@ -12,8 +12,65 @@ export default async function EventsDirectoryPage() {
     events = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   } catch (e) {}
 
+  const campusSessions = [
+    {
+      date: "September 15, 2026",
+      college: "Prestige College",
+      fullName: "Prestige Institute of Engineering Management & Research (PIEMR)",
+      location: "Indore, MP",
+      topic: "Building Production AI Infrastructure & LLM Systems",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote"
+    },
+    {
+      date: "September 18, 2026",
+      college: "IET DAVV College",
+      fullName: "Institute of Engineering & Technology (IET DAVV)",
+      location: "Indore, MP",
+      topic: "Autonomous AI Agents, LangGraph & MCP Teardowns",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote"
+    },
+    {
+      date: "September 18, 2026",
+      college: "SAGE College",
+      fullName: "SAGE University / SAGE College of Engineering",
+      location: "Indore, MP",
+      topic: "Enterprise RAG, Vector Search & Modern AI Careers",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote"
+    },
+    {
+      date: "September 21, 2026",
+      college: "Acropolis College",
+      fullName: "Acropolis Institute of Technology & Research (AITR)",
+      location: "Indore, MP",
+      topic: "Production AI Engineering & Zero-to-One Startup Systems",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote"
+    },
+    {
+      date: "October 7, 2026",
+      college: "IIST College",
+      fullName: "Indore Institute of Science and Technology (IIST)",
+      location: "Indore, MP",
+      topic: "Next-Gen AI Agents, Tool Integration & Benchmark Evals",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote"
+    },
+    {
+      date: "October 8, 2026",
+      college: "Vaishnav College",
+      fullName: "Shri Vaishnav Vidyapeeth Vishwavidyalaya (SVVV)",
+      location: "Indore, MP",
+      topic: "Full-Stack AI Architecture & High-Scale Systems",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote"
+    }
+  ];
+
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-16 pt-24">
+    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-16 pt-24 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -43,6 +100,57 @@ export default async function EventsDirectoryPage() {
               <ImageIcon size={12} />
               <span>View Gallery</span>
             </Link>
+          </div>
+        </div>
+
+        {/* Campus Tour Keynotes Banner */}
+        <div className="mb-14 p-8 sm:p-10 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl relative overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-800">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-[#00B8F0] border border-cyan-500/30 text-xs font-mono font-bold uppercase tracking-wider mb-2">
+                <GraduationCap size={15} />
+                <span>COLLEGE CAMPUS TOUR 2026</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Live Keynote &amp; AI Teardowns by Soham Sharma
+              </h2>
+              <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
+                Scheduled masterclasses across Central India&apos;s leading engineering campuses.
+              </p>
+            </div>
+            <span className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 text-xs font-mono font-bold shrink-0">
+              6 Campus Sessions
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+            {campusSessions.map((c, i) => (
+              <div key={i} className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 hover:border-cyan-500/50 transition-colors">
+                <div className="flex items-center justify-between">
+                  <span className="px-2.5 py-1 rounded-lg bg-blue-500/20 text-cyan-300 font-bold border border-blue-500/30">
+                    {c.date}
+                  </span>
+                  <span className="text-emerald-400 text-[10px] uppercase font-bold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    {c.status}
+                  </span>
+                </div>
+                <div>
+                  <div className="text-xs text-cyan-400 font-bold flex items-center gap-1.5 mb-1">
+                    <Building2 size={13} />
+                    <span>{c.college}</span>
+                  </div>
+                  <div className="font-bold text-white font-sans text-sm">{c.fullName}</div>
+                </div>
+                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-300 font-sans">
+                  {c.topic}
+                </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800">
+                  <span className="flex items-center gap-1"><Users size={12} className="text-amber-400" /> {c.speaker}</span>
+                  <span className="flex items-center gap-1"><MapPin size={12} className="text-rose-400" /> {c.location}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

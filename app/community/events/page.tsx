@@ -24,7 +24,9 @@ import {
   Radio,
   Coins,
   ShieldCheck,
-  Check
+  Check,
+  GraduationCap,
+  Building2
 } from "lucide-react";
 import EventRegistrationWizard from "./[slug]/EventRegistrationWizard";
 
@@ -34,6 +36,69 @@ export default function PublicEventsPage() {
   const [selectedEventForWizard, setSelectedEventForWizard] = useState<any | null>(null);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+
+  const campusSessions = [
+    {
+      date: "September 15, 2026",
+      college: "Prestige College",
+      fullName: "Prestige Institute of Engineering Management & Research (PIEMR)",
+      location: "Indore, MP",
+      topic: "Building Production AI Infrastructure & LLM Systems",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote",
+      badge: "Campus Keynote"
+    },
+    {
+      date: "September 18, 2026",
+      college: "IET DAVV College",
+      fullName: "Institute of Engineering & Technology (IET DAVV)",
+      location: "Indore, MP",
+      topic: "Autonomous AI Agents, LangGraph & MCP Teardowns",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote",
+      badge: "Keynote & Workshop"
+    },
+    {
+      date: "September 18, 2026",
+      college: "SAGE College",
+      fullName: "SAGE University / SAGE College of Engineering",
+      location: "Indore, MP",
+      topic: "Enterprise RAG, Vector Search & Modern AI Careers",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote",
+      badge: "Campus Session"
+    },
+    {
+      date: "September 21, 2026",
+      college: "Acropolis College",
+      fullName: "Acropolis Institute of Technology & Research (AITR)",
+      location: "Indore, MP",
+      topic: "Production AI Engineering & Zero-to-One Startup Systems",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote",
+      badge: "Keynote & Teardown"
+    },
+    {
+      date: "October 7, 2026",
+      college: "IIST College",
+      fullName: "Indore Institute of Science and Technology (IIST)",
+      location: "Indore, MP",
+      topic: "Next-Gen AI Agents, Tool Integration & Benchmark Evals",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote",
+      badge: "Campus Keynote"
+    },
+    {
+      date: "October 8, 2026",
+      college: "Vaishnav College",
+      fullName: "Shri Vaishnav Vidyapeeth Vishwavidyalaya (SVVV)",
+      location: "Indore, MP",
+      topic: "Full-Stack AI Architecture & High-Scale Systems",
+      speaker: "Soham Sharma & Botmartz Core Team",
+      status: "Scheduled Keynote",
+      badge: "Campus Session"
+    }
+  ];
 
   const handleScrollToEvents = () => {
     const el = document.getElementById("events-section");
@@ -274,6 +339,97 @@ export default function PublicEventsPage() {
 
             </div>
 
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── SECTION: CAMPUS AI KEYNOTE TOUR 2026 ── */}
+      <section className="py-16 px-4 sm:px-8 lg:px-12 bg-gradient-to-b from-[#060D1E] via-[#0A1633] to-[#040914] text-white border-t border-b border-blue-500/20 relative overflow-hidden">
+        
+        {/* Ambient Glow */}
+        <div className="absolute top-0 right-1/3 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="w-full relative z-10 space-y-8">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[#00B8F0] font-mono text-xs font-bold uppercase tracking-wider mb-3">
+                <GraduationCap size={15} className="text-cyan-400" />
+                <span>COLLEGE CAMPUS TOUR 2026</span>
+              </div>
+              <h2 className="text-3xl sm:text-5xl font-black text-white font-sans tracking-tight leading-tight">
+                Campus Keynote &amp; AI Teardown Sessions
+              </h2>
+              <p className="text-slate-300 text-xs sm:text-sm font-sans mt-2 max-w-3xl leading-relaxed">
+                Live engineering masterclasses, production AI system teardowns, and career roadmap sessions led by <strong>Soham Sharma</strong> &amp; Team Botmartz across Central India&apos;s premier technical institutions.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/10 font-mono text-xs text-slate-300 backdrop-blur-md shrink-0">
+              <MapPin size={15} className="text-[#00B8F0]" />
+              <span>6 College Sessions Scheduled</span>
+            </div>
+          </div>
+
+          {/* 6 College Session Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+            {campusSessions.map((session, idx) => (
+              <div
+                key={idx}
+                className="p-7 rounded-3xl bg-gradient-to-b from-[#0C1935] to-[#071024] border border-white/10 hover:border-[#00B8F0]/60 shadow-xl hover:shadow-cyan-500/10 transition-all flex flex-col justify-between space-y-6 group relative overflow-hidden"
+              >
+                {/* Subtle Glow Accent */}
+                <div className="absolute top-0 right-0 w-28 h-28 bg-[#0066FF]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform pointer-events-none" />
+
+                <div className="space-y-4 relative z-10">
+                  {/* Top Bar: Date & Status */}
+                  <div className="flex items-center justify-between font-mono text-xs">
+                    <span className="px-3 py-1 rounded-full bg-[#0066FF]/20 text-[#00B8F0] border border-[#0066FF]/40 font-bold flex items-center gap-1.5">
+                      <Calendar size={13} />
+                      <span>{session.date}</span>
+                    </span>
+
+                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>{session.status}</span>
+                    </span>
+                  </div>
+
+                  {/* College Name & Full Title */}
+                  <div>
+                    <div className="flex items-center gap-2 text-xs font-mono text-cyan-300 font-bold mb-1">
+                      <Building2 size={14} className="text-[#00B8F0]" />
+                      <span>{session.college}</span>
+                    </div>
+                    <h3 className="text-xl font-extrabold text-white font-sans group-hover:text-cyan-300 transition-colors leading-snug">
+                      {session.fullName}
+                    </h3>
+                  </div>
+
+                  {/* Session Topic */}
+                  <div className="p-3.5 rounded-2xl bg-slate-950/60 border border-white/5 space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400 font-bold uppercase">Keynote Focus:</div>
+                    <p className="text-xs text-slate-200 font-sans font-medium leading-relaxed">
+                      {session.topic}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Footer Details: Speaker & Location */}
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between font-mono text-xs relative z-10">
+                  <div className="flex items-center gap-1.5 text-slate-300 text-[11px]">
+                    <Users size={13} className="text-amber-400" />
+                    <span>Keynote by <strong>{session.speaker}</strong></span>
+                  </div>
+                  <div className="flex items-center gap-1 text-slate-400 text-[11px]">
+                    <MapPin size={12} className="text-rose-400" />
+                    <span>{session.location}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
         </div>
