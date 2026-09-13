@@ -433,7 +433,7 @@ export default function StudentProfilePortal() {
                     )}
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-2xl leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-300 font-sans w-full leading-relaxed">
                     {(studentProfile as any)?.bio || "Building production AI systems, agent swarms, and high-frequency backend telemetry."}
                   </p>
 
@@ -615,7 +615,7 @@ export default function StudentProfilePortal() {
                 <span className="font-bold text-sm font-sans text-white">Explore the Botmartz Platform &amp; Product Tour</span>
                 <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold">Interactive Walkthrough</span>
               </div>
-              <p className="text-xs text-blue-200 font-mono mt-0.5 max-w-xl">
+              <p className="text-xs text-blue-200 font-mono mt-0.5 w-full">
                 Discover what each page does (50 PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
               </p>
             </div>

@@ -144,7 +144,7 @@ export default function CustomProjectProposalPage() {
             <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 max-w-4xl">
+            <div className="relative z-10 w-full">
               <Link
                 href="/arena"
                 className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-400 hover:text-cyan-400 mb-4 transition-colors"
@@ -160,7 +160,7 @@ export default function CustomProjectProposalPage() {
                 Propose a Custom Production Project
               </h1>
 
-              <p className="text-slate-300 text-xs sm:text-sm font-mono mt-3 leading-relaxed max-w-3xl">
+              <p className="text-slate-300 text-xs sm:text-sm font-mono mt-3 leading-relaxed w-full">
                 Follow our <strong>Top-Company Problem Discovery Framework</strong>. Benchmark 20–30 leading tech companies in your target sector, pinpoint the mathematical or architectural bottleneck, pair it with verified open datasets, and submit your PRD for Founder Soham Sharma&apos;s review.
               </p>
             </div>
@@ -169,14 +169,14 @@ export default function CustomProjectProposalPage() {
           {/* =========================================================================
               SECTION 1: THE 4-STEP RESEARCH METHODOLOGY
           ========================================================================= */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs mb-10">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs mb-10 w-full">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#0066FF] uppercase mb-1">
               <Code2 size={15} /> RESEARCH BLUEPRINT METHODOLOGY
             </div>
             <h2 className="text-2xl font-extrabold text-slate-900 font-sans mb-2 tracking-tight">
               How to Formulate a Tier-1 Industry Problem Statement
             </h2>
-            <p className="text-xs text-slate-600 font-mono mb-8 leading-relaxed max-w-3xl">
+            <p className="text-xs text-slate-600 font-mono mb-8 leading-relaxed w-full">
               Do not propose generic CRUD or clone apps. To build an undeniable portfolio project that impresses engineering directors, follow this 4-step architecture pattern:
             </p>
 
@@ -246,7 +246,7 @@ export default function CustomProjectProposalPage() {
           {/* =========================================================================
               SECTION 2: CURATED INDUSTRY PROBLEMS & DATA SOURCES MATRIX
           ========================================================================= */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs mb-10 space-y-6">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs mb-10 space-y-6 w-full">
             <div>
               <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-700 uppercase mb-1">
                 <Database size={15} /> CURATED DATA &amp; ARCHITECTURE MATRIX
@@ -254,7 +254,7 @@ export default function CustomProjectProposalPage() {
               <h2 className="text-2xl font-extrabold text-slate-900 font-sans tracking-tight">
                 Industry Problem Statements &amp; Verified Data Sources
               </h2>
-              <p className="text-xs text-slate-600 font-mono mt-1 max-w-3xl">
+              <p className="text-xs text-slate-600 font-mono mt-1 w-full">
                 Draw inspiration from these verified public data repositories and architecture patterns to power your custom system proposal.
               </p>
             </div>
@@ -304,17 +304,17 @@ export default function CustomProjectProposalPage() {
           {/* =========================================================================
               SECTION 3: CUSTOM PROPOSAL SUBMISSION FORM
           ========================================================================= */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs w-full">
             
             {successMsg ? (
-              <div className="text-center py-12 space-y-4 font-mono text-xs">
+              <div className="text-center py-12 space-y-4 font-mono text-xs w-full">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
                   <CheckCircle2 size={36} />
                 </div>
                 <h2 className="text-3xl font-extrabold text-slate-900 font-sans tracking-tight">
                   Proposal Submitted Successfully!
                 </h2>
-                <p className="text-slate-600 max-w-lg mx-auto leading-relaxed text-sm font-sans">
+                <p className="text-slate-600 w-full leading-relaxed text-sm font-sans">
                   {successMsg} Founder Soham Sharma will evaluate your problem statement, open data sources, and system architecture specifications.
                 </p>
                 <div className="pt-6 flex flex-wrap items-center justify-center gap-3">
