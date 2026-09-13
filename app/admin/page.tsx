@@ -256,6 +256,28 @@ export default async function AdminDashboardPage() {
           </div>
         </Link>
 
+        {/* Real-Time Telemetry & Analytics */}
+        <Link
+          href="/admin/analytics"
+          className="group bg-white border border-slate-200 hover:border-emerald-500 rounded-3xl p-6 transition-all shadow-xs hover:shadow-md flex flex-col justify-between"
+        >
+          <div>
+            <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <TrendingUp size={20} />
+            </div>
+            <h3 className="text-base font-bold text-slate-900 font-sans mb-1 group-hover:text-emerald-600 transition-colors">
+              Product Analytics &amp; Live Telemetry
+            </h3>
+            <p className="text-slate-500 text-[11px] leading-relaxed">
+              Real-time active sessions, conversion funnels, top routes, GTM/GA4 dataLayer events &amp; audit stream.
+            </p>
+          </div>
+          <div className="pt-4 mt-6 border-t border-slate-100 flex items-center justify-between text-emerald-600 font-bold">
+            <span>Open Telemetry Hub</span>
+            <ArrowUpRight size={14} />
+          </div>
+        </Link>
+
       </div>
 
     </div>

@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { usePathname } from "next/navigation";
 import CommunityNavbar from "./_components/Navbar";
 import CommunityFooter from "./_components/Footer";
 import PageLockGate from "./_components/PageLockGate";
 import AccessibilityToolbox from "./_components/AccessibilityToolbox";
+import AnalyticsProvider from "@/components/AnalyticsProvider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { isRouteLocked, DEFAULT_PAGE_LOCK_CONFIG, PageLockConfig } from "@/lib/page-locks";
 
@@ -89,7 +90,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <LayoutContent>{children}</LayoutContent>
+      <Suspense fallback={null}>
+        <AnalyticsProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </AnalyticsProvider>
+      </Suspense>
     </AuthProvider>
   );
 }
