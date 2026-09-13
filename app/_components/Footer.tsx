@@ -8,6 +8,7 @@ import {
   Calendar,
   ExternalLink
 } from "lucide-react";
+import NewsletterForm from "@/components/NewsletterForm";
 
 export default function CommunityFooter() {
   return (
@@ -83,6 +84,10 @@ export default function CommunityFooter() {
             <div className="pt-2 text-[11px] text-slate-400 space-y-1 font-sans">
               <div className="text-[#0066FF] font-bold">⚡ Rolling 45-Day Internship</div>
               <div>Start anytime — your personal 45-day milestone sprint clock begins on enrollment.</div>
+            </div>
+
+            <div className="pt-4 border-t border-slate-800">
+              <NewsletterForm variant="footer" />
             </div>
           </div>
 

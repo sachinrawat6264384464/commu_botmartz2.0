@@ -17,7 +17,8 @@ import {
   Lock,
   UserCheck,
   MessageSquare,
-  Sparkles
+  Sparkles,
+  Mail
 } from "lucide-react";
 import { fetchCollectionCount } from "@/lib/firebase-admin-helper";
 
@@ -229,6 +230,28 @@ export default async function AdminDashboardPage() {
           </div>
           <div className="pt-4 mt-6 border-t border-slate-100 flex items-center justify-between text-purple-600 font-bold">
             <span>Issue Certificates</span>
+            <ArrowUpRight size={14} />
+          </div>
+        </Link>
+
+        {/* Email Automation & Drips */}
+        <Link
+          href="/admin/email"
+          className="group bg-white border border-slate-200 hover:border-cyan-500 rounded-3xl p-6 transition-all shadow-xs hover:shadow-md flex flex-col justify-between"
+        >
+          <div>
+            <div className="w-10 h-10 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-4">
+              <Mail size={20} />
+            </div>
+            <h3 className="text-base font-bold text-slate-900 font-sans mb-1 group-hover:text-cyan-600 transition-colors">
+              Email Automation &amp; Drip Hub
+            </h3>
+            <p className="text-slate-500 text-[11px] leading-relaxed">
+              Hostinger SMTP integration, active subscribers, queued email jobs, newsletter broadcasts &amp; delivery logs.
+            </p>
+          </div>
+          <div className="pt-4 mt-6 border-t border-slate-100 flex items-center justify-between text-cyan-600 font-bold">
+            <span>Manage Email Hub</span>
             <ArrowUpRight size={14} />
           </div>
         </Link>

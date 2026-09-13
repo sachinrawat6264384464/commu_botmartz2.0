@@ -149,7 +149,7 @@ export default function CommunityNavbar() {
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname === "/arena"
                 ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-white font-bold"
+                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
             }`}
           >
             <span>50 Systems</span>
@@ -161,7 +161,7 @@ export default function CommunityNavbar() {
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname.startsWith("/workshops")
                 ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-white font-bold"
+                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
             }`}
           >
             <span>All Bootcamps</span>
@@ -175,14 +175,14 @@ export default function CommunityNavbar() {
                 setCommunityOpen(false);
                 setResourcesOpen(false);
               }}
-              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
                 internshipOpen || pathname.startsWith("/virtual-ai-internship")
                   ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white font-bold"
+                  : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
               }`}
             >
               <span>Internship</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${internshipOpen || pathname.startsWith("/virtual-ai-internship") ? "rotate-180 text-white font-bold" : "text-slate-400"}`} />
+              <ChevronDown size={13} className={`transition-transform duration-200 ${internshipOpen || pathname.startsWith("/virtual-ai-internship") ? "rotate-180 text-white font-bold" : "text-slate-400 group-hover:text-white"}`} />
             </button>
 
             {internshipOpen && (
@@ -227,14 +227,14 @@ export default function CommunityNavbar() {
                 setInternshipOpen(false);
                 setResourcesOpen(false);
               }}
-              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
                 communityOpen || pathname.includes("/community") || pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar")
                   ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white font-bold"
+                  : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
               }`}
             >
               <span>Community</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${communityOpen || pathname.includes("/community") || pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar") ? "rotate-180 text-white font-bold" : "text-slate-400"}`} />
+              <ChevronDown size={13} className={`transition-transform duration-200 ${communityOpen || pathname.includes("/community") || pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar") ? "rotate-180 text-white font-bold" : "text-slate-400 group-hover:text-white"}`} />
             </button>
 
             {communityOpen && (
@@ -300,14 +300,14 @@ export default function CommunityNavbar() {
                 setInternshipOpen(false);
                 setCommunityOpen(false);
               }}
-              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
                 resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine")
                   ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-slate-700 hover:text-[#0066FF] hover:bg-white font-bold"
+                  : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
               }`}
             >
               <span>Resources</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine") ? "rotate-180 text-white font-bold" : "text-slate-400"}`} />
+              <ChevronDown size={13} className={`transition-transform duration-200 ${resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine") ? "rotate-180 text-white font-bold" : "text-slate-400 group-hover:text-white"}`} />
             </button>
 
             {resourcesOpen && (
@@ -345,7 +345,7 @@ export default function CommunityNavbar() {
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname.startsWith("/certificates")
                 ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-[#0066FF] hover:bg-white font-bold"
+                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
             }`}
           >
             <span>Certificates</span>
