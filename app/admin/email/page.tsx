@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { Mail, Send, CheckCircle2, AlertCircle, RefreshCw, Loader2, Server, Users, ShieldAlert, Sparkles } from "lucide-react";
 
 export default function AdminEmailDashboard() {
@@ -108,6 +109,13 @@ export default function AdminEmailDashboard() {
         </div>
 
         <div className="flex items-center gap-3">
+          <Link
+            href="/admin/email/content"
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2"
+          >
+            <Sparkles className="h-4 w-4" />
+            <span>Email CMS &amp; AI Studio</span>
+          </Link>
           <button
             onClick={handleTestSmtp}
             disabled={testingSmtp}

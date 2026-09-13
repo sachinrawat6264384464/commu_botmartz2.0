@@ -1,5 +1,6 @@
 import { adminDb } from '@/lib/firebase-admin';
 import { enqueueEmailJob } from './queue';
+import { calculateNextEligibleSendDate, checkCollisionAndReschedule } from './smart-scheduler';
 
 export type AutomationEvent =
   | 'USER_SIGNED_UP'
@@ -38,28 +39,32 @@ export async function emitEvent(event: AutomationEvent, payload: EventPayload): 
         });
         if (welcomeRes.success && !welcomeRes.skipped) jobsQueued++;
 
-        // 2. Enroll in Onboarding Drip Campaign (Step 1: Day 1, Step 2: Day 3)
-        const dayInMs = 24 * 60 * 60 * 1000;
+        // 2. Calculate Next Eligible Business Send Dates (MON, WED, FRI with weekend skipping & collision checks)
         const now = Date.now();
+        const step1TargetDate = calculateNextEligibleSendDate(now, 2); // 2 days out on MON/WED/FRI
+        const step2TargetDate = calculateNextEligibleSendDate(step1TargetDate, 2); // Next allowed business day
 
-        // Drip Step 1 (Day 1)
+        const step1ScheduledAt = await checkCollisionAndReschedule(recipient, step1TargetDate);
+        const step2ScheduledAt = await checkCollisionAndReschedule(recipient, step2TargetDate);
+
+        // Drip Step 1 (Features Deep Dive)
         const step1Res = await enqueueEmailJob({
           recipient,
           templateId: 'DRIP_STEP_1_FEATURES',
           variables: { user_name: name, user_email: recipient },
           emailType: 'DRIP',
-          scheduledAt: now + 1 * dayInMs,
+          scheduledAt: step1ScheduledAt,
           idempotencyKey: `drip_onboarding_step1_${payload.userId || recipient}`,
         });
         if (step1Res.success && !step1Res.skipped) jobsQueued++;
 
-        // Drip Step 2 (Day 3)
+        // Drip Step 2 (Getting Started Roadmaps)
         const step2Res = await enqueueEmailJob({
           recipient,
           templateId: 'DRIP_STEP_2_GETTING_STARTED',
           variables: { user_name: name, user_email: recipient },
           emailType: 'DRIP',
-          scheduledAt: now + 3 * dayInMs,
+          scheduledAt: step2ScheduledAt,
           idempotencyKey: `drip_onboarding_step2_${payload.userId || recipient}`,
         });
         if (step2Res.success && !step2Res.skipped) jobsQueued++;
@@ -73,7 +78,7 @@ export async function emitEvent(event: AutomationEvent, payload: EventPayload): 
             status: 'ACTIVE',
             enrolledAt: now,
             currentStep: 1,
-            nextStepAt: now + 1 * dayInMs,
+            nextStepAt: step1ScheduledAt,
           }, { merge: true });
         }
         break;
