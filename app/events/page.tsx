@@ -104,50 +104,53 @@ export default async function EventsDirectoryPage() {
         </div>
 
         {/* Campus Tour Keynotes Banner */}
-        <div className="mb-14 p-8 sm:p-10 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl relative overflow-hidden">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-800">
+        <div className="mb-14 p-8 sm:p-10 rounded-3xl bg-white text-slate-900 border-2 border-slate-200 shadow-md relative overflow-hidden">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-[#00B8F0] border border-cyan-500/30 text-xs font-mono font-bold uppercase tracking-wider mb-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] border border-blue-200 text-xs font-mono font-bold uppercase tracking-wider mb-2">
                 <GraduationCap size={15} />
                 <span>COLLEGE CAMPUS TOUR 2026</span>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
                 Live Keynote &amp; AI Teardowns by Soham Sharma
               </h2>
-              <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
+              <p className="text-slate-600 text-xs sm:text-sm font-mono mt-1">
                 Scheduled masterclasses across Central India&apos;s leading engineering campuses.
               </p>
             </div>
-            <span className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 text-xs font-mono font-bold shrink-0">
+            <span className="px-4 py-2 rounded-xl bg-slate-100 border border-slate-300 text-slate-700 text-xs font-mono font-bold shrink-0 shadow-xs">
               6 Campus Sessions
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
             {campusSessions.map((c, i) => (
-              <div key={i} className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 hover:border-cyan-500/50 transition-colors">
+              <div
+                key={i}
+                className="p-6 rounded-2xl bg-white border-2 border-slate-200 space-y-4 hover:border-[#0066FF] shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 group relative overflow-hidden"
+              >
                 <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-1 rounded-lg bg-blue-500/20 text-cyan-300 font-bold border border-blue-500/30">
+                  <span className="px-2.5 py-1 rounded-lg bg-blue-50 text-[#0066FF] font-bold border border-blue-200 group-hover:bg-[#0066FF] group-hover:text-white transition-colors duration-300">
                     {c.date}
                   </span>
-                  <span className="text-emerald-400 text-[10px] uppercase font-bold flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 text-[10px] uppercase font-bold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     {c.status}
                   </span>
                 </div>
                 <div>
-                  <div className="text-xs text-cyan-400 font-bold flex items-center gap-1.5 mb-1">
-                    <Building2 size={13} />
+                  <div className="text-xs text-[#0066FF] font-bold flex items-center gap-1.5 mb-1">
+                    <Building2 size={13} className="group-hover:scale-110 transition-transform duration-300" />
                     <span>{c.college}</span>
                   </div>
-                  <div className="font-bold text-white font-sans text-sm">{c.fullName}</div>
+                  <div className="font-bold text-slate-900 font-sans text-sm group-hover:text-[#0066FF] transition-colors duration-300">{c.fullName}</div>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-300 font-sans">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-800 font-sans group-hover:bg-blue-50/50 group-hover:border-blue-200 transition-colors duration-300">
                   {c.topic}
                 </div>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800">
-                  <span className="flex items-center gap-1"><Users size={12} className="text-amber-400" /> {c.speaker}</span>
-                  <span className="flex items-center gap-1"><MapPin size={12} className="text-rose-400" /> {c.location}</span>
+                <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-slate-100">
+                  <span className="flex items-center gap-1"><Users size={12} className="text-amber-500 group-hover:rotate-12 transition-transform duration-300" /> {c.speaker}</span>
+                  <span className="flex items-center gap-1"><MapPin size={12} className="text-rose-500" /> {c.location}</span>
                 </div>
               </div>
             ))}
