@@ -64,9 +64,9 @@ export default function AdminLayout({
 
   if (!allowed) {
     return (
-      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 flex">
+      <div className="h-screen w-screen overflow-hidden bg-[#FAFCFF] text-slate-900 flex">
         <AdminSidebar userRole={role} userEmail={userEmail} onLogout={handleLogout} />
-        <main className="flex-1 p-12 flex flex-col items-center justify-center text-center">
+        <main className="flex-1 h-screen overflow-y-auto p-12 flex flex-col items-center justify-center text-center">
           <div className="w-16 h-16 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center mb-6">
             <ShieldAlert size={32} />
           </div>
@@ -86,9 +86,9 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFCFF] text-slate-900 flex">
+    <div className="h-screen w-screen overflow-hidden bg-[#FAFCFF] text-slate-900 flex">
       <AdminSidebar userRole={role} userEmail={userEmail} onLogout={handleLogout} />
-      <main className="flex-1 overflow-y-auto min-h-screen p-8 lg:p-10">
+      <main className="flex-1 h-screen overflow-y-auto p-8 lg:p-10">
         {children}
       </main>
     </div>

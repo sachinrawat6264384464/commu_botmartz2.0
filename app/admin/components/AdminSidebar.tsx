@@ -60,7 +60,7 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 h-screen sticky top-0 flex flex-col justify-between p-4 shrink-0 font-sans z-30 overflow-hidden shadow-xs">
+    <aside className="w-64 bg-white border-r border-slate-200 h-full flex flex-col justify-between p-4 shrink-0 font-sans z-30 overflow-hidden shadow-xs">
       {/* Brand Logo Header */}
       <div className="flex items-center gap-3 px-2 py-3 mb-2 border-b border-slate-100 shrink-0">
         <div className="relative w-10 h-10 flex items-center justify-center shrink-0">
