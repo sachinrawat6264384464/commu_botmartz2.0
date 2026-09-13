@@ -155,18 +155,6 @@ export default function CommunityNavbar() {
             <span>50 Systems</span>
           </Link>
 
-          {/* 2. All Bootcamps */}
-          <Link
-            href="/workshops"
-            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
-              pathname.startsWith("/workshops")
-                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
-            }`}
-          >
-            <span>All Bootcamps</span>
-          </Link>
-
           {/* 3. Internship Dropdown */}
           <div className="relative" ref={internshipMenuRef}>
             <button
@@ -338,18 +326,6 @@ export default function CommunityNavbar() {
               </div>
             )}
           </div>
-
-          {/* 6. Certificates */}
-          <Link
-            href="/certificates"
-            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
-              pathname.startsWith("/certificates")
-                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
-            }`}
-          >
-            <span>Certificates</span>
-          </Link>
 
         </nav>
 

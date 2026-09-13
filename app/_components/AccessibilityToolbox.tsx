@@ -51,26 +51,12 @@ const DEFAULT_STATE: AccessibilityState = {
   activeProfile: null
 };
 
-// Swastik SVG Component (Ancient symbol of auspiciousness & universal wellbeing)
-function SwastikIcon({ className = "w-6 h-6" }: { className?: string }) {
+// Sacred Om (ॐ) SVG/Typography Component
+function OmIcon({ className = "w-6 h-6" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      {/* Center Swastik Motif */}
-      <path d="M12 4v16" />
-      <path d="M4 12h16" />
-      <path d="M12 4h8" />
-      <path d="M12 20H4" />
-      <path d="M4 12V4" />
-      <path d="M20 12v8" />
-    </svg>
+    <span className={`inline-flex items-center justify-center font-bold text-emerald-300 text-2xl sm:text-3xl leading-none select-none drop-shadow-[0_0_10px_rgba(52,211,153,1)] ${className}`}>
+      ॐ
+    </span>
   );
 }
 
@@ -409,7 +395,7 @@ export default function AccessibilityToolbox() {
             <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#00E5FF]" />
           </span>
 
-          <SwastikIcon className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-300 group-hover:rotate-45 transition-transform duration-500 drop-shadow-[0_0_10px_rgba(52,211,153,1)] pointer-events-none" />
+          <OmIcon className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-300 pointer-events-none" />
           <span className="sr-only">Accessibility Toolbox</span>
           <span className="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
             Drag anywhere with cursor &bull; Alt+A
@@ -432,7 +418,7 @@ export default function AccessibilityToolbox() {
           <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-[#0066FF]/20 text-emerald-400 flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0 border border-blue-400/40">
-                <SwastikIcon className="w-5 h-5 text-emerald-400 drop-shadow-[0_0_6px_rgba(52,211,153,0.8)]" />
+                <OmIcon className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
