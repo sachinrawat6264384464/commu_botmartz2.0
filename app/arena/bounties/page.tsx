@@ -104,9 +104,9 @@ export default function BountiesBoardPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
+            <div className="space-y-3 max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-black border border-amber-400/30 backdrop-blur-md">
                 <Coins size={14} className="text-amber-400" />
                 <span>PEER ASSISTANCE BOUNTY ESCROW</span>
@@ -132,7 +132,7 @@ export default function BountiesBoardPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-10 space-y-8">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 mt-10 space-y-8">
         
         {/* ── DISCORD LIVE COLLABORATION BANNER ── */}
         <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-2 border-indigo-500/30 shadow-xl font-sans relative overflow-hidden group">
@@ -168,7 +168,7 @@ export default function BountiesBoardPage() {
             <span className="text-slate-500">Sorted by Newest First</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {loading ? (
               <div className="col-span-full py-20 text-center text-slate-400 font-mono text-xs flex items-center justify-center gap-2">
                 <Loader2 size={18} className="animate-spin text-[#0066FF]" />

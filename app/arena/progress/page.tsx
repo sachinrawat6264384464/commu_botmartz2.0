@@ -45,9 +45,9 @@ export default async function ProgressDiariesPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
+            <div className="space-y-3 max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono text-xs font-black border border-emerald-400/30 backdrop-blur-md">
                 <Flame size={14} className="text-emerald-400 animate-pulse" />
                 <span>COMMUNITY PROOF-OF-WORK FEED</span>
@@ -73,7 +73,7 @@ export default async function ProgressDiariesPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-10">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
           {/* ── MAIN FEED COLUMN (8 COLS) ── */}

@@ -156,9 +156,9 @@ export default async function DualLeaderboardPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div className="space-y-3 max-w-2xl">
+            <div className="space-y-3 max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 font-mono text-xs font-black border border-amber-400/30 backdrop-blur-md">
                 <Trophy size={14} className="text-amber-400" />
                 <span>OFFICIAL COHORT 1 RANKINGS</span>
@@ -192,7 +192,7 @@ export default async function DualLeaderboardPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-10 space-y-16">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 mt-10 space-y-16">
         
         {/* ── SECTION 1: BUILDERS HALL OF FAME ── */}
         <section className="space-y-8">
