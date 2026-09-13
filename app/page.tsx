@@ -46,10 +46,30 @@ export default async function CommunityHomePage() {
             <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
               
               {/* Cohort 1 Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider shadow-2xs">
-                <Activity size={14} className="text-[#0066FF]" />
-                <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider shadow-2xs">
+                  <Activity size={14} className="text-[#0066FF]" />
+                  <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
+                </div>
               </div>
+
+              {/* Hot Hackathon Announcement Banner */}
+              <Link
+                href="/community/events"
+                className="w-full max-w-xl p-3.5 rounded-2xl bg-gradient-to-r from-slate-950 via-[#1A090D] to-slate-950 text-white border-2 border-rose-600/80 hover:border-rose-400 shadow-md transition-all flex items-center justify-between gap-3 group cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5 font-mono text-xs">
+                  <span className="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold text-[10px] uppercase shrink-0">
+                    SEPT 20 HACKATHON
+                  </span>
+                  <span className="text-slate-200 font-sans text-xs">
+                    <strong className="text-white">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Botmartz AI Solutions
+                  </span>
+                </div>
+                <span className="text-rose-400 font-mono text-xs font-bold shrink-0 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                  QR Pass &rarr;
+                </span>
+              </Link>
 
               {/* Main Headline */}
               <h1 className="text-[clamp(36px,4.8vw,68px)] font-black tracking-tight leading-[1.08] text-slate-950 font-sans">

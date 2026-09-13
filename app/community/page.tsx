@@ -117,7 +117,25 @@ export default function CommunityHubPage() {
         </div>
       </section>
 
-      {/* SECTION 2: SIX PILLARS (LIGHT THEME SECTION) */}
+      {/* FEATURED HACKATHON & CAMPUS TOUR SPOTLIGHT BANNER */}
+      <section className="py-5 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-rose-950 via-slate-900 to-slate-950 border-b border-rose-500/30 text-white font-mono text-xs">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="px-3 py-1 rounded-full bg-rose-600 text-white font-bold uppercase tracking-wider text-[10px] shrink-0">
+              FEATURED HACKATHON
+            </span>
+            <span className="text-slate-200 font-sans text-xs sm:text-sm">
+              <strong className="text-white">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Technical Partner: Botmartz AI Solutions (Sept 20)
+            </span>
+          </div>
+          <Link
+            href="/community/events"
+            className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold transition-all shadow-md shrink-0 flex items-center gap-1.5"
+          >
+            <span>Scan QR Pass &amp; Details &rarr;</span>
+          </Link>
+        </div>
+      </section>
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] text-slate-900">
         <div className="max-w-7xl mx-auto">
           
@@ -237,28 +255,25 @@ export default function CommunityHubPage() {
             </div>
 
             {/* Card 5: Hackathons */}
-            <div className="bg-white rounded-2xl p-7 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+            <div className="bg-white rounded-2xl p-7 sm:p-8 border-2 border-rose-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group relative overflow-hidden">
               <div className="space-y-4">
-                <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#0066FF] font-bold text-xs flex items-center justify-center uppercase tracking-wider">
+                <div className="w-10 h-10 rounded-lg bg-rose-100 text-rose-600 font-bold text-xs flex items-center justify-center uppercase tracking-wider">
                   HK
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">
-                  Hackathons
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-rose-600 transition-colors">
+                  Hackathons &amp; Build Sprints
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed">
-                  Weekend build sprints turning ideas into shipped agents and RAG systems.
+                  Featured Hackathon: <strong>HACK IT BROS &apos;26</strong> (SlowBros LABS x Botmartz AI Solutions) on Sept 20.
                 </p>
               </div>
               <div className="pt-6">
-                <a
-                  href="https://discord.gg/k75ZpEnzp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#0066FF] font-semibold text-sm inline-flex items-center gap-1 hover:underline"
+                <Link
+                  href="/community/events"
+                  className="text-rose-600 font-semibold text-sm inline-flex items-center gap-1 hover:underline"
                 >
-                  <span>See hackathons</span>
-                  <ArrowRight size={14} />
-                </a>
+                  <span>Explore Hackathons &amp; Scan QR Pass &rarr;</span>
+                </Link>
               </div>
             </div>
 
