@@ -50,6 +50,11 @@ function StudentLoginInner() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [infoMsg, setInfoMsg] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Automatically redirect authenticated users
   useEffect(() => {
@@ -119,7 +124,7 @@ function StudentLoginInner() {
     }
   };
 
-  if (authLoading) {
+  if (!mounted || authLoading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center font-mono text-xs text-slate-600">
         <Loader2 size={22} className="animate-spin text-[#0066FF] mr-2.5" />
@@ -130,7 +135,7 @@ function StudentLoginInner() {
 
   return (
     <div className="min-h-[calc(100vh-80px)] bg-slate-50 text-slate-900 pt-20 pb-12 font-sans selection:bg-[#0066FF] selection:text-white flex flex-col justify-center relative overflow-hidden">
-      <div id="recaptcha-container"></div>
+      <div id="recaptcha-container" suppressHydrationWarning={true}></div>
 
       {/* Soft Background Mesh Glows for White Theme */}
       <div className="absolute top-1/4 -left-48 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
