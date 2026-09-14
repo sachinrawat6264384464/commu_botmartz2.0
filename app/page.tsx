@@ -90,6 +90,7 @@ export default async function CommunityHomePage() {
               <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 w-full pt-3">
                 <Link
                   href="/login"
+                  prefetch={false}
                   className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Join 45-Day Cohort (Free)</span>
@@ -98,6 +99,7 @@ export default async function CommunityHomePage() {
                 
                 <Link
                   href="/arena"
+                  prefetch={false}
                   className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
                 >
                   <Terminal size={15} className="text-blue-600" />
@@ -106,6 +108,7 @@ export default async function CommunityHomePage() {
 
                 <Link
                   href="/arena/calendar"
+                  prefetch={false}
                   className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
                 >
                   <MapPin size={15} className="text-slate-600" />
