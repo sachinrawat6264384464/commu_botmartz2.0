@@ -75,36 +75,36 @@ export default function HeroAuthForm() {
   };
 
   return (
-    <div className="w-full bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 font-mono text-xs text-slate-900 relative overflow-hidden">
+    <div className="w-full bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl space-y-3 font-mono text-xs text-slate-900 relative overflow-hidden">
       
       {/* Decorative Top Accent Glow */}
-      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-purple-600" />
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-purple-600" />
 
       {/* Header & Tab Switcher */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-2.5 border-b border-slate-100">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-blue-50 text-[#0066FF]">
-            <UserCheck size={18} />
+          <div className="p-1.5 rounded-lg bg-blue-50 text-[#0066FF]">
+            <UserCheck size={16} />
           </div>
           <div>
-            <h3 className="text-base font-extrabold text-slate-950 font-sans tracking-tight">
+            <h3 className="text-sm font-extrabold text-slate-950 font-sans tracking-tight">
               {activeTab === "signup" ? "Join Cohort 1 & Start" : "Sign In to Dashboard"}
             </h3>
-            <p className="text-[11px] text-slate-500 font-mono">
+            <p className="text-[10px] text-slate-500 font-mono">
               {activeTab === "signup" ? "Claim 100 Welcome Coins & PRD access." : "Access your verified progress & logs."}
             </p>
           </div>
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center p-1 rounded-xl bg-slate-100 border border-slate-200 text-[11px] font-bold">
+        <div className="flex items-center p-0.5 rounded-lg bg-slate-100 border border-slate-200 text-[10px] font-bold">
           <button
             type="button"
             onClick={() => {
               setActiveTab("signup");
               setErrorMsg(null);
             }}
-            className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
               activeTab === "signup"
                 ? "bg-[#0066FF] text-white shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -118,7 +118,7 @@ export default function HeroAuthForm() {
               setActiveTab("signin");
               setErrorMsg(null);
             }}
-            className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
               activeTab === "signin"
                 ? "bg-[#0066FF] text-white shadow-xs"
                 : "text-slate-600 hover:text-slate-900"
@@ -131,24 +131,24 @@ export default function HeroAuthForm() {
 
       {/* Messages */}
       {successMsg && (
-        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
-          <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+        <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] flex items-center gap-2">
+          <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
           <span>{successMsg}</span>
         </div>
       )}
 
       {errorMsg && (
-        <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs">
+        <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-[11px]">
           {errorMsg}
         </div>
       )}
 
       {/* Form Content */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-2.5">
         {activeTab === "signup" ? (
           <>
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-0.5">
                 Full Name *
               </label>
               <input
@@ -157,12 +157,12 @@ export default function HeroAuthForm() {
                 placeholder="e.g. Rahul Sharma"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-0.5">
                 Email Address *
               </label>
               <input
@@ -171,12 +171,12 @@ export default function HeroAuthForm() {
                 placeholder="student@college.edu"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-0.5">
                 College / Organization
               </label>
               <input
@@ -184,18 +184,18 @@ export default function HeroAuthForm() {
                 placeholder="e.g. IET DAVV / PBCOE"
                 value={form.college}
                 onChange={(e) => setForm({ ...form, college: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-0.5">
                 Select Track
               </label>
               <select
                 value={form.track}
                 onChange={(e) => setForm({ ...form, track: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-sans focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-sans focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
               >
                 <option value="bundle">Open Builder Pass (100% Free)</option>
                 <option value="bootcamp-01">Verified Cohort Pass (₹299)</option>
@@ -206,7 +206,7 @@ export default function HeroAuthForm() {
         ) : (
           <>
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-0.5">
                 Email Address *
               </label>
               <input
@@ -215,12 +215,12 @@ export default function HeroAuthForm() {
                 placeholder="student@college.edu"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-0.5">
                 Password / Passcode
               </label>
               <input
@@ -228,7 +228,7 @@ export default function HeroAuthForm() {
                 placeholder="••••••••"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
               />
             </div>
           </>
@@ -238,12 +238,12 @@ export default function HeroAuthForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
+          className="w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
         >
           {loading ? (
-            <Loader2 size={16} className="animate-spin" />
+            <Loader2 size={15} className="animate-spin" />
           ) : (
-            <Sparkles size={16} />
+            <Sparkles size={15} />
           )}
           <span>
             {loading
@@ -252,15 +252,15 @@ export default function HeroAuthForm() {
               ? "Create Student Account & Start"
               : "Sign In to Dashboard"}
           </span>
-          {!loading && <ArrowRight size={15} />}
+          {!loading && <ArrowRight size={14} />}
         </button>
 
         {/* Divider */}
-        <div className="relative py-2 flex items-center justify-center">
+        <div className="relative py-1 flex items-center justify-center">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-slate-200" />
           </div>
-          <span className="relative px-3 bg-white text-[10px] text-slate-400 uppercase font-bold">
+          <span className="relative px-2 bg-white text-[9px] text-slate-400 uppercase font-bold">
             Or Continue With
           </span>
         </div>
@@ -272,9 +272,9 @@ export default function HeroAuthForm() {
             setSuccessMsg("Redirecting to Google Auth...");
             setTimeout(() => router.push("/login"), 800);
           }}
-          className="w-full py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-mono text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-2.5 cursor-pointer"
+          className="w-full py-2 rounded-xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-mono text-xs font-bold transition-all shadow-2xs flex items-center justify-center gap-2 cursor-pointer"
         >
-          <svg className="w-4 h-4" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
             <path
               fill="#4285F4"
               d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -297,8 +297,8 @@ export default function HeroAuthForm() {
 
       </form>
 
-      <div className="pt-2 text-center text-[10px] text-slate-400 flex items-center justify-center gap-1 font-sans">
-        <ShieldCheck size={13} className="text-emerald-600" />
+      <div className="pt-1 text-center text-[10px] text-slate-400 flex items-center justify-center gap-1 font-sans">
+        <ShieldCheck size={12} className="text-emerald-600" />
         <span>Zero spam. SSL encrypted. Instant setup.</span>
       </div>
 
