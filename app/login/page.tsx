@@ -106,38 +106,53 @@ function StudentLoginInner() {
   // Handle Sign Up Registration Submission
   const handleSignUpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!signUpForm.name.trim() || !signUpForm.email.trim()) {
-      setError("Please enter your full name and email address.");
+
+    // 1. Strict Schema & Input Validation
+    if (!signUpForm.name.trim() || signUpForm.name.trim().length < 2) {
+      setError("Validation Error: Please enter your full name (minimum 2 characters).");
       return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!signUpForm.email.trim() || !emailRegex.test(signUpForm.email.trim())) {
+      setError("Validation Error: Please enter a valid email address (e.g. name@example.com).");
+      return;
+    }
+
+    if (signUpForm.phone.trim() && signUpForm.phone.replace(/\D/g, "").length < 10) {
+      setError("Validation Error: Mobile phone number must contain at least 10 digits.");
+      return;
+    }
+
+    const registeredEmail = signUpForm.email.trim();
 
     try {
       setSubmitting(true);
       setError("");
 
-      // 1. Call Backend Direct Registration API (Saves to Firestore bootcamp_registrations)
+      // 2. Call Backend Direct Registration API (Saves to Firestore bootcamp_registrations)
       const res = await fetch("/api/admin/direct-register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: signUpForm.name,
-          email: signUpForm.email,
-          phone: signUpForm.phone,
-          organization: signUpForm.organization,
+          name: signUpForm.name.trim(),
+          email: registeredEmail,
+          phone: signUpForm.phone.trim(),
+          organization: signUpForm.organization.trim(),
           plan: signUpForm.track,
-          githubUsername: signUpForm.githubUsername
+          githubUsername: signUpForm.githubUsername.trim()
         })
       });
 
       const data = await res.json();
 
       if (data.success) {
-        // 2. If user is currently signed in via Firebase, update profile in Firestore
+        // 3. If user is currently signed in via Firebase, update profile in Firestore
         if (user) {
           try {
             await completeStudentProfile({
               displayName: signUpForm.name,
-              email: signUpForm.email,
+              email: registeredEmail,
               collegeName: signUpForm.organization,
               phoneNumber: signUpForm.phone,
               githubUsername: signUpForm.githubUsername,
@@ -148,8 +163,21 @@ function StudentLoginInner() {
           }
         }
 
-        setRegistrationSuccess(data.registration);
-        setInfoMsg(`🎉 Account & Cohort Ticket created! Ticket Code: ${data.registration.checkInCode}`);
+        // 4. Clear input fields immediately
+        setSignUpForm({
+          name: "",
+          email: "",
+          phone: "",
+          organization: "",
+          track: "bundle",
+          githubUsername: ""
+        });
+
+        setInfoMsg(`Account created successfully! Welcome email sent to ${registeredEmail}. Redirecting to Sign In...`);
+        setTimeout(() => {
+          setAuthMode("signin");
+          setInfoMsg("Account created successfully! Please sign in with your email.");
+        }, 1500);
       } else {
         setError(data.error || "Registration failed. Please try again.");
       }

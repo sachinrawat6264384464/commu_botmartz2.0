@@ -65,6 +65,9 @@ export class HostingerSmtpProvider implements EmailProvider {
         tls: {
           rejectUnauthorized: false,
         },
+        connectionTimeout: 8000,
+        greetingTimeout: 5000,
+        socketTimeout: 10000,
         pool: true,
         maxConnections: 5,
         maxMessages: 100,
@@ -94,15 +97,34 @@ export class HostingerSmtpProvider implements EmailProvider {
         headers: options.headers || {},
       };
 
-      const info = await smtp.transporter.sendMail(mailOptions);
-      console.log(`[HostingerSmtpProvider] Email sent to ${options.to}. MessageId: ${info.messageId}`);
+      try {
+        const info = await smtp.transporter.sendMail(mailOptions);
+        console.log(`[HostingerSmtpProvider] Email sent to ${options.to}. MessageId: ${info.messageId}`);
+        return { success: true, messageId: info.messageId };
+      } catch (primaryErr: any) {
+        console.warn('[HostingerSmtpProvider] Primary SMTP transport failed, attempting fallback port 587:', primaryErr?.message);
+        
+        // Fallback transporter using Port 587 with STARTTLS
+        const fallbackTransporter = nodemailer.createTransport({
+          host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.SMTP_USER || 'team@botmartz.com',
+            pass: process.env.SMTP_PASS || '4ahz-gtmt-1tyv-zbfz',
+          },
+          tls: { rejectUnauthorized: false },
+          connectionTimeout: 8000,
+          greetingTimeout: 5000,
+          socketTimeout: 10000,
+        });
 
-      return {
-        success: true,
-        messageId: info.messageId,
-      };
+        const fallbackInfo = await fallbackTransporter.sendMail(mailOptions);
+        console.log(`[HostingerSmtpProvider] Email sent via fallback port 587 to ${options.to}. MessageId: ${fallbackInfo.messageId}`);
+        return { success: true, messageId: fallbackInfo.messageId };
+      }
     } catch (err: any) {
-      console.error('[HostingerSmtpProvider] Send email failed:', err);
+      console.error('[HostingerSmtpProvider] Send email failed on all transports:', err);
       return {
         success: false,
         error: err.message || 'Unknown SMTP send failure',

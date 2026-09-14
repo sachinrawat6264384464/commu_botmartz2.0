@@ -27,29 +27,48 @@ export default function HeroAuthForm() {
 
     try {
       if (activeTab === "signup") {
-        if (!form.name.trim() || !form.email.trim()) {
-          setErrorMsg("Please enter your name and email address.");
+        if (!form.name.trim() || form.name.trim().length < 2) {
+          setErrorMsg("Validation Error: Please enter your full name (minimum 2 characters).");
           setLoading(false);
           return;
         }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!form.email.trim() || !emailRegex.test(form.email.trim())) {
+          setErrorMsg("Validation Error: Please enter a valid email address.");
+          setLoading(false);
+          return;
+        }
+
+        const registeredEmail = form.email.trim();
 
         // Direct registration or signup API
         const res = await fetch("/api/admin/direct-register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            organization: form.college,
+            name: form.name.trim(),
+            email: registeredEmail,
+            organization: form.college.trim(),
             plan: form.track
           })
         });
 
         const data = await res.json();
         if (data.success) {
-          setSuccessMsg(`Welcome ${form.name}! 100 Welcome Coins claimed. Redirecting to Builder Dashboard...`);
+          // Clear input fields immediately
+          setForm({
+            name: "",
+            email: "",
+            college: "",
+            track: "bundle",
+            password: ""
+          });
+
+          setSuccessMsg(`Account created successfully! Welcome email sent to ${registeredEmail}. Redirecting to Sign In...`);
           setTimeout(() => {
-            router.push("/arena");
+            setActiveTab("signin");
+            setSuccessMsg("Account created successfully! Please sign in with your email.");
           }, 1500);
         } else {
           setErrorMsg(data.error || "Registration failed. Please try again.");
