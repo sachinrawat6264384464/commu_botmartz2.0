@@ -45,20 +45,22 @@ export async function POST(req: Request) {
       }
     }
 
-    // Trigger Welcome Email & Drip Email Automation Sequence
-    try {
-      await emitEvent("USER_SIGNED_UP", {
-        email: newReg.email,
-        name: newReg.name,
-        userId: newReg.id,
-        metadata: {
-          checkInCode,
-          plan: newReg.plan
-        }
-      });
-    } catch (eErr) {
-      console.warn("Drip email automation emitEvent warning:", eErr);
-    }
+    // Trigger Welcome Email & Drip Email Automation Sequence (Non-blocking)
+    (async () => {
+      try {
+        await emitEvent("USER_SIGNED_UP", {
+          email: newReg.email,
+          name: newReg.name,
+          userId: newReg.id,
+          metadata: {
+            checkInCode,
+            plan: newReg.plan
+          }
+        });
+      } catch (eErr) {
+        console.warn("Drip email automation emitEvent warning:", eErr);
+      }
+    })();
 
     return NextResponse.json({
       success: true,
