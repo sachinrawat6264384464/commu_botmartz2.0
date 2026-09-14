@@ -63,11 +63,31 @@ export default async function CommunityHomePage() {
 
               {/* Subhead */}
               <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-mono text-xs sm:text-sm">
-                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies and founder recommendation</strong>.
+                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50+ production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15+ partner companies and founder recommendation</strong>.
               </p>
 
+              {/* Quick Proof Metrics Grid - Moved Upper (Above Action Buttons) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-2 font-mono text-xs text-left">
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-slate-900">50+ Systems</div>
+                  <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-[#0066FF]">15+ Companies</div>
+                  <div className="text-[11px] text-slate-500">Referral Guarantee</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-purple-700">Indore Hub</div>
+                  <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                  <div className="text-lg sm:text-xl font-black text-emerald-700">100% Free</div>
+                  <div className="text-[11px] text-slate-500">For Verified Students</div>
+                </div>
+              </div>
+
               {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 w-full pt-2">
+              <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 w-full pt-3">
                 <Link
                   href="/login"
                   className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
@@ -81,7 +101,7 @@ export default async function CommunityHomePage() {
                   className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
                 >
                   <Terminal size={15} className="text-blue-600" />
-                  <span>Explore 50 Projects Matrix</span>
+                  <span>Explore 50+ Projects Matrix</span>
                 </Link>
 
                 <Link
@@ -91,26 +111,6 @@ export default async function CommunityHomePage() {
                   <MapPin size={15} className="text-slate-600" />
                   <span>Indore Office Hours</span>
                 </Link>
-              </div>
-
-              {/* Quick Proof Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-slate-900">50 Systems</div>
-                  <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-[#0066FF]">15 Companies</div>
-                  <div className="text-[11px] text-slate-500">Referral Guarantee</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-purple-700">Indore Hub</div>
-                  <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-emerald-700">100% Free</div>
-                  <div className="text-[11px] text-slate-500">For Verified Students</div>
-                </div>
               </div>
 
             </div>
