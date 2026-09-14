@@ -6,18 +6,22 @@ export async function GET(req: NextRequest) {
     let auditLogs: any[] = [];
 
     if (adminDb) {
-      const snap = await adminDb
-        .collection("security_audit_ledger")
-        .orderBy("timestamp", "desc")
-        .limit(25)
-        .get();
+      try {
+        const snap = await adminDb
+          .collection("security_audit_ledger")
+          .orderBy("timestamp", "desc")
+          .limit(25)
+          .get();
 
-      if (!snap.empty) {
-        auditLogs = snap.docs.map((d) => ({
-          id: d.id,
-          ...d.data(),
-          timestamp: d.data().timestamp?.toDate?.() ? d.data().timestamp.toDate().toISOString() : new Date().toISOString()
-        }));
+        if (!snap.empty) {
+          auditLogs = snap.docs.map((d) => ({
+            id: d.id,
+            ...d.data(),
+            timestamp: d.data().timestamp?.toDate?.() ? d.data().timestamp.toDate().toISOString() : new Date().toISOString()
+          }));
+        }
+      } catch (dbErr) {
+        console.warn("Security audit ledger query warning:", dbErr);
       }
     }
 

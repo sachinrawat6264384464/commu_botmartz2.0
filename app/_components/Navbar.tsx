@@ -231,78 +231,7 @@ export default function CommunityNavbar() {
             )}
           </div>
 
-          {/* 4. Community Dropdown */}
-          <div className="relative" ref={communityMenuRef}>
-            <button
-              onClick={() => {
-                setCommunityOpen(!communityOpen);
-                setInternshipOpen(false);
-                setResourcesOpen(false);
-              }}
-              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
-                communityOpen || pathname.includes("/community") || pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar")
-                  ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
-              }`}
-            >
-              <span>Community</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${communityOpen || pathname.includes("/community") || pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar") ? "rotate-180 text-white font-bold" : "text-slate-400 group-hover:text-white"}`} />
-            </button>
 
-            {communityOpen && (
-              <div className="absolute top-full left-0 mt-3 w-84 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                <div className="text-[10px] font-mono text-slate-500 uppercase font-extrabold px-3 py-1.5 border-b border-slate-100 mb-1">
-                  Builder Network &amp; Events
-                </div>
-                {COMMUNITY_ITEMS.map((item) => {
-                  const IconComponent = item.icon;
-                  if (item.external) {
-                    return (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-purple-50/80 transition-all group"
-                      >
-                        <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-600 group-hover:text-white transition-all duration-200 shadow-xs border border-purple-100">
-                          <IconComponent size={16} />
-                        </div>
-                        <div>
-                          <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-purple-600 transition-colors flex items-center gap-1">
-                            <span>{item.name}</span>
-                          </div>
-                          <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
-                        </div>
-                      </a>
-                    );
-                  }
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-blue-50/80 transition-all group"
-                    >
-                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-all duration-200 shadow-xs border border-blue-100">
-                        <IconComponent size={16} />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
-                          <span>{item.name}</span>
-                          {item.locked && (
-                            <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
-                              <Lock size={9} /> Scheduled
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </div>
 
           {/* 5. Resources Dropdown */}
           <div className="relative" ref={resourcesMenuRef}>
@@ -415,13 +344,21 @@ export default function CommunityNavbar() {
               )}
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-xs sm:text-sm font-black transition-all duration-300 shadow-lg hover:shadow-blue-500/25 border border-blue-400/30 hover:scale-[1.03] active:scale-[0.97] flex items-center gap-2 cursor-pointer group"
-            >
-              <span>Sign In</span>
-              <Sparkles size={14} className="text-cyan-300 group-hover:rotate-12 transition-transform duration-300" />
-            </Link>
+            <div className="flex items-center gap-2 font-sans text-xs">
+              <Link
+                href="/login?mode=signup"
+                className="px-4 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold transition-all cursor-pointer border border-slate-200"
+              >
+                Sign Up
+              </Link>
+              <Link
+                href="/login?mode=signin"
+                className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-xs sm:text-sm font-black transition-all duration-300 shadow-lg hover:shadow-blue-500/25 border border-blue-400/30 hover:scale-[1.03] active:scale-[0.97] flex items-center gap-2 cursor-pointer group"
+              >
+                <span>Sign In</span>
+                <Sparkles size={14} className="text-cyan-300 group-hover:rotate-12 transition-transform duration-300" />
+              </Link>
+            </div>
           )}
         </div>
 
@@ -463,39 +400,7 @@ export default function CommunityNavbar() {
             ))}
           </div>
 
-          <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Community Hub</div>
-            {COMMUNITY_ITEMS.map((item) => {
-              if (item.external) {
-                return (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <item.icon size={15} className="text-purple-600" />
-                      <span className="font-bold">{item.name}</span>
-                    </div>
-                  </a>
-                );
-              }
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <item.icon size={15} className="text-[#0066FF]" />
-                    <span className="font-bold">{item.name}</span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+
 
           <div className="space-y-1 border-t border-slate-100 pt-3">
             <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Resources &amp; Credentials</div>
@@ -530,12 +435,22 @@ export default function CommunityNavbar() {
                 </button>
               </div>
             ) : (
-              <Link
-                href="/login"
-                className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-center block uppercase tracking-wider"
-              >
-                Sign In
-              </Link>
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  href="/login?mode=signup"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3 rounded-xl bg-[#0066FF] text-white font-bold text-center block uppercase tracking-wider text-xs"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  href="/login?mode=signin"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3 rounded-xl bg-slate-900 text-white font-bold text-center block uppercase tracking-wider text-xs"
+                >
+                  Sign In
+                </Link>
+              </div>
             )}
           </div>
 

@@ -161,32 +161,33 @@ export async function POST(req: Request) {
       }
     }
 
-    // Trigger Asynchronous Transactional Onboarding Email
-    try {
-      const smtp = await getSmtpTransporter();
-      if (smtp?.transporter) {
-        const emailHtml = buildArenaEnrollmentEmail({
-          name: name.trim(),
-          email: cleanEmail,
-          projectTitle: projectTitle || "Selected Arena Project",
-          difficulty: difficulty || "Hard",
-          projectId,
-          teamType: teamType || "Solo Shipper",
-        });
+    // Trigger Asynchronous Transactional Onboarding Email (Non-blocking)
+    (async () => {
+      try {
+        const smtp = await getSmtpTransporter();
+        if (smtp?.transporter) {
+          const emailHtml = buildArenaEnrollmentEmail({
+            name: name.trim(),
+            email: cleanEmail,
+            projectTitle: projectTitle || "Selected Arena Project",
+            difficulty: difficulty || "Hard",
+            projectId,
+            teamType: teamType || "Solo Shipper",
+          });
 
-        // Fire and forget or await without blocking response
-        smtp.transporter.sendMail({
-          from: `"Botmartz Builders Arena" <${smtp.smtpUser}>`,
-          to: cleanEmail,
-          subject: `⚡ Slot Confirmed: ${projectTitle || "Virtual AI Internship Track"} | Botmartz`,
-          html: emailHtml,
-        }).catch((mailErr) => {
-          console.warn("Could not dispatch onboarding email:", mailErr);
-        });
+          smtp.transporter.sendMail({
+            from: `"Botmartz Builders Arena" <${smtp.smtpUser}>`,
+            to: cleanEmail,
+            subject: `⚡ Slot Confirmed: ${projectTitle || "Virtual AI Internship Track"} | Botmartz`,
+            html: emailHtml,
+          }).catch((mailErr) => {
+            console.warn("Could not dispatch onboarding email:", mailErr);
+          });
+        }
+      } catch (mailCatch) {
+        console.warn("Mail transporter error:", mailCatch);
       }
-    } catch (mailCatch) {
-      console.warn("Mail transporter error:", mailCatch);
-    }
+    })();
 
     return NextResponse.json({
       success: true,
