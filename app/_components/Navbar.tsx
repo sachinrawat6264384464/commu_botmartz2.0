@@ -110,21 +110,21 @@ export default function CommunityNavbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b-2 border-slate-100 shadow-md transition-all duration-300">
       
       {/* ── TOP ANNOUNCEMENT TICKER STRIP ── */}
-      <div className="w-full bg-gradient-to-r from-slate-950 via-[#1F080D] to-slate-950 text-white border-b border-rose-500/30 px-4 sm:px-8 lg:px-12 py-1.5 text-xs font-mono">
-        <div className="w-full max-w-[1700px] mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span className="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-extrabold uppercase text-[9px] tracking-wider shrink-0 flex items-center gap-1 shadow-xs">
+      <div className="w-full bg-gradient-to-r from-slate-950 via-[#1F080D] to-slate-950 text-white border-b border-rose-500/30 px-3 sm:px-8 lg:px-12 py-1.5 text-xs font-mono">
+        <div className="w-full max-w-[1700px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 sm:gap-4">
+          <div className="flex items-center gap-2 min-w-0 flex-wrap">
+            <span className="px-2 py-0.5 rounded-full bg-rose-600 text-white font-extrabold uppercase text-[9px] tracking-wider shrink-0 flex items-center gap-1 shadow-xs">
               <Flame size={11} className="text-white animate-pulse" />
               <span>UPCOMING HACKATHON</span>
             </span>
-            <span className="truncate font-sans font-medium text-slate-200 text-[11px] sm:text-xs">
-              <strong className="text-white font-bold">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Technical Partner: Botmartz AI Solutions &bull; <span className="text-rose-400 font-mono font-bold">Sunday, 20th Sept 2026</span>
+            <span className="truncate font-sans font-medium text-slate-200 text-[10px] sm:text-xs">
+              <strong className="text-white font-bold">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Botmartz &bull; <span className="text-rose-400 font-mono font-bold">20th Sept 2026</span>
             </span>
           </div>
 
           <Link
             href="/community/events"
-            className="px-3.5 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold text-[11px] font-mono transition-all shrink-0 flex items-center gap-1 shadow-md shadow-rose-600/30 cursor-pointer"
+            className="px-3 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold text-[10px] sm:text-[11px] font-mono transition-all shrink-0 flex items-center gap-1 shadow-md shadow-rose-600/30 cursor-pointer self-end sm:self-auto"
           >
             <span>Scan Pass &amp; QR Code &rarr;</span>
           </Link>
@@ -134,29 +134,29 @@ export default function CommunityNavbar() {
       <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Logo & Live Cohort Badge */}
-        <Link href="/" className="flex items-center gap-3.5 group shrink-0">
-          <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200/80 group-hover:border-[#0066FF] group-hover:shadow-md group-hover:shadow-blue-500/15 transition-all duration-300">
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3.5 group shrink-0">
+          <div className="relative w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200/80 group-hover:border-[#0066FF] group-hover:shadow-md group-hover:shadow-blue-500/15 transition-all duration-300">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
-              width={38}
-              height={38}
+              width={34}
+              height={34}
               className="object-contain drop-shadow-xs group-hover:scale-105 transition-transform duration-300"
               priority
             />
           </div>
           <div className="flex flex-col">
-            <div className="font-black text-lg sm:text-xl tracking-tight text-slate-900 flex items-center gap-2 font-sans">
+            <div className="font-black text-base sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5 sm:gap-2 font-sans">
               <span>BOTMARTZ</span>
-              <span className="bg-gradient-to-r from-[#0066FF] via-blue-600 to-cyan-500 bg-clip-text text-transparent font-black text-sm uppercase tracking-wide">
+              <span className="bg-gradient-to-r from-[#0066FF] via-blue-600 to-cyan-500 bg-clip-text text-transparent font-black text-xs sm:text-sm uppercase tracking-wide">
                 AI WORKSHOP
               </span>
             </div>
             <div className="flex items-center gap-2 -mt-0.5">
-              <span className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-extrabold">
+              <span className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-extrabold hidden sm:inline-block">
                 Production Engineering Cohort
               </span>
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[9px] font-extrabold border border-emerald-300 shadow-2xs">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[9px] font-extrabold border border-emerald-300 shadow-2xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 Live
               </span>
@@ -231,78 +231,7 @@ export default function CommunityNavbar() {
             )}
           </div>
 
-          {/* 4. Community Dropdown */}
-          <div className="relative" ref={communityMenuRef}>
-            <button
-              onClick={() => {
-                setCommunityOpen(!communityOpen);
-                setInternshipOpen(false);
-                setResourcesOpen(false);
-              }}
-              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
-                communityOpen || pathname.includes("/community") || pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar")
-                  ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
-              }`}
-            >
-              <span>Community</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${communityOpen || pathname.includes("/community") || pathname.includes("/progress") || pathname.includes("/bounties") || pathname.includes("/collaborate") || pathname.includes("/leaderboard") || pathname.includes("/calendar") ? "rotate-180 text-white font-bold" : "text-slate-400 group-hover:text-white"}`} />
-            </button>
 
-            {communityOpen && (
-              <div className="absolute top-full left-0 mt-3 w-84 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                <div className="text-[10px] font-mono text-slate-500 uppercase font-extrabold px-3 py-1.5 border-b border-slate-100 mb-1">
-                  Builder Network &amp; Events
-                </div>
-                {COMMUNITY_ITEMS.map((item) => {
-                  const IconComponent = item.icon;
-                  if (item.external) {
-                    return (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-purple-50/80 transition-all group"
-                      >
-                        <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-600 group-hover:text-white transition-all duration-200 shadow-xs border border-purple-100">
-                          <IconComponent size={16} />
-                        </div>
-                        <div>
-                          <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-purple-600 transition-colors flex items-center gap-1">
-                            <span>{item.name}</span>
-                          </div>
-                          <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
-                        </div>
-                      </a>
-                    );
-                  }
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-blue-50/80 transition-all group"
-                    >
-                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-all duration-200 shadow-xs border border-blue-100">
-                        <IconComponent size={16} />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
-                          <span>{item.name}</span>
-                          {item.locked && (
-                            <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
-                              <Lock size={9} /> Scheduled
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
-          </div>
 
           {/* 5. Resources Dropdown */}
           <div className="relative" ref={resourcesMenuRef}>
@@ -415,13 +344,21 @@ export default function CommunityNavbar() {
               )}
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-xs sm:text-sm font-black transition-all duration-300 shadow-lg hover:shadow-blue-500/25 border border-blue-400/30 hover:scale-[1.03] active:scale-[0.97] flex items-center gap-2 cursor-pointer group"
-            >
-              <span>Sign In</span>
-              <Sparkles size={14} className="text-cyan-300 group-hover:rotate-12 transition-transform duration-300" />
-            </Link>
+            <div className="flex items-center gap-2 font-sans text-xs">
+              <Link
+                href="/login?mode=signup"
+                className="px-4 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold transition-all cursor-pointer border border-slate-200"
+              >
+                Sign Up
+              </Link>
+              <Link
+                href="/login?mode=signin"
+                className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-xs sm:text-sm font-black transition-all duration-300 shadow-lg hover:shadow-blue-500/25 border border-blue-400/30 hover:scale-[1.03] active:scale-[0.97] flex items-center gap-2 cursor-pointer group"
+              >
+                <span>Sign In</span>
+                <Sparkles size={14} className="text-cyan-300 group-hover:rotate-12 transition-transform duration-300" />
+              </Link>
+            </div>
           )}
         </div>
 
@@ -463,39 +400,7 @@ export default function CommunityNavbar() {
             ))}
           </div>
 
-          <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Community Hub</div>
-            {COMMUNITY_ITEMS.map((item) => {
-              if (item.external) {
-                return (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <item.icon size={15} className="text-purple-600" />
-                      <span className="font-bold">{item.name}</span>
-                    </div>
-                  </a>
-                );
-              }
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <item.icon size={15} className="text-[#0066FF]" />
-                    <span className="font-bold">{item.name}</span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+
 
           <div className="space-y-1 border-t border-slate-100 pt-3">
             <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Resources &amp; Credentials</div>
@@ -530,12 +435,22 @@ export default function CommunityNavbar() {
                 </button>
               </div>
             ) : (
-              <Link
-                href="/login"
-                className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-center block uppercase tracking-wider"
-              >
-                Sign In
-              </Link>
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  href="/login?mode=signup"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3 rounded-xl bg-[#0066FF] text-white font-bold text-center block uppercase tracking-wider text-xs"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  href="/login?mode=signin"
+                  onClick={() => setMobileOpen(false)}
+                  className="py-3 rounded-xl bg-slate-900 text-white font-bold text-center block uppercase tracking-wider text-xs"
+                >
+                  Sign In
+                </Link>
+              </div>
             )}
           </div>
 

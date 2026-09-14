@@ -13,4 +13,6 @@ botmartz-builders-community-operating-plan*.md
 *-firebase-adminsdk-*.json
 *.service-account.json
 *.tsbuildinfo
-
+test-results/
+tests/reports/
+scratch/

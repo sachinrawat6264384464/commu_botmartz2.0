@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { emitEvent } from "@/lib/email/automation-engine";
 
 export async function POST(req: Request) {
   try {
@@ -43,6 +44,23 @@ export async function POST(req: Request) {
         console.warn("Direct register Firestore write notice:", e);
       }
     }
+
+    // Trigger Welcome Email & Drip Email Automation Sequence (Non-blocking)
+    (async () => {
+      try {
+        await emitEvent("USER_SIGNED_UP", {
+          email: newReg.email,
+          name: newReg.name,
+          userId: newReg.id,
+          metadata: {
+            checkInCode,
+            plan: newReg.plan
+          }
+        });
+      } catch (eErr) {
+        console.warn("Drip email automation emitEvent warning:", eErr);
+      }
+    })();
 
     return NextResponse.json({
       success: true,

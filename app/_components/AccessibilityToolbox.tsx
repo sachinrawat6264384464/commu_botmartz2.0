@@ -372,10 +372,12 @@ export default function AccessibilityToolbox() {
       <div
         style={{
           position: "fixed",
-          left: position ? `${position.x}px` : "24px",
-          top: position ? `${position.y}px` : "calc(100vh - 130px)",
+          left: position ? `${position.x}px` : "auto",
+          right: position ? "auto" : "20px",
+          top: position ? `${position.y}px` : "auto",
+          bottom: position ? "auto" : "20px",
         }}
-        className="z-[999999] select-none touch-none"
+        className="z-[99999] select-none touch-none"
       >
         <button
           type="button"
@@ -385,7 +387,7 @@ export default function AccessibilityToolbox() {
           onTouchEnd={handleTouchEnd}
           onClick={handleButtonClick}
           aria-label="Open Accessibility Toolbox"
-          className={`group w-14 h-14 sm:w-16 sm:h-16 shrink-0 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-[0_0_25px_rgba(0,102,255,0.8)] hover:shadow-[0_0_35px_rgba(0,229,255,1)] border-2 border-white/90 transition-transform duration-100 relative ${
+          className={`group w-12 h-12 sm:w-16 sm:h-16 shrink-0 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-[0_0_25px_rgba(0,102,255,0.8)] hover:shadow-[0_0_35px_rgba(0,229,255,1)] border-2 border-white/90 transition-transform duration-100 relative ${
             isDragging ? "cursor-grabbing scale-110 shadow-2xl" : "cursor-grab hover:scale-105 active:scale-95"
           }`}
         >
@@ -395,24 +397,21 @@ export default function AccessibilityToolbox() {
             <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#00E5FF]" />
           </span>
 
-          <OmIcon className="w-7 h-7 sm:w-8 sm:h-8 text-emerald-300 pointer-events-none" />
+          <OmIcon className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-300 pointer-events-none" />
           <span className="sr-only">Accessibility Toolbox</span>
-          <span className="absolute left-full ml-3 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-[11px] font-mono font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl border border-slate-800">
-            Drag anywhere with cursor &bull; Alt+A
-          </span>
         </button>
       </div>
 
       {/* ── ACCESSIBILITY TOOLBOX FLOATING PANEL ── */}
       {isOpen && (
         <div
-          style={{
-            position: "fixed",
-            left: position ? `${Math.min(window.innerWidth - 490, Math.max(10, position.x))}px` : "24px",
-            top: position ? `${Math.max(10, position.y - 490)}px` : "calc(100vh - 600px)",
-          }}
-          className="z-[999999] w-[460px] sm:w-[480px] max-w-[calc(100vw-2rem)] max-h-[calc(100vh-5rem)] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-5 duration-200"
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 z-[999999] bg-slate-950/80 backdrop-blur-md flex items-end sm:items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
         >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-lg max-h-[85vh] sm:max-h-[90vh] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in zoom-in-95 duration-200"
+          >
           
           {/* ── HEADER ── */}
           <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 shrink-0">
@@ -828,8 +827,8 @@ export default function AccessibilityToolbox() {
               Done
             </button>
           </div>
-
         </div>
+      </div>
       )}
     </>
   );
