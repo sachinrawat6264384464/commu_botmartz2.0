@@ -88,12 +88,30 @@ export async function POST(req: Request) {
           const enrollDoc = enrollSnap.docs[0];
           const currentStreak = enrollDoc.data().streak || 0;
           const currentXp = enrollDoc.data().xp || 100;
-          await enrollDoc.ref.update({
+          const isFinalDay = Number(dayNumber) >= 45;
+
+          const updatePayload: any = {
             streak: currentStreak + 1,
             xp: currentXp + 50,
             lastSubmittedAt: new Date().toISOString(),
             lastDayLogged: Number(dayNumber)
-          });
+          };
+
+          if (isFinalDay && enrollDoc.data().status !== "Completed") {
+            updatePayload.status = "Completed";
+            updatePayload.completedAt = new Date().toISOString();
+
+            // Award +500 Karma Coins completion bonus
+            await adjustStudentWallet(
+              cleanEmail,
+              500,
+              "EARN",
+              `Completed 45-Day Milestone (+500 Bonus): ${projectTitle || projectId}`,
+              projectId
+            ).catch((wErr) => console.warn("Completion wallet bonus warning:", wErr));
+          }
+
+          await enrollDoc.ref.update(updatePayload);
         }
       } catch (dbErr) {
         console.error("Firestore daily log write warning:", dbErr);

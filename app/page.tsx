@@ -39,13 +39,13 @@ export default async function CommunityHomePage() {
     <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
       {/* ── 1. HERO SECTION: FULL-WIDTH 2-COLUMN LAYOUT WITH AUTH FORM ── */}
-      <section className="relative pt-12 pb-20 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
+      <section className="relative pt-4 sm:pt-6 pb-12 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
         <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto">
           
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             
             {/* LEFT COLUMN: HERO HEADLINE, SUBHEAD & METRICS */}
-            <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
+            <div className="lg:col-span-7 flex flex-col items-start text-left space-y-4 sm:space-y-5">
               
               {/* Cohort 1 Badge */}
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider shadow-2xs">
@@ -63,44 +63,17 @@ export default async function CommunityHomePage() {
 
               {/* Subhead */}
               <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-mono text-xs sm:text-sm">
-                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50 production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15 partner companies and founder recommendation</strong>.
+                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50+ production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15+ partner companies and founder recommendation</strong>.
               </p>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 w-full pt-2">
-                <Link
-                  href="/login"
-                  className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <span>Join 45-Day Cohort (Free)</span>
-                  <ArrowRight size={15} />
-                </Link>
-                
-                <Link
-                  href="/arena"
-                  className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
-                >
-                  <Terminal size={15} className="text-blue-600" />
-                  <span>Explore 50 Projects Matrix</span>
-                </Link>
-
-                <Link
-                  href="/arena/calendar"
-                  className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                >
-                  <MapPin size={15} className="text-slate-600" />
-                  <span>Indore Office Hours</span>
-                </Link>
-              </div>
-
-              {/* Quick Proof Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-6 border-t border-slate-200/80 font-mono text-xs text-left">
+              {/* Quick Proof Metrics Grid - Moved Upper (Above Action Buttons) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-2 font-mono text-xs text-left">
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-slate-900">50 Systems</div>
+                  <div className="text-lg sm:text-xl font-black text-slate-900">50+ Systems</div>
                   <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-[#0066FF]">15 Companies</div>
+                  <div className="text-lg sm:text-xl font-black text-[#0066FF]">15+ Companies</div>
                   <div className="text-[11px] text-slate-500">Referral Guarantee</div>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
@@ -111,6 +84,36 @@ export default async function CommunityHomePage() {
                   <div className="text-lg sm:text-xl font-black text-emerald-700">100% Free</div>
                   <div className="text-[11px] text-slate-500">For Verified Students</div>
                 </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 w-full pt-3">
+                <Link
+                  href="/login"
+                  prefetch={false}
+                  className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Join 45-Day Cohort (Free)</span>
+                  <ArrowRight size={15} />
+                </Link>
+                
+                <Link
+                  href="/arena"
+                  prefetch={false}
+                  className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
+                >
+                  <Terminal size={15} className="text-blue-600" />
+                  <span>Explore 50+ Projects Matrix</span>
+                </Link>
+
+                <Link
+                  href="/arena/calendar"
+                  prefetch={false}
+                  className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                >
+                  <MapPin size={15} className="text-slate-600" />
+                  <span>Indore Office Hours</span>
+                </Link>
               </div>
 
             </div>

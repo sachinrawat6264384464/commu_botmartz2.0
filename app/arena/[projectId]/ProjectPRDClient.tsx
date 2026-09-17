@@ -82,11 +82,41 @@ export default function ProjectPRDClient({ project }: Props) {
     }
   }, [user, project]);
 
-  const activeEnrollment = userEnrollments.find(
-    (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled"
+  const activeEnrollments = userEnrollments.filter(
+    (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled" && e.status !== "Unenrolled"
   );
-  const isEnrolledInThisProject = activeEnrollment?.projectId === project.id;
-  const isEnrolledInAnotherProject = !!activeEnrollment && activeEnrollment.projectId !== project.id;
+  const isEnrolledInThisProject = activeEnrollments.some((e) => e.projectId === project.id);
+
+  let isLockedForUser = false;
+  let lockTooltipMessage = "";
+
+  if (!isEnrolledInThisProject && activeEnrollments.length > 0) {
+    const isTargetBabyStep = project.difficulty === "Baby Step";
+    const hasBabyStepActive = activeEnrollments.some((e) => e.difficulty === "Baby Step");
+    const hasNonBabyStepActive = activeEnrollments.some((e) => e.difficulty !== "Baby Step");
+
+    if (isTargetBabyStep) {
+      if (hasNonBabyStepActive) {
+        isLockedForUser = true;
+        const activeDoc = activeEnrollments.find((e) => e.difficulty !== "Baby Step");
+        lockTooltipMessage = `Tier Constraint: You are currently enrolled in a non-Baby Step project ("${activeDoc?.projectTitle}"). Complete or leave it on your profile before enrolling in Baby Step projects.`;
+      } else {
+        const babyStepCount = activeEnrollments.filter((e) => e.difficulty === "Baby Step").length;
+        if (babyStepCount >= 2) {
+          isLockedForUser = true;
+          lockTooltipMessage = "Baby Step Limit Reached: You are currently enrolled in 2 Baby Step projects. Complete or leave one on your profile to enroll in a new one.";
+        }
+      }
+    } else {
+      if (hasBabyStepActive) {
+        isLockedForUser = true;
+        lockTooltipMessage = "Tier Constraint: You have active Baby Step enrollments. Complete or leave your Baby Step projects to unlock non-Baby Step tracks.";
+      } else if (activeEnrollments.length >= 1) {
+        isLockedForUser = true;
+        lockTooltipMessage = `Single Project Limit: You are currently enrolled in "${activeEnrollments[0].projectTitle}". Complete or leave it on your profile before enrolling in a new project.`;
+      }
+    }
+  }
 
   const handleUnlockHint = async () => {
     if (!user?.email) {
@@ -113,6 +143,55 @@ export default function ProjectPRDClient({ project }: Props) {
       setHintError(e.message || "Failed to unlock architecture hint.");
     } finally {
       setUnlockingHint(false);
+    }
+  };
+
+  // Completion State
+  const [completingProject, setCompletingProject] = useState(false);
+  const [completionSuccessMsg, setCompletionSuccessMsg] = useState<string | null>(null);
+
+  const thisProjectEnrollment = userEnrollments.find((e) => e.projectId === project.id);
+  const isCompletedInThisProject = thisProjectEnrollment?.status === "Completed" || thisProjectEnrollment?.status === "Finished";
+
+  const handleMarkCompleted = async () => {
+    if (!user?.email) {
+      setShowGateModal(true);
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to mark "${project.title}" as Completed? This will award +500 Karma Coins to your wallet and immediately free your slot to enroll in another PRD!`)) {
+      return;
+    }
+
+    setCompletingProject(true);
+    try {
+      const res = await fetch("/api/arena/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentEmail: user.email,
+          projectId: project.id,
+        })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setCompletionSuccessMsg(data.message);
+        // Refresh enrollments
+        fetch(`/api/arena/enroll?email=${encodeURIComponent(user.email)}`)
+          .then((r) => r.json())
+          .then((d) => {
+            if (d.success && Array.isArray(d.enrollments)) {
+              setUserEnrollments(d.enrollments);
+            }
+          });
+      } else {
+        alert(data.error || "Failed to mark project completed.");
+      }
+    } catch (e: any) {
+      alert(e.message || "An error occurred marking project complete.");
+    } finally {
+      setCompletingProject(false);
     }
   };
 
@@ -372,24 +451,71 @@ export default function ProjectPRDClient({ project }: Props) {
               ))}
             </div>
 
+            {completionSuccessMsg && (
+              <div className="mt-6 p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 text-emerald-200 font-mono text-xs flex items-center justify-between gap-3 shadow-lg">
+                <div className="flex items-center gap-2 font-bold">
+                  <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
+                  <span>{completionSuccessMsg}</span>
+                </div>
+                <Link href="/arena" className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black uppercase tracking-wider text-[11px] shrink-0 hover:bg-emerald-400 transition-all">
+                  Enroll in Next PRD &rarr;
+                </Link>
+              </div>
+            )}
+
             {/* Quick Actions */}
             <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
-              {isEnrolledInThisProject ? (
-                <div className="px-6 py-3.5 rounded-2xl bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider border border-emerald-500/40 flex items-center gap-2">
-                  <CheckCircle2 size={15} />
-                  <span>✓ Currently Enrolled</span>
-                </div>
-              ) : isEnrolledInAnotherProject ? (
+              {isCompletedInThisProject ? (
+                <>
+                  <div className="px-6 py-3.5 rounded-2xl bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider border-2 border-emerald-400/80 flex items-center gap-2 shadow-md">
+                    <Trophy size={16} className="text-amber-400" />
+                    <span>✓ Project Completed (+500 Coins)</span>
+                  </div>
+
+                  <Link
+                    href="/arena"
+                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 flex items-center gap-2"
+                  >
+                    <Sparkles size={15} />
+                    <span>Enroll in Next Arena PRD &rarr;</span>
+                  </Link>
+                </>
+              ) : isEnrolledInThisProject ? (
+                <>
+                  <div className="px-6 py-3.5 rounded-2xl bg-blue-500/20 text-cyan-300 font-bold uppercase tracking-wider border border-cyan-400/40 flex items-center gap-2">
+                    <CheckCircle2 size={15} />
+                    <span>✓ Currently Enrolled</span>
+                  </div>
+
+                  <button
+                    onClick={handleMarkCompleted}
+                    disabled={completingProject}
+                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                  >
+                    {completingProject ? (
+                      <>
+                        <Loader2 size={15} className="animate-spin" />
+                        <span>Submitting Completion...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Trophy size={15} className="text-amber-300" />
+                        <span>Mark Project Completed (+500 Coins) &rarr;</span>
+                      </>
+                    )}
+                  </button>
+                </>
+              ) : isLockedForUser ? (
                 <div className="relative group">
                   <button
                     disabled
                     className="px-6 py-3.5 rounded-2xl bg-slate-900/90 text-amber-400/90 font-bold uppercase tracking-wider cursor-not-allowed flex items-center gap-2 border border-amber-500/30 opacity-90"
                   >
                     <Lock size={15} className="text-amber-400" />
-                    <span>🔒 Locked (Active: {activeEnrollment?.projectTitle?.slice(0, 18) || "Track"}...)</span>
+                    <span>🔒 Track Locked</span>
                   </button>
-                  <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-72 p-3 bg-slate-900 text-white text-[11px] font-sans rounded-xl border border-slate-700 shadow-xl z-30">
-                    Single Active Project Policy: You are currently enrolled in <strong>{activeEnrollment?.projectTitle || "another track"}</strong>. Finish or leave that project before enrolling in a new one!
+                  <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-80 p-3 bg-slate-900 text-white text-[11px] font-sans rounded-xl border border-slate-700 shadow-xl z-30 leading-relaxed">
+                    {lockTooltipMessage}
                   </div>
                 </div>
               ) : (
@@ -722,8 +848,9 @@ export default function ProjectPRDClient({ project }: Props) {
           INTERACTIVE DIRECT ENROLLMENT MODAL
       ========================================================================= */}
       {showEnrollModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl font-mono text-xs max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-950/80 backdrop-blur-md p-4 sm:p-6">
+          <div className="min-h-full flex items-center justify-center">
+            <div className="relative w-full max-w-xl bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-2xl font-mono text-xs text-slate-900">
             
             <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
               <div>
@@ -974,7 +1101,8 @@ export default function ProjectPRDClient({ project }: Props) {
 
           </div>
         </div>
-      )}
+      </div>
+    )}
 
       {/* =========================================================================
           TESTIMONIAL SUBMISSION MODAL

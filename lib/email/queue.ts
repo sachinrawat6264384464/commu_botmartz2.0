@@ -35,7 +35,39 @@ export async function enqueueEmailJob(jobData: EmailJobData): Promise<{ success:
     const recipient = jobData.recipient.trim().toLowerCase();
     const idempotencyKey = jobData.idempotencyKey || `${jobData.templateId}_${recipient}_${Date.now()}`;
 
-    // Check Idempotency protection
+    // Direct send for WELCOME & HIGH priority emails to guarantee immediate delivery
+    if (jobData.priority === 'HIGH' || jobData.templateId === 'WELCOME') {
+      try {
+        const compiled = compileTemplate(jobData.templateId, jobData.variables || {});
+        const directRes = await emailProvider.sendEmail({
+          to: recipient,
+          subject: compiled.subject,
+          html: compiled.html,
+          text: compiled.text,
+        });
+        if (directRes.success) {
+          console.log(`[EmailQueue] Direct send SUCCESS for ${recipient} (${jobData.templateId}). MessageId: ${directRes.messageId}`);
+          if (adminDb) {
+            await adminDb.collection('email_jobs').add({
+              recipient,
+              templateId: jobData.templateId,
+              variables: jobData.variables || {},
+              emailType: jobData.emailType,
+              status: 'SENT',
+              sentAt: Date.now(),
+              providerMessageId: directRes.messageId || null,
+              idempotencyKey,
+              createdAt: Date.now(),
+            });
+          }
+          return { success: true };
+        }
+      } catch (dErr) {
+        console.warn(`[EmailQueue] Direct send failed for ${recipient}, falling back to queue:`, dErr);
+      }
+    }
+
+    // Check Idempotency protection (only skip if previously SENT)
     if (jobData.idempotencyKey) {
       const existing = await adminDb
         .collection('email_jobs')
@@ -44,8 +76,11 @@ export async function enqueueEmailJob(jobData: EmailJobData): Promise<{ success:
         .get();
 
       if (!existing.empty) {
-        console.log(`[EmailQueue] Idempotency key match found (${jobData.idempotencyKey}). Skipping duplicate email.`);
-        return { success: true, skipped: true };
+        const existingStatus = existing.docs[0].data()?.status;
+        if (existingStatus === 'SENT') {
+          console.log(`[EmailQueue] Idempotency key match found (${jobData.idempotencyKey}) with status SENT. Skipping duplicate email.`);
+          return { success: true, skipped: true };
+        }
       }
     }
 

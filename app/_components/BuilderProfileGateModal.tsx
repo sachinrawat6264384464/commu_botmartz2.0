@@ -43,8 +43,9 @@ export default function BuilderProfileGateModal({
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs animate-in fade-in">
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-lg w-full p-6 sm:p-8 relative text-slate-900 overflow-hidden">
+    <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-950/80 backdrop-blur-md p-4 sm:p-6">
+      <div className="min-h-full flex items-center justify-center">
+        <div className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-8 text-slate-900">
         
         {/* Glowing Background Accent */}
         <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#0066FF]/10 rounded-full blur-2xl pointer-events-none" />
@@ -150,5 +151,6 @@ export default function BuilderProfileGateModal({
 
       </div>
     </div>
-  );
+  </div>
+);
 }

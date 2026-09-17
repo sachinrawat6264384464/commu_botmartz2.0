@@ -124,21 +124,15 @@ export default function AccessibilityToolbox() {
   const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [hasDragged, setHasDragged] = useState(false);
 
-  // Set default initial position safely clear of footer
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const defaultX = 24;
-      const defaultY = Math.max(100, window.innerHeight - 130);
-      setPosition({ x: defaultX, y: defaultY });
-    }
-  }, []);
-
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setHasDragged(false);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const currentX = position ? position.x : rect.left;
+    const currentY = position ? position.y : rect.top;
     setDragStart({
-      x: e.clientX - (position?.x || 24),
-      y: e.clientY - (position?.y || (typeof window !== "undefined" ? window.innerHeight - 130 : 500)),
+      x: e.clientX - currentX,
+      y: e.clientY - currentY,
     });
   };
 
@@ -147,7 +141,7 @@ export default function AccessibilityToolbox() {
       if (!isDragging) return;
       const newX = Math.max(10, Math.min(window.innerWidth - 70, e.clientX - dragStart.x));
       const newY = Math.max(10, Math.min(window.innerHeight - 70, e.clientY - dragStart.y));
-      if (position && (Math.abs(newX - position.x) > 3 || Math.abs(newY - position.y) > 3)) {
+      if (!position || Math.abs(newX - position.x) > 3 || Math.abs(newY - position.y) > 3) {
         setHasDragged(true);
       }
       setPosition({ x: newX, y: newY });
@@ -171,9 +165,12 @@ export default function AccessibilityToolbox() {
     const touch = e.touches[0];
     setIsDragging(true);
     setHasDragged(false);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const currentX = position ? position.x : rect.left;
+    const currentY = position ? position.y : rect.top;
     setDragStart({
-      x: touch.clientX - (position?.x || 24),
-      y: touch.clientY - (position?.y || (typeof window !== "undefined" ? window.innerHeight - 130 : 500)),
+      x: touch.clientX - currentX,
+      y: touch.clientY - currentY,
     });
   };
 
@@ -182,7 +179,7 @@ export default function AccessibilityToolbox() {
     const touch = e.touches[0];
     const newX = Math.max(10, Math.min(window.innerWidth - 70, touch.clientX - dragStart.x));
     const newY = Math.max(10, Math.min(window.innerHeight - 70, touch.clientY - dragStart.y));
-    if (position && (Math.abs(newX - position.x) > 3 || Math.abs(newY - position.y) > 3)) {
+    if (!position || Math.abs(newX - position.x) > 3 || Math.abs(newY - position.y) > 3) {
       setHasDragged(true);
     }
     setPosition({ x: newX, y: newY });
@@ -370,14 +367,18 @@ export default function AccessibilityToolbox() {
 
       {/* ── DRAGGABLE FLOATING ACCESSIBILITY BUTTON (SWASTIK LOGO & LIVE BLUE POINTER) ── */}
       <div
-        style={{
-          position: "fixed",
-          left: position ? `${position.x}px` : "auto",
-          right: position ? "auto" : "20px",
-          top: position ? `${position.y}px` : "auto",
-          bottom: position ? "auto" : "20px",
-        }}
-        className="z-[99999] select-none touch-none"
+        style={
+          position
+            ? {
+                position: "fixed",
+                left: `${position.x}px`,
+                top: `${position.y}px`,
+                bottom: "auto",
+                right: "auto",
+              }
+            : undefined
+        }
+        className="fixed bottom-6 left-6 z-[99999] select-none touch-none"
       >
         <button
           type="button"
@@ -402,15 +403,31 @@ export default function AccessibilityToolbox() {
         </button>
       </div>
 
-      {/* ── ACCESSIBILITY TOOLBOX FLOATING PANEL ── */}
+      {/* ── ACCESSIBILITY TOOLBOX FLOATING PANEL (POPPER ANCHORED ABOVE LOGO, NO BG BLUR) ── */}
       {isOpen && (
-        <div
-          onClick={() => setIsOpen(false)}
-          className="fixed inset-0 z-[999999] bg-slate-950/80 backdrop-blur-md flex items-end sm:items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
-        >
+        <>
+          {/* Invisible Backdrop for Click Outside (No Blur, No Dim) */}
           <div
-            onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-lg max-h-[85vh] sm:max-h-[90vh] bg-[#090D16]/98 backdrop-blur-2xl border-2 border-blue-500/40 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.3)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in zoom-in-95 duration-200"
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 z-[999998]"
+          />
+
+          <div
+            style={
+              position
+                ? {
+                    position: "fixed",
+                    left: `${Math.max(16, Math.min(typeof window !== "undefined" ? window.innerWidth - 440 : 400, position.x))}px`,
+                    top: position.y > 450 ? "auto" : `${position.y + 70}px`,
+                    bottom: position.y > 450 ? `${(typeof window !== "undefined" ? window.innerHeight : 800) - position.y + 12}px` : "auto",
+                  }
+                : {
+                    position: "fixed",
+                    bottom: "90px",
+                    left: "24px",
+                  }
+            }
+            className="z-[999999] w-[calc(100vw-32px)] sm:w-[440px] max-h-[75vh] sm:max-h-[580px] bg-[#090D16]/95 border-2 border-blue-500/50 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.5)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-3 fade-in duration-200"
           >
           
           {/* ── HEADER ── */}
@@ -828,7 +845,7 @@ export default function AccessibilityToolbox() {
             </button>
           </div>
         </div>
-      </div>
+        </>
       )}
     </>
   );

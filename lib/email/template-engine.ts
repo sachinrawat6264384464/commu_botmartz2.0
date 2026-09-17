@@ -111,6 +111,7 @@ export function compileTemplate(templateKey: string, vars: Record<string, any>):
 
   switch (templateKey) {
     case 'WELCOME': {
+      const passcode = vars.passcode || vars.checkInCode || '';
       const subject = `Welcome to Botmartz Community, ${name}! 🚀`;
       const body = `
         <p style="margin:0 0 12px 0;font-size:14px;color:#00B8F0;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;font-family:monospace;">ACCOUNT ACTIVATED</p>
@@ -119,6 +120,14 @@ export function compileTemplate(templateKey: string, vars: Record<string, any>):
           Hi <strong>${sanitizeInput(name)}</strong>,<br/><br/>
           We are thrilled to have you join Botmartz Community! Your developer portal is now ready. You can explore real-world AI Arena challenges, register for upcoming bootcamps, connect with tech leaders, and build your proof-of-work portfolio.
         </p>
+
+        ${passcode ? `
+        <div style="background:rgba(0,102,255,0.1);border:1.5px dashed #0066FF;border-radius:12px;padding:20px;margin-bottom:24px;text-align:center;">
+          <p style="margin:0 0 6px 0;font-size:12px;color:#00B8F0;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;font-family:monospace;">YOUR OFFICIAL SIGN-IN PASSCODE</p>
+          <div style="font-size:28px;font-weight:900;color:#FFFFFF;letter-spacing:4px;font-family:monospace;">${sanitizeInput(passcode)}</div>
+          <p style="margin:8px 0 0 0;font-size:12px;color:#94A3B8;">Use this Passcode + your registered Email to Sign In to your Botmartz account.</p>
+        </div>
+        ` : ''}
 
         <div style="background:#050B14;border:1px solid #1E293B;border-radius:12px;padding:20px;margin-bottom:24px;">
           <h4 style="margin:0 0 8px 0;font-size:14px;color:#00B8F0;text-transform:uppercase;font-family:monospace;">Quick Start Blueprint</h4>

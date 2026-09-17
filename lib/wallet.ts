@@ -1,4 +1,4 @@
-import { adminDb } from "./firebase-admin";
+import { adminDb, hasAdminCredentials } from "./firebase-admin";
 import { recordSecurityAuditLog } from "./zero-trust";
 
 export interface WalletTransaction {
@@ -25,7 +25,7 @@ export interface StudentWallet {
 export async function getStudentWallet(email: string): Promise<StudentWallet> {
   const cleanEmail = email.toLowerCase().trim();
 
-  if (!adminDb) {
+  if (!adminDb || !hasAdminCredentials) {
     return {
       studentEmail: cleanEmail,
       balance: 100,
@@ -81,7 +81,7 @@ export async function adjustStudentWallet(
 ): Promise<{ success: boolean; newBalance: number; error?: string }> {
   const cleanEmail = email.toLowerCase().trim();
 
-  if (!adminDb) {
+  if (!adminDb || !hasAdminCredentials) {
     return { success: true, newBalance: 100 + amount };
   }
 

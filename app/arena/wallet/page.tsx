@@ -160,6 +160,12 @@ export default function StudentWalletPage() {
   };
 
   const handleRedeemPerk = async (perk: any) => {
+    const targetEmail = email || user?.email;
+    if (!targetEmail) {
+      alert("Please enter or sign in with your student email to redeem perks.");
+      return;
+    }
+
     const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
     if (currentCoins < perk.cost) {
       alert(`Insufficient Karma Coins! You need ${perk.cost} coins, but your current balance is ${currentCoins} coins.`);
@@ -168,21 +174,35 @@ export default function StudentWalletPage() {
 
     setRedeeming(true);
     try {
-      // Simulate API redemption
-      await new Promise(r => setTimeout(r, 600));
-      setWallet((prev: any) => ({
-        ...prev,
-        coins: (prev?.coins || currentCoins) - perk.cost,
-        spent: (prev?.spent || 0) + perk.cost
-      }));
-      setTransactions((prev) => [
-        { type: "SPEND", amount: perk.cost, reason: `Redeemed: ${perk.title}`, timestamp: new Date().toISOString() },
-        ...prev
-      ]);
-      setRedeemSuccess(`Successfully redeemed "${perk.title}"! Check your email (${email || "your registered email"}) for fulfillment details.`);
-      setSelectedPerk(null);
-    } catch (e) {
-      alert("Redemption failed. Please try again.");
+      const res = await fetch("/api/arena/wallet/redeem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentEmail: targetEmail,
+          perkId: perk.id,
+          perkTitle: perk.title,
+          perkCost: perk.cost,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setWallet((prev: any) => ({
+          ...prev,
+          coins: data.newBalance ?? ((prev?.coins || currentCoins) - perk.cost),
+          spent: (prev?.spent || 0) + perk.cost,
+        }));
+        setTransactions((prev) => [
+          { type: "SPEND", amount: perk.cost, reason: `Redeemed: ${perk.title} (Code: ${data.fulfillmentCode})`, timestamp: new Date().toISOString() },
+          ...prev,
+        ]);
+        setRedeemSuccess(`Successfully redeemed "${perk.title}"! Voucher/Ref code: ${data.fulfillmentCode}. Check your email (${targetEmail}) for fulfillment updates.`);
+        setSelectedPerk(null);
+      } else {
+        alert(data.error || "Redemption failed. Please try again.");
+      }
+    } catch (e: any) {
+      alert(e.message || "Redemption failed. Please try again.");
     } finally {
       setRedeeming(false);
     }
@@ -190,6 +210,12 @@ export default function StudentWalletPage() {
 
   const handleTransferKarma = async (e: React.FormEvent) => {
     e.preventDefault();
+    const targetEmail = email || user?.email;
+    if (!targetEmail) {
+      alert("Please log in or enter your email to transfer Karma Coins.");
+      return;
+    }
+
     const amt = parseInt(transferAmount) || 0;
     const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
 
@@ -198,23 +224,43 @@ export default function StudentWalletPage() {
       return;
     }
 
+    if (!transferRecipient.trim()) {
+      alert("Please enter a valid recipient student email.");
+      return;
+    }
+
     setTransferring(true);
     try {
-      await new Promise(r => setTimeout(r, 600));
-      setWallet((prev: any) => ({
-        ...prev,
-        coins: (prev?.coins || currentCoins) - amt,
-        spent: (prev?.spent || 0) + amt
-      }));
-      setTransactions((prev) => [
-        { type: "SPEND", amount: amt, reason: `Transferred to ${transferRecipient}: ${transferReason}`, timestamp: new Date().toISOString() },
-        ...prev
-      ]);
-      setTransferSuccess(`Successfully transferred ${amt} Karma Coins to ${transferRecipient}!`);
-      setShowTransferModal(false);
-      setTransferRecipient("");
-    } catch (e) {
-      alert("Transfer failed.");
+      const res = await fetch("/api/arena/wallet/transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          senderEmail: targetEmail,
+          recipientEmail: transferRecipient.trim(),
+          amount: amt,
+          reason: transferReason.trim()
+        })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setWallet((prev: any) => ({
+          ...prev,
+          coins: data.newBalance ?? ((prev?.coins || currentCoins) - amt),
+          spent: (prev?.spent || 0) + amt
+        }));
+        setTransactions((prev) => [
+          { type: "SPEND", amount: amt, reason: `Transferred to ${transferRecipient}: ${transferReason}`, timestamp: new Date().toISOString() },
+          ...prev
+        ]);
+        setTransferSuccess(`Successfully transferred ${amt} Karma Coins to ${transferRecipient}!`);
+        setShowTransferModal(false);
+        setTransferRecipient("");
+      } else {
+        alert(data.error || "Transfer failed. Please check the recipient email and your balance.");
+      }
+    } catch (err: any) {
+      alert(err.message || "Transfer failed.");
     } finally {
       setTransferring(false);
     }
@@ -241,7 +287,7 @@ export default function StudentWalletPage() {
       
       {/* Header Banner */}
       <div className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-amber-200">
@@ -273,7 +319,7 @@ export default function StudentWalletPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 mt-8 space-y-8">
         
         {/* Notification message */}
         {buySuccess && (

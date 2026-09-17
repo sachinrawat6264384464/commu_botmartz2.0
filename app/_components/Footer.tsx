@@ -37,6 +37,7 @@ export default function CommunityFooter() {
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/arena/calendar"
+              prefetch={false}
               className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold transition-all border border-slate-700 flex items-center gap-1.5 shadow-2xs"
             >
               <Calendar size={13} className="text-amber-400" />
