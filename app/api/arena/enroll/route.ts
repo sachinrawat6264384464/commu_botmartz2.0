@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { getSmtpTransporter, buildArenaEnrollmentEmail } from "@/lib/mail-templates";
+import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { emitEvent } from "@/lib/email/automation-engine";
 
 export async function GET(req: Request) {
   try {
@@ -13,7 +15,7 @@ export async function GET(req: Request) {
 
     let enrollments: any[] = [];
 
-    if (adminDb) {
+    if (adminDb && hasAdminCredentials) {
       try {
         const snap = await adminDb
           .collection("arena_enrollments")
@@ -75,28 +77,63 @@ export async function POST(req: Request) {
     }
 
     const cleanEmail = email.trim().toLowerCase();
+    const targetProject = ARENA_PROJECTS.find((p) => p.id === projectId);
+    const targetDifficulty = difficulty || targetProject?.difficulty || "Hard";
 
-    // Enforce 1 active project enrollment limit per student email
-    if (adminDb) {
+    // Multi-tier enrollment limits:
+    // - Baby Step tier: Max 2 active projects (strictly within Baby Step tier).
+    // - Non-Baby Step tiers: Max 1 active project.
+    // - No mixing Baby Step and non-Baby Step active enrollments.
+    if (adminDb && hasAdminCredentials) {
       try {
         const existingSnap = await adminDb
           .collection("arena_enrollments")
           .where("email", "==", cleanEmail)
           .get();
 
-        const activeDoc: any = existingSnap.docs
+        const activeDocs: any[] = existingSnap.docs
           .map((d) => ({ id: d.id, ...d.data() }))
-          .find((e: any) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled");
+          .filter((e: any) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled" && e.status !== "Unenrolled");
 
-        if (activeDoc) {
-          if (activeDoc.projectId === projectId) {
+        // 1. Check if already enrolled in this exact project
+        const alreadyEnrolled = activeDocs.find((e) => e.projectId === projectId);
+        if (alreadyEnrolled) {
+          return NextResponse.json(
+            { error: `You are already enrolled in "${alreadyEnrolled.projectTitle}". Visit your profile or daily log workspace to continue.` },
+            { status: 400 }
+          );
+        }
+
+        const isTargetBabyStep = targetDifficulty === "Baby Step";
+        const hasBabyStepActive = activeDocs.some((e) => e.difficulty === "Baby Step");
+        const hasNonBabyStepActive = activeDocs.some((e) => e.difficulty !== "Baby Step");
+
+        if (isTargetBabyStep) {
+          if (hasNonBabyStepActive) {
+            const nonBabyStepDoc = activeDocs.find((e) => e.difficulty !== "Baby Step");
             return NextResponse.json(
-              { error: `You are already enrolled in "${activeDoc.projectTitle}". Visit your profile or daily log workspace to continue.` },
+              { error: `Tier Constraint: You are currently enrolled in a non-Baby Step project ("${nonBabyStepDoc?.projectTitle || "Active Project"}"). You cannot enroll in Baby Step projects while active in a non-Baby Step project. Please complete or leave your active project first.` },
               { status: 400 }
             );
-          } else {
+          }
+          const babyStepCount = activeDocs.filter((e) => e.difficulty === "Baby Step").length;
+          if (babyStepCount >= 2) {
             return NextResponse.json(
-              { error: `Single Project Limit: You are currently enrolled in "${activeDoc.projectTitle}". You must complete or leave your active project before enrolling in a new one.` },
+              { error: `Baby Step Limit Reached: You can enroll in a maximum of 2 Baby Step projects at a time. Please complete or leave an active project first.` },
+              { status: 400 }
+            );
+          }
+        } else {
+          // Target is Non-Baby Step
+          if (hasBabyStepActive) {
+            return NextResponse.json(
+              { error: `Tier Constraint: You currently have active Baby Step enrollments. You cannot enroll in non-Baby Step projects while active in Baby Step projects. Please complete or leave your Baby Step projects first.` },
+              { status: 400 }
+            );
+          }
+          if (activeDocs.length >= 1) {
+            return NextResponse.json(
+              { error: `Single Project Limit: You are currently enrolled in "${activeDocs[0].projectTitle}". You must complete or leave your active project before enrolling in a new one.` },
               { status: 400 }
             );
           }
@@ -117,7 +154,7 @@ export async function POST(req: Request) {
       role: role || "Developer",
       projectId,
       projectTitle: projectTitle || "Selected Arena Project",
-      difficulty: difficulty || "Hard",
+      difficulty: targetDifficulty,
       teamType: teamType || "Solo",
       teamName: (teamName || "").trim(),
       experience: experience || "Student / Learner",
@@ -135,7 +172,7 @@ export async function POST(req: Request) {
 
     let id = `enroll_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
-    if (adminDb) {
+    if (adminDb && hasAdminCredentials) {
       try {
         const docRef = await adminDb.collection("arena_enrollments").add(enrollmentData);
         id = docRef.id;
@@ -161,24 +198,47 @@ export async function POST(req: Request) {
       }
     }
 
-    // Trigger Asynchronous Transactional Onboarding Email (Non-blocking)
+    // Trigger Dual-Layer Asynchronous Transactional Onboarding Email (Non-blocking)
     (async () => {
       try {
+        // 1. Emit automation event
+        await emitEvent("USER_COMPLETED_ACTION", {
+          email: cleanEmail,
+          name: name.trim(),
+          metadata: {
+            action: "PROJECT_ENROLLED",
+            projectTitle: projectTitle || targetProject?.title || "Selected Arena Project",
+            projectId,
+            difficulty: targetDifficulty,
+            teamType: teamType || "Solo Shipper",
+            enrollmentId: id,
+            enrolledAt: enrollmentData.createdAt,
+            overview: targetProject?.overview || "",
+            productionSla: targetProject?.productionSla || "",
+          }
+        }).catch((evtErr) => console.warn("Automation event PROJECT_ENROLLED warning:", evtErr));
+
+        // 2. Direct SMTP Mailer Fallback
         const smtp = await getSmtpTransporter();
         if (smtp?.transporter) {
           const emailHtml = buildArenaEnrollmentEmail({
             name: name.trim(),
             email: cleanEmail,
-            projectTitle: projectTitle || "Selected Arena Project",
-            difficulty: difficulty || "Hard",
+            projectTitle: projectTitle || targetProject?.title || "Selected Arena Project",
+            difficulty: targetDifficulty,
             projectId,
             teamType: teamType || "Solo Shipper",
+            enrollmentId: id,
+            enrolledAt: enrollmentData.createdAt,
+            category: targetProject?.domain || "AI Systems",
+            overview: targetProject?.overview || "",
+            productionSla: targetProject?.productionSla || "",
           });
 
           smtp.transporter.sendMail({
             from: `"Botmartz Builders Arena" <${smtp.smtpUser}>`,
             to: cleanEmail,
-            subject: `⚡ Slot Confirmed: ${projectTitle || "Virtual AI Internship Track"} | Botmartz`,
+            subject: `⚡ Slot Confirmed: ${projectTitle || targetProject?.title || "Virtual AI Internship Track"} | Botmartz`,
             html: emailHtml,
           }).catch((mailErr) => {
             console.warn("Could not dispatch onboarding email:", mailErr);

@@ -2,10 +2,14 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { UserCheck, ArrowRight, Sparkles, ShieldCheck, Lock, Loader2, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { UserCheck, ArrowRight, Sparkles, ShieldCheck, Lock, Loader2, CheckCircle2, Coins, Flame, Terminal } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 
 export default function HeroAuthForm() {
   const router = useRouter();
+  const { user, studentProfile, loading: authLoading, logout } = useAuth();
+
   const [activeTab, setActiveTab] = useState<"signup" | "signin">("signup");
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -76,15 +80,35 @@ export default function HeroAuthForm() {
       } else {
         // Sign in
         if (!form.email.trim()) {
-          setErrorMsg("Please enter your email address.");
+          setErrorMsg("Please enter your registered email address.");
           setLoading(false);
           return;
         }
 
-        setSuccessMsg("Signed in successfully! Redirecting...");
-        setTimeout(() => {
-          router.push("/arena");
-        }, 1200);
+        if (!form.password.trim()) {
+          setErrorMsg("Please enter your Passcode / Access Code.");
+          setLoading(false);
+          return;
+        }
+
+        const res = await fetch("/api/auth/passcode-login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.email.trim(),
+            passcode: form.password.trim()
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          setSuccessMsg(`Signed in successfully as ${data.user.displayName}! Redirecting...`);
+          setTimeout(() => {
+            router.push("/arena");
+          }, 1000);
+        } else {
+          setErrorMsg(data.error || "Invalid email or Passcode.");
+        }
       }
     } catch (err: any) {
       setErrorMsg(err.message || "An unexpected error occurred.");
@@ -92,6 +116,115 @@ export default function HeroAuthForm() {
       setLoading(false);
     }
   };
+
+  // If student is logged in, show their active session, profile & progress instead of the auth form
+  if (user) {
+    const displayName = studentProfile?.displayName || user.displayName || user.email?.split("@")[0] || "Builder";
+    const userEmail = user.email || "";
+    const karmaCoins = studentProfile?.karmaCoins ?? 100;
+    const persona = studentProfile?.personaType || "Verified Builder";
+    const photoURL = user.photoURL;
+
+    return (
+      <div className="w-full bg-slate-900 text-white border-2 border-slate-800 rounded-3xl p-5 shadow-2xl space-y-4 font-sans relative overflow-hidden flex flex-col justify-between hover:border-blue-500/50 transition-all duration-300">
+        
+        {/* Top Accent Bar */}
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-cyan-400 to-emerald-400" />
+
+        {/* Top Status Badge */}
+        <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+          <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-extrabold text-emerald-400 uppercase tracking-wider">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+            </span>
+            <span>Session Active</span>
+          </span>
+          <span className="text-[10px] font-mono text-cyan-300 bg-cyan-500/10 border border-cyan-400/30 px-2.5 py-0.5 rounded-full font-bold">
+            Cohort 1 Pass Active
+          </span>
+        </div>
+
+        {/* User Info Header */}
+        <div className="flex items-center gap-3.5 pt-1">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0066FF] to-indigo-600 text-white flex items-center justify-center font-black text-xl overflow-hidden border-2 border-blue-400/40 shadow-lg shrink-0">
+            {photoURL ? (
+              <img src={photoURL} alt={displayName} className="w-full h-full object-cover" />
+            ) : (
+              <span>{displayName.charAt(0).toUpperCase()}</span>
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="text-lg font-black text-white truncate font-sans tracking-tight">
+              {displayName}
+            </h3>
+            <p className="text-xs text-slate-400 truncate font-mono">{userEmail}</p>
+            <div className="inline-block mt-1 px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px] font-mono font-bold border border-blue-500/30">
+              {persona}
+            </div>
+          </div>
+        </div>
+
+        {/* Student Progress & Metrics Grid */}
+        <div className="grid grid-cols-2 gap-2.5 pt-1 font-mono">
+          <div className="p-3 rounded-2xl bg-slate-800/90 border border-slate-700/90 space-y-1">
+            <div className="flex items-center gap-1 text-[10px] text-slate-400 uppercase font-bold">
+              <Coins size={13} className="text-amber-400" />
+              <span>Karma Balance</span>
+            </div>
+            <div className="text-lg font-black text-amber-400 font-sans">{karmaCoins} Coins</div>
+            <div className="text-[10px] text-emerald-400 font-medium">100 Welcome Bonus</div>
+          </div>
+
+          <div className="p-3 rounded-2xl bg-slate-800/90 border border-slate-700/90 space-y-1">
+            <div className="flex items-center gap-1 text-[10px] text-slate-400 uppercase font-bold">
+              <Flame size={13} className="text-rose-400" />
+              <span>Sprint Clock</span>
+            </div>
+            <div className="text-lg font-black text-white font-sans">45-Day Cohort</div>
+            <div className="text-[10px] text-cyan-300 font-medium">Daily Git Tracker</div>
+          </div>
+        </div>
+
+        {/* Quick Action Navigation Buttons */}
+        <div className="space-y-2 pt-1 font-mono text-xs">
+          <Link
+            href="/arena"
+            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer border border-blue-400/30"
+          >
+            <Terminal size={15} />
+            <span>Enter AI Arena &amp; PRDs &rarr;</span>
+          </Link>
+
+          <Link
+            href="/profile"
+            className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 font-bold text-center transition-all flex items-center justify-center gap-2 border border-slate-700 cursor-pointer"
+          >
+            <UserCheck size={14} className="text-cyan-400" />
+            <span>View Profile &amp; Verifiable Proofs</span>
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => logout()}
+            className="w-full py-1.5 text-[11px] text-slate-400 hover:text-rose-400 font-medium text-center transition-all cursor-pointer"
+          >
+            Sign Out of Session
+          </button>
+        </div>
+
+        {/* Security Notice */}
+        <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+          <span className="flex items-center gap-1">
+            <ShieldCheck size={12} className="text-emerald-400" />
+            <span>Authenticated Session</span>
+          </span>
+          <span>DPDP Compliant</span>
+        </div>
+
+      </div>
+    );
+  }
 
   return (
     <div className="w-full bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-2xl space-y-3 font-mono text-xs text-slate-900 relative overflow-hidden">
@@ -240,14 +373,15 @@ export default function HeroAuthForm() {
 
             <div>
               <label className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-0.5">
-                Password / Passcode
+                Passcode / Access Code *
               </label>
               <input
-                type="password"
-                placeholder="••••••••"
+                type="text"
+                required
+                placeholder="e.g. BM-849201"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 text-xs font-mono font-bold focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all uppercase tracking-wider"
               />
             </div>
           </>

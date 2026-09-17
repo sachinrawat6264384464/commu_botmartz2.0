@@ -82,11 +82,13 @@ export default function ArenaPage() {
     }
   }, [user?.email]);
 
-  const activeEnrollment = useMemo(() => {
-    return userEnrollments.find(
-      (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled"
+  const activeEnrollments = useMemo(() => {
+    return userEnrollments.filter(
+      (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled" && e.status !== "Unenrolled"
     );
   }, [userEnrollments]);
+
+  const activeEnrollment = activeEnrollments[0] || null;
 
   // Extract unique domains
   const allDomains = useMemo(() => {
@@ -134,9 +136,33 @@ export default function ArenaPage() {
   );
 
   const handleEnrollClick = (project: ArenaProject) => {
-    if (activeEnrollment && activeEnrollment.projectId !== project.id) {
-      alert(`Single Project Limit: You are currently enrolled in "${activeEnrollment.projectTitle}". Please complete or leave your active project before enrolling in a new one.`);
-      return;
+    const isEnrolledInThis = activeEnrollments.some((e) => e.projectId === project.id);
+    if (isEnrolledInThis) return;
+
+    const isTargetBabyStep = project.difficulty === "Baby Step";
+    const hasBabyStepActive = activeEnrollments.some((e) => e.difficulty === "Baby Step");
+    const hasNonBabyStepActive = activeEnrollments.some((e) => e.difficulty !== "Baby Step");
+
+    if (isTargetBabyStep) {
+      if (hasNonBabyStepActive) {
+        const activeDoc = activeEnrollments.find((e) => e.difficulty !== "Baby Step");
+        alert(`Tier Constraint: You are currently enrolled in a non-Baby Step project ("${activeDoc?.projectTitle || "Active Project"}"). You cannot enroll in Baby Step projects while active in a non-Baby Step project. Please complete or leave your active project first.`);
+        return;
+      }
+      const babyStepCount = activeEnrollments.filter((e) => e.difficulty === "Baby Step").length;
+      if (babyStepCount >= 2) {
+        alert("Baby Step Limit Reached: You can enroll in a maximum of 2 Baby Step projects at a time. Please complete or leave an active project first.");
+        return;
+      }
+    } else {
+      if (hasBabyStepActive) {
+        alert("Tier Constraint: You currently have active Baby Step enrollments. You cannot enroll in non-Baby Step projects while active in Baby Step projects. Please complete or leave your Baby Step projects first.");
+        return;
+      }
+      if (activeEnrollments.length >= 1) {
+        alert(`Single Project Limit: You are currently enrolled in "${activeEnrollments[0].projectTitle}". Please complete or leave your active project before enrolling in a new one.`);
+        return;
+      }
     }
 
     setSelectedProjectForEnroll(project);
@@ -402,8 +428,38 @@ export default function ArenaPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {paginatedProjects.map((project) => {
-              const isThisEnrolled = activeEnrollment?.projectId === project.id;
-              const isOtherEnrolled = Boolean(activeEnrollment && !isThisEnrolled);
+              const isThisEnrolled = activeEnrollments.some((e) => e.projectId === project.id);
+
+              let isCardLocked = false;
+              let cardLockReason = "";
+
+              if (!isThisEnrolled && activeEnrollments.length > 0) {
+                const isTargetBabyStep = project.difficulty === "Baby Step";
+                const hasBabyStepActive = activeEnrollments.some((e) => e.difficulty === "Baby Step");
+                const hasNonBabyStepActive = activeEnrollments.some((e) => e.difficulty !== "Baby Step");
+
+                if (isTargetBabyStep) {
+                  if (hasNonBabyStepActive) {
+                    isCardLocked = true;
+                    const activeDoc = activeEnrollments.find((e) => e.difficulty !== "Baby Step");
+                    cardLockReason = `Locked: You are currently enrolled in a non-Baby Step project ("${activeDoc?.projectTitle || "Active Track"}"). Complete or leave it to unlock Baby Step projects.`;
+                  } else {
+                    const babyStepCount = activeEnrollments.filter((e) => e.difficulty === "Baby Step").length;
+                    if (babyStepCount >= 2) {
+                      isCardLocked = true;
+                      cardLockReason = "Locked: Maximum 2 Baby Step projects reached. Complete or leave one on your profile to enroll in another.";
+                    }
+                  }
+                } else {
+                  if (hasBabyStepActive) {
+                    isCardLocked = true;
+                    cardLockReason = "Locked: You have active Baby Step enrollments. Complete or leave your Baby Step projects to unlock non-Baby Step tracks.";
+                  } else if (activeEnrollments.length >= 1) {
+                    isCardLocked = true;
+                    cardLockReason = `Locked: You are currently enrolled in "${activeEnrollments[0].projectTitle}". Complete or leave it to unlock this project.`;
+                  }
+                }
+              }
 
               return (
                 <div
@@ -411,7 +467,7 @@ export default function ArenaPage() {
                   className={`bg-white border-2 rounded-3xl p-6 sm:p-7 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-5 group ${
                     isThisEnrolled
                       ? "border-emerald-500 ring-2 ring-emerald-500/20"
-                      : isOtherEnrolled
+                      : isCardLocked
                       ? "border-slate-200 opacity-90"
                       : "border-slate-300 hover:border-[#0066FF] hover:-translate-y-1.5"
                   }`}
@@ -426,8 +482,8 @@ export default function ArenaPage() {
                         <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 border-2 border-emerald-300 flex items-center gap-1">
                           <CheckCircle2 size={10} /> Active Track
                         </span>
-                      ) : isOtherEnrolled ? (
-                        <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 border-2 border-slate-200 flex items-center gap-1">
+                      ) : isCardLocked ? (
+                        <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-500 border-2 border-slate-200 flex items-center gap-1" title={cardLockReason}>
                           <Lock size={10} /> Locked
                         </span>
                       ) : (
@@ -493,10 +549,10 @@ export default function ArenaPage() {
                         <CheckCircle2 size={13} />
                         <span>Enrolled</span>
                       </Link>
-                    ) : isOtherEnrolled ? (
+                    ) : isCardLocked ? (
                       <button
                         disabled
-                        title={`Locked: You are currently enrolled in "${activeEnrollment.projectTitle}". Complete or leave it on your profile to unlock this project.`}
+                        title={cardLockReason}
                         className="flex-1 py-3 rounded-2xl bg-slate-100 border-2 border-slate-200 text-slate-400 font-extrabold text-center transition-all duration-200 opacity-70 cursor-not-allowed flex items-center justify-center gap-1.5"
                       >
                         <Lock size={12} className="text-slate-400" />
@@ -577,8 +633,9 @@ export default function ArenaPage() {
 
       {/* ── 6. 1-CLICK STREAMLINED ENROLLMENT MODAL ── */}
       {showEnrollModal && selectedProjectForEnroll && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-lg w-full p-6 sm:p-8 relative text-slate-900">
+        <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-950/80 backdrop-blur-md p-4 sm:p-6">
+          <div className="min-h-full flex items-center justify-center">
+            <div className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-8 text-slate-900">
             
             <button
               onClick={() => {
@@ -730,7 +787,8 @@ export default function ArenaPage() {
 
           </div>
         </div>
-      )}
+      </div>
+    )}
 
       {/* ── 7. REUSABLE BUILDER PROFILE GATE MODAL ── */}
       <BuilderProfileGateModal

@@ -33,7 +33,8 @@ import {
   Github,
   Mail,
   User,
-  Ticket
+  Ticket,
+  KeyRound
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
@@ -50,12 +51,13 @@ function StudentLoginInner() {
     signInWithGoogle,
     setupRecaptcha,
     sendPhoneOtp,
-    completeStudentProfile
+    completeStudentProfile,
+    logout
   } = useAuth();
 
   // Primary mode state: signup vs signin
   const [authMode, setAuthMode] = useState<"signup" | "signin">("signup");
-  const [authMethod, setAuthMethod] = useState<"google" | "phone">("google");
+  const [authMethod, setAuthMethod] = useState<"passcode" | "google" | "phone">("passcode");
 
   // Sync mode search param with authMode state
   useEffect(() => {
@@ -77,6 +79,12 @@ function StudentLoginInner() {
     githubUsername: ""
   });
 
+  // Sign In Passcode State
+  const [passcodeForm, setPasscodeForm] = useState({
+    email: "",
+    passcode: ""
+  });
+
   // Sign In Phone State
   const [phone, setPhone] = useState("");
   const [otpCode, setOtpCode] = useState("");
@@ -93,15 +101,45 @@ function StudentLoginInner() {
     setMounted(true);
   }, []);
 
-  // Automatically redirect authenticated users after a brief delay if not in registration success view
-  useEffect(() => {
-    if (!authLoading && user && !registrationSuccess) {
-      const timer = setTimeout(() => {
-        router.push(redirectUrl);
-      }, 800);
-      return () => clearTimeout(timer);
+  // Handle Passcode Sign In Submission
+  const handlePasscodeLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!passcodeForm.email.trim()) {
+      setError("Please enter your registered email address.");
+      return;
     }
-  }, [user, authLoading, redirectUrl, router, registrationSuccess]);
+    if (!passcodeForm.passcode.trim()) {
+      setError("Please enter your Passcode / Access Code.");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      setError("");
+      const res = await fetch("/api/auth/passcode-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: passcodeForm.email.trim(),
+          passcode: passcodeForm.passcode.trim()
+        })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setInfoMsg(`Signed in successfully as ${data.user.displayName}! Redirecting to workspace...`);
+        setTimeout(() => {
+          router.push(redirectUrl);
+        }, 1000);
+      } else {
+        setError(data.error || "Invalid email or Passcode.");
+      }
+    } catch (err: any) {
+      setError(err.message || "Passcode login failed. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   // Handle Sign Up Registration Submission
   const handleSignUpSubmit = async (e: React.FormEvent) => {
@@ -124,13 +162,22 @@ function StudentLoginInner() {
       return;
     }
 
-    const registeredEmail = signUpForm.email.trim();
+    const registeredEmail = signUpForm.email.trim().toLowerCase();
+
+    // If an existing session is active and different email is registering, log out first to prevent session confusion
+    if (user && user.email?.toLowerCase() !== registeredEmail) {
+      try {
+        await logout();
+      } catch (lErr) {
+        console.warn("Pre-signup logout notice:", lErr);
+      }
+    }
 
     try {
       setSubmitting(true);
       setError("");
 
-      // 2. Call Backend Direct Registration API (Saves to Firestore bootcamp_registrations)
+      // 2. Call Backend Direct Registration API (Saves to Firestore & triggers Welcome Email + Drip Sequence)
       const res = await fetch("/api/admin/direct-register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -147,23 +194,9 @@ function StudentLoginInner() {
       const data = await res.json();
 
       if (data.success) {
-        // 3. If user is currently signed in via Firebase, update profile in Firestore
-        if (user) {
-          try {
-            await completeStudentProfile({
-              displayName: signUpForm.name,
-              email: registeredEmail,
-              collegeName: signUpForm.organization,
-              phoneNumber: signUpForm.phone,
-              githubUsername: signUpForm.githubUsername,
-              karmaCoins: 100
-            });
-          } catch (pErr) {
-            console.warn("Student profile update notice:", pErr);
-          }
-        }
+        setRegistrationSuccess(data.registration);
 
-        // 4. Clear input fields immediately
+        // Clear input fields
         setSignUpForm({
           name: "",
           email: "",
@@ -173,11 +206,7 @@ function StudentLoginInner() {
           githubUsername: ""
         });
 
-        setInfoMsg(`Account created successfully! Welcome email sent to ${registeredEmail}. Redirecting to Sign In...`);
-        setTimeout(() => {
-          setAuthMode("signin");
-          setInfoMsg("Account created successfully! Please sign in with your email.");
-        }, 1500);
+        setInfoMsg(`Account created successfully! Welcome email & 45-day onboarding drip sequence dispatched to ${registeredEmail}.`);
       } else {
         setError(data.error || "Registration failed. Please try again.");
       }
@@ -429,10 +458,10 @@ function StudentLoginInner() {
                     <div className="flex items-center justify-between text-xs text-cyan-300 border-b border-slate-800 pb-2">
                       <span className="flex items-center gap-1.5 font-bold">
                         <Ticket size={14} className="text-amber-400" />
-                        <span>Check-In Pass Code</span>
+                        <span>Sign-In Passcode</span>
                       </span>
-                      <span className="bg-cyan-500/20 text-cyan-300 font-extrabold px-2.5 py-0.5 rounded border border-cyan-400/40 text-[11px]">
-                        {registrationSuccess.checkInCode}
+                      <span className="bg-cyan-500/20 text-cyan-300 font-extrabold px-2.5 py-0.5 rounded border border-cyan-400/40 text-[11px] font-mono tracking-wider">
+                        {registrationSuccess.passcode || registrationSuccess.checkInCode}
                       </span>
                     </div>
 
@@ -454,9 +483,16 @@ function StudentLoginInner() {
                       </span>
                     </div>
                   </div>
+
+                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-sans flex items-center gap-2 text-left">
+                    <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                    <span>
+                      <strong>Passcode Sent to Email:</strong> Your passcode <strong>{registrationSuccess.passcode || registrationSuccess.checkInCode}</strong> was sent to <strong>{registrationSuccess.email}</strong>.
+                    </span>
+                  </div>
                 </div>
 
-                <div className="space-y-3 pt-2">
+                <div className="space-y-3 pt-2 font-mono text-xs">
                   <Link
                     href="/arena"
                     className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-700 hover:to-blue-600 text-white font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer text-xs font-mono"
@@ -466,10 +502,32 @@ function StudentLoginInner() {
 
                   <button
                     type="button"
-                    onClick={() => setRegistrationSuccess(null)}
-                    className="w-full py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold font-mono text-xs cursor-pointer"
+                    onClick={() => {
+                      const emailToFill = registrationSuccess.email;
+                      const passcodeToFill = registrationSuccess.passcode || registrationSuccess.checkInCode;
+                      setPasscodeForm({ email: emailToFill || "", passcode: passcodeToFill || "" });
+                      setRegistrationSuccess(null);
+                      setAuthMode("signin");
+                      setAuthMethod("passcode");
+                      setError("");
+                      setInfoMsg("Registration completed! Sign in with your Passcode below.");
+                    }}
+                    className="w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold font-mono text-xs cursor-pointer transition-all"
                   >
-                    Register Another Account
+                    Sign In with Passcode &rarr;
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRegistrationSuccess(null);
+                      setAuthMode("signup");
+                      setError("");
+                      setInfoMsg("");
+                    }}
+                    className="w-full py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold font-mono text-xs cursor-pointer transition-all"
+                  >
+                    Register Another Student Account
                   </button>
                 </div>
               </div>
@@ -489,7 +547,7 @@ function StudentLoginInner() {
 
                   <div>
                     <div className="text-xs text-emerald-600 font-extrabold uppercase tracking-wider mb-1 flex items-center justify-center gap-1.5 font-mono">
-                      <CheckCircle2 size={16} /> Authenticated Builder Session
+                      <CheckCircle2 size={16} /> Authenticated Session Active
                     </div>
                     <h3 className="text-2xl font-black text-slate-900 font-sans">
                       {studentProfile?.displayName || user.displayName || "Builder"}
@@ -514,13 +572,28 @@ function StudentLoginInner() {
                   </div>
                 </div>
 
-                <Link
-                  href={redirectUrl}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-700 hover:to-blue-600 text-white font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer text-sm font-mono"
-                >
-                  <span>Continue to Workspace</span>
-                  <ArrowRight size={16} />
-                </Link>
+                <div className="space-y-2.5 font-mono text-xs">
+                  <Link
+                    href={redirectUrl}
+                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-700 hover:to-blue-600 text-white font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer text-xs"
+                  >
+                    <span>Continue to Workspace &rarr;</span>
+                    <ArrowRight size={16} />
+                  </Link>
+
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await logout();
+                      setRegistrationSuccess(null);
+                      setError("");
+                      setInfoMsg("");
+                    }}
+                    className="w-full py-3 rounded-2xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 border-2 border-slate-200 text-slate-700 font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>Sign Out to Register New Account</span>
+                  </button>
+                </div>
               </div>
             ) : (
               /* MAIN AUTH CARD (SIGN UP / SIGN IN) */
@@ -783,21 +856,37 @@ function StudentLoginInner() {
                   {authMode === "signin" && (
                     <div className="space-y-4 font-sans text-xs">
                       
-                      {/* Sub Auth Method Switcher */}
-                      <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-xl font-sans text-xs border border-slate-200">
+                      {/* Sub Auth Method Switcher (Passcode / Google / Phone) */}
+                      <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl font-sans text-xs border border-slate-200">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setAuthMethod("passcode");
+                            setError("");
+                          }}
+                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${
+                            authMethod === "passcode"
+                              ? "bg-[#0066FF] text-white shadow-xs font-black"
+                              : "text-slate-600 hover:text-slate-900"
+                          }`}
+                        >
+                          <KeyRound size={13} />
+                          <span>Passcode</span>
+                        </button>
+
                         <button
                           type="button"
                           onClick={() => {
                             setAuthMethod("google");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${
                             authMethod === "google"
-                              ? "bg-[#0066FF] text-white shadow-xs"
+                              ? "bg-[#0066FF] text-white shadow-xs font-black"
                               : "text-slate-600 hover:text-slate-900"
                           }`}
                         >
-                          <span>Google Sign-In</span>
+                          <span>Google</span>
                         </button>
 
                         <button
@@ -806,16 +895,72 @@ function StudentLoginInner() {
                             setAuthMethod("phone");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 ${
+                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${
                             authMethod === "phone"
-                              ? "bg-[#0066FF] text-white shadow-xs"
+                              ? "bg-[#0066FF] text-white shadow-xs font-black"
                               : "text-slate-600 hover:text-slate-900"
                           }`}
                         >
-                          <Phone size={14} />
+                          <Phone size={13} />
                           <span>Phone OTP</span>
                         </button>
                       </div>
+
+                      {/* PASSCODE SIGN IN */}
+                      {authMethod === "passcode" && (
+                        <form onSubmit={handlePasscodeLogin} className="space-y-3.5 font-sans text-xs">
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
+                              <Mail size={13} className="text-[#0066FF]" />
+                              <span>Registered Email *</span>
+                            </label>
+                            <input
+                              type="email"
+                              required
+                              value={passcodeForm.email}
+                              onChange={(e) => setPasscodeForm({ ...passcodeForm, email: e.target.value })}
+                              placeholder="student@college.edu"
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
+                              <KeyRound size={13} className="text-[#0066FF]" />
+                              <span>Passcode / Access Code *</span>
+                            </label>
+                            <input
+                              type="text"
+                              required
+                              value={passcodeForm.passcode}
+                              onChange={(e) => setPasscodeForm({ ...passcodeForm, passcode: e.target.value })}
+                              placeholder="e.g. BM-849201"
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono font-bold focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all tracking-wider uppercase"
+                            />
+                            <p className="text-[10px] text-slate-500 font-mono mt-1">
+                              Enter the Passcode sent to your registered email upon signup.
+                            </p>
+                          </div>
+
+                          <button
+                            type="submit"
+                            disabled={submitting}
+                            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-mono text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer border border-blue-400/30 disabled:opacity-50 mt-2"
+                          >
+                            {submitting ? (
+                              <>
+                                <Loader2 size={16} className="animate-spin" />
+                                <span>Verifying Passcode...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Lock size={15} className="text-cyan-300" />
+                                <span>Sign In with Passcode &rarr;</span>
+                              </>
+                            )}
+                          </button>
+                        </form>
+                      )}
 
                       {/* GOOGLE SIGN IN */}
                       {authMethod === "google" && (

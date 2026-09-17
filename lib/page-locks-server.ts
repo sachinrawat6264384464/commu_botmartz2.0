@@ -1,9 +1,9 @@
-import { adminDb } from "./firebase-admin";
+import { adminDb, hasAdminCredentials } from "./firebase-admin";
 import { PageLockConfig, DEFAULT_PAGE_LOCK_CONFIG } from "./page-locks";
 
 // Fetch active lock configuration from Firestore (Server-only)
 export async function getActivePageLockConfigServer(): Promise<PageLockConfig> {
-  if (!adminDb) {
+  if (!adminDb || !hasAdminCredentials) {
     return DEFAULT_PAGE_LOCK_CONFIG;
   }
 
@@ -25,8 +25,8 @@ export async function getActivePageLockConfigServer(): Promise<PageLockConfig> {
 
 // Update lock configuration in Firestore (Server-only)
 export async function updateActivePageLockConfigServer(updates: Partial<PageLockConfig>): Promise<PageLockConfig> {
-  if (!adminDb) {
-    throw new Error("Firestore Admin is not initialized.");
+  if (!adminDb || !hasAdminCredentials) {
+    throw new Error("Firestore Admin is not initialized with valid credentials.");
   }
 
   const current = await getActivePageLockConfigServer();

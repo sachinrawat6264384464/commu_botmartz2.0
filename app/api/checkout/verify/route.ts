@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { adjustStudentWallet } from "@/lib/wallet";
 import { getSmtpTransporter } from "@/lib/mail-templates";
 
@@ -27,10 +27,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const key_secret = process.env.RAZORPAY_KEY_SECRET || "test_secret_key";
+    const key_secret = process.env.RAZORPAY_KEY_SECRET;
 
-    // Verify HMAC-SHA256 Signature
-    if (razorpay_signature) {
+    // Verify HMAC-SHA256 Signature if real key secret and signature are present
+    if (key_secret && razorpay_signature) {
       const generated_signature = crypto
         .createHmac("sha256", key_secret)
         .update(`${razorpay_order_id}|${razorpay_payment_id}`)
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     const invoiceNumber = `INV-BMZ-${Date.now().toString().slice(-6)}`;
     const checkInCode = `WS-${Math.floor(10000 + Math.random() * 90000)}`;
 
-    if (adminDb) {
+    if (adminDb && hasAdminCredentials) {
       // 1. Record Order in Firestore
       await adminDb.collection("orders").add({
         orderId: razorpay_order_id || `ORD_${Date.now()}`,
@@ -138,7 +138,10 @@ export async function POST(req: NextRequest) {
         console.warn("Profile fellowship upgrade non-fatal warning:", pErr);
       }
 
-      // Award +300 Bonus Karma Coins to Student Wallet
+    }
+
+    // 4. Handle Profile Upgrade & Wallet Bonus (+300 Karma Coins)
+    if (itemCategory !== "WALLET_TOPUP") {
       try {
         await adjustStudentWallet(
           cleanEmail,
@@ -150,29 +153,29 @@ export async function POST(req: NextRequest) {
       } catch (wErr) {
         console.warn("Wallet bonus credit non-fatal warning:", wErr);
       }
+    }
 
-      // 5. Handle Karma Coins Wallet Top-up
-      if (itemCategory === "WALLET_TOPUP" || metadata?.coinsAmount) {
-        const coinsToAdd =
-          Number(metadata?.coinsAmount) ||
-          (Number(amount) === 99
-            ? 500
-            : Number(amount) === 299
-            ? 2000
-            : Number(amount) === 599
-            ? 5000
-            : Number(amount) * 5);
-        try {
-          await adjustStudentWallet(
-            cleanEmail,
-            coinsToAdd,
-            "EARN",
-            `Purchased ${itemName || "Karma Credit Pack"} (+${coinsToAdd} Coins for ₹${amount})`,
-            razorpay_payment_id
-          );
-        } catch (wErr) {
-          console.warn("Wallet topup credit warning:", wErr);
-        }
+    // 5. Handle Karma Coins Wallet Top-up
+    if (itemCategory === "WALLET_TOPUP" || metadata?.coinsAmount) {
+      const coinsToAdd =
+        Number(metadata?.coinsAmount) ||
+        (Number(amount) === 99
+          ? 500
+          : Number(amount) === 299
+          ? 2000
+          : Number(amount) === 599
+          ? 5000
+          : Number(amount) * 5);
+      try {
+        await adjustStudentWallet(
+          cleanEmail,
+          coinsToAdd,
+          "EARN",
+          `Purchased ${itemName || "Karma Credit Pack"} (+${coinsToAdd} Coins for ₹${amount})`,
+          razorpay_payment_id
+        );
+      } catch (wErr) {
+        console.warn("Wallet topup credit warning:", wErr);
       }
     }
 

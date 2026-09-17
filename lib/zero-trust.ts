@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { adminDb } from "./firebase-admin";
+import { adminDb, hasAdminCredentials } from "./firebase-admin";
 
 const SECURITY_SECRET = process.env.ADMIN_JWT_SECRET || process.env.ADMIN_PASSWORD || "botmartz_zero_trust_2026_master_key_9312";
 
@@ -110,7 +110,7 @@ export async function recordSecurityAuditLog(entry: SecurityAuditEntry): Promise
     // Compute cryptographic block hash
     const blockHash = crypto.createHash("sha256").update(dataString).digest("hex");
 
-    if (adminDb) {
+    if (adminDb && hasAdminCredentials) {
       const docRef = await adminDb.collection("security_audit_ledger").add({
         ...entry,
         timestamp,

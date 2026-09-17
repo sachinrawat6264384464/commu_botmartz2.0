@@ -25,7 +25,7 @@ import {
   Coins,
   Copy
 } from "lucide-react";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
 interface Props {
@@ -40,7 +40,7 @@ export default async function MemberProfilePage({ params }: Props) {
   let enrollments: any[] = [];
   let dailyLogs: any[] = [];
 
-  if (adminDb) {
+  if (adminDb && hasAdminCredentials) {
     try {
       const isEmail = decodedParam.includes("@");
 

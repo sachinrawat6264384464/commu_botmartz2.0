@@ -62,8 +62,9 @@ export async function POST(req: Request) {
       }
     }
 
-    // 3. Create new registration object
+    // 3. Create new registration object with unique Sign-In Passcode
     const checkInCode = `ADM-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+    const passcode = `BM-${Math.floor(100000 + Math.random() * 900000)}`;
     const amountMap: Record<string, number> = {
       "bootcamp-01": 199,
       "bootcamp-02": 199,
@@ -84,6 +85,7 @@ export async function POST(req: Request) {
       attendance: true,
       attended: true,
       checkInCode,
+      passcode,
       regDateStr: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) + " · " + new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }),
       certificateSent: false,
       createdAt: new Date().toISOString()
@@ -98,8 +100,18 @@ export async function POST(req: Request) {
           displayName: newReg.name,
           email: newReg.email,
           organization: newReg.organization,
+          passcode,
+          checkInCode,
           createdAt: newReg.createdAt
         }, { merge: true });
+
+        // Also update student_profiles if matching email doc exists
+        const profileSnap = await adminDb.collection("student_profiles").where("email", "==", normalizedEmail).get();
+        if (!profileSnap.empty) {
+          profileSnap.docs.forEach((d) => {
+            d.ref.set({ passcode, checkInCode }, { merge: true });
+          });
+        }
       } catch (e) {
         console.warn("Direct register Firestore write notice:", e);
       }
@@ -114,6 +126,7 @@ export async function POST(req: Request) {
       name: newReg.name,
       userId: newReg.id,
       metadata: {
+        passcode,
         checkInCode,
         plan: newReg.plan
       }
@@ -122,7 +135,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       registration: newReg,
-      message: `Account created for ${newReg.name} (${newReg.checkInCode}). Welcome email sent to ${newReg.email}.`
+      message: `Account created for ${newReg.name} (${newReg.checkInCode}). Passcode: ${passcode}. Welcome email sent to ${newReg.email}.`
     });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });

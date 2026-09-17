@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!adminDb) {
+    if (!adminDb || !hasAdminCredentials) {
       return NextResponse.json({ success: true, message: "Unenrolled successfully (mock mode)." });
     }
 
