@@ -942,6 +942,12 @@ export default function StudentProfilePortal() {
                       <Sparkles size={12} />
                       <span>Publish to Community Showcase &rarr;</span>
                     </Link>
+                  </div>
+                </div>
+              );
+            })}
+            </div>
+          )}
         </div>
 
 
@@ -2092,6 +2098,8 @@ export default function StudentProfilePortal() {
 
           </div>
         </div>
+      )}
+
       {/* LinkedIn UGC Share Modal */}
       <LinkedInShareModal
         isOpen={shareModalData.isOpen}
