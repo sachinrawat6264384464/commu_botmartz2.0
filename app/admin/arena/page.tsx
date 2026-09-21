@@ -22,6 +22,88 @@ import {
 } from "lucide-react";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
+function PaginationControls({
+  currentPage,
+  totalPages,
+  totalItems,
+  itemsPerPage,
+  onPageChange,
+}: {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+}) {
+  if (totalItems <= 0) return null;
+
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+  const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (currentPage <= 4) {
+        pages.push(1, 2, 3, 4, 5, "...", totalPages);
+      } else if (currentPage >= totalPages - 3) {
+        pages.push(1, "...", totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        pages.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
+      }
+    }
+    return pages;
+  };
+
+  return (
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 bg-slate-50 border-t border-slate-200 text-xs font-mono">
+      <div className="text-slate-500 font-medium">
+        Showing <span className="font-bold text-slate-900">{startItem}</span> to{" "}
+        <span className="font-bold text-slate-900">{endItem}</span> of{" "}
+        <span className="font-bold text-slate-900">{totalItems}</span> results
+      </div>
+
+      <div className="flex items-center gap-1.5">
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+        >
+          Previous
+        </button>
+
+        {getPageNumbers().map((page, idx) => (
+          <React.Fragment key={idx}>
+            {typeof page === "number" ? (
+              <button
+                onClick={() => onPageChange(page)}
+                className={`w-8 h-8 rounded-lg font-bold transition-all cursor-pointer ${
+                  currentPage === page
+                    ? "bg-[#0066FF] text-white shadow-xs"
+                    : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
+                }`}
+              >
+                {page}
+              </button>
+            ) : (
+              <span className="px-1.5 text-slate-400 font-bold">...</span>
+            )}
+          </React.Fragment>
+        ))}
+
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages || totalPages === 0}
+          className="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-all"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminArenaDashboardPage() {
   const [stats, setStats] = useState<any>({
     totalEnrolled: 0,
@@ -40,6 +122,14 @@ export default function AdminArenaDashboardPage() {
   const [activeTab, setActiveTab] = useState<"students" | "shippers" | "logs" | "bugs" | "gth" | "projects">("students");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDifficulty, setFilterDifficulty] = useState("All");
+
+  // Pagination state (9 items per page requirement)
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 9;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, searchQuery, filterDifficulty]);
 
   // Add Project Modal State
   const [showAddProjectModal, setShowAddProjectModal] = useState(false);
@@ -126,6 +216,25 @@ export default function AdminArenaDashboardPage() {
   const gthEnrollments = enrollments.filter(
     (e) => e.difficulty === "Expert Tier" || e.difficulty === "Go To Hell 💀" || e.projectId === "p10" || e.projectId === "p40" || e.projectId === "p50"
   );
+
+  // Computed paginated arrays
+  const paginatedEnrollments = filteredEnrollments.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const studentTotalPages = Math.ceil(filteredEnrollments.length / ITEMS_PER_PAGE);
+
+  const paginatedClaims = claims.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const claimsTotalPages = Math.ceil(claims.length / ITEMS_PER_PAGE);
+
+  const paginatedLogs = recentLogs.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const logsTotalPages = Math.ceil(recentLogs.length / ITEMS_PER_PAGE);
+
+  const paginatedBugs = recentBugs.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const bugsTotalPages = Math.ceil(recentBugs.length / ITEMS_PER_PAGE);
+
+  const paginatedGth = gthEnrollments.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const gthTotalPages = Math.ceil(gthEnrollments.length / ITEMS_PER_PAGE);
+
+  const paginatedStaticProjects = ARENA_PROJECTS.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+  const staticProjectsTotalPages = Math.ceil(ARENA_PROJECTS.length / ITEMS_PER_PAGE);
 
   const exportCSV = () => {
     if (enrollments.length === 0) return;
@@ -351,7 +460,7 @@ export default function AdminArenaDashboardPage() {
                     </td>
                   </tr>
                 ) : (
-                  filteredEnrollments.map((student) => (
+                  paginatedEnrollments.map((student) => (
                     <tr key={student.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-4">
                         <div className="font-bold text-slate-900">{student.name}</div>
@@ -387,6 +496,13 @@ export default function AdminArenaDashboardPage() {
               </tbody>
             </table>
           </div>
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={studentTotalPages}
+            totalItems={filteredEnrollments.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+          />
         </div>
       )}
 
@@ -413,7 +529,7 @@ export default function AdminArenaDashboardPage() {
                     </td>
                   </tr>
                 ) : (
-                  claims.map((claim) => (
+                  paginatedClaims.map((claim) => (
                     <tr key={claim.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-4">
                         <div className="font-bold text-slate-900">{claim.name}</div>
@@ -461,6 +577,13 @@ export default function AdminArenaDashboardPage() {
               </tbody>
             </table>
           </div>
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={claimsTotalPages}
+            totalItems={claims.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+          />
         </div>
       )}
 
@@ -488,7 +611,7 @@ export default function AdminArenaDashboardPage() {
                     </td>
                   </tr>
                 ) : (
-                  recentLogs.map((log) => (
+                  paginatedLogs.map((log) => (
                     <tr key={log.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-4">
                         <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold mr-1.5">
@@ -571,6 +694,13 @@ export default function AdminArenaDashboardPage() {
               </tbody>
             </table>
           </div>
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={logsTotalPages}
+            totalItems={recentLogs.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+          />
         </div>
       )}
 
@@ -596,7 +726,7 @@ export default function AdminArenaDashboardPage() {
                     </td>
                   </tr>
                 ) : (
-                  recentBugs.map((b) => (
+                  paginatedBugs.map((b) => (
                     <tr key={b.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-4">
                         <span
@@ -616,10 +746,17 @@ export default function AdminArenaDashboardPage() {
                   ))
                 )}
               </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+            </table>
+          </div>
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={bugsTotalPages}
+            totalItems={recentBugs.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+          />
+        </div>
+      )}
 
           {/* Tab 4: GTH 5-Slot Finalist Review Board */}
           {activeTab === "gth" && (
@@ -640,11 +777,11 @@ export default function AdminArenaDashboardPage() {
                     No applicants for the GTH extreme tier yet.
                   </div>
                 ) : (
-                  gthEnrollments.map((g, idx) => (
+                  paginatedGth.map((g, idx) => (
                     <div key={g.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded bg-rose-600 text-white font-bold">Slot #{idx + 1}</span>
+                          <span className="px-2 py-0.5 rounded bg-rose-600 text-white font-bold">Slot #{((currentPage - 1) * ITEMS_PER_PAGE) + idx + 1}</span>
                           <span className="text-base font-bold text-white">{g.name}</span>
                           <span className="text-slate-400 text-xs">({g.email})</span>
                         </div>
@@ -662,6 +799,13 @@ export default function AdminArenaDashboardPage() {
                   ))
                 )}
               </div>
+              <PaginationControls
+                currentPage={currentPage}
+                totalPages={gthTotalPages}
+                totalItems={gthEnrollments.length}
+                itemsPerPage={ITEMS_PER_PAGE}
+                onPageChange={setCurrentPage}
+              />
             </div>
           )}
 
@@ -784,7 +928,7 @@ export default function AdminArenaDashboardPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {ARENA_PROJECTS.map((p) => (
+                  {paginatedStaticProjects.map((p) => (
                     <tr key={p.id} className="hover:bg-slate-50">
                       <td className="py-2.5 px-4 font-bold text-slate-900 font-sans">{p.title}</td>
                       <td className="py-2.5 px-4 text-slate-600">{p.domain}</td>
@@ -811,6 +955,13 @@ export default function AdminArenaDashboardPage() {
                 </tbody>
               </table>
             </div>
+            <PaginationControls
+              currentPage={currentPage}
+              totalPages={staticProjectsTotalPages}
+              totalItems={ARENA_PROJECTS.length}
+              itemsPerPage={ITEMS_PER_PAGE}
+              onPageChange={setCurrentPage}
+            />
           </div>
         </div>
       )}

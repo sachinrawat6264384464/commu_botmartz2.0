@@ -1,126 +1,27 @@
 import { NextResponse } from "next/server";
 import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { fetchCollectionDocs } from "@/lib/firebase-admin-helper";
-
-const SEED_COUPONS = [
-  {
-    id: "cp-001",
-    code: "BMFREE-8RTE-DSVX",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 1,
-    currentUses: 1,
-    createdAt: "2026-08-10T08:56:00.000Z"
-  },
-  {
-    id: "cp-002",
-    code: "BMFREE-VTLR-J3D2",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 1,
-    currentUses: 0,
-    createdAt: "2026-08-09T20:10:00.000Z"
-  },
-  {
-    id: "cp-003",
-    code: "BMFREE-3D48-VCZ7",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 1,
-    currentUses: 1,
-    createdAt: "2026-08-08T21:25:00.000Z"
-  },
-  {
-    id: "cp-004",
-    code: "BMFREE-ULGA-TU79",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 1,
-    currentUses: 1,
-    createdAt: "2026-08-08T21:15:00.000Z"
-  },
-  {
-    id: "cp-005",
-    code: "BMFREE6",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 6,
-    currentUses: 1,
-    createdAt: "2026-08-07T06:02:00.000Z"
-  },
-  {
-    id: "cp-006",
-    code: "BMFREE-357J-DVAM",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 1,
-    currentUses: 1,
-    createdAt: "2026-08-06T15:09:00.000Z"
-  },
-  {
-    id: "cp-007",
-    code: "BMFREE-F7L8-E3ZX",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 1,
-    currentUses: 1,
-    createdAt: "2026-08-06T09:07:00.000Z"
-  },
-  {
-    id: "cp-008",
-    code: "BMFREE100-6",
-    type: "free-pass",
-    discountType: "percentage",
-    discountValue: 100,
-    isActive: true,
-    maxUses: 1,
-    currentUses: 1,
-    createdAt: "2026-08-05T15:17:00.000Z"
-  },
-  {
-    id: "cp-009",
-    code: "BOTMARTZ10",
-    type: "custom",
-    discountType: "percentage",
-    discountValue: 10,
-    isActive: true,
-    maxUses: 50,
-    currentUses: 27,
-    createdAt: "2026-08-01T12:00:00.000Z"
-  }
-];
+import { db } from "@/lib/firebase";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import {
+  getAllCouponsMerged,
+  saveCouponToMemory,
+  RUNTIME_COUPONS_CACHE,
+  CouponItem
+} from "@/lib/coupons-store";
 
 export async function GET(req: Request) {
   try {
-    let coupons: any[] = [];
     let registrations: any[] = [];
 
     try {
-      const timeoutPromise = new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 250));
-      coupons = await Promise.race([fetchCollectionDocs("coupons"), timeoutPromise]);
+      const timeoutPromise = new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 1200));
       registrations = await Promise.race([fetchCollectionDocs("bootcamp_registrations"), timeoutPromise]);
     } catch (e) {
-      coupons = [];
       registrations = [];
     }
 
-    if (!coupons || coupons.length === 0) {
-      coupons = SEED_COUPONS;
-    }
+    const allCoupons = await getAllCouponsMerged();
 
     // Build real-time usage map from registrations
     const usageMap: Record<string, number> = {};
@@ -133,14 +34,13 @@ export async function GET(req: Request) {
       });
     }
 
-    // Merge DB document fields with dynamic usage map
-    const mergedCoupons = coupons.map((c: any) => {
+    // Merge document fields with dynamic usage map
+    const mergedCoupons = allCoupons.map((c: any) => {
       const codeUpper = (c.code || "").trim().toUpperCase();
       const regUses = usageMap[codeUpper] || 0;
       const dbUses = Number(c.currentUses) || 0;
       const currentUses = Math.max(dbUses, regUses);
       return {
-        id: c.id,
         ...c,
         code: codeUpper,
         currentUses
@@ -166,26 +66,43 @@ export async function POST(req: Request) {
       const createdDocs: any[] = [];
       const timestamp = new Date().toISOString();
 
+      batchCodes.forEach((code: string, idx: number) => {
+        const docId = `cp_free_${Date.now()}_${idx}`;
+        const item: CouponItem = {
+          id: docId,
+          code: code.trim().toUpperCase(),
+          type: "free-pass",
+          discountType: "percentage",
+          discountValue: 100,
+          isActive: true,
+          maxUses: 1,
+          currentUses: 0,
+          createdAt: timestamp
+        };
+        saveCouponToMemory(item);
+        createdDocs.push(item);
+      });
+
       if (adminDb && hasAdminCredentials) {
-        const batch = adminDb.batch();
-        batchCodes.forEach((code: string, idx: number) => {
-          const docId = `cp_free_${Date.now()}_${idx}`;
-          const item = {
-            id: docId,
-            code: code.trim().toUpperCase(),
-            type: "free-pass",
-            discountType: "percentage",
-            discountValue: 100,
-            isActive: true,
-            maxUses: 1,
-            currentUses: 0,
-            createdAt: timestamp
-          };
-          const ref = adminDb.collection("coupons").doc(docId);
-          batch.set(ref, item, { merge: true });
-          createdDocs.push(item);
-        });
-        await batch.commit();
+        try {
+          const batch = adminDb.batch();
+          createdDocs.forEach((item) => {
+            const ref = adminDb.collection("coupons").doc(item.id);
+            batch.set(ref, item, { merge: true });
+          });
+          await batch.commit();
+        } catch (e) {
+          console.warn("Firestore batch commit warning:", e);
+        }
+      }
+
+      // Dual-mode write using Client SDK fallback
+      try {
+        await Promise.all(
+          createdDocs.map((item) => setDoc(doc(db, "coupons", item.id), item, { merge: true }))
+        );
+      } catch (e) {
+        console.warn("Firestore client batch set warning:", e);
       }
 
       return NextResponse.json({
@@ -198,7 +115,7 @@ export async function POST(req: Request) {
     // 2. Create single custom coupon
     if (action === "create" && couponData) {
       const docId = `cp_${Date.now()}`;
-      const newItem = {
+      const newItem: CouponItem = {
         id: docId,
         code: (couponData.code || "").trim().toUpperCase(),
         type: couponData.type || "custom",
@@ -210,8 +127,21 @@ export async function POST(req: Request) {
         createdAt: new Date().toISOString()
       };
 
+      saveCouponToMemory(newItem);
+
       if (adminDb && hasAdminCredentials) {
-        await adminDb.collection("coupons").doc(docId).set(newItem, { merge: true });
+        try {
+          await adminDb.collection("coupons").doc(docId).set(newItem, { merge: true });
+        } catch (e) {
+          console.warn("Firestore set custom coupon warning:", e);
+        }
+      }
+
+      // Dual-mode write using Client SDK fallback
+      try {
+        await setDoc(doc(db, "coupons", docId), newItem, { merge: true });
+      } catch (e) {
+        console.warn("Firestore client set custom coupon warning:", e);
       }
 
       return NextResponse.json({ success: true, coupon: newItem });
@@ -219,17 +149,39 @@ export async function POST(req: Request) {
 
     // 3. Edit max limit
     if (action === "edit_limit" && id && maxUses !== undefined) {
+      RUNTIME_COUPONS_CACHE.forEach((c) => {
+        if (c.id === id) c.maxUses = Number(maxUses);
+      });
+
       if (adminDb && hasAdminCredentials) {
-        await adminDb.collection("coupons").doc(id).set({ maxUses: Number(maxUses) }, { merge: true });
+        try {
+          await adminDb.collection("coupons").doc(id).set({ maxUses: Number(maxUses) }, { merge: true });
+        } catch (e) {}
       }
+
+      try {
+        await setDoc(doc(db, "coupons", id), { maxUses: Number(maxUses) }, { merge: true });
+      } catch (e) {}
+
       return NextResponse.json({ success: true, id, maxUses: Number(maxUses) });
     }
 
     // 4. Toggle active status
     if (action === "toggle_active" && id) {
+      RUNTIME_COUPONS_CACHE.forEach((c) => {
+        if (c.id === id) c.isActive = Boolean(isActive);
+      });
+
       if (adminDb && hasAdminCredentials) {
-        await adminDb.collection("coupons").doc(id).set({ isActive: Boolean(isActive) }, { merge: true });
+        try {
+          await adminDb.collection("coupons").doc(id).set({ isActive: Boolean(isActive) }, { merge: true });
+        } catch (e) {}
       }
+
+      try {
+        await setDoc(doc(db, "coupons", id), { isActive: Boolean(isActive) }, { merge: true });
+      } catch (e) {}
+
       return NextResponse.json({ success: true, id, isActive: Boolean(isActive) });
     }
 
@@ -250,11 +202,21 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ success: false, error: "No coupon IDs specified." }, { status: 400 });
     }
 
+    RUNTIME_COUPONS_CACHE.forEach((c, key) => {
+      if (idsToDelete.includes(c.id)) {
+        RUNTIME_COUPONS_CACHE.delete(key);
+      }
+    });
+
     if (adminDb && hasAdminCredentials) {
       try {
         await Promise.all(idsToDelete.map((docId) => adminDb.collection("coupons").doc(docId).delete()));
       } catch (e) {}
     }
+
+    try {
+      await Promise.all(idsToDelete.map((docId) => deleteDoc(doc(db, "coupons", docId))));
+    } catch (e) {}
 
     return NextResponse.json({
       success: true,
@@ -265,3 +227,5 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
+
+

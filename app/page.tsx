@@ -26,7 +26,7 @@ import {
   Flame,
   QrCode
 } from "lucide-react";
-import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { ARENA_PROJECTS, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import HeroAuthForm from "./_components/HeroAuthForm";
 import PricingTierCards from "./_components/PricingTierCards";
 
@@ -63,13 +63,13 @@ export default async function CommunityHomePage() {
 
               {/* Subhead */}
               <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-mono text-xs sm:text-sm">
-                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>50+ production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15+ partner companies and founder recommendation</strong>.
+                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>{TOTAL_SYSTEMS_COUNT}+ production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15+ partner companies and founder recommendation</strong>.
               </p>
 
               {/* Quick Proof Metrics Grid - Moved Upper (Above Action Buttons) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-2 font-mono text-xs text-left">
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-slate-900">50+ Systems</div>
+                  <div className="text-lg sm:text-xl font-black text-slate-900">{TOTAL_SYSTEMS_COUNT}+ Systems</div>
                   <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
@@ -103,7 +103,7 @@ export default async function CommunityHomePage() {
                   className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
                 >
                   <Terminal size={15} className="text-blue-600" />
-                  <span>Explore 50+ Projects Matrix</span>
+                  <span>Explore {TOTAL_SYSTEMS_COUNT}+ Projects Matrix</span>
                 </Link>
 
                 <Link
@@ -204,14 +204,14 @@ export default async function CommunityHomePage() {
                   Pick a Track &amp; Warmup PRD
                 </h3>
                 <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
-                  Select from 50 projects (AI Agents, Defence, RAG, Embedded Edge, High-Frequency Telemetry) or follow our 6 Role Roadmaps.
+                  Select from {TOTAL_SYSTEMS_COUNT} projects (AI Agents, Defence, RAG, Embedded Edge, High-Frequency Telemetry) or follow our 6 Role Roadmaps.
                 </p>
               </div>
               <Link
                 href="/arena"
                 className="text-[#0066FF] font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
               >
-                <span>Browse 50 Projects Matrix</span>
+                <span>Browse {TOTAL_SYSTEMS_COUNT} Projects Matrix</span>
                 <ArrowRight size={13} />
               </Link>
             </div>
@@ -286,7 +286,7 @@ export default async function CommunityHomePage() {
               href="/arena"
               className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-mono text-xs font-bold uppercase tracking-wider hover:bg-slate-100 transition-all shrink-0 flex items-center gap-2"
             >
-              <span>View All 50 Projects</span>
+              <span>View All {TOTAL_SYSTEMS_COUNT} Projects</span>
               <ArrowRight size={14} />
             </Link>
           </div>

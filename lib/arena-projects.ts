@@ -2536,3 +2536,5 @@ export const ARENA_PROJECTS: ArenaProject[] = [
     hintCostCoins: 1000
   }
 ];
+
+export const TOTAL_SYSTEMS_COUNT = ARENA_PROJECTS.length;

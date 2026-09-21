@@ -8,12 +8,17 @@ import { useAuth } from "@/lib/auth-context";
 
 export default function HeroAuthForm() {
   const router = useRouter();
-  const { user, studentProfile, loading: authLoading, logout } = useAuth();
+  const { user, studentProfile, loading: authLoading, logout, loginWithCustomToken } = useAuth();
 
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"signup" | "signin">("signup");
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const [form, setForm] = useState({
     name: "",
@@ -102,10 +107,13 @@ export default function HeroAuthForm() {
 
         const data = await res.json();
         if (data.success) {
+          if (loginWithCustomToken) {
+            await loginWithCustomToken(data.customToken, data.user);
+          }
           setSuccessMsg(`Signed in successfully as ${data.user.displayName}! Redirecting...`);
           setTimeout(() => {
             router.push("/arena");
-          }, 1000);
+          }, 800);
         } else {
           setErrorMsg(data.error || "Invalid email or Passcode.");
         }
@@ -116,6 +124,38 @@ export default function HeroAuthForm() {
       setLoading(false);
     }
   };
+
+
+  // Skeleton guard while checking session on reload
+  if (!mounted || authLoading) {
+    return (
+      <div className="w-full bg-slate-900/90 text-white border-2 border-slate-800 rounded-3xl p-6 shadow-2xl space-y-4 font-mono relative overflow-hidden animate-pulse flex flex-col justify-between min-h-[360px]">
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500" />
+        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="h-4 w-28 bg-slate-800 rounded-full" />
+          <div className="h-4 w-24 bg-slate-800 rounded-full" />
+        </div>
+        <div className="flex items-center gap-4 pt-2">
+          <div className="w-14 h-14 rounded-2xl bg-slate-800 border border-slate-700 shrink-0" />
+          <div className="space-y-2 flex-1">
+            <div className="h-4 w-36 bg-slate-800 rounded-md" />
+            <div className="h-3 w-48 bg-slate-800 rounded-md" />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3 pt-2">
+          <div className="h-20 bg-slate-800/80 rounded-2xl border border-slate-700/50" />
+          <div className="h-20 bg-slate-800/80 rounded-2xl border border-slate-700/50" />
+        </div>
+        <div className="space-y-2 pt-2">
+          <div className="h-12 bg-slate-800 rounded-2xl border border-slate-700" />
+          <div className="h-9 bg-slate-800 rounded-xl border border-slate-700" />
+        </div>
+        <div className="pt-2 text-center text-xs text-slate-400">
+          Authenticating Session...
+        </div>
+      </div>
+    );
+  }
 
   // If student is logged in, show their active session, profile & progress instead of the auth form
   if (user) {

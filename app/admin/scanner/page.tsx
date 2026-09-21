@@ -45,17 +45,17 @@ export default function AdminTicketScannerPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto font-sans">
+    <div className="space-y-6 max-w-4xl mx-auto font-sans text-slate-900 pb-12">
       
       {/* Header */}
-      <div className="pb-6 border-b border-slate-200 dark:border-white/10">
-        <div className="text-xs font-mono text-[#0066FF] dark:text-[#00B8F0] uppercase font-bold tracking-wider">
+      <div className="pb-6 border-b border-slate-200">
+        <div className="text-xs font-mono text-[#0066FF] uppercase font-bold tracking-wider mb-1">
           LIVE EVENT ENTRY SCANNER
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
           Ticket QR Code Scanner &amp; Check-in
         </h1>
-        <p className="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">
+        <p className="text-xs font-mono text-slate-500 mt-1">
           Scan participant QR pass or input registration code to verify live event access.
         </p>
       </div>
@@ -63,11 +63,11 @@ export default function AdminTicketScannerPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* Scanner / Input Box */}
-        <div className="p-8 rounded-3xl bg-white dark:bg-[#0B1524] border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
+        <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-6">
           
-          <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center space-y-3 text-white">
-            <Camera size={36} className="text-[#00B8F0] mx-auto animate-pulse" />
-            <div className="font-mono text-xs font-bold text-slate-300">
+          <div className="p-6 rounded-2xl bg-blue-50/60 border border-blue-200 text-center space-y-3 text-slate-900">
+            <Camera size={36} className="text-[#0066FF] mx-auto animate-pulse" />
+            <div className="font-mono text-xs font-bold text-slate-800">
               Camera / Handheld QR Scanner Active
             </div>
             <p className="text-[11px] font-mono text-slate-500">
@@ -77,7 +77,7 @@ export default function AdminTicketScannerPage() {
 
           <div className="space-y-4 font-mono text-xs">
             <div>
-              <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1.5">
+              <label className="block text-slate-700 font-bold mb-1.5">
                 Enter Registration Code (e.g. BMZ-AIF-2026-88)
               </label>
               <div className="relative">
@@ -90,7 +90,7 @@ export default function AdminTicketScannerPage() {
                   onKeyDown={(e) => {
                     if (e.key === "Enter") handleVerifyCheckIn();
                   }}
-                  className="w-full pl-9 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white uppercase focus:outline-none focus:border-[#0066FF]"
+                  className="w-full pl-9 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 uppercase focus:bg-white focus:outline-none focus:border-[#0066FF]"
                 />
               </div>
             </div>
@@ -98,7 +98,7 @@ export default function AdminTicketScannerPage() {
             <button
               disabled={scanning || !ticketInput}
               onClick={() => handleVerifyCheckIn()}
-              className="w-full py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md disabled:opacity-50"
+              className="w-full py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs disabled:opacity-50"
             >
               Verify Ticket Check-in
             </button>
@@ -107,33 +107,33 @@ export default function AdminTicketScannerPage() {
         </div>
 
         {/* Scan Result Display */}
-        <div className="p-8 rounded-3xl bg-white dark:bg-[#0B1524] border border-slate-200 dark:border-white/10 shadow-sm flex flex-col justify-center">
+        <div className="p-8 rounded-3xl bg-white border border-slate-200 shadow-xs flex flex-col justify-center">
           {scanning ? (
             <div className="text-center font-mono text-xs text-slate-400 py-12">
               Verifying credentials in Firestore...
             </div>
           ) : scanResult ? (
             <div className="space-y-6 text-center animate-in fade-in duration-200">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400 flex items-center justify-center mx-auto border border-emerald-300 dark:border-emerald-800">
+              <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-200">
                 <UserCheck size={36} />
               </div>
 
               <div>
-                <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-mono text-[10px] font-bold uppercase">
+                <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-mono text-[10px] font-bold uppercase border border-emerald-200">
                   ✔ VALID PASS &bull; CHECKED IN
                 </span>
-                <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mt-2">
+                <h2 className="text-2xl font-extrabold text-slate-900 mt-2">
                   {scanResult.name}
                 </h2>
-                <p className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                <p className="text-xs font-mono text-slate-500">
                   {scanResult.email} &bull; {scanResult.attendeeType}
                 </p>
               </div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 font-mono text-xs text-left space-y-1">
-                <div>Pass Code: <strong className="text-[#0066FF] dark:text-[#00B8F0]">{scanResult.code}</strong></div>
-                <div>Event: <strong className="text-slate-900 dark:text-white">{scanResult.eventTitle}</strong></div>
-                <div>Check-in Time: <strong className="text-emerald-500">{scanResult.checkedInAt}</strong></div>
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 font-mono text-xs text-left space-y-1">
+                <div>Pass Code: <strong className="text-[#0066FF]">{scanResult.code}</strong></div>
+                <div>Event: <strong className="text-slate-900">{scanResult.eventTitle}</strong></div>
+                <div>Check-in Time: <strong className="text-emerald-600">{scanResult.checkedInAt}</strong></div>
               </div>
             </div>
           ) : error ? (
@@ -143,7 +143,7 @@ export default function AdminTicketScannerPage() {
             </div>
           ) : (
             <div className="text-center font-mono text-xs text-slate-400 py-12 space-y-2">
-              <QrCode size={36} className="mx-auto text-slate-300 dark:text-slate-700" />
+              <QrCode size={36} className="mx-auto text-slate-300" />
               <div>Scan ticket QR pass to display verification status</div>
             </div>
           )}

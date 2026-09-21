@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   Code2, 
@@ -13,8 +13,11 @@ import {
   Search, 
   CheckCircle2, 
   Award,
-  Filter
+  Filter,
+  Loader2,
+  AlertCircle
 } from "lucide-react";
+import { useAuth } from "@/lib/auth-context";
 
 interface ShowcaseProject {
   id: string;
@@ -99,10 +102,12 @@ const INITIAL_PROJECTS: ShowcaseProject[] = [
 const CATEGORIES = ["All", "AI Agents", "RAG & Search", "DevTools", "Fullstack AI"];
 
 export default function ShowcasePage() {
+  const { user, studentProfile } = useAuth();
   const [projects, setProjects] = useState<ShowcaseProject[]>(INITIAL_PROJECTS);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [upvotedIds, setUpvotedIds] = useState<Record<string, boolean>>({});
+  const [loading, setLoading] = useState(true);
   
   // Modal state
   const [showModal, setShowModal] = useState(false);
@@ -112,54 +117,152 @@ export default function ShowcasePage() {
   const [newGithub, setNewGithub] = useState("");
   const [newDemo, setNewDemo] = useState("");
   const [newStack, setNewStack] = useState("Next.js, Python, Qdrant");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState("");
 
-  const toggleUpvote = (id: string) => {
-    setUpvotedIds(prev => ({ ...prev, [id]: !prev[id] }));
-    setProjects(prev => prev.map(p => {
-      if (p.id === id) {
-        const isUp = upvotedIds[id];
-        return { ...p, upvotes: isUp ? p.upvotes - 1 : p.upvotes + 1 };
+  // Fetch projects directly from Firebase Database API
+  const fetchDbProjects = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/showcase");
+      const data = await res.json();
+      if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
+        // Merge DB projects with sample initial projects
+        const dbList: ShowcaseProject[] = data.projects;
+        const dbIds = new Set(dbList.map((p) => p.id));
+        const merged = [...dbList, ...INITIAL_PROJECTS.filter((p) => !dbIds.has(p.id))];
+        setProjects(merged);
       }
-      return p;
-    }));
+    } catch (err) {
+      console.warn("Failed to fetch database showcase projects:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleCreateProject = (e: React.FormEvent) => {
+  useEffect(() => {
+    fetchDbProjects();
+  }, []);
+
+  // Check URL query parameters for pre-filling submission modal (from Arena completion)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const autoOpen = params.get("autoOpen");
+      const title = params.get("title");
+      const desc = params.get("desc");
+      const category = params.get("category");
+      const github = params.get("github");
+      const demo = params.get("demo");
+      const stack = params.get("stack");
+
+      if (title) setNewTitle(title);
+      if (desc) setNewDesc(desc);
+      if (category) setNewCategory(category);
+      if (github) setNewGithub(github);
+      if (demo) setNewDemo(demo);
+      if (stack) setNewStack(stack);
+
+      if (autoOpen === "true" || title) {
+        setShowModal(true);
+      }
+    }
+  }, []);
+
+  const toggleUpvote = async (id: string) => {
+    const isCurrentlyUpvoted = Boolean(upvotedIds[id]);
+    const delta = isCurrentlyUpvoted ? -1 : 1;
+
+    setUpvotedIds((prev) => ({ ...prev, [id]: !isCurrentlyUpvoted }));
+    setProjects((prev) =>
+      prev.map((p) => {
+        if (p.id === id) {
+          return { ...p, upvotes: Math.max(0, p.upvotes + delta) };
+        }
+        return p;
+      })
+    );
+
+    try {
+      await fetch("/api/showcase/upvote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, delta }),
+      });
+    } catch (e) {
+      console.warn("Upvote database sync warning:", e);
+    }
+  };
+
+  const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim() || !newDesc.trim()) return;
 
-    const newProj: ShowcaseProject = {
-      id: `proj-${Date.now()}`,
+    setSubmitting(true);
+    setSubmitError("");
+
+    const creatorName = user?.displayName || studentProfile?.displayName || "You (Community Builder)";
+    const creatorHandle = studentProfile?.username ? `@${studentProfile.username}` : user?.email ? `@${user.email.split("@")[0]}` : "@builder";
+
+    const payload = {
       title: newTitle.trim(),
-      creator: {
-        name: "You (Community Builder)",
-        handle: "@builder"
-      },
       description: newDesc.trim(),
       category: newCategory,
-      tags: newStack.split(",").map(s => s.trim()).filter(Boolean),
+      tags: newStack.split(",").map((s) => s.trim()).filter(Boolean),
+      builtWith: newStack.split(",").map((s) => s.trim()).filter(Boolean),
       githubUrl: newGithub.trim() || undefined,
       demoUrl: newDemo.trim() || undefined,
-      upvotes: 1,
-      builtWith: newStack.split(",").map(s => s.trim()).filter(Boolean)
+      creator: {
+        name: creatorName,
+        handle: creatorHandle
+      }
     };
 
-    setProjects([newProj, ...projects]);
-    setUpvotedIds(prev => ({ ...prev, [newProj.id]: true }));
-    setShowModal(false);
-    setNewTitle("");
-    setNewDesc("");
-    setNewGithub("");
-    setNewDemo("");
+    try {
+      const res = await fetch("/api/showcase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to save project to database.");
+      }
+
+      const createdProject: ShowcaseProject = data.project || {
+        id: data.id || `proj-${Date.now()}`,
+        ...payload,
+        upvotes: 1
+      };
+
+      setProjects((prev) => [createdProject, ...prev]);
+      setUpvotedIds((prev) => ({ ...prev, [createdProject.id]: true }));
+      setSubmitSuccess(`🎉 "${createdProject.title}" saved successfully to Firebase database & published to Showcase!`);
+      setShowModal(false);
+      setNewTitle("");
+      setNewDesc("");
+      setNewGithub("");
+      setNewDemo("");
+
+      setTimeout(() => setSubmitSuccess(null), 5000);
+    } catch (err: any) {
+      setSubmitError(err.message || "Failed to submit project to database.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const filtered = projects.filter(p => {
+  const filtered = projects.filter((p) => {
     const matchesCat = selectedCategory === "All" || p.category === selectedCategory;
-    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          p.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesSearch =
+      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCat && matchesSearch;
   });
+
 
   return (
     <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pb-12 pt-4">
@@ -186,6 +289,14 @@ export default function ShowcasePage() {
             <Plus size={16} /> Submit Your Project
           </button>
         </div>
+
+        {submitSuccess && (
+          <div className="mb-8 p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 font-mono text-xs flex items-center gap-3 shadow-sm">
+            <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
+            <span>{submitSuccess}</span>
+          </div>
+        )}
+
 
         {/* Filters and Search */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
@@ -381,19 +492,35 @@ export default function ShowcasePage() {
                 </div>
               </div>
 
+              {submitError && (
+                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-mono flex items-center gap-2">
+                  <AlertCircle size={14} className="shrink-0 text-rose-600" />
+                  <span>{submitError}</span>
+                </div>
+              )}
+
               <div className="pt-4 flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 text-xs font-mono text-slate-500 hover:text-slate-800 cursor-pointer"
+                  disabled={submitting}
+                  className="px-4 py-2 text-xs font-mono text-slate-500 hover:text-slate-800 cursor-pointer disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] text-white rounded-xl text-xs font-mono font-bold uppercase transition-all shadow-sm cursor-pointer"
+                  disabled={submitting}
+                  className="px-6 py-2.5 bg-[#0066FF] hover:bg-[#0052CC] disabled:bg-blue-400 text-white rounded-xl text-xs font-mono font-bold uppercase transition-all shadow-sm cursor-pointer flex items-center gap-2"
                 >
-                  Submit Project →
+                  {submitting ? (
+                    <>
+                      <Loader2 size={14} className="animate-spin" />
+                      <span>Saving to Database...</span>
+                    </>
+                  ) : (
+                    <span>Submit Project →</span>
+                  )}
                 </button>
               </div>
             </form>
@@ -404,3 +531,4 @@ export default function ShowcasePage() {
     </div>
   );
 }
+

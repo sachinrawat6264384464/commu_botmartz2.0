@@ -27,11 +27,13 @@ import {
 } from "lucide-react";
 import { ARENA_PROJECTS, ArenaProject } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
+import { useToast } from "@/lib/toast-context";
 import BuilderProfileGateModal from "@/app/_components/BuilderProfileGateModal";
 import RazorpayModal from "@/app/_components/RazorpayModal";
 
 export default function ArenaPage() {
   const { user, studentProfile } = useAuth();
+  const { showToast } = useToast();
 
   // State for Catalog
   const [allProjectsList, setAllProjectsList] = useState<ArenaProject[]>(ARENA_PROJECTS);
@@ -130,9 +132,15 @@ export default function ArenaPage() {
   );
 
   const isProfileComplete = Boolean(
-    user &&
-    studentProfile?.collegeName &&
-    studentProfile?.studentIdRollNo
+    user && (
+      Boolean(studentProfile?.collegeName) ||
+      Boolean((studentProfile as any)?.companyName) ||
+      Boolean((studentProfile as any)?.organization) ||
+      Boolean(studentProfile?.githubUsername) ||
+      Boolean(studentProfile?.displayName) ||
+      Boolean(user?.displayName) ||
+      Boolean(user?.email)
+    )
   );
 
   const handleEnrollClick = (project: ArenaProject) => {
@@ -146,21 +154,21 @@ export default function ArenaPage() {
     if (isTargetBabyStep) {
       if (hasNonBabyStepActive) {
         const activeDoc = activeEnrollments.find((e) => e.difficulty !== "Baby Step");
-        alert(`Tier Constraint: You are currently enrolled in a non-Baby Step project ("${activeDoc?.projectTitle || "Active Project"}"). You cannot enroll in Baby Step projects while active in a non-Baby Step project. Please complete or leave your active project first.`);
+        showToast(`Tier Constraint: You are currently enrolled in "${activeDoc?.projectTitle || "Active Project"}". Complete it to unlock Baby Step tracks.`, "warning");
         return;
       }
       const babyStepCount = activeEnrollments.filter((e) => e.difficulty === "Baby Step").length;
       if (babyStepCount >= 2) {
-        alert("Baby Step Limit Reached: You can enroll in a maximum of 2 Baby Step projects at a time. Please complete or leave an active project first.");
+        showToast("Baby Step Limit Reached: Maximum 2 active Baby Step projects allowed. Complete or leave one to continue.", "warning");
         return;
       }
     } else {
       if (hasBabyStepActive) {
-        alert("Tier Constraint: You currently have active Baby Step enrollments. You cannot enroll in non-Baby Step projects while active in Baby Step projects. Please complete or leave your Baby Step projects first.");
+        showToast("Tier Constraint: You currently have active Baby Step enrollments. Complete them first before enrolling in main tracks.", "warning");
         return;
       }
       if (activeEnrollments.length >= 1) {
-        alert(`Single Project Limit: You are currently enrolled in "${activeEnrollments[0].projectTitle}". Please complete or leave your active project before enrolling in a new one.`);
+        showToast(`Single Project Limit: You are currently enrolled in "${activeEnrollments[0].projectTitle}". Complete it before taking a new track.`, "warning");
         return;
       }
     }
@@ -249,7 +257,7 @@ export default function ArenaPage() {
                 <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
                   <Layers size={18} className="text-blue-400 shrink-0" />
                   <div>
-                    <div className="text-white font-bold text-sm">59+</div>
+                    <div className="text-white font-bold text-sm">{allProjectsList.length}+</div>
                     <div className="text-slate-300 text-[10px]">Production PRDs</div>
                   </div>
                 </div>

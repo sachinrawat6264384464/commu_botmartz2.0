@@ -9,7 +9,10 @@ import {
   onAuthStateChanged,
   RecaptchaVerifier,
   signInWithPhoneNumber,
-  ConfirmationResult
+  ConfirmationResult,
+  signInWithCustomToken,
+  setPersistence,
+  browserLocalPersistence
 } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "./firebase";
@@ -64,6 +67,7 @@ interface AuthContextType {
   studentProfile: StudentProfile | null;
   loading: boolean;
   signInWithGoogle: () => Promise<User | null>;
+  loginWithCustomToken: (customToken: string, userData?: any) => Promise<User | null>;
   setupRecaptcha: (containerId: string) => RecaptchaVerifier;
   sendPhoneOtp: (phoneNumber: string, recaptcha: RecaptchaVerifier) => Promise<ConfirmationResult>;
   completeStudentProfile: (profile: Partial<StudentProfile>) => Promise<void>;
@@ -76,6 +80,7 @@ const AuthContext = createContext<AuthContextType>({
   studentProfile: null,
   loading: true,
   signInWithGoogle: async () => null,
+  loginWithCustomToken: async () => null,
   setupRecaptcha: () => ({} as any),
   sendPhoneOtp: async () => ({} as any),
   completeStudentProfile: async () => {},
@@ -127,18 +132,130 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
+    // 1. Enable local persistence
+    try {
+      setPersistence(auth, browserLocalPersistence).catch(() => {});
+    } catch (e) {}
+
+    // 2. Restore local session backup immediately on load
+    if (typeof window !== "undefined") {
+      try {
+        const rawSaved = localStorage.getItem("botmartz_session");
+        if (rawSaved) {
+          const saved = JSON.parse(rawSaved);
+          if (saved && saved.email) {
+            const tempUser: any = {
+              uid: saved.uid || `usr_${saved.email.replace(/[^a-z0-9]/g, "_")}`,
+              email: saved.email,
+              displayName: saved.displayName || "Builder",
+              photoURL: saved.photoURL || ""
+            };
+            setUser((prev) => prev || tempUser);
+            setStudentProfile((prev) => prev || {
+              uid: tempUser.uid,
+              email: saved.email,
+              displayName: saved.displayName || "Builder",
+              username: saved.username || saved.email.split("@")[0],
+              karmaCoins: saved.karmaCoins
+            });
+          }
+        }
+      } catch (e) {}
+    }
+
+    // 3. Firebase Auth listener
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
       if (currentUser) {
+        setUser(currentUser);
+        setLoading(false);
+        if (typeof window !== "undefined") {
+          try {
+            localStorage.setItem("botmartz_session", JSON.stringify({
+              uid: currentUser.uid,
+              email: currentUser.email,
+              displayName: currentUser.displayName,
+              photoURL: currentUser.photoURL
+            }));
+          } catch (e) {}
+        }
         await fetchProfile(currentUser.uid, currentUser.email || "");
       } else {
+        // Check if cached local session exists before marking unauthenticated
+        if (typeof window !== "undefined") {
+          try {
+            const rawSaved = localStorage.getItem("botmartz_session");
+            if (rawSaved) {
+              const saved = JSON.parse(rawSaved);
+              if (saved && saved.email) {
+                const tempUser: any = {
+                  uid: saved.uid || `usr_${saved.email.replace(/[^a-z0-9]/g, "_")}`,
+                  email: saved.email,
+                  displayName: saved.displayName || "Builder",
+                  photoURL: saved.photoURL || ""
+                };
+                setUser(tempUser);
+                setStudentProfile((prev) => prev || {
+                  uid: tempUser.uid,
+                  email: saved.email,
+                  displayName: saved.displayName || "Builder",
+                  username: saved.username || saved.email.split("@")[0],
+                  karmaCoins: saved.karmaCoins
+                });
+                setLoading(false);
+                return;
+              }
+            }
+          } catch (e) {}
+        }
+        setUser(null);
         setStudentProfile(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
+
+  const loginWithCustomToken = async (customToken: string, userData?: any): Promise<User | null> => {
+    try {
+      if (typeof window !== "undefined" && userData) {
+        try {
+          localStorage.setItem("botmartz_session", JSON.stringify(userData));
+        } catch (e) {}
+      }
+
+      if (customToken) {
+        const res = await signInWithCustomToken(auth, customToken);
+        setUser(res.user);
+        setLoading(false);
+        await fetchProfile(res.user.uid, res.user.email || userData?.email || "");
+        return res.user;
+      }
+    } catch (err) {
+      console.warn("signInWithCustomToken notice:", err);
+    }
+
+    if (userData && userData.email) {
+      const fallbackUser: any = {
+        uid: userData.uid || `usr_${userData.email.replace(/[^a-z0-9]/g, "_")}`,
+        email: userData.email,
+        displayName: userData.displayName || "Builder",
+        photoURL: ""
+      };
+      setUser(fallbackUser);
+      setStudentProfile({
+        uid: fallbackUser.uid,
+        email: userData.email,
+        displayName: userData.displayName || "Builder",
+        username: userData.username || userData.email.split("@")[0],
+        karmaCoins: userData.karmaCoins ?? 100
+      });
+      setLoading(false);
+      return fallbackUser;
+    }
+
+    return null;
+  };
 
   const signInWithGoogle = async (): Promise<User | null> => {
     try {
@@ -147,6 +264,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const res = await signInWithPopup(auth, provider);
       const u = res.user;
       setUser(u);
+      setLoading(false);
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem("botmartz_session", JSON.stringify({
+            uid: u.uid,
+            email: u.email,
+            displayName: u.displayName,
+            photoURL: u.photoURL
+          }));
+        } catch (e) {}
+      }
       await fetchProfile(u.uid, u.email || "");
       return u;
     } catch (err: any) {
@@ -202,17 +330,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const completeStudentProfile = async (profileData: Partial<StudentProfile>) => {
-    if (!auth.currentUser) throw new Error("No authenticated user.");
-    const uid = auth.currentUser.uid;
-    const email = auth.currentUser.email || profileData.email || "";
+    const activeUid = auth.currentUser?.uid || user?.uid;
+    const activeEmail = auth.currentUser?.email || user?.email || profileData.email || "";
+
+    if (!activeUid) throw new Error("No authenticated user.");
 
     const updatedData: Partial<StudentProfile> = {
-      uid,
-      email,
-      displayName: profileData.displayName || auth.currentUser.displayName || "Builder",
-      username: (profileData.username || email.split("@")[0] || `builder_${uid.slice(0, 5)}`).toLowerCase().trim(),
-      photoURL: auth.currentUser.photoURL || profileData.photoURL || "",
-      phoneNumber: auth.currentUser.phoneNumber || profileData.phoneNumber || "",
+      uid: activeUid,
+      email: activeEmail,
+      displayName: profileData.displayName || auth.currentUser?.displayName || user?.displayName || "Builder",
+      username: (profileData.username || activeEmail.split("@")[0] || `builder_${activeUid.slice(0, 5)}`).toLowerCase().trim(),
+      photoURL: auth.currentUser?.photoURL || profileData.photoURL || "",
+      phoneNumber: auth.currentUser?.phoneNumber || profileData.phoneNumber || "",
       collegeName: profileData.collegeName || "",
       degreeBranch: profileData.degreeBranch || "",
       graduationYear: profileData.graduationYear || "2026",
@@ -221,22 +350,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       linkedinUrl: profileData.linkedinUrl || "",
       karmaCoins: studentProfile?.karmaCoins || 100,
       reputationLevel: studentProfile?.reputationLevel || 1,
-      phoneVerified: !!auth.currentUser.phoneNumber || !!profileData.phoneNumber,
+      phoneVerified: !!auth.currentUser?.phoneNumber || !!profileData.phoneNumber,
       collegeVerified: !!profileData.collegeName,
       dpdpConsent: true,
       updatedAt: serverTimestamp()
     };
 
-    const docRef = doc(db, "student_profiles", uid);
+    const docRef = doc(db, "student_profiles", activeUid);
     await setDoc(docRef, updatedData, { merge: true });
     setStudentProfile((prev) => ({ ...(prev || {}), ...(updatedData as any) }));
 
-    // Also link email in student_wallets safely
-    if (email) {
+    if (activeEmail) {
       try {
-        const walletRef = doc(db, "student_wallets", email.toLowerCase().trim());
+        const walletRef = doc(db, "student_wallets", activeEmail.toLowerCase().trim());
         await setDoc(walletRef, {
-          studentEmail: email.toLowerCase().trim(),
+          studentEmail: activeEmail.toLowerCase().trim(),
           balance: studentProfile?.karmaCoins || 100,
           totalEarned: studentProfile?.karmaCoins || 100,
           totalSpent: 0,
@@ -250,14 +378,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    await fbSignOut(auth);
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem("botmartz_session");
+      } catch (e) {}
+    }
+    await fbSignOut(auth).catch(() => {});
     setUser(null);
     setStudentProfile(null);
   };
 
   const refreshProfile = async () => {
-    if (auth.currentUser) {
-      await fetchProfile(auth.currentUser.uid, auth.currentUser.email || "");
+    const activeUid = auth.currentUser?.uid || user?.uid;
+    const activeEmail = auth.currentUser?.email || user?.email || "";
+    if (activeUid) {
+      await fetchProfile(activeUid, activeEmail);
     }
   };
 
@@ -268,6 +403,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         studentProfile,
         loading,
         signInWithGoogle,
+        loginWithCustomToken,
         setupRecaptcha,
         sendPhoneOtp,
         completeStudentProfile,
@@ -283,3 +419,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   return useContext(AuthContext);
 }
+

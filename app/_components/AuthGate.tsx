@@ -17,6 +17,7 @@ import {
   Star,
   Check
 } from "lucide-react";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 interface AuthGateProps {
   children: React.ReactNode;
@@ -94,7 +95,7 @@ export default function AuthGate({
                   <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-blue-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
                     <Layers size={22} className="text-blue-400 shrink-0" />
                     <div>
-                      <div className="text-white font-bold text-xs sm:text-sm">50 Production System PRDs</div>
+                      <div className="text-white font-bold text-xs sm:text-sm">{TOTAL_SYSTEMS_COUNT} Production System PRDs</div>
                       <div className="text-slate-300 text-xs font-mono">LangGraph, eBPF, PostGIS</div>
                     </div>
                   </div>

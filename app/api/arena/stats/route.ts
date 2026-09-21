@@ -1,44 +1,34 @@
 import { NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { fetchDocsFromFirestoreRest } from "@/lib/firestore-rest";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
 export async function GET() {
   try {
-    let totalEnrolled = 142; // baseline counter
-    let totalLogs = 388;
-    let totalBugs = 24;
-    let gthApplicants = 18;
     let enrollments: any[] = [];
     let recentLogs: any[] = [];
     let recentBugs: any[] = [];
-
-    let totalClaims = 12;
     let recentClaims: any[] = [];
 
-    if (adminDb) {
+    if (adminDb && hasAdminCredentials) {
       try {
         const enrollSnap = await adminDb.collection("arena_enrollments").get();
         if (!enrollSnap.empty) {
-          totalEnrolled = enrollSnap.size;
           enrollments = enrollSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          gthApplicants = enrollments.filter(e => e.difficulty === "Expert Tier" || e.difficulty === "Go To Hell 💀" || e.projectId === "p10" || e.projectId === "p40" || e.projectId === "p50").length;
         }
 
-        const logsSnap = await adminDb.collection("arena_daily_logs").orderBy("submittedAt", "desc").limit(30).get();
+        const logsSnap = await adminDb.collection("arena_daily_logs").orderBy("submittedAt", "desc").limit(50).get();
         if (!logsSnap.empty) {
-          totalLogs = logsSnap.size;
           recentLogs = logsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         }
 
-        const bugsSnap = await adminDb.collection("arena_bug_reports").orderBy("submittedAt", "desc").limit(20).get();
+        const bugsSnap = await adminDb.collection("arena_bug_reports").orderBy("submittedAt", "desc").limit(30).get();
         if (!bugsSnap.empty) {
-          totalBugs = bugsSnap.size;
           recentBugs = bugsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         }
 
         const claimsSnap = await adminDb.collection("arena_referral_claims").orderBy("submittedAt", "desc").limit(30).get();
         if (!claimsSnap.empty) {
-          totalClaims = claimsSnap.size;
           recentClaims = claimsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         }
       } catch (dbErr) {
@@ -46,22 +36,40 @@ export async function GET() {
       }
     }
 
-    // Role Distribution
+    // Direct Firestore Database REST API Fallback
+    if (enrollments.length === 0) {
+      enrollments = await fetchDocsFromFirestoreRest("arena_enrollments");
+    }
+    if (recentLogs.length === 0) {
+      recentLogs = await fetchDocsFromFirestoreRest("arena_daily_logs");
+    }
+    if (recentBugs.length === 0) {
+      recentBugs = await fetchDocsFromFirestoreRest("arena_bug_reports");
+    }
+    if (recentClaims.length === 0) {
+      recentClaims = await fetchDocsFromFirestoreRest("arena_referral_claims");
+    }
+
+    const totalEnrolled = enrollments.length;
+    const totalLogs = recentLogs.length;
+    const totalBugs = recentBugs.length;
+    const totalClaims = recentClaims.length;
+    const gthApplicants = enrollments.filter(e => e.difficulty === "Expert Tier" || e.difficulty === "Go To Hell 💀" || e.projectId === "p10" || e.projectId === "p40" || e.projectId === "p50").length;
+
+    // Dynamic Role Distribution
     const roleCounts: Record<string, number> = {
-      "Backend Dev": 42,
-      "AI Engineer": 56,
-      "Frontend Dev": 22,
-      "Cloud DevOps": 12,
-      "Pen-tester": 14,
-      "QA Tester": 8,
-      "Product Manager": 10,
+      "Backend Dev": 0,
+      "AI Engineer": 0,
+      "Frontend Dev": 0,
+      "Cloud DevOps": 0,
+      "Pen-tester": 0,
+      "QA Tester": 0,
+      "Product Manager": 0,
     };
 
-    if (enrollments.length > 0) {
-      for (const e of enrollments) {
-        if (e.role) {
-          roleCounts[e.role] = (roleCounts[e.role] || 0) + 1;
-        }
+    for (const e of enrollments) {
+      if (e.role) {
+        roleCounts[e.role] = (roleCounts[e.role] || 0) + 1;
       }
     }
 

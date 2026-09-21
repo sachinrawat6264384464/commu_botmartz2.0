@@ -33,9 +33,12 @@ import {
   Github,
   Mail,
   User,
+  RefreshCw,
+  Search,
   Ticket,
   KeyRound
 } from "lucide-react";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
 
 function StudentLoginInner() {
@@ -52,7 +55,8 @@ function StudentLoginInner() {
     setupRecaptcha,
     sendPhoneOtp,
     completeStudentProfile,
-    logout
+    logout,
+    loginWithCustomToken
   } = useAuth();
 
   // Primary mode state: signup vs signin
@@ -127,10 +131,13 @@ function StudentLoginInner() {
 
       const data = await res.json();
       if (data.success) {
+        if (loginWithCustomToken) {
+          await loginWithCustomToken(data.customToken, data.user);
+        }
         setInfoMsg(`Signed in successfully as ${data.user.displayName}! Redirecting to workspace...`);
         setTimeout(() => {
           router.push(redirectUrl);
-        }, 1000);
+        }, 800);
       } else {
         setError(data.error || "Invalid email or Passcode.");
       }
@@ -140,6 +147,7 @@ function StudentLoginInner() {
       setSubmitting(false);
     }
   };
+
 
   // Handle Sign Up Registration Submission
   const handleSignUpSubmit = async (e: React.FormEvent) => {
@@ -346,7 +354,7 @@ function StudentLoginInner() {
 
               <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed font-normal">
                 {authMode === "signup"
-                  ? "Create your student builder account to unlock 100 free Welcome Karma Coins, 50 production PRDs, and daily Git commit logs."
+                  ? `Create your student builder account to unlock 100 free Welcome Karma Coins, ${TOTAL_SYSTEMS_COUNT} production PRDs, and daily Git commit logs.`
                   : "Sign in to access your student Karma Wallet, daily Git commit standup log, Agile sprint workspaces, and founder architecture teardowns."}
               </p>
 
@@ -363,7 +371,7 @@ function StudentLoginInner() {
                 <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-800/90 border-2 border-slate-700/90 hover:border-blue-400/60 hover:bg-slate-800 transition-all duration-300 shadow-md">
                   <Layers size={20} className="text-blue-400 shrink-0" />
                   <div>
-                    <div className="text-white font-bold text-xs">50 Production System PRDs</div>
+                    <div className="text-white font-bold text-xs">{TOTAL_SYSTEMS_COUNT} Production System PRDs</div>
                     <div className="text-slate-300 text-[11px] font-mono">LangGraph, eBPF, PostGIS</div>
                   </div>
                 </div>
@@ -1008,7 +1016,7 @@ function StudentLoginInner() {
                               </div>
                               <div className="flex items-center gap-2">
                                 <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
-                                <span>Open all 50 Production System PRDs &amp; Roadmaps</span>
+                                <span>Open all {TOTAL_SYSTEMS_COUNT} Production System PRDs &amp; Roadmaps</span>
                               </div>
                             </div>
                           </div>

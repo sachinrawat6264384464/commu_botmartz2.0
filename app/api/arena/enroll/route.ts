@@ -3,6 +3,7 @@ import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { getSmtpTransporter, buildArenaEnrollmentEmail } from "@/lib/mail-templates";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 import { emitEvent } from "@/lib/email/automation-engine";
+import { addDocToFirestoreRest, fetchDocsFromFirestoreRest, saveDocToFirestoreRest } from "@/lib/firestore-rest";
 
 export async function GET(req: Request) {
   try {
@@ -25,14 +26,20 @@ export async function GET(req: Request) {
 
         enrollments = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       } catch (dbErr) {
-        console.warn("Firestore query error (falling back):", dbErr);
-        // Fallback without index
-        const snap = await adminDb
-          .collection("arena_enrollments")
-          .where("email", "==", email)
-          .get();
-        enrollments = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        console.warn("Firestore query error (falling back to REST):", dbErr);
+        try {
+          const snap = await adminDb
+            .collection("arena_enrollments")
+            .where("email", "==", email)
+            .get();
+          enrollments = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        } catch (e2) {}
       }
+    }
+
+    // Direct Firestore Database REST API fallback
+    if (enrollments.length === 0) {
+      enrollments = await fetchDocsFromFirestoreRest("arena_enrollments", "email", email);
     }
 
     return NextResponse.json({ success: true, enrollments });
@@ -171,11 +178,13 @@ export async function POST(req: Request) {
     };
 
     let id = `enroll_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    let savedToFirestore = false;
 
     if (adminDb && hasAdminCredentials) {
       try {
         const docRef = await adminDb.collection("arena_enrollments").add(enrollmentData);
         id = docRef.id;
+        savedToFirestore = true;
 
         // Also update student profile with enrolled project
         const userQuery = await adminDb.collection("student_profiles").where("email", "==", cleanEmail).limit(1).get();
@@ -196,6 +205,11 @@ export async function POST(req: Request) {
       } catch (dbErr) {
         console.error("Firestore enrollment write warning:", dbErr);
       }
+    }
+
+    // Direct Firestore Database REST API fallback to guarantee database persistence
+    if (!savedToFirestore) {
+      await saveDocToFirestoreRest("arena_enrollments", id, { id, ...enrollmentData });
     }
 
     // Trigger Dual-Layer Asynchronous Transactional Onboarding Email (Non-blocking)

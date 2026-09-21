@@ -12,6 +12,7 @@ import {
   Award
 } from "lucide-react";
 import RazorpayModal from "@/app/_components/RazorpayModal";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 export default function VirtualInternshipPricingClient() {
   const [selectedPlan, setSelectedPlan] = useState<{
@@ -48,7 +49,7 @@ export default function VirtualInternshipPricingClient() {
             <div className="space-y-3 pt-4 border-t border-slate-100 mb-8">
               <div className="flex items-start gap-2 text-slate-700">
                 <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
-                <span>Access to all 50 Production System PRDs</span>
+                <span>Access to all {TOTAL_SYSTEMS_COUNT} Production System PRDs</span>
               </div>
               <div className="flex items-start gap-2 text-slate-700">
                 <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />

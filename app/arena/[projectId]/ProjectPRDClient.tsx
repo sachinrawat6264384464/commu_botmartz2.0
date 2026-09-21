@@ -452,14 +452,23 @@ export default function ProjectPRDClient({ project }: Props) {
             </div>
 
             {completionSuccessMsg && (
-              <div className="mt-6 p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 text-emerald-200 font-mono text-xs flex items-center justify-between gap-3 shadow-lg">
+              <div className="mt-6 p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 text-emerald-200 font-mono text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
                 <div className="flex items-center gap-2 font-bold">
                   <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
                   <span>{completionSuccessMsg}</span>
                 </div>
-                <Link href="/arena" className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black uppercase tracking-wider text-[11px] shrink-0 hover:bg-emerald-400 transition-all">
-                  Enroll in Next PRD &rarr;
-                </Link>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Link
+                    href={`/showcase?autoOpen=true&title=${encodeURIComponent(project.title)}&desc=${encodeURIComponent(project.overview)}&category=${encodeURIComponent(project.domain || "AI Agents")}&stack=${encodeURIComponent(project.techStack.join(", "))}`}
+                    className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-wider text-[11px] shadow-sm flex items-center gap-1.5 transition-all"
+                  >
+                    <Sparkles size={12} />
+                    <span>Publish to Showcase</span>
+                  </Link>
+                  <Link href="/arena" className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black uppercase tracking-wider text-[11px] hover:bg-emerald-400 transition-all">
+                    Next PRD &rarr;
+                  </Link>
+                </div>
               </div>
             )}
 
@@ -473,10 +482,17 @@ export default function ProjectPRDClient({ project }: Props) {
                   </div>
 
                   <Link
-                    href="/arena"
-                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 flex items-center gap-2"
+                    href={`/showcase?autoOpen=true&title=${encodeURIComponent(project.title)}&desc=${encodeURIComponent(project.overview)}&category=${encodeURIComponent(project.domain || "AI Agents")}&stack=${encodeURIComponent(project.techStack.join(", "))}`}
+                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-600/30 flex items-center gap-2"
                   >
                     <Sparkles size={15} />
+                    <span>🚀 Publish to Community Showcase &rarr;</span>
+                  </Link>
+
+                  <Link
+                    href="/arena"
+                    className="px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold uppercase tracking-wider transition-all border border-slate-700 flex items-center gap-2"
+                  >
                     <span>Enroll in Next Arena PRD &rarr;</span>
                   </Link>
                 </>
@@ -863,28 +879,46 @@ export default function ProjectPRDClient({ project }: Props) {
             </div>
 
             {enrolledSuccess ? (
-              <div className="py-8 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+              <div className="py-6 text-center space-y-5">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
                   <CheckCircle2 size={32} />
                 </div>
-                <h4 className="text-xl font-bold text-slate-900 font-sans">
-                  Successfully Enrolled in {project.title}!
-                </h4>
-                <p className="text-xs text-slate-600 max-w-md mx-auto">
-                  Your project slot has been locked. You are now registered to submit daily standups, attend Saturday teardowns, and unlock 15 company referrals.
-                </p>
-                <div className="flex gap-3 justify-center pt-2">
+                <div>
+                  <h4 className="text-xl font-bold text-slate-900 font-sans">
+                    Successfully Enrolled in {project.title}!
+                  </h4>
+                  <p className="text-xs text-slate-600 max-w-md mx-auto mt-1 font-mono">
+                    Your slot is locked. Follow this 3-step action plan to complete this production system:
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left font-mono text-xs">
+                  <div className="p-3 rounded-2xl bg-blue-50 border border-blue-200">
+                    <div className="font-bold text-[#0066FF] mb-1">1. Read Specs</div>
+                    <p className="text-[11px] text-slate-600">Review HLD/LLD schemas &amp; architecture hints below.</p>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-purple-50 border border-purple-200">
+                    <div className="font-bold text-purple-700 mb-1">2. Daily PoW</div>
+                    <p className="text-[11px] text-slate-600">Post daily commits on Daily Log to maintain streak.</p>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200">
+                    <div className="font-bold text-emerald-700 mb-1">3. Complete &amp; Publish</div>
+                    <p className="text-[11px] text-slate-600">Mark complete for +500 Coins &amp; publish to Showcase.</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 justify-center pt-2 font-mono text-xs">
                   <Link
                     href="/arena/daily-log"
-                    className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold"
+                    className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold transition-all shadow-xs"
                   >
                     Open Daily PoW Standup →
                   </Link>
                   <button
                     onClick={() => setShowEnrollModal(false)}
-                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold"
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors cursor-pointer"
                   >
-                    Close
+                    Close &amp; View Specs
                   </button>
                 </div>
               </div>

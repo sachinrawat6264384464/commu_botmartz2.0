@@ -43,6 +43,8 @@ import {
   Mail
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
+import { useToast } from "@/lib/toast-context";
 import { UNIVERSITIES_DIRECTORY } from "@/lib/universities-directory";
 import { COMPANIES_DIRECTORY } from "@/lib/companies-directory";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
@@ -89,6 +91,7 @@ const AI_SPECIALIZATIONS = [
 
 export default function StudentProfilePortal() {
   const { user, studentProfile, refreshProfile } = useAuth();
+  const { showToast } = useToast();
   const [searchHandle, setSearchHandle] = useState("");
   const [enrolledProjects, setEnrolledProjects] = useState<any[]>([]);
   const [loadingEnrollments, setLoadingEnrollments] = useState(false);
@@ -111,11 +114,12 @@ export default function StudentProfilePortal() {
       const data = await res.json();
       if (data.success) {
         setEnrolledProjects((prev) => prev.filter((p) => p.id !== enrollmentId && p.projectId !== projectId));
+        showToast(`Unenrolled from "${projectTitle || projectId}"`, "info");
       } else {
-        alert(data.error || "Failed to unenroll from project.");
+        showToast(data.error || "Failed to unenroll from project.", "error");
       }
     } catch (e: any) {
-      alert(e.message || "Failed to unenroll from project.");
+      showToast(e.message || "Failed to unenroll from project.", "error");
     } finally {
       setUnenrollingId(null);
     }
@@ -616,7 +620,7 @@ export default function StudentProfilePortal() {
                 <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold">Interactive Walkthrough</span>
               </div>
               <p className="text-xs text-blue-200 font-mono mt-0.5 w-full">
-                Discover what each page does (50 PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
+                Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
               </p>
             </div>
           </div>
@@ -770,7 +774,7 @@ export default function StudentProfilePortal() {
               href="/arena"
               className="px-4 py-2 rounded-xl bg-blue-50 text-[#0066FF] font-mono text-xs font-bold hover:bg-blue-100 transition-colors"
             >
-              Browse 50 Systems &rarr;
+              Browse {TOTAL_SYSTEMS_COUNT} Systems &rarr;
             </Link>
           </div>
 
@@ -784,7 +788,7 @@ export default function StudentProfilePortal() {
               <Layers size={28} className="text-slate-400 mx-auto" />
               <div className="font-bold text-slate-700 font-sans text-sm">No Active PRD Enrollments Yet</div>
               <p className="text-xs text-slate-500 font-mono max-w-sm mx-auto">
-                Explore the 50 production AI blueprints in the Arena catalog and enroll in your first track to begin shipping.
+                Explore the {TOTAL_SYSTEMS_COUNT} production AI blueprints in the Arena catalog and enroll in your first track to begin shipping.
               </p>
               <Link
                 href="/arena"
@@ -817,38 +821,49 @@ export default function StudentProfilePortal() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 pt-3 border-t border-slate-200/80">
+                  <div className="flex flex-col gap-2 pt-3 border-t border-slate-200/80">
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/arena/${ep.projectId}`}
+                        className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
+                      >
+                        Open PRD
+                      </Link>
+                      <Link
+                        href="/arena/daily-log"
+                        className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
+                      >
+                        Log Commit
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
+                        disabled={unenrollingId === (ep.id || ep.projectId)}
+                        className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
+                        title="Unenroll / Leave this project track"
+                      >
+                        {unenrollingId === (ep.id || ep.projectId) ? (
+                          <Loader2 size={13} className="animate-spin text-rose-500" />
+                        ) : (
+                          <span className="text-[10px] text-rose-600">Leave</span>
+                        )}
+                      </button>
+                    </div>
+
                     <Link
-                      href={`/arena/${ep.projectId}`}
-                      className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
+                      href={`/showcase?autoOpen=true&title=${encodeURIComponent(ep.projectTitle || "Production AI System")}&desc=${encodeURIComponent(`Autonomous production build for ${ep.projectTitle}`)}&github=${encodeURIComponent(ep.githubRepoUrl || ep.github || "")}`}
+                      className="w-full py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 font-bold text-center flex items-center justify-center gap-1.5 transition-colors"
                     >
-                      Open PRD
+                      <Sparkles size={12} />
+                      <span>Publish to Community Showcase &rarr;</span>
                     </Link>
-                    <Link
-                      href="/arena/daily-log"
-                      className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
-                    >
-                      Log Commit
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
-                      disabled={unenrollingId === (ep.id || ep.projectId)}
-                      className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
-                      title="Unenroll / Leave this project track"
-                    >
-                      {unenrollingId === (ep.id || ep.projectId) ? (
-                        <Loader2 size={13} className="animate-spin text-rose-500" />
-                      ) : (
-                        <span className="text-[10px] text-rose-600">Leave</span>
-                      )}
-                    </button>
                   </div>
                 </div>
               ))}
             </div>
           )}
         </div>
+
 
         {/* =========================================================================
             SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR (ENROLLED ONLY)
@@ -1216,7 +1231,7 @@ export default function StudentProfilePortal() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
             {[
-              { title: "The Arena (50 PRDs)", desc: "Production system blueprints with SLA gates.", href: "/arena", icon: Layers },
+              { title: `The Arena (${TOTAL_SYSTEMS_COUNT} PRDs)`, desc: "Production system blueprints with SLA gates.", href: "/arena", icon: Layers },
               { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log", icon: Terminal },
               { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship", icon: Sparkles },
               { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet", icon: Coins },

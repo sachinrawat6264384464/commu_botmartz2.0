@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Check, Star, ArrowRight } from "lucide-react";
 import RazorpayModal from "./RazorpayModal";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 export default function PricingTierCards() {
   const [modalState, setModalState] = useState<{
@@ -42,13 +43,13 @@ export default function PricingTierCards() {
               <span className="text-slate-500 text-xs">/ Forever Free</span>
             </div>
             <p className="text-slate-600 leading-relaxed mb-6 font-sans text-xs">
-              Full open access to all 50 production PRDs and open Discord channels for self-directed builders.
+              Full open access to all {TOTAL_SYSTEMS_COUNT} production PRDs and open Discord channels for self-directed builders.
             </p>
 
             <div className="space-y-3 pt-4 border-t border-slate-100 mb-8">
               <div className="flex items-start gap-2 text-slate-700">
                 <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
-                <span>Access to all 50 Production System PRDs</span>
+                <span>Access to all {TOTAL_SYSTEMS_COUNT} Production System PRDs</span>
               </div>
               <div className="flex items-start gap-2 text-slate-700">
                 <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />

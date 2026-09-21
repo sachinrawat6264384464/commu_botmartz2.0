@@ -8,6 +8,7 @@ import PageLockGate from "./_components/PageLockGate";
 import AccessibilityToolbox from "./_components/AccessibilityToolbox";
 import AnalyticsProvider from "@/components/AnalyticsProvider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
+import { ToastProvider } from "@/lib/toast-context";
 import { isRouteLocked, DEFAULT_PAGE_LOCK_CONFIG, PageLockConfig } from "@/lib/page-locks";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
@@ -90,11 +91,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
-      <Suspense fallback={null}>
-        <AnalyticsProvider>
-          <LayoutContent>{children}</LayoutContent>
-        </AnalyticsProvider>
-      </Suspense>
+      <ToastProvider>
+        <Suspense fallback={null}>
+          <AnalyticsProvider>
+            <LayoutContent>{children}</LayoutContent>
+          </AnalyticsProvider>
+        </Suspense>
+      </ToastProvider>
     </AuthProvider>
   );
 }
