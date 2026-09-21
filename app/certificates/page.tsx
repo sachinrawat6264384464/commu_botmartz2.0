@@ -22,6 +22,7 @@ import {
   Check
 } from "lucide-react";
 import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
+import CertificateCard from "@/app/_components/CertificateCard";
 
 function CertificatesContent() {
   const searchParams = useSearchParams();
@@ -201,69 +202,13 @@ function CertificatesContent() {
               </span>
             </div>
 
-            {/* Main Certificate Visual Frame (Replicating Screenshot 3 design!) */}
-            <div className="border-4 border-blue-600/80 rounded-2xl p-6 sm:p-8 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 text-center space-y-6 shadow-inner relative">
-              
-              <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-                <span className="font-black text-blue-700 text-base font-sans">Botmartz AI Solutions</span>
-                <span className="font-mono text-xs text-slate-500 font-bold">Certificate ID: {result.certificateId || result.id}</span>
-              </div>
-
-              <div>
-                <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">CERTIFICATE OF COMPLETION</h3>
-                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight mt-1 font-sans">
-                  {result.eventTitle || result.programTitle || "45-Day Virtual AI Engineering Internship"}
-                </h2>
-              </div>
-
-              <div className="py-2">
-                <div className="text-[11px] text-slate-400 font-mono uppercase tracking-wider font-bold">ISSUED TO</div>
-                <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-sans text-[#0066FF] mt-1">
-                  {result.name}
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-600 font-sans max-w-xl mx-auto leading-relaxed">
-                Awarded for the successful completion of 45 days of verified proof-of-work, code audits, and AI agent architecture milestones under direct mentorship by Soham Sharma.
-              </p>
-
-              {/* Colorful Curriculum & Skill Badges Strip (Screenshot 3 Matching!) */}
-              <div className="py-4 border-t border-b border-slate-200/80">
-                <div className="text-[11px] font-mono font-bold text-slate-400 uppercase mb-3">Earned Curriculum &amp; Skill Badges</div>
-                <div className="flex flex-wrap items-center justify-center gap-3">
-                  {[
-                    { label: "FOUNDATIONS & AI", bg: "bg-teal-500 text-white", border: "border-teal-400" },
-                    { label: "LINUX & GCP", bg: "bg-rose-500 text-white", border: "border-rose-400" },
-                    { label: "AWS SERVICES", bg: "bg-amber-500 text-white", border: "border-amber-400" },
-                    { label: "PYTHON AGENTS", bg: "bg-purple-600 text-white", border: "border-purple-400" },
-                    { label: "MCP ARCH", bg: "bg-blue-600 text-white", border: "border-blue-400" }
-                  ].map((b, i) => (
-                    <div
-                      key={i}
-                      className={`px-3 py-1.5 rounded-xl ${b.bg} ${b.border} border shadow-xs text-[10px] font-mono font-extrabold flex items-center gap-1.5`}
-                    >
-                      <Sparkles size={12} />
-                      <span>{b.label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Signatory Footer */}
-              <div className="flex items-center justify-between text-left pt-2 font-mono text-xs">
-                <div>
-                  <div className="text-[10px] text-slate-400 font-bold uppercase">Date of Issue</div>
-                  <div className="font-bold text-slate-800">{result.issueDate || "September 2026"}</div>
-                </div>
-
-                <div className="text-right">
-                  <div className="font-extrabold text-slate-900 text-sm font-sans">Soham Sharma</div>
-                  <div className="text-[11px] text-[#0066FF] font-bold">Founder &amp; Lead Architect</div>
-                  <div className="text-[10px] text-slate-400">Botmartz AI Solutions</div>
-                </div>
-              </div>
-
-            </div>
+            {/* Main Certificate Visual Frame (Matching Target Reference Screenshot 2 Design!) */}
+            <CertificateCard
+              certificateId={result.certificateId || result.id}
+              name={result.name}
+              eventTitle={result.eventTitle || result.programTitle || "45-Day Virtual AI Engineering Internship"}
+              issueDate={result.issueDate || "22 September 2026"}
+            />
 
             {/* Action Buttons: PDF Download & Direct LinkedIn Share */}
             <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
