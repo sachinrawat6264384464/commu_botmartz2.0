@@ -157,11 +157,25 @@ function renderBadgeEmblem(
 export default function StudentProfilePortal() {
   const { user, studentProfile, refreshProfile } = useAuth();
   const { showToast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
   const [searchHandle, setSearchHandle] = useState("");
   const [enrolledProjects, setEnrolledProjects] = useState<any[]>([]);
   const [loadingEnrollments, setLoadingEnrollments] = useState(false);
   const [unenrollingId, setUnenrollingId] = useState<string | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    try {
+      const cached = localStorage.getItem("botmartz_user_claimed_badges");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setClaimedBadges((prev) => Array.from(new Set([...prev, ...parsed])));
+        }
+      }
+    } catch (e) {}
+  }, []);
 
   const handleUnenroll = async (enrollmentId: string, projectId: string, projectTitle: string) => {
     if (!user?.email) return;
@@ -388,15 +402,7 @@ export default function StudentProfilePortal() {
     (e) => e.status === "Completed" || e.status === "Finished"
   );
 
-  const [claimedBadges, setClaimedBadges] = useState<string[]>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const cached = localStorage.getItem("botmartz_user_claimed_badges");
-        return cached ? JSON.parse(cached) : [];
-      } catch (e) {}
-    }
-    return [];
-  });
+  const [claimedBadges, setClaimedBadges] = useState<string[]>([]);
 
   const [claimingId, setClaimingId] = useState<string | null>(null);
   const [shareModalData, setShareModalData] = useState<{
@@ -685,7 +691,7 @@ export default function StudentProfilePortal() {
             </div>
 
             {/* Active Claimed Badges Showcase Row */}
-            {claimedBadges.length > 0 && (
+            {isMounted && claimedBadges.length > 0 && (
               <div className="pt-4 border-t border-slate-800/80 flex items-center gap-2.5 flex-wrap">
                 <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mr-1">
                   <Award size={14} className="text-amber-400" />
