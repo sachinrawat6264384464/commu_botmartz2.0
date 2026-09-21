@@ -317,6 +317,16 @@ export default function StudentProfilePortal() {
         aiSpecialization: p.aiSpecialization || "Autonomous Agent Architect",
         dpdpConsent: p.dpdpConsent !== false
       });
+
+      if (p.claimedBadges && Array.isArray(p.claimedBadges)) {
+        setClaimedBadges((prev) => {
+          const merged = Array.from(new Set([...prev, ...p.claimedBadges]));
+          try {
+            localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        });
+      }
     } else if (user) {
       setFormData(prev => ({
         ...prev,
@@ -431,9 +441,34 @@ export default function StudentProfilePortal() {
         showToast(data.error || "Failed to claim badge.", "error");
       }
     } catch (e) {
-      showToast("Network error claiming badge.", "error");
+      console.warn("Claim badge error:", e);
     } finally {
       setClaimingId(null);
+    }
+  };
+
+  const handleClaimAllBadges = async () => {
+    if (!user?.email) return;
+    const eligibleIds = badgeStatuses.filter((b) => b.isEligible).map((b) => b.id);
+    if (eligibleIds.length === 0) return;
+
+    try {
+      const res = await fetch("/api/badges/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, badgeIds: eligibleIds })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const updated = Array.from(new Set([...claimedBadges, ...eligibleIds]));
+        setClaimedBadges(updated);
+        try {
+          localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(updated));
+        } catch (e) {}
+        showToast(`🎉 Successfully Claimed ${eligibleIds.length} Badges!`, "success");
+      }
+    } catch (e) {
+      console.warn("Claim all badges error:", e);
     }
   };
 
@@ -1053,9 +1088,21 @@ export default function StudentProfilePortal() {
               </p>
             </div>
 
-            <span className="px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold border border-blue-200 self-start sm:self-auto">
-              {claimedBadges.length} Badges Claimed
-            </span>
+            <div className="flex items-center gap-2.5 flex-wrap self-start sm:self-auto">
+              {badgeStatuses.some((b) => b.canClaim) && (
+                <button
+                  type="button"
+                  onClick={handleClaimAllBadges}
+                  className="px-4 py-1.5 rounded-full bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Sparkles size={13} />
+                  <span>Claim All Unlocked Badges 🎉</span>
+                </button>
+              )}
+              <span className="px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold border border-blue-200">
+                {claimedBadges.length} Badges Claimed
+              </span>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 font-mono text-xs">

@@ -3,16 +3,17 @@ import { adminDb } from "@/lib/firebase-admin";
 
 export async function POST(request: Request) {
   try {
-    const { email, badgeId } = await request.json();
+    const { email, badgeId, badgeIds } = await request.json();
 
-    if (!email || !badgeId) {
+    if (!email || (!badgeId && (!badgeIds || badgeIds.length === 0))) {
       return NextResponse.json(
-        { success: false, error: "Email and badge ID are required." },
+        { success: false, error: "Email and badge selection are required." },
         { status: 400 }
       );
     }
 
     const cleanEmail = email.toLowerCase().trim();
+    const toClaim: string[] = Array.isArray(badgeIds) && badgeIds.length > 0 ? badgeIds : [badgeId];
 
     if (adminDb) {
       try {
@@ -24,45 +25,50 @@ export async function POST(request: Request) {
           currentClaimed = userDoc.data()?.claimedBadges || [];
         }
 
-        if (!currentClaimed.includes(badgeId)) {
-          currentClaimed.push(badgeId);
-          await userRef.set(
-            {
-              claimedBadges: currentClaimed,
-              updatedAt: new Date().toISOString()
-            },
+        for (const id of toClaim) {
+          if (!currentClaimed.includes(id)) {
+            currentClaimed.push(id);
+          }
+        }
+
+        await userRef.set(
+          {
+            claimedBadges: currentClaimed,
+            updatedAt: new Date().toISOString()
+          },
+          { merge: true }
+        );
+
+        // Also update student_profiles
+        const profileSnap = await adminDb.collection("student_profiles").where("email", "==", cleanEmail).limit(1).get();
+        if (!profileSnap.empty) {
+          await profileSnap.docs[0].ref.set(
+            { claimedBadges: currentClaimed, updatedAt: new Date().toISOString() },
             { merge: true }
           );
         }
 
-        // Also add to audit collection
-        await adminDb.collection("claimed_badges").add({
-          email: cleanEmail,
-          badgeId,
-          claimedAt: new Date().toISOString()
-        });
-
         return NextResponse.json({
           success: true,
           claimedBadges: currentClaimed,
-          message: `Badge ${badgeId} successfully claimed!`
+          message: `Successfully claimed ${toClaim.length} badge(s)!`
         });
       } catch (dbErr) {
         console.warn("Firestore badge claim warning:", dbErr);
       }
     }
 
-    // Fallback response if offline/emulator
     return NextResponse.json({
       success: true,
-      claimedBadges: [badgeId],
-      message: `Badge ${badgeId} claimed locally.`
+      claimedBadges: toClaim,
+      message: `Badges claimed locally.`
     });
   } catch (err: any) {
     console.error("Badge claim error:", err);
     return NextResponse.json(
-      { success: false, error: "Failed to claim badge." },
+      { success: false, error: "Failed to claim badges." },
       { status: 500 }
     );
   }
 }
+
