@@ -14,10 +14,11 @@ export async function getSmtpTransporter() {
     console.warn("Could not fetch global settings for SMTP:", e);
   }
 
-  const smtpHost = settings?.email?.smtpHost || process.env.SMTP_HOST || process.env.GMAIL_HOST || 'smtp.hostinger.com';
-  const smtpPort = Number(settings?.email?.smtpPort || process.env.SMTP_PORT || '465');
-  const smtpUser = settings?.email?.smtpUser || process.env.SMTP_USER || process.env.GMAIL_USER;
-  const smtpPass = settings?.email?.smtpPass || process.env.SMTP_PASS || process.env.GMAIL_APP_PASS;
+  const smtpHost = process.env.SMTP_HOST || settings?.email?.smtpHost || process.env.GMAIL_HOST || 'smtp.hostinger.com';
+  const smtpPort = Number(process.env.SMTP_PORT || settings?.email?.smtpPort || '465');
+  const smtpUser = process.env.SMTP_USER || settings?.email?.smtpUser || process.env.GMAIL_USER || 'team@botmartz.com';
+  const rawPass = process.env.SMTP_PASS || settings?.email?.smtpPass || process.env.GMAIL_APP_PASS || 'mrxz-sqbl-arab-cf6p';
+  const smtpPass = (rawPass && rawPass !== '4ahz-gtmt-1tyv-zbfz') ? rawPass : 'mrxz-sqbl-arab-cf6p';
 
   if (!smtpUser || !smtpPass) {
     console.warn("⚠️ [SMTP Helper] Credentials not configured in settings/global or env variables!");

@@ -86,6 +86,7 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
+    { name: "My Learning & Projects", href: "/arena/my-learning", icon: BookOpen, desc: "Enrolled projects, 45-day commit progress & badges", locked: false },
     { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: false },
     { name: `Internship Playground (${TOTAL_SYSTEMS_COUNT} PRDs)`, href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false },
     { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false },
@@ -173,6 +174,20 @@ export default function CommunityNavbar() {
         {/* Desktop Pill Navigation */}
         <nav className="hidden lg:flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-full border-2 border-slate-200/90 font-sans text-xs font-extrabold shadow-sm backdrop-blur-md">
           
+          {/* My Learning Pill */}
+          <Link
+            href="/arena/my-learning"
+            prefetch={false}
+            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              pathname === "/arena/my-learning"
+                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
+                : "text-[#0066FF] hover:text-white hover:bg-[#0066FF] font-black bg-blue-50/80"
+            }`}
+          >
+            <BookOpen size={14} />
+            <span>My Learning</span>
+          </Link>
+
           {/* 1. 50 Systems Catalog */}
           <Link
             href="/arena"
@@ -324,6 +339,13 @@ export default function CommunityNavbar() {
                     <div className="font-black text-slate-900 font-sans">{user.displayName || "Student Builder"}</div>
                     <div className="text-[11px] text-slate-500 font-mono truncate">{user.email}</div>
                   </div>
+
+                  <Link
+                    href="/arena/my-learning"
+                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-blue-50 text-[#0066FF] transition-colors font-bold bg-blue-50/50 mb-1"
+                  >
+                    <BookOpen size={15} /> My Learning &amp; Projects
+                  </Link>
 
                   <Link
                     href="/profile"

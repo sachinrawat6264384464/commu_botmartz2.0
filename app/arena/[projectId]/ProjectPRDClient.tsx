@@ -472,8 +472,45 @@ export default function ProjectPRDClient({ project }: Props) {
               </div>
             )}
 
-            {/* Quick Actions */}
-            <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
+            {/* Quick Actions & 45-Day Progress Bar */}
+            {isEnrolledInThisProject && !isCompletedInThisProject && (() => {
+              const completedDays = Math.min(45, Math.max(thisProjectEnrollment?.lastDayLogged || 0, thisProjectEnrollment?.streak || 0));
+              const progressPct = Math.min(100, Math.round((completedDays / 45) * 100));
+              const canMarkComplete = completedDays >= 45;
+
+              return (
+                <div className="mt-6 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2 font-mono text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-slate-200 flex items-center gap-1.5 font-sans">
+                      <Calendar size={14} className="text-[#0066FF]" />
+                      <span>45-Day Internship Progress: Day {completedDays} / 45 Logged</span>
+                    </span>
+                    <span className="font-bold text-cyan-400">{progressPct}%</span>
+                  </div>
+
+                  <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 rounded-full ${
+                        canMarkComplete
+                          ? "bg-gradient-to-r from-emerald-500 to-teal-400"
+                          : "bg-gradient-to-r from-[#0066FF] via-blue-500 to-cyan-400"
+                      }`}
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+
+                  <div className="text-[11px] text-slate-400 flex items-center justify-between pt-0.5">
+                    <span>
+                      {canMarkComplete
+                        ? "🎉 45 Days Proof-of-Work Completed! You can now claim your +500 Karma Coins!"
+                        : `${45 - completedDays} more daily commit logs required to unlock completion & +500 Coins.`}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
+
+            <div className="mt-6 flex flex-wrap items-center gap-4 font-mono text-xs">
               {isCompletedInThisProject ? (
                 <>
                   <div className="px-6 py-3.5 rounded-2xl bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider border-2 border-emerald-400/80 flex items-center gap-2 shadow-md">
@@ -496,32 +533,52 @@ export default function ProjectPRDClient({ project }: Props) {
                     <span>Enroll in Next Arena PRD &rarr;</span>
                   </Link>
                 </>
-              ) : isEnrolledInThisProject ? (
-                <>
-                  <div className="px-6 py-3.5 rounded-2xl bg-blue-500/20 text-cyan-300 font-bold uppercase tracking-wider border border-cyan-400/40 flex items-center gap-2">
-                    <CheckCircle2 size={15} />
-                    <span>✓ Currently Enrolled</span>
-                  </div>
+              ) : isEnrolledInThisProject ? (() => {
+                const completedDays = Math.min(45, Math.max(thisProjectEnrollment?.lastDayLogged || 0, thisProjectEnrollment?.streak || 0));
+                const canMarkComplete = completedDays >= 45;
 
-                  <button
-                    onClick={handleMarkCompleted}
-                    disabled={completingProject}
-                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 cursor-pointer flex items-center gap-2 disabled:opacity-50"
-                  >
-                    {completingProject ? (
-                      <>
-                        <Loader2 size={15} className="animate-spin" />
-                        <span>Submitting Completion...</span>
-                      </>
+                return (
+                  <>
+                    <div className="px-6 py-3.5 rounded-2xl bg-blue-500/20 text-cyan-300 font-bold uppercase tracking-wider border border-cyan-400/40 flex items-center gap-2">
+                      <CheckCircle2 size={15} />
+                      <span>✓ Currently Enrolled</span>
+                    </div>
+
+                    {!canMarkComplete ? (
+                      <div className="relative group">
+                        <button
+                          disabled
+                          className="px-6 py-3.5 rounded-2xl bg-slate-900/90 text-slate-400 font-bold uppercase tracking-wider border border-slate-800 cursor-not-allowed flex items-center gap-2 opacity-80"
+                        >
+                          <Lock size={15} className="text-slate-400" />
+                          <span>Mark Project Completed (Locked: Day {completedDays}/45)</span>
+                        </button>
+                        <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-80 p-3 bg-slate-900 text-white text-[11px] font-sans rounded-xl border border-slate-700 shadow-xl z-30 leading-relaxed">
+                          🔒 Lock Protection: You must log all 45 days of GitHub commit proof-of-work at /arena/daily-log before marking this project as completed.
+                        </div>
+                      </div>
                     ) : (
-                      <>
-                        <Trophy size={15} className="text-amber-300" />
-                        <span>Mark Project Completed (+500 Coins) &rarr;</span>
-                      </>
+                      <button
+                        onClick={handleMarkCompleted}
+                        disabled={completingProject}
+                        className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                      >
+                        {completingProject ? (
+                          <>
+                            <Loader2 size={15} className="animate-spin" />
+                            <span>Submitting Completion...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Trophy size={15} className="text-amber-300" />
+                            <span>Mark Project Completed (+500 Coins) &rarr;</span>
+                          </>
+                        )}
+                      </button>
                     )}
-                  </button>
-                </>
-              ) : isLockedForUser ? (
+                  </>
+                );
+              })() : isLockedForUser ? (
                 <div className="relative group">
                   <button
                     disabled

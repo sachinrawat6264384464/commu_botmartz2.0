@@ -799,56 +799,76 @@ export default function StudentProfilePortal() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
-              {enrolledProjects.map((ep) => (
-                <div
-                  key={ep.id || ep.projectId}
-                  className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all flex flex-col justify-between space-y-4"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-[10px] font-bold mb-2">
-                      <span className="px-2 py-0.5 rounded-md bg-blue-100 text-[#0066FF]">
-                        {ep.teamType || "Solo"} Track
-                      </span>
-                      <span className="text-emerald-700 font-bold">
-                        {ep.status || "Active"}
-                      </span>
-                    </div>
-                    <h4 className="text-sm font-bold text-slate-900 font-sans mb-1">
-                      {ep.projectTitle || "Production AI System"}
-                    </h4>
-                    <div className="text-[11px] text-slate-500">
-                      Role: <strong>{ep.role || "AI Engineer"}</strong>
-                    </div>
-                  </div>
+              {enrolledProjects.map((ep) => {
+                const completedDays = Math.min(45, Math.max(ep.lastDayLogged || 0, ep.streak || 0));
+                const progressPct = Math.min(100, Math.round((completedDays / 45) * 100));
 
-                  <div className="flex flex-col gap-2 pt-3 border-t border-slate-200/80">
-                    <div className="flex items-center gap-2">
-                      <Link
-                        href={`/arena/${ep.projectId}`}
-                        className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
-                      >
-                        Open PRD
-                      </Link>
-                      <Link
-                        href="/arena/daily-log"
-                        className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
-                      >
-                        Log Commit
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
-                        disabled={unenrollingId === (ep.id || ep.projectId)}
-                        className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
-                        title="Unenroll / Leave this project track"
-                      >
-                        {unenrollingId === (ep.id || ep.projectId) ? (
-                          <Loader2 size={13} className="animate-spin text-rose-500" />
-                        ) : (
-                          <span className="text-[10px] text-rose-600">Leave</span>
-                        )}
-                      </button>
+                return (
+                  <div
+                    key={ep.id || ep.projectId}
+                    className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all flex flex-col justify-between space-y-4"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-bold mb-2">
+                        <span className="px-2 py-0.5 rounded-md bg-blue-100 text-[#0066FF]">
+                          {ep.teamType || "Solo"} Track
+                        </span>
+                        <span className="text-emerald-700 font-bold">
+                          {ep.status || "Active"}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-bold text-slate-900 font-sans mb-1">
+                        {ep.projectTitle || "Production AI System"}
+                      </h4>
+                      <div className="text-[11px] text-slate-500 mb-3">
+                        Role: <strong>{ep.role || "AI Engineer"}</strong>
+                      </div>
+
+                      {/* 45-Day Progress Bar */}
+                      <div className="p-3 rounded-xl bg-white border border-slate-200/80 space-y-1.5">
+                        <div className="flex items-center justify-between text-[10px]">
+                          <span className="font-bold text-slate-700 font-sans">
+                            Day {completedDays} / 45 Completed
+                          </span>
+                          <span className="font-mono font-bold text-[#0066FF]">{progressPct}%</span>
+                        </div>
+                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-[#0066FF] to-cyan-400 rounded-full transition-all duration-300"
+                            style={{ width: `${progressPct}%` }}
+                          />
+                        </div>
+                      </div>
                     </div>
+
+                    <div className="flex flex-col gap-2 pt-3 border-t border-slate-200/80">
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href={`/arena/${ep.projectId}`}
+                          className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
+                        >
+                          Open PRD
+                        </Link>
+                        <Link
+                          href={`/arena/daily-log?projectId=${ep.projectId}`}
+                          className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
+                        >
+                          Log Commit
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
+                          disabled={unenrollingId === (ep.id || ep.projectId)}
+                          className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
+                          title="Unenroll / Leave this project track"
+                        >
+                          {unenrollingId === (ep.id || ep.projectId) ? (
+                            <Loader2 size={13} className="animate-spin text-rose-500" />
+                          ) : (
+                            <span className="text-[10px] text-rose-600">Leave</span>
+                          )}
+                        </button>
+                      </div>
 
                     <Link
                       href={`/showcase?autoOpen=true&title=${encodeURIComponent(ep.projectTitle || "Production AI System")}&desc=${encodeURIComponent(`Autonomous production build for ${ep.projectTitle}`)}&github=${encodeURIComponent(ep.githubRepoUrl || ep.github || "")}`}
@@ -859,7 +879,8 @@ export default function StudentProfilePortal() {
                     </Link>
                   </div>
                 </div>
-              ))}
+              );
+            })}
             </div>
           )}
         </div>
