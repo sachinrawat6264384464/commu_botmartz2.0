@@ -1,18 +1,22 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Copy, Check, ExternalLink, Linkedin, Sparkles, ShieldCheck, Award } from "lucide-react";
+import { X, Copy, Check, ExternalLink, Linkedin, Sparkles, ShieldCheck, Award, Flame, Terminal } from "lucide-react";
 
 interface LinkedInShareModalProps {
   isOpen: boolean;
   onClose: () => void;
   candidateName: string;
   projectTitle: string;
-  certificateId: string;
-  verificationUrl: string;
+  certificateId?: string;
+  verificationUrl?: string;
   earnedBadges?: string[];
   rank?: number;
   totalPoints?: number;
+  mode?: "certificate" | "daily_log";
+  dayNumber?: number;
+  commitUrl?: string;
+  researchNotes?: string;
 }
 
 export default function LinkedInShareModal({
@@ -20,17 +24,36 @@ export default function LinkedInShareModal({
   onClose,
   candidateName,
   projectTitle,
-  certificateId,
-  verificationUrl,
+  certificateId = "CERT-BM-982314",
+  verificationUrl = "https://community.botmartz.com/certificates",
   earnedBadges = ["10-Day Streak", "Foundations & AI"],
   rank = 1,
-  totalPoints = 2151
+  totalPoints = 2151,
+  mode = "certificate",
+  dayNumber = 1,
+  commitUrl = "",
+  researchNotes = ""
 }: LinkedInShareModalProps) {
   const [copied, setCopied] = useState(false);
 
   if (!isOpen) return null;
 
-  const defaultPostContent = `🚀 Excited to announce that I have successfully completed the ${projectTitle} & 45-Day Proof-of-Work Sprint with @Botmartz AI Solutions!
+  const isDaily = mode === "daily_log";
+
+  // Auto-generate post content depending on mode (Certificate completion vs Daily PoW log)
+  const defaultPostContent = isDaily
+    ? `🚀 Day ${dayNumber} of 45 | AI Engineering Sprint Update ⚡
+
+Just logged today's GitHub commit for "${projectTitle}" on @Botmartz AI Solutions!
+
+🎯 Progress: Day ${dayNumber}/45 Completed
+${commitUrl ? `💻 GitHub Proof-of-Work: ${commitUrl}` : ""}
+${researchNotes ? `📝 Key Focus: ${researchNotes.slice(0, 150)}...` : ""}
+
+Mentored by Soham Sharma (Founder & Lead Architect, Botmartz AI Solutions). Building in public! 🚀
+
+#Botmartz #SohamSharma #45DaysOfCode #BuildInPublic #AIEngineering #DevOps #ProofOfWork`
+    : `🚀 Excited to announce that I have successfully completed the ${projectTitle} & 45-Day Proof-of-Work Sprint with @Botmartz AI Solutions!
 
 Mentored by Soham Sharma (Founder & Lead Architect, Botmartz AI Solutions). Unlocked ${earnedBadges.length} curriculum & streak badges! 🚀
 
@@ -48,24 +71,8 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
   };
 
   const handleLinkedInShare = () => {
-    // 1. Copy full formatted post content to clipboard automatically
-    const targetUrl = verificationUrl.includes("localhost")
-      ? `https://community.botmartz.com/certificates?query=${certificateId}`
-      : verificationUrl;
-
-    const fullPostText = `🚀 Excited to announce that I have successfully completed the ${projectTitle} & 45-Day Proof-of-Work Sprint with @Botmartz AI Solutions!
-
-Mentored by Soham Sharma (Founder & Lead Architect, Botmartz AI Solutions). Unlocked ${earnedBadges.length} curriculum & streak badges! 🚀
-
-Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
-
-📜 Certificate Verification ID: ${certificateId}
-🔗 Verify Credential: ${targetUrl}
-
-#Botmartz #SohamSharma #AIEngineering #DevOps #ProofOfWork #CloudDevOpsHub #BuildInPublic`;
-
     try {
-      navigator.clipboard.writeText(fullPostText);
+      navigator.clipboard.writeText(defaultPostContent);
     } catch (e) {
       console.warn("Clipboard copy failed", e);
     }
@@ -73,8 +80,8 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
     setCopied(true);
     setTimeout(() => setCopied(false), 5000);
 
-    // 2. Open LinkedIn Feed with shareActive=true and encoded text parameter (pre-fills post text on LinkedIn)
-    const encodedText = encodeURIComponent(fullPostText);
+    // Open LinkedIn Feed with shareActive=true and encoded text parameter
+    const encodedText = encodeURIComponent(defaultPostContent);
     const linkedInFeedUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodedText}`;
     window.open(linkedInFeedUrl, "_blank");
   };
@@ -107,8 +114,12 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
               <Linkedin size={18} />
             </div>
             <div>
-              <h3 className="font-bold text-sm font-sans text-white">Share Verified Credential</h3>
-              <p className="text-[11px] text-slate-400 font-mono">LinkedIn UGC &amp; Certifications &bull; Botmartz AI Solutions</p>
+              <h3 className="font-bold text-sm font-sans text-white">
+                {isDaily ? `Share Day ${dayNumber} Progress on LinkedIn` : "Share Verified Credential"}
+              </h3>
+              <p className="text-[11px] text-slate-400 font-mono">
+                {isDaily ? "Daily Proof-of-Work Standup" : "LinkedIn UGC & Certifications"} &bull; Botmartz AI Solutions
+              </p>
             </div>
           </div>
 
@@ -123,14 +134,21 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
         {/* Modal Body */}
         <div className="p-6 space-y-5">
           
-          {/* Badge & Certificate Info Pill */}
+          {/* Badge / Info Pill */}
           <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 flex items-center justify-between text-xs font-mono">
-            <div className="flex items-center gap-2 text-[#0066FF] font-bold">
-              <ShieldCheck size={16} />
-              <span>Verified Certificate: {certificateId}</span>
-            </div>
+            {isDaily ? (
+              <div className="flex items-center gap-2 text-[#0066FF] font-bold">
+                <Flame size={16} className="text-amber-500" />
+                <span>Sprint Progress: Day {dayNumber} / 45</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 text-[#0066FF] font-bold">
+                <ShieldCheck size={16} />
+                <span>Verified Certificate: {certificateId}</span>
+              </div>
+            )}
             <span className="px-2.5 py-0.5 rounded-full bg-blue-600 text-white text-[10px] font-bold">
-              Soham Sharma Signed
+              {isDaily ? "+50 Coins Bonus ⭐" : "Soham Sharma Signed"}
             </span>
           </div>
 
@@ -145,7 +163,7 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
           {/* Pre-filled Post Editor Box */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-mono font-bold text-slate-600">
-              <label>LinkedIn Post Template (Auto-Generated)</label>
+              <label>{isDaily ? "Daily Log Post Template (Auto-Generated)" : "LinkedIn Post Template (Auto-Generated)"}</label>
               <button
                 onClick={handleCopy}
                 className="text-[#0066FF] hover:underline flex items-center gap-1 cursor-pointer"
@@ -158,7 +176,7 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
             <textarea
               readOnly
               value={defaultPostContent}
-              rows={6}
+              rows={7}
               className="w-full rounded-2xl bg-slate-50 border border-slate-300 p-3.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-[#0066FF] leading-relaxed resize-none"
             />
           </div>
@@ -166,25 +184,31 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
           {/* Mentorship & Credential Confirmation */}
           <div className="flex items-center gap-3 text-[11px] font-mono text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-200">
             <Award size={16} className="text-amber-500 shrink-0" />
-            <span>Post text includes your proof-of-work badges, certificate verification link, and Soham Sharma founder mentorship tag.</span>
+            <span>
+              {isDaily
+                ? "Posting your daily log on LinkedIn earns +50 Karma Coins and builds your public builder portfolio."
+                : "Post text includes your proof-of-work badges, certificate verification link, and Soham Sharma founder mentorship tag."}
+            </span>
           </div>
 
-          {/* Action Buttons (Add to LinkedIn Profile + Post Feed Update) */}
+          {/* Action Buttons */}
           <div className="pt-2 space-y-2.5">
-            <button
-              onClick={handleAddToLinkedInProfile}
-              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Award size={18} />
-              <span>Add License &amp; Certification to LinkedIn Profile 📜</span>
-            </button>
+            {!isDaily && (
+              <button
+                onClick={handleAddToLinkedInProfile}
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Award size={18} />
+                <span>Add License &amp; Certification to LinkedIn Profile 📜</span>
+              </button>
+            )}
 
             <button
               onClick={handleLinkedInShare}
               className="w-full py-3.5 rounded-2xl bg-[#0077B5] hover:bg-[#006097] text-white font-bold font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Linkedin size={18} />
-              <span>Post Feed Update on LinkedIn ↗</span>
+              <span>{isDaily ? `Post Day ${dayNumber} Log on LinkedIn ↗` : "Post Feed Update on LinkedIn ↗"}</span>
             </button>
           </div>
 
@@ -194,3 +218,4 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
     </div>
   );
 }
+

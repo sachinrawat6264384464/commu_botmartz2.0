@@ -27,11 +27,13 @@ import {
   AlertCircle,
   Flame,
   Layers,
-  Award
+  Award,
+  Share2
 } from "lucide-react";
 import { ARENA_PROJECTS, ArenaProject, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
 import AuthGate from "@/app/_components/AuthGate";
+import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
 
 interface EnrolledProjectItem {
   id: string;
@@ -182,6 +184,25 @@ function DailyPoWLogPageInner() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
+  // LinkedIn Daily Log Share Modal State
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [shareModalData, setShareModalData] = useState({
+    projectTitle: "",
+    dayNumber: 1,
+    commitUrl: "",
+    researchNotes: ""
+  });
+
+  const openShareModal = (title: string, day: number, commit: string, notes: string) => {
+    setShareModalData({
+      projectTitle: title || currentEnrolledProject?.projectTitle || "Arena System",
+      dayNumber: day,
+      commitUrl: commit,
+      researchNotes: notes
+    });
+    setShareModalOpen(true);
+  };
+
   // 1. Fetch user's enrolled projects & past logs on mount
   useEffect(() => {
     if (user?.email) {
@@ -293,13 +314,18 @@ function DailyPoWLogPageInner() {
     setErrorMsg("");
     setSuccessMsg("");
 
+    const submittedDay = parseInt(form.dayNumber, 10) || 1;
+    const submittedCommit = form.commitUrl;
+    const submittedNotes = form.researchNotes;
+    const projectTitle = currentEnrolledProject?.projectTitle || "Arena Project";
+
     try {
       const res = await fetch("/api/arena/daily-log", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          projectTitle: currentEnrolledProject?.projectTitle || "Arena Project"
+          projectTitle
         })
       });
 
@@ -309,6 +335,10 @@ function DailyPoWLogPageInner() {
       }
 
       setSuccessMsg(`🎉 Day ${form.dayNumber} logged successfully! Earned +${data.coinsAwarded} Karma Coins.`);
+      
+      // Auto-open LinkedIn share modal for this daily log
+      openShareModal(projectTitle, submittedDay, submittedCommit, submittedNotes);
+
       // Reset fields
       setForm((prev) => ({
         ...prev,
@@ -638,7 +668,7 @@ function DailyPoWLogPageInner() {
                           </a>
                         )}
 
-                        {log.linkedinPostUrl && (
+                        {log.linkedinPostUrl ? (
                           <a
                             href={log.linkedinPostUrl}
                             target="_blank"
@@ -649,6 +679,15 @@ function DailyPoWLogPageInner() {
                             <span>Post</span>
                             <ExternalLink size={10} />
                           </a>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => openShareModal(currentEnrolledProject?.projectTitle || "Arena System", log.dayNumber, log.commitUrl || "", log.researchNotes || "")}
+                            className="p-2 rounded-xl bg-[#0077B5] hover:bg-[#006097] text-white transition-colors flex items-center gap-1 text-[11px] font-bold cursor-pointer"
+                          >
+                            <Linkedin size={13} />
+                            <span>Share ↗</span>
+                          </button>
                         )}
                       </div>
                     </div>
@@ -661,6 +700,18 @@ function DailyPoWLogPageInner() {
         )}
 
       </div>
+
+      {/* LinkedIn Share Modal for Daily Proof-of-Work Log */}
+      <LinkedInShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        mode="daily_log"
+        candidateName={user?.displayName || "Builder Candidate"}
+        projectTitle={shareModalData.projectTitle || currentEnrolledProject?.projectTitle || "Arena System"}
+        dayNumber={shareModalData.dayNumber}
+        commitUrl={shareModalData.commitUrl}
+        researchNotes={shareModalData.researchNotes}
+      />
     </div>
   );
 }
