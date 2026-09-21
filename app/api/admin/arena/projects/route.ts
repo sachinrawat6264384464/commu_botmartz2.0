@@ -1,16 +1,28 @@
 import { NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 
 export async function GET(req: Request) {
   try {
     let customProjects: any[] = [];
-    if (adminDb) {
-      const snap = await adminDb.collection("custom_arena_projects").orderBy("createdAt", "desc").get();
-      customProjects = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    if (adminDb && hasAdminCredentials) {
+      try {
+        const snap = await Promise.race([
+          adminDb.collection("custom_arena_projects").get(),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error("Firestore fetch timeout")), 2500)
+          )
+        ]);
+        customProjects = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        customProjects.sort(
+          (a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+        );
+      } catch (dbErr) {
+        console.warn("custom_arena_projects fetch warning:", dbErr);
+      }
     }
     return NextResponse.json({ success: true, customProjects });
   } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to fetch projects." }, { status: 500 });
+    return NextResponse.json({ success: true, customProjects: [] });
   }
 }
 
