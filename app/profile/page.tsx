@@ -692,23 +692,45 @@ export default function StudentProfilePortal() {
 
             {/* Active Claimed Badges Showcase Row */}
             {isMounted && claimedBadges.length > 0 && (
-              <div className="pt-4 border-t border-slate-800/80 flex items-center gap-2.5 flex-wrap">
-                <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 mr-1">
-                  <Award size={14} className="text-amber-400" />
-                  <span>Verified Profile Badges:</span>
-                </span>
-                {badgeStatuses.filter((b) => b.isClaimed).map((b) => {
-                  const IconComp = BADGE_ICON_MAP[b.iconName] || Trophy;
-                  return (
-                    <div
-                      key={b.id}
-                      className={`px-3 py-1 rounded-full bg-gradient-to-r ${b.badgeBg} text-white font-mono text-[11px] font-extrabold flex items-center gap-1.5 shadow-md border border-white/20`}
-                    >
-                      <IconComp size={13} className="text-white drop-shadow-xs" />
-                      <span>{b.title}</span>
-                    </div>
-                  );
-                })}
+              <div className="pt-4 border-t border-slate-800/80 space-y-2.5">
+                <div className="flex items-center justify-between text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                  <span className="flex items-center gap-1.5">
+                    <Award size={15} className="text-amber-400" />
+                    <span>Verified Profile Badges &amp; Emblems ({badgeStatuses.filter((b) => b.isClaimed).length})</span>
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-sans hidden sm:inline">Active Developer Portfolio</span>
+                </div>
+
+                <div className="flex items-center gap-3 flex-wrap pt-1">
+                  {badgeStatuses.filter((b) => b.isClaimed).map((b) => {
+                    const IconComp = BADGE_ICON_MAP[b.iconName] || Trophy;
+                    return (
+                      <div
+                        key={b.id}
+                        title={`${b.title}: ${b.description}`}
+                        className="group relative flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-slate-900/90 border border-slate-700/80 hover:border-amber-400/80 transition-all duration-300 shadow-lg cursor-pointer"
+                      >
+                        {/* Metallic Badge Graphic Logo Box */}
+                        <div className={`relative w-8 h-8 rounded-xl bg-gradient-to-br ${b.badgeBg} flex items-center justify-center text-white shadow-md shadow-amber-500/10 ring-2 ring-white/20 group-hover:scale-110 transition-transform`}>
+                          <IconComp size={16} className="text-white drop-shadow-md stroke-[2.2]" />
+                          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-1 ring-white flex items-center justify-center text-white">
+                            <CheckCircle2 size={8} className="stroke-[3]" />
+                          </div>
+                        </div>
+
+                        {/* Badge Title & Category Tag */}
+                        <div className="flex flex-col min-w-0 font-sans">
+                          <span className="text-xs font-extrabold text-white group-hover:text-amber-300 transition-colors leading-tight">
+                            {b.title}
+                          </span>
+                          <span className="text-[9px] font-mono text-slate-400 uppercase tracking-tight">
+                            {b.category} &bull; Verified
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
 

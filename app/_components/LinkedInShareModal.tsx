@@ -48,13 +48,19 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
   };
 
   const handleLinkedInShare = () => {
-    // Copy to clipboard first so user can paste directly into LinkedIn compose modal
+    // 1. Copy full formatted post content to clipboard automatically
     navigator.clipboard.writeText(defaultPostContent);
-    
-    // Open LinkedIn Web Share URL
-    const encodedUrl = encodeURIComponent(verificationUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 4000);
+
+    // 2. Ensure public URL for LinkedIn crawler (localhost URLs fail LinkedIn preview)
+    const targetUrl = verificationUrl.includes("localhost")
+      ? `https://community.botmartz.com/certificates?query=${certificateId}`
+      : verificationUrl;
+
+    const encodedUrl = encodeURIComponent(targetUrl);
     const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-    window.open(linkedInUrl, "_blank", "width=600,height=650");
+    window.open(linkedInUrl, "_blank", "width=650,height=700");
   };
 
   const handleAddToLinkedInProfile = () => {
