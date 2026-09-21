@@ -3,6 +3,8 @@ import { db } from "./firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { fetchCollectionDocs } from "./firebase-admin-helper";
 import { recordSecurityAuditLog } from "./zero-trust";
+import { emailProvider } from "./email/provider";
+import { buildKarmaCoinsSpentEmail } from "./mail-templates";
 
 export interface WalletTransaction {
   id: string;
@@ -235,6 +237,23 @@ export async function adjustStudentWallet(
       severity: "INFO",
       status: "SUCCESS"
     });
+
+    // Automatically send Email Confirmation when Karma Coins are spent
+    if (type === "SPEND") {
+      emailProvider.sendEmail({
+        to: cleanEmail,
+        subject: `Karma Coins Spend Confirmation (-${amount} Coins) | Botmartz`,
+        html: buildKarmaCoinsSpentEmail({
+          email: cleanEmail,
+          amount,
+          reason,
+          newBalance: result.newBalance,
+          referenceId
+        })
+      }).catch((mailErr) => {
+        console.warn("Failed to dispatch Karma spend email:", mailErr);
+      });
+    }
 
     return { success: true, newBalance: result.newBalance };
   } catch (err: any) {

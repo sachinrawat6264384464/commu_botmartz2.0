@@ -259,9 +259,6 @@ export function buildArenaEnrollmentEmail(data: {
             </td>
           </tr>
           <tr>
-            <td style="padding-top:24px;border-top:1px solid #1E293B;font-size:12px;color:#64748B;line-height:1.5;text-align:center;">
-              Botmartz Community &bull; Indore AI Hub &bull; Protected under DPDP Act 2023.<br/>
-              Zero Spam Policy &bull; Pure Proof-of-Work Engineering.
             </td>
           </tr>
         </table>
@@ -271,3 +268,110 @@ export function buildArenaEnrollmentEmail(data: {
 </body>
 </html>`;
 }
+
+export function buildKarmaCoinsSpentEmail(data: {
+  email: string;
+  amount: number;
+  reason: string;
+  newBalance: number;
+  referenceId?: string;
+  fulfillmentCode?: string;
+}): string {
+  const walletUrl = "https://community.botmartz.com/arena/wallet";
+  const dateStr = new Date().toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "Asia/Kolkata"
+  });
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Karma Coins Spend Confirmation | Botmartz Community</title>
+</head>
+<body style="margin:0;padding:0;background:#050B14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#ffffff;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#050B14;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#0A111F;border:1px solid #1E293B;border-radius:16px;overflow:hidden;padding:32px;">
+          <!-- Header -->
+          <tr>
+            <td style="padding-bottom:24px;border-bottom:1px solid #1E293B;">
+              <span style="font-size:16px;font-weight:800;color:#ffffff;text-transform:uppercase;">BOTMARTZ COMMUNITY</span>
+              <span style="font-size:11px;color:#F59E0B;font-weight:700;margin-left:8px;font-family:monospace;">/ KARMA WALLET</span>
+            </td>
+          </tr>
+          <!-- Body Content -->
+          <tr>
+            <td style="padding-top:28px;padding-bottom:24px;">
+              <div style="display:inline-block;padding:4px 12px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);border-radius:20px;color:#F59E0B;font-size:11px;font-weight:700;font-family:monospace;letter-spacing:0.05em;margin-bottom:16px;">
+                ✓ TRANSACTION DEBIT CONFIRMED
+              </div>
+
+              <h2 style="margin:0 0 12px 0;font-size:24px;font-weight:800;color:#ffffff;line-height:1.2;">
+                Karma Coins Spent Notice
+              </h2>
+
+              <p style="margin:0 0 20px 0;font-size:14px;color:#94A3B8;line-height:1.6;">
+                This email confirms that <strong>${data.amount} Karma Coins</strong> have been debited from your Botmartz wallet for the following activity:
+              </p>
+
+              <!-- Transaction Summary Box -->
+              <div style="background:#050B14;border:1px solid #1E293B;border-radius:14px;padding:20px;margin-bottom:24px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;color:#CBD5E1;font-family:monospace;line-height:1.8;">
+                  <tr>
+                    <td style="color:#64748B;">Coins Debited:</td>
+                    <td align="right" style="color:#EF4444;font-weight:800;font-size:15px;">-${data.amount} Karma Coins</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#64748B;">Reason / Item:</td>
+                    <td align="right" style="color:#ffffff;font-weight:700;">${data.reason}</td>
+                  </tr>
+                  ${data.fulfillmentCode ? `
+                  <tr>
+                    <td style="color:#64748B;">Voucher / Ref Code:</td>
+                    <td align="right" style="color:#00B8F0;font-weight:800;">${data.fulfillmentCode}</td>
+                  </tr>
+                  ` : ''}
+                  <tr>
+                    <td style="color:#64748B;">Updated Wallet Balance:</td>
+                    <td align="right" style="color:#10B981;font-weight:800;">${data.newBalance} Karma Coins</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#64748B;">Timestamp:</td>
+                    <td align="right" style="color:#94A3B8;">${dateStr}</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- CTA -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+                <tr>
+                  <td align="center">
+                    <a href="${walletUrl}" style="display:inline-block;padding:14px 28px;background:#0066FF;color:#ffffff;text-decoration:none;font-weight:700;font-size:13px;border-radius:12px;text-transform:uppercase;letter-spacing:0.05em;font-family:monospace;box-shadow:0 4px 16px rgba(0,102,255,0.4);">
+                      View Karma Wallet Ledger &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0;font-size:12px;color:#64748B;line-height:1.5;text-align:center;">
+                If you did not authorize this transaction, please contact team@botmartz.com immediately.
+              </p>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="padding-top:20px;border-top:1px solid #1E293B;font-size:11px;color:#475569;line-height:1.5;text-align:center;font-family:monospace;">
+              Botmartz Community &bull; Cryptographic Karma Coins Ledger &bull; Pure Proof-of-Work
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
+

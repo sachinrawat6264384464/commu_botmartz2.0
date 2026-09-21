@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { adjustStudentWallet } from "@/lib/wallet";
+import { emailProvider } from "@/lib/email/provider";
+import { buildKarmaCoinsSpentEmail } from "@/lib/mail-templates";
 
 export async function POST(req: Request) {
   try {
@@ -62,6 +64,20 @@ export async function POST(req: Request) {
         console.warn("Firestore perk_redemptions write warning:", dbErr);
       }
     }
+
+    // 3. Dispatch Email Confirmation with Voucher/Fulfillment Code
+    emailProvider.sendEmail({
+      to: cleanEmail,
+      subject: `Perk Redemption Confirmed: ${perkTitle} | Botmartz`,
+      html: buildKarmaCoinsSpentEmail({
+        email: cleanEmail,
+        amount: cost,
+        reason: `Redeemed Perk: ${perkTitle}`,
+        newBalance: walletResult.newBalance,
+        referenceId: redemptionId,
+        fulfillmentCode
+      })
+    }).catch((e) => console.warn("Perk redemption email warning:", e));
 
     return NextResponse.json({
       success: true,
