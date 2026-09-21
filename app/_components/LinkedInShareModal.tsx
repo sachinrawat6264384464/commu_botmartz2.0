@@ -49,18 +49,34 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
 
   const handleLinkedInShare = () => {
     // 1. Copy full formatted post content to clipboard automatically
-    navigator.clipboard.writeText(defaultPostContent);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 4000);
-
-    // 2. Ensure public URL for LinkedIn crawler (localhost URLs fail LinkedIn preview)
     const targetUrl = verificationUrl.includes("localhost")
       ? `https://community.botmartz.com/certificates?query=${certificateId}`
       : verificationUrl;
 
-    const encodedUrl = encodeURIComponent(targetUrl);
-    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-    window.open(linkedInUrl, "_blank", "width=650,height=700");
+    const fullPostText = `🚀 Excited to announce that I have successfully completed the ${projectTitle} & 45-Day Proof-of-Work Sprint with @Botmartz AI Solutions!
+
+Mentored by Soham Sharma (Founder & Lead Architect, Botmartz AI Solutions). Unlocked ${earnedBadges.length} curriculum & streak badges! 🚀
+
+Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
+
+📜 Certificate Verification ID: ${certificateId}
+🔗 Verify Credential: ${targetUrl}
+
+#Botmartz #SohamSharma #AIEngineering #DevOps #ProofOfWork #CloudDevOpsHub #BuildInPublic`;
+
+    try {
+      navigator.clipboard.writeText(fullPostText);
+    } catch (e) {
+      console.warn("Clipboard copy failed", e);
+    }
+
+    setCopied(true);
+    setTimeout(() => setCopied(false), 5000);
+
+    // 2. Open LinkedIn Feed with shareActive=true and encoded text parameter (pre-fills post text on LinkedIn)
+    const encodedText = encodeURIComponent(fullPostText);
+    const linkedInFeedUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodedText}`;
+    window.open(linkedInFeedUrl, "_blank");
   };
 
   const handleAddToLinkedInProfile = () => {
@@ -68,7 +84,11 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
     const month = new Date().getMonth() + 1;
     const certName = encodeURIComponent(projectTitle || "45-Day Virtual AI Engineering Fellowship");
     const orgName = encodeURIComponent("Botmartz AI Solutions");
-    const certUrl = encodeURIComponent(verificationUrl);
+    const certUrl = encodeURIComponent(
+      verificationUrl.includes("localhost")
+        ? `https://community.botmartz.com/certificates?query=${certificateId}`
+        : verificationUrl
+    );
     const certId = encodeURIComponent(certificateId);
 
     // Official LinkedIn Profile Add License & Certification Deep Link URL
@@ -114,6 +134,14 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
             </span>
           </div>
 
+          {/* Copied Success Banner */}
+          {copied && (
+            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-mono flex items-center gap-2 animate-fadeIn">
+              <Check size={16} className="text-emerald-600 shrink-0" />
+              <span><strong>Post Text Copied to Clipboard!</strong> Press <strong>Ctrl + V</strong> in LinkedIn post box if not pre-filled automatically.</span>
+            </div>
+          )}
+
           {/* Pre-filled Post Editor Box */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-xs font-mono font-bold text-slate-600">
@@ -130,7 +158,7 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
             <textarea
               readOnly
               value={defaultPostContent}
-              rows={7}
+              rows={6}
               className="w-full rounded-2xl bg-slate-50 border border-slate-300 p-3.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-[#0066FF] leading-relaxed resize-none"
             />
           </div>
