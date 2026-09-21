@@ -134,7 +134,7 @@ function CertificatesContent() {
 
               <div className="flex flex-wrap items-center gap-2 pt-2 font-mono text-xs text-slate-400">
                 <span className="text-[11px] font-bold uppercase text-slate-400">Sample Credentials:</span>
-                {["CERT-BM-982314", "CERT-2026-0812", "AI-AGENT-2026"].map((sample) => (
+                {["CERT-BM-982314", "CERT-BM-B1-98231", "CERT-2026-0812", "AI-AGENT-2026"].map((sample) => (
                   <button
                     key={sample}
                     onClick={() => handleQuickSample(sample)}

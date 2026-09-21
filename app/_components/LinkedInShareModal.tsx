@@ -57,6 +57,19 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
     window.open(linkedInUrl, "_blank", "width=600,height=650");
   };
 
+  const handleAddToLinkedInProfile = () => {
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+    const certName = encodeURIComponent(projectTitle || "45-Day Virtual AI Engineering Fellowship");
+    const orgName = encodeURIComponent("Botmartz AI Solutions");
+    const certUrl = encodeURIComponent(verificationUrl);
+    const certId = encodeURIComponent(certificateId);
+
+    // Official LinkedIn Profile Add License & Certification Deep Link URL
+    const addCertUrl = `https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=${certName}&organizationName=${orgName}&issueYear=${year}&issueMonth=${month}&certUrl=${certUrl}&certId=${certId}`;
+    window.open(addCertUrl, "_blank");
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md animate-fadeIn">
       <div className="relative w-full max-w-lg rounded-3xl bg-white border border-slate-200 shadow-2xl overflow-hidden font-sans">
@@ -69,7 +82,7 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
             </div>
             <div>
               <h3 className="font-bold text-sm font-sans text-white">Share Verified Credential</h3>
-              <p className="text-[11px] text-slate-400 font-mono">LinkedIn UGC Composer &bull; Botmartz AI Solutions</p>
+              <p className="text-[11px] text-slate-400 font-mono">LinkedIn UGC &amp; Certifications &bull; Botmartz AI Solutions</p>
             </div>
           </div>
 
@@ -111,7 +124,7 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
             <textarea
               readOnly
               value={defaultPostContent}
-              rows={8}
+              rows={7}
               className="w-full rounded-2xl bg-slate-50 border border-slate-300 p-3.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-[#0066FF] leading-relaxed resize-none"
             />
           </div>
@@ -122,14 +135,22 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
             <span>Post text includes your proof-of-work badges, certificate verification link, and Soham Sharma founder mentorship tag.</span>
           </div>
 
-          {/* Primary Action Button (Direct LinkedIn Button) */}
-          <div className="pt-2">
+          {/* Action Buttons (Add to LinkedIn Profile + Post Feed Update) */}
+          <div className="pt-2 space-y-2.5">
+            <button
+              onClick={handleAddToLinkedInProfile}
+              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Award size={18} />
+              <span>Add License &amp; Certification to LinkedIn Profile 📜</span>
+            </button>
+
             <button
               onClick={handleLinkedInShare}
               className="w-full py-3.5 rounded-2xl bg-[#0077B5] hover:bg-[#006097] text-white font-bold font-mono text-xs uppercase tracking-wider transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Linkedin size={18} />
-              <span>Post directly on LinkedIn ↗</span>
+              <span>Post Feed Update on LinkedIn ↗</span>
             </button>
           </div>
 
