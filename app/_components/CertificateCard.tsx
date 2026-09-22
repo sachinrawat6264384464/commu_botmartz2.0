@@ -82,7 +82,7 @@ export default function CertificateCard({
         
         {/* 1. Base Original Template Image */}
         <img
-          src="/Blue and Yellow Modern Certificate of Completion.png"
+          src="/certificate-template.png"
           alt="Certificate of Completion Template"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />

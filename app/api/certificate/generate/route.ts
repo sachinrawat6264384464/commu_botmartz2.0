@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
     // Load and embed the exact PNG template image
-    const imagePath = path.join(process.cwd(), "public", "Blue and Yellow Modern Certificate of Completion.png");
+    const imagePath = path.join(process.cwd(), "public", "certificate-template.png");
     const imageBytes = fs.readFileSync(imagePath);
     const templatePng = await pdfDoc.embedPng(imageBytes);
 
@@ -129,6 +129,15 @@ export async function POST(request: Request) {
       { x: 540, y: 220 }, { x: 650, y: 220 }, { x: 760, y: 220 } // Row 3 (Base)
     ];
 
+    const svgIconPaths = [
+      "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z",
+      "M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z",
+      "M12 2L9.19 8.63 2 12l7.19 3.37L12 22l2.81-6.63L22 12l-7.19-3.37z",
+      "M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z",
+      "M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z",
+      "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"
+    ];
+
     trianglePositions.forEach((pos, idx) => {
       const color = badgeColors[idx];
 
@@ -161,21 +170,22 @@ export async function POST(request: Request) {
         borderWidth: 1.8,
       });
 
-      // Inner Solid Emblem Disc
-      page.drawCircle({
-        x: pos.x,
-        y: pos.y,
-        size: 10,
-        color: rgb(1, 1, 1),
-      });
-
-      // Center Color Star Dot
-      page.drawCircle({
-        x: pos.x,
-        y: pos.y,
-        size: 5,
-        color,
-      });
+      // Draw SVG Icon centered inside badge
+      try {
+        page.drawSvgPath(svgIconPaths[idx], {
+          x: pos.x - 9,
+          y: pos.y + 9,
+          color: rgb(1, 1, 1),
+          scale: 0.75,
+        });
+      } catch (e) {
+        page.drawCircle({
+          x: pos.x,
+          y: pos.y,
+          size: 6,
+          color: rgb(1, 1, 1),
+        });
+      }
     });
 
     const pdfBytes = await pdfDoc.save();
