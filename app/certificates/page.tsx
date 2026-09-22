@@ -188,7 +188,7 @@ function CertificatesContent() {
 
         {/* ── 2. VERIFIED CERTIFICATE CARD DISPLAY (Matching User Screenshot 3 Aesthetic!) ── */}
         {result ? (
-          <div className="max-w-4xl mx-auto bg-white border-2 border-emerald-500 rounded-3xl p-8 sm:p-10 shadow-2xl relative overflow-hidden font-sans mb-16">
+          <div className="max-w-5xl mx-auto bg-white border-2 border-emerald-500 rounded-3xl p-4 sm:p-8 shadow-2xl relative overflow-hidden font-sans mb-16">
             <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-500 via-cyan-500 to-[#0066FF]" />
 
             {/* Verification Header Badge */}
