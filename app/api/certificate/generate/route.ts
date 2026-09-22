@@ -32,52 +32,54 @@ export async function POST(request: Request) {
       height,
     });
 
-    // 2. Dynamic Project Title Overlay (Below "of Completion")
+    // 2. Single Solid White Rectangle Mask (Completely erases old template text to eliminate ghosting & double names)
     page.drawRectangle({
       x: 25,
-      y: 390,
+      y: 140,
       width: 450,
-      height: 45,
+      height: 290,
       color: rgb(1, 1, 1),
     });
 
+    // Project Title
     page.drawText(title, {
       x: 50,
-      y: 405,
-      size: 16,
+      y: 400,
+      size: 15,
       font: fontBold,
       color: rgb(0, 0.4, 1),
     });
 
-    // 3. Dynamic Candidate Name Overlay (Sitting on top of the blue line)
-    page.drawRectangle({
-      x: 25,
-      y: 265,
-      width: 450,
-      height: 55,
-      color: rgb(1, 1, 1),
+    // Certify Intro
+    page.drawText("This is to proudly certify that", {
+      x: 180,
+      y: 345,
+      size: 12,
+      font: fontRegular,
+      color: rgb(0.25, 0.3, 0.4),
     });
 
+    // ONLY ONE Candidate Name (Dynamic Logged-in User)
     page.drawText(recipientName, {
-      x: 50,
-      y: 275,
+      x: 245 - (recipientName.length * 6),
+      y: 285,
       size: 34,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
-    // 4. Dynamic Description Overlay (Below the blue line)
-    page.drawRectangle({
-      x: 25,
-      y: 170,
-      width: 450,
-      height: 80,
-      color: rgb(1, 1, 1),
+    // Blue Underline
+    page.drawLine({
+      start: { x: 140, y: 272 },
+      end: { x: 350, y: 272 },
+      thickness: 2.5,
+      color: rgb(0, 0.4, 1),
     });
 
+    // Description Paragraph
     page.drawText(`for the successful completion of the course, validating practical skills in using`, {
       x: 50,
-      y: 220,
+      y: 215,
       size: 9.5,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
@@ -85,11 +87,12 @@ export async function POST(request: Request) {
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
       x: 50,
-      y: 203,
+      y: 198,
       size: 9.5,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
+
 
 
 

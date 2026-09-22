@@ -74,26 +74,36 @@ export default function CertificateCard({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* 2. DYNAMIC PROJECT TITLE OVERLAY (Placed below "of Completion" and above "This is to proudly certify that") */}
-        <div className="absolute left-[2.8%] top-[31.5%] w-[53%] h-[10.5%] bg-white flex items-center justify-center text-center px-4 z-10">
-          <h4 className="text-xs sm:text-base lg:text-lg font-extrabold text-[#0066FF] tracking-wide font-sans">
-            {formattedTitle}
-          </h4>
-        </div>
+        {/* 2. SINGLE SOLID WHITE MASK PANEL (Completely erases old template text to eliminate ghosting and double names) */}
+        <div className="absolute left-[2.8%] top-[27.5%] w-[53%] h-[50%] bg-white z-10 flex flex-col items-center justify-between text-center px-4 py-2">
+          
+          {/* Project Title */}
+          <div className="w-full">
+            <h4 className="text-xs sm:text-sm lg:text-base font-extrabold text-[#0066FF] tracking-wide font-sans max-w-md mx-auto">
+              {formattedTitle}
+            </h4>
+          </div>
 
-        {/* 3. DYNAMIC CANDIDATE NAME OVERLAY (Sitting directly ON top of the template blue underline line) */}
-        <div className="absolute left-[2.8%] top-[43.5%] w-[53%] h-[8.5%] bg-white flex items-end justify-center text-center pb-0.5 z-10">
-          <h3 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none">
-            {candidateName}
-          </h3>
-        </div>
+          {/* Certify Intro */}
+          <p className="text-[11px] sm:text-xs font-sans font-medium text-slate-700">
+            This is to proudly certify that
+          </p>
 
-        {/* 4. DYNAMIC DESCRIPTION OVERLAY (Placed below the blue line) */}
-        <div className="absolute left-[2.8%] top-[54.0%] w-[53%] h-[16.5%] bg-white flex items-start justify-center text-center px-6 pt-1 z-10">
-          <p className="text-[10px] sm:text-xs lg:text-sm text-slate-800 font-sans leading-relaxed max-w-md">
+          {/* ONLY ONE Candidate Name (Dynamic Logged-in User Name) + Blue Underline */}
+          <div className="w-full">
+            <h3 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none pb-1">
+              {candidateName}
+            </h3>
+            <div className="w-48 sm:w-64 h-[3px] bg-[#0066FF] mx-auto rounded-full mt-1.5" />
+          </div>
+
+          {/* Description Paragraph */}
+          <p className="text-[10px] sm:text-xs lg:text-sm text-slate-700 font-sans leading-relaxed max-w-md">
             for the successful completion of the course, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
           </p>
+
         </div>
+
 
 
 
