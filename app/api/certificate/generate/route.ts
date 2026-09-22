@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import fs from "fs";
+import path from "path";
 
 export async function POST(request: Request) {
   try {
@@ -16,65 +18,70 @@ export async function POST(request: Request) {
 
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const fontTimesItalic = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
 
-    // 1. Base White Canvas
-    page.drawRectangle({
+    // Load and embed the exact PNG template image
+    const imagePath = path.join(process.cwd(), "public", "Blue and Yellow Modern Certificate of Completion.png");
+    const imageBytes = fs.readFileSync(imagePath);
+    const templatePng = await pdfDoc.embedPng(imageBytes);
+
+    // 1. Draw base PNG image covering the entire PDF page
+    page.drawImage(templatePng, {
       x: 0,
       y: 0,
       width,
       height,
+    });
+
+    // 2. Dynamic Candidate Name Overlay (Covers sample name in template)
+    page.drawRectangle({
+      x: 55,
+      y: 255,
+      width: 410,
+      height: 60,
       color: rgb(1, 1, 1),
     });
 
-    // 2. Far Right Yellow Accent Bar (#FFC700)
-    page.drawRectangle({
-      x: width - 16,
-      y: 0,
-      width: 16,
-      height,
-      color: rgb(1, 0.78, 0),
-    });
-
-    // 3. Right Blue Ribbon Column (#0066FF)
-    const ribbonWidth = 230;
-    const ribbonX = width - 16 - ribbonWidth;
-
-    page.drawRectangle({
-      x: ribbonX,
-      y: 0,
-      width: ribbonWidth,
-      height,
+    page.drawText(recipientName, {
+      x: 55,
+      y: 275,
+      size: 34,
+      font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
-    // Top Header in Blue Ribbon
-    page.drawText("BOTMARTZ", {
-      x: ribbonX + 65,
-      y: height - 50,
-      size: 16,
-      font: fontBold,
+    page.drawLine({
+      start: { x: 55, y: 265 },
+      end: { x: 380, y: 265 },
+      thickness: 2.5,
+      color: rgb(0, 0.4, 1),
+    });
+
+    // 3. Dynamic Description Overlay
+    page.drawRectangle({
+      x: 55,
+      y: 190,
+      width: 410,
+      height: 55,
       color: rgb(1, 1, 1),
     });
 
-    page.drawText("AI SOLUTIONS", {
-      x: ribbonX + 72,
-      y: height - 65,
-      size: 8,
-      font: fontBold,
-      color: rgb(0.8, 0.9, 1),
+    page.drawText(`for the successful completion of the ${title}, validating practical skills in using`, {
+      x: 55,
+      y: 225,
+      size: 9.5,
+      font: fontRegular,
+      color: rgb(0.2, 0.25, 0.35),
     });
 
-    // Badges Earned Header in Blue Ribbon
-    page.drawText("Badges Earned", {
-      x: ribbonX + 55,
-      y: height - 110,
-      size: 16,
-      font: fontBold,
-      color: rgb(1, 1, 1),
+    page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
+      x: 55,
+      y: 208,
+      size: 9.5,
+      font: fontRegular,
+      color: rgb(0.2, 0.25, 0.35),
     });
 
-    // Draw 5 Skill Circles vertically down the blue column
+    // 4. Dynamic Badges Overlay in Blue Ribbon Column
     const badgeLabels = ["Foundations & AI", "Python Agents", "MCP Architecture", "Linux & Cloud GCP", "AWS Services"];
     const badgeColors = [
       rgb(0.95, 0.35, 0.55),
@@ -85,158 +92,28 @@ export async function POST(request: Request) {
     ];
 
     badgeLabels.forEach((label, idx) => {
-      const by = height - 165 - idx * 55;
+      const by = 380 - idx * 46;
+      page.drawRectangle({
+        x: 520,
+        y: by - 8,
+        width: 240,
+        height: 30,
+        color: rgb(1, 1, 1),
+        opacity: 0.18,
+      });
       page.drawCircle({
-        x: ribbonX + 35,
-        y: by,
-        size: 14,
+        x: 538,
+        y: by + 7,
+        size: 10,
         color: badgeColors[idx],
       });
-      page.drawCircle({
-        x: ribbonX + 35,
-        y: by,
-        size: 10,
-        borderColor: rgb(1, 1, 1),
-        borderWidth: 1.5,
-      });
       page.drawText(label, {
-        x: ribbonX + 60,
-        y: by - 4,
-        size: 10,
+        x: 558,
+        y: by + 3,
+        size: 10.5,
         font: fontBold,
         color: rgb(1, 1, 1),
       });
-    });
-
-    // Bottom Metallic Rosette Seal
-    page.drawCircle({
-      x: ribbonX + ribbonWidth / 2,
-      y: 65,
-      size: 32,
-      color: rgb(0.95, 0.95, 0.95),
-    });
-    page.drawCircle({
-      x: ribbonX + ribbonWidth / 2,
-      y: 65,
-      size: 26,
-      color: rgb(0, 0.35, 0.9),
-    });
-    page.drawText("BOTMARTZ", {
-      x: ribbonX + ribbonWidth / 2 - 25,
-      y: 68,
-      size: 7,
-      font: fontBold,
-      color: rgb(1, 0.78, 0),
-    });
-    page.drawText("COMMUNITY", {
-      x: ribbonX + ribbonWidth / 2 - 24,
-      y: 58,
-      size: 5,
-      font: fontBold,
-      color: rgb(1, 1, 1),
-    });
-
-    // 4. MAIN BODY (LEFT SECTION: x: 0 to ribbonX)
-    // Top Left Headers
-    page.drawText("Certificate", {
-      x: 50,
-      y: height - 90,
-      size: 42,
-      font: fontBold,
-      color: rgb(0, 0.4, 1),
-    });
-
-    page.drawText("of Completion", {
-      x: 50,
-      y: height - 125,
-      size: 22,
-      font: fontBold,
-      color: rgb(0, 0.4, 1),
-    });
-
-    // Recipient Section
-    page.drawText("This is to proudly certify that", {
-      x: 50,
-      y: height - 200,
-      size: 12,
-      font: fontRegular,
-      color: rgb(0.25, 0.3, 0.4),
-    });
-
-    page.drawText(recipientName, {
-      x: 50,
-      y: height - 255,
-      size: 38,
-      font: fontBold,
-      color: rgb(0, 0.4, 1),
-    });
-
-    // Blue Underline
-    page.drawLine({
-      start: { x: 50, y: height - 270 },
-      end: { x: 380, y: height - 270 },
-      thickness: 2.5,
-      color: rgb(0, 0.4, 1),
-    });
-
-    // Description Text
-    const descLine1 = `for the successful completion of the ${title}, validating practical skills in using`;
-    const descLine2 = `AI tools to improve productivity, creativity, and professional performance.`;
-
-    page.drawText(descLine1, {
-      x: 50,
-      y: height - 320,
-      size: 10,
-      font: fontRegular,
-      color: rgb(0.25, 0.3, 0.4),
-    });
-
-    page.drawText(descLine2, {
-      x: 50,
-      y: height - 338,
-      size: 10,
-      font: fontRegular,
-      color: rgb(0.25, 0.3, 0.4),
-    });
-
-    // Founder Signature Section (Bottom Left)
-    page.drawText("Soham Sharma", {
-      x: 50,
-      y: 125,
-      size: 20,
-      font: fontTimesItalic,
-      color: rgb(0, 0.35, 0.85),
-    });
-
-    page.drawLine({
-      start: { x: 50, y: 115 },
-      end: { x: 190, y: 115 },
-      thickness: 1.5,
-      color: rgb(0, 0.4, 1),
-    });
-
-    page.drawText("Soham Sharma", {
-      x: 50,
-      y: 95,
-      size: 13,
-      font: fontBold,
-      color: rgb(0.1, 0.15, 0.25),
-    });
-
-    page.drawText("FOUNDER,", {
-      x: 50,
-      y: 80,
-      size: 8,
-      font: fontBold,
-      color: rgb(0, 0.4, 1),
-    });
-
-    page.drawText("BOTMARTZ AI SOLUTIONS PVT LTD", {
-      x: 50,
-      y: 68,
-      size: 8,
-      font: fontBold,
-      color: rgb(0, 0.4, 1),
     });
 
     const pdfBytes = await pdfDoc.save();
@@ -253,5 +130,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to generate certificate PDF" }, { status: 500 });
   }
 }
+
 
 
