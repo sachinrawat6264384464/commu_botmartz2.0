@@ -44,25 +44,25 @@ export default function LinkedInShareModal({
   const defaultPostContent = isDaily
     ? `🚀 Day ${dayNumber} of 45 | AI Engineering Sprint Update ⚡
 
-Just logged today's GitHub commit for "${projectTitle}" on @Botmartz AI Solutions!
+Just logged today's GitHub commit for "${projectTitle}" with @Botmartz AI Solutions!
 
 🎯 Progress: Day ${dayNumber}/45 Completed
 ${commitUrl ? `💻 GitHub Proof-of-Work: ${commitUrl}` : ""}
 ${researchNotes ? `📝 Key Focus: ${researchNotes.slice(0, 150)}...` : ""}
 
-Mentored by Soham Sharma (Founder & Lead Architect, Botmartz AI Solutions). Building in public! 🚀
+Building in public! 🚀
 
-#Botmartz #SohamSharma #45DaysOfCode #BuildInPublic #AIEngineering #DevOps #ProofOfWork`
+#Botmartz #BotmartzAISolutions #45DaysOfCode #BuildInPublic #AIEngineering #DevOps #ProofOfWork`
     : `🚀 Excited to announce that I have successfully completed the ${projectTitle} & 45-Day Proof-of-Work Sprint with @Botmartz AI Solutions!
 
-Mentored by Soham Sharma (Founder & Lead Architect, Botmartz AI Solutions). Unlocked ${earnedBadges.length} curriculum & streak badges! 🚀
+Unlocked ${earnedBadges.length} curriculum & streak badges! 🚀
 
 Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
 
 📜 Certificate Verification ID: ${certificateId}
 🔗 Verify Credential: ${verificationUrl}
 
-#Botmartz #SohamSharma #AIEngineering #DevOps #ProofOfWork #CloudDevOpsHub #BuildInPublic`;
+#Botmartz #BotmartzAISolutions #AIEngineering #DevOps #ProofOfWork #CloudDevOpsHub #BuildInPublic`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(defaultPostContent);
@@ -187,7 +187,7 @@ Leaderboard Rank #${rank} | Total XP: ${totalPoints} Pts
             <span>
               {isDaily
                 ? "Posting your daily log on LinkedIn earns +50 Karma Coins and builds your public builder portfolio."
-                : "Post text includes your proof-of-work badges, certificate verification link, and Soham Sharma founder mentorship tag."}
+                : "Post text includes your proof-of-work badges, certificate verification link, and @Botmartz AI Solutions tag."}
             </span>
           </div>
 
