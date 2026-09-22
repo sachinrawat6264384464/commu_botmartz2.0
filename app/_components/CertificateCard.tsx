@@ -74,19 +74,21 @@ export default function CertificateCard({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* 2. DYNAMIC CANDIDATE NAME OVERLAY (Cleanly covers "Sachin Rawat" in template, removes duplicate line) */}
-        <div className="absolute left-[6.5%] top-[46.2%] w-[46%] h-[10%] bg-white flex items-end pb-1 z-10">
+        {/* 2. DYNAMIC CANDIDATE NAME OVERLAY (Solid white mask from 2.8% to 55.8% to erase template name completely) */}
+        <div className="absolute left-[2.8%] top-[45.0%] w-[53%] h-[12.5%] bg-white flex items-end pl-8 pb-1 z-10">
           <h3 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none">
             {candidateName}
           </h3>
         </div>
 
-        {/* 3. DYNAMIC PROJECT TITLE / DESCRIPTION OVERLAY (Cleanly covers original description in template) */}
-        <div className="absolute left-[6.5%] top-[59.5%] w-[47%] h-[14%] bg-white z-10">
-          <p className="text-[10px] sm:text-xs lg:text-sm text-slate-800 font-sans leading-relaxed">
+        {/* 3. DYNAMIC PROJECT TITLE / DESCRIPTION OVERLAY (Solid white mask from 2.8% to 55.8% to erase template description completely) */}
+        <div className="absolute left-[2.8%] top-[57.8%] w-[53%] h-[18.5%] bg-white z-10 flex items-start pl-8 pt-1">
+          <p className="text-[10px] sm:text-xs lg:text-sm text-slate-800 font-sans leading-relaxed max-w-md">
             for the successful completion of the <strong className="font-extrabold text-slate-900">{formattedTitle}</strong>, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
           </p>
         </div>
+
+
 
         {/* 4. DYNAMIC BADGES EARNED TRIANGLE OVERLAY (Moved slightly down for perfect centering) */}
         <div className="absolute left-[58.5%] top-[34.5%] w-[35%] max-h-[44%] flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 z-10 px-1">

@@ -32,34 +32,34 @@ export async function POST(request: Request) {
       height,
     });
 
-    // 2. Dynamic Candidate Name Overlay (Covers sample name in template, removes duplicate line)
+    // 2. Dynamic Candidate Name Overlay (Solid white mask x: 25 to 475 to erase template name completely)
     page.drawRectangle({
-      x: 55,
-      y: 260,
-      width: 410,
-      height: 60,
+      x: 25,
+      y: 250,
+      width: 450,
+      height: 70,
       color: rgb(1, 1, 1),
     });
 
     page.drawText(recipientName, {
-      x: 55,
+      x: 50,
       y: 275,
       size: 34,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
-    // 3. Dynamic Description Overlay
+    // 3. Dynamic Description Overlay (Solid white mask x: 25 to 475 to erase template description completely)
     page.drawRectangle({
-      x: 55,
-      y: 185,
-      width: 410,
-      height: 65,
+      x: 25,
+      y: 165,
+      width: 450,
+      height: 85,
       color: rgb(1, 1, 1),
     });
 
     page.drawText(`for the successful completion of the ${title}, validating practical skills in using`, {
-      x: 55,
+      x: 50,
       y: 225,
       size: 9.5,
       font: fontRegular,
@@ -67,12 +67,14 @@ export async function POST(request: Request) {
     });
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
-      x: 55,
+      x: 50,
       y: 208,
       size: 9.5,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
+
+
 
     // 4. Dynamic Badges Overlay in Blue Ribbon Column (Triangle Layout, Shifted Slightly Down)
     const badgeColors = [
