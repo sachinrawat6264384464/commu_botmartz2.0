@@ -47,26 +47,28 @@ export default function CertificateCard({
   return (
     <div className={`w-full max-w-4xl mx-auto rounded-[28px] bg-[#4F46E5] p-3.5 sm:p-5 shadow-2xl ${className}`}>
       {/* Inner Light Blue Certificate Container */}
-      <div className="relative w-full rounded-[22px] bg-[#F0F5FE] p-6 sm:p-10 shadow-inner overflow-hidden font-sans text-slate-900">
+      <div className="relative w-full rounded-[22px] bg-[#EAF2FF] p-6 sm:p-10 shadow-inner overflow-hidden font-sans text-slate-900">
         
         {/* Background Light Blue Security Micro-Grid & Watermark */}
-        <div className="absolute inset-0 bg-[radial-gradient(#a5b4fc_1.2px,transparent_1.2px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(#93c5fd_1.5px,transparent_1.5px)] [background-size:18px_18px] opacity-70 pointer-events-none" />
 
         {/* Certificate Content */}
         <div className="relative space-y-6 text-center">
           
-          {/* 1. Top Header: Cursive Brand Logo Left, ID Right */}
+          {/* 1. Top Header: Official Brand Logo Image Left, ID Right */}
           <div className="flex items-center justify-between gap-4 pb-2">
-            {/* Elegant Cursive Script Brand Logo (Matching "Coursiv" style from reference image) */}
-            <div className="flex items-center gap-1.5">
-              <span className="font-serif italic font-bold text-indigo-700 text-3xl sm:text-4xl tracking-tight leading-none drop-shadow-xs">
-                Botmartz
-              </span>
+            {/* Official Botmartz AI Solutions Logo Image */}
+            <div className="flex items-center gap-2">
+              <img
+                src="/logo.png"
+                alt="Botmartz AI Solutions"
+                className="h-8 sm:h-11 w-auto object-contain drop-shadow-xs"
+              />
             </div>
 
-            <div className="text-right font-sans text-[10px] sm:text-xs text-slate-400 font-semibold tracking-wider uppercase">
+            <div className="text-right font-sans text-[10px] sm:text-xs text-slate-500 font-semibold tracking-wider uppercase">
               <span>CERTIFICATE ID: </span>
-              <span className="text-slate-700 font-mono font-bold">{certificateId || "CERT-BM-B1-98231"}</span>
+              <span className="text-slate-800 font-mono font-bold">{certificateId || "CERT-BM-B1-98231"}</span>
             </div>
           </div>
 
@@ -97,25 +99,19 @@ export default function CertificateCard({
             Awarded for the successful completion of the <strong className="text-slate-900 font-semibold">{formattedTitle}</strong>, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
           </p>
 
-          {/* 5. 5 Scalloped Flower Rosette Badges (Exact 3-top, 2-bottom replica of Target Screenshot 2!) */}
+          {/* 5. 5 Scalloped Flower Rosette Badges in 1 Single Horizontal Row */}
           <div className="py-4">
-            <div className="flex flex-col items-center space-y-3">
-              {/* Top Row: 3 Flower Rosettes */}
-              <div className="flex items-center justify-center gap-6 sm:gap-10">
-                <FlowerRosette fillColor="fill-pink-500" icon={Heart} />
-                <FlowerRosette fillColor="fill-orange-500" icon={Code2} />
-                <FlowerRosette fillColor="fill-purple-600" icon={Sparkles} />
-              </div>
-              {/* Bottom Row: 2 Flower Rosettes */}
-              <div className="flex items-center justify-center gap-6 sm:gap-10">
-                <FlowerRosette fillColor="fill-rose-500" icon={Sun} />
-                <FlowerRosette fillColor="fill-fuchsia-500" icon={ShieldCheck} />
-              </div>
+            <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
+              <FlowerRosette fillColor="fill-pink-500" icon={Heart} />
+              <FlowerRosette fillColor="fill-orange-500" icon={Code2} />
+              <FlowerRosette fillColor="fill-purple-600" icon={Sparkles} />
+              <FlowerRosette fillColor="fill-rose-500" icon={Sun} />
+              <FlowerRosette fillColor="fill-fuchsia-500" icon={ShieldCheck} />
             </div>
           </div>
 
-          {/* 6. Footer: Date & CPD Stamp Left, QR Code Right (Exact Replica of Screenshot 2!) */}
-          <div className="flex items-end justify-between gap-6 pt-4 text-left border-t border-slate-100">
+          {/* 6. Footer: Date & CPD Stamp Left, Official QR Code Image Right */}
+          <div className="flex items-end justify-between gap-6 pt-4 text-left border-t border-slate-200/80">
             
             {/* Bottom Left: Date of Issue & CPD Seal */}
             <div className="space-y-3">
@@ -141,10 +137,14 @@ export default function CertificateCard({
               </div>
             </div>
 
-            {/* Bottom Right: Clean Scannable QR Code */}
+            {/* Bottom Right: Official Scannable QR Code Image */}
             <div className="flex flex-col items-end gap-1 shrink-0">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white p-1 rounded-lg border border-slate-300 shadow-xs flex items-center justify-center">
-                <QrCode size={56} className="text-slate-900" />
+              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white p-1 rounded-lg border border-slate-300 shadow-xs flex items-center justify-center overflow-hidden">
+                <img
+                  src="/qr-code.png"
+                  alt="QR Code Verification"
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
 

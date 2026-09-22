@@ -121,7 +121,7 @@ export async function POST(request: Request) {
       color: rgb(0.3, 0.35, 0.45),
     });
 
-    // 6. 5 Scalloped Skill Badge Emblems (3-top, 2-bottom, NO text labels, matching Screenshot 2!)
+    // 6. 5 Scalloped Skill Badge Emblems in 1 Single Horizontal Row
     const badgeColors = [
       rgb(0.9, 0.35, 0.55), // Pink
       rgb(0.95, 0.5, 0.2),  // Orange
@@ -130,18 +130,16 @@ export async function POST(request: Request) {
       rgb(0.85, 0.25, 0.65) // Magenta
     ];
 
-    const startX = width / 2 - 75;
+    const startX = width / 2 - 140;
     [0, 1, 2, 3, 4].forEach((idx) => {
-      const row = idx < 3 ? 0 : 1;
-      const colInRow = idx < 3 ? idx : idx - 3;
-      const bx = row === 0 ? startX + colInRow * 75 : startX + 38 + colInRow * 75;
-      const by = row === 0 ? 190 : 140;
+      const bx = startX + idx * 70;
+      const by = 165;
 
       // Outer Scallop Circle
       page.drawCircle({
         x: bx,
         y: by,
-        size: 20,
+        size: 19,
         color: badgeColors[idx],
       });
 
@@ -149,7 +147,7 @@ export async function POST(request: Request) {
       page.drawCircle({
         x: bx,
         y: by,
-        size: 15,
+        size: 14,
         borderColor: rgb(1, 1, 1),
         borderWidth: 1.5,
       });
