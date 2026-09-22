@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Heart, Sparkles, Code2, Sun, ShieldCheck, QrCode } from "lucide-react";
+import { Heart, Sparkles, Code2, Sun, ShieldCheck } from "lucide-react";
 
 interface CertificateCardProps {
   certificateId: string;
@@ -11,26 +11,33 @@ interface CertificateCardProps {
   className?: string;
 }
 
-// Smooth 12-Lobed Scalloped Flower Rosette Emblem (Exact replica of Coursiv Reference Screenshot 2!)
+// Scalloped Badge Rosette for Left Blue Ribbon
 function FlowerRosette({
   fillColor,
   icon: Icon,
+  label
 }: {
   fillColor: string;
   icon: any;
+  label?: string;
 }) {
   return (
-    <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center transform hover:scale-110 transition-transform filter drop-shadow-md shrink-0">
-      <svg viewBox="0 0 100 100" className="w-full h-full">
-        {/* Smooth 12-lobed scalloped flower path */}
-        <path
-          d="M 50,4 C 55,4 57,9 62,11 C 67,13 72,10 76,14 C 80,18 78,23 81,28 C 84,33 90,34 91,39 C 92,44 88,48 88,53 C 88,58 92,62 91,67 C 90,72 84,74 81,79 C 78,84 80,89 76,92 C 72,96 67,93 62,95 C 57,97 55,102 50,102 C 45,102 43,97 38,95 C 33,93 28,96 24,92 C 20,89 22,84 19,79 C 16,74 10,72 9,67 C 8,62 12,58 12,53 C 12,48 8,44 9,39 C 10,34 16,33 19,28 C 22,23 20,18 24,14 C 28,10 33,13 38,11 C 43,9 45,4 50,4 Z"
-          className={fillColor}
-        />
-        {/* Inner subtle dashed white ring */}
-        <circle cx="50" cy="53" r="30" fill="none" stroke="white" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
-      </svg>
-      <Icon className="absolute text-white stroke-[2.2] drop-shadow-xs" size={20} />
+    <div className="flex items-center gap-2.5 font-sans group">
+      <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center transform group-hover:scale-110 transition-transform filter drop-shadow-md shrink-0">
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <path
+            d="M 50,4 C 55,4 57,9 62,11 C 67,13 72,10 76,14 C 80,18 78,23 81,28 C 84,33 90,34 91,39 C 92,44 88,48 88,53 C 88,58 92,62 91,67 C 90,72 84,74 81,79 C 78,84 80,89 76,92 C 72,96 67,93 62,95 C 57,97 55,102 50,102 C 45,102 43,97 38,95 C 33,93 28,96 24,92 C 20,89 22,84 19,79 C 16,74 10,72 9,67 C 8,62 12,58 12,53 C 12,48 8,44 9,39 C 10,34 16,33 19,28 C 22,23 20,18 24,14 C 28,10 33,13 38,11 C 43,9 45,4 50,4 Z"
+            className={fillColor}
+          />
+          <circle cx="50" cy="53" r="30" fill="none" stroke="white" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
+        </svg>
+        <Icon className="absolute text-white stroke-[2.2] drop-shadow-xs" size={16} />
+      </div>
+      {label && (
+        <span className="text-[10px] sm:text-xs font-medium text-blue-50 tracking-wide font-sans leading-tight">
+          {label}
+        </span>
+      )}
     </div>
   );
 }
@@ -43,122 +50,143 @@ export default function CertificateCard({
   className = ""
 }: CertificateCardProps) {
   const formattedTitle = eventTitle || "AI MASTERY CERTIFICATE PROGRAM";
+  const candidateName = name || "Sachin Rawat";
 
   return (
-    <div className={`w-full max-w-4xl mx-auto rounded-[28px] bg-[#4F46E5] p-3 sm:p-4 shadow-2xl ${className}`}>
-      {/* Inner Light Blue Certificate Container - Landscape Rectangle Proportions */}
-      <div className="relative w-full rounded-[22px] bg-[#EAF2FF] p-5 sm:p-8 shadow-inner overflow-hidden font-sans text-slate-900">
+    <div className={`w-full max-w-5xl mx-auto rounded-[24px] bg-white border-4 border-slate-200 shadow-2xl overflow-hidden font-sans text-slate-900 ${className}`}>
+      <div className="flex flex-col md:flex-row min-h-[480px] relative">
         
-        {/* Background Light Blue Security Micro-Grid & Watermark */}
-        <div className="absolute inset-0 bg-[radial-gradient(#93c5fd_1.5px,transparent_1.5px)] [background-size:18px_18px] opacity-70 pointer-events-none" />
-
-        {/* Certificate Content */}
-        <div className="relative space-y-4 sm:space-y-5 text-center">
+        {/* ── 1. LEFT BLUE RIBBON COLUMN (Badges Earned) ── */}
+        <div className="w-full md:w-64 bg-[#0066FF] p-6 text-white flex flex-col justify-between relative shrink-0">
           
-          {/* 1. Top Header: Clean Horizontal Brand Logo Left, ID Right */}
-          <div className="flex items-center justify-between gap-4 pb-2 border-b border-slate-200/60">
-            {/* Elegant Horizontal Script Brand Logo */}
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="font-serif italic font-black text-[#4F46E5] text-2xl sm:text-3xl tracking-tight leading-none drop-shadow-xs">
+          <div className="space-y-5 relative z-10">
+            {/* Column Header */}
+            <div className="border-b border-blue-400/40 pb-3">
+              <h3 className="text-lg sm:text-xl font-bold font-sans tracking-wide text-white">
+                Badges Earned
+              </h3>
+              <p className="text-[10px] text-blue-200 font-mono">
+                Verified Skill Milestones
+              </p>
+            </div>
+
+            {/* Vertical List of Earned Badges */}
+            <div className="space-y-3">
+              <FlowerRosette fillColor="fill-pink-500" icon={Heart} label="Foundations & AI" />
+              <FlowerRosette fillColor="fill-orange-500" icon={Code2} label="Python Agents" />
+              <FlowerRosette fillColor="fill-purple-500" icon={Sparkles} label="MCP Architecture" />
+              <FlowerRosette fillColor="fill-rose-500" icon={Sun} label="Linux & Cloud GCP" />
+              <FlowerRosette fillColor="fill-amber-400" icon={ShieldCheck} label="AWS Services" />
+            </div>
+          </div>
+
+          {/* Bottom Seal/Logo in Blue Ribbon */}
+          <div className="pt-4 border-t border-blue-400/30 flex items-center gap-2 text-xs text-blue-100 font-mono">
+            <ShieldCheck size={20} className="text-amber-300 shrink-0" />
+            <div className="leading-tight text-[9px]">
+              <div className="font-bold text-white uppercase">Botmartz Certified</div>
+              <div className="text-blue-200">SHA-256 Ledger Verified</div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 2. MAIN CERTIFICATE BODY (Center & Right) ── */}
+        <div className="flex-1 p-6 sm:p-10 flex flex-col justify-between text-center relative bg-white">
+          
+          {/* Top Right Header: ID & Brand */}
+          <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-3 text-left">
+            <div className="flex items-center gap-1.5">
+              <span className="font-serif italic font-black text-[#0066FF] text-2xl tracking-tight">
                 Botmartz
               </span>
-              <span className="text-[10px] sm:text-[11px] font-sans font-extrabold text-slate-600 uppercase tracking-widest border-l border-slate-300/80 pl-2.5 py-0.5">
+              <span className="text-[9px] font-sans font-bold text-slate-400 uppercase tracking-widest">
                 AI Solutions
               </span>
             </div>
 
-            <div className="text-right font-sans text-[10px] sm:text-xs text-slate-500 font-semibold tracking-wider uppercase shrink-0">
+            <div className="text-right font-mono text-[10px] sm:text-xs text-slate-400 font-bold">
               <span>CERTIFICATE ID: </span>
-              <span className="text-slate-800 font-mono font-bold">{certificateId || "CERT-BM-B1-98231"}</span>
+              <span className="text-slate-800">{certificateId || "CERT-BM-982314"}</span>
             </div>
           </div>
 
-          {/* 2. Certificate Header Title */}
-          <div className="space-y-1 pt-1">
-            <div className="text-[10px] sm:text-xs font-sans font-medium text-slate-500 uppercase tracking-[0.25em]">
-              CERTIFICATE OF COMPLETION
-            </div>
-            <h1 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-slate-900 tracking-wider leading-snug max-w-2xl mx-auto uppercase">
-              {formattedTitle}
+          {/* Certificate Title */}
+          <div className="space-y-1.5 pt-4">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none">
+              Certificate
             </h1>
+            <h2 className="text-xl sm:text-2xl font-sans font-bold text-[#0066FF] tracking-normal">
+              of Completion
+            </h2>
           </div>
 
-          {/* 3. Recipient Section */}
-          <div className="space-y-1 py-0.5">
-            <div className="text-[10px] sm:text-[11px] font-sans font-medium text-slate-400 uppercase tracking-[0.2em]">
-              ISSUED TO
+          {/* Candidate Name Section */}
+          <div className="space-y-2 py-4">
+            <div className="text-xs sm:text-sm font-sans font-medium text-slate-600">
+              This is to proudly certify that
             </div>
-            <div className="text-2xl sm:text-3xl lg:text-4xl font-serif font-normal text-slate-900 tracking-wide text-center">
-              {name || "Kabir Mehta"}
+            
+            <div className="text-3xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight">
+              {candidateName}
             </div>
-            {/* Subtle underline line centered under name */}
-            <div className="w-28 sm:w-40 h-[1px] bg-slate-300 mx-auto mt-1.5" />
+
+            {/* Blue Horizontal Underline */}
+            <div className="w-48 sm:w-64 h-[2px] bg-[#0066FF] mx-auto rounded-full" />
           </div>
 
-          {/* 4. Description Text */}
-          <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-2xl mx-auto leading-relaxed px-4">
-            Awarded for the successful completion of the <strong className="text-slate-900 font-semibold">{formattedTitle}</strong>, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
+          {/* Description Paragraph */}
+          <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-xl mx-auto leading-relaxed px-2">
+            for the successful completion of the <strong className="text-slate-900 font-bold">{formattedTitle}</strong>, validating practical skills in using production AI tools to improve productivity, creativity, and professional performance.
           </p>
 
-          {/* 5. 5 Scalloped Flower Rosette Badges in 1 Single Horizontal Row */}
-          <div className="py-2">
-            <div className="flex items-center justify-center gap-3 sm:gap-6 flex-wrap">
-              <FlowerRosette fillColor="fill-pink-500" icon={Heart} />
-              <FlowerRosette fillColor="fill-orange-500" icon={Code2} />
-              <FlowerRosette fillColor="fill-purple-600" icon={Sparkles} />
-              <FlowerRosette fillColor="fill-rose-500" icon={Sun} />
-              <FlowerRosette fillColor="fill-fuchsia-500" icon={ShieldCheck} />
-            </div>
-          </div>
-
-          {/* 6. Footer: Date & CPD Stamp Left, Official QR Code Image Right */}
-          <div className="flex items-end justify-between gap-6 pt-3 text-left border-t border-slate-200/80">
+          {/* Footer: Date & CPD Stamp Left, Signature & QR Right */}
+          <div className="flex flex-col sm:flex-row items-end justify-between gap-4 pt-6 text-left border-t border-slate-100 mt-4">
             
-            {/* Bottom Left: Date of Issue & CPD Seal */}
+            {/* Left: Issue Date & CPD Certified */}
             <div className="space-y-2">
-              <div className="space-y-0.5">
-                <div className="text-[10px] text-slate-500 font-sans font-medium">
-                  Date of issue
-                </div>
-                <div className="w-32 border-b border-slate-300 pb-0.5 font-serif text-xs sm:text-sm font-semibold text-slate-800">
-                  {issueDate}
-                </div>
+              <div className="text-[11px] text-slate-400 font-mono">
+                Date of issue: <strong className="text-slate-800 font-sans">{issueDate}</strong>
               </div>
 
-              {/* Official CPD Certified Stamp Logo */}
-              <div className="flex items-center gap-2 pt-0.5">
-                <div className="w-8 h-8 rounded-lg bg-indigo-950 text-white flex items-center justify-center font-bold shadow-xs shrink-0">
-                  <ShieldCheck size={20} className="text-purple-300" />
+              {/* CPD Stamp */}
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-indigo-950 text-white flex items-center justify-center font-bold text-xs">
+                  <ShieldCheck size={18} className="text-purple-300" />
                 </div>
-                <div className="flex flex-col text-[8.5px] font-sans leading-tight text-indigo-950">
-                  <span className="text-xs font-black tracking-wider uppercase">CPD</span>
-                  <span className="text-[8px] text-purple-700 tracking-wider font-bold uppercase">CERTIFIED</span>
-                  <span className="text-[7px] text-slate-400 font-normal">The CPD Certification Service</span>
+                <div className="text-[8px] font-sans leading-tight text-indigo-950 font-bold">
+                  <div className="text-xs font-black uppercase">CPD</div>
+                  <div className="text-purple-700 uppercase">CERTIFIED</div>
+                  <div className="text-slate-400 font-normal text-[7px]">Service #98231</div>
                 </div>
               </div>
             </div>
 
-            {/* Bottom Right: Official Scannable QR Code Image */}
-            <div className="flex flex-col items-end gap-1 shrink-0">
-              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white p-1 rounded-lg border border-slate-300 shadow-xs flex items-center justify-center overflow-hidden">
-                <img
-                  src="/qr-code.png"
-                  alt="QR Code Verification"
-                  className="w-full h-full object-contain"
-                />
+            {/* Right: Founder Signature & QR Code */}
+            <div className="flex items-end gap-4 text-right">
+              <div className="text-right space-y-0.5">
+                <div className="font-serif italic font-bold text-slate-900 text-sm sm:text-base">
+                  Soham Sharma
+                </div>
+                <div className="text-[10px] text-[#0066FF] font-sans font-bold">
+                  Founder &amp; Lead Architect
+                </div>
+              </div>
+
+              <div className="w-14 h-14 bg-white p-1 rounded-lg border border-slate-300 shadow-xs flex items-center justify-center shrink-0">
+                <img src="/qr-code.png" alt="QR Code" className="w-full h-full object-contain" />
               </div>
             </div>
 
-          </div>
-
-          {/* Bottom Fine Print Disclaimer */}
-          <div className="text-[8px] sm:text-[8.5px] text-slate-400 font-sans pt-1">
-            All trademarks, logos, and brand names are the property of their respective owners. Use of these does not imply endorsement by or affiliation with Botmartz AI Solutions.
           </div>
 
         </div>
+
+        {/* ── 3. RIGHT YELLOW ACCENT BAR ── */}
+        <div className="hidden md:block w-3.5 bg-[#FFC700] shrink-0" />
+
       </div>
     </div>
   );
 }
+
 
