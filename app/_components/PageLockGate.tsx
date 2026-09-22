@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   AlertCircle
 } from "lucide-react";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 interface PageLockGateProps {
   pathname: string;
@@ -85,7 +86,7 @@ export default function PageLockGate({
   };
 
   const getSectionName = (path: string) => {
-    if (path.startsWith("/arena")) return "Internship Playground & 50 Projects Matrix";
+    if (path.startsWith("/arena")) return `Internship Playground & ${TOTAL_SYSTEMS_COUNT} Projects Matrix`;
     if (path.startsWith("/virtual-ai-internship")) return "45-Day Virtual AI Fellowship";
     if (path.startsWith("/discussions")) return "Community Discussions & Architecture Feeds";
     if (path.startsWith("/magazine")) return "Research Magazine & Engineering Whitepapers";
@@ -155,7 +156,7 @@ export default function PageLockGate({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-400">
               <div className="flex items-center gap-1.5 text-slate-300">
                 <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
-                <span>50 Production System PRDs</span>
+                <span>{TOTAL_SYSTEMS_COUNT} Production System PRDs</span>
               </div>
               <div className="flex items-center gap-1.5 text-slate-300">
                 <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />

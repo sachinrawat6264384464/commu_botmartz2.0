@@ -15,29 +15,21 @@ export async function fetchCollectionDocs<T = any>(collectionName: string): Prom
     }
   }
 
-  // 2. Try Client Firestore SDK for requested collection with 300ms fast timeout
+  // 2. Try Client Firestore SDK for requested collection
   try {
-    const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 300));
-    const snap = await Promise.race([
-      getDocs(collection(db, collectionName)),
-      timeoutPromise
-    ]);
-    if (snap && snap !== null && 'docs' in snap && snap.docs && snap.docs.length > 0) {
+    const snap = await getDocs(collection(db, collectionName));
+    if (snap && snap.docs && snap.docs.length > 0) {
       return snap.docs.map(doc => ({ id: doc.id, ...doc.data() })) as T[];
     }
   } catch (err) {
     // Permission error or missing collection, fall through to smart fallback
   }
 
-  // 3. Smart Fallback for workshop_registrations using real arena_enrollments (12 live docs)
+  // 3. Smart Fallback for workshop_registrations using real arena_enrollments
   if (collectionName === "workshop_registrations" || collectionName === "attendees") {
     try {
-      const timeoutPromise = new Promise<null>((resolve) => setTimeout(() => resolve(null), 300));
-      const enrollSnap = await Promise.race([
-        getDocs(collection(db, "arena_enrollments")),
-        timeoutPromise
-      ]);
-      if (enrollSnap && enrollSnap !== null && 'docs' in enrollSnap && enrollSnap.docs && enrollSnap.docs.length > 0) {
+      const enrollSnap = await getDocs(collection(db, "arena_enrollments"));
+      if (enrollSnap && enrollSnap.docs && enrollSnap.docs.length > 0) {
         return enrollSnap.docs.map((doc, idx) => {
           const data = doc.data();
           const candidateName = data.name || data.displayName || `Builder #${idx + 1}`;

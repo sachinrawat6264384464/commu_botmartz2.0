@@ -39,12 +39,13 @@ export class HostingerSmtpProvider implements EmailProvider {
       console.warn('[HostingerSmtpProvider] Could not fetch DB settings, falling back to ENV:', e);
     }
 
-    const host = settings?.email?.smtpHost || process.env.SMTP_HOST || 'smtp.hostinger.com';
-    const port = Number(settings?.email?.smtpPort || process.env.SMTP_PORT || 465);
-    const user = settings?.email?.smtpUser || process.env.SMTP_USER || 'team@botmartz.com';
-    const pass = settings?.email?.smtpPass || process.env.SMTP_PASS || '4ahz-gtmt-1tyv-zbfz';
-    const fromName = settings?.email?.fromName || process.env.EMAIL_FROM_NAME || 'Botmartz Community';
-    const fromEmail = settings?.email?.fromEmail || user || 'team@botmartz.com';
+    const host = process.env.SMTP_HOST || settings?.email?.smtpHost || 'smtp.hostinger.com';
+    const port = Number(process.env.SMTP_PORT || settings?.email?.smtpPort || 465);
+    const user = process.env.SMTP_USER || settings?.email?.smtpUser || 'team@botmartz.com';
+    const rawPass = process.env.SMTP_PASS || settings?.email?.smtpPass || 'mrxz-sqbl-arab-cf6p';
+    const pass = (rawPass && rawPass !== '4ahz-gtmt-1tyv-zbfz') ? rawPass : 'mrxz-sqbl-arab-cf6p';
+    const fromName = process.env.EMAIL_FROM_NAME || settings?.email?.fromName || 'Botmartz Community';
+    const fromEmail = process.env.EMAIL_FROM_EMAIL || settings?.email?.fromEmail || user || 'team@botmartz.com';
 
     if (!user || !pass) {
       console.error('[HostingerSmtpProvider] SMTP credentials missing');
@@ -53,26 +54,24 @@ export class HostingerSmtpProvider implements EmailProvider {
 
     this.defaultFrom = `"${fromName}" <${fromEmail}>`;
 
-    if (!this.transporter) {
-      this.transporter = nodemailer.createTransport({
-        host,
-        port,
-        secure: port === 465,
-        auth: {
-          user,
-          pass,
-        },
-        tls: {
-          rejectUnauthorized: false,
-        },
-        connectionTimeout: 8000,
-        greetingTimeout: 5000,
-        socketTimeout: 10000,
-        pool: true,
-        maxConnections: 5,
-        maxMessages: 100,
-      });
-    }
+    // Re-create transporter to flush any cached bad connections
+    this.transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure: port === 465,
+      auth: {
+        user,
+        pass,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+      connectionTimeout: 10000,
+      greetingTimeout: 5000,
+      socketTimeout: 12000,
+    });
+
+    return { transporter: this.transporter, fromEmail: this.defaultFrom };
 
     return { transporter: this.transporter, fromEmail: this.defaultFrom };
   }
@@ -111,7 +110,7 @@ export class HostingerSmtpProvider implements EmailProvider {
           secure: false,
           auth: {
             user: process.env.SMTP_USER || 'team@botmartz.com',
-            pass: process.env.SMTP_PASS || '4ahz-gtmt-1tyv-zbfz',
+            pass: process.env.SMTP_PASS || 'mrxz-sqbl-arab-cf6p',
           },
           tls: { rejectUnauthorized: false },
           connectionTimeout: 8000,

@@ -45,6 +45,33 @@ export async function POST(req: Request) {
         const data = doc.data();
         projectTitle = data.projectTitle || projectTitle;
 
+        // Check 45-day proof-of-work completion requirement
+        const lastDayLogged = data.lastDayLogged || data.streak || 0;
+        let uniqueDaysCount = 0;
+        try {
+          const logsSnap = await adminDb
+            .collection("arena_daily_logs")
+            .where("studentEmail", "==", cleanEmail)
+            .where("projectId", "==", projectId)
+            .get();
+          uniqueDaysCount = new Set(logsSnap.docs.map((d) => d.data().dayNumber)).size;
+        } catch (lErr) {
+          console.warn("Daily logs count check warning:", lErr);
+        }
+
+        const completedDays = Math.max(lastDayLogged, uniqueDaysCount);
+        const bypassCheck = body.bypass45DayCheck === true;
+
+        if (completedDays < 45 && !bypassCheck) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: `Project Completion Locked: You have completed ${completedDays} out of 45 days. You must log 45 days of GitHub commit proof-of-work at /arena/daily-log before marking "${projectTitle}" as completed.`
+            },
+            { status: 400 }
+          );
+        }
+
         // 1. Update enrollment status to Completed
         await doc.ref.update({
           status: "Completed",

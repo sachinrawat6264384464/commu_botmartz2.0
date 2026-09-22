@@ -16,7 +16,7 @@ import {
   Github
 } from "lucide-react";
 import { adminDb } from "@/lib/firebase-admin";
-import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { ARENA_PROJECTS, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 export const revalidate = 60; // 1 minute ISR
 
@@ -167,7 +167,7 @@ export default async function DualLeaderboardPage() {
                 Dual Arena <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Leaderboards</span>
               </h1>
               <p className="text-sm sm:text-base text-slate-300 font-sans leading-relaxed">
-                Track top student builders by verified GitHub commits &amp; PoW standups across 50 production system roadmaps.
+                Track top student builders by verified GitHub commits &amp; PoW standups across {TOTAL_SYSTEMS_COUNT} production system roadmaps.
               </p>
             </div>
 

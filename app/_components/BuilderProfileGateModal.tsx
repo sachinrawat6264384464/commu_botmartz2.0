@@ -37,9 +37,15 @@ export default function BuilderProfileGateModal({
   if (!isOpen) return null;
 
   const isProfileComplete = Boolean(
-    studentProfile?.collegeName &&
-    studentProfile?.studentIdRollNo &&
-    studentProfile?.githubUsername
+    user && (
+      Boolean(studentProfile?.collegeName) ||
+      Boolean((studentProfile as any)?.companyName) ||
+      Boolean((studentProfile as any)?.organization) ||
+      Boolean(studentProfile?.githubUsername) ||
+      Boolean(studentProfile?.displayName) ||
+      Boolean(user?.displayName) ||
+      Boolean(user?.email)
+    )
   );
 
   return (

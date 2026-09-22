@@ -452,19 +452,65 @@ export default function ProjectPRDClient({ project }: Props) {
             </div>
 
             {completionSuccessMsg && (
-              <div className="mt-6 p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 text-emerald-200 font-mono text-xs flex items-center justify-between gap-3 shadow-lg">
+              <div className="mt-6 p-4 rounded-2xl bg-emerald-500/20 border-2 border-emerald-400 text-emerald-200 font-mono text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
                 <div className="flex items-center gap-2 font-bold">
                   <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
                   <span>{completionSuccessMsg}</span>
                 </div>
-                <Link href="/arena" className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black uppercase tracking-wider text-[11px] shrink-0 hover:bg-emerald-400 transition-all">
-                  Enroll in Next PRD &rarr;
-                </Link>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Link
+                    href={`/showcase?autoOpen=true&title=${encodeURIComponent(project.title)}&desc=${encodeURIComponent(project.overview)}&category=${encodeURIComponent(project.domain || "AI Agents")}&stack=${encodeURIComponent(project.techStack.join(", "))}`}
+                    className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold uppercase tracking-wider text-[11px] shadow-sm flex items-center gap-1.5 transition-all"
+                  >
+                    <Sparkles size={12} />
+                    <span>Publish to Showcase</span>
+                  </Link>
+                  <Link href="/arena" className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-black uppercase tracking-wider text-[11px] hover:bg-emerald-400 transition-all">
+                    Next PRD &rarr;
+                  </Link>
+                </div>
               </div>
             )}
 
-            {/* Quick Actions */}
-            <div className="mt-8 flex flex-wrap items-center gap-4 font-mono text-xs">
+            {/* Quick Actions & 45-Day Progress Bar */}
+            {isEnrolledInThisProject && !isCompletedInThisProject && (() => {
+              const completedDays = Math.min(45, Math.max(thisProjectEnrollment?.lastDayLogged || 0, thisProjectEnrollment?.streak || 0));
+              const progressPct = Math.min(100, Math.round((completedDays / 45) * 100));
+              const canMarkComplete = completedDays >= 45;
+
+              return (
+                <div className="mt-6 p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2 font-mono text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-slate-200 flex items-center gap-1.5 font-sans">
+                      <Calendar size={14} className="text-[#0066FF]" />
+                      <span>45-Day Internship Progress: Day {completedDays} / 45 Logged</span>
+                    </span>
+                    <span className="font-bold text-cyan-400">{progressPct}%</span>
+                  </div>
+
+                  <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full transition-all duration-500 rounded-full ${
+                        canMarkComplete
+                          ? "bg-gradient-to-r from-emerald-500 to-teal-400"
+                          : "bg-gradient-to-r from-[#0066FF] via-blue-500 to-cyan-400"
+                      }`}
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+
+                  <div className="text-[11px] text-slate-400 flex items-center justify-between pt-0.5">
+                    <span>
+                      {canMarkComplete
+                        ? "🎉 45 Days Proof-of-Work Completed! You can now claim your +500 Karma Coins!"
+                        : `${45 - completedDays} more daily commit logs required to unlock completion & +500 Coins.`}
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
+
+            <div className="mt-6 flex flex-wrap items-center gap-4 font-mono text-xs">
               {isCompletedInThisProject ? (
                 <>
                   <div className="px-6 py-3.5 rounded-2xl bg-emerald-500/20 text-emerald-300 font-bold uppercase tracking-wider border-2 border-emerald-400/80 flex items-center gap-2 shadow-md">
@@ -473,39 +519,66 @@ export default function ProjectPRDClient({ project }: Props) {
                   </div>
 
                   <Link
-                    href="/arena"
-                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 flex items-center gap-2"
+                    href={`/showcase?autoOpen=true&title=${encodeURIComponent(project.title)}&desc=${encodeURIComponent(project.overview)}&category=${encodeURIComponent(project.domain || "AI Agents")}&stack=${encodeURIComponent(project.techStack.join(", "))}`}
+                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-purple-600/30 flex items-center gap-2"
                   >
                     <Sparkles size={15} />
+                    <span>🚀 Publish to Community Showcase &rarr;</span>
+                  </Link>
+
+                  <Link
+                    href="/arena"
+                    className="px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold uppercase tracking-wider transition-all border border-slate-700 flex items-center gap-2"
+                  >
                     <span>Enroll in Next Arena PRD &rarr;</span>
                   </Link>
                 </>
-              ) : isEnrolledInThisProject ? (
-                <>
-                  <div className="px-6 py-3.5 rounded-2xl bg-blue-500/20 text-cyan-300 font-bold uppercase tracking-wider border border-cyan-400/40 flex items-center gap-2">
-                    <CheckCircle2 size={15} />
-                    <span>✓ Currently Enrolled</span>
-                  </div>
+              ) : isEnrolledInThisProject ? (() => {
+                const completedDays = Math.min(45, Math.max(thisProjectEnrollment?.lastDayLogged || 0, thisProjectEnrollment?.streak || 0));
+                const canMarkComplete = completedDays >= 45;
 
-                  <button
-                    onClick={handleMarkCompleted}
-                    disabled={completingProject}
-                    className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 cursor-pointer flex items-center gap-2 disabled:opacity-50"
-                  >
-                    {completingProject ? (
-                      <>
-                        <Loader2 size={15} className="animate-spin" />
-                        <span>Submitting Completion...</span>
-                      </>
+                return (
+                  <>
+                    <div className="px-6 py-3.5 rounded-2xl bg-blue-500/20 text-cyan-300 font-bold uppercase tracking-wider border border-cyan-400/40 flex items-center gap-2">
+                      <CheckCircle2 size={15} />
+                      <span>✓ Currently Enrolled</span>
+                    </div>
+
+                    {!canMarkComplete ? (
+                      <div className="relative group">
+                        <button
+                          disabled
+                          className="px-6 py-3.5 rounded-2xl bg-slate-900/90 text-slate-400 font-bold uppercase tracking-wider border border-slate-800 cursor-not-allowed flex items-center gap-2 opacity-80"
+                        >
+                          <Lock size={15} className="text-slate-400" />
+                          <span>Mark Project Completed (Locked: Day {completedDays}/45)</span>
+                        </button>
+                        <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block w-80 p-3 bg-slate-900 text-white text-[11px] font-sans rounded-xl border border-slate-700 shadow-xl z-30 leading-relaxed">
+                          🔒 Lock Protection: You must log all 45 days of GitHub commit proof-of-work at /arena/daily-log before marking this project as completed.
+                        </div>
+                      </div>
                     ) : (
-                      <>
-                        <Trophy size={15} className="text-amber-300" />
-                        <span>Mark Project Completed (+500 Coins) &rarr;</span>
-                      </>
+                      <button
+                        onClick={handleMarkCompleted}
+                        disabled={completingProject}
+                        className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-emerald-600/30 cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                      >
+                        {completingProject ? (
+                          <>
+                            <Loader2 size={15} className="animate-spin" />
+                            <span>Submitting Completion...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Trophy size={15} className="text-amber-300" />
+                            <span>Mark Project Completed (+500 Coins) &rarr;</span>
+                          </>
+                        )}
+                      </button>
                     )}
-                  </button>
-                </>
-              ) : isLockedForUser ? (
+                  </>
+                );
+              })() : isLockedForUser ? (
                 <div className="relative group">
                   <button
                     disabled
@@ -863,28 +936,46 @@ export default function ProjectPRDClient({ project }: Props) {
             </div>
 
             {enrolledSuccess ? (
-              <div className="py-8 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+              <div className="py-6 text-center space-y-5">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
                   <CheckCircle2 size={32} />
                 </div>
-                <h4 className="text-xl font-bold text-slate-900 font-sans">
-                  Successfully Enrolled in {project.title}!
-                </h4>
-                <p className="text-xs text-slate-600 max-w-md mx-auto">
-                  Your project slot has been locked. You are now registered to submit daily standups, attend Saturday teardowns, and unlock 15 company referrals.
-                </p>
-                <div className="flex gap-3 justify-center pt-2">
+                <div>
+                  <h4 className="text-xl font-bold text-slate-900 font-sans">
+                    Successfully Enrolled in {project.title}!
+                  </h4>
+                  <p className="text-xs text-slate-600 max-w-md mx-auto mt-1 font-mono">
+                    Your slot is locked. Follow this 3-step action plan to complete this production system:
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left font-mono text-xs">
+                  <div className="p-3 rounded-2xl bg-blue-50 border border-blue-200">
+                    <div className="font-bold text-[#0066FF] mb-1">1. Read Specs</div>
+                    <p className="text-[11px] text-slate-600">Review HLD/LLD schemas &amp; architecture hints below.</p>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-purple-50 border border-purple-200">
+                    <div className="font-bold text-purple-700 mb-1">2. Daily PoW</div>
+                    <p className="text-[11px] text-slate-600">Post daily commits on Daily Log to maintain streak.</p>
+                  </div>
+                  <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200">
+                    <div className="font-bold text-emerald-700 mb-1">3. Complete &amp; Publish</div>
+                    <p className="text-[11px] text-slate-600">Mark complete for +500 Coins &amp; publish to Showcase.</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3 justify-center pt-2 font-mono text-xs">
                   <Link
                     href="/arena/daily-log"
-                    className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold"
+                    className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold transition-all shadow-xs"
                   >
                     Open Daily PoW Standup →
                   </Link>
                   <button
                     onClick={() => setShowEnrollModal(false)}
-                    className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 font-bold"
+                    className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors cursor-pointer"
                   >
-                    Close
+                    Close &amp; View Specs
                   </button>
                 </div>
               </div>

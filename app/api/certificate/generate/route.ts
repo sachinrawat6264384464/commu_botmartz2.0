@@ -5,130 +5,230 @@ export async function POST(request: Request) {
   try {
     const { name, eventTitle, certificateId, issueDate } = await request.json();
 
-    const recipientName = name || "Community Attendee";
-    const title = eventTitle || "AI Frontier 2026 Summit";
-    const certId = certificateId || `CERT-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-    const date = issueDate || "August 2026";
+    const recipientName = name || "Kabir Mehta";
+    const title = eventTitle || "AI MASTERY CERTIFICATE PROGRAM";
+    const certId = certificateId || `CERT-BM-${Math.floor(100000 + Math.random() * 900000)}`;
+    const date = issueDate || "9 August 2026";
 
-    // Create a new PDF document
+    // Create a new PDF document (A4 Landscape)
     const pdfDoc = await PDFDocument.create();
-    const page = pdfDoc.addPage([842, 595]); // A4 Landscape
+    const page = pdfDoc.addPage([842, 595]);
     const { width, height } = page.getSize();
 
     const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
     const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const fontTimesBold = await pdfDoc.embedFont(StandardFonts.TimesRomanBold);
+    const fontTimes = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const fontTimesItalic = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
 
-    // Background Navy
+    // 1. Thick Outer Violet Border Frame & Crisp White Card
     page.drawRectangle({
       x: 0,
       y: 0,
       width,
       height,
-      color: rgb(0.02, 0.04, 0.08),
+      color: rgb(0.31, 0.27, 0.9), // Deep Indigo #4F46E5
     });
 
-    // Decorative Neon Border
+    // Inner Light Blue Certificate Card
     page.drawRectangle({
       x: 20,
       y: 20,
       width: width - 40,
       height: height - 40,
-      borderColor: rgb(0, 0.72, 0.94),
-      borderWidth: 2,
+      color: rgb(0.94, 0.96, 0.99), // Soft Light Blue
     });
 
-    page.drawRectangle({
-      x: 28,
-      y: 28,
-      width: width - 56,
-      height: height - 56,
-      borderColor: rgb(0, 0.4, 1),
-      borderWidth: 1,
-    });
-
-    // Header Branding
-    page.drawText("BOTMARTZ AI SOLUTIONS", {
-      x: 60,
-      y: height - 80,
-      size: 14,
-      font: fontBold,
-      color: rgb(0, 0.72, 0.94),
-    });
-
-    page.drawText("CERTIFICATE OF PARTICIPATION & EXCELLENCE", {
-      x: 60,
-      y: height - 140,
+    // 2. Top Header Branding: Cursive Botmartz Left, ID Right
+    page.drawText("Botmartz", {
+      x: 55,
+      y: height - 60,
       size: 26,
+      font: fontTimesItalic,
+      color: rgb(0.25, 0.2, 0.75),
+    });
+
+    const certIdText = `CERTIFICATE ID: ${certId}`;
+    page.drawText(certIdText, {
+      x: width - 230,
+      y: height - 55,
+      size: 9,
       font: fontBold,
-      color: rgb(1, 1, 1),
+      color: rgb(0.55, 0.6, 0.65),
     });
 
-    page.drawText("This official credential certifies that", {
-      x: 60,
-      y: height - 190,
-      size: 14,
-      font: fontRegular,
-      color: rgb(0.6, 0.7, 0.8),
-    });
-
-    // Recipient Name
-    page.drawText(recipientName.toUpperCase(), {
-      x: 60,
-      y: height - 245,
-      size: 32,
-      font: fontBold,
-      color: rgb(0, 0.72, 0.94),
-    });
-
-    // Event Info
-    page.drawText(`has successfully participated in and completed all keynote sessions of`, {
-      x: 60,
-      y: height - 295,
+    // 3. Certificate Header Title
+    const certSubTitle = "CERTIFICATE OF COMPLETION";
+    page.drawText(certSubTitle, {
+      x: width / 2 - (certSubTitle.length * 4.2),
+      y: height - 110,
       size: 13,
-      font: fontRegular,
-      color: rgb(0.8, 0.85, 0.9),
-    });
-
-    page.drawText(title, {
-      x: 60,
-      y: height - 330,
-      size: 18,
       font: fontBold,
-      color: rgb(1, 1, 1),
+      color: rgb(0.5, 0.55, 0.65),
     });
 
-    // Verification ID and Footer
-    page.drawText(`Certificate ID: ${certId}`, {
-      x: 60,
-      y: 80,
+    const displayTitle = title.toUpperCase();
+    page.drawText(displayTitle, {
+      x: Math.max(55, width / 2 - (displayTitle.length * 6)),
+      y: height - 145,
+      size: 22,
+      font: fontTimesBold,
+      color: rgb(0.08, 0.1, 0.2),
+    });
+
+    // 4. Recipient Section
+    page.drawText("ISSUED TO", {
+      x: width / 2 - 30,
+      y: height - 190,
+      size: 10,
+      font: fontBold,
+      color: rgb(0.5, 0.55, 0.65),
+    });
+
+    page.drawText(recipientName, {
+      x: width / 2 - (recipientName.length * 9.5),
+      y: height - 235,
+      size: 34,
+      font: fontTimes,
+      color: rgb(0.08, 0.1, 0.2),
+    });
+
+    // Subtle line below name
+    page.drawLine({
+      start: { x: width / 2 - 70, y: height - 248 },
+      end: { x: width / 2 + 70, y: height - 248 },
+      thickness: 1,
+      color: rgb(0.8, 0.82, 0.88),
+    });
+
+    // 5. Description Paragraph
+    const descLine1 = `Awarded for the successful completion of the ${title}, validating practical skills in using`;
+    const descLine2 = `AI tools to improve productivity, creativity, and professional performance.`;
+    
+    page.drawText(descLine1, {
+      x: Math.max(50, width / 2 - (descLine1.length * 2.8)),
+      y: height - 285,
+      size: 10,
+      font: fontRegular,
+      color: rgb(0.3, 0.35, 0.45),
+    });
+
+    page.drawText(descLine2, {
+      x: Math.max(50, width / 2 - (descLine2.length * 2.8)),
+      y: height - 300,
+      size: 10,
+      font: fontRegular,
+      color: rgb(0.3, 0.35, 0.45),
+    });
+
+    // 6. 5 Scalloped Skill Badge Emblems (3-top, 2-bottom, NO text labels, matching Screenshot 2!)
+    const badgeColors = [
+      rgb(0.9, 0.35, 0.55), // Pink
+      rgb(0.95, 0.5, 0.2),  // Orange
+      rgb(0.55, 0.3, 0.85), // Purple
+      rgb(0.9, 0.3, 0.35),  // Coral/Red
+      rgb(0.85, 0.25, 0.65) // Magenta
+    ];
+
+    const startX = width / 2 - 75;
+    [0, 1, 2, 3, 4].forEach((idx) => {
+      const row = idx < 3 ? 0 : 1;
+      const colInRow = idx < 3 ? idx : idx - 3;
+      const bx = row === 0 ? startX + colInRow * 75 : startX + 38 + colInRow * 75;
+      const by = row === 0 ? 190 : 140;
+
+      // Outer Scallop Circle
+      page.drawCircle({
+        x: bx,
+        y: by,
+        size: 20,
+        color: badgeColors[idx],
+      });
+
+      // Inner Dashed/White Ring
+      page.drawCircle({
+        x: bx,
+        y: by,
+        size: 15,
+        borderColor: rgb(1, 1, 1),
+        borderWidth: 1.5,
+      });
+    });
+
+    // 7. Date of Issue & CPD Seal Left, QR Code Box Right
+    page.drawText("Date of issue", {
+      x: 65,
+      y: 95,
+      size: 9,
+      font: fontRegular,
+      color: rgb(0.45, 0.5, 0.6),
+    });
+
+    page.drawLine({
+      start: { x: 65, y: 88 },
+      end: { x: 195, y: 88 },
+      thickness: 1,
+      color: rgb(0.75, 0.8, 0.85),
+    });
+
+    page.drawText(date, {
+      x: 65,
+      y: 72,
       size: 11,
-      font: fontBold,
-      color: rgb(0, 0.72, 0.94),
+      font: fontTimesBold,
+      color: rgb(0.1, 0.15, 0.25),
     });
 
-    page.drawText(`Issued: ${date} · Verified at community.botmartz.com/certificates`, {
-      x: 60,
-      y: 60,
-      size: 10,
-      font: fontRegular,
-      color: rgb(0.5, 0.6, 0.7),
+    // CPD Certified Seal Box Left
+    page.drawRectangle({
+      x: 65,
+      y: 35,
+      width: 28,
+      height: 28,
+      color: rgb(0.1, 0.08, 0.35),
     });
 
-    // Signatures
-    page.drawText("Soham Sharma", {
-      x: width - 260,
-      y: 85,
-      size: 14,
+    page.drawText("CPD", {
+      x: 69,
+      y: 47,
+      size: 9,
       font: fontBold,
       color: rgb(1, 1, 1),
     });
 
-    page.drawText("Founder & AI Director, Botmartz", {
-      x: width - 260,
-      y: 65,
-      size: 10,
+    page.drawText("CERTIFIED", {
+      x: 100,
+      y: 52,
+      size: 8,
+      font: fontBold,
+      color: rgb(0.35, 0.25, 0.8),
+    });
+
+    page.drawText("The CPD Certification Service", {
+      x: 100,
+      y: 41,
+      size: 7,
       font: fontRegular,
-      color: rgb(0.6, 0.7, 0.8),
+      color: rgb(0.5, 0.55, 0.65),
+    });
+
+    // Scannable QR Code Box Right
+    page.drawRectangle({
+      x: width - 115,
+      y: 45,
+      width: 55,
+      height: 55,
+      borderColor: rgb(0.75, 0.8, 0.85),
+      borderWidth: 1,
+      color: rgb(0.98, 0.98, 1),
+    });
+
+    page.drawText("QR CODE", {
+      x: width - 106,
+      y: 68,
+      size: 7.5,
+      font: fontBold,
+      color: rgb(0.3, 0.35, 0.45),
     });
 
     const pdfBytes = await pdfDoc.save();
@@ -145,3 +245,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Failed to generate certificate PDF" }, { status: 500 });
   }
 }
+

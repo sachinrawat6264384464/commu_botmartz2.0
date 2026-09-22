@@ -39,13 +39,18 @@ import {
   Award,
   Code2,
   Terminal,
+  Crown,
   Bell,
   Mail
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
+import { useToast } from "@/lib/toast-context";
 import { UNIVERSITIES_DIRECTORY } from "@/lib/universities-directory";
 import { COMPANIES_DIRECTORY } from "@/lib/companies-directory";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { computeUserBadgeStatuses } from "@/lib/badges";
+import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
 
 const GLOBAL_COUNTRIES = [
   "India",
@@ -87,13 +92,90 @@ const AI_SPECIALIZATIONS = [
   "Kernel eBPF & Cloud Infrastructure"
 ];
 
+const BADGE_ICON_MAP: Record<string, any> = {
+  Flame,
+  Zap,
+  Trophy,
+  Award,
+  ShieldCheck,
+  Crown,
+  Sparkles,
+  Terminal,
+  Layers,
+};
+
+function renderBadgeEmblem(
+  iconName: string,
+  isClaimed: boolean,
+  isEligible: boolean,
+  badgeBg: string
+) {
+  const IconComp = BADGE_ICON_MAP[iconName] || Trophy;
+
+  if (isClaimed) {
+    return (
+      <div className="relative shrink-0 group">
+        <div
+          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${badgeBg} flex items-center justify-center text-white shadow-lg shadow-emerald-500/25 ring-4 ring-emerald-100 border border-white/50 transform group-hover:scale-110 transition-transform duration-300`}
+        >
+          <IconComp size={30} className="drop-shadow-md text-white stroke-[2.2]" />
+        </div>
+        <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 ring-2 ring-white flex items-center justify-center text-white shadow-md">
+          <CheckCircle2 size={14} className="stroke-[3]" />
+        </div>
+      </div>
+    );
+  }
+
+  if (isEligible) {
+    return (
+      <div className="relative shrink-0 group">
+        <div
+          className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br ${badgeBg} flex items-center justify-center text-white shadow-lg shadow-blue-500/30 ring-4 ring-blue-100 border border-white/40 transform group-hover:scale-105 transition-transform duration-300 animate-pulse`}
+        >
+          <IconComp size={30} className="drop-shadow-md text-white stroke-[2.2]" />
+        </div>
+        <div className="absolute -top-1.5 -right-1.5 px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-900 ring-2 ring-white text-[9px] font-black uppercase tracking-tighter shadow-xs">
+          UNLOCKED
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative shrink-0 opacity-60">
+      <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400">
+        <IconComp size={26} className="text-slate-400 stroke-[1.5]" />
+      </div>
+      <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-slate-300 ring-2 ring-white flex items-center justify-center text-slate-600">
+        <Lock size={11} />
+      </div>
+    </div>
+  );
+}
+
 export default function StudentProfilePortal() {
   const { user, studentProfile, refreshProfile } = useAuth();
+  const { showToast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
   const [searchHandle, setSearchHandle] = useState("");
   const [enrolledProjects, setEnrolledProjects] = useState<any[]>([]);
   const [loadingEnrollments, setLoadingEnrollments] = useState(false);
   const [unenrollingId, setUnenrollingId] = useState<string | null>(null);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    try {
+      const cached = localStorage.getItem("botmartz_user_claimed_badges");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setClaimedBadges((prev) => Array.from(new Set([...prev, ...parsed])));
+        }
+      }
+    } catch (e) {}
+  }, []);
 
   const handleUnenroll = async (enrollmentId: string, projectId: string, projectTitle: string) => {
     if (!user?.email) return;
@@ -111,11 +193,12 @@ export default function StudentProfilePortal() {
       const data = await res.json();
       if (data.success) {
         setEnrolledProjects((prev) => prev.filter((p) => p.id !== enrollmentId && p.projectId !== projectId));
+        showToast(`Unenrolled from "${projectTitle || projectId}"`, "info");
       } else {
-        alert(data.error || "Failed to unenroll from project.");
+        showToast(data.error || "Failed to unenroll from project.", "error");
       }
     } catch (e: any) {
-      alert(e.message || "Failed to unenroll from project.");
+      showToast(e.message || "Failed to unenroll from project.", "error");
     } finally {
       setUnenrollingId(null);
     }
@@ -248,6 +331,16 @@ export default function StudentProfilePortal() {
         aiSpecialization: p.aiSpecialization || "Autonomous Agent Architect",
         dpdpConsent: p.dpdpConsent !== false
       });
+
+      if (p.claimedBadges && Array.isArray(p.claimedBadges)) {
+        setClaimedBadges((prev) => {
+          const merged = Array.from(new Set([...prev, ...p.claimedBadges]));
+          try {
+            localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(merged));
+          } catch (e) {}
+          return merged;
+        });
+      }
     } else if (user) {
       setFormData(prev => ({
         ...prev,
@@ -304,6 +397,86 @@ export default function StudentProfilePortal() {
 
   const daysRemaining = Math.max(0, 45 - daysElapsed);
   const percentComplete = Math.min(100, Math.round((daysElapsed / 45) * 100));
+
+  const completedEnrollments = enrolledProjects.filter(
+    (e) => e.status === "Completed" || e.status === "Finished"
+  );
+
+  const [claimedBadges, setClaimedBadges] = useState<string[]>([]);
+
+  const [claimingId, setClaimingId] = useState<string | null>(null);
+  const [shareModalData, setShareModalData] = useState<{
+    isOpen: boolean;
+    projectTitle: string;
+    certId: string;
+  }>({
+    isOpen: false,
+    projectTitle: "",
+    certId: ""
+  });
+
+  const badgeStatuses = computeUserBadgeStatuses(
+    daysElapsed,
+    completedEnrollments.length,
+    claimedBadges
+  );
+
+  const handleClaimBadge = async (badgeId: string) => {
+    if (!user?.email) {
+      alert("Please log in to claim your earned badge.");
+      return;
+    }
+
+    setClaimingId(badgeId);
+    try {
+      const res = await fetch("/api/badges/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, badgeId })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        const updated = [...claimedBadges, badgeId];
+        setClaimedBadges(updated);
+        try {
+          localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(updated));
+        } catch (e) {}
+        showToast(`🎉 Badge Claimed Successfully! ${data.message || ""}`, "success");
+      } else {
+        showToast(data.error || "Failed to claim badge.", "error");
+      }
+    } catch (e) {
+      console.warn("Claim badge error:", e);
+    } finally {
+      setClaimingId(null);
+    }
+  };
+
+  const handleClaimAllBadges = async () => {
+    if (!user?.email) return;
+    const eligibleIds = badgeStatuses.filter((b) => b.isEligible).map((b) => b.id);
+    if (eligibleIds.length === 0) return;
+
+    try {
+      const res = await fetch("/api/badges/claim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user.email, badgeIds: eligibleIds })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const updated = Array.from(new Set([...claimedBadges, ...eligibleIds]));
+        setClaimedBadges(updated);
+        try {
+          localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(updated));
+        } catch (e) {}
+        showToast(`🎉 Successfully Claimed ${eligibleIds.length} Badges!`, "success");
+      }
+    } catch (e) {
+      console.warn("Claim all badges error:", e);
+    }
+  };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -517,6 +690,50 @@ export default function StudentProfilePortal() {
               </div>
             </div>
 
+            {/* Active Claimed Badges Showcase Row */}
+            {isMounted && claimedBadges.length > 0 && (
+              <div className="pt-4 border-t border-slate-800/80 space-y-2.5">
+                <div className="flex items-center justify-between text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                  <span className="flex items-center gap-1.5">
+                    <Award size={15} className="text-amber-400" />
+                    <span>Verified Profile Badges &amp; Emblems ({badgeStatuses.filter((b) => b.isClaimed).length})</span>
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-sans hidden sm:inline">Active Developer Portfolio</span>
+                </div>
+
+                <div className="flex items-center gap-3 flex-wrap pt-1">
+                  {badgeStatuses.filter((b) => b.isClaimed).map((b) => {
+                    const IconComp = BADGE_ICON_MAP[b.iconName] || Trophy;
+                    return (
+                      <div
+                        key={b.id}
+                        title={`${b.title}: ${b.description}`}
+                        className="group relative flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-slate-900/90 border border-slate-700/80 hover:border-amber-400/80 transition-all duration-300 shadow-lg cursor-pointer"
+                      >
+                        {/* Metallic Badge Graphic Logo Box */}
+                        <div className={`relative w-8 h-8 rounded-xl bg-gradient-to-br ${b.badgeBg} flex items-center justify-center text-white shadow-md shadow-amber-500/10 ring-2 ring-white/20 group-hover:scale-110 transition-transform`}>
+                          <IconComp size={16} className="text-white drop-shadow-md stroke-[2.2]" />
+                          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-1 ring-white flex items-center justify-center text-white">
+                            <CheckCircle2 size={8} className="stroke-[3]" />
+                          </div>
+                        </div>
+
+                        {/* Badge Title & Category Tag */}
+                        <div className="flex flex-col min-w-0 font-sans">
+                          <span className="text-xs font-extrabold text-white group-hover:text-amber-300 transition-colors leading-tight">
+                            {b.title}
+                          </span>
+                          <span className="text-[9px] font-mono text-slate-400 uppercase tracking-tight">
+                            {b.category} &bull; Verified
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
 
@@ -616,7 +833,7 @@ export default function StudentProfilePortal() {
                 <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold">Interactive Walkthrough</span>
               </div>
               <p className="text-xs text-blue-200 font-mono mt-0.5 w-full">
-                Discover what each page does (50 PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
+                Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
               </p>
             </div>
           </div>
@@ -770,7 +987,7 @@ export default function StudentProfilePortal() {
               href="/arena"
               className="px-4 py-2 rounded-xl bg-blue-50 text-[#0066FF] font-mono text-xs font-bold hover:bg-blue-100 transition-colors"
             >
-              Browse 50 Systems &rarr;
+              Browse {TOTAL_SYSTEMS_COUNT} Systems &rarr;
             </Link>
           </div>
 
@@ -784,7 +1001,7 @@ export default function StudentProfilePortal() {
               <Layers size={28} className="text-slate-400 mx-auto" />
               <div className="font-bold text-slate-700 font-sans text-sm">No Active PRD Enrollments Yet</div>
               <p className="text-xs text-slate-500 font-mono max-w-sm mx-auto">
-                Explore the 50 production AI blueprints in the Arena catalog and enroll in your first track to begin shipping.
+                Explore the {TOTAL_SYSTEMS_COUNT} production AI blueprints in the Arena catalog and enroll in your first track to begin shipping.
               </p>
               <Link
                 href="/arena"
@@ -795,60 +1012,273 @@ export default function StudentProfilePortal() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
-              {enrolledProjects.map((ep) => (
-                <div
-                  key={ep.id || ep.projectId}
-                  className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all flex flex-col justify-between space-y-4"
-                >
-                  <div>
-                    <div className="flex items-center justify-between text-[10px] font-bold mb-2">
-                      <span className="px-2 py-0.5 rounded-md bg-blue-100 text-[#0066FF]">
-                        {ep.teamType || "Solo"} Track
-                      </span>
-                      <span className="text-emerald-700 font-bold">
-                        {ep.status || "Active"}
-                      </span>
-                    </div>
-                    <h4 className="text-sm font-bold text-slate-900 font-sans mb-1">
-                      {ep.projectTitle || "Production AI System"}
-                    </h4>
-                    <div className="text-[11px] text-slate-500">
-                      Role: <strong>{ep.role || "AI Engineer"}</strong>
-                    </div>
-                  </div>
+              {enrolledProjects.map((ep) => {
+                const completedDays = Math.min(45, Math.max(ep.lastDayLogged || 0, ep.streak || 0));
+                const progressPct = Math.min(100, Math.round((completedDays / 45) * 100));
 
-                  <div className="flex items-center gap-2 pt-3 border-t border-slate-200/80">
+                return (
+                  <div
+                    key={ep.id || ep.projectId}
+                    className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all flex flex-col justify-between space-y-4"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-bold mb-2">
+                        <span className="px-2 py-0.5 rounded-md bg-blue-100 text-[#0066FF]">
+                          {ep.teamType || "Solo"} Track
+                        </span>
+                        <span className="text-emerald-700 font-bold">
+                          {ep.status || "Active"}
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-bold text-slate-900 font-sans mb-1">
+                        {ep.projectTitle || "Production AI System"}
+                      </h4>
+                      <div className="text-[11px] text-slate-500 mb-3">
+                        Role: <strong>{ep.role || "AI Engineer"}</strong>
+                      </div>
+
+                      {/* 45-Day Progress Bar */}
+                      <div className="p-3 rounded-xl bg-white border border-slate-200/80 space-y-1.5">
+                        <div className="flex items-center justify-between text-[10px]">
+                          <span className="font-bold text-slate-700 font-sans">
+                            Day {completedDays} / 45 Completed
+                          </span>
+                          <span className="font-mono font-bold text-[#0066FF]">{progressPct}%</span>
+                        </div>
+                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-[#0066FF] to-cyan-400 rounded-full transition-all duration-300"
+                            style={{ width: `${progressPct}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 pt-3 border-t border-slate-200/80">
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href={`/arena/${ep.projectId}`}
+                          className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
+                        >
+                          Open PRD
+                        </Link>
+                        <Link
+                          href={`/arena/daily-log?projectId=${ep.projectId}`}
+                          className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
+                        >
+                          Log Commit
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
+                          disabled={unenrollingId === (ep.id || ep.projectId)}
+                          className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
+                          title="Unenroll / Leave this project track"
+                        >
+                          {unenrollingId === (ep.id || ep.projectId) ? (
+                            <Loader2 size={13} className="animate-spin text-rose-500" />
+                          ) : (
+                            <span className="text-[10px] text-rose-600">Leave</span>
+                          )}
+                        </button>
+                      </div>
+
                     <Link
-                      href={`/arena/${ep.projectId}`}
-                      className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
+                      href={`/showcase?autoOpen=true&title=${encodeURIComponent(ep.projectTitle || "Production AI System")}&desc=${encodeURIComponent(`Autonomous production build for ${ep.projectTitle}`)}&github=${encodeURIComponent(ep.githubRepoUrl || ep.github || "")}`}
+                      className="w-full py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 font-bold text-center flex items-center justify-center gap-1.5 transition-colors"
                     >
-                      Open PRD
+                      <Sparkles size={12} />
+                      <span>Publish to Community Showcase &rarr;</span>
                     </Link>
-                    <Link
-                      href="/arena/daily-log"
-                      className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
-                    >
-                      Log Commit
-                    </Link>
-                    <button
-                      type="button"
-                      onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
-                      disabled={unenrollingId === (ep.id || ep.projectId)}
-                      className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
-                      title="Unenroll / Leave this project track"
-                    >
-                      {unenrollingId === (ep.id || ep.projectId) ? (
-                        <Loader2 size={13} className="animate-spin text-rose-500" />
-                      ) : (
-                        <span className="text-[10px] text-rose-600">Leave</span>
-                      )}
-                    </button>
                   </div>
                 </div>
-              ))}
+              );
+            })}
             </div>
           )}
         </div>
+
+
+        {/* =========================================================================
+            SECTION BADGES: GAMIFIED CANDIDATE BADGES & STREAKS
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-sans">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-6">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#0066FF] uppercase mb-1">
+                <Award size={16} /> Earned Badges &amp; Production Milestones
+              </div>
+              <h3 className="text-xl font-bold font-sans text-slate-900">
+                Gamified Candidate Badges &amp; Streaks
+              </h3>
+              <p className="text-xs font-mono text-slate-500 mt-0.5">
+                Unlock and claim streak badges (10, 20, 45 days) &amp; project milestones (1, 2, 4 projects).
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2.5 flex-wrap self-start sm:self-auto">
+              {badgeStatuses.some((b) => b.canClaim) && (
+                <button
+                  type="button"
+                  onClick={handleClaimAllBadges}
+                  className="px-4 py-1.5 rounded-full bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Sparkles size={13} />
+                  <span>Claim All Unlocked Badges 🎉</span>
+                </button>
+              )}
+              <span className="px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold border border-blue-200">
+                {claimedBadges.length} Badges Claimed
+              </span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 font-mono text-xs">
+            {badgeStatuses.map((b) => (
+              <div
+                key={b.id}
+                className={`p-5 rounded-2xl border-2 flex flex-col justify-between space-y-4 transition-all ${
+                  b.isClaimed
+                    ? "bg-gradient-to-br from-emerald-50/90 via-white to-blue-50/40 border-emerald-300 text-emerald-950 shadow-md hover:shadow-lg"
+                    : b.isEligible
+                    ? "bg-gradient-to-br from-blue-50/90 via-white to-indigo-50/40 border-[#0066FF] text-blue-950 shadow-md hover:shadow-lg"
+                    : "bg-slate-50 border-slate-200 text-slate-400 opacity-75"
+                }`}
+              >
+                <div className="flex items-start gap-4">
+                  {renderBadgeEmblem(b.iconName, b.isClaimed, b.isEligible, b.badgeBg)}
+
+                  <div className="space-y-1 flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1 flex-wrap mb-1">
+                      <span
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                          b.isClaimed
+                            ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                            : b.isEligible
+                            ? "bg-blue-600 text-white shadow-xs"
+                            : "bg-slate-200 text-slate-600"
+                        }`}
+                      >
+                        {b.isClaimed ? "✓ Claimed" : b.isEligible ? "🎉 Unlocked" : "🔒 Locked"}
+                      </span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase font-mono">{b.category}</span>
+                    </div>
+
+                    <h4 className="font-extrabold text-slate-900 font-sans text-base leading-snug">{b.title}</h4>
+                    <p className="text-xs text-slate-600 font-sans leading-relaxed">{b.description}</p>
+                  </div>
+                </div>
+
+                <div>
+                  {b.isClaimed ? (
+                    <div className="w-full py-2.5 rounded-xl bg-emerald-100/90 text-emerald-900 border border-emerald-300 text-center font-bold text-xs flex items-center justify-center gap-2 shadow-xs">
+                      <CheckCircle2 size={15} className="text-emerald-600" />
+                      <span>Active Verified Badge on Profile</span>
+                    </div>
+                  ) : b.canClaim ? (
+                    <button
+                      onClick={() => handleClaimBadge(b.id)}
+                      disabled={claimingId === b.id}
+                      className="w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-all shadow-md shadow-blue-500/20 cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      {claimingId === b.id ? <Loader2 size={15} className="animate-spin" /> : <Sparkles size={15} />}
+                      <span>Claim Badge Now &rarr;</span>
+                    </button>
+                  ) : (
+                    <div className="w-full py-2 rounded-xl bg-slate-200/80 text-slate-500 text-center font-bold text-xs flex items-center justify-center gap-1">
+                      <Lock size={13} />
+                      <span>Need {b.requiredCount} {b.category === "streak" ? "Days" : "Projects"}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* =========================================================================
+            SECTION CERTIFICATES: OFFICIAL VERIFIED COMPLETION CERTIFICATES & LINKEDIN
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-sans">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-600 uppercase mb-1">
+                <Trophy size={16} /> Official Credentials
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 font-sans">
+                Verified Completion Certificates &amp; Passes
+              </h3>
+              <p className="text-xs font-mono text-slate-500 mt-0.5">
+                Issued by Botmartz AI Solutions upon completing 45 days of proof-of-work.
+              </p>
+            </div>
+
+            <Link
+              href="/certificates"
+              className="px-4 py-2 rounded-xl bg-blue-50 text-[#0066FF] font-mono text-xs font-bold hover:bg-blue-100 transition-colors"
+            >
+              Verify Desk &rarr;
+            </Link>
+          </div>
+
+          {completedEnrollments.length === 0 ? (
+            <div className="p-8 rounded-2xl bg-slate-50 border border-dashed border-slate-200 text-center space-y-3 font-mono">
+              <Lock size={32} className="text-slate-400 mx-auto" />
+              <h4 className="font-bold text-slate-800 text-base font-sans">Certificate Locked (Day {daysElapsed}/45 Logged)</h4>
+              <p className="text-xs text-slate-500 max-w-md mx-auto">
+                Your official certificate will generate automatically once you complete 45 days of daily standup logs or mark your project complete.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+              {completedEnrollments.map((c) => {
+                const certId = c.certificateId || `CERT-BM-${(c.projectId || "888").toUpperCase()}-98231`;
+                return (
+                  <div
+                    key={c.id || c.projectId}
+                    className="rounded-3xl bg-gradient-to-br from-emerald-50/80 via-white to-blue-50/50 border-2 border-emerald-300 p-6 space-y-4 shadow-md"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold uppercase text-[10px] flex items-center gap-1">
+                        <CheckCircle2 size={13} className="text-emerald-600" /> Verified Credential
+                      </span>
+                      <span className="text-slate-500 font-bold text-[11px]">
+                        ID: {certId}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h4 className="font-extrabold text-slate-900 font-sans text-lg">{c.projectTitle}</h4>
+                      <p className="text-slate-500 text-xs mt-1">Issued by Soham Sharma &bull; Botmartz AI Solutions</p>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2 pt-2">
+                      <Link
+                        href={`/certificates?query=${certId}`}
+                        className="flex-1 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-colors shadow-xs"
+                      >
+                        View PDF
+                      </Link>
+                      
+                      <button
+                        onClick={() => setShareModalData({
+                          isOpen: true,
+                          projectTitle: c.projectTitle,
+                          certId
+                        })}
+                        className="flex-1 py-2.5 rounded-xl bg-[#0077B5] hover:bg-[#006097] text-white font-bold text-center transition-colors shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <Linkedin size={14} />
+                        <span>Share on LinkedIn</span>
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
 
         {/* =========================================================================
             SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR (ENROLLED ONLY)
@@ -1216,7 +1646,7 @@ export default function StudentProfilePortal() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
             {[
-              { title: "The Arena (50 PRDs)", desc: "Production system blueprints with SLA gates.", href: "/arena", icon: Layers },
+              { title: `The Arena (${TOTAL_SYSTEMS_COUNT} PRDs)`, desc: "Production system blueprints with SLA gates.", href: "/arena", icon: Layers },
               { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log", icon: Terminal },
               { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship", icon: Sparkles },
               { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet", icon: Coins },
@@ -1681,6 +2111,16 @@ export default function StudentProfilePortal() {
         </div>
       )}
 
+      {/* LinkedIn UGC Share Modal */}
+      <LinkedInShareModal
+        isOpen={shareModalData.isOpen}
+        onClose={() => setShareModalData((prev) => ({ ...prev, isOpen: false }))}
+        candidateName={studentProfile?.displayName || user?.displayName || "Candidate Builder"}
+        projectTitle={shareModalData.projectTitle || "45-Day Virtual AI Internship"}
+        certificateId={shareModalData.certId || "CERT-BM-982314"}
+        verificationUrl={typeof window !== "undefined" ? `${window.location.origin}/certificates?query=${shareModalData.certId}` : `https://community.botmartz.com/certificates?query=${shareModalData.certId}`}
+        earnedBadges={claimedBadges.length > 0 ? claimedBadges : ["10-Day Streak", "Foundations & AI"]}
+      />
     </div>
   );
 }

@@ -34,16 +34,22 @@ import {
   Flame
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 export default function CommunityNavbar() {
   const pathname = usePathname();
-  const { user, studentProfile, logout } = useAuth();
+  const { user, studentProfile, logout, loading } = useAuth();
 
+  const [mounted, setMounted] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [internshipOpen, setInternshipOpen] = useState(false);
   const [communityOpen, setCommunityOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const internshipMenuRef = useRef<HTMLDivElement>(null);
   const communityMenuRef = useRef<HTMLDivElement>(null);
@@ -80,10 +86,11 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
+    { name: "My Learning & Projects", href: "/arena/my-learning", icon: BookOpen, desc: "Enrolled projects, 45-day commit progress & badges", locked: false },
     { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: false },
-    { name: "Internship Playground (50 PRDs)", href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false },
+    { name: `Internship Playground (${TOTAL_SYSTEMS_COUNT} PRDs)`, href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false },
     { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false },
-    { name: "50 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: false },
+    { name: `${TOTAL_SYSTEMS_COUNT} Career Roadmaps`, href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: false },
     { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: false },
     { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages", locked: false },
     { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: false }
@@ -167,6 +174,20 @@ export default function CommunityNavbar() {
         {/* Desktop Pill Navigation */}
         <nav className="hidden lg:flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-full border-2 border-slate-200/90 font-sans text-xs font-extrabold shadow-sm backdrop-blur-md">
           
+          {/* My Learning Pill */}
+          <Link
+            href="/arena/my-learning"
+            prefetch={false}
+            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              pathname === "/arena/my-learning"
+                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
+                : "text-[#0066FF] hover:text-white hover:bg-[#0066FF] font-black bg-blue-50/80"
+            }`}
+          >
+            <BookOpen size={14} />
+            <span>My Learning</span>
+          </Link>
+
           {/* 1. 50 Systems Catalog */}
           <Link
             href="/arena"
@@ -177,7 +198,7 @@ export default function CommunityNavbar() {
                 : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
             }`}
           >
-            <span>50 Systems</span>
+            <span>{TOTAL_SYSTEMS_COUNT} Systems</span>
           </Link>
 
           {/* 3. Internship Dropdown */}
@@ -191,7 +212,7 @@ export default function CommunityNavbar() {
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
                 internshipOpen || pathname.startsWith("/virtual-ai-internship")
                   ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
+                  : "text-[#334155] hover:text-white hover:bg-[#0066FF] font-bold"
               }`}
             >
               <span>Internship</span>
@@ -232,8 +253,6 @@ export default function CommunityNavbar() {
             )}
           </div>
 
-
-
           {/* 5. Resources Dropdown */}
           <div className="relative" ref={resourcesMenuRef}>
             <button
@@ -245,7 +264,7 @@ export default function CommunityNavbar() {
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
                 resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine")
                   ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
+                  : "text-[#334155] hover:text-white hover:bg-[#0066FF] font-bold"
               }`}
             >
               <span>Resources</span>
@@ -285,8 +304,12 @@ export default function CommunityNavbar() {
 
         {/* Dynamic User Auth Action */}
         <div className="hidden lg:flex items-center gap-3">
-          
-          {user ? (
+          {!mounted || loading ? (
+            <div className="flex items-center gap-2 p-2 px-4 rounded-full border border-slate-200 bg-slate-100 text-slate-500 font-mono text-xs animate-pulse">
+              <div className="w-5 h-5 rounded-full bg-slate-300" />
+              <span>Authenticating...</span>
+            </div>
+          ) : user ? (
             <div className="relative" ref={userMenuRef}>
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
@@ -316,6 +339,13 @@ export default function CommunityNavbar() {
                     <div className="font-black text-slate-900 font-sans">{user.displayName || "Student Builder"}</div>
                     <div className="text-[11px] text-slate-500 font-mono truncate">{user.email}</div>
                   </div>
+
+                  <Link
+                    href="/arena/my-learning"
+                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-blue-50 text-[#0066FF] transition-colors font-bold bg-blue-50/50 mb-1"
+                  >
+                    <BookOpen size={15} /> My Learning &amp; Projects
+                  </Link>
 
                   <Link
                     href="/profile"
@@ -363,9 +393,10 @@ export default function CommunityNavbar() {
           )}
         </div>
 
+
         {/* Mobile Menu Toggle Button */}
         <div className="lg:hidden flex items-center gap-2">
-          {user && (
+          {mounted && user && (
             <Link href="/profile" className="p-2 text-slate-700 hover:text-[#0066FF]">
               <User size={20} />
             </Link>
@@ -420,7 +451,9 @@ export default function CommunityNavbar() {
           </div>
 
           <div className="border-t border-slate-100 pt-4">
-            {user ? (
+            {!mounted || loading ? (
+              <div className="py-2.5 text-center text-slate-400 font-mono text-xs animate-pulse">Authenticating session...</div>
+            ) : user ? (
               <div className="space-y-2">
                 <Link
                   href="/profile"
@@ -457,6 +490,7 @@ export default function CommunityNavbar() {
 
         </div>
       )}
+
     </header>
   );
 }

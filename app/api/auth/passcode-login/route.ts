@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
+import { adminDb, adminAuth, hasAdminCredentials } from "@/lib/firebase-admin";
 
 export async function POST(req: Request) {
   try {
@@ -34,10 +34,10 @@ export async function POST(req: Request) {
           adminDb.collection("student_profiles").where("email", "==", normalizedEmail).get(),
         ]);
 
-        const allDocs = [
-          ...usersSnap.docs.map((d) => d.data()),
-          ...regSnap.docs.map((d) => d.data()),
-          ...profileSnap.docs.map((d) => d.data()),
+        const allDocs: any[] = [
+          ...usersSnap.docs.map((d) => ({ uid: d.id, ...d.data() })),
+          ...regSnap.docs.map((d) => ({ uid: d.id, ...d.data() })),
+          ...profileSnap.docs.map((d) => ({ uid: d.id, ...d.data() })),
         ];
 
         for (const docData of allDocs) {
@@ -54,10 +54,26 @@ export async function POST(req: Request) {
 
     // Fallback check if Firestore matching found user or if test/demo match
     if (matchedUserDoc) {
+      const userUid = matchedUserDoc.uid || matchedUserDoc.userId || `usr_${normalizedEmail.replace(/[^a-z0-9]/g, "_")}`;
+      let customToken: string | null = null;
+
+      if (adminAuth && hasAdminCredentials) {
+        try {
+          customToken = await adminAuth.createCustomToken(userUid, {
+            email: normalizedEmail,
+            displayName: matchedUserDoc.name || matchedUserDoc.displayName || "Builder"
+          });
+        } catch (tokenErr) {
+          console.warn("Custom token creation notice:", tokenErr);
+        }
+      }
+
       return NextResponse.json({
         success: true,
         message: "Authenticated successfully with Passcode",
+        customToken,
         user: {
+          uid: userUid,
           email: matchedUserDoc.email || normalizedEmail,
           displayName: matchedUserDoc.name || matchedUserDoc.displayName || "Builder",
           passcode: matchedUserDoc.passcode || matchedUserDoc.checkInCode || cleanPasscode,
@@ -66,6 +82,7 @@ export async function POST(req: Request) {
         },
       });
     }
+
 
     return NextResponse.json(
       {

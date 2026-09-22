@@ -39,13 +39,12 @@ export async function emitEvent(event: AutomationEvent, payload: EventPayload): 
         });
         if (welcomeRes.success && !welcomeRes.skipped) jobsQueued++;
 
-        // 2. Calculate Next Eligible Business Send Dates (MON, WED, FRI with weekend skipping & collision checks)
+        // 2. Drip Schedule (Configurable interval: default 1 minute for testing, switchable to 2 days)
         const now = Date.now();
-        const step1TargetDate = calculateNextEligibleSendDate(now, 2); // 2 days out on MON/WED/FRI
-        const step2TargetDate = calculateNextEligibleSendDate(step1TargetDate, 2); // Next allowed business day
-
-        const step1ScheduledAt = await checkCollisionAndReschedule(recipient, step1TargetDate);
-        const step2ScheduledAt = await checkCollisionAndReschedule(recipient, step2TargetDate);
+        const dripIntervalMs = (process.env.DRIP_INTERVAL_MINUTES ? parseInt(process.env.DRIP_INTERVAL_MINUTES, 10) : 1) * 60 * 1000;
+        
+        const step1ScheduledAt = now + dripIntervalMs; // Step 1 after 1 min
+        const step2ScheduledAt = now + (dripIntervalMs * 2); // Step 2 after 2 mins
 
         // Drip Step 1 (Features Deep Dive)
         const step1Res = await enqueueEmailJob({

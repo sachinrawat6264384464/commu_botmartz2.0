@@ -25,6 +25,7 @@ import {
   Coins,
   Copy
 } from "lucide-react";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
@@ -512,7 +513,7 @@ export default async function MemberProfilePage({ params }: Props) {
                   href="/arena"
                   className="block w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-all shadow-sm"
                 >
-                  Explore 50 Systems Catalog →
+                  Explore {TOTAL_SYSTEMS_COUNT} Systems Catalog →
                 </Link>
               </div>
             </div>

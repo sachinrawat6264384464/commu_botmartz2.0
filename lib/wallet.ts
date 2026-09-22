@@ -1,5 +1,10 @@
 import { adminDb, hasAdminCredentials } from "./firebase-admin";
+import { db } from "./firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { fetchCollectionDocs } from "./firebase-admin-helper";
 import { recordSecurityAuditLog } from "./zero-trust";
+import { emailProvider } from "./email/provider";
+import { buildKarmaCoinsSpentEmail } from "./mail-templates";
 
 export interface WalletTransaction {
   id: string;
@@ -25,7 +30,80 @@ export interface StudentWallet {
 export async function getStudentWallet(email: string): Promise<StudentWallet> {
   const cleanEmail = email.toLowerCase().trim();
 
-  if (!adminDb || !hasAdminCredentials) {
+  try {
+    let walletBalance = 100;
+    let walletEarned = 100;
+    let walletSpent = 0;
+    let reputationLevel = 1;
+    let unlockedPerks: string[] = ["Community Member Access"];
+
+    // 1. Fetch student_wallets docs safely
+    try {
+      const walletDocs = await fetchCollectionDocs("student_wallets");
+      const matchedWalletDoc = walletDocs.find((w: any) => {
+        const em = (w.studentEmail || w.email || w.id || "").toLowerCase().trim();
+        return em === cleanEmail;
+      });
+      if (matchedWalletDoc) {
+        walletBalance = Number(matchedWalletDoc.balance) || 100;
+        walletEarned = Number(matchedWalletDoc.totalEarned) || walletBalance;
+        walletSpent = Number(matchedWalletDoc.totalSpent) || 0;
+        reputationLevel = matchedWalletDoc.reputationLevel || 1;
+        unlockedPerks = matchedWalletDoc.unlockedPerks || unlockedPerks;
+      }
+    } catch (e) {}
+
+    // 2. Fetch student_profiles docs case-insensitively
+    let profileCoins: number | null = null;
+    let profileEarned: number | null = null;
+    try {
+      const profileDocs = await fetchCollectionDocs("student_profiles");
+      profileDocs.forEach((p: any) => {
+        const em = (p.email || p.studentEmail || p.id || "").toLowerCase().trim();
+        if (em === cleanEmail) {
+          if (typeof p.karmaCoins === "number") profileCoins = Math.max(profileCoins ?? 0, p.karmaCoins);
+          if (typeof p.totalKarmaEarned === "number") profileEarned = Math.max(profileEarned ?? 0, p.totalKarmaEarned);
+        }
+      });
+    } catch (e) {}
+
+    // 3. Fetch daily logs docs case-insensitively
+    let dailyLogsCoinsSum = 0;
+    try {
+      const logDocs = await fetchCollectionDocs("arena_daily_logs");
+      logDocs.forEach((l: any) => {
+        const em = (l.studentEmail || l.email || "").toLowerCase().trim();
+        if (em === cleanEmail) {
+          const c = Number(l.coinsAwarded) || 20;
+          dailyLogsCoinsSum += c;
+        }
+      });
+    } catch (e) {}
+
+    const computedLogsTotal = 100 + dailyLogsCoinsSum;
+    const realBalance = Math.max(walletBalance, profileCoins ?? 0, computedLogsTotal);
+    const realTotalEarned = Math.max(walletEarned, profileEarned ?? realBalance, computedLogsTotal);
+
+    const mergedWallet: StudentWallet = {
+      studentEmail: cleanEmail,
+      balance: realBalance,
+      totalEarned: realTotalEarned,
+      totalSpent: walletSpent,
+      reputationLevel: Math.max(reputationLevel, Math.min(Math.floor(realTotalEarned / 300) + 1, 10)),
+      unlockedPerks,
+      lastUpdated: new Date().toISOString()
+    };
+
+    // Keep student_wallets doc in sync
+    if (adminDb && hasAdminCredentials) {
+      adminDb.collection("student_wallets").doc(cleanEmail).set(mergedWallet, { merge: true }).catch(() => {});
+    } else {
+      setDoc(doc(db, "student_wallets", cleanEmail), mergedWallet, { merge: true }).catch(() => {});
+    }
+
+    return mergedWallet;
+  } catch (err) {
+    console.warn("getStudentWallet error:", err);
     return {
       studentEmail: cleanEmail,
       balance: 100,
@@ -35,38 +113,8 @@ export async function getStudentWallet(email: string): Promise<StudentWallet> {
       unlockedPerks: ["Community Member Access"]
     };
   }
-
-  try {
-    const doc = await adminDb.collection("student_wallets").doc(cleanEmail).get();
-    if (doc.exists) {
-      return doc.data() as StudentWallet;
-    }
-
-    // Initialize new wallet with 100 Welcome Coins
-    const initialWallet: StudentWallet = {
-      studentEmail: cleanEmail,
-      balance: 100,
-      totalEarned: 100,
-      totalSpent: 0,
-      reputationLevel: 1,
-      unlockedPerks: ["Community Member Access"],
-      lastUpdated: new Date().toISOString()
-    };
-
-    await adminDb.collection("student_wallets").doc(cleanEmail).set(initialWallet);
-    return initialWallet;
-  } catch (err) {
-    console.error("Wallet retrieval error:", err);
-    return {
-      studentEmail: cleanEmail,
-      balance: 100,
-      totalEarned: 100,
-      totalSpent: 0,
-      reputationLevel: 1,
-      unlockedPerks: []
-    };
-  }
 }
+
 
 /**
  * Atomically adjusts wallet balance, total earned, total spent, and reputation level.
@@ -189,6 +237,23 @@ export async function adjustStudentWallet(
       severity: "INFO",
       status: "SUCCESS"
     });
+
+    // Automatically send Email Confirmation when Karma Coins are spent
+    if (type === "SPEND") {
+      emailProvider.sendEmail({
+        to: cleanEmail,
+        subject: `Karma Coins Spend Confirmation (-${amount} Coins) | Botmartz`,
+        html: buildKarmaCoinsSpentEmail({
+          email: cleanEmail,
+          amount,
+          reason,
+          newBalance: result.newBalance,
+          referenceId
+        })
+      }).catch((mailErr) => {
+        console.warn("Failed to dispatch Karma spend email:", mailErr);
+      });
+    }
 
     return { success: true, newBalance: result.newBalance };
   } catch (err: any) {

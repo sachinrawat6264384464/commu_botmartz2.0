@@ -50,7 +50,31 @@ export async function POST(req: NextRequest) {
     const invoiceNumber = `INV-BMZ-${Date.now().toString().slice(-6)}`;
     const checkInCode = `WS-${Math.floor(10000 + Math.random() * 90000)}`;
 
+    const appliedCouponCode = (metadata?.appliedCoupon || body.appliedCoupon || "").trim().toUpperCase();
+
     if (adminDb && hasAdminCredentials) {
+      // 0. Update Coupon usage count in DB if a coupon code was applied
+      if (appliedCouponCode) {
+        try {
+          const couponQuery = await adminDb
+            .collection("coupons")
+            .where("code", "==", appliedCouponCode)
+            .limit(1)
+            .get();
+
+          if (!couponQuery.empty) {
+            const cDoc = couponQuery.docs[0];
+            const currentCount = Number(cDoc.data().currentUses) || 0;
+            await cDoc.ref.update({
+              currentUses: currentCount + 1,
+              lastUsedAt: paymentTimestamp
+            });
+          }
+        } catch (cErr) {
+          console.warn("Coupon usage increment warning:", cErr);
+        }
+      }
+
       // 1. Record Order in Firestore
       await adminDb.collection("orders").add({
         orderId: razorpay_order_id || `ORD_${Date.now()}`,
@@ -59,12 +83,15 @@ export async function POST(req: NextRequest) {
         itemName: itemName || "Production AI Engineering Workshop Pass",
         itemCategory: itemCategory || "WORKSHOP_PASS",
         amount: Number(amount) || 0,
+        originalAmount: Number(metadata?.originalAmount || amount) || 0,
+        discountAmount: Number(metadata?.discountAmount || 0) || 0,
+        appliedCoupon: appliedCouponCode,
         currency: "INR",
         email: cleanEmail,
         name: cleanName,
         phone: customerPhone || "",
         status: "PAID",
-        paymentMethod: "RAZORPAY",
+        paymentMethod: amount === 0 ? "FREE_PASS_COUPON" : "RAZORPAY",
         metadata: metadata || {},
         createdAt: paymentTimestamp
       });
@@ -74,15 +101,32 @@ export async function POST(req: NextRequest) {
         paymentId: razorpay_payment_id || `PAY_${Date.now()}`,
         orderId: razorpay_order_id || `ORD_${Date.now()}`,
         amount: Number(amount) || 0,
+        appliedCoupon: appliedCouponCode,
         currency: "INR",
         email: cleanEmail,
         name: cleanName,
-        method: "Razorpay (Cards/UPI/Netbanking)",
+        method: amount === 0 ? "100% Free Pass Coupon" : "Razorpay (Cards/UPI/Netbanking)",
         status: "COMPLETED",
         createdAt: paymentTimestamp
       });
 
-      // 3. Save Dedicated Workshop Registration
+      // 3. Save Dedicated Bootcamp / Workshop Registration
+      await adminDb.collection("bootcamp_registrations").add({
+        registrationId: `REG_${Date.now().toString().slice(-6)}`,
+        name: cleanName,
+        email: cleanEmail,
+        phone: customerPhone || "",
+        collegeOrCompany: metadata?.college || metadata?.collegeOrCompany || "Independent Builder",
+        plan: itemCategory || "bundle",
+        amount: Number(amount) || 0,
+        originalAmount: Number(metadata?.originalAmount || amount) || 0,
+        appliedCoupon: appliedCouponCode,
+        status: "paid",
+        checkInCode,
+        invoiceNumber,
+        createdAt: paymentTimestamp
+      });
+
       const isWorkshop =
         itemCategory === "WORKSHOP_PASS" ||
         itemName?.toLowerCase().includes("workshop") ||
@@ -99,13 +143,14 @@ export async function POST(req: NextRequest) {
           experienceLevel: metadata?.experienceLevel || "Intermediate",
           track: itemName || "Production AI Engineering & Multi-Agent Workshop",
           amount: Number(amount) || 0,
+          appliedCoupon: appliedCouponCode,
           currency: "INR",
           orderId: razorpay_order_id || `ORD_${Date.now()}`,
           paymentId: razorpay_payment_id || `PAY_${Date.now()}`,
           checkInCode,
           invoiceNumber,
           status: "PAID",
-          paymentMethod: "RAZORPAY",
+          paymentMethod: amount === 0 ? "FREE_PASS_COUPON" : "RAZORPAY",
           metadata: metadata || {},
           createdAt: paymentTimestamp
         });

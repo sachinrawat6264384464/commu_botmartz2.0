@@ -30,6 +30,7 @@ import {
   KanbanSquare,
   PlayCircle
 } from "lucide-react";
+import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 export default function ProductTourPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("ALL");
@@ -51,7 +52,7 @@ export default function ProductTourPage() {
     },
     {
       id: "arena",
-      title: "The Engineering Arena (50+ Production PRDs)",
+      title: `The Engineering Arena (${TOTAL_SYSTEMS_COUNT}+ Production PRDs)`,
       href: "/arena",
       category: "CORE_ENGINEERING",
       icon: Layers,
@@ -328,7 +329,7 @@ export default function ProductTourPage() {
               href="/arena"
               className="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-extrabold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 shrink-0 self-start sm:self-auto hover:-translate-y-0.5"
             >
-              <span>Explore 50 PRDs</span>
+              <span>Explore {TOTAL_SYSTEMS_COUNT} PRDs</span>
               <ArrowRight size={14} />
             </Link>
           </div>
@@ -340,7 +341,7 @@ export default function ProductTourPage() {
               <div className="w-10 h-10 rounded-2xl bg-[#0066FF] text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">1</div>
               <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-[#0066FF] transition-colors">Select Production PRD</h3>
               <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
-                Browse 50 open blueprints from Baby Step to Go To Hell 💀. Complete profile verification and enroll in your chosen track.
+                Browse {TOTAL_SYSTEMS_COUNT} open blueprints from Baby Step to Go To Hell 💀. Complete profile verification and enroll in your chosen track.
               </p>
             </div>
 
@@ -515,7 +516,7 @@ export default function ProductTourPage() {
               className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-extrabold transition-all duration-300 shadow-xl hover:shadow-blue-500/30 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
             >
               <Layers size={16} />
-              <span>Browse 50 PRDs</span>
+              <span>Browse {TOTAL_SYSTEMS_COUNT} PRDs</span>
             </Link>
             <Link
               href="/login"

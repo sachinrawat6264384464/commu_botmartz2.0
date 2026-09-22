@@ -27,11 +27,13 @@ import {
   AlertCircle,
   Flame,
   Layers,
-  Award
+  Award,
+  Share2
 } from "lucide-react";
-import { ARENA_PROJECTS, ArenaProject } from "@/lib/arena-projects";
+import { ARENA_PROJECTS, ArenaProject, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
 import AuthGate from "@/app/_components/AuthGate";
+import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
 
 interface EnrolledProjectItem {
   id: string;
@@ -182,6 +184,25 @@ function DailyPoWLogPageInner() {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
+  // LinkedIn Daily Log Share Modal State
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [shareModalData, setShareModalData] = useState({
+    projectTitle: "",
+    dayNumber: 1,
+    commitUrl: "",
+    researchNotes: ""
+  });
+
+  const openShareModal = (title: string, day: number, commit: string, notes: string) => {
+    setShareModalData({
+      projectTitle: title || currentEnrolledProject?.projectTitle || "Arena System",
+      dayNumber: day,
+      commitUrl: commit,
+      researchNotes: notes
+    });
+    setShareModalOpen(true);
+  };
+
   // 1. Fetch user's enrolled projects & past logs on mount
   useEffect(() => {
     if (user?.email) {
@@ -204,31 +225,31 @@ function DailyPoWLogPageInner() {
     try {
       const res = await fetch(`/api/arena/enroll?email=${encodeURIComponent(email)}`);
       const data = await res.json();
-      if (data.success && Array.isArray(data.enrollments)) {
-        const enriched: EnrolledProjectItem[] = data.enrollments.map((en: any) => {
-          const match = ARENA_PROJECTS.find((p) => p.id === en.projectId || p.slug === en.projectId);
-          return {
-            id: en.id,
-            projectId: en.projectId,
-            projectTitle: en.projectTitle || match?.title || "Enrolled Project",
-            difficulty: en.difficulty || match?.difficulty,
-            teamType: en.teamType,
-            streak: en.streak || 0,
-            xp: en.xp || 100,
-            tier: en.tier || "Free Explorer",
-            createdAt: en.createdAt,
-            fullProject: match
-          };
-        });
+      const enrollmentsList = (data.success && Array.isArray(data.enrollments)) ? data.enrollments : [];
 
-        setEnrolledProjects(enriched);
+      const enriched: EnrolledProjectItem[] = enrollmentsList.map((en: any) => {
+        const match = ARENA_PROJECTS.find((p) => p.id === en.projectId || p.slug === en.projectId);
+        return {
+          id: en.id,
+          projectId: en.projectId,
+          projectTitle: en.projectTitle || match?.title || "Enrolled Project",
+          difficulty: en.difficulty || match?.difficulty,
+          teamType: en.teamType,
+          streak: en.streak || 0,
+          xp: en.xp || 100,
+          tier: en.tier || "Free Explorer",
+          createdAt: en.createdAt,
+          fullProject: match
+        };
+      });
 
-        // Select active project
-        if (enriched.length > 0) {
-          const matchedFromQuery = enriched.find((e) => e.projectId === queryProjectId);
-          const initialProject = matchedFromQuery ? matchedFromQuery.projectId : enriched[0].projectId;
-          setForm((prev) => ({ ...prev, projectId: initialProject }));
-        }
+      setEnrolledProjects(enriched);
+
+      // Select active project
+      if (enriched.length > 0) {
+        const matchedFromQuery = enriched.find((e) => e.projectId === queryProjectId);
+        const initialProject = matchedFromQuery ? matchedFromQuery.projectId : enriched[0].projectId;
+        setForm((prev) => ({ ...prev, projectId: initialProject }));
       }
     } catch (e) {
       console.warn("Failed to load enrolled projects:", e);
@@ -293,13 +314,18 @@ function DailyPoWLogPageInner() {
     setErrorMsg("");
     setSuccessMsg("");
 
+    const submittedDay = parseInt(form.dayNumber, 10) || 1;
+    const submittedCommit = form.commitUrl;
+    const submittedNotes = form.researchNotes;
+    const projectTitle = currentEnrolledProject?.projectTitle || "Arena Project";
+
     try {
       const res = await fetch("/api/arena/daily-log", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          projectTitle: currentEnrolledProject?.projectTitle || "Arena Project"
+          projectTitle
         })
       });
 
@@ -309,6 +335,10 @@ function DailyPoWLogPageInner() {
       }
 
       setSuccessMsg(`🎉 Day ${form.dayNumber} logged successfully! Earned +${data.coinsAwarded} Karma Coins.`);
+      
+      // Auto-open LinkedIn share modal for this daily log
+      openShareModal(projectTitle, submittedDay, submittedCommit, submittedNotes);
+
       // Reset fields
       setForm((prev) => ({
         ...prev,
@@ -332,8 +362,8 @@ function DailyPoWLogPageInner() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 py-12 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-slate-100 text-slate-900 py-8 sm:py-12 px-4 sm:px-8 lg:px-12 font-sans">
+      <div className="max-w-7xl mx-auto space-y-8">
         
         {/* ── HEADER ── */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -368,14 +398,14 @@ function DailyPoWLogPageInner() {
               No Enrolled Projects Found
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 font-mono max-w-md mx-auto leading-relaxed">
-              Daily logs are tied to your specific enrolled project. Explore the 50 production systems in the Arena and enroll with 1-click to start your daily sprint.
+              Daily logs are tied to your specific enrolled project. Explore the {TOTAL_SYSTEMS_COUNT} production systems in the Arena and enroll with 1-click to start your daily sprint.
             </p>
             <div className="pt-2">
               <Link
                 href="/arena"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 cursor-pointer"
               >
-                <span>Browse 50 PRDs &amp; Enroll Now &rarr;</span>
+                <span>Browse {TOTAL_SYSTEMS_COUNT} PRDs &amp; Enroll Now &rarr;</span>
               </Link>
             </div>
           </div>
@@ -440,7 +470,7 @@ function DailyPoWLogPageInner() {
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-200 font-mono leading-relaxed max-w-2xl">
+                <p className="text-xs sm:text-sm text-slate-200 font-mono leading-relaxed max-w-4xl">
                   {currentGuidance.focus}
                 </p>
 
@@ -638,7 +668,7 @@ function DailyPoWLogPageInner() {
                           </a>
                         )}
 
-                        {log.linkedinPostUrl && (
+                        {log.linkedinPostUrl ? (
                           <a
                             href={log.linkedinPostUrl}
                             target="_blank"
@@ -649,6 +679,15 @@ function DailyPoWLogPageInner() {
                             <span>Post</span>
                             <ExternalLink size={10} />
                           </a>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => openShareModal(currentEnrolledProject?.projectTitle || "Arena System", log.dayNumber, log.commitUrl || "", log.researchNotes || "")}
+                            className="p-2 rounded-xl bg-[#0077B5] hover:bg-[#006097] text-white transition-colors flex items-center gap-1 text-[11px] font-bold cursor-pointer"
+                          >
+                            <Linkedin size={13} />
+                            <span>Share ↗</span>
+                          </button>
                         )}
                       </div>
                     </div>
@@ -661,6 +700,18 @@ function DailyPoWLogPageInner() {
         )}
 
       </div>
+
+      {/* LinkedIn Share Modal for Daily Proof-of-Work Log */}
+      <LinkedInShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        mode="daily_log"
+        candidateName={user?.displayName || "Builder Candidate"}
+        projectTitle={shareModalData.projectTitle || currentEnrolledProject?.projectTitle || "Arena System"}
+        dayNumber={shareModalData.dayNumber}
+        commitUrl={shareModalData.commitUrl}
+        researchNotes={shareModalData.researchNotes}
+      />
     </div>
   );
 }

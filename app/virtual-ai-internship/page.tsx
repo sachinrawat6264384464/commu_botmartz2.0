@@ -24,7 +24,7 @@ import {
   Calendar,
   BookOpen
 } from "lucide-react";
-import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { ARENA_PROJECTS, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import VirtualInternshipPricingClient from "./VirtualInternshipClient";
 
 export const metadata: Metadata = {
@@ -164,7 +164,7 @@ export default function VirtualAIInternshipPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-mono text-xs sm:text-sm max-w-2xl">
-                Tackle 50 industrial PRDs with real multi-table relational/vector schemas, REST/gRPC APIs, Docker containers, and strict latency SLA test gates (&lt;150ms). Submit daily commits, build your streak, and earn Founder Soham Sharma&apos;s technical code audits.
+                Tackle {TOTAL_SYSTEMS_COUNT} industrial PRDs with real multi-table relational/vector schemas, REST/gRPC APIs, Docker containers, and strict latency SLA test gates (&lt;150ms). Submit daily commits, build your streak, and earn Founder Soham Sharma&apos;s technical code audits.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 font-mono text-xs pt-2">
@@ -180,14 +180,14 @@ export default function VirtualAIInternshipPage() {
                   href="/arena"
                   className="px-8 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-bold uppercase tracking-wider transition-all border border-slate-300 shadow-2xs"
                 >
-                  Explore 50 PRD Blueprints
+                  Explore {TOTAL_SYSTEMS_COUNT} PRD Blueprints
                 </Link>
               </div>
 
               {/* Quick Metrics Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-6 border-t border-slate-200/80 font-mono text-xs">
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-xl font-black text-slate-950 font-sans">50 Systems</div>
+                  <div className="text-xl font-black text-slate-950 font-sans">{TOTAL_SYSTEMS_COUNT} Systems</div>
                   <div className="text-slate-500 text-[11px] mt-0.5">Production PRDs</div>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
@@ -332,7 +332,7 @@ export default function VirtualAIInternshipPage() {
                   Enroll &amp; Start Daily Sprints
                 </h3>
                 <p className="text-slate-600 leading-relaxed mb-6">
-                  Select an enrolled project from the 50 PRD blueprints. Read the schema requirements, initialize your repository, and log daily commits on <Link href="/arena/daily-log" className="text-[#0066FF] underline font-bold">/arena/daily-log</Link>.
+                  Select an enrolled project from the {TOTAL_SYSTEMS_COUNT} PRD blueprints. Read the schema requirements, initialize your repository, and log daily commits on <Link href="/arena/daily-log" className="text-[#0066FF] underline font-bold">/arena/daily-log</Link>.
                 </p>
               </div>
               <div className="text-[#0066FF] font-bold flex items-center gap-1">
@@ -450,7 +450,7 @@ export default function VirtualAIInternshipPage() {
               href="/arena"
               className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-mono text-xs font-bold uppercase tracking-wider hover:bg-slate-100 transition-all shrink-0 flex items-center gap-2"
             >
-              <span>Explore All 50 PRDs</span>
+              <span>Explore All {TOTAL_SYSTEMS_COUNT} PRDs</span>
               <ArrowRight size={14} />
             </Link>
           </div>

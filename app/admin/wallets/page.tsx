@@ -42,14 +42,43 @@ export default function AdminWalletsPage() {
   const [adjustPaymentRef, setAdjustPaymentRef] = useState("");
   const [adjusting, setAdjusting] = useState(false);
 
+  const fetchWalletByEmail = async (emailToFetch: string) => {
+    if (!emailToFetch.trim()) return;
+    setSearching(true);
+    setErrorMsg("");
+    try {
+      const res = await fetch(`/api/admin/wallets?email=${encodeURIComponent(emailToFetch.trim())}`);
+      const data = await res.json();
+      if (data.success) {
+        setActiveWallet(data.wallet);
+        setTransactions(data.transactions || []);
+      } else {
+        setErrorMsg(data.error || "Student wallet not found.");
+      }
+    } catch (e: any) {
+      setErrorMsg(e.message || "Failed to search student wallet.");
+    } finally {
+      setSearching(false);
+    }
+  };
+
   const loadGlobalOverview = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/wallets");
       const data = await res.json();
       if (data.success) {
-        setRecentTransactions(data.recentTransactions || []);
-        setRecentWallets(data.wallets || []);
+        const fetchedTx = data.recentTransactions || [];
+        const fetchedW = data.wallets || [];
+        setRecentTransactions(fetchedTx);
+        setRecentWallets(fetchedW);
+
+        // Auto select logged in user's email or first wallet from DB
+        const defaultEmail = user?.email || (fetchedW.length > 0 ? (fetchedW[0].email || fetchedW[0].studentEmail) : "");
+        if (defaultEmail) {
+          setSearchEmail(defaultEmail);
+          fetchWalletByEmail(defaultEmail);
+        }
       }
     } catch (e) {
       console.warn("Failed to load global wallet overview:", e);
@@ -65,24 +94,8 @@ export default function AdminWalletsPage() {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchEmail.trim()) return;
-
-    setSearching(true);
-    setErrorMsg("");
     setSuccessMsg("");
-    try {
-      const res = await fetch(`/api/admin/wallets?email=${encodeURIComponent(searchEmail.trim())}`);
-      const data = await res.json();
-      if (data.success) {
-        setActiveWallet(data.wallet);
-        setTransactions(data.transactions || []);
-      } else {
-        setErrorMsg(data.error || "Student wallet not found.");
-      }
-    } catch (e: any) {
-      setErrorMsg(e.message || "Failed to search student wallet.");
-    } finally {
-      setSearching(false);
-    }
+    await fetchWalletByEmail(searchEmail.trim());
   };
 
   const handleExecuteAdjustment = async (e: React.FormEvent) => {
@@ -313,35 +326,36 @@ export default function AdminWalletsPage() {
           </div>
 
           <div className="space-y-2.5 max-h-96 overflow-y-auto pr-1">
-            {recentTransactions.map((tx) => (
-              <div
-                key={tx.id}
-                onClick={() => {
-                  setSearchEmail(tx.email);
-                  // trigger search
-                  fetch(`/api/admin/wallets?email=${encodeURIComponent(tx.email)}`)
-                    .then((r) => r.json())
-                    .then((d) => {
-                      if (d.success) {
-                        setActiveWallet(d.wallet);
-                        setTransactions(d.transactions || []);
-                      }
-                    });
-                }}
-                className="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200 transition-colors cursor-pointer flex items-center justify-between gap-2 text-[11px]"
-              >
-                <div className="space-y-0.5 overflow-hidden">
-                  <div className="font-bold text-slate-900 truncate">{tx.email}</div>
-                  <div className="text-slate-500 text-[10px] truncate">{tx.reason}</div>
-                </div>
-
-                <div className={`font-bold text-xs shrink-0 ${
-                  tx.type === "EARN" ? "text-emerald-600" : "text-rose-600"
-                }`}>
-                  {tx.type === "EARN" ? `+${tx.amount}` : `-${tx.amount}`}
-                </div>
+            {recentTransactions.length === 0 ? (
+              <div className="py-8 text-center text-slate-400 font-mono text-xs">
+                No platform coin transactions recorded in database yet.
               </div>
-            ))}
+            ) : (
+              recentTransactions.map((tx) => (
+                <div
+                  key={tx.id}
+                  onClick={() => {
+                    const target = tx.email || tx.studentEmail;
+                    if (target) {
+                      setSearchEmail(target);
+                      fetchWalletByEmail(target);
+                    }
+                  }}
+                  className="p-3 rounded-2xl bg-slate-50 hover:bg-blue-50/50 border border-slate-200 transition-colors cursor-pointer flex items-center justify-between gap-2 text-[11px]"
+                >
+                  <div className="space-y-0.5 overflow-hidden">
+                    <div className="font-bold text-slate-900 truncate">{tx.email}</div>
+                    <div className="text-slate-500 text-[10px] truncate">{tx.reason}</div>
+                  </div>
+
+                  <div className={`font-bold text-xs shrink-0 ${
+                    tx.type === "EARN" ? "text-emerald-600" : "text-rose-600"
+                  }`}>
+                    {tx.type === "EARN" ? `+${tx.amount}` : `-${tx.amount}`}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -356,34 +370,36 @@ export default function AdminWalletsPage() {
           </div>
 
           <div className="space-y-2.5 max-h-96 overflow-y-auto pr-1">
-            {recentWallets.map((w) => (
-              <div
-                key={w.id}
-                onClick={() => {
-                  setSearchEmail(w.email || w.id);
-                  fetch(`/api/admin/wallets?email=${encodeURIComponent(w.email || w.id)}`)
-                    .then((r) => r.json())
-                    .then((d) => {
-                      if (d.success) {
-                        setActiveWallet(d.wallet);
-                        setTransactions(d.transactions || []);
-                      }
-                    });
-                }}
-                className="p-3 rounded-2xl bg-slate-50 hover:bg-amber-50/50 border border-slate-200 transition-colors cursor-pointer flex items-center justify-between gap-2 text-[11px]"
-              >
-                <div className="space-y-0.5 overflow-hidden">
-                  <div className="font-bold text-slate-900 truncate">{w.email || w.id}</div>
-                  <div className="text-slate-500 text-[10px]">
-                    Earned: {w.lifetimeEarned || w.coins || 0} • Spent: {w.lifetimeSpent || 0}
+            {recentWallets.length === 0 ? (
+              <div className="py-8 text-center text-slate-400 font-mono text-xs">
+                No active student wallets found in database yet.
+              </div>
+            ) : (
+              recentWallets.map((w) => (
+                <div
+                  key={w.id}
+                  onClick={() => {
+                    const target = w.email || w.studentEmail || w.id;
+                    if (target) {
+                      setSearchEmail(target);
+                      fetchWalletByEmail(target);
+                    }
+                  }}
+                  className="p-3 rounded-2xl bg-slate-50 hover:bg-amber-50/50 border border-slate-200 transition-colors cursor-pointer flex items-center justify-between gap-2 text-[11px]"
+                >
+                  <div className="space-y-0.5 overflow-hidden">
+                    <div className="font-bold text-slate-900 truncate">{w.email || w.id}</div>
+                    <div className="text-slate-500 text-[10px]">
+                      Earned: {w.lifetimeEarned || w.coins || 0} • Spent: {w.lifetimeSpent || 0}
+                    </div>
+                  </div>
+
+                  <div className="font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-xl text-xs shrink-0">
+                    {w.coins || 0} Coins
                   </div>
                 </div>
-
-                <div className="font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-xl text-xs shrink-0">
-                  {w.coins || 0} Coins
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 

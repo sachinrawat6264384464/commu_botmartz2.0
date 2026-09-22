@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
 import { fetchCollectionDocs } from "@/lib/firebase-admin-helper";
+import { findCouponByCode } from "@/lib/coupons-store";
 
 export async function POST(req: Request) {
   try {
@@ -13,49 +13,27 @@ export async function POST(req: Request) {
 
     const cleanCode = code.trim().toUpperCase();
 
-    // 1. Fetch coupons & registrations with 250ms fast race fallback
-    let coupons: any[] = [];
-    let registrations: any[] = [];
-
-    try {
-      const timeoutPromise = new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 250));
-      coupons = await Promise.race([fetchCollectionDocs("coupons"), timeoutPromise]);
-      registrations = await Promise.race([fetchCollectionDocs("bootcamp_registrations"), timeoutPromise]);
-    } catch (e) {}
-
-    // Find requested coupon
-    const match = coupons.find((c: any) => (c.code || "").trim().toUpperCase() === cleanCode);
+    // Find coupon using shared helper (Memory Cache + DB + Seed list)
+    const match = await findCouponByCode(cleanCode);
 
     if (!match) {
-      // Hardcoded fallback check for default BOTMARTZ10 or BMFREE codes
-      if (cleanCode === "BOTMARTZ10") {
-        return NextResponse.json({
-          success: true,
-          code: "BOTMARTZ10",
-          discountType: "percentage",
-          discountValue: 10,
-          maxUses: 50,
-          remainingUses: 23
-        });
-      }
-      if (cleanCode.startsWith("BMFREE")) {
-        return NextResponse.json({
-          success: true,
-          code: cleanCode,
-          discountType: "percentage",
-          discountValue: 100,
-          maxUses: 1,
-          remainingUses: 1
-        });
-      }
-      return NextResponse.json({ success: false, error: "Invalid coupon code." }, { status: 404 });
+      return NextResponse.json({ success: false, error: "Invalid coupon code. Please check and try again." }, { status: 404 });
     }
 
     if (match.isActive === false) {
       return NextResponse.json({ success: false, error: "This coupon code is currently inactive." }, { status: 400 });
     }
 
-    // Calculate actual usages from registrations
+    // Fetch bootcamp registrations for usage count
+    let registrations: any[] = [];
+    try {
+      const timeoutPromise = new Promise<any[]>((resolve) => setTimeout(() => resolve([]), 1200));
+      registrations = await Promise.race([fetchCollectionDocs("bootcamp_registrations"), timeoutPromise]);
+    } catch (e) {
+      registrations = [];
+    }
+
+    // Calculate actual usages from DB registrations
     const realUses = registrations.filter(
       (r: any) => (r.appliedCoupon || "").trim().toUpperCase() === cleanCode
     ).length;
@@ -76,11 +54,14 @@ export async function POST(req: Request) {
       success: true,
       code: match.code,
       discountType: match.discountType || "percentage",
-      discountValue: Number(match.discountValue) || 100,
+      discountValue: Number(match.discountValue) || 10,
       maxUses,
-      remainingUses
+      remainingUses,
+      message: match.discountValue === 100 ? "100% OFF Free Pass Coupon Applied!" : `${match.discountValue}% Discount Applied!`
     });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }
+
+

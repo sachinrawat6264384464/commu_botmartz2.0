@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
+import { NextRequest, NextResponse } from "next/server";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { adjustStudentWallet } from "@/lib/wallet";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
@@ -25,17 +25,21 @@ export async function POST(req: Request) {
     const unlockId = `${cleanEmail.replace(/[^a-zA-Z0-9]/g, "_")}_${project.id}`;
 
     // Check if already unlocked in Firestore
-    if (adminDb) {
-      const existingSnap = await adminDb.collection("unlocked_project_hints").doc(unlockId).get();
-      if (existingSnap.exists) {
-        return NextResponse.json({
-          success: true,
-          alreadyUnlocked: true,
-          hint: project.hint || project.architectureNotes || "Follow the step-by-step SDLC and Low-Level Design specs in the PRD.",
-          highLevelDesign: project.highLevelDesign,
-          lowLevelDesign: project.lowLevelDesign,
-          message: "Hint already unlocked!"
-        });
+    if (adminDb && hasAdminCredentials) {
+      try {
+        const existingSnap = await adminDb.collection("unlocked_project_hints").doc(unlockId).get();
+        if (existingSnap.exists) {
+          return NextResponse.json({
+            success: true,
+            alreadyUnlocked: true,
+            hint: project.hint || project.architectureNotes || "Follow the step-by-step SDLC and Low-Level Design specs in the PRD.",
+            highLevelDesign: project.highLevelDesign,
+            lowLevelDesign: project.lowLevelDesign,
+            message: "Hint already unlocked!"
+          });
+        }
+      } catch (e) {
+        console.warn("Hint unlock check warning:", e);
       }
     }
 
@@ -56,14 +60,18 @@ export async function POST(req: Request) {
     }
 
     // Record unlocked hint in Firestore
-    if (adminDb) {
-      await adminDb.collection("unlocked_project_hints").doc(unlockId).set({
-        email: cleanEmail,
-        projectId: project.id,
-        projectTitle: project.title,
-        costPaid: coinCost,
-        unlockedAt: new Date().toISOString()
-      });
+    if (adminDb && hasAdminCredentials) {
+      try {
+        await adminDb.collection("unlocked_project_hints").doc(unlockId).set({
+          email: cleanEmail,
+          projectId: project.id,
+          projectTitle: project.title,
+          costPaid: coinCost,
+          unlockedAt: new Date().toISOString()
+        });
+      } catch (e) {
+        console.warn("Hint unlock write warning:", e);
+      }
     }
 
     return NextResponse.json({
@@ -94,16 +102,20 @@ export async function GET(req: Request) {
     }
 
     const unlockId = `${email.replace(/[^a-zA-Z0-9]/g, "_")}_${projectId}`;
-    if (adminDb) {
-      const snap = await adminDb.collection("unlocked_project_hints").doc(unlockId).get();
-      if (snap.exists) {
-        const project = ARENA_PROJECTS.find((p) => p.id === projectId || p.slug === projectId);
-        return NextResponse.json({
-          unlocked: true,
-          hint: project?.hint || project?.architectureNotes,
-          highLevelDesign: project?.highLevelDesign,
-          lowLevelDesign: project?.lowLevelDesign
-        });
+    if (adminDb && hasAdminCredentials) {
+      try {
+        const snap = await adminDb.collection("unlocked_project_hints").doc(unlockId).get();
+        if (snap.exists) {
+          const project = ARENA_PROJECTS.find((p) => p.id === projectId || p.slug === projectId);
+          return NextResponse.json({
+            unlocked: true,
+            hint: project?.hint || project?.architectureNotes,
+            highLevelDesign: project?.highLevelDesign,
+            lowLevelDesign: project?.lowLevelDesign
+          });
+        }
+      } catch (e) {
+        console.warn("Hint unlock GET warning:", e);
       }
     }
 
