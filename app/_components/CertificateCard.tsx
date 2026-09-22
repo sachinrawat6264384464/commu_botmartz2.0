@@ -55,17 +55,15 @@ export default function CertificateCard({
         {/* Certificate Content */}
         <div className="relative space-y-4 sm:space-y-5 text-center">
           
-          {/* 1. Top Header: Small Brand Logo Left, ID Right */}
+          {/* 1. Top Header: Clean Horizontal Brand Logo Left, ID Right */}
           <div className="flex items-center justify-between gap-4 pb-2 border-b border-slate-200/60">
-            {/* Small Constrained Logo Image */}
-            <div className="flex items-center gap-2">
-              <img
-                src="/logo.png"
-                alt="Botmartz AI Solutions"
-                className="h-8 sm:h-10 max-w-[130px] sm:max-w-[160px] object-contain drop-shadow-xs shrink-0"
-              />
-              <span className="font-serif italic font-bold text-indigo-950 text-base sm:text-lg tracking-tight hidden sm:inline">
-                Botmartz <span className="text-[10px] font-sans font-bold text-slate-500 uppercase not-italic tracking-wider">AI Solutions</span>
+            {/* Elegant Horizontal Script Brand Logo */}
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="font-serif italic font-black text-[#4F46E5] text-2xl sm:text-3xl tracking-tight leading-none drop-shadow-xs">
+                Botmartz
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-sans font-extrabold text-slate-600 uppercase tracking-widest border-l border-slate-300/80 pl-2.5 py-0.5">
+                AI Solutions
               </span>
             </div>
 
