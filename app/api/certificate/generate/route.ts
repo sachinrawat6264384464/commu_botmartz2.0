@@ -32,12 +32,29 @@ export async function POST(request: Request) {
       height,
     });
 
-    // 2. Dynamic Candidate Name Overlay (Solid white mask x: 25 to 475 to erase template name completely)
+    // 2. Dynamic Project Title Overlay (Below "of Completion")
     page.drawRectangle({
       x: 25,
-      y: 250,
+      y: 390,
       width: 450,
-      height: 70,
+      height: 45,
+      color: rgb(1, 1, 1),
+    });
+
+    page.drawText(title, {
+      x: 50,
+      y: 405,
+      size: 16,
+      font: fontBold,
+      color: rgb(0, 0.4, 1),
+    });
+
+    // 3. Dynamic Candidate Name Overlay (Sitting on top of the blue line)
+    page.drawRectangle({
+      x: 25,
+      y: 265,
+      width: 450,
+      height: 55,
       color: rgb(1, 1, 1),
     });
 
@@ -49,18 +66,18 @@ export async function POST(request: Request) {
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
-    // 3. Dynamic Description Overlay (Solid white mask x: 25 to 475 to erase template description completely)
+    // 4. Dynamic Description Overlay (Below the blue line)
     page.drawRectangle({
       x: 25,
-      y: 165,
+      y: 170,
       width: 450,
-      height: 85,
+      height: 80,
       color: rgb(1, 1, 1),
     });
 
-    page.drawText(`for the successful completion of the ${title}, validating practical skills in using`, {
+    page.drawText(`for the successful completion of the course, validating practical skills in using`, {
       x: 50,
-      y: 225,
+      y: 220,
       size: 9.5,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
@@ -68,11 +85,12 @@ export async function POST(request: Request) {
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
       x: 50,
-      y: 208,
+      y: 203,
       size: 9.5,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
+
 
 
 
