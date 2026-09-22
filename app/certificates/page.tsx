@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
 import CertificateCard from "@/app/_components/CertificateCard";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 function CertificatesContent() {
   const searchParams = useSearchParams();
@@ -78,6 +80,33 @@ function CertificatesContent() {
     if (!result) return;
     setDownloading(true);
     try {
+      const certElement = document.getElementById("certificate-download-card");
+      if (certElement) {
+        // Render 1:1 pixel-perfect high-res canvas from DOM
+        const canvas = await html2canvas(certElement, {
+          scale: 3,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          backgroundColor: "#ffffff",
+        });
+
+        const imgData = canvas.toDataURL("image/png", 1.0);
+        const pdf = new jsPDF({
+          orientation: "landscape",
+          unit: "mm",
+          format: "a4",
+        });
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`botmartz-${result.certificateId || result.id}.pdf`);
+        setDownloading(false);
+        return;
+      }
+
+      // Fallback: Server-side PDF generation
       const res = await fetch("/api/certificate/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -103,6 +132,7 @@ function CertificatesContent() {
         alert("Failed to download PDF certificate.");
       }
     } catch (e) {
+      console.error("PDF Download error:", e);
       alert("Network error generating PDF.");
     } finally {
       setDownloading(false);

@@ -65,12 +65,13 @@ export default function CertificateCard({
   return (
     <div className={`w-full max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-200 bg-white font-sans ${className}`}>
       {/* Container maintaining exact 2000:1414 template aspect ratio */}
-      <div className="relative w-full aspect-[2000/1414] overflow-hidden select-none">
+      <div id="certificate-download-card" className="relative w-full aspect-[2000/1414] overflow-hidden select-none bg-white">
         
         {/* 1. Base Original Template Image */}
         <img
           src="/Blue and Yellow Modern Certificate of Completion.png"
           alt="Certificate of Completion Template"
+          crossOrigin="anonymous"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 

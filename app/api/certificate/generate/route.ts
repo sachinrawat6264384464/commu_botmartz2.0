@@ -32,11 +32,11 @@ export async function POST(request: Request) {
       height,
     });
 
-    // 2. Full Left Panel White Mask (Covers from x: 15 to 475, y: 140 to 595 to eliminate all background PNG ghosting)
+    // 2. Full Left Panel White Mask (Covers from x: 0 to 478, y: 140 to 595 to eliminate all background PNG ghosting and edge gaps)
     page.drawRectangle({
-      x: 15,
+      x: 0,
       y: 140,
-      width: 460,
+      width: 478,
       height: 455, // 140 + 455 = 595 (Top of PDF Page)
       color: rgb(1, 1, 1),
     });
@@ -130,26 +130,40 @@ export async function POST(request: Request) {
     ];
 
     trianglePositions.forEach((pos, idx) => {
-      // Outer Rosette Circle
+      // Outer Scalloped Rosette Petals (Simulated via overlapping circles)
+      const numPetals = 8;
+      for (let i = 0; i < numPetals; i++) {
+        const angle = (i * Math.PI * 2) / numPetals;
+        page.drawCircle({
+          x: pos.x + Math.cos(angle) * 5,
+          y: pos.y + Math.sin(angle) * 5,
+          size: 16,
+          color: badgeColors[idx],
+        });
+      }
+
+      // Main Badge Body Circle
       page.drawCircle({
         x: pos.x,
         y: pos.y,
-        size: 18,
+        size: 19,
         color: badgeColors[idx],
       });
-      // Inner Ring
+
+      // White Stitched Inner Ring
       page.drawCircle({
         x: pos.x,
         y: pos.y,
-        size: 13,
+        size: 14,
         borderColor: rgb(1, 1, 1),
-        borderWidth: 1.8,
+        borderWidth: 1.5,
       });
-      // Center Star Dot
+
+      // Center White Emblem Dot
       page.drawCircle({
         x: pos.x,
         y: pos.y,
-        size: 5,
+        size: 6,
         color: rgb(1, 1, 1),
       });
     });
