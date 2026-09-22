@@ -32,73 +32,65 @@ export async function POST(request: Request) {
       height,
     });
 
-    // Header Mask Overlay (x: 25 to 475)
+    // 2. Full Left Panel White Mask (Covers from x: 15 to 475, y: 140 to 595 to eliminate all background PNG ghosting)
     page.drawRectangle({
-      x: 25,
-      y: 445,
-      width: 450,
-      height: 115,
+      x: 15,
+      y: 140,
+      width: 460,
+      height: 455, // 140 + 455 = 595 (Top of PDF Page)
       color: rgb(1, 1, 1),
     });
 
+    // "Certificate of Completion" Header (Centered in Left Panel)
     page.drawText("Certificate", {
-      x: 135,
-      y: 505,
-      size: 42,
+      x: 140,
+      y: 520,
+      size: 40,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
     page.drawText("of Completion", {
       x: 175,
-      y: 472,
+      y: 488,
       size: 22,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
-
-
-    // 2. Single Solid White Rectangle Mask (Positioned below "of Completion" header at y: 140 to 450)
-    page.drawRectangle({
-      x: 25,
-      y: 140,
-      width: 450,
-      height: 310,
-      color: rgb(1, 1, 1),
-    });
-
-    // Project Title (In BLACK)
+    // Project Title (Centered, In BLACK)
+    const titleX = Math.max(35, 245 - Math.min(title.length * 3.5, 200));
     page.drawText(title, {
-      x: 50,
-      y: 420,
-      size: 16,
+      x: titleX,
+      y: 425,
+      size: 14,
       font: fontBold,
-      color: rgb(0.1, 0.15, 0.25),
+      color: rgb(0.1, 0.15, 0.25), // BLACK
     });
 
     // Certify Intro
     page.drawText("This is to proudly certify that", {
-      x: 180,
-      y: 365,
-      size: 12,
+      x: 175,
+      y: 370,
+      size: 11,
       font: fontRegular,
       color: rgb(0.3, 0.35, 0.45),
     });
 
     // ONLY ONE Candidate Name (Dynamic Logged-in User)
+    const nameX = Math.max(50, 245 - (recipientName.length * 7));
     page.drawText(recipientName, {
-      x: 245 - (recipientName.length * 6),
-      y: 295,
-      size: 38,
+      x: nameX,
+      y: 300,
+      size: 36,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
     // Blue Underline
     page.drawLine({
-      start: { x: 140, y: 282 },
-      end: { x: 350, y: 282 },
+      start: { x: 130, y: 288 },
+      end: { x: 360, y: 288 },
       thickness: 3,
       color: rgb(0, 0.4, 1),
     });
@@ -106,27 +98,21 @@ export async function POST(request: Request) {
     // Description Paragraph
     page.drawText(`for the successful completion of the program, validating practical skills in using`, {
       x: 50,
-      y: 230,
-      size: 10,
+      y: 235,
+      size: 9.5,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
       x: 50,
-      y: 212,
-      size: 10,
+      y: 218,
+      size: 9.5,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
 
-
-
-
-
-
-
-    // 4. Dynamic Badges Overlay in Blue Ribbon Column (Triangle Layout, Shifted Slightly Down)
+    // 3. Dynamic Badges Overlay in Blue Ribbon Column (Triangle/Pyramid Formation)
     const badgeColors = [
       rgb(0.95, 0.35, 0.55), // Pink
       rgb(0.95, 0.55, 0.2),  // Orange
@@ -136,15 +122,15 @@ export async function POST(request: Request) {
       rgb(0.1, 0.75, 0.5)    // Emerald
     ];
 
-    // Triangle Positions (Center X = 640, shifted down)
+    // Triangle Positions (Center X = 650)
     const trianglePositions = [
-      { x: 640, y: 355 }, // Row 1 (Apex)
-      { x: 595, y: 300 }, { x: 685, y: 300 }, // Row 2 (Middle)
-      { x: 550, y: 245 }, { x: 640, y: 245 }, { x: 730, y: 245 } // Row 3 (Base)
+      { x: 650, y: 350 }, // Row 1 (Apex)
+      { x: 605, y: 295 }, { x: 695, y: 295 }, // Row 2 (Middle)
+      { x: 560, y: 240 }, { x: 650, y: 240 }, { x: 740, y: 240 } // Row 3 (Base)
     ];
 
     trianglePositions.forEach((pos, idx) => {
-      // Outer Badge Circle
+      // Outer Rosette Circle
       page.drawCircle({
         x: pos.x,
         y: pos.y,
@@ -167,8 +153,6 @@ export async function POST(request: Request) {
         color: rgb(1, 1, 1),
       });
     });
-
-
 
     const pdfBytes = await pdfDoc.save();
 
