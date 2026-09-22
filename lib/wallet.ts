@@ -130,7 +130,23 @@ export async function adjustStudentWallet(
   const cleanEmail = email.toLowerCase().trim();
 
   if (!adminDb || !hasAdminCredentials) {
-    return { success: true, newBalance: 100 + amount };
+    const newBal = Math.max(0, 100 - (type === "SPEND" ? amount : -amount));
+    if (type === "SPEND") {
+      emailProvider.sendEmail({
+        to: cleanEmail,
+        subject: `Karma Coins Spend Confirmation (-${amount} Coins) | Botmartz`,
+        html: buildKarmaCoinsSpentEmail({
+          email: cleanEmail,
+          amount,
+          reason,
+          newBalance: newBal,
+          referenceId: referenceId || `tx_${Date.now()}`
+        })
+      }).catch((mailErr) => {
+        console.warn("Failed to dispatch fallback Karma spend email:", mailErr);
+      });
+    }
+    return { success: true, newBalance: newBal };
   }
 
   try {
