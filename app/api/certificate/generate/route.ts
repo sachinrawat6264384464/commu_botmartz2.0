@@ -43,76 +43,76 @@ export async function POST(request: Request) {
 
     // "Certificate of Completion" Header (Centered in Left Panel)
     page.drawText("Certificate", {
-      x: 140,
-      y: 520,
-      size: 40,
+      x: 125,
+      y: 518,
+      size: 46,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
     page.drawText("of Completion", {
-      x: 175,
-      y: 488,
-      size: 22,
+      x: 168,
+      y: 482,
+      size: 26,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
-    // Project Title (Centered, In BLACK)
-    const titleX = Math.max(35, 245 - Math.min(title.length * 3.5, 200));
+    // Project Title (Centered, In BOLD BLACK)
+    const titleX = Math.max(30, 240 - Math.min(title.length * 4, 200));
     page.drawText(title, {
       x: titleX,
-      y: 425,
-      size: 14,
+      y: 422,
+      size: 16,
       font: fontBold,
       color: rgb(0.1, 0.15, 0.25), // BLACK
     });
 
     // Certify Intro
     page.drawText("This is to proudly certify that", {
-      x: 175,
-      y: 370,
-      size: 11,
+      x: 165,
+      y: 368,
+      size: 12,
       font: fontRegular,
       color: rgb(0.3, 0.35, 0.45),
     });
 
     // ONLY ONE Candidate Name (Dynamic Logged-in User)
-    const nameX = Math.max(50, 245 - (recipientName.length * 7));
+    const nameX = Math.max(40, 240 - (recipientName.length * 8.5));
     page.drawText(recipientName, {
       x: nameX,
-      y: 300,
-      size: 36,
+      y: 298,
+      size: 42,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
     // Blue Underline
     page.drawLine({
-      start: { x: 130, y: 288 },
-      end: { x: 360, y: 288 },
-      thickness: 3,
+      start: { x: 110, y: 285 },
+      end: { x: 370, y: 285 },
+      thickness: 4,
       color: rgb(0, 0.4, 1),
     });
 
-    // Description Paragraph
+    // Description Paragraph (Larger & Crisp)
     page.drawText(`for the successful completion of the program, validating practical skills in using`, {
-      x: 50,
-      y: 235,
-      size: 9.5,
+      x: 42,
+      y: 232,
+      size: 10.5,
       font: fontRegular,
-      color: rgb(0.2, 0.25, 0.35),
+      color: rgb(0.15, 0.2, 0.3),
     });
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
-      x: 50,
-      y: 218,
-      size: 9.5,
+      x: 42,
+      y: 214,
+      size: 10.5,
       font: fontRegular,
-      color: rgb(0.2, 0.25, 0.35),
+      color: rgb(0.15, 0.2, 0.3),
     });
 
-    // 3. Dynamic Badges Overlay in Blue Ribbon Column (Triangle/Pyramid Formation)
+    // 3. Dynamic Scalloped Badges Overlay in Blue Ribbon Column (Triangle Formation)
     const badgeColors = [
       rgb(0.95, 0.35, 0.55), // Pink
       rgb(0.95, 0.55, 0.2),  // Orange
@@ -125,46 +125,56 @@ export async function POST(request: Request) {
     // Triangle Positions (Center X = 650)
     const trianglePositions = [
       { x: 650, y: 350 }, // Row 1 (Apex)
-      { x: 605, y: 295 }, { x: 695, y: 295 }, // Row 2 (Middle)
-      { x: 560, y: 240 }, { x: 650, y: 240 }, { x: 740, y: 240 } // Row 3 (Base)
+      { x: 595, y: 285 }, { x: 705, y: 285 }, // Row 2 (Middle)
+      { x: 540, y: 220 }, { x: 650, y: 220 }, { x: 760, y: 220 } // Row 3 (Base)
     ];
 
     trianglePositions.forEach((pos, idx) => {
-      // Outer Scalloped Rosette Petals (Simulated via overlapping circles)
-      const numPetals = 8;
+      const color = badgeColors[idx];
+
+      // 12 Outer Scalloped Petals
+      const numPetals = 12;
       for (let i = 0; i < numPetals; i++) {
         const angle = (i * Math.PI * 2) / numPetals;
         page.drawCircle({
-          x: pos.x + Math.cos(angle) * 5,
-          y: pos.y + Math.sin(angle) * 5,
-          size: 16,
-          color: badgeColors[idx],
+          x: pos.x + Math.cos(angle) * 11,
+          y: pos.y + Math.sin(angle) * 11,
+          size: 13,
+          color,
         });
       }
 
-      // Main Badge Body Circle
+      // Main Center Body
       page.drawCircle({
         x: pos.x,
         y: pos.y,
-        size: 19,
-        color: badgeColors[idx],
+        size: 23,
+        color,
       });
 
-      // White Stitched Inner Ring
+      // White Dashed / Stitched Inner Ring
       page.drawCircle({
         x: pos.x,
         y: pos.y,
-        size: 14,
+        size: 17,
         borderColor: rgb(1, 1, 1),
-        borderWidth: 1.5,
+        borderWidth: 1.8,
       });
 
-      // Center White Emblem Dot
+      // Inner Solid Emblem Disc
       page.drawCircle({
         x: pos.x,
         y: pos.y,
-        size: 6,
+        size: 10,
         color: rgb(1, 1, 1),
+      });
+
+      // Center Color Star Dot
+      page.drawCircle({
+        x: pos.x,
+        y: pos.y,
+        size: 5,
+        color,
       });
     });
 
