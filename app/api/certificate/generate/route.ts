@@ -32,19 +32,19 @@ export async function POST(request: Request) {
       height,
     });
 
-    // 2. Single Solid White Rectangle Mask (Starts right below "of Completion" header at y: 140)
+    // 2. Single Solid White Rectangle Mask (Positioned below "of Completion" header at y: 140 to 450)
     page.drawRectangle({
       x: 25,
       y: 140,
       width: 450,
-      height: 325,
+      height: 310,
       color: rgb(1, 1, 1),
     });
 
     // Project Title (In BLACK)
     page.drawText(title, {
       x: 50,
-      y: 435,
+      y: 420,
       size: 16,
       font: fontBold,
       color: rgb(0.1, 0.15, 0.25),
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     // Certify Intro
     page.drawText("This is to proudly certify that", {
       x: 180,
-      y: 375,
+      y: 365,
       size: 12,
       font: fontRegular,
       color: rgb(0.3, 0.35, 0.45),
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     // ONLY ONE Candidate Name (Dynamic Logged-in User)
     page.drawText(recipientName, {
       x: 245 - (recipientName.length * 6),
-      y: 305,
+      y: 295,
       size: 38,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
@@ -70,16 +70,16 @@ export async function POST(request: Request) {
 
     // Blue Underline
     page.drawLine({
-      start: { x: 140, y: 292 },
-      end: { x: 350, y: 292 },
+      start: { x: 140, y: 282 },
+      end: { x: 350, y: 282 },
       thickness: 3,
       color: rgb(0, 0.4, 1),
     });
 
     // Description Paragraph
-    page.drawText(`for the successful completion of the course, validating practical skills in using`, {
+    page.drawText(`for the successful completion of the program, validating practical skills in using`, {
       x: 50,
-      y: 235,
+      y: 230,
       size: 10,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
@@ -87,11 +87,12 @@ export async function POST(request: Request) {
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
       x: 50,
-      y: 217,
+      y: 212,
       size: 10,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
+
 
 
 

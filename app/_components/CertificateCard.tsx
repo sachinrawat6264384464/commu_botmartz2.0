@@ -74,18 +74,18 @@ export default function CertificateCard({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* 2. SINGLE SOLID WHITE MASK PANEL (Positioned right below "of Completion" at top-[22.5%] to eliminate gap) */}
-        <div className="absolute left-[2.8%] top-[22.5%] w-[53%] h-[54%] bg-white z-10 flex flex-col items-center justify-between text-center px-4 py-1">
+        {/* 2. SINGLE SOLID WHITE MASK PANEL (Safely positioned below "of Completion" at top-[25.5%] to avoid clipping) */}
+        <div className="absolute left-[2.8%] top-[25.5%] w-[53%] h-[50%] bg-white z-10 flex flex-col items-center justify-between text-center px-4 py-2">
           
           {/* Project Title (Directly below "of Completion" in BLACK) */}
-          <div className="w-full pt-1">
-            <h4 className="text-sm sm:text-base lg:text-xl font-extrabold text-slate-900 tracking-wide font-sans max-w-lg mx-auto leading-snug">
+          <div className="w-full">
+            <h4 className="text-xs sm:text-sm lg:text-lg font-extrabold text-slate-900 tracking-wide font-sans max-w-lg mx-auto leading-snug">
               {formattedTitle}
             </h4>
           </div>
 
           {/* Certify Intro */}
-          <p className="text-xs sm:text-sm font-sans font-semibold text-slate-600 tracking-wide">
+          <p className="text-xs sm:text-sm font-sans font-medium text-slate-600 tracking-wide">
             This is to proudly certify that
           </p>
 
@@ -99,10 +99,11 @@ export default function CertificateCard({
 
           {/* Description Paragraph */}
           <p className="text-xs sm:text-sm lg:text-base text-slate-700 font-sans leading-relaxed max-w-lg pb-1">
-            for the successful completion of the course, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
+            for the successful completion of the program, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
           </p>
 
         </div>
+
 
 
 
