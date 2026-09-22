@@ -71,7 +71,6 @@ export default function CertificateCard({
         <img
           src="/Blue and Yellow Modern Certificate of Completion.png"
           alt="Certificate of Completion Template"
-          crossOrigin="anonymous"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 

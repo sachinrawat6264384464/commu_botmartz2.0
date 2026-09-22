@@ -79,12 +79,14 @@ function CertificatesContent() {
   const handleDownloadPDF = async () => {
     if (!result) return;
     setDownloading(true);
+    let downloaded = false;
+
+    // Method 1: High-res DOM Capture (1:1 visual fidelity)
     try {
       const certElement = document.getElementById("certificate-download-card");
       if (certElement) {
-        // Render 1:1 pixel-perfect high-res canvas from DOM
         const canvas = await html2canvas(certElement, {
-          scale: 3,
+          scale: 2,
           useCORS: true,
           allowTaint: true,
           logging: false,
@@ -102,41 +104,47 @@ function CertificatesContent() {
         const pdfHeight = pdf.internal.pageSize.getHeight();
         pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
         pdf.save(`botmartz-${result.certificateId || result.id}.pdf`);
-        setDownloading(false);
-        return;
+        downloaded = true;
       }
-
-      // Fallback: Server-side PDF generation
-      const res = await fetch("/api/certificate/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: result.name,
-          eventTitle: result.eventTitle || result.programTitle,
-          certificateId: result.certificateId || result.id,
-          issueDate: result.issueDate
-        })
-      });
-
-      if (res.ok) {
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `botmartz-${result.certificateId || result.id}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-      } else {
-        alert("Failed to download PDF certificate.");
-      }
-    } catch (e) {
-      console.error("PDF Download error:", e);
-      alert("Network error generating PDF.");
-    } finally {
-      setDownloading(false);
+    } catch (domErr) {
+      console.warn("DOM PDF Capture failed, switching to server generator:", domErr);
     }
+
+    // Method 2: Server-Side API Generator Fallback
+    if (!downloaded) {
+      try {
+        const res = await fetch("/api/certificate/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: result.name,
+            eventTitle: result.eventTitle || result.programTitle,
+            certificateId: result.certificateId || result.id,
+            issueDate: result.issueDate
+          })
+        });
+
+        if (res.ok) {
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `botmartz-${result.certificateId || result.id}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+          downloaded = true;
+        } else {
+          alert("Unable to generate PDF certificate from server.");
+        }
+      } catch (apiErr) {
+        console.error("API PDF Generation Error:", apiErr);
+        alert("Network error generating PDF certificate.");
+      }
+    }
+
+    setDownloading(false);
   };
 
   return (
