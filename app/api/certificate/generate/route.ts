@@ -81,40 +81,48 @@ export async function POST(request: Request) {
       color: rgb(0.2, 0.25, 0.35),
     });
 
-    // 4. Dynamic Badges Overlay in Blue Ribbon Column
-    const badgeLabels = ["Foundations & AI", "Python Agents", "MCP Architecture", "Linux & Cloud GCP", "AWS Services"];
+    // 4. Dynamic Badges Overlay in Blue Ribbon Column (Triangle/Pyramid Layout, No Text Names)
     const badgeColors = [
-      rgb(0.95, 0.35, 0.55),
-      rgb(0.95, 0.55, 0.2),
-      rgb(0.6, 0.35, 0.9),
-      rgb(0.95, 0.3, 0.35),
-      rgb(1, 0.78, 0)
+      rgb(0.95, 0.35, 0.55), // Pink
+      rgb(0.95, 0.55, 0.2),  // Orange
+      rgb(0.6, 0.35, 0.9),   // Purple
+      rgb(0.95, 0.3, 0.35),  // Red
+      rgb(1, 0.78, 0),       // Amber Gold
+      rgb(0.1, 0.75, 0.5)    // Emerald
     ];
 
-    badgeLabels.forEach((label, idx) => {
-      const by = 380 - idx * 46;
-      page.drawRectangle({
-        x: 520,
-        y: by - 8,
-        width: 240,
-        height: 30,
-        color: rgb(1, 1, 1),
-        opacity: 0.18,
-      });
+    // Triangle Positions (Center X = 640)
+    const trianglePositions = [
+      { x: 640, y: 395 }, // Row 1 (Apex)
+      { x: 595, y: 340 }, { x: 685, y: 340 }, // Row 2 (Middle)
+      { x: 550, y: 285 }, { x: 640, y: 285 }, { x: 730, y: 285 } // Row 3 (Base)
+    ];
+
+    trianglePositions.forEach((pos, idx) => {
+      // Outer Badge Circle
       page.drawCircle({
-        x: 538,
-        y: by + 7,
-        size: 10,
+        x: pos.x,
+        y: pos.y,
+        size: 18,
         color: badgeColors[idx],
       });
-      page.drawText(label, {
-        x: 558,
-        y: by + 3,
-        size: 10.5,
-        font: fontBold,
+      // Inner Ring
+      page.drawCircle({
+        x: pos.x,
+        y: pos.y,
+        size: 13,
+        borderColor: rgb(1, 1, 1),
+        borderWidth: 1.8,
+      });
+      // Center Star Dot
+      page.drawCircle({
+        x: pos.x,
+        y: pos.y,
+        size: 5,
         color: rgb(1, 1, 1),
       });
     });
+
 
     const pdfBytes = await pdfDoc.save();
 
