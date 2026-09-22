@@ -74,23 +74,22 @@ export default function CertificateCard({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* 2. DYNAMIC CANDIDATE NAME OVERLAY (Covers sample name in template) */}
-        <div className="absolute left-[6.8%] top-[45.8%] w-[48%] bg-white py-1 z-10">
-          <h3 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-tight">
+        {/* 2. DYNAMIC CANDIDATE NAME OVERLAY (Cleanly covers "Sachin Rawat" in template, removes duplicate line) */}
+        <div className="absolute left-[6.5%] top-[46.2%] w-[46%] h-[10%] bg-white flex items-end pb-1 z-10">
+          <h3 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none">
             {candidateName}
           </h3>
-          <div className="w-full h-[3px] bg-[#0066FF] rounded-full mt-1.5" />
         </div>
 
-        {/* 3. DYNAMIC PROJECT TITLE / DESCRIPTION OVERLAY */}
-        <div className="absolute left-[6.8%] top-[58.5%] w-[48%] bg-white py-1 z-10">
+        {/* 3. DYNAMIC PROJECT TITLE / DESCRIPTION OVERLAY (Cleanly covers original description in template) */}
+        <div className="absolute left-[6.5%] top-[59.5%] w-[47%] h-[14%] bg-white z-10">
           <p className="text-[10px] sm:text-xs lg:text-sm text-slate-800 font-sans leading-relaxed">
             for the successful completion of the <strong className="font-extrabold text-slate-900">{formattedTitle}</strong>, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
           </p>
         </div>
 
-        {/* 4. DYNAMIC BADGES EARNED TRIANGLE/PYRAMID OVERLAY (No text names, purely shape badges) */}
-        <div className="absolute left-[58.5%] top-[27.5%] w-[35%] max-h-[48%] flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 z-10 px-1">
+        {/* 4. DYNAMIC BADGES EARNED TRIANGLE OVERLAY (Moved slightly down for perfect centering) */}
+        <div className="absolute left-[58.5%] top-[34.5%] w-[35%] max-h-[44%] flex flex-col items-center justify-center gap-1.5 sm:gap-2.5 z-10 px-1">
           {/* Triangle Row 1: 1 Badge (Top Apex) */}
           <div className="flex justify-center">
             <BadgeRosette color={badgeList[0]?.color || "fill-pink-500"} icon={badgeList[0]?.icon || Heart} />
@@ -109,6 +108,7 @@ export default function CertificateCard({
             <BadgeRosette color={badgeList[5]?.color || "fill-emerald-400"} icon={badgeList[5]?.icon || Award} />
           </div>
         </div>
+
 
       </div>
     </div>

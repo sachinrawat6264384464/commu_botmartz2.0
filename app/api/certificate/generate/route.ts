@@ -32,10 +32,10 @@ export async function POST(request: Request) {
       height,
     });
 
-    // 2. Dynamic Candidate Name Overlay (Covers sample name in template)
+    // 2. Dynamic Candidate Name Overlay (Covers sample name in template, removes duplicate line)
     page.drawRectangle({
       x: 55,
-      y: 255,
+      y: 260,
       width: 410,
       height: 60,
       color: rgb(1, 1, 1),
@@ -49,19 +49,12 @@ export async function POST(request: Request) {
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
-    page.drawLine({
-      start: { x: 55, y: 265 },
-      end: { x: 380, y: 265 },
-      thickness: 2.5,
-      color: rgb(0, 0.4, 1),
-    });
-
     // 3. Dynamic Description Overlay
     page.drawRectangle({
       x: 55,
-      y: 190,
+      y: 185,
       width: 410,
-      height: 55,
+      height: 65,
       color: rgb(1, 1, 1),
     });
 
@@ -81,7 +74,7 @@ export async function POST(request: Request) {
       color: rgb(0.2, 0.25, 0.35),
     });
 
-    // 4. Dynamic Badges Overlay in Blue Ribbon Column (Triangle/Pyramid Layout, No Text Names)
+    // 4. Dynamic Badges Overlay in Blue Ribbon Column (Triangle Layout, Shifted Slightly Down)
     const badgeColors = [
       rgb(0.95, 0.35, 0.55), // Pink
       rgb(0.95, 0.55, 0.2),  // Orange
@@ -91,11 +84,11 @@ export async function POST(request: Request) {
       rgb(0.1, 0.75, 0.5)    // Emerald
     ];
 
-    // Triangle Positions (Center X = 640)
+    // Triangle Positions (Center X = 640, shifted down)
     const trianglePositions = [
-      { x: 640, y: 395 }, // Row 1 (Apex)
-      { x: 595, y: 340 }, { x: 685, y: 340 }, // Row 2 (Middle)
-      { x: 550, y: 285 }, { x: 640, y: 285 }, { x: 730, y: 285 } // Row 3 (Base)
+      { x: 640, y: 355 }, // Row 1 (Apex)
+      { x: 595, y: 300 }, { x: 685, y: 300 }, // Row 2 (Middle)
+      { x: 550, y: 245 }, { x: 640, y: 245 }, { x: 730, y: 245 } // Row 3 (Base)
     ];
 
     trianglePositions.forEach((pos, idx) => {
@@ -122,6 +115,7 @@ export async function POST(request: Request) {
         color: rgb(1, 1, 1),
       });
     });
+
 
 
     const pdfBytes = await pdfDoc.save();
