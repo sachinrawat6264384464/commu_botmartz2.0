@@ -74,35 +74,36 @@ export default function CertificateCard({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* 2. SINGLE SOLID WHITE MASK PANEL (Completely erases old template text to eliminate ghosting and double names) */}
-        <div className="absolute left-[2.8%] top-[27.5%] w-[53%] h-[50%] bg-white z-10 flex flex-col items-center justify-between text-center px-4 py-2">
+        {/* 2. SINGLE SOLID WHITE MASK PANEL (Compact layout, larger fonts, black project title, tight vertical spacing) */}
+        <div className="absolute left-[2.8%] top-[29.0%] w-[53%] h-[47.5%] bg-white z-10 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 px-4 py-1">
           
-          {/* Project Title */}
+          {/* Project Title (In BLACK) */}
           <div className="w-full">
-            <h4 className="text-xs sm:text-sm lg:text-base font-extrabold text-[#0066FF] tracking-wide font-sans max-w-md mx-auto">
+            <h4 className="text-sm sm:text-base lg:text-xl font-extrabold text-slate-900 tracking-wide font-sans max-w-lg mx-auto leading-snug">
               {formattedTitle}
             </h4>
           </div>
 
           {/* Certify Intro */}
-          <p className="text-[11px] sm:text-xs font-sans font-medium text-slate-700">
+          <p className="text-xs sm:text-sm font-sans font-semibold text-slate-600 tracking-wide">
             This is to proudly certify that
           </p>
 
-          {/* ONLY ONE Candidate Name (Dynamic Logged-in User Name) + Blue Underline */}
-          <div className="w-full">
-            <h3 className="text-2xl sm:text-4xl lg:text-5xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none pb-1">
+          {/* Candidate Name (Larger Font) + Blue Underline */}
+          <div className="w-full space-y-1">
+            <h3 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none">
               {candidateName}
             </h3>
-            <div className="w-48 sm:w-64 h-[3px] bg-[#0066FF] mx-auto rounded-full mt-1.5" />
+            <div className="w-48 sm:w-64 lg:w-72 h-[3.5px] bg-[#0066FF] mx-auto rounded-full" />
           </div>
 
           {/* Description Paragraph */}
-          <p className="text-[10px] sm:text-xs lg:text-sm text-slate-700 font-sans leading-relaxed max-w-md">
+          <p className="text-xs sm:text-sm lg:text-base text-slate-700 font-sans leading-relaxed max-w-lg pt-1">
             for the successful completion of the course, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
           </p>
 
         </div>
+
 
 
 

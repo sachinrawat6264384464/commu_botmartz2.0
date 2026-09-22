@@ -41,57 +41,58 @@ export async function POST(request: Request) {
       color: rgb(1, 1, 1),
     });
 
-    // Project Title
+    // Project Title (In BLACK)
     page.drawText(title, {
       x: 50,
       y: 400,
-      size: 15,
+      size: 16,
       font: fontBold,
-      color: rgb(0, 0.4, 1),
+      color: rgb(0.1, 0.15, 0.25), // BLACK
     });
 
     // Certify Intro
     page.drawText("This is to proudly certify that", {
       x: 180,
-      y: 345,
+      y: 355,
       size: 12,
       font: fontRegular,
-      color: rgb(0.25, 0.3, 0.4),
+      color: rgb(0.3, 0.35, 0.45),
     });
 
     // ONLY ONE Candidate Name (Dynamic Logged-in User)
     page.drawText(recipientName, {
       x: 245 - (recipientName.length * 6),
-      y: 285,
-      size: 34,
+      y: 295,
+      size: 38,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
     });
 
     // Blue Underline
     page.drawLine({
-      start: { x: 140, y: 272 },
-      end: { x: 350, y: 272 },
-      thickness: 2.5,
+      start: { x: 140, y: 282 },
+      end: { x: 350, y: 282 },
+      thickness: 3,
       color: rgb(0, 0.4, 1),
     });
 
     // Description Paragraph
     page.drawText(`for the successful completion of the course, validating practical skills in using`, {
       x: 50,
-      y: 215,
-      size: 9.5,
+      y: 230,
+      size: 10,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
       x: 50,
-      y: 198,
-      size: 9.5,
+      y: 212,
+      size: 10,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
     });
+
 
 
 
