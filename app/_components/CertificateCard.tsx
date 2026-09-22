@@ -74,11 +74,11 @@ export default function CertificateCard({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* 2. SINGLE SOLID WHITE MASK PANEL (Compact layout, larger fonts, black project title, tight vertical spacing) */}
-        <div className="absolute left-[2.8%] top-[29.0%] w-[53%] h-[47.5%] bg-white z-10 flex flex-col items-center justify-center text-center gap-1.5 sm:gap-2.5 px-4 py-1">
+        {/* 2. SINGLE SOLID WHITE MASK PANEL (Positioned right below "of Completion" at top-[22.5%] to eliminate gap) */}
+        <div className="absolute left-[2.8%] top-[22.5%] w-[53%] h-[54%] bg-white z-10 flex flex-col items-center justify-between text-center px-4 py-1">
           
-          {/* Project Title (In BLACK) */}
-          <div className="w-full">
+          {/* Project Title (Directly below "of Completion" in BLACK) */}
+          <div className="w-full pt-1">
             <h4 className="text-sm sm:text-base lg:text-xl font-extrabold text-slate-900 tracking-wide font-sans max-w-lg mx-auto leading-snug">
               {formattedTitle}
             </h4>
@@ -89,7 +89,7 @@ export default function CertificateCard({
             This is to proudly certify that
           </p>
 
-          {/* Candidate Name (Larger Font) + Blue Underline */}
+          {/* Candidate Name + Blue Underline */}
           <div className="w-full space-y-1">
             <h3 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none">
               {candidateName}
@@ -98,11 +98,12 @@ export default function CertificateCard({
           </div>
 
           {/* Description Paragraph */}
-          <p className="text-xs sm:text-sm lg:text-base text-slate-700 font-sans leading-relaxed max-w-lg pt-1">
+          <p className="text-xs sm:text-sm lg:text-base text-slate-700 font-sans leading-relaxed max-w-lg pb-1">
             for the successful completion of the course, validating practical skills in using AI tools to improve productivity, creativity, and professional performance.
           </p>
 
         </div>
+
 
 
 

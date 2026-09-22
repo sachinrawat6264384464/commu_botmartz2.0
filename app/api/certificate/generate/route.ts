@@ -32,28 +32,28 @@ export async function POST(request: Request) {
       height,
     });
 
-    // 2. Single Solid White Rectangle Mask (Completely erases old template text to eliminate ghosting & double names)
+    // 2. Single Solid White Rectangle Mask (Starts right below "of Completion" header at y: 140)
     page.drawRectangle({
       x: 25,
       y: 140,
       width: 450,
-      height: 290,
+      height: 325,
       color: rgb(1, 1, 1),
     });
 
     // Project Title (In BLACK)
     page.drawText(title, {
       x: 50,
-      y: 400,
+      y: 435,
       size: 16,
       font: fontBold,
-      color: rgb(0.1, 0.15, 0.25), // BLACK
+      color: rgb(0.1, 0.15, 0.25),
     });
 
     // Certify Intro
     page.drawText("This is to proudly certify that", {
       x: 180,
-      y: 355,
+      y: 375,
       size: 12,
       font: fontRegular,
       color: rgb(0.3, 0.35, 0.45),
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
     // ONLY ONE Candidate Name (Dynamic Logged-in User)
     page.drawText(recipientName, {
       x: 245 - (recipientName.length * 6),
-      y: 295,
+      y: 305,
       size: 38,
       font: fontBold,
       color: rgb(0, 0.4, 1), // #0066FF
@@ -70,8 +70,8 @@ export async function POST(request: Request) {
 
     // Blue Underline
     page.drawLine({
-      start: { x: 140, y: 282 },
-      end: { x: 350, y: 282 },
+      start: { x: 140, y: 292 },
+      end: { x: 350, y: 292 },
       thickness: 3,
       color: rgb(0, 0.4, 1),
     });
@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     // Description Paragraph
     page.drawText(`for the successful completion of the course, validating practical skills in using`, {
       x: 50,
-      y: 230,
+      y: 235,
       size: 10,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
 
     page.drawText(`AI tools to improve productivity, creativity, and professional performance.`, {
       x: 50,
-      y: 212,
+      y: 217,
       size: 10,
       font: fontRegular,
       color: rgb(0.2, 0.25, 0.35),
