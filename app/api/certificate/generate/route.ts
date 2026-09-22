@@ -32,6 +32,32 @@ export async function POST(request: Request) {
       height,
     });
 
+    // Header Mask Overlay (x: 25 to 475)
+    page.drawRectangle({
+      x: 25,
+      y: 445,
+      width: 450,
+      height: 115,
+      color: rgb(1, 1, 1),
+    });
+
+    page.drawText("Certificate", {
+      x: 80,
+      y: 505,
+      size: 42,
+      font: fontBold,
+      color: rgb(0, 0.4, 1), // #0066FF
+    });
+
+    page.drawText("of Completion", {
+      x: 80,
+      y: 472,
+      size: 22,
+      font: fontBold,
+      color: rgb(0, 0.4, 1), // #0066FF
+    });
+
+
     // 2. Single Solid White Rectangle Mask (Positioned below "of Completion" header at y: 140 to 450)
     page.drawRectangle({
       x: 25,
