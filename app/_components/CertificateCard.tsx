@@ -74,8 +74,8 @@ export default function CertificateCard({
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
-        {/* 1. DYNAMIC "Certificate of Completion" HEADER OVERLAY (Covering original template text and shifting right with pl-10 sm:pl-14) */}
-        <div className="absolute left-[2.8%] top-[3.5%] w-[53%] h-[21%] bg-white z-10 flex flex-col justify-center pl-10 sm:pl-14">
+        {/* 1. DYNAMIC "Certificate of Completion" HEADER OVERLAY (Centered alignment for "of Completion" under "Certificate") */}
+        <div className="absolute left-[2.8%] top-[3.5%] w-[53%] h-[21%] bg-white z-10 flex flex-col items-center justify-center text-center">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-[#0066FF] tracking-tight leading-none">
             Certificate
           </h1>
@@ -83,6 +83,7 @@ export default function CertificateCard({
             of Completion
           </h2>
         </div>
+
 
         {/* 2. SINGLE SOLID WHITE MASK PANEL (Safely positioned below "of Completion" at top-[25.5%] to avoid clipping) */}
         <div className="absolute left-[2.8%] top-[25.5%] w-[53%] h-[50%] bg-white z-10 flex flex-col items-center justify-between text-center px-4 py-2">
