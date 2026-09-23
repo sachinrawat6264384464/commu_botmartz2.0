@@ -45,7 +45,7 @@ function StudentLoginInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/profile";
-  const initialMode = searchParams.get("mode") === "signup" ? "signup" : "signup"; // Default to signup for high conversion
+  const initialMode = searchParams.get("mode") === "signup" ? "signup" : "signin";
 
   const {
     user,
@@ -59,17 +59,17 @@ function StudentLoginInner() {
     loginWithCustomToken
   } = useAuth();
 
-  // Primary mode state: signup vs signin
-  const [authMode, setAuthMode] = useState<"signup" | "signin">("signup");
+  // Primary mode state: signup vs signin (defaults to signin on /login route)
+  const [authMode, setAuthMode] = useState<"signup" | "signin">(initialMode);
   const [authMethod, setAuthMethod] = useState<"passcode" | "google" | "phone">("passcode");
 
   // Sync mode search param with authMode state
   useEffect(() => {
     const modeParam = searchParams.get("mode");
-    if (modeParam === "signin") {
-      setAuthMode("signin");
-    } else if (modeParam === "signup") {
+    if (modeParam === "signup") {
       setAuthMode("signup");
+    } else {
+      setAuthMode("signin");
     }
   }, [searchParams]);
 
@@ -684,7 +684,7 @@ function StudentLoginInner() {
                         </div>
                       </div>
                     ) : (
-                      <div className="p-3.5 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
+                      <div id="login-error-msg" data-testid="login-error-msg" className="p-3.5 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
                         <AlertCircle size={18} className="shrink-0 mt-0.5 text-rose-600" />
                         <span>{error}</span>
                       </div>
@@ -916,15 +916,16 @@ function StudentLoginInner() {
 
                       {/* PASSCODE SIGN IN */}
                       {authMethod === "passcode" && (
-                        <form onSubmit={handlePasscodeLogin} className="space-y-3.5 font-sans text-xs">
+                        <form id="login-form" data-testid="login-form" noValidate onSubmit={handlePasscodeLogin} className="space-y-3.5 font-sans text-xs">
                           <div>
                             <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
                               <Mail size={13} className="text-[#0066FF]" />
                               <span>Registered Email *</span>
                             </label>
                             <input
+                              id="email-input"
+                              data-testid="email-input"
                               type="email"
-                              required
                               value={passcodeForm.email}
                               onChange={(e) => setPasscodeForm({ ...passcodeForm, email: e.target.value })}
                               placeholder="student@college.edu"
@@ -938,8 +939,9 @@ function StudentLoginInner() {
                               <span>Passcode / Access Code *</span>
                             </label>
                             <input
-                              type="text"
-                              required
+                              id="password-input"
+                              data-testid="password-input"
+                              type="password"
                               value={passcodeForm.passcode}
                               onChange={(e) => setPasscodeForm({ ...passcodeForm, passcode: e.target.value })}
                               placeholder="e.g. BM-849201"
@@ -951,6 +953,8 @@ function StudentLoginInner() {
                           </div>
 
                           <button
+                            id="signin-btn"
+                            data-testid="signin-btn"
                             type="submit"
                             disabled={submitting}
                             className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-mono text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer border border-blue-400/30 disabled:opacity-50 mt-2"
@@ -963,7 +967,7 @@ function StudentLoginInner() {
                             ) : (
                               <>
                                 <Lock size={15} className="text-cyan-300" />
-                                <span>Sign In with Passcode &rarr;</span>
+                                <span>Sign In</span>
                               </>
                             )}
                           </button>
