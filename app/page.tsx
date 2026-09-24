@@ -135,8 +135,6 @@ export default async function CommunityHomePage() {
         </div>
       </section>
 
-
-
       {/* ── 2. THE 3-STEP OPERATING MACHINE ("HOW IT WORKS") ── */}
       <section className="py-20 bg-white border-b border-slate-200">
         <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
