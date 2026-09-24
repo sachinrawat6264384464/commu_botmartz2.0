@@ -39,24 +39,31 @@ export default async function CommunityHomePage() {
     <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
       {/* ── 1. HERO SECTION: FULL-WIDTH 2-COLUMN LAYOUT WITH AUTH FORM ── */}
-      <section className="relative pt-4 sm:pt-6 pb-12 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/50 via-slate-50/20 to-[#FAFCFF]">
+      <section className="relative pt-6 sm:pt-8 pb-16 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/60 via-slate-50/30 to-[#FAFCFF]">
+        {/* GPU-accelerated ambient glow background */}
+        <div className="absolute top-10 left-1/4 w-[600px] h-[500px] bg-gradient-to-tr from-blue-400/15 via-cyan-400/10 to-indigo-500/10 blur-[130px] pointer-events-none transform-gpu" />
+        
         <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             
             {/* LEFT COLUMN: HERO HEADLINE, SUBHEAD & METRICS */}
-            <div className="lg:col-span-7 flex flex-col items-start text-left space-y-4 sm:space-y-5">
+            <div className="lg:col-span-7 flex flex-col items-start text-left space-y-4 sm:space-y-6">
               
-              {/* Cohort 1 Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider shadow-2xs">
+              {/* Cohort 1 Live Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/90 border-2 border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider shadow-xs backdrop-blur-md">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0066FF] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#0066FF]"></span>
+                </span>
                 <Activity size={14} className="text-[#0066FF]" />
-                <span>Cohort 1: 14th Sept (Ganesh Chaturthi) – Diwali 2026</span>
+                <span>Cohort 1 Live: 14th Sept – Diwali 2026</span>
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.08] text-slate-950 font-sans">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.06] text-slate-950 font-sans">
                 Build Production Systems. <br />
-                <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-[#0284C7] bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-cyan-500 bg-clip-text text-transparent">
                   Ship Daily. Get Hired.
                 </span>
               </h1>
@@ -66,23 +73,23 @@ export default async function CommunityHomePage() {
                 The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>{TOTAL_SYSTEMS_COUNT}+ production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15+ partner companies and founder recommendation</strong>.
               </p>
 
-              {/* Quick Proof Metrics Grid - Moved Upper (Above Action Buttons) */}
+              {/* Quick Proof Metrics Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-2 font-mono text-xs text-left">
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-slate-900">{TOTAL_SYSTEMS_COUNT}+ Systems</div>
-                  <div className="text-[11px] text-slate-500">Multi-Domain Catalog</div>
+                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="text-lg sm:text-xl font-black text-slate-900 font-sans">{TOTAL_SYSTEMS_COUNT}+ Systems</div>
+                  <div className="text-[11px] text-slate-500 font-medium">Multi-Domain Catalog</div>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-[#0066FF]">15+ Companies</div>
-                  <div className="text-[11px] text-slate-500">Referral Guarantee</div>
+                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="text-lg sm:text-xl font-black text-[#0066FF] font-sans">15+ Companies</div>
+                  <div className="text-[11px] text-slate-500 font-medium">Referral Guarantee</div>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-purple-700">Indore Hub</div>
-                  <div className="text-[11px] text-slate-500">Offline Saturday Teardowns</div>
+                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-purple-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="text-lg sm:text-xl font-black text-purple-700 font-sans">Indore Hub</div>
+                  <div className="text-[11px] text-slate-500 font-medium">Saturday Teardowns</div>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                  <div className="text-lg sm:text-xl font-black text-emerald-700">100% Free</div>
-                  <div className="text-[11px] text-slate-500">For Verified Students</div>
+                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+                  <div className="text-lg sm:text-xl font-black text-emerald-700 font-sans">100% Free</div>
+                  <div className="text-[11px] text-slate-500 font-medium">For Verified Students</div>
                 </div>
               </div>
 
@@ -91,8 +98,9 @@ export default async function CommunityHomePage() {
                 <Link
                   href="/login"
                   prefetch={false}
-                  className="w-full sm:w-auto bg-[#0066FF] hover:bg-[#0052CC] text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer border border-blue-400/30 hover:scale-[1.02] active:scale-[0.98]"
                 >
+                  <Sparkles size={15} className="text-cyan-300" />
                   <span>Join 45-Day Cohort (Free)</span>
                   <ArrowRight size={15} />
                 </Link>
@@ -100,16 +108,16 @@ export default async function CommunityHomePage() {
                 <Link
                   href="/arena"
                   prefetch={false}
-                  className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border-2 border-slate-200 hover:border-blue-400 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 shadow-xs flex items-center justify-center gap-2"
                 >
-                  <Terminal size={15} className="text-blue-600" />
+                  <Terminal size={15} className="text-[#0066FF]" />
                   <span>Explore {TOTAL_SYSTEMS_COUNT}+ Projects Matrix</span>
                 </Link>
 
                 <Link
                   href="/arena/calendar"
                   prefetch={false}
-                  className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 border border-slate-200 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200/80 text-slate-800 border border-slate-300 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
                 >
                   <MapPin size={15} className="text-slate-600" />
                   <span>Indore Office Hours</span>
@@ -124,55 +132,6 @@ export default async function CommunityHomePage() {
             </div>
 
         </div>
-        </div>
-      </section>
-
-      {/* ── FEATURED ANNOUNCEMENT: HACK IT BROS '26 & CAMPUS TOUR ── */}
-      <section className="py-12 bg-gradient-to-r from-slate-950 via-[#19090D] to-slate-950 text-white border-b border-rose-500/30">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
-          <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/80 border-2 border-rose-500/50 shadow-2xl relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* Ambient Lighting */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-rose-600/15 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="lg:col-span-8 space-y-4 relative z-10">
-              <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs font-bold">
-                <span className="px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 uppercase tracking-wider flex items-center gap-1.5">
-                  <Flame size={13} className="text-rose-400 animate-pulse" />
-                  <span>UPCOMING HACKATHON 2026</span>
-                </span>
-                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-cyan-300 border border-blue-500/40 uppercase tracking-wider flex items-center gap-1.5">
-                  <ShieldCheck size={13} className="text-cyan-400" />
-                  <span>TECHNICAL PARTNER: BOTMARTZ AI SOLUTIONS</span>
-                </span>
-              </div>
-
-              <h2 className="text-3xl sm:text-5xl font-black text-white font-sans uppercase tracking-tight">
-                HACK IT <span className="text-rose-500 drop-shadow-[0_0_20px_rgba(244,63,94,0.6)]">BROS &apos;26</span>
-              </h2>
-
-              <p className="text-slate-300 text-xs sm:text-sm font-sans leading-relaxed max-w-2xl">
-                Presented by <strong>SlowBros LABS</strong> &bull; Technical Partner: <strong>Botmartz AI Solutions</strong>. Production build sprint on <strong>Sunday, 20th Sept 2026</strong>.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs">
-                <Link
-                  href="/community/events"
-                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-rose-600 text-white font-bold uppercase tracking-wider transition-all shadow-lg shadow-rose-600/30 flex items-center gap-2 cursor-pointer"
-                >
-                  <QrCode size={16} />
-                  <span>Scan Pass &amp; View QR Code &rarr;</span>
-                </Link>
-              </div>
-            </div>
-
-            <div className="lg:col-span-4 flex justify-center relative z-10">
-              <Link href="/community/events" className="group/poster cursor-pointer p-2.5 bg-slate-950 border border-rose-500/40 rounded-2xl shadow-xl hover:scale-105 transition-all max-w-[200px] overflow-hidden block">
-                <img src="/hack-it-bros-poster.png" alt="Hack It Bros 26 Poster" className="w-full h-auto rounded-xl object-cover" />
-              </Link>
-            </div>
-
-          </div>
         </div>
       </section>
 

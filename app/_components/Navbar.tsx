@@ -116,27 +116,26 @@ export default function CommunityNavbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b-2 border-slate-100 shadow-md transition-all duration-300">
       
-      {/* ── TOP ANNOUNCEMENT TICKER STRIP ── */}
-      <div className="w-full bg-gradient-to-r from-slate-950 via-[#1F080D] to-slate-950 text-white border-b border-rose-500/30 px-3 sm:px-8 lg:px-12 py-1.5 text-xs font-mono">
-        <div className="w-full max-w-[1700px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 sm:gap-4">
-          <div className="flex items-center gap-2 min-w-0 flex-wrap">
-            <span className="px-2 py-0.5 rounded-full bg-rose-600 text-white font-extrabold uppercase text-[9px] tracking-wider shrink-0 flex items-center gap-1 shadow-xs">
-              <Flame size={11} className="text-white animate-pulse" />
-              <span>UPCOMING HACKATHON</span>
-            </span>
-            <span className="truncate font-sans font-medium text-slate-200 text-[10px] sm:text-xs">
-              <strong className="text-white font-bold">HACK IT BROS &apos;26:</strong> SlowBros LABS &times; Botmartz &bull; <span className="text-rose-400 font-mono font-bold">20th Sept 2026</span>
-            </span>
-          </div>
-
-          <Link
-            href="/community/events"
-            className="px-3 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-bold text-[10px] sm:text-[11px] font-mono transition-all shrink-0 flex items-center gap-1 shadow-md shadow-rose-600/30 cursor-pointer self-end sm:self-auto"
-          >
-            <span>Scan Pass &amp; QR Code &rarr;</span>
-          </Link>
-        </div>
-      </div>
+      {/* Top Flash Announcement Bar */}
+      <a
+        href="https://classes.botmartz.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white py-2 px-3 sm:px-4 text-xs font-mono font-bold flex items-center justify-center gap-2 tracking-wide cursor-pointer transition-all duration-300 shadow-sm border-b border-blue-400/30 group"
+      >
+        <span className="relative flex h-2 w-2 shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-300"></span>
+        </span>
+        <Flame size={14} className="text-amber-300 animate-bounce shrink-0" />
+        <span className="truncate">
+          <strong>LIVE COHORT 1:</strong> DSA with Python Starting 5th Oct! Limited Seats.
+        </span>
+        <span className="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold text-white border border-white/30 shrink-0 group-hover:scale-105 transition-transform ml-1">
+          <span>Enroll Now</span>
+          <ExternalLink size={11} />
+        </span>
+      </a>
 
       <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
         
