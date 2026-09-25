@@ -121,19 +121,19 @@ export default function CommunityNavbar() {
         href="https://classes.botmartz.com/"
         target="_blank"
         rel="noopener noreferrer"
-        className="w-full bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white py-2 px-3 sm:px-4 text-xs font-mono font-bold flex items-center justify-center gap-2 tracking-wide cursor-pointer transition-all duration-300 shadow-sm border-b border-blue-400/30 group"
+        className="w-full bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white py-3 px-4 sm:px-6 text-sm sm:text-base font-sans font-bold flex items-center justify-center gap-2.5 sm:gap-3 tracking-wide cursor-pointer transition-all duration-300 shadow-md border-b border-blue-400/40 group"
       >
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-300"></span>
+        <span className="relative flex h-2.5 w-2.5 shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-80"></span>
+          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-300"></span>
         </span>
-        <Flame size={14} className="text-amber-300 animate-bounce shrink-0" />
+        <Flame size={18} className="text-amber-300 animate-bounce shrink-0" />
         <span className="truncate">
-          <strong>LIVE COHORT 1:</strong> DSA with Python Starting 5th Oct! Limited Seats.
+          <strong className="font-extrabold uppercase tracking-wider text-amber-200">LIVE COHORT 1:</strong> DSA with Python Starting 5th Oct! Limited Seats.
         </span>
-        <span className="inline-flex items-center gap-1 bg-white/20 hover:bg-white/30 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold text-white border border-white/30 shrink-0 group-hover:scale-105 transition-transform ml-1">
+        <span className="inline-flex items-center gap-1.5 bg-white/25 hover:bg-white/35 px-3.5 py-1 rounded-full text-xs sm:text-sm font-black text-white border border-white/40 shrink-0 group-hover:scale-105 transition-transform shadow-xs ml-1.5">
           <span>Enroll Now</span>
-          <ExternalLink size={11} />
+          <ExternalLink size={13} />
         </span>
       </a>
 
