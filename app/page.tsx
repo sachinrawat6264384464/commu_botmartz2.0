@@ -352,73 +352,141 @@ export default async function CommunityHomePage() {
         </div>
       </section>
 
-      {/* ── 4. INDORE OFFLINE HUB + VIRTUAL DISCORD RITUALS ── */}
-      <section className="py-20 bg-white border-b border-slate-200">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      {/* ── 4. WEEKLY LIVE RITUALS & CAREER ENGINE (ASYMMETRIC BENTO LAYOUT) ── */}
+      <section className="py-16 sm:py-20 bg-white border-b border-slate-200/80">
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto">
 
-          <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-xl">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1D3189]/8 border border-[#1D3189]/15 text-[#1D3189] font-sans text-xs font-bold uppercase tracking-wider mb-3">
+                <Calendar size={13} /> Weekly Live Rituals &amp; Mentorship
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight font-sans">
+                Beyond Code: Live Reviews &amp; Demo Days
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base font-sans mt-2 max-w-2xl">
+                Every week brings structured founder reviews, resume teardowns, and live engineering demos to turn your builds into offers.
+              </p>
+            </div>
 
+            <Link
+              href="/arena/calendar"
+              className="px-6 py-3 rounded-full bg-[#1D3189] hover:bg-[#070E54] text-white font-sans text-xs sm:text-sm font-bold transition-all shrink-0 inline-flex items-center gap-2 shadow-md"
+            >
+              <Calendar size={15} className="text-[#D9F83B]" />
+              <span>View Community Calendar</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          {/* Asymmetric Bento Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 font-sans">
+
+            {/* Left Tall Feature Card */}
+            <div
+              className="lg:col-span-5 rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden shadow-xl"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                backgroundSize: "48px 48px",
+              }}
+            >
               <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 text-slate-300 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-slate-700">
-                  <MapPin size={14} /> Indore Flagship Meetup &amp; Global Discord
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-bold uppercase tracking-wider mb-5">
+                  Saturday &bull; 5:00 PM – 7:00 PM IST
                 </div>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4 font-sans">
-                  Saturday Indore Office Hours &amp; Architecture Teardowns
-                </h2>
-                <p className="text-slate-300 text-xs sm:text-sm font-mono leading-relaxed mb-6">
-                  Every Saturday from <strong>5:00 PM to 7:00 PM IST</strong>. In-person meetups at the Indore AI Hub unlock whenever 50+ builders RSVP (otherwise hosted live online via Discord Voice Stage) with 1-on-1 architecture reviews with Founder Soham Sharma.
+                <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug mb-3">
+                  Indore AI Hub &amp; Live Architecture Teardowns
+                </h3>
+                <p className="text-blue-100/85 text-sm leading-relaxed mb-6">
+                  In-person meetups at the Indore AI Hub unlock whenever 50+ builders RSVP (or join live online) for 1-on-1 architecture audits and bug fixes with Founder Soham Sharma.
                 </p>
-
-                <div className="flex flex-wrap gap-3 font-mono text-xs">
-                  <Link
-                    href="/arena/calendar"
-                    className="px-6 py-3 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider transition-all flex items-center gap-2"
-                  >
-                    <Calendar size={14} />
-                    <span>Sync Lu.ma Calendar</span>
-                  </Link>
-
-                  <a
-                    href="https://discord.gg/k75ZpEnzp"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold uppercase tracking-wider transition-all flex items-center gap-2"
-                  >
-                    <span>Join Discord Stage</span>
-                    <ExternalLink size={14} />
-                  </a>
-                </div>
               </div>
 
-              {/* Weekly Rituals Schedule */}
-              <div className="space-y-3 font-mono text-xs">
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
-                  <div className="flex items-center justify-between text-amber-400 font-bold mb-1">
-                    <span>SATURDAY 5:00 PM – 7:00 PM IST</span>
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px]">Flagship</span>
-                  </div>
-                  <div className="font-bold text-white text-sm font-sans">Indore In-Person (50+ RSVPs) &amp; Virtual Stage</div>
-                  <p className="text-slate-400 text-[11px] mt-0.5">Code architecture audits, live bug fixes, and 1-on-1 project reviews.</p>
+              <div className="pt-5 border-t border-white/15 grid grid-cols-3 gap-3 text-center">
+                <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
+                  <div className="text-lg sm:text-xl font-black text-[#D9F83B]">50+</div>
+                  <div className="text-[11px] text-blue-100/80">RSVP Trigger</div>
                 </div>
+                <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
+                  <div className="text-lg sm:text-xl font-black text-white">1-on-1</div>
+                  <div className="text-[11px] text-blue-100/80">Code Audits</div>
+                </div>
+                <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
+                  <div className="text-lg sm:text-xl font-black text-[#D9F83B]">15+</div>
+                  <div className="text-[11px] text-blue-100/80">Hiring Partners</div>
+                </div>
+              </div>
+            </div>
 
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
-                  <div className="flex items-center justify-between text-blue-400 font-bold mb-1">
-                    <span>WEDNESDAY 6:00 PM IST</span>
-                    <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 text-[10px]">Career</span>
-                  </div>
-                  <div className="font-bold text-white text-sm font-sans">Resume Teardown &amp; LinkedIn Profile Audit</div>
-                  <p className="text-slate-400 text-[11px] mt-0.5">ATS optimization, GitHub proof-of-work pinned carousels, and HR cold pitches.</p>
-                </div>
+            {/* Right Bento Stack */}
+            <div className="lg:col-span-7 flex flex-col gap-5">
 
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800">
-                  <div className="flex items-center justify-between text-emerald-400 font-bold mb-1">
-                    <span>THURSDAY 7:00 PM IST</span>
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[10px]">Demo Day</span>
+              {/* Top Wide Card */}
+              <Link
+                href="/arena/career-checklist"
+                className="group p-6 sm:p-7 rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              >
+                <div className="space-y-2 max-w-xl">
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-[11px] font-bold uppercase tracking-wider">
+                    Wednesday &bull; 6:00 PM IST &bull; Career
                   </div>
-                  <div className="font-bold text-white text-sm font-sans">Showcase Thursdays</div>
-                  <p className="text-slate-400 text-[11px] mt-0.5">Students demo live working systems to peers and invited engineering leads.</p>
+                  <h3 className="text-xl font-bold text-slate-950 group-hover:text-[#1D3189] transition-colors">
+                    Resume Teardown &amp; LinkedIn Profile Audit
+                  </h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    ATS optimization, GitHub proof-of-work pinned carousels, and direct HR cold-pitch templates reviewed live.
+                  </p>
                 </div>
+                <span className="w-10 h-10 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center shrink-0 transition-colors">
+                  <ArrowRight size={16} />
+                </span>
+              </Link>
+
+              {/* Bottom 2 Side-by-Side Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 flex-1">
+                <Link
+                  href="/showcase"
+                  className="group p-6 rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-[11px] font-bold uppercase tracking-wider mb-3">
+                      Thursday &bull; 7:00 PM IST
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-1.5">
+                      Showcase Thursdays
+                    </h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Demo live working systems to peers and invited engineering leads.
+                    </p>
+                  </div>
+                  <div className="pt-4 mt-4 border-t border-slate-200/70 flex items-center justify-between text-xs font-bold text-[#1D3189]">
+                    <span>Explore Showcases</span>
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+
+                <Link
+                  href="/arena/daily-log"
+                  className="group p-6 rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-bold uppercase tracking-wider mb-3">
+                      Daily &bull; Proof of Work
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-1.5">
+                      Daily Commits &amp; Karma
+                    </h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Log daily progress, clear technical bounties, and climb the builder leaderboard.
+                    </p>
+                  </div>
+                  <div className="pt-4 mt-4 border-t border-slate-200/70 flex items-center justify-between text-xs font-bold text-[#1D3189]">
+                    <span>Submit Daily Log</span>
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
               </div>
 
             </div>
