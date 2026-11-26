@@ -237,28 +237,28 @@ export default async function CommunityHomePage() {
             {/* Step 3 */}
             <Link
               href="/virtual-ai-internship#pricing"
-              className="group relative bg-white rounded-2xl border border-slate-200/90 p-7 sm:p-8 shadow-sm hover:shadow-xl hover:border-[#1D3189]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+              className="group relative bg-gradient-to-br from-[#1D3189] to-[#070E54] rounded-2xl border border-[#1D3189] p-7 sm:p-8 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden text-white"
             >
-              <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 group-hover:bg-[#1D3189] transition-colors duration-300" />
-              <span className="absolute top-4 right-6 text-6xl font-black text-slate-100 group-hover:text-[#1D3189]/10 transition-colors select-none font-sans">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-[#D9F83B]" />
+              <span className="absolute top-4 right-6 text-6xl font-black text-white/10 group-hover:text-[#D9F83B]/20 transition-colors select-none font-sans">
                 03
               </span>
 
               <div className="relative z-10">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-800 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-bold uppercase tracking-wider mb-5">
                   Step 03
                 </div>
-                <h3 className="text-xl font-bold text-slate-950 mb-2.5 font-sans">
+                <h3 className="text-xl font-bold text-white mb-2.5 font-sans">
                   Founder Recommendation &amp; Referral
                 </h3>
-                <p className="text-slate-600 text-sm font-sans leading-relaxed">
+                <p className="text-blue-100/85 text-sm font-sans leading-relaxed">
                   Pass strict code review on your Insane Project to unlock a personalized recommendation from Founder Soham Sharma and direct job referral assistance to 15 partner companies.
                 </p>
               </div>
 
-              <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
+              <div className="relative z-10 pt-5 mt-7 border-t border-white/15 flex items-center justify-between text-[#D9F83B] font-sans text-sm font-bold">
                 <span>View Plans (Free / ₹299 / ₹1,999)</span>
-                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-colors">
+                <span className="w-8 h-8 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center group-hover:scale-105 transition-transform">
                   <ArrowRight size={15} />
                 </span>
               </div>
