@@ -440,8 +440,8 @@ export default async function CommunityHomePage() {
                     ATS optimization, GitHub proof-of-work pinned carousels, and direct HR cold-pitch templates reviewed live.
                   </p>
                 </div>
-                <span className="w-10 h-10 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center shrink-0 transition-colors">
-                  <ArrowRight size={16} />
+                <span className="w-10 h-10 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center shrink-0 transition-all duration-300">
+                  <ArrowRight size={16} className="transition-transform duration-300 group-hover:-rotate-45" />
                 </span>
               </Link>
 
@@ -464,7 +464,9 @@ export default async function CommunityHomePage() {
                   </div>
                   <div className="pt-4 mt-4 border-t border-slate-200/70 flex items-center justify-between text-xs font-bold text-[#1D3189]">
                     <span>Explore Showcases</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    <span className="w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
+                      <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
+                    </span>
                   </div>
                 </Link>
 
@@ -485,7 +487,9 @@ export default async function CommunityHomePage() {
                   </div>
                   <div className="pt-4 mt-4 border-t border-slate-200/70 flex items-center justify-between text-xs font-bold text-[#1D3189]">
                     <span>Submit Daily Log</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    <span className="w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
+                      <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
+                    </span>
                   </div>
                 </Link>
               </div>
