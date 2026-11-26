@@ -288,23 +288,31 @@ export default async function CommunityHomePage() {
             <div className="lg:col-span-5 flex flex-col gap-3.5 lg:items-end">
               <Link
                 href="/login"
-                className="group w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 flex items-center justify-between sm:justify-center gap-3 cursor-pointer"
+                className="group relative overflow-hidden w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#D9F83B] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 flex items-center justify-between sm:justify-center gap-3 cursor-pointer"
               >
-                <span>Get Started with Google / Phone OTP</span>
-                <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] inline-flex items-center justify-center shrink-0">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <span className="relative z-10">Get Started with Google / Phone OTP</span>
+                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] inline-flex items-center justify-center shrink-0">
                   <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
                 </span>
               </Link>
 
               <Link
                 href="/arena/roadmaps"
-                className="group w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm transition-all flex items-center justify-between sm:justify-center gap-3 backdrop-blur-sm"
+                className="group relative overflow-hidden w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 text-white border border-white/20 hover:border-white font-bold text-sm transition-all duration-500 flex items-center justify-between sm:justify-center gap-3 backdrop-blur-sm"
               >
-                <span className="inline-flex items-center gap-2">
-                  <Compass size={16} className="text-[#D9F83B]" />
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <span className="relative z-10 inline-flex items-center gap-2 group-hover:text-slate-950 transition-colors duration-500">
+                  <Compass size={16} className="text-[#D9F83B] group-hover:text-[#162774] transition-colors duration-500" />
                   <span>Explore Stage Roadmaps</span>
                 </span>
-                <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center shrink-0">
+                <span className="relative z-10 w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] inline-flex items-center justify-center shrink-0 transition-colors duration-500">
                   <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
                 </span>
               </Link>
