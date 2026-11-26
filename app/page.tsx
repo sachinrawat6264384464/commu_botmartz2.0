@@ -368,39 +368,67 @@ export default async function CommunityHomePage() {
       </section>
 
       {/* ── 6. ZERO-TRUST STUDENT TRUST & READY TO JOIN CTA ── */}
-      <section className="py-20 bg-slate-100 border-b border-slate-200">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto text-center">
+      <section className="py-14 sm:py-20 px-4 sm:px-8 lg:px-12 bg-white">
+        <div className="w-full max-w-[1440px] mx-auto rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white p-8 sm:p-12 lg:p-14 relative overflow-hidden shadow-2xl border border-[#1D3189]/20">
+          {/* Grid Overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+              backgroundSize: "64px 64px",
+            }}
+          />
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200">
-            <ShieldCheck size={14} /> 100% Free &amp; Zero-Spam Verification
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center font-sans">
+            {/* Left Copy */}
+            <div className="lg:col-span-7 text-left space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-bold uppercase tracking-wider shadow-sm">
+                <ShieldCheck size={14} /> 100% Free &amp; Zero-Spam Verification
+              </div>
+
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.1]">
+                Ready to Build in the Internship Playground?
+              </h2>
+
+              <p className="text-blue-100/85 text-sm sm:text-base max-w-2xl leading-relaxed">
+                Create your verified student profile with Google or Phone OTP. Claim your{" "}
+                <strong className="text-[#D9F83B]">100 Welcome Karma Coins</strong> and start shipping production systems today.
+              </p>
+            </div>
+
+            {/* Right CTA Stack */}
+            <div className="lg:col-span-5 flex flex-col gap-3.5 lg:items-end">
+              <Link
+                href="/login"
+                className="group w-full sm:w-auto px-7 py-4 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2.5 cursor-pointer"
+              >
+                <span>Get Started with Google / Phone OTP</span>
+                <ArrowRight size={16} className="transition-transform duration-300 group-hover:-rotate-45" />
+              </Link>
+
+              <Link
+                href="/arena/roadmaps"
+                className="group w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm transition-all flex items-center justify-center gap-2.5 backdrop-blur-sm"
+              >
+                <Compass size={16} className="text-[#D9F83B]" />
+                <span>Explore Stage Roadmaps</span>
+                <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
+              </Link>
+
+              <div className="flex flex-wrap items-center gap-4 text-xs text-blue-200/85 pt-2">
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={14} className="text-[#D9F83B]" /> 100 Welcome Coins
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={14} className="text-[#D9F83B]" /> Instant Repo Access
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={14} className="text-[#D9F83B]" /> QR Verified Pass
+                </span>
+              </div>
+            </div>
           </div>
-
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 font-sans">
-            Ready to Build in the Internship Playground?
-          </h2>
-
-          <p className="text-slate-600 text-xs sm:text-base font-mono max-w-2xl mx-auto mb-8">
-            Create your verified student profile with Google or Phone OTP. Claim your <strong>100 Welcome Karma Coins</strong> and start building today.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 font-mono text-xs">
-            <Link
-              href="/login"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>Get Started with Google / Phone OTP</span>
-              <ArrowRight size={14} />
-            </Link>
-
-            <Link
-              href="/arena/roadmaps"
-              className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-            >
-              <Compass size={14} className="text-purple-600" />
-              <span>Explore Stage Roadmaps</span>
-            </Link>
-          </div>
-
         </div>
       </section>
 
