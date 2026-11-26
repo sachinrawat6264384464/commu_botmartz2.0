@@ -1,424 +1,706 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import {
-  Compass,
-  CheckCircle2,
-  ArrowRight,
-  Sparkles,
-  Layers,
-  Cpu,
-  Shield,
-  Database,
-  LineChart,
-  Terminal,
-  ExternalLink,
-  Code2,
-  Briefcase,
-  Search,
-  Zap,
-  Filter,
-  Check,
-  ChevronRight,
-  BookOpen,
-  GraduationCap
-} from "lucide-react";
-import { ROLE_ROADMAPS, RoleRoadmap } from "@/lib/roadmaps";
-import AuthGate from "@/app/_components/AuthGate";
+import { ArrowRight, Check, Copy, Loader2, X, CheckCircle2 } from "lucide-react";
+import type { ManagedRoadmap } from "@/lib/roadmaps-server";
 
-const PRIMARY_DOMAINS = [
-  { id: "Core Engineering", label: "Core Software & Engineering", icon: Code2, desc: "Backend, Frontend, Full Stack, Systems, Low-Latency Rust, Cloud/DevOps" },
-  { id: "AI/ML", label: "Artificial Intelligence & Data", icon: Cpu, desc: "PyTorch, Agent Swarms, LangGraph, WebGPU SLM, Computer Vision" },
-  { id: "Product & Design", label: "Product Management & Design", icon: Layers, desc: "Technical PM, AI PM, Growth PLG, UI/UX Design Systems" },
-  { id: "MBA, Business & Finance", label: "MBA, Strategy & Quant Finance", icon: LineChart, desc: "Algorithmic Trading, PMM, Tech BizOps, Venture Capital" },
-  { id: "Cybersecurity & Defense", label: "Cybersecurity & Zero-Trust Defense", icon: Shield, desc: "Autonomous Red-Team Pentesting, Linux eBPF Kernel, Threat Ops" },
-  { id: "Cross-Discipline Hybrids", label: "Cross-Discipline Hybrids (Music, Bio, Agri, Law)", icon: Sparkles, desc: "Acoustic DSP, Bio-Informatics, Agritech, RISC-V, LegalTech" }
-];
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
-export default function ProgressiveRoadmapsPage() {
-  const [selectedDomain, setSelectedDomain] = useState<string>("Core Engineering");
-  const [selectedRoleId, setSelectedRoleId] = useState<string>(ROLE_ROADMAPS[0].id);
-  const [experienceLevel, setExperienceLevel] = useState<"beginner" | "intermediate" | "advanced">("beginner");
-  const [activeStageNum, setActiveStageNum] = useState<number>(1);
+export default function CareerRoadmapsPage() {
+  const [roadmaps, setRoadmaps] = useState<ManagedRoadmap[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Available roles in selected domain
-  const availableRoles = useMemo(() => {
-    return ROLE_ROADMAPS.filter((r) => {
-      if (selectedDomain === "AI/ML") {
-        return r.category === "Core Engineering" && (r.roleName.includes("AI") || r.roleName.includes("Machine Learning") || r.roleName.includes("Vision"));
+  // Top Unique Code Unlock Bar State
+  const [codeInput, setCodeInput] = useState("");
+  const [verifyingCode, setVerifyingCode] = useState(false);
+  const [codeError, setCodeError] = useState("");
+  const [unlockedMap, setUnlockedMap] = useState<Record<string, { roadmap: ManagedRoadmap; purchase: any }>>({});
+
+  // Active Roadmap Viewer Modal (with anti-copy / watermark / blur-on-unfocus)
+  const [viewerData, setViewerData] = useState<{
+    roadmap: ManagedRoadmap;
+    purchase?: any;
+  } | null>(null);
+  const [isWindowBlurred, setIsWindowBlurred] = useState(false);
+
+  // Payment Modal State (Initial ₹200 / 3 Days OR Extend ₹100 / +2 Days)
+  const [payModal, setPayModal] = useState<{
+    action: "unlock" | "extend";
+    roadmap?: ManagedRoadmap;
+    prefillCode?: string;
+  } | null>(null);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [extendCodeInput, setExtendCodeInput] = useState("");
+  const [payError, setPayError] = useState("");
+  const [paying, setPaying] = useState(false);
+  const [paymentReceipt, setPaymentReceipt] = useState<any>(null);
+  const [copiedCode, setCopiedCode] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/roadmaps")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.roadmaps)) {
+          setRoadmaps(data.roadmaps);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch roadmaps:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Anti-capture / anti-copy keyboard & focus protection when viewing any roadmap
+  useEffect(() => {
+    if (!viewerData) {
+      setIsWindowBlurred(false);
+      return;
+    }
+
+    const handleBlur = () => setIsWindowBlurred(true);
+    const handleFocus = () => setIsWindowBlurred(false);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
+      if (
+        e.key === "PrintScreen" ||
+        ((e.ctrlKey || e.metaKey) && (key === "c" || key === "p" || key === "s" || key === "u" || key === "x"))
+      ) {
+        e.preventDefault();
       }
-      return r.category === selectedDomain;
+    };
+
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("focus", handleFocus);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("focus", handleFocus);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [viewerData]);
+
+  // Group roadmaps by Domain (category)
+  const groupedByDomain = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    const filtered = roadmaps.filter((r) => {
+      if (!q) return true;
+      return (
+        r.roleName.toLowerCase().includes(q) ||
+        r.category.toLowerCase().includes(q) ||
+        r.tagline.toLowerCase().includes(q)
+      );
     });
-  }, [selectedDomain]);
 
-  // Selected Roadmap
-  const currentRoadmap = useMemo(() => {
-    const found = ROLE_ROADMAPS.find((r) => r.id === selectedRoleId);
-    if (found) return found;
-    return availableRoles[0] || ROLE_ROADMAPS[0];
-  }, [selectedRoleId, availableRoles]);
+    const groups: Record<string, ManagedRoadmap[]> = {};
+    for (const rm of filtered) {
+      const cat = rm.category || "Core Engineering";
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(rm);
+    }
+    return groups;
+  }, [roadmaps, searchQuery]);
 
-  const currentStage =
-    currentRoadmap.stages.find((s) => s.stageNumber === activeStageNum) ||
-    currentRoadmap.stages[0];
+  const loadRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (typeof window !== "undefined" && window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
-  const handleDomainSelect = (domainId: string) => {
-    setSelectedDomain(domainId);
-    const firstMatching = ROLE_ROADMAPS.find(r => domainId === "AI/ML" ? (r.category === "Core Engineering" && r.roleName.includes("AI")) : r.category === domainId);
-    if (firstMatching) {
-      setSelectedRoleId(firstMatching.id);
-      setActiveStageNum(1);
+  const handleVerifyUniqueCode = async (e?: React.FormEvent, overrideCode?: string) => {
+    if (e) e.preventDefault();
+    const clean = (overrideCode ?? codeInput).trim().toUpperCase();
+    setCodeError("");
+
+    if (!clean) {
+      setCodeError("Please enter your Unique Code.");
+      return;
+    }
+
+    setVerifyingCode(true);
+    try {
+      const res = await fetch("/api/roadmaps/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uniqueCode: clean }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.valid) {
+        setCodeError(data.error || "Invalid or Expired Unique Code.");
+        return;
+      }
+
+      setUnlockedMap((prev) => ({
+        ...prev,
+        [data.roadmap.id]: { roadmap: data.roadmap, purchase: data.purchase },
+      }));
+      setViewerData({ roadmap: data.roadmap, purchase: data.purchase });
+    } catch (err: any) {
+      setCodeError(err.message || "Could not verify Unique Code.");
+    } finally {
+      setVerifyingCode(false);
+    }
+  };
+
+  const handleCardClick = (rm: ManagedRoadmap) => {
+    // 1. Free roadmap -> open immediately
+    if (!rm.isPaid) {
+      setViewerData({ roadmap: rm });
+      return;
+    }
+    // 2. Unlocked in current session via Unique Code -> open immediately
+    if (unlockedMap[rm.id]) {
+      setViewerData(unlockedMap[rm.id]);
+      return;
+    }
+    // 3. Locked paid roadmap -> open payment modal
+    setPayError("");
+    setPaymentReceipt(null);
+    setPayModal({ action: "unlock", roadmap: rm });
+  };
+
+  const handlePaySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!payModal) return;
+    setPayError("");
+
+    if (payModal.action === "extend" && !extendCodeInput.trim()) {
+      setPayError("Please enter your existing Unique Code.");
+      return;
+    }
+    if (payModal.action === "unlock" && (!userName.trim() || !userEmail.trim())) {
+      setPayError("Please enter your Full Name and Email Address.");
+      return;
+    }
+
+    setPaying(true);
+    try {
+      const orderRes = await fetch("/api/roadmaps/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: payModal.action,
+          roadmapId: payModal.roadmap?.id,
+          uniqueCode: extendCodeInput.trim().toUpperCase(),
+          userName: userName.trim(),
+          userEmail: userEmail.trim(),
+        }),
+      });
+      const orderData = await orderRes.json();
+      if (!orderRes.ok || !orderData.success) {
+        throw new Error(orderData.error || "Could not initialize payment.");
+      }
+
+      const verifyAndFinish = async (paymentIds: {
+        razorpay_order_id: string;
+        razorpay_payment_id: string;
+        razorpay_signature: string;
+      }) => {
+        const vRes = await fetch("/api/roadmaps/verify-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...paymentIds,
+            action: payModal.action,
+            roadmapId: payModal.roadmap?.id,
+            uniqueCode: extendCodeInput.trim().toUpperCase(),
+            userName: userName.trim(),
+            userEmail: userEmail.trim(),
+          }),
+        });
+        const vData = await vRes.json();
+        if (!vRes.ok || !vData.success) {
+          throw new Error(vData.error || "Payment verification failed.");
+        }
+
+        setPaymentReceipt(vData);
+        if (vData.purchase?.uniqueCode) {
+          setCodeInput(vData.purchase.uniqueCode);
+        }
+        setPaying(false);
+      };
+
+      if (orderData.isDevMock) {
+        await verifyAndFinish({
+          razorpay_order_id: orderData.orderId,
+          razorpay_payment_id: `pay_road_mock_${Date.now()}`,
+          razorpay_signature: "mock_sig",
+        });
+        return;
+      }
+
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        throw new Error("Razorpay SDK failed to load.");
+      }
+
+      const rzp = new window.Razorpay({
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Botmartz Career Roadmaps",
+        description: orderData.itemTitle || "Roadmap Access",
+        order_id: orderData.orderId,
+        prefill: {
+          name: userName.trim(),
+          email: userEmail.trim(),
+        },
+        theme: { color: "#1D3189" },
+        handler: async (response: any) => {
+          try {
+            await verifyAndFinish({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+          } catch (err: any) {
+            setPayError(err.message || "Payment verification failed.");
+            setPaying(false);
+          }
+        },
+        modal: {
+          ondismiss: () => setPaying(false),
+        },
+      });
+      rzp.open();
+    } catch (err: any) {
+      setPayError(err.message || "Payment failed.");
+      setPaying(false);
     }
   };
 
   return (
-      <div
-        className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-        }}
-      >
-        
-        {/* Header Banner */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-          <div className="bg-[#070E54] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div
+      className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
+      {/* Print Block */}
+      <style>{`@media print { body { display: none !important; } }`}</style>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        {/* ── 1. HERO + TOP UNIQUE CODE UNLOCK BAR ── */}
+        <div className="bg-[#070E54] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl space-y-6">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="max-w-3xl">
               <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
-                Career Discovery &amp; Learning Roadmaps
+                Domain-Wise Progressive Roadmaps
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                20 Progressive Career Roadmaps
+                Career Roadmaps Catalog
               </h1>
               <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
-                Step-by-step career path guides across 20 specialized technical, product, and AI engineering roles. Discover required foundational concepts, system design prerequisites, and measurable stage milestones.
+                Explore all domain-wise engineering roadmaps directly below. The first 2 roadmaps are free to view — unlock any specialized roadmap for 3 days (₹200) or extend validity (+2 days for ₹100) using your Unique Code.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0 font-sans text-xs">
-              <Link
-                href="/arena"
-                className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md"
-              >
-                Internship Playground &rarr;
-              </Link>
-            </div>
-          </div>
-        </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
-        
-        {/* =========================================================================
-            STEP 1: SELECT PRIMARY DISCIPLINE / DOMAIN
-        ========================================================================= */}
-        <div>
-          <div className="font-sans text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-3">
-            Step 1: Choose Your Primary Discipline
+            <Link
+              href="/arena"
+              className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all shadow-md shrink-0 flex items-center gap-2 group w-fit"
+            >
+              <span>Internship Playground</span>
+              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <ArrowRight size={12} />
+              </span>
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {PRIMARY_DOMAINS.map((domain, idx) => {
-              const isSelected = selectedDomain === domain.id;
-              const num = String(idx + 1).padStart(2, "0");
-              return (
+          {/* Top Unique Code Input Box */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md space-y-3">
+            <div className="flex flex-col md:flex-row md:items-center gap-3">
+              <form onSubmit={(e) => handleVerifyUniqueCode(e)} className="flex-1 flex flex-col sm:flex-row gap-2.5">
+                <input
+                  type="text"
+                  value={codeInput}
+                  onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
+                  placeholder="Enter Roadmap Unique Code (e.g. BM-ROAD-9A4K2M) to Unlock..."
+                  className="flex-1 px-4 py-3 rounded-xl bg-white text-slate-950 placeholder:text-slate-400 font-bold text-xs uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-[#D9F83B]"
+                />
                 <button
-                  key={domain.id}
-                  onClick={() => handleDomainSelect(domain.id)}
-                  className={`relative overflow-hidden p-6 rounded-3xl border border-l-4 border-l-[#D9F83B] text-left transition-all duration-500 cursor-pointer flex flex-col justify-between group ${
-                    isSelected
-                      ? "bg-[#070E54] text-white border-[#070E54] shadow-xl -translate-y-1"
-                      : "bg-white hover:border-[#1D3189] border-slate-200 text-slate-900 shadow-sm hover:shadow-xl hover:-translate-y-1"
-                  }`}
+                  type="submit"
+                  disabled={verifyingCode}
+                  className="px-6 py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all cursor-pointer disabled:opacity-50 shrink-0"
                 >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span
-                        className={`px-3.5 py-1 rounded-tr-xl rounded-bl-xl rounded-tl-md rounded-br-md font-black text-xs tracking-wider ${
-                          isSelected
-                            ? "bg-[#D9F83B] text-slate-950"
-                            : "bg-[#D9F83B] text-slate-950 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] transition-colors duration-300"
-                        }`}
-                      >
-                        {num}
-                      </span>
-                      <span
-                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${
-                          isSelected
-                            ? "bg-[#D9F83B] text-slate-950 rotate-45"
-                            : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 group-hover:rotate-45"
-                        }`}
-                      >
-                        <ArrowRight size={14} />
-                      </span>
-                    </div>
-                    <h3 className="font-extrabold text-base mb-1.5 font-sans">{domain.label}</h3>
-                    <p
-                      className={`text-xs font-sans leading-relaxed font-medium ${
-                        isSelected ? "text-blue-100/85" : "text-slate-600"
-                      }`}
-                    >
-                      {domain.desc}
-                    </p>
-                  </div>
-
-                  <div
-                    className={`mt-4 pt-3 border-t flex items-center justify-between text-xs font-sans font-bold ${
-                      isSelected ? "border-white/15 text-[#D9F83B]" : "border-slate-100 text-[#1D3189]"
-                    }`}
-                  >
-                    <span>{isSelected ? "Selected Discipline" : "Select Path"}</span>
-                    <span>&rarr;</span>
-                  </div>
-
-                  {!isSelected && (
-                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-                  )}
+                  {verifyingCode ? "Verifying..." : "Unlock with Code"}
                 </button>
-              );
-            })}
-          </div>
-        </div>
+              </form>
 
-        {/* =========================================================================
-            STEP 2: SELECT SPECIALIZED CAREER ROLE
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
-            <div>
-              <div className="text-xs font-sans font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">
-                Step 2: Select Specific Career Track ({availableRoles.length} Tracks Available)
-              </div>
-              <h2 className="text-xl font-extrabold text-slate-950 font-sans">
-                Choose Your Target Specialization
-              </h2>
-            </div>
-
-            {/* Experience Level Selector */}
-            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl font-sans text-xs font-bold border border-slate-200">
-              {(["beginner", "intermediate", "advanced"] as const).map((lvl) => (
-                <button
-                  key={lvl}
-                  onClick={() => {
-                    setExperienceLevel(lvl);
-                    if (lvl === "beginner") setActiveStageNum(1);
-                    if (lvl === "intermediate") setActiveStageNum(2);
-                    if (lvl === "advanced") setActiveStageNum(3);
-                  }}
-                  className={`px-3.5 py-1.5 rounded-xl capitalize transition-all cursor-pointer ${
-                    experienceLevel === lvl ? "bg-[#070E54] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
-                  }`}
-                >
-                  {lvl}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Roles Horizontal Pill Bar - Constrained with Custom Scrollbar */}
-          <div className="pt-6 w-full max-w-full overflow-x-auto pb-3 flex items-center gap-2.5 scrollbar-thin font-sans text-xs">
-            {availableRoles.map((r) => (
               <button
-                key={r.id}
+                type="button"
                 onClick={() => {
-                  setSelectedRoleId(r.id);
-                  setActiveStageNum(experienceLevel === "beginner" ? 1 : experienceLevel === "intermediate" ? 2 : 3);
+                  setPayError("");
+                  setPaymentReceipt(null);
+                  setExtendCodeInput(codeInput);
+                  setPayModal({ action: "extend", prefillCode: codeInput });
                 }}
-                className={`px-4 py-3 rounded-2xl font-bold whitespace-nowrap shrink-0 transition-all border cursor-pointer ${
-                  currentRoadmap.id === r.id
-                    ? "bg-[#D9F83B] text-slate-950 border-[#D9F83B] shadow-sm"
-                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-[#1D3189]/40"
-                }`}
+                className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white hover:text-slate-950 text-white border border-white/25 font-bold text-xs transition-all cursor-pointer shrink-0"
               >
-                {r.roleName}
+                Extend +2 Days (₹100)
               </button>
+            </div>
+
+            {codeError && (
+              <div className="text-xs font-bold text-rose-300 bg-rose-950/50 border border-rose-500/40 px-3.5 py-2 rounded-xl">
+                {codeError}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── 2. QUICK SEARCH ── */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search roadmaps by role, domain, or skill..."
+            className="w-full sm:max-w-md px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+          />
+          <div className="text-xs font-semibold text-slate-500">
+            Showing {Object.values(groupedByDomain).reduce((s, l) => s + l.length, 0)} Roadmaps across{" "}
+            {Object.keys(groupedByDomain).length} Domains
+          </div>
+        </div>
+
+        {/* ── 3. ALL ROADMAPS GROUPED BY DOMAIN (NO MANUAL STEPPER) ── */}
+        {loading ? (
+          <div className="p-12 rounded-3xl bg-white border border-slate-200 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600">
+            <Loader2 size={18} className="animate-spin text-[#1D3189]" />
+            <span>Loading Domain-Wise Roadmaps...</span>
+          </div>
+        ) : (
+          <div className="space-y-10">
+            {Object.entries(groupedByDomain).map(([domainName, domainRoadmaps]) => (
+              <section key={domainName} className="space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950">{domainName}</h2>
+                  <span className="px-3 py-1 rounded-full bg-[#070E54] text-[#D9F83B] text-[11px] font-bold">
+                    {domainRoadmaps.length} Tracks
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {domainRoadmaps.map((rm) => {
+                    const isUnlocked = !rm.isPaid || Boolean(unlockedMap[rm.id]);
+                    return (
+                      <div
+                        key={rm.id}
+                        onClick={() => handleCardClick(rm)}
+                        className="relative overflow-hidden bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#1D3189] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between space-y-4 cursor-pointer group"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-3">
+                            {isUnlocked ? (
+                              <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wider">
+                                {!rm.isPaid ? "Free Access" : "Unlocked"}
+                              </span>
+                            ) : (
+                              <span className="px-3 py-1 rounded-full bg-[#070E54] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                                ₹{rm.price} • {rm.validityDays} Days
+                              </span>
+                            )}
+                            <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                              <ArrowRight size={13} />
+                            </span>
+                          </div>
+
+                          <h3 className="text-base font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-1.5">
+                            {rm.roleName}
+                          </h3>
+                          <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 font-medium">
+                            {rm.tagline}
+                          </p>
+                        </div>
+
+                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
+                          <span className="text-slate-500">{rm.stages?.length || 0} Stages</span>
+                          <span className={isUnlocked ? "text-emerald-700" : "text-[#1D3189]"}>
+                            {isUnlocked ? "View Full Roadmap →" : `Unlock (₹${rm.price}) →`}
+                          </span>
+                        </div>
+
+                        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
             ))}
           </div>
-        </div>
+        )}
+      </div>
 
-        {/* =========================================================================
-            STEP 3: COMPREHENSIVE PROGRESSIVE ROADMAP BREAKDOWN
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md">
-          
-          {/* Experience Level Context Banner */}
-          <div className="p-4 rounded-2xl bg-[#070E54] text-white font-sans text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div>
-              <strong className="text-[#D9F83B] uppercase">{experienceLevel} TRACK:</strong>{" "}
-              <span className="text-blue-100/90">
-                {experienceLevel === "beginner"
-                  ? "Focused on Stage 1 (Foundations, Syntax, REST endpoints & Core Data Structures)."
-                  : experienceLevel === "intermediate"
-                  ? "Focused on Stage 2 (Distributed Systems, Vector Embeddings, Docker & Database Indexing)."
-                  : "Focused on Stage 3 (Sub-150ms SLA gates, ONNX Quantization, Kernel eBPF & Senior Production Mastery)."}
-              </span>
-            </div>
-            <span className="text-[11px] text-slate-950 font-extrabold shrink-0 uppercase bg-[#D9F83B] px-3 py-1 rounded-full self-start sm:self-auto">
-              Stage {experienceLevel === "beginner" ? 1 : experienceLevel === "intermediate" ? 2 : 3} Active
-            </span>
-          </div>
-
-          {/* Header of Active Roadmap */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
-            <div>
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <span className="px-3 py-1 rounded-full text-xs font-sans font-bold bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20">
-                  {currentRoadmap.category}
-                </span>
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {currentRoadmap.disciplines.map((d) => (
-                    <span key={d} className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-sans font-semibold">
-                      {d}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-sans">
-                {currentRoadmap.roleName}
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 font-sans mt-1 font-medium">
-                {currentRoadmap.tagline}
-              </p>
-            </div>
-
-            <div className="text-left md:text-right shrink-0">
-              <div className="text-[10px] font-sans text-slate-500 uppercase font-bold mb-1.5">Common Hiring Companies</div>
-              <div className="flex flex-wrap gap-1.5 justify-start md:justify-end">
-                {currentRoadmap.targetCompanies.map((comp) => (
-                  <span
-                    key={comp}
-                    className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-[11px] font-sans font-semibold"
-                  >
-                    {comp}
+      {/* ── PROTECTED ROADMAP VIEWER MODAL (NO COPY / NO PRINT / WATERMARK / BLUR ON UNFOCUS) ── */}
+      {viewerData && (
+        <div
+          className="fixed inset-0 z-[9999] bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto select-none"
+          onCopy={(e) => e.preventDefault()}
+          onCut={(e) => e.preventDefault()}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <div className="min-h-full flex items-center justify-center">
+            <div className="relative w-full max-w-4xl bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden">
+              {/* Diagonal Anti-Leak Watermark Overlay */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-20 overflow-hidden opacity-[0.06] flex flex-wrap items-center justify-center gap-12 -rotate-12 select-none"
+              >
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <span key={i} className="text-sm font-black text-slate-950 whitespace-nowrap">
+                    {viewerData.purchase
+                      ? `${viewerData.purchase.userEmail} • ${viewerData.purchase.uniqueCode}`
+                      : "BOTMARTZ PROTECTED ROADMAP"}
                   </span>
                 ))}
               </div>
-            </div>
-          </div>
 
-          {/* Stage Progression Stepper */}
-          <div className="py-6 border-b border-slate-100">
-            <div className="text-xs font-sans text-slate-500 uppercase font-extrabold mb-3 tracking-wider">
-              Curriculum Progression ({currentRoadmap.stages.length} Stages)
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-sans text-xs">
-              {currentRoadmap.stages.map((stage) => (
-                <button
-                  key={stage.stageNumber}
-                  onClick={() => setActiveStageNum(stage.stageNumber)}
-                  className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
-                    activeStageNum === stage.stageNumber
-                      ? "bg-[#070E54] text-white border-[#070E54] shadow-md"
-                      : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={`font-extrabold ${activeStageNum === stage.stageNumber ? "text-[#D9F83B]" : "text-[#1D3189]"}`}>
-                      Stage {stage.stageNumber}
-                    </span>
-                    <span className="text-[10px] opacity-80 font-semibold">{stage.duration}</span>
+              {/* Blur Curtain if tab loses focus */}
+              {isWindowBlurred && (
+                <div className="absolute inset-0 z-30 bg-slate-950/90 backdrop-blur-xl flex items-center justify-center text-center p-6 text-white">
+                  <div className="space-y-2">
+                    <div className="text-lg font-extrabold text-[#D9F83B]">Protected View Paused</div>
+                    <p className="text-xs text-blue-100">Click back into this window to continue viewing the roadmap.</p>
                   </div>
-                  <div className="text-xs font-bold truncate font-sans">{stage.stageName}</div>
+                </div>
+              )}
+
+              {/* Header */}
+              <div className="relative z-10 bg-[#070E54] px-6 sm:px-8 py-6 text-white flex items-start justify-between gap-4">
+                <div>
+                  <div className="inline-flex items-center px-3 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase mb-2">
+                    {viewerData.roadmap.category}
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-extrabold">{viewerData.roadmap.roleName}</h2>
+                  <p className="text-xs text-blue-100/85 mt-1">{viewerData.roadmap.tagline}</p>
+                  {viewerData.purchase && (
+                    <div className="mt-2 text-[11px] font-bold text-[#D9F83B]">
+                      Code: {viewerData.purchase.uniqueCode} • Valid until{" "}
+                      {new Date(viewerData.purchase.expiresAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setViewerData(null)}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white cursor-pointer shrink-0"
+                >
+                  <X size={18} />
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Active Stage Deep Dive */}
-          <div className="pt-6 grid grid-cols-1 lg:grid-cols-3 gap-8 font-sans text-xs">
-            
-            {/* Core Competencies & Concept Foundations */}
-            <div className="lg:col-span-2 space-y-6">
-              <div>
-                <div className="text-[11px] text-[#1D3189] uppercase font-extrabold mb-1 tracking-wider">
-                  Stage {currentStage.stageNumber} Learning Focus
-                </div>
-                <h3 className="text-lg font-extrabold text-slate-950 font-sans mb-2">
-                  {currentStage.stageName} ({currentStage.duration})
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans font-medium">
-                  {currentStage.focus}
-                </p>
               </div>
 
-              <div>
-                <div className="text-[11px] text-slate-500 uppercase font-extrabold mb-2 tracking-wider">
-                  Key Technical Competencies &amp; Algorithms
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {currentStage.coreSkills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-800 text-xs font-semibold border border-slate-200"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <div className="text-[11px] text-slate-500 uppercase font-extrabold mb-2 tracking-wider">
-                  Milestone Deliverables &amp; Proof-of-Work Checklist
-                </div>
-                <div className="space-y-2">
-                  {currentStage.deliverables.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 font-medium">
-                      <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">
-                        {idx + 1}
+              {/* Protected Body */}
+              <div className="relative z-10 p-6 sm:p-8 space-y-6 max-h-[72vh] overflow-y-auto">
+                {/* Target Companies */}
+                <div>
+                  <div className="text-[11px] font-bold uppercase text-slate-500 mb-2">Target Hiring Companies</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {(viewerData.roadmap.targetCompanies || []).map((c) => (
+                      <span key={c} className="px-3 py-1 rounded-lg bg-slate-100 text-slate-800 text-xs font-semibold">
+                        {c}
                       </span>
-                      <span>{item}</span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Stages */}
+                <div className="space-y-4">
+                  {(viewerData.roadmap.stages || []).map((stage) => (
+                    <div key={stage.stageNumber} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs font-extrabold text-[#1D3189] uppercase">
+                          Stage {stage.stageNumber}: {stage.stageName}
+                        </span>
+                        <span className="text-[11px] font-bold text-slate-500">{stage.duration}</span>
+                      </div>
+                      <p className="text-xs text-slate-700 leading-relaxed font-medium">{stage.focus}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(stage.coreSkills || []).map((sk) => (
+                          <span key={sk} className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-800">
+                            {sk}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="space-y-1.5 pt-2 border-t border-slate-200/70">
+                        {(stage.deliverables || []).map((del, di) => (
+                          <div key={di} className="text-xs text-slate-700 flex items-start gap-2 font-medium">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#1D3189] mt-1.5 shrink-0" />
+                            <span>{del}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
 
-            {/* System Design Core Prerequisites */}
-            <div className="bg-[#070E54] text-white border border-white/15 rounded-3xl p-6 flex flex-col justify-between font-sans text-xs shadow-xl">
-              <div>
-                <div className="text-[#D9F83B] font-extrabold uppercase text-[11px] tracking-wider mb-2">
-                  System Design &amp; AI Concepts
+      {/* ── PAYMENT MODAL (₹200 FOR 3 DAYS OR ₹100 FOR +2 DAYS EXTEND) ── */}
+      {payModal && (
+        <div className="fixed inset-0 z-[9999] bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto flex items-center justify-center">
+          <div className="relative w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-7">
+            <button
+              type="button"
+              onClick={() => setPayModal(null)}
+              className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+            >
+              <X size={18} />
+            </button>
+
+            {paymentReceipt ? (
+              <div className="text-center space-y-4 py-2">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                  <CheckCircle2 size={30} />
                 </div>
-                <p className="text-xs text-blue-100/85 mb-4 leading-relaxed font-sans">
-                  Mandatory concepts to master before building production systems:
+                <h3 className="text-xl font-extrabold text-slate-950">
+                  {payModal.action === "extend" ? "Validity Extended (+2 Days)" : "Roadmap Access Unlocked"}
+                </h3>
+                <p className="text-xs text-slate-600">
+                  Your Unique Code has been emailed to <strong>{paymentReceipt.purchase?.userEmail}</strong>.
                 </p>
 
-                <div className="space-y-2.5 mb-6">
-                  <div className="p-3.5 bg-white/[0.06] rounded-2xl border border-white/15">
-                    <div className="font-bold text-white mb-0.5">Database &amp; Latency Internals</div>
-                    <div className="text-[11px] text-blue-200/80">Connection pools, B-Tree vs BRIN indexes, p95 vs p99 latency profiling.</div>
+                <div className="p-4 rounded-2xl bg-[#070E54] text-white space-y-1.5">
+                  <div className="text-[10px] uppercase tracking-wider text-blue-200 font-bold">
+                    Roadmap Unique Code
                   </div>
-                  <div className="p-3.5 bg-white/[0.06] rounded-2xl border border-white/15">
-                    <div className="font-bold text-white mb-0.5">State Machine Determinism</div>
-                    <div className="text-[11px] text-blue-200/80">Idempotency keys, distributed locks, recovery from 504 tool call timeouts.</div>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-xl font-black tracking-widest text-[#D9F83B]">
+                      {paymentReceipt.purchase?.uniqueCode}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(paymentReceipt.purchase?.uniqueCode || "");
+                        setCopiedCode(true);
+                        setTimeout(() => setCopiedCode(false), 2000);
+                      }}
+                      className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"
+                    >
+                      {copiedCode ? <Check size={14} /> : <Copy size={14} />}
+                    </button>
                   </div>
-                  <div className="p-3.5 bg-white/[0.06] rounded-2xl border border-white/15">
-                    <div className="font-bold text-white mb-0.5">Automated Test Gates</div>
-                    <div className="text-[11px] text-blue-200/80">Playwright E2E suites, k6 distributed spike tests, zero flaky tests in CI/CD.</div>
+                  <div className="text-[11px] text-blue-100/80">
+                    Valid until{" "}
+                    {new Date(paymentReceipt.purchase?.expiresAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const code = paymentReceipt.purchase?.uniqueCode;
+                    setPayModal(null);
+                    if (code) handleVerifyUniqueCode(undefined, code);
+                  }}
+                  className="w-full py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm cursor-pointer"
+                >
+                  Open Roadmap Now &rarr;
+                </button>
               </div>
+            ) : (
+              <form onSubmit={handlePaySubmit} className="space-y-4 text-xs">
+                <div>
+                  <div className="text-[11px] font-bold text-[#1D3189] uppercase tracking-wider">
+                    {payModal.action === "extend" ? "Extend Roadmap Validity" : "Unlock Specialized Roadmap"}
+                  </div>
+                  <h3 className="text-lg font-extrabold text-slate-950 mt-0.5">
+                    {payModal.action === "extend"
+                      ? "Add +2 Days Access (₹100)"
+                      : `${payModal.roadmap?.roleName}`}
+                  </h3>
+                  <p className="text-slate-500 mt-1">
+                    {payModal.action === "extend"
+                      ? "Enter your existing Unique Code to add 2 more days of access."
+                      : `Pay ₹${payModal.roadmap?.price || 200} for ${payModal.roadmap?.validityDays || 3}-day access. Your Unique Code will be sent to your email.`}
+                  </p>
+                </div>
 
-              <Link
-                href="/arena"
-                className="w-full py-3 px-4 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all shadow-md flex items-center justify-between group"
-              >
-                <span>Explore Arena PRDs</span>
-                <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
-                  <ArrowRight size={12} />
-                </span>
-              </Link>
-            </div>
+                {payModal.action === "extend" ? (
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Existing Unique Code *</label>
+                    <input
+                      type="text"
+                      required
+                      value={extendCodeInput}
+                      onChange={(e) => setExtendCodeInput(e.target.value.toUpperCase())}
+                      placeholder="e.g. BM-ROAD-9A4K2M"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 font-bold uppercase tracking-wider focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">Full Name *</label>
+                      <input
+                        type="text"
+                        required
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        placeholder="e.g. Rohan Mehta"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">Email Address * (Receives Unique Code)</label>
+                      <input
+                        type="email"
+                        required
+                        value={userEmail}
+                        onChange={(e) => setUserEmail(e.target.value)}
+                        placeholder="you@email.com"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                      />
+                    </div>
+                  </>
+                )}
 
+                {payError && (
+                  <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-semibold">
+                    {payError}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={paying}
+                  className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {paying ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Processing Payment...</span>
+                    </>
+                  ) : (
+                    <span>
+                      {payModal.action === "extend"
+                        ? "Pay ₹100 & Extend +2 Days →"
+                        : `Pay ₹${payModal.roadmap?.price || 200} & Get Unique Code →`}
+                    </span>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
-
         </div>
-
-      </div>
-
-      </div>
+      )}
+    </div>
   );
 }
