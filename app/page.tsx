@@ -384,7 +384,7 @@ export default async function CommunityHomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 font-sans">
 
             {/* Left Tall Feature Card */}
-            <div className="lg:col-span-5 rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden shadow-xl">
+            <div className="group lg:col-span-5 rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden shadow-xl border border-[#1D3189]/20">
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -393,30 +393,33 @@ export default async function CommunityHomePage() {
                   backgroundSize: "48px 48px",
                 }}
               />
+              {/* Right-to-Left Sliding White Layer on Hover */}
+              <div className="absolute inset-0 bg-white translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out pointer-events-none z-[1]" />
+
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-bold uppercase tracking-wider mb-5">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] group-hover:bg-[#1D3189] text-slate-950 group-hover:text-[#D9F83B] text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors duration-300">
                   Saturday &bull; 5:00 PM – 7:00 PM IST
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug mb-3">
+                <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug mb-3 text-white group-hover:text-slate-950 transition-colors duration-300">
                   Indore AI Hub &amp; Live Architecture Teardowns
                 </h3>
-                <p className="text-blue-100/85 text-sm leading-relaxed mb-6">
+                <p className="text-blue-100/85 group-hover:text-slate-600 text-sm leading-relaxed mb-6 transition-colors duration-300">
                   In-person meetups at the Indore AI Hub unlock whenever 50+ builders RSVP (or join live online) for 1-on-1 architecture audits and bug fixes with Founder Soham Sharma.
                 </p>
               </div>
 
-              <div className="relative z-10 pt-5 border-t border-white/15 grid grid-cols-3 gap-3 text-center">
-                <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
-                  <div className="text-lg sm:text-xl font-black text-[#D9F83B]">50+</div>
-                  <div className="text-[11px] text-blue-100/80">RSVP Trigger</div>
+              <div className="relative z-10 pt-5 border-t border-white/15 group-hover:border-slate-200 grid grid-cols-3 gap-3 text-center transition-colors duration-300">
+                <div className="p-3 rounded-2xl bg-white/10 group-hover:bg-slate-50 border border-transparent group-hover:border-slate-200/80 backdrop-blur-sm transition-colors duration-300">
+                  <div className="text-lg sm:text-xl font-black text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-300">50+</div>
+                  <div className="text-[11px] text-blue-100/80 group-hover:text-slate-600 transition-colors duration-300">RSVP Trigger</div>
                 </div>
-                <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
-                  <div className="text-lg sm:text-xl font-black text-white">1-on-1</div>
-                  <div className="text-[11px] text-blue-100/80">Code Audits</div>
+                <div className="p-3 rounded-2xl bg-white/10 group-hover:bg-slate-50 border border-transparent group-hover:border-slate-200/80 backdrop-blur-sm transition-colors duration-300">
+                  <div className="text-lg sm:text-xl font-black text-white group-hover:text-slate-950 transition-colors duration-300">1-on-1</div>
+                  <div className="text-[11px] text-blue-100/80 group-hover:text-slate-600 transition-colors duration-300">Code Audits</div>
                 </div>
-                <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
-                  <div className="text-lg sm:text-xl font-black text-[#D9F83B]">15+</div>
-                  <div className="text-[11px] text-blue-100/80">Hiring Partners</div>
+                <div className="p-3 rounded-2xl bg-white/10 group-hover:bg-slate-50 border border-transparent group-hover:border-slate-200/80 backdrop-blur-sm transition-colors duration-300">
+                  <div className="text-lg sm:text-xl font-black text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-300">15+</div>
+                  <div className="text-[11px] text-blue-100/80 group-hover:text-slate-600 transition-colors duration-300">Hiring Partners</div>
                 </div>
               </div>
             </div>
