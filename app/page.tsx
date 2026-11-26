@@ -401,30 +401,45 @@ export default async function CommunityHomePage() {
             <div className="lg:col-span-5 flex flex-col gap-3.5 lg:items-end">
               <Link
                 href="/login"
-                className="group w-full sm:w-auto px-7 py-4 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2.5 cursor-pointer"
+                className="group w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 flex items-center justify-between sm:justify-center gap-3 cursor-pointer"
               >
                 <span>Get Started with Google / Phone OTP</span>
-                <ArrowRight size={16} className="transition-transform duration-300 group-hover:-rotate-45" />
+                <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] inline-flex items-center justify-center shrink-0">
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
+                </span>
               </Link>
 
               <Link
                 href="/arena/roadmaps"
-                className="group w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm transition-all flex items-center justify-center gap-2.5 backdrop-blur-sm"
+                className="group w-full sm:w-auto px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm transition-all flex items-center justify-between sm:justify-center gap-3 backdrop-blur-sm"
               >
-                <Compass size={16} className="text-[#D9F83B]" />
-                <span>Explore Stage Roadmaps</span>
-                <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
+                <span className="inline-flex items-center gap-2">
+                  <Compass size={16} className="text-[#D9F83B]" />
+                  <span>Explore Stage Roadmaps</span>
+                </span>
+                <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center shrink-0">
+                  <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
+                </span>
               </Link>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs text-blue-200/85 pt-2">
-                <span className="inline-flex items-center gap-1.5">
-                  <Check size={14} className="text-[#D9F83B]" /> 100 Welcome Coins
+              <div className="flex flex-wrap items-center gap-4 text-xs text-blue-100 pt-2">
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-4 h-4 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center">
+                    <Check size={11} strokeWidth={3} />
+                  </span>
+                  <span>100 Welcome Coins</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Check size={14} className="text-[#D9F83B]" /> Instant Repo Access
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-4 h-4 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center">
+                    <Check size={11} strokeWidth={3} />
+                  </span>
+                  <span>Instant Repo Access</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <Check size={14} className="text-[#D9F83B]" /> QR Verified Pass
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-4 h-4 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center">
+                    <Check size={11} strokeWidth={3} />
+                  </span>
+                  <span>QR Verified Pass</span>
                 </span>
               </div>
             </div>
