@@ -63,53 +63,88 @@ export default function InternshipJourneyClient() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-7 font-sans text-xs">
-            {steps.map((step, idx) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: idx * 0.14, ease: "easeOut" }}
-                className="relative overflow-hidden p-8 rounded-3xl bg-white border border-[#070E54]/20 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
-              >
-                {/* Default deep blue background that slides left on hover to reveal white theme */}
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-[#070E54] translate-x-0 group-hover:-translate-x-full transition-transform duration-700 ease-in-out"
-                />
+            {steps.map((step, idx) => {
+              const isBlueSlideCard = idx === 0;
+              return (
+                <motion.div
+                  key={step.num}
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, delay: idx * 0.14, ease: "easeOut" }}
+                  className={`relative overflow-hidden p-8 rounded-3xl bg-white border border-l-4 border-l-[#D9F83B] flex flex-col justify-between transition-all duration-500 group ${
+                    isBlueSlideCard
+                      ? "border-[#070E54]/20 shadow-lg hover:shadow-2xl hover:-translate-y-1.5"
+                      : "border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1.5"
+                  }`}
+                >
+                  {/* Default deep blue background ONLY on 01 that slides left on hover to reveal white theme */}
+                  {isBlueSlideCard && (
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#070E54] translate-x-0 group-hover:-translate-x-full transition-transform duration-700 ease-in-out"
+                    />
+                  )}
 
-                <div className="relative z-10">
-                  {/* Top Row: Custom Shaped Number Badge + Top-Right Circle Arrow (45deg on hover) */}
-                  <div className="flex items-center justify-between gap-3 mb-5">
-                    <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-tr-2xl rounded-bl-2xl rounded-tl-md rounded-br-md bg-[#D9F83B] group-hover:bg-[#070E54] text-slate-950 group-hover:text-[#D9F83B] font-black text-sm tracking-wider transition-colors duration-500 shadow-xs">
-                      {step.num}
-                    </span>
+                  <div className="relative z-10">
+                    {/* Top Row: Custom Shaped Number Badge + Top-Right Circle Arrow (45deg on hover) */}
+                    <div className="flex items-center justify-between gap-3 mb-5">
+                      <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-tr-2xl rounded-bl-2xl rounded-tl-md rounded-br-md bg-[#D9F83B] group-hover:bg-[#070E54] text-slate-950 group-hover:text-[#D9F83B] font-black text-sm tracking-wider transition-colors duration-500 shadow-xs">
+                        {step.num}
+                      </span>
 
-                    <Link
-                      href={step.href}
-                      aria-label={step.title}
-                      className="w-9 h-9 rounded-full bg-white/15 group-hover:bg-[#D9F83B] border border-white/25 group-hover:border-[#D9F83B] text-white group-hover:text-slate-950 flex items-center justify-center transition-all duration-500 shrink-0"
+                      <Link
+                        href={step.href}
+                        aria-label={step.title}
+                        className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-500 shrink-0 ${
+                          isBlueSlideCard
+                            ? "bg-white/15 group-hover:bg-[#D9F83B] border-white/25 group-hover:border-[#D9F83B] text-white group-hover:text-slate-950"
+                            : "bg-slate-100 group-hover:bg-[#D9F83B] border-slate-200 group-hover:border-[#D9F83B] text-slate-900"
+                        }`}
+                      >
+                        <ArrowRight
+                          size={15}
+                          className="transition-transform duration-500 ease-out group-hover:rotate-45"
+                        />
+                      </Link>
+                    </div>
+
+                    <h3
+                      className={`text-xl font-extrabold mb-2 font-sans transition-colors duration-500 ${
+                        isBlueSlideCard
+                          ? "text-white group-hover:text-slate-950"
+                          : "text-slate-950 group-hover:text-[#1D3189]"
+                      }`}
                     >
-                      <ArrowRight
-                        size={15}
-                        className="transition-transform duration-500 ease-out group-hover:rotate-45"
-                      />
-                    </Link>
+                      {step.title}
+                    </h3>
+                    <p
+                      className={`leading-relaxed mb-6 font-medium transition-colors duration-500 ${
+                        isBlueSlideCard
+                          ? "text-blue-100/85 group-hover:text-slate-600"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      {step.desc}
+                    </p>
                   </div>
 
-                  <h3 className="text-xl font-extrabold text-white group-hover:text-slate-950 mb-2 font-sans transition-colors duration-500">
-                    {step.title}
-                  </h3>
-                  <p className="text-blue-100/85 group-hover:text-slate-600 leading-relaxed mb-6 font-medium transition-colors duration-500">
-                    {step.desc}
-                  </p>
-                </div>
+                  <div
+                    className={`relative z-10 font-bold uppercase tracking-wider text-[11px] transition-colors duration-500 ${
+                      isBlueSlideCard
+                        ? "text-[#D9F83B] group-hover:text-[#1D3189]"
+                        : "text-[#1D3189]"
+                    }`}
+                  >
+                    {step.tag}
+                  </div>
 
-                <div className="relative z-10 text-[#D9F83B] group-hover:text-[#1D3189] font-bold uppercase tracking-wider text-[11px] transition-colors duration-500">
-                  {step.tag}
-                </div>
-              </motion.div>
-            ))}
+                  {!isBlueSlideCard && (
+                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
