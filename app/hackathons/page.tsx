@@ -729,10 +729,18 @@ export default function HackathonsPage() {
                   </div>
                 </div>
 
-                {/* Bottom-only slow-motion color fill bar */}
+                {/* Left, Top & Right 3px animated border color fill on hover */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out"
+                  className="pointer-events-none absolute top-0 bottom-0 left-0 w-[3px] bg-gradient-to-b from-[#162774] to-[#D9F83B] scale-y-0 group-hover:scale-y-100 origin-bottom transition-transform duration-500 ease-out"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#162774] via-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-0 bottom-0 right-0 w-[3px] bg-gradient-to-b from-[#D9F83B] to-[#162774] scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-out"
                 />
               </div>
             ))}
