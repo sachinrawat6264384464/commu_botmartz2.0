@@ -463,30 +463,30 @@ export default function ProductTourPage() {
                   </Link>
                 </div>
 
-                {/* 3 Pillars: What / Why / How (Clean Typography, Project Colors, No Icons) */}
-                <div className="space-y-3 font-sans text-xs">
-                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 border-l-2 border-l-[#162774] space-y-1">
-                    <div className="text-[#162774] font-extrabold text-[11px] uppercase tracking-wider">
+                {/* 3 Pillars: What / Why / How (Blue Heading Pills, No Inner Box Lines) */}
+                <div className="space-y-4 font-sans text-xs">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider">
                       What It Is
-                    </div>
+                    </span>
                     <p className="text-slate-600 leading-relaxed text-xs font-medium">
                       {module.what}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 border-l-2 border-l-[#D9F83B] space-y-1">
-                    <div className="text-[#1D3189] font-extrabold text-[11px] uppercase tracking-wider">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider">
                       Why It Exists
-                    </div>
+                    </span>
                     <p className="text-slate-600 leading-relaxed text-xs font-medium">
                       {module.why}
                     </p>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 border-l-2 border-l-[#162774] space-y-1">
-                    <div className="text-[#162774] font-extrabold text-[11px] uppercase tracking-wider">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider">
                       How To Use It
-                    </div>
+                    </span>
                     <p className="text-slate-600 leading-relaxed text-xs font-medium">
                       {module.how}
                     </p>
