@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import {
   ArrowRight,
+  ChevronDown,
   Check,
   Copy,
   Loader2,
@@ -26,6 +27,20 @@ export default function HackathonsPage() {
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDomain, setSelectedDomain] = useState("All");
+  const [modeFilter, setModeFilter] = useState<"all" | "solo" | "team">("all");
+  const [domainMenuOpen, setDomainMenuOpen] = useState(false);
+  const domainMenuRef = useRef<HTMLDivElement>(null);
+  const [submitModalOpen, setSubmitModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (domainMenuRef.current && !domainMenuRef.current.contains(e.target as Node)) {
+        setDomainMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Enrollment Modal State (No Account Required)
   const [enrollProject, setEnrollProject] = useState<HackathonProject | null>(null);
@@ -330,6 +345,7 @@ export default function HackathonsPage() {
         throw new Error(data.error || "Submission failed.");
       }
 
+      setSubmitModalOpen(false);
       setSubmitSuccessPopup(data.submission);
       setGithubUrl("");
       setDeployedUrl("");
@@ -419,15 +435,16 @@ export default function HackathonsPage() {
                 </ul>
               </div>
 
-              <a
-                href="#submit-project"
+              <button
+                type="button"
+                onClick={() => setSubmitModalOpen(true)}
                 className="w-full px-6 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all flex items-center justify-between group cursor-pointer shadow-lg shadow-lime-400/20"
               >
                 <span>Already Have a Unique ID? Submit Project</span>
                 <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                   <ArrowRight size={14} />
                 </span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -462,27 +479,158 @@ export default function HackathonsPage() {
         </div>
       </section>
 
-      {/* ── 3. SEARCH & FILTER BAR ── */}
+      {/* ── 3. SEARCH & FILTER BAR (SOLO/TEAM + DOMAIN PILLS + SUBMIT TRIGGER) ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
-        <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-md flex flex-col sm:flex-row items-center gap-3">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search hackathon challenges by title, domain, or tech stack..."
-            className="w-full flex-1 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3 text-xs sm:text-sm font-sans text-slate-950 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#1D3189] font-medium"
-          />
+        <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-md space-y-4">
+          <div className="flex flex-col lg:flex-row items-center gap-3">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search hackathon challenges by title, domain, or tech stack..."
+              className="w-full flex-1 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3 text-xs sm:text-sm font-sans text-slate-950 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#1D3189] font-medium"
+            />
 
-          <select
-            value={selectedDomain}
-            onChange={(e) => setSelectedDomain(e.target.value)}
-            className="w-full sm:w-64 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3 text-xs sm:text-sm font-sans text-slate-950 focus:bg-white focus:outline-none focus:border-[#1D3189] font-semibold cursor-pointer"
-          >
-            <option value="All">All Domains ({projects.length})</option>
-            {domains.map((d) => (
-              <option key={d} value={d}>{d}</option>
-            ))}
-          </select>
+            {/* Custom Domain Dropdown with Rotating Circle Arrow */}
+            <div ref={domainMenuRef} className="relative w-full lg:w-72">
+              <button
+                type="button"
+                onClick={() => setDomainMenuOpen((prev) => !prev)}
+                className={`w-full bg-slate-50 border-2 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-sans text-slate-950 focus:outline-none transition-all duration-300 font-semibold cursor-pointer flex items-center justify-between gap-3 group ${
+                  domainMenuOpen ? "border-[#1D3189] bg-white shadow-md" : "border-slate-200 hover:border-[#1D3189] hover:bg-white"
+                }`}
+              >
+                <span className="truncate">
+                  {selectedDomain === "All" ? `All Domains (${projects.length})` : selectedDomain}
+                </span>
+                <span
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ease-in-out ${
+                    domainMenuOpen
+                      ? "bg-[#D9F83B] text-slate-950 rotate-180"
+                      : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-[#1D3189] group-hover:text-white group-hover:rotate-180"
+                  }`}
+                >
+                  <ChevronDown size={14} />
+                </span>
+              </button>
+
+              {domainMenuOpen && (
+                <div className="absolute right-0 mt-2 w-full lg:w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl p-1.5 z-50 max-h-72 overflow-y-auto space-y-0.5 font-sans">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedDomain("All");
+                      setDomainMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                      selectedDomain === "All"
+                        ? "bg-[#070E54] text-white"
+                        : "text-slate-700 hover:bg-[#070E54] hover:text-white"
+                    }`}
+                  >
+                    <span>All Domains ({projects.length})</span>
+                    {selectedDomain === "All" && <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />}
+                  </button>
+                  {domains.map((d) => (
+                    <button
+                      key={d}
+                      type="button"
+                      onClick={() => {
+                        setSelectedDomain(d);
+                        setDomainMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                        selectedDomain === d
+                          ? "bg-[#070E54] text-white"
+                          : "text-slate-700 hover:bg-[#070E54] hover:text-white"
+                      }`}
+                    >
+                      <span className="truncate pr-2">{d}</span>
+                      {selectedDomain === d && <span className="w-2 h-2 rounded-full bg-[#D9F83B] shrink-0" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setSubmitModalOpen(true)}
+              className="w-full lg:w-auto px-5 py-3 rounded-2xl bg-[#070E54] hover:bg-[#1D3189] text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shrink-0 flex items-center justify-center gap-2"
+            >
+              <span>Submit Project</span>
+              <ArrowRight size={14} className="text-[#D9F83B]" />
+            </button>
+          </div>
+
+          {/* Filter Pills Row: Solo / Team Mode + Domain Quick Pills */}
+          <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mr-1">Mode:</span>
+              <button
+                type="button"
+                onClick={() => setModeFilter("all")}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${
+                  modeFilter === "all"
+                    ? "bg-[#1D3189] text-white border-[#1D3189]"
+                    : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
+                }`}
+              >
+                All Modes
+              </button>
+              <button
+                type="button"
+                onClick={() => setModeFilter("solo")}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${
+                  modeFilter === "solo"
+                    ? "bg-[#1D3189] text-white border-[#1D3189]"
+                    : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
+                }`}
+              >
+                Solo (₹{SOLO_HACKATHON_FEE})
+              </button>
+              <button
+                type="button"
+                onClick={() => setModeFilter("team")}
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${
+                  modeFilter === "team"
+                    ? "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
+                    : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
+                }`}
+              >
+                Team 2–3 (₹{TEAM_HACKATHON_FEE})
+              </button>
+            </div>
+
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mr-1">Domain:</span>
+              <button
+                type="button"
+                onClick={() => setSelectedDomain("All")}
+                className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${
+                  selectedDomain === "All"
+                    ? "bg-[#070E54] text-white border-[#070E54]"
+                    : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
+                }`}
+              >
+                All
+              </button>
+              {domains.map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => setSelectedDomain(d)}
+                  className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${
+                    selectedDomain === d
+                      ? "bg-[#070E54] text-white border-[#070E54]"
+                      : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
+                  }`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -548,21 +696,29 @@ export default function HackathonsPage() {
                     <span>Solo: ₹{project.soloFee || SOLO_HACKATHON_FEE}</span>
                     <span>Team (2–3): ₹{project.teamFee || TEAM_HACKATHON_FEE}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() => openEnrollModal(project, "solo")}
-                      className="py-2.5 rounded-xl bg-slate-100 hover:bg-[#1D3189] hover:text-white border border-slate-200 text-slate-900 font-bold text-xs transition-all cursor-pointer"
-                    >
-                      Solo (₹{project.soloFee || SOLO_HACKATHON_FEE})
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => openEnrollModal(project, "team")}
-                      className="py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all cursor-pointer shadow-sm"
-                    >
-                      Team (₹{project.teamFee || TEAM_HACKATHON_FEE})
-                    </button>
+                  <div className={`grid gap-2.5 ${modeFilter === "all" ? "grid-cols-2" : "grid-cols-1"}`}>
+                    {modeFilter !== "team" && (
+                      <button
+                        type="button"
+                        onClick={() => openEnrollModal(project, "solo")}
+                        className={`py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${
+                          modeFilter === "solo"
+                            ? "bg-[#1D3189] hover:bg-[#152468] text-white shadow-sm"
+                            : "bg-slate-100 hover:bg-[#1D3189] hover:text-white border border-slate-200 text-slate-900"
+                        }`}
+                      >
+                        Enroll Solo (₹{project.soloFee || SOLO_HACKATHON_FEE})
+                      </button>
+                    )}
+                    {modeFilter !== "solo" && (
+                      <button
+                        type="button"
+                        onClick={() => openEnrollModal(project, "team")}
+                        className="py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all cursor-pointer shadow-sm"
+                      >
+                        Enroll Team (₹{project.teamFee || TEAM_HACKATHON_FEE})
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -577,154 +733,163 @@ export default function HackathonsPage() {
         )}
       </section>
 
-      {/* ── 5. PROJECT SUBMISSION SECTION (UNIQUE ID AUTO-FETCH) ── */}
-      <section id="submit-project" className="w-full px-4 sm:px-8 lg:px-12">
-        <div className="max-w-4xl mx-auto bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
-          <div className="bg-[#070E54] px-6 sm:px-8 py-6 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <div className="text-[11px] font-bold uppercase tracking-wider text-[#D9F83B]">
-                24-Hour Submission Portal
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold mt-1">
-                Submit Your Working Hackathon Project
-              </h2>
-            </div>
-            <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-blue-100 shrink-0">
-              Results Declared Within 24 Hours
-            </span>
-          </div>
-
-          <form onSubmit={handleProjectSubmit} className="p-6 sm:p-8 space-y-5 text-xs">
-            {/* Unique ID Input + Lookup */}
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                Hackathon Unique ID * (Sent to Team Leader Email)
-              </label>
-              <div className="flex flex-col sm:flex-row gap-2.5">
-                <input
-                  type="text"
-                  required
-                  value={subUniqueCode}
-                  onChange={(e) => setSubUniqueCode(e.target.value.toUpperCase())}
-                  placeholder="e.g. BM-HACK-8F4K2A"
-                  className="flex-1 px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-bold uppercase tracking-wider focus:bg-white focus:outline-none focus:border-[#1D3189]"
-                />
+      {/* ── 5. PROJECT SUBMISSION MODAL (OPENED FROM TOP BUTTON) ── */}
+      {submitModalOpen && (
+        <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-950/80 backdrop-blur-md p-4">
+          <div className="min-h-full flex items-center justify-center">
+            <div className="relative w-full max-w-2xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden">
+              <div className="bg-[#070E54] px-6 sm:px-8 py-5 text-white flex items-center justify-between gap-3">
+                <div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#D9F83B]">
+                    24-Hour Submission Portal
+                  </div>
+                  <h2 className="text-lg sm:text-xl font-extrabold mt-0.5">
+                    Submit Your Working Hackathon Project
+                  </h2>
+                </div>
                 <button
                   type="button"
-                  onClick={() => handleLookupUniqueCode()}
-                  disabled={lookupLoading}
-                  className="px-5 py-3 rounded-xl bg-[#1D3189] hover:bg-[#152468] text-white font-bold transition-all cursor-pointer disabled:opacity-50 shrink-0"
+                  onClick={() => setSubmitModalOpen(false)}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white cursor-pointer shrink-0"
+                  aria-label="Close submission modal"
                 >
-                  {lookupLoading ? "Checking..." : "Verify Unique ID"}
+                  <X size={18} />
                 </button>
               </div>
-              {lookupError && (
-                <p className="mt-2 text-xs font-semibold text-rose-600">{lookupError}</p>
-              )}
-              {verifiedReg && !lookupError && (
-                <p className="mt-2 text-xs font-semibold text-emerald-700">
-                  Verified ({verifiedReg.mode === "team" ? "Team" : "Solo"}) • Valid until{" "}
-                  {new Date(verifiedReg.expiresAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
-                </p>
-              )}
+
+              <form onSubmit={handleProjectSubmit} className="p-6 sm:p-8 space-y-4 text-xs">
+                {/* Unique ID Input + Lookup */}
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Hackathon Unique ID * (Sent to Team Leader Email)
+                  </label>
+                  <div className="flex flex-col sm:flex-row gap-2.5">
+                    <input
+                      type="text"
+                      required
+                      value={subUniqueCode}
+                      onChange={(e) => setSubUniqueCode(e.target.value.toUpperCase())}
+                      placeholder="e.g. BM-HACK-8F4K2A"
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-bold uppercase tracking-wider focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleLookupUniqueCode()}
+                      disabled={lookupLoading}
+                      className="px-5 py-2.5 rounded-xl bg-[#1D3189] hover:bg-[#152468] text-white font-bold transition-all cursor-pointer disabled:opacity-50 shrink-0"
+                    >
+                      {lookupLoading ? "Checking..." : "Verify Unique ID"}
+                    </button>
+                  </div>
+                  {lookupError && (
+                    <p className="mt-1.5 text-xs font-semibold text-rose-600">{lookupError}</p>
+                  )}
+                  {verifiedReg && !lookupError && (
+                    <p className="mt-1.5 text-xs font-semibold text-emerald-700">
+                      Verified ({verifiedReg.mode === "team" ? "Team" : "Solo"}) • Valid until{" "}
+                      {new Date(verifiedReg.expiresAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
+                    </p>
+                  )}
+                </div>
+
+                {/* Auto-Filled Team Name & Project Title */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                      Team / Participant Name (Auto-Filled)
+                    </label>
+                    <input
+                      type="text"
+                      readOnly
+                      value={subTeamName}
+                      placeholder="Enter valid Unique ID to auto-fetch..."
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-bold cursor-not-allowed"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                      Selected Hackathon Project (Auto-Filled)
+                    </label>
+                    <input
+                      type="text"
+                      readOnly
+                      value={subProjectTitle}
+                      placeholder="Auto-fetched from database..."
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-semibold cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+
+                {/* Working GitHub & Deployed Links */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                      Working GitHub Repository Link *
+                    </label>
+                    <input
+                      type="url"
+                      required
+                      value={githubUrl}
+                      onChange={(e) => setGithubUrl(e.target.value)}
+                      placeholder="https://github.com/username/hackathon-project"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                      Live Deployed Link *
+                    </label>
+                    <input
+                      type="url"
+                      required
+                      value={deployedUrl}
+                      onChange={(e) => setDeployedUrl(e.target.value)}
+                      placeholder="https://your-project.vercel.app"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                    Architecture / Demo Notes (Optional)
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={subNotes}
+                    onChange={(e) => setSubNotes(e.target.value)}
+                    placeholder="Key features implemented, test credentials, or walkthrough notes..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                  />
+                </div>
+
+                {submitError && (
+                  <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-semibold">
+                    {submitError}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={submittingProject || !verifiedReg || Boolean(lookupError)}
+                  className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                >
+                  {submittingProject ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Submitting Project...</span>
+                    </>
+                  ) : (
+                    <span>Submit Hackathon Project &rarr;</span>
+                  )}
+                </button>
+              </form>
             </div>
-
-            {/* Auto-Filled Team Name & Project Title */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Team / Participant Name (Auto-Filled)
-                </label>
-                <input
-                  type="text"
-                  readOnly
-                  value={subTeamName}
-                  placeholder="Enter valid Unique ID to auto-fetch..."
-                  className="w-full px-4 py-3 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-bold cursor-not-allowed"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Selected Hackathon Project (Auto-Filled)
-                </label>
-                <input
-                  type="text"
-                  readOnly
-                  value={subProjectTitle}
-                  placeholder="Auto-fetched from database..."
-                  className="w-full px-4 py-3 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-semibold cursor-not-allowed"
-                />
-              </div>
-            </div>
-
-            {/* Working GitHub & Deployed Links */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Working GitHub Repository Link *
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={githubUrl}
-                  onChange={(e) => setGithubUrl(e.target.value)}
-                  placeholder="https://github.com/username/hackathon-project"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                  Live Deployed Link *
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={deployedUrl}
-                  onChange={(e) => setDeployedUrl(e.target.value)}
-                  placeholder="https://your-project.vercel.app"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
-                Architecture / Demo Notes (Optional)
-              </label>
-              <textarea
-                rows={2}
-                value={subNotes}
-                onChange={(e) => setSubNotes(e.target.value)}
-                placeholder="Key features implemented, test credentials, or walkthrough notes..."
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
-              />
-            </div>
-
-            {submitError && (
-              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-semibold">
-                {submitError}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={submittingProject || !verifiedReg || Boolean(lookupError)}
-              className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {submittingProject ? (
-                <>
-                  <Loader2 size={16} className="animate-spin" />
-                  <span>Submitting Project...</span>
-                </>
-              ) : (
-                <span>Submit Hackathon Project &rarr;</span>
-              )}
-            </button>
-          </form>
+          </div>
         </div>
-      </section>
+      )}
 
       {/* ── ENROLLMENT & PAYMENT MODAL (NO ACCOUNT REQUIRED) ── */}
       {enrollProject && (
@@ -784,7 +949,7 @@ export default function HackathonsPage() {
                     onClick={() => {
                       setSubUniqueCode(enrolledReceipt.uniqueCode);
                       setEnrollProject(null);
-                      document.getElementById("submit-project")?.scrollIntoView({ behavior: "smooth" });
+                      setSubmitModalOpen(true);
                     }}
                     className="w-full py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm cursor-pointer"
                   >
