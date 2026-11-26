@@ -62,15 +62,6 @@ function StudentLoginInner() {
   // Primary mode state: signup vs signin (defaults to signin on /login route)
   const [authMode, setAuthMode] = useState<"signup" | "signin">(initialMode);
   const [authMethod, setAuthMethod] = useState<"passcode" | "google" | "phone">("passcode");
-  const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
-  const [cursorPos, setCursorPos] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
-
-  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setCursorPos({ x, y });
-  };
 
   // Sync mode search param with authMode state
   useEffect(() => {
@@ -343,29 +334,7 @@ function StudentLoginInner() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
 
           {/* ── LEFT COLUMN (7 COLS): HIGH-TECH HERO BRANDING BANNER ── */}
-          <div
-            onMouseEnter={() => setHoveredSide("left")}
-            onMouseLeave={() => setHoveredSide(null)}
-            onMouseMove={handleCardMouseMove}
-            className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/95 p-5 sm:p-6 border border-white/15 shadow-2xl flex flex-col justify-between backdrop-blur-xl hover:border-[#D9F83B]/50 transition-all duration-500 group text-white"
-          >
-            {/* Slow-motion sliding background fill when cursor hovers the Right Form */}
-            <div
-              aria-hidden="true"
-              className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-[#1D3189] via-[#2B4BC8] to-[#172875] transition-transform duration-1000 ease-in-out ${
-                hoveredSide === "right" ? "translate-x-0" : "-translate-x-full"
-              }`}
-            />
-            {/* Cursor spotlight glow when cursor is on the Left Box */}
-            <div
-              aria-hidden="true"
-              className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${
-                hoveredSide === "left" ? "opacity-100" : "opacity-0"
-              }`}
-              style={{
-                background: `radial-gradient(420px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(217, 248, 59, 0.16), transparent 65%)`,
-              }}
-            />
+          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/95 p-5 sm:p-6 border border-white/15 shadow-2xl flex flex-col justify-between backdrop-blur-xl group text-white">
 
             <div className="relative z-10 space-y-3.5">
               {/* Top Row: Badge + Top-Right 180deg Rotating Circle Arrow */}
@@ -642,29 +611,7 @@ function StudentLoginInner() {
               </div>
             ) : (
               /* MAIN AUTH CARD (SIGN UP / SIGN IN) */
-              <div
-                onMouseEnter={() => setHoveredSide("right")}
-                onMouseLeave={() => setHoveredSide(null)}
-                onMouseMove={handleCardMouseMove}
-                className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-3.5 relative overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-[#1D3189]/40"
-              >
-                {/* Slow-motion sliding background fill when cursor hovers the Left Box */}
-                <div
-                  aria-hidden="true"
-                  className={`pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-[#D9F83B]/40 via-[#EAF9B8] to-[#DBEAFE] transition-transform duration-1000 ease-in-out ${
-                    hoveredSide === "left" ? "translate-x-0" : "-translate-x-full"
-                  }`}
-                />
-                {/* Cursor spotlight glow when cursor is on the Right Form */}
-                <div
-                  aria-hidden="true"
-                  className={`pointer-events-none absolute inset-0 z-0 transition-opacity duration-500 ${
-                    hoveredSide === "right" ? "opacity-100" : "opacity-0"
-                  }`}
-                  style={{
-                    background: `radial-gradient(380px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(29, 49, 137, 0.09), transparent 65%)`,
-                  }}
-                />
+              <div className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-3.5 relative overflow-hidden flex flex-col justify-between">
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9F83B] z-10" />
 
                 <div className="relative z-10 space-y-4">
