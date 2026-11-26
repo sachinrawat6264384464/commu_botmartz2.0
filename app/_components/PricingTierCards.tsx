@@ -120,10 +120,12 @@ export default function PricingTierCards() {
 
           <Link
             href="/arena"
-            className="w-full py-3.5 px-6 rounded-full bg-slate-100 hover:bg-[#1D3189] text-slate-900 hover:text-white font-bold text-xs sm:text-sm text-center transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-2.5 pl-6 pr-3 rounded-full bg-slate-100 hover:bg-[#1D3189] text-slate-900 hover:text-white font-bold text-xs sm:text-sm text-center transition-all flex items-center justify-between gap-2 cursor-pointer"
           >
             <span>Start Free (Self-Paced)</span>
-            <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
+            <span className="w-7 h-7 rounded-full bg-[#1D3189] group-hover:bg-[#D9F83B] text-white group-hover:text-slate-950 inline-flex items-center justify-center shrink-0 transition-colors">
+              <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
+            </span>
           </Link>
         </div>
 
@@ -182,10 +184,12 @@ export default function PricingTierCards() {
           <button
             type="button"
             onClick={() => handleOpenCheckout(299, "Verified Builder Pass (1-Month AI Internship)")}
-            className="w-full py-3.5 px-6 rounded-full bg-[#1D3189] hover:bg-[#070E54] text-white font-bold text-xs sm:text-sm text-center transition-all shadow-lg shadow-[#1D3189]/20 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-2.5 pl-6 pr-3 rounded-full bg-[#1D3189] hover:bg-[#070E54] text-white font-bold text-xs sm:text-sm text-center transition-all shadow-lg shadow-[#1D3189]/20 flex items-center justify-between gap-2 cursor-pointer"
           >
             <span>Get Verified Pass (₹299)</span>
-            <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
+            <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center shrink-0">
+              <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
+            </span>
           </button>
         </div>
 
@@ -249,10 +253,12 @@ export default function PricingTierCards() {
           <button
             type="button"
             onClick={() => handleOpenCheckout(1999, "Founder Placement Track (45-Day Internship + Placement Referral)")}
-            className="relative z-10 w-full py-3.5 px-6 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs sm:text-sm text-center transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer"
+            className="relative z-10 w-full py-2.5 pl-6 pr-3 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs sm:text-sm text-center transition-all shadow-lg shadow-lime-400/20 flex items-center justify-between gap-2 cursor-pointer"
           >
             <span>Join Founder Track (₹1,999)</span>
-            <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
+            <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] inline-flex items-center justify-center shrink-0">
+              <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
+            </span>
           </button>
         </div>
 
