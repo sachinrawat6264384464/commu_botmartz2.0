@@ -144,17 +144,12 @@ export default function VirtualAIInternshipPage() {
       />
 
       {/* ── 1. HERO SECTION: FULL-WIDTH 2-COLUMN SPLIT LAYOUT ── */}
-      <section className="pt-8 pb-16 border-b border-slate-200/80 relative overflow-hidden">
+      <section className="pt-28 pb-16 border-b border-slate-200/80 relative overflow-hidden">
         <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
-          
-          {/* Transparency & Integrity Callout */}
-          <div className="mb-8 p-4 rounded-2xl bg-[#070E54] border border-white/15 text-blue-100 font-sans text-xs text-center leading-relaxed shadow-md">
-            <strong className="text-[#D9F83B]">Honest Engineering Notice:</strong> Botmartz is an intensive, practical software simulator. We do not sell or guarantee job placements or salaries. We provide real production architectures, daily GitHub commit tracking, and founder code teardowns to help you build an undeniable portfolio.
-          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* LEFT COLUMN: HEADLINE, SUBHEAD & ACTIONS */}
+            {/* LEFT COLUMN: HEADLINE & ACTIONS */}
             <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
               
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold uppercase tracking-wider shadow-xs">
@@ -169,10 +164,6 @@ export default function VirtualAIInternshipPage() {
                 </span>{" "}
                 With Verifiable Proof of Work.
               </h1>
-
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-sans max-w-2xl font-medium">
-                Tackle {TOTAL_SYSTEMS_COUNT} industrial PRDs with real multi-table relational/vector schemas, REST/gRPC APIs, Docker containers, and strict latency SLA test gates (&lt;150ms). Submit daily commits, build your streak, and earn Founder Soham Sharma&apos;s technical code audits.
-              </p>
 
               <div className="flex flex-wrap items-center gap-4 font-sans text-xs pt-2">
                 <a
@@ -191,26 +182,6 @@ export default function VirtualAIInternshipPage() {
                 >
                   Explore {TOTAL_SYSTEMS_COUNT} PRD Blueprints
                 </Link>
-              </div>
-
-              {/* Quick Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-6 border-t border-slate-200/80 font-sans text-xs">
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-xs">
-                  <div className="text-xl font-black text-slate-950">{TOTAL_SYSTEMS_COUNT} Systems</div>
-                  <div className="text-slate-500 text-[11px] mt-0.5 font-semibold">Production PRDs</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-xs">
-                  <div className="text-xl font-black text-emerald-600">&lt;150ms</div>
-                  <div className="text-slate-500 text-[11px] mt-0.5 font-semibold">Strict SLA Gates</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-xs">
-                  <div className="text-xl font-black text-[#1D3189]">4-Week</div>
-                  <div className="text-slate-500 text-[11px] mt-0.5 font-semibold">Daily GitHub Log</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-xs">
-                  <div className="text-xl font-black text-slate-950">Weekly</div>
-                  <div className="text-slate-500 text-[11px] mt-0.5 font-semibold">Founder Reviews</div>
-                </div>
               </div>
 
             </div>
