@@ -38,55 +38,57 @@ export default async function CommunityHomePage() {
 
   return (
     <div className="bg-[#FAFCFF] text-slate-900 font-sans">
-      
+
       {/* ── 1. HERO SECTION: DEEP INDIGO GRID WITH LIME CTA & 3-COLUMN SHOWCASE ── */}
       <section
-        className="relative pt-10 sm:pt-14 pb-0 overflow-hidden bg-[#1D3189] text-white"
+        className="relative pt-24 sm:pt-28 pb-0 overflow-hidden bg-[#1D3189] text-white min-h-screen flex flex-col justify-end"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
         }}
       >
-        <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1440px] mx-auto flex flex-col items-center">
-          {/* Centered Main Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-extrabold tracking-tight leading-[1.08] text-white text-center max-w-4xl font-sans">
-            Build Production Systems. <br />
-            Ship Daily. Get Hired.
-          </h1>
+        <div className="w-full px-4 sm:px-8 lg:px-14 relative z-10 max-w-[1600px] mx-auto flex flex-col items-center flex-1 justify-between">
+          <div className="flex flex-col items-center pt-2 sm:pt-4">
+            {/* Centered Main Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[64px] xl:text-[74px] font-extrabold tracking-tight leading-[1.06] text-white text-center max-w-5xl font-sans">
+              Build Production Systems. <br />
+              Ship Daily. Get Hired.
+            </h1>
 
-          {/* Primary Lime CTA + Secondary Links */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <Link
-              href="/login"
-              prefetch={false}
-              className="inline-flex items-center gap-2 group cursor-pointer"
-            >
-              <span className="px-7 py-3.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm tracking-tight shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:scale-[1.02]">
-                Join 45-Day Cohort (Free)
-              </span>
-              <span className="w-12 h-12 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 flex items-center justify-center shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:rotate-12 group-hover:scale-105">
-                <ArrowUpRight size={20} strokeWidth={2.5} />
-              </span>
-            </Link>
+            {/* Primary Lime CTA + Secondary Links */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-7 sm:mt-8">
+              <Link
+                href="/login"
+                prefetch={false}
+                className="inline-flex items-center gap-2.5 group cursor-pointer"
+              >
+                <span className="px-8 py-4 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-base tracking-tight shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:scale-[1.02]">
+                  Join 45-Day Cohort (Free)
+                </span>
+                <span className="w-14 h-14 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 flex items-center justify-center shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:rotate-12 group-hover:scale-105">
+                  <ArrowUpRight size={22} strokeWidth={2.5} />
+                </span>
+              </Link>
 
-            <Link
-              href="/arena"
-              prefetch={false}
-              className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-sm"
-            >
-              <Terminal size={15} className="text-[#D9F83B]" />
-              <span>Explore {TOTAL_SYSTEMS_COUNT}+ Systems</span>
-            </Link>
+              <Link
+                href="/arena"
+                prefetch={false}
+                className="px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2.5 backdrop-blur-sm"
+              >
+                <Terminal size={17} className="text-[#D9F83B]" />
+                <span>Explore {TOTAL_SYSTEMS_COUNT}+ Systems</span>
+              </Link>
+            </div>
           </div>
 
           {/* 3-Column Bottom Showcase Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end w-full mt-10 lg:mt-12 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end w-full mt-6 lg:mt-8 relative">
             {/* Left Column: Quote + Stat */}
-            <div className="lg:col-span-4 flex flex-col items-start text-left space-y-6 pb-10 lg:pb-14 z-10">
-              <div className="space-y-3 max-w-xs">
+            <div className="lg:col-span-4 flex flex-col items-start text-left space-y-5 pb-8 lg:pb-12 z-10">
+              <div className="space-y-2.5 max-w-sm">
                 <Quote size={26} className="text-white/90 fill-white/90 rotate-180" />
-                <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed font-normal">
+                <p className="text-base text-blue-100/90 leading-relaxed font-normal">
                   From AI-enhanced architectures to real-world systems, our playground empowers you to ship daily.
                 </p>
               </div>
@@ -95,41 +97,41 @@ export default async function CommunityHomePage() {
                 <div className="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
                   {TOTAL_SYSTEMS_COUNT}+
                 </div>
-                <div className="text-xs sm:text-sm text-blue-200/90 font-medium mt-1">
+                <div className="text-sm text-blue-200/90 font-medium mt-1">
                   Production Systems &bull; 15+ Partner Companies
                 </div>
               </div>
             </div>
 
             {/* Center Column: Semi-Circular Navy Dome + Visual */}
-            <div className="lg:col-span-4 relative flex items-end justify-center min-h-[320px] sm:min-h-[390px]">
+            <div className="lg:col-span-4 relative flex items-end justify-center min-h-[260px] sm:min-h-[320px]">
               {/* Dark Navy Arch / Dome */}
-              <div className="w-[420px] sm:w-[580px] lg:w-[640px] h-[270px] sm:h-[340px] rounded-t-full bg-[#070E54] absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none shadow-2xl" />
+              <div className="w-[390px] sm:w-[440px] lg:w-[570px] h-[190px] sm:h-[220px] lg:h-[290px] rounded-t-full bg-[#070E54] absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none shadow-2xl" />
 
               {/* Center Visual */}
-              <div className="relative z-10 flex items-end justify-center">
+              <div className="relative z-10 flex items-end justify-center overflow-hidden">
                 <Image
                   src="/soham_transparent.png"
                   alt="Botmartz Founder & Mentor"
-                  width={380}
-                  height={420}
-                  className="object-contain object-bottom drop-shadow-2xl max-h-[340px] sm:max-h-[400px] w-auto"
+                  width={440}
+                  height={480}
+                  className="object-contain object-bottom drop-shadow-2xl max-h-[310px] sm:max-h-[360px] w-auto scale-110 sm:scale-120 origin-top translate-y-4 sm:translate-y-6"
                   priority
                 />
               </div>
             </div>
 
             {/* Right Column: Stars + Testimonial */}
-            <div className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right space-y-4 pb-10 lg:pb-14 z-10">
+            <div className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right space-y-4 pb-8 lg:pb-12 z-10">
               <div className="flex items-center gap-1 text-[#FACC15]">
-                <Star size={16} className="fill-[#FACC15]" />
-                <Star size={16} className="fill-[#FACC15]" />
-                <Star size={16} className="fill-[#FACC15]" />
-                <Star size={16} className="fill-[#FACC15]" />
-                <Star size={16} className="fill-[#FACC15]" />
+                <Star size={18} className="fill-[#FACC15]" />
+                <Star size={18} className="fill-[#FACC15]" />
+                <Star size={18} className="fill-[#FACC15]" />
+                <Star size={18} className="fill-[#FACC15]" />
+                <Star size={18} className="fill-[#FACC15]" />
               </div>
 
-              <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed max-w-xs">
+              <p className="text-base text-blue-100/90 leading-relaxed max-w-sm">
                 &ldquo;Modern, sleek, and focused on real production skills. Loved the hands-on PRDs and automated benchmark system.&rdquo;
               </p>
 
@@ -150,7 +152,7 @@ export default async function CommunityHomePage() {
       {/* ── 2. THE 3-STEP OPERATING MACHINE ("HOW IT WORKS") ── */}
       <section className="py-20 bg-white border-b border-slate-200">
         <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
-          
+
           <div className="text-center max-w-2xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
               The 3-Step Clear Path
@@ -164,7 +166,7 @@ export default async function CommunityHomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
+
             {/* Step 1 */}
             <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-blue-300 transition-all">
               <div>
@@ -239,7 +241,7 @@ export default async function CommunityHomePage() {
       {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
       <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
         <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
-          
+
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-blue-400 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-500/20">
@@ -315,10 +317,10 @@ export default async function CommunityHomePage() {
       {/* ── 4. INDORE OFFLINE HUB + VIRTUAL DISCORD RITUALS ── */}
       <section className="py-20 bg-white border-b border-slate-200">
         <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
-          
+
           <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              
+
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 text-slate-300 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-slate-700">
                   <MapPin size={14} /> Indore Flagship Meetup &amp; Global Discord
@@ -390,7 +392,7 @@ export default async function CommunityHomePage() {
       {/* ── 5. TRANSPARENT 3-TIER PRICING & FELLOWSHIP TRACKS (₹0 / ₹299 / ₹1,999) ── */}
       <section id="pricing" className="py-20 bg-slate-50 border-b border-slate-200">
         <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
-          
+
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-200">
               <ShieldCheck size={14} /> Honest Student Pricing
@@ -411,7 +413,7 @@ export default async function CommunityHomePage() {
       {/* ── 6. ZERO-TRUST STUDENT TRUST & READY TO JOIN CTA ── */}
       <section className="py-20 bg-slate-100 border-b border-slate-200">
         <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto text-center">
-          
+
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-emerald-200">
             <ShieldCheck size={14} /> 100% Free &amp; Zero-Spam Verification
           </div>
@@ -432,7 +434,7 @@ export default async function CommunityHomePage() {
               <span>Get Started with Google / Phone OTP</span>
               <ArrowRight size={14} />
             </Link>
-            
+
             <Link
               href="/arena/roadmaps"
               className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"

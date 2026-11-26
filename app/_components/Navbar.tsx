@@ -41,6 +41,7 @@ export default function CommunityNavbar() {
   const { user, studentProfile, logout, loading } = useAuth();
 
   const [mounted, setMounted] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [internshipOpen, setInternshipOpen] = useState(false);
   const [communityOpen, setCommunityOpen] = useState(false);
@@ -49,6 +50,12 @@ export default function CommunityNavbar() {
 
   useEffect(() => {
     setMounted(true);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const internshipMenuRef = useRef<HTMLDivElement>(null);
@@ -113,13 +120,21 @@ export default function CommunityNavbar() {
     { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: false }
   ];
 
+  const isTransparentHero = pathname === "/" && !isScrolled && !mobileOpen;
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b-2 border-slate-100 shadow-md transition-all duration-300">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isTransparentHero
+          ? "bg-transparent border-b border-transparent shadow-none"
+          : "bg-[#162774]/95 backdrop-blur-xl border-b border-white/10 shadow-lg"
+      }`}
+    >
       <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Logo & Live Cohort Badge */}
         <Link href="/" prefetch={false} className="flex items-center gap-2.5 sm:gap-3.5 group shrink-0">
-          <div className="relative w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200/80 group-hover:border-[#0066FF] group-hover:shadow-md group-hover:shadow-blue-500/15 transition-all duration-300">
+          <div className="relative w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center shrink-0 rounded-2xl bg-white/10 border border-white/20 group-hover:border-[#D9F83B] transition-all duration-300">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
@@ -130,18 +145,18 @@ export default function CommunityNavbar() {
             />
           </div>
           <div className="flex flex-col">
-            <div className="font-black text-base sm:text-xl tracking-tight text-slate-900 flex items-center gap-1.5 sm:gap-2 font-sans">
+            <div className="font-black text-base sm:text-xl tracking-tight text-white flex items-center gap-1.5 sm:gap-2 font-sans">
               <span>BOTMARTZ</span>
-              <span className="bg-gradient-to-r from-[#0066FF] via-blue-600 to-cyan-500 bg-clip-text text-transparent font-black text-xs sm:text-sm uppercase tracking-wide">
+              <span className="text-[#D9F83B] font-black text-xs sm:text-sm uppercase tracking-wide">
                 AI WORKSHOP
               </span>
             </div>
             <div className="flex items-center gap-2 -mt-0.5">
-              <span className="text-[10px] font-mono text-slate-500 tracking-wider uppercase font-extrabold hidden sm:inline-block">
+              <span className="text-[10px] font-mono text-blue-200/80 tracking-wider uppercase font-bold hidden sm:inline-block">
                 Production Engineering Cohort
               </span>
-              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[9px] font-extrabold border border-emerald-300 shadow-2xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-400/15 text-emerald-300 font-mono text-[9px] font-bold border border-emerald-400/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Live
               </span>
             </div>
@@ -149,7 +164,7 @@ export default function CommunityNavbar() {
         </Link>
 
         {/* Desktop Pill Navigation */}
-        <nav className="hidden lg:flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-full border-2 border-slate-200/90 font-sans text-xs font-extrabold shadow-sm backdrop-blur-md">
+        <nav className="hidden lg:flex items-center gap-1.5 bg-white/10 p-1.5 rounded-full border border-white/15 font-sans text-xs font-bold shadow-sm backdrop-blur-md">
           
           {/* Home Pill */}
           <Link
@@ -157,8 +172,8 @@ export default function CommunityNavbar() {
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname === "/"
-                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
+                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                : "text-blue-100 hover:text-white hover:bg-white/10"
             }`}
           >
             <Home size={14} />
@@ -172,8 +187,8 @@ export default function CommunityNavbar() {
               prefetch={false}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
                 pathname === "/arena/my-learning"
-                  ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-[#0066FF] hover:text-white hover:bg-[#0066FF] font-black bg-blue-50/80"
+                  ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                  : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
             >
               <BookOpen size={14} />
@@ -187,8 +202,8 @@ export default function CommunityNavbar() {
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
               pathname === "/arena"
-                ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
+                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                : "text-blue-100 hover:text-white hover:bg-white/10"
             }`}
           >
             <span>{TOTAL_SYSTEMS_COUNT} Systems</span>
@@ -204,12 +219,12 @@ export default function CommunityNavbar() {
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
                 internshipOpen || pathname.startsWith("/virtual-ai-internship")
-                  ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-[#334155] hover:text-white hover:bg-[#0066FF] font-bold"
+                  ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                  : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
             >
               <span>Internship</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${internshipOpen || pathname.startsWith("/virtual-ai-internship") ? "rotate-180 text-white font-bold" : "text-slate-400 group-hover:text-white"}`} />
+              <ChevronDown size={13} className={`transition-transform duration-200 ${internshipOpen || pathname.startsWith("/virtual-ai-internship") ? "rotate-180 text-slate-950" : "text-blue-200 group-hover:text-white"}`} />
             </button>
 
             {internshipOpen && (
@@ -254,12 +269,12 @@ export default function CommunityNavbar() {
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
                 resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine")
-                  ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                  : "text-[#334155] hover:text-white hover:bg-[#0066FF] font-bold"
+                  ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                  : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
             >
               <span>Resources</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine") ? "rotate-180 text-white font-bold" : "text-slate-400 group-hover:text-white"}`} />
+              <ChevronDown size={13} className={`transition-transform duration-200 ${resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine") ? "rotate-180 text-slate-950" : "text-blue-200 group-hover:text-white"}`} />
             </button>
 
             {resourcesOpen && (
@@ -362,19 +377,18 @@ export default function CommunityNavbar() {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-2 font-sans text-xs">
+            <div className="flex items-center gap-2.5 font-sans text-xs">
               <Link
                 href="/login?mode=signup"
-                className="px-4 py-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold transition-all cursor-pointer border border-slate-200"
+                className="px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold transition-all cursor-pointer border border-white/20"
               >
                 Sign Up
               </Link>
               <Link
                 href="/login?mode=signin"
-                className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-xs sm:text-sm font-black transition-all duration-300 shadow-lg hover:shadow-blue-500/25 border border-blue-400/30 hover:scale-[1.03] active:scale-[0.97] flex items-center gap-2 cursor-pointer group"
+                className="px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs sm:text-sm font-bold transition-all duration-200 shadow-md shadow-lime-400/15 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                <span>Sign In</span>
-                <Sparkles size={14} className="text-cyan-300 group-hover:rotate-12 transition-transform duration-300" />
+                Sign In
               </Link>
             </div>
           )}
@@ -384,13 +398,13 @@ export default function CommunityNavbar() {
         {/* Mobile Menu Toggle Button */}
         <div className="lg:hidden flex items-center gap-2">
           {mounted && user && (
-            <Link href="/profile" className="p-2 text-slate-700 hover:text-[#0066FF]">
+            <Link href="/profile" className="p-2 text-blue-100 hover:text-white">
               <User size={20} />
             </Link>
           )}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2.5 rounded-full border border-slate-200/90 hover:bg-slate-50 text-slate-700 shadow-2xs"
+            className="p-2.5 rounded-full border border-white/20 hover:bg-white/10 text-white"
             aria-label="Toggle Menu"
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
