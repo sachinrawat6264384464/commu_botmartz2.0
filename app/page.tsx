@@ -441,15 +441,16 @@ export default async function CommunityHomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 font-sans">
 
             {/* Left Tall Feature Card */}
-            <div
-              className="lg:col-span-5 rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden shadow-xl"
-              style={{
-                backgroundImage:
-                  "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
-                backgroundSize: "48px 48px",
-              }}
-            >
-              <div>
+            <div className="lg:col-span-5 rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white p-7 sm:p-9 flex flex-col justify-between relative overflow-hidden shadow-xl">
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                  backgroundSize: "48px 48px",
+                }}
+              />
+              <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-bold uppercase tracking-wider mb-5">
                   Saturday &bull; 5:00 PM – 7:00 PM IST
                 </div>
@@ -461,7 +462,7 @@ export default async function CommunityHomePage() {
                 </p>
               </div>
 
-              <div className="pt-5 border-t border-white/15 grid grid-cols-3 gap-3 text-center">
+              <div className="relative z-10 pt-5 border-t border-white/15 grid grid-cols-3 gap-3 text-center">
                 <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-sm">
                   <div className="text-lg sm:text-xl font-black text-[#D9F83B]">50+</div>
                   <div className="text-[11px] text-blue-100/80">RSVP Trigger</div>
