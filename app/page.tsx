@@ -504,17 +504,25 @@ export default async function CommunityHomePage() {
       </section>
 
       {/* ── 5. TRANSPARENT 3-TIER PRICING & FELLOWSHIP TRACKS (₹0 / ₹299 / ₹1,999) ── */}
-      <section id="pricing" className="py-20 bg-slate-50 border-b border-slate-200">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      <section
+        id="pricing"
+        className="py-16 sm:py-20 bg-white border-b border-slate-200/80 relative"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(29, 49, 137, 0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.035) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
+        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto">
 
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-200">
+          <div className="text-center max-w-2xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1D3189]/8 text-[#1D3189] font-sans text-xs font-bold uppercase tracking-wider mb-3 border border-[#1D3189]/15">
               <ShieldCheck size={14} /> Honest Student Pricing
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-slate-950 tracking-tight font-sans">
               Choose Your Engineering Track
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
+            <p className="text-slate-600 text-sm sm:text-base font-sans mt-3 leading-relaxed">
               Free for self-learners, ₹299 for verified credentials &amp; office hours, and ₹1,999 for full founder placement assistance.
             </p>
           </div>
