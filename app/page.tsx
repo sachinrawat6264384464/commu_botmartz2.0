@@ -270,61 +270,68 @@ export default async function CommunityHomePage() {
       </section>
 
       {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
-      <section className="py-20 bg-slate-950 text-white border-b border-slate-800">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      <section
+        className="py-20 sm:py-24 bg-[#162774] text-white border-b border-white/10 relative"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
+        <div className="w-full px-4 sm:px-8 lg:px-14 max-w-[1440px] mx-auto">
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-blue-400 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-500/20">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#070E54]/80 text-[#D9F83B] font-sans text-xs font-bold uppercase tracking-wider mb-3 border border-white/15">
                 <Activity size={13} /> Frontier Engineering Projects
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
                 Featured Internship Playground Systems
               </h2>
-              <p className="text-slate-400 text-xs sm:text-sm font-mono mt-1">
+              <p className="text-blue-200/85 text-sm sm:text-base font-sans mt-2">
                 Zero toy apps. Every project has strict test commands and SLA acceptance gates.
               </p>
             </div>
 
             <Link
               href="/arena"
-              className="px-6 py-3 rounded-2xl bg-white text-slate-900 font-mono text-xs font-bold uppercase tracking-wider hover:bg-slate-100 transition-all shrink-0 flex items-center gap-2"
+              className="px-6 py-3 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs sm:text-sm font-bold transition-all shrink-0 flex items-center gap-2 shadow-lg shadow-lime-400/15"
             >
               <span>View All {TOTAL_SYSTEMS_COUNT} Projects</span>
-              <ArrowRight size={14} />
+              <ArrowRight size={15} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
             {featuredProjects.map((p) => (
               <div
                 key={p.id}
-                className="p-6 rounded-3xl bg-slate-900 border border-slate-800 flex flex-col justify-between hover:border-blue-500/50 transition-all group"
+                className="p-6 sm:p-7 rounded-2xl bg-[#070E54]/85 backdrop-blur-md border border-white/15 flex flex-col justify-between hover:border-[#D9F83B]/60 hover:-translate-y-1 transition-all duration-300 group shadow-xl"
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold text-[10px] border border-blue-500/30">
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <span className="px-3 py-1 rounded-full bg-white/10 text-[#D9F83B] font-bold text-[11px] border border-white/15">
                       {p.difficulty}
                     </span>
-                    <span className="text-[10px] text-slate-400">{p.durationDays} Days Cohort</span>
+                    <span className="text-xs text-blue-200/75 font-medium">{p.durationDays} Days Cohort</span>
                   </div>
 
-                  <h3 className="text-base font-bold text-white font-sans mb-1.5 group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-lg font-bold text-white font-sans mb-2 group-hover:text-[#D9F83B] transition-colors">
                     {p.title}
                   </h3>
-                  <p className="text-slate-400 text-xs font-sans line-clamp-3 mb-4 leading-relaxed">
+                  <p className="text-blue-100/80 text-sm font-sans line-clamp-3 mb-5 leading-relaxed">
                     {p.overview}
                   </p>
 
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400 mb-4">
-                    <span className="text-emerald-400 font-bold">Strict SLA:</span> {p.productionSla}
+                  <div className="p-3.5 rounded-xl bg-[#1D3189]/45 border border-white/10 text-xs text-blue-100/90 mb-5">
+                    <span className="text-[#D9F83B] font-bold">Strict SLA:</span> {p.productionSla}
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-800 flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1">
+                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                  <div className="flex flex-wrap gap-1.5">
                     {p.techStack.slice(0, 2).map((t, ti) => (
-                      <span key={ti} className="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+                      <span key={ti} className="text-[11px] text-blue-100/80 bg-white/10 px-2.5 py-1 rounded-md font-medium">
                         #{t}
                       </span>
                     ))}
@@ -332,10 +339,10 @@ export default async function CommunityHomePage() {
 
                   <Link
                     href={`/arena/${p.id}`}
-                    className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1 transition-all"
+                    className="px-4 py-2 rounded-full bg-white/10 group-hover:bg-[#D9F83B] text-white group-hover:text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
                     <span>View Spec</span>
-                    <ArrowRight size={12} />
+                    <ArrowRight size={13} />
                   </Link>
                 </div>
               </div>
