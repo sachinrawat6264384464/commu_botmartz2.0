@@ -321,7 +321,7 @@ function StudentLoginInner() {
       className="min-h-[calc(100vh-80px)] bg-white text-slate-900 pt-6 sm:pt-10 pb-10 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex flex-col justify-center relative overflow-hidden"
       style={{
         backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.045) 1px, transparent 1px)",
+          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
         backgroundSize: "72px 72px",
       }}
     >
@@ -358,78 +358,66 @@ function StudentLoginInner() {
                   : "Sign in to access your student Karma Wallet, daily Git commit standup log, Agile sprint workspaces, and founder architecture teardowns."}
               </p>
 
-              {/* 4 Feature Badges Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 font-sans">
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-[#D9F83B]/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="w-9 h-9 rounded-xl bg-[#D9F83B]/15 text-[#D9F83B] flex items-center justify-center shrink-0">
-                    <Terminal size={18} />
-                  </div>
-                  <div>
-                    <div className="text-white font-bold text-xs">Daily Git Commit Logger</div>
-                    <div className="text-[#D9F83B] text-[11px] font-medium">+20 to +70 Coins Every Day</div>
-                  </div>
+              {/* 4 Feature Cards Grid (Clean Editorial Structure, No Icons) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1 font-sans">
+                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">01</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">Daily Git Commit Logger</div>
+                  <div className="text-[#D9F83B] group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">+20 to +70 Coins Every Day</div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-[#D9F83B]/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="w-9 h-9 rounded-xl bg-[#D9F83B]/15 text-[#D9F83B] flex items-center justify-center shrink-0">
-                    <Layers size={18} />
-                  </div>
-                  <div>
-                    <div className="text-white font-bold text-xs">{TOTAL_SYSTEMS_COUNT} Production System PRDs</div>
-                    <div className="text-blue-200/80 text-[11px]">LangGraph, eBPF, PostGIS</div>
-                  </div>
+                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">02</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">{TOTAL_SYSTEMS_COUNT} Production System PRDs</div>
+                  <div className="text-blue-200/80 group-hover/feat:text-slate-600 text-[11px] transition-colors">LangGraph, eBPF, PostGIS</div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-[#D9F83B]/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="w-9 h-9 rounded-xl bg-[#D9F83B]/15 text-[#D9F83B] flex items-center justify-center shrink-0">
-                    <KanbanSquare size={18} />
-                  </div>
-                  <div>
-                    <div className="text-white font-bold text-xs">Agile Workspaces &amp; Chat</div>
-                    <div className="text-blue-200/80 text-[11px]">Jira/Linear Boards &amp; Live Squad</div>
-                  </div>
+                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">03</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">Agile Workspaces &amp; Chat</div>
+                  <div className="text-blue-200/80 group-hover/feat:text-slate-600 text-[11px] transition-colors">Jira/Linear Boards &amp; Live Squad</div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-[#D9F83B]/50 hover:bg-white/10 transition-all duration-300">
-                  <div className="w-9 h-9 rounded-xl bg-[#D9F83B]/15 text-[#D9F83B] flex items-center justify-center shrink-0">
-                    <Award size={18} />
-                  </div>
-                  <div>
-                    <div className="text-white font-bold text-xs">Cryptographic Credentials</div>
-                    <div className="text-[#D9F83B] text-[11px] font-medium">QR Verifiable PDF Certificates</div>
-                  </div>
+                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">04</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">Cryptographic Credentials</div>
+                  <div className="text-[#D9F83B] group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">QR Verifiable PDF Certificates</div>
                 </div>
               </div>
 
-              {/* ── RICH HIGH-TECH SPRINT & KARMA PIPELINE WIDGET ── */}
-              <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/15 backdrop-blur-md space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-2 text-xs font-bold text-[#D9F83B] font-sans uppercase tracking-wider">
-                    <Flame size={15} className="text-[#D9F83B]" />
-                    <span>Active Cohort Architecture Pipeline</span>
+              {/* ── CLEAN SPRINT & KARMA PIPELINE WIDGET ── */}
+              <div className="p-5 rounded-2xl bg-[#1D3189]/40 border border-white/15 backdrop-blur-md space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-xs font-extrabold text-white font-sans uppercase tracking-wider">
+                    Active Cohort Architecture Pipeline
                   </span>
-                  <span className="text-[10px] font-sans text-slate-950 font-bold px-2.5 py-0.5 rounded-full bg-[#D9F83B]">
+                  <span className="text-[10px] font-sans text-slate-950 font-bold px-3 py-0.5 rounded-full bg-[#D9F83B]">
                     Live Telemetry: Active
                   </span>
                 </div>
 
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-[11px] font-sans text-blue-100/85">
-                    <span>Welcome Bonus Status</span>
-                    <span className="text-[#D9F83B] font-bold">100 / 100 Coins Unlocked</span>
+                <div className="grid grid-cols-3 gap-2 text-[11px] font-sans">
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                    <div className="text-[#D9F83B] font-bold">Week 1</div>
+                    <div className="text-blue-100/80">PRD &amp; Setup</div>
                   </div>
-                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden p-0.5 border border-white/10">
-                    <div className="bg-[#D9F83B] h-full rounded-full w-full" />
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                    <div className="text-[#D9F83B] font-bold">Week 2–3</div>
+                    <div className="text-blue-100/80">Core Build</div>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                    <div className="text-[#D9F83B] font-bold">Week 4</div>
+                    <div className="text-blue-100/80">SLA &amp; Review</div>
                   </div>
                 </div>
 
                 {/* Tech Stack Pills */}
-                <div className="flex flex-wrap items-center gap-1.5 pt-1 text-[11px] font-sans text-blue-100">
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 font-medium">LangGraph</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 font-medium">Firestore Pipelines</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 font-medium">Hostinger SMTP</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 font-medium">PostGIS</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/10 font-medium">RBAC Security</span>
+                <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-sans text-blue-100">
+                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">LangGraph</span>
+                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">Firestore Pipelines</span>
+                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">Hostinger SMTP</span>
+                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">PostGIS</span>
+                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">RBAC Security</span>
                 </div>
               </div>
             </div>
