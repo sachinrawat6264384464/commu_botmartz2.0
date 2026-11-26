@@ -254,7 +254,7 @@ export default function WorkshopsPage() {
             <span>Loading Live Workshops...</span>
           </div>
         ) : (
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-7">
             {filtered.map((ws, idx) => (
               <div
                 key={ws.id}
@@ -262,59 +262,67 @@ export default function WorkshopsPage() {
               >
                 <div>
                   {/* Cover Image */}
-                  <div className="relative aspect-video w-full overflow-hidden bg-[#162774]">
+                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#162774]">
                     <img
-                      src={ws.imageUrl || "/workshops/ws-python.png"}
+                      src={ws.imageUrl}
                       alt={ws.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute top-3 left-3 flex items-center gap-2">
-                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[11px] flex items-center justify-center shadow-md">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#162774]/70 via-transparent to-transparent" />
+                    <div className="absolute top-4 left-4 flex items-center gap-2">
+                      <span className="w-8 h-8 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center justify-center shadow-md">
                         {String(idx + 1).padStart(2, "0")}
                       </span>
-                      <span className="px-3 py-1 rounded-full bg-[#162774]/90 text-white text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-xs">
+                      <span className="px-3.5 py-1 rounded-full bg-[#162774]/95 text-white text-[11px] font-extrabold uppercase tracking-wider border border-white/20">
                         {ws.category}
                       </span>
                     </div>
-                    <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-extrabold shadow-md">
+                    <span className="absolute top-4 right-4 px-4 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 text-sm font-extrabold shadow-md">
                       {ws.isPaid && Number(ws.price) > 0 ? `₹${ws.price}` : "Free"}
                     </span>
+                    <div className="absolute bottom-3.5 left-4 right-4 flex items-center justify-between text-xs font-bold text-white">
+                      <span>{ws.scheduleDate}</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs">
+                        {ws.duration}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Body */}
-                  <div className="p-6 pb-4 space-y-3">
-                    <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold text-[#162774]">
-                      <span>{ws.scheduleDate}</span>
-                      <span className="text-slate-400">&bull;</span>
-                      <span>{ws.duration}</span>
-                    </div>
-
-                    <h2 className="text-lg font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-snug">
+                  {/* Body (Larger, High-Contrast Typography) */}
+                  <div className="p-6 sm:p-7 pb-5 space-y-4">
+                    <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-snug">
                       {ws.title}
                     </h2>
 
-                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 font-medium">
+                    <p className="text-sm text-slate-700 leading-relaxed font-medium">
                       {ws.tagline}
                     </p>
 
-                    <ul className="space-y-1.5 pt-2 border-t border-slate-200/80 text-[11px] text-slate-700">
-                      {(ws.whatYouWillBuild || []).slice(0, 3).map((item) => (
-                        <li key={item} className="flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#162774] mt-1.5 shrink-0" />
-                          <span className="line-clamp-1">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="p-4 rounded-2xl bg-white border border-slate-200/90 space-y-2">
+                      <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#162774]">
+                        What You Will Build
+                      </div>
+                      <ul className="space-y-1.5 text-xs sm:text-sm text-slate-800 font-medium">
+                        {(ws.whatYouWillBuild || []).slice(0, 3).map((item) => (
+                          <li key={item} className="flex items-start gap-2.5">
+                            <span className="w-2 h-2 rounded-full bg-[#162774] mt-1.5 shrink-0" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                    <div className="pt-2 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
-                      <span>By {ws.instructor}</span>
-                      <span>{ws.registrationCount || 0} Registered</span>
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-slate-700 font-bold pt-1">
+                      <span>Instructor: {ws.instructor}</span>
+                      <span className="px-3 py-1 rounded-full bg-white border border-slate-200 text-[#162774] text-xs">
+                        {ws.registrationCount || 0} Registered
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom Grid Slide Hover Footer */}
-                <div className="relative overflow-hidden px-6 py-4 border-t border-slate-200/80 group-hover:border-[#162774] flex items-center gap-2.5 transition-colors duration-500">
+                <div className="relative overflow-hidden px-6 sm:px-7 py-4 border-t border-slate-200/80 group-hover:border-[#162774] flex items-center gap-3 transition-colors duration-500">
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
@@ -327,17 +335,17 @@ export default function WorkshopsPage() {
                   <button
                     type="button"
                     onClick={() => setDetailWorkshop(ws)}
-                    className="relative z-10 flex-1 py-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-900 font-bold text-xs transition-all cursor-pointer"
+                    className="relative z-10 flex-1 py-3 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-950 font-extrabold text-xs sm:text-sm transition-all cursor-pointer"
                   >
                     View Details
                   </button>
                   <button
                     type="button"
                     onClick={() => openRegisterModal(ws)}
-                    className="relative z-10 flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                    className="relative z-10 flex-1 py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2"
                   >
                     <span>{ws.isPaid && Number(ws.price) > 0 ? `Register (₹${ws.price})` : "Register Free"}</span>
-                    <ArrowRight size={12} />
+                    <ArrowRight size={14} />
                   </button>
                 </div>
               </div>

@@ -25,13 +25,21 @@ export async function GET() {
     }
 
     const workshops: ManagedWorkshop[] = [];
-    snap.forEach((doc) => {
+    for (const doc of snap.docs) {
       const d = doc.data() as ManagedWorkshop;
+      const wsId = d.id || doc.id;
+      const def = DEFAULT_WORKSHOPS.find((w) => w.id === wsId);
+      let imageUrl = d.imageUrl;
+      if (def && (!imageUrl || imageUrl.startsWith("/workshops/"))) {
+        imageUrl = def.imageUrl;
+        await colRef.doc(wsId).set({ imageUrl }, { merge: true });
+      }
       workshops.push({
         ...d,
-        id: d.id || doc.id,
+        id: wsId,
+        imageUrl,
       });
-    });
+    }
 
     workshops.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
 

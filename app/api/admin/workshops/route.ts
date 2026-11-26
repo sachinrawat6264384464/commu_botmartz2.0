@@ -32,6 +32,12 @@ export async function GET() {
     for (const doc of snap.docs) {
       const ws = doc.data() as ManagedWorkshop;
       const wsId = ws.id || doc.id;
+      const def = DEFAULT_WORKSHOPS.find((w) => w.id === wsId);
+      let imageUrl = ws.imageUrl;
+      if (def && (!imageUrl || imageUrl.startsWith("/workshops/"))) {
+        imageUrl = def.imageUrl;
+        await colRef.doc(wsId).set({ imageUrl }, { merge: true });
+      }
       const regSnap = await colRef
         .doc(wsId)
         .collection("registrations")
@@ -52,6 +58,7 @@ export async function GET() {
       workshops.push({
         ...ws,
         id: wsId,
+        imageUrl,
         registrationCount: registrations.length || ws.registrationCount || 0,
         registrations,
         revenueCollected,
