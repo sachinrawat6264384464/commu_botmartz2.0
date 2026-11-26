@@ -150,88 +150,119 @@ export default async function CommunityHomePage() {
       </section>
 
       {/* ── 2. THE 3-STEP OPERATING MACHINE ("HOW IT WORKS") ── */}
-      <section className="py-20 bg-white border-b border-slate-200">
-        <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      <section
+        className="py-20 sm:py-24 bg-white border-b border-slate-200/80 relative"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(29, 49, 137, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.04) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
+        <div className="w-full px-4 sm:px-8 lg:px-14 max-w-[1440px] mx-auto">
 
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 text-slate-700 font-mono text-xs font-bold uppercase tracking-wider mb-2">
+          <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1D3189]/8 border border-[#1D3189]/15 text-[#1D3189] font-sans text-xs font-bold uppercase tracking-wider mb-3">
               The 3-Step Clear Path
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-slate-950 tracking-tight font-sans leading-tight">
               How You Build, Conquer &amp; Get Hired
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2">
+            <p className="text-slate-600 text-sm sm:text-base font-sans mt-3 leading-relaxed">
               No endless video watching. You build real production systems tested against automated benchmarks.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
 
             {/* Step 1 */}
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-blue-300 transition-all">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-[#0066FF] text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-blue-500/20">
-                  01
+            <Link
+              href="/arena"
+              className="group relative bg-white rounded-2xl border border-slate-200/90 p-7 sm:p-8 shadow-sm hover:shadow-xl hover:border-[#1D3189]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 group-hover:bg-[#1D3189] transition-colors duration-300" />
+              <span className="absolute top-4 right-6 text-6xl font-black text-slate-100 group-hover:text-[#1D3189]/10 transition-colors select-none font-sans">
+                01
+              </span>
+
+              <div className="relative z-10">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-800 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors">
+                  Step 01
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                <h3 className="text-xl font-bold text-slate-950 mb-2.5 font-sans">
                   Pick a Track &amp; Warmup PRD
                 </h3>
-                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                <p className="text-slate-600 text-sm font-sans leading-relaxed">
                   Select from {TOTAL_SYSTEMS_COUNT} projects (AI Agents, Defence, RAG, Embedded Edge, High-Frequency Telemetry) or follow our 6 Role Roadmaps.
                 </p>
               </div>
-              <Link
-                href="/arena"
-                className="text-[#0066FF] font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
-              >
+
+              <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
                 <span>Browse {TOTAL_SYSTEMS_COUNT} Projects Matrix</span>
-                <ArrowRight size={13} />
-              </Link>
-            </div>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-colors">
+                  <ArrowRight size={15} />
+                </span>
+              </div>
+            </Link>
 
             {/* Step 2 */}
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-amber-300 transition-all">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-amber-500 text-slate-950 font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-amber-500/20">
-                  02
+            <Link
+              href="/arena/daily-log"
+              className="group relative bg-white rounded-2xl border border-slate-200/90 p-7 sm:p-8 shadow-sm hover:shadow-xl hover:border-[#1D3189]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 group-hover:bg-[#1D3189] transition-colors duration-300" />
+              <span className="absolute top-4 right-6 text-6xl font-black text-slate-100 group-hover:text-[#1D3189]/10 transition-colors select-none font-sans">
+                02
+              </span>
+
+              <div className="relative z-10">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-800 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors">
+                  Step 02
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                <h3 className="text-xl font-bold text-slate-950 mb-2.5 font-sans">
                   Conquer the &quot;Insane&quot; Project
                 </h3>
-                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                <p className="text-slate-600 text-sm font-sans leading-relaxed">
                   Build one of the high-difficulty systems (Satellite AI, 3D MRI, Rust Order Book, LangGraph Swarm) and pass automated SLA benchmarks with daily GitHub commit logs.
                 </p>
               </div>
-              <Link
-                href="/arena/daily-log"
-                className="text-amber-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
-              >
+
+              <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
                 <span>Daily Proof-of-Work Log</span>
-                <ArrowRight size={13} />
-              </Link>
-            </div>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-colors">
+                  <ArrowRight size={15} />
+                </span>
+              </div>
+            </Link>
 
             {/* Step 3 */}
-            <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:border-emerald-300 transition-all">
-              <div>
-                <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white font-mono font-black text-lg flex items-center justify-center mb-6 shadow-md shadow-emerald-500/20">
-                  03
+            <Link
+              href="/virtual-ai-internship#pricing"
+              className="group relative bg-white rounded-2xl border border-slate-200/90 p-7 sm:p-8 shadow-sm hover:shadow-xl hover:border-[#1D3189]/40 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-slate-100 group-hover:bg-[#1D3189] transition-colors duration-300" />
+              <span className="absolute top-4 right-6 text-6xl font-black text-slate-100 group-hover:text-[#1D3189]/10 transition-colors select-none font-sans">
+                03
+              </span>
+
+              <div className="relative z-10">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-800 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors">
+                  Step 03
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">
+                <h3 className="text-xl font-bold text-slate-950 mb-2.5 font-sans">
                   Founder Recommendation &amp; Referral
                 </h3>
-                <p className="text-slate-600 text-xs font-mono leading-relaxed mb-6">
+                <p className="text-slate-600 text-sm font-sans leading-relaxed">
                   Pass strict code review on your Insane Project to unlock a personalized recommendation from Founder Soham Sharma and direct job referral assistance to 15 partner companies.
                 </p>
               </div>
-              <Link
-                href="/virtual-ai-internship#pricing"
-                className="text-emerald-700 font-mono text-xs font-bold flex items-center gap-1.5 hover:underline"
-              >
+
+              <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
                 <span>View Plans (Free / ₹299 / ₹1,999)</span>
-                <ArrowRight size={13} />
-              </Link>
-            </div>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-colors">
+                  <ArrowRight size={15} />
+                </span>
+              </div>
+            </Link>
 
           </div>
 
