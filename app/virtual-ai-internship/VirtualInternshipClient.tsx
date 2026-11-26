@@ -28,7 +28,7 @@ export default function VirtualInternshipPricingClient() {
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch font-sans text-xs">
-        
+
         {/* TIER 1: FREE OPEN BUILDER */}
         <div className="relative overflow-hidden p-8 rounded-3xl bg-white border border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group">
           <div>

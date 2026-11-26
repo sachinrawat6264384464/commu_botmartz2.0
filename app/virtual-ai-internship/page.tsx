@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { ARENA_PROJECTS, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import VirtualInternshipPricingClient from "./VirtualInternshipClient";
+import InternshipJourneyClient from "./InternshipJourneyClient";
 
 export const metadata: Metadata = {
   title: "45-Day Virtual AI Engineering Fellowship — Project-Based Simulator | Botmartz",
@@ -303,133 +304,8 @@ export default function VirtualAIInternshipPage() {
         </div>
       </section>
 
-      {/* ── 2. HOW THE FELLOWSHIP WORKS ── */}
-      <section className="py-20 border-b border-slate-200/80">
-        <div className="w-full px-4 sm:px-8 lg:px-12">
-          
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
-              The 3-Step Milestone Journey
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight font-sans">
-              How You Build Your Engineering Portfolio
-            </h2>
-            <p className="text-slate-600 text-xs sm:text-sm font-sans mt-2 font-medium">
-              Follow our clear 3-step pipeline to transform from a student to a production engineer.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-7 font-sans text-xs">
-            
-            {/* Step 1 */}
-            <div className="relative overflow-hidden p-8 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 group">
-              <div>
-                <div className="w-11 h-11 rounded-2xl bg-[#070E54] text-[#D9F83B] font-black text-base flex items-center justify-center mb-5">
-                  01
-                </div>
-                <h3 className="text-xl font-extrabold text-slate-950 mb-2 font-sans group-hover:text-[#1D3189] transition-colors">
-                  Enroll &amp; Start Daily Sprints
-                </h3>
-                <p className="text-slate-600 leading-relaxed mb-6 font-medium">
-                  Select an enrolled project from the {TOTAL_SYSTEMS_COUNT} PRD blueprints. Read the schema requirements, initialize your repository, and log daily commits on <Link href="/arena/daily-log" className="text-[#1D3189] underline font-bold">/arena/daily-log</Link>.
-                </p>
-              </div>
-              <div className="text-[#1D3189] font-bold uppercase tracking-wider text-[11px]">
-                Daily Commit Streaks
-              </div>
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-            </div>
-
-            {/* Step 2 */}
-            <div className="relative overflow-hidden p-8 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 group">
-              <div>
-                <div className="w-11 h-11 rounded-2xl bg-[#070E54] text-[#D9F83B] font-black text-base flex items-center justify-center mb-5">
-                  02
-                </div>
-                <h3 className="text-xl font-extrabold text-slate-950 mb-2 font-sans group-hover:text-[#1D3189] transition-colors">
-                  Conquer the &quot;Insane&quot; Benchmark
-                </h3>
-                <p className="text-slate-600 leading-relaxed mb-6 font-medium">
-                  Build one of the high-difficulty systems (Satellite Imagery, 3D MRI, Rust Order Book, LangGraph Swarm) and pass automated SLA benchmarks (&lt;150ms latency, zero memory leaks).
-                </p>
-              </div>
-              <div className="text-[#1D3189] font-bold uppercase tracking-wider text-[11px]">
-                Strict Test SLA Gates
-              </div>
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-            </div>
-
-            {/* Step 3 */}
-            <div className="relative overflow-hidden p-8 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 group">
-              <div>
-                <div className="w-11 h-11 rounded-2xl bg-[#070E54] text-[#D9F83B] font-black text-base flex items-center justify-center mb-5">
-                  03
-                </div>
-                <h3 className="text-xl font-extrabold text-slate-950 mb-2 font-sans group-hover:text-[#1D3189] transition-colors">
-                  Founder Code Audit &amp; Recommendation
-                </h3>
-                <p className="text-slate-600 leading-relaxed mb-6 font-medium">
-                  Once your system passes code review, Founder Soham Sharma provides a detailed architecture audit, technical feedback, and a personalized recommendation letter for your portfolio.
-                </p>
-              </div>
-              <div className="text-[#1D3189] font-bold uppercase tracking-wider text-[11px]">
-                Verifiable Proof of Work
-              </div>
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* ── 3. WEEKLY FOUNDER OFFICE HOURS & CLINICS ── */}
-      <section className="py-16 border-b border-slate-200/80">
-        <div className="w-full px-4 sm:px-8 lg:px-12">
-          <div className="bg-[#070E54] text-white rounded-3xl p-8 sm:p-12 border border-white/15 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="space-y-4 max-w-2xl">
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
-                Weekly Mentorship &amp; Live Reviews
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans">
-                Saturday Founder Technical Office Hours
-              </h2>
-              <p className="text-blue-100/85 font-sans text-xs sm:text-sm leading-relaxed">
-                Join Founder Soham Sharma every Saturday from <strong className="text-white">3:00 PM – 7:00 PM IST</strong> on Google Meet for live architecture teardowns, latency profiling, schema reviews, and code debugging.
-              </p>
-              <div className="flex flex-wrap gap-5 text-xs font-sans pt-2">
-                <div className="flex items-center gap-2 text-[#D9F83B] font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B]" />
-                  <span>1-on-1 Code Teardowns</span>
-                </div>
-                <div className="flex items-center gap-2 text-blue-100 font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B]" />
-                  <span>System Design Q&amp;A</span>
-                </div>
-                <div className="flex items-center gap-2 text-blue-100 font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B]" />
-                  <span>Architecture Defense</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full lg:w-auto font-sans text-xs">
-              <Link
-                href="/arena/calendar"
-                className="px-6 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-300 shadow-lg shadow-lime-400/20 hover:-translate-y-0.5"
-              >
-                View Event Calendar &rarr;
-              </Link>
-              <Link
-                href="/discussions"
-                className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white hover:text-slate-950 text-white font-bold text-center transition-all duration-300 border border-white/25"
-              >
-                Join Discussions Forum
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── 2 & 3. MILESTONE JOURNEY + SATURDAY OFFICE HOURS (SCROLL ANIMATED) ── */}
+      <InternshipJourneyClient />
 
       {/* ── 4. FEATURED INSANE PROJECTS ── */}
       <section className="py-20 bg-[#070E54] text-white border-b border-white/10">
