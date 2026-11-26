@@ -30,7 +30,8 @@ import {
   Lock,
   Globe,
   BookOpen,
-  Code2
+  Code2,
+  Home
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
@@ -150,19 +151,35 @@ export default function CommunityNavbar() {
         {/* Desktop Pill Navigation */}
         <nav className="hidden lg:flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-full border-2 border-slate-200/90 font-sans text-xs font-extrabold shadow-sm backdrop-blur-md">
           
-          {/* My Learning Pill */}
+          {/* Home Pill */}
           <Link
-            href="/arena/my-learning"
+            href="/"
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
-              pathname === "/arena/my-learning"
+              pathname === "/"
                 ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
-                : "text-[#0066FF] hover:text-white hover:bg-[#0066FF] font-black bg-blue-50/80"
+                : "text-slate-700 hover:text-white hover:bg-[#0066FF] font-bold"
             }`}
           >
-            <BookOpen size={14} />
-            <span>My Learning</span>
+            <Home size={14} />
+            <span>Home</span>
           </Link>
+
+          {/* My Learning Pill (Visible only after login) */}
+          {mounted && user && (
+            <Link
+              href="/arena/my-learning"
+              prefetch={false}
+              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+                pathname === "/arena/my-learning"
+                  ? "bg-[#0066FF] text-white shadow-lg shadow-blue-500/30 font-black"
+                  : "text-[#0066FF] hover:text-white hover:bg-[#0066FF] font-black bg-blue-50/80"
+              }`}
+            >
+              <BookOpen size={14} />
+              <span>My Learning</span>
+            </Link>
+          )}
 
           {/* 1. 50 Systems Catalog */}
           <Link
@@ -196,35 +213,33 @@ export default function CommunityNavbar() {
             </button>
 
             {internshipOpen && (
-              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                <div className="text-[10px] font-mono text-slate-500 uppercase font-extrabold px-3 py-1.5 border-b border-slate-100 mb-1">
+              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-xl shadow-slate-900/10 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3.5 py-2 border-b border-slate-100 mb-1">
                   Virtual Internship Playground
                 </div>
-                {INTERNSHIP_ITEMS.map((item) => {
-                  const IconComponent = item.icon;
-                  return (
+                <div className="space-y-0.5">
+                  {INTERNSHIP_ITEMS.filter(
+                    (item) => item.href !== "/arena/my-learning" || (mounted && user)
+                  ).map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-blue-50/80 transition-all group"
+                      className="block px-3.5 py-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-[#0066FF] group-hover:text-white transition-all duration-200 shadow-xs border border-blue-100">
-                        <IconComponent size={16} />
+                      <div className="text-slate-900 font-semibold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
+                        <span>{item.name}</span>
+                        {item.locked && (
+                          <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
+                            <Lock size={9} /> Scheduled
+                          </span>
+                        )}
                       </div>
-                      <div className="flex-1">
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
-                          <span>{item.name}</span>
-                          {item.locked && (
-                            <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
-                              <Lock size={9} /> Scheduled
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
+                      <div className="text-[11px] text-slate-500 font-sans font-normal mt-0.5 line-clamp-1">
+                        {item.desc}
                       </div>
                     </Link>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -248,30 +263,26 @@ export default function CommunityNavbar() {
             </button>
 
             {resourcesOpen && (
-              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                <div className="text-[10px] font-mono text-slate-500 uppercase font-extrabold px-3 py-1.5 border-b border-slate-100 mb-1">
+              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-xl shadow-slate-900/10 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3.5 py-2 border-b border-slate-100 mb-1">
                   Developer Resources &amp; Credentials
                 </div>
-                {RESOURCE_ITEMS.map((item) => {
-                  const IconComponent = item.icon;
-                  return (
+                <div className="space-y-0.5">
+                  {RESOURCE_ITEMS.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="flex items-start gap-3 p-2.5 rounded-2xl hover:bg-emerald-50/80 transition-all group"
+                      className="block px-3.5 py-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-200 shadow-xs border border-emerald-100">
-                        <IconComponent size={16} />
+                      <div className="text-slate-900 font-semibold text-xs font-sans group-hover:text-[#0066FF] transition-colors">
+                        {item.name}
                       </div>
-                      <div className="flex-1">
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-emerald-600 transition-colors flex items-center justify-between">
-                          <span>{item.name}</span>
-                        </div>
-                        <div className="text-[11px] text-slate-500 font-mono font-normal line-clamp-1">{item.desc}</div>
+                      <div className="text-[11px] text-slate-500 font-sans font-normal mt-0.5 line-clamp-1">
+                        {item.desc}
                       </div>
                     </Link>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -393,35 +404,54 @@ export default function CommunityNavbar() {
         <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-8 space-y-4 font-mono text-xs max-h-[85vh] overflow-y-auto">
           
           <div className="space-y-1">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Virtual AI Internship &amp; Arena</div>
-            {INTERNSHIP_ITEMS.map((item) => (
+            <Link
+              href="/"
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
+                pathname === "/" ? "bg-blue-50 text-[#0066FF]" : "text-slate-800 hover:bg-slate-50"
+              }`}
+            >
+              <Home size={15} className="text-[#0066FF]" />
+              <span className="font-bold">Home</span>
+            </Link>
+            {mounted && user && (
+              <Link
+                href="/arena/my-learning"
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
+                  pathname === "/arena/my-learning" ? "bg-blue-50 text-[#0066FF]" : "text-[#0066FF] hover:bg-blue-50/60"
+                }`}
+              >
+                <BookOpen size={15} className="text-[#0066FF]" />
+                <span className="font-bold">My Learning</span>
+              </Link>
+            )}
+          </div>
+
+          <div className="space-y-1 border-t border-slate-100 pt-3">
+            <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3 py-1">Virtual AI Internship &amp; Arena</div>
+            {INTERNSHIP_ITEMS.filter(
+              (item) => item.href !== "/arena/my-learning" || (mounted && user)
+            ).map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
+                className="block px-3 py-2 rounded-xl text-slate-800 hover:bg-slate-50 font-sans"
               >
-                <div className="flex items-center gap-2.5">
-                  <item.icon size={15} className="text-[#0066FF]" />
-                  <span className="font-bold">{item.name}</span>
-                </div>
+                <div className="font-semibold text-xs">{item.name}</div>
               </Link>
             ))}
           </div>
 
-
-
           <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] text-slate-400 uppercase font-bold px-3 py-1">Resources &amp; Credentials</div>
+            <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3 py-1">Resources &amp; Credentials</div>
             {RESOURCE_ITEMS.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-800 hover:bg-slate-50"
+                className="block px-3 py-2 rounded-xl text-slate-800 hover:bg-slate-50 font-sans"
               >
-                <div className="flex items-center gap-2.5">
-                  <item.icon size={15} className="text-emerald-600" />
-                  <span className="font-bold">{item.name}</span>
-                </div>
+                <div className="font-semibold text-xs">{item.name}</div>
               </Link>
             ))}
           </div>

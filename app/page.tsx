@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ArrowRight,
+  ArrowUpRight,
   CheckCircle2,
   Terminal,
   ShieldCheck,
@@ -24,10 +25,10 @@ import {
   Star,
   Check,
   Flame,
-  QrCode
+  QrCode,
+  Quote
 } from "lucide-react";
 import { ARENA_PROJECTS, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
-import HeroAuthForm from "./_components/HeroAuthForm";
 import PricingTierCards from "./_components/PricingTierCards";
 
 export const revalidate = 60; // ISR 1 min
@@ -38,100 +39,111 @@ export default async function CommunityHomePage() {
   return (
     <div className="bg-[#FAFCFF] text-slate-900 font-sans">
       
-      {/* ── 1. HERO SECTION: FULL-WIDTH 2-COLUMN LAYOUT WITH AUTH FORM ── */}
-      <section className="relative pt-6 sm:pt-8 pb-16 overflow-hidden border-b border-slate-200/80 bg-gradient-to-b from-blue-50/60 via-slate-50/30 to-[#FAFCFF]">
-        {/* GPU-accelerated ambient glow background */}
-        <div className="absolute top-10 left-1/4 w-[600px] h-[500px] bg-gradient-to-tr from-blue-400/15 via-cyan-400/10 to-indigo-500/10 blur-[130px] pointer-events-none transform-gpu" />
-        
-        <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1700px] mx-auto">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            
-            {/* LEFT COLUMN: HERO HEADLINE, SUBHEAD & METRICS */}
-            <div className="lg:col-span-7 flex flex-col items-start text-left space-y-4 sm:space-y-6">
-              
-              {/* Cohort 1 Live Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/90 border-2 border-blue-200 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider shadow-xs backdrop-blur-md">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0066FF] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#0066FF]"></span>
-                </span>
-                <Activity size={14} className="text-[#0066FF]" />
-                <span>Cohort 1 Live: 14th Sept – Diwali 2026</span>
+      {/* ── 1. HERO SECTION: DEEP INDIGO GRID WITH LIME CTA & 3-COLUMN SHOWCASE ── */}
+      <section
+        className="relative pt-10 sm:pt-14 pb-0 overflow-hidden bg-[#1D3189] text-white"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
+        <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10 max-w-[1440px] mx-auto flex flex-col items-center">
+          {/* Centered Main Headline */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-extrabold tracking-tight leading-[1.08] text-white text-center max-w-4xl font-sans">
+            Build Production Systems. <br />
+            Ship Daily. Get Hired.
+          </h1>
+
+          {/* Primary Lime CTA + Secondary Links */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+            <Link
+              href="/login"
+              prefetch={false}
+              className="inline-flex items-center gap-2 group cursor-pointer"
+            >
+              <span className="px-7 py-3.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm tracking-tight shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:scale-[1.02]">
+                Join 45-Day Cohort (Free)
+              </span>
+              <span className="w-12 h-12 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 flex items-center justify-center shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:rotate-12 group-hover:scale-105">
+                <ArrowUpRight size={20} strokeWidth={2.5} />
+              </span>
+            </Link>
+
+            <Link
+              href="/arena"
+              prefetch={false}
+              className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 backdrop-blur-sm"
+            >
+              <Terminal size={15} className="text-[#D9F83B]" />
+              <span>Explore {TOTAL_SYSTEMS_COUNT}+ Systems</span>
+            </Link>
+          </div>
+
+          {/* 3-Column Bottom Showcase Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end w-full mt-10 lg:mt-12 relative">
+            {/* Left Column: Quote + Stat */}
+            <div className="lg:col-span-4 flex flex-col items-start text-left space-y-6 pb-10 lg:pb-14 z-10">
+              <div className="space-y-3 max-w-xs">
+                <Quote size={26} className="text-white/90 fill-white/90 rotate-180" />
+                <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed font-normal">
+                  From AI-enhanced architectures to real-world systems, our playground empowers you to ship daily.
+                </p>
               </div>
 
-              {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.06] text-slate-950 font-sans">
-                Build Production Systems. <br />
-                <span className="bg-gradient-to-r from-[#0066FF] via-[#0092D7] to-cyan-500 bg-clip-text text-transparent">
-                  Ship Daily. Get Hired.
-                </span>
-              </h1>
+              <div>
+                <div className="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
+                  {TOTAL_SYSTEMS_COUNT}+
+                </div>
+                <div className="text-xs sm:text-sm text-blue-200/90 font-medium mt-1">
+                  Production Systems &bull; 15+ Partner Companies
+                </div>
+              </div>
+            </div>
 
-              {/* Subhead */}
-              <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-mono text-xs sm:text-sm">
-                The 45-Day Virtual Internship Playground for authentic college students. Pick from <strong>{TOTAL_SYSTEMS_COUNT}+ production systems</strong> in AI, Defence, FinTech, and Systems. Complete 3 projects to unlock <strong>direct dispatch to 15+ partner companies and founder recommendation</strong>.
+            {/* Center Column: Semi-Circular Navy Dome + Visual */}
+            <div className="lg:col-span-4 relative flex items-end justify-center min-h-[320px] sm:min-h-[390px]">
+              {/* Dark Navy Arch / Dome */}
+              <div className="w-[420px] sm:w-[580px] lg:w-[640px] h-[270px] sm:h-[340px] rounded-t-full bg-[#070E54] absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none shadow-2xl" />
+
+              {/* Center Visual */}
+              <div className="relative z-10 flex items-end justify-center">
+                <Image
+                  src="/soham_transparent.png"
+                  alt="Botmartz Founder & Mentor"
+                  width={380}
+                  height={420}
+                  className="object-contain object-bottom drop-shadow-2xl max-h-[340px] sm:max-h-[400px] w-auto"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Right Column: Stars + Testimonial */}
+            <div className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right space-y-4 pb-10 lg:pb-14 z-10">
+              <div className="flex items-center gap-1 text-[#FACC15]">
+                <Star size={16} className="fill-[#FACC15]" />
+                <Star size={16} className="fill-[#FACC15]" />
+                <Star size={16} className="fill-[#FACC15]" />
+                <Star size={16} className="fill-[#FACC15]" />
+                <Star size={16} className="fill-[#FACC15]" />
+              </div>
+
+              <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed max-w-xs">
+                &ldquo;Modern, sleek, and focused on real production skills. Loved the hands-on PRDs and automated benchmark system.&rdquo;
               </p>
 
-              {/* Quick Proof Metrics Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full pt-2 font-mono text-xs text-left">
-                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="text-lg sm:text-xl font-black text-slate-900 font-sans">{TOTAL_SYSTEMS_COUNT}+ Systems</div>
-                  <div className="text-[11px] text-slate-500 font-medium">Multi-Domain Catalog</div>
+              <div className="flex items-center gap-3 pt-1">
+                <div className="w-9 h-9 rounded-full bg-[#D9F83B] text-slate-950 font-black text-xs flex items-center justify-center shadow-sm">
+                  SR
                 </div>
-                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-blue-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="text-lg sm:text-xl font-black text-[#0066FF] font-sans">15+ Companies</div>
-                  <div className="text-[11px] text-slate-500 font-medium">Referral Guarantee</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-purple-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="text-lg sm:text-xl font-black text-purple-700 font-sans">Indore Hub</div>
-                  <div className="text-[11px] text-slate-500 font-medium">Saturday Teardowns</div>
-                </div>
-                <div className="p-3.5 rounded-2xl bg-white/90 border-2 border-slate-200/90 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
-                  <div className="text-lg sm:text-xl font-black text-emerald-700 font-sans">100% Free</div>
-                  <div className="text-[11px] text-slate-500 font-medium">For Verified Students</div>
+                <div className="text-left">
+                  <div className="text-xs font-bold text-white">Verified Builder</div>
+                  <div className="text-[11px] text-blue-200/80">AI Systems Cohort</div>
                 </div>
               </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3.5 w-full pt-3">
-                <Link
-                  href="/login"
-                  prefetch={false}
-                  className="w-full sm:w-auto bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer border border-blue-400/30 hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <Sparkles size={15} className="text-cyan-300" />
-                  <span>Join 45-Day Cohort (Free)</span>
-                  <ArrowRight size={15} />
-                </Link>
-                
-                <Link
-                  href="/arena"
-                  prefetch={false}
-                  className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-900 border-2 border-slate-200 hover:border-blue-400 px-6 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all duration-300 shadow-xs flex items-center justify-center gap-2"
-                >
-                  <Terminal size={15} className="text-[#0066FF]" />
-                  <span>Explore {TOTAL_SYSTEMS_COUNT}+ Projects Matrix</span>
-                </Link>
-
-                <Link
-                  href="/arena/calendar"
-                  prefetch={false}
-                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200/80 text-slate-800 border border-slate-300 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                >
-                  <MapPin size={15} className="text-slate-600" />
-                  <span>Indore Office Hours</span>
-                </Link>
-              </div>
-
             </div>
-
-            {/* RIGHT COLUMN: SIGN IN / SIGN UP AUTH FORM CARD */}
-            <div className="lg:col-span-5 w-full">
-              <HeroAuthForm />
-            </div>
-
-        </div>
+          </div>
         </div>
       </section>
 
