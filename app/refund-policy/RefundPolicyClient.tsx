@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 const SECTIONS = [
@@ -18,6 +18,7 @@ const SECTIONS = [
 export default function RefundPolicyClient() {
   const [copied, setCopied] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("overview");
+  const rightScrollRef = useRef<HTMLDivElement>(null);
 
   const emailTemplate = `Subject: Refund Request - [Your Full Name] - Order ID: [Your Order/Payment ID]
 
@@ -46,16 +47,19 @@ Thank you,
     setTimeout(() => setCopied(false), 3000);
   };
 
-  // Scroll-spy to highlight the currently visible right-hand section in the sticky left TOC
+  // Scroll-spy on both window and the right-hand scrollable panel
   useEffect(() => {
+    const container = rightScrollRef.current;
+
     const handleScroll = () => {
-      const offset = 150;
+      const containerTop = container ? container.getBoundingClientRect().top : 0;
+      const threshold = container && window.innerWidth >= 1024 ? containerTop + 80 : 160;
       let current = SECTIONS[0].id;
       for (const sec of SECTIONS) {
         const el = document.getElementById(sec.id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= offset) {
+          if (rect.top <= threshold) {
             current = sec.id;
           }
         }
@@ -63,23 +67,31 @@ Thank you,
       setActiveSection(current);
     };
 
+    container?.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      container?.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
     const element = document.getElementById(id);
-    if (element) {
+    const container = rightScrollRef.current;
+    if (element && container && window.innerWidth >= 1024) {
+      const topOffset = element.offsetTop - container.offsetTop;
+      container.scrollTo({ top: topOffset, behavior: "smooth" });
+    } else if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-      {/* Left Sticky Navigation Sidebar (Stuck while Right Side Scrolls) */}
-      <aside className="lg:col-span-4 lg:sticky lg:top-28 self-start">
+      {/* Left Stuck Navigation Sidebar */}
+      <aside className="lg:col-span-4 lg:sticky lg:top-24 self-start">
         <div className="bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#D9F83B] rounded-3xl p-6 shadow-sm space-y-5">
           <div className="border-b border-slate-200 pb-4">
             <div className="text-[11px] font-extrabold text-[#162774] uppercase tracking-wider mb-1">
@@ -98,19 +110,22 @@ Thank you,
                   key={sec.id}
                   type="button"
                   onClick={() => scrollToSection(sec.id)}
-                  className={`w-full text-left px-4 py-2.5 rounded-xl transition-all flex items-center justify-between cursor-pointer font-bold ${
+                  className={`group w-full text-left px-4 py-2.5 rounded-xl transition-all flex items-center justify-between gap-2 cursor-pointer font-bold ${
                     active
                       ? "bg-[#162774] text-[#D9F83B] shadow-sm"
                       : "bg-white/80 text-slate-700 hover:bg-white hover:text-[#162774] border border-slate-200/70"
                   }`}
                 >
                   <span>{sec.label}</span>
-                  <ArrowRight
-                    size={13}
-                    className={`transition-transform duration-300 ${
-                      active ? "text-[#D9F83B] translate-x-0.5" : "text-slate-400"
+                  <span
+                    className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 group-hover:rotate-180 ${
+                      active
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-slate-100 group-hover:bg-[#162774] text-slate-700 group-hover:text-[#D9F83B]"
                     }`}
-                  />
+                  >
+                    <ArrowRight size={12} />
+                  </span>
                 </button>
               );
             })}
@@ -131,8 +146,11 @@ Thank you,
         </div>
       </aside>
 
-      {/* Right Scrollable Policy Content */}
-      <div className="lg:col-span-8 space-y-6 text-slate-700 font-sans leading-relaxed text-sm">
+      {/* Right Independently Scrollable Policy Content */}
+      <div
+        ref={rightScrollRef}
+        className="lg:col-span-8 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto lg:pr-2 space-y-6 text-slate-700 font-sans leading-relaxed text-sm"
+      >
         {/* Section 1 */}
         <section
           id="overview"
