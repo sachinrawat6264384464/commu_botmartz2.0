@@ -63,6 +63,14 @@ function StudentLoginInner() {
   const [authMode, setAuthMode] = useState<"signup" | "signin">(initialMode);
   const [authMethod, setAuthMethod] = useState<"passcode" | "google" | "phone">("passcode");
   const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
+  const [cursorPos, setCursorPos] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setCursorPos({ x, y });
+  };
 
   // Sync mode search param with authMode state
   useEffect(() => {
@@ -338,14 +346,25 @@ function StudentLoginInner() {
           <div
             onMouseEnter={() => setHoveredSide("left")}
             onMouseLeave={() => setHoveredSide(null)}
-            className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/95 p-5 sm:p-6 border border-white/15 shadow-2xl flex flex-col justify-between backdrop-blur-xl hover:border-[#D9F83B]/40 transition-all duration-500 group text-white"
+            onMouseMove={handleCardMouseMove}
+            className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/95 p-5 sm:p-6 border border-white/15 shadow-2xl flex flex-col justify-between backdrop-blur-xl hover:border-[#D9F83B]/50 transition-all duration-500 group text-white"
           >
             {/* Slow-motion sliding background fill when cursor hovers the Right Form */}
             <div
               aria-hidden="true"
-              className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-[#1D3189] via-[#172875] to-[#0E185C] transition-transform duration-1000 ease-in-out ${
+              className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-[#1D3189] via-[#2B4BC8] to-[#172875] transition-transform duration-1000 ease-in-out ${
                 hoveredSide === "right" ? "translate-x-0" : "-translate-x-full"
               }`}
+            />
+            {/* Cursor spotlight glow when cursor is on the Left Box */}
+            <div
+              aria-hidden="true"
+              className={`pointer-events-none absolute inset-0 transition-opacity duration-500 ${
+                hoveredSide === "left" ? "opacity-100" : "opacity-0"
+              }`}
+              style={{
+                background: `radial-gradient(420px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(217, 248, 59, 0.16), transparent 65%)`,
+              }}
             />
 
             <div className="relative z-10 space-y-3.5">
@@ -445,9 +464,8 @@ function StudentLoginInner() {
 
             {/* Bottom Founder Stat Ticker */}
             <div className="relative z-10 pt-3 mt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs font-sans text-blue-100">
-              <span className="flex items-center gap-2 font-semibold text-white">
-                <ShieldCheck size={15} className="text-[#D9F83B]" />
-                <span>Zero-Trust Authenticated Sessions</span>
+              <span className="font-semibold text-white">
+                Zero-Trust Authenticated Sessions
               </span>
               <span className="text-slate-950 font-bold px-3 py-0.5 rounded-full bg-[#D9F83B] text-[11px]">
                 100 Free Welcome Coins
@@ -627,18 +645,29 @@ function StudentLoginInner() {
               <div
                 onMouseEnter={() => setHoveredSide("right")}
                 onMouseLeave={() => setHoveredSide(null)}
-                className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-4 relative overflow-hidden flex flex-col justify-between transition-all duration-500"
+                onMouseMove={handleCardMouseMove}
+                className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-3.5 relative overflow-hidden flex flex-col justify-between transition-all duration-500 hover:border-[#1D3189]/40"
               >
                 {/* Slow-motion sliding background fill when cursor hovers the Left Box */}
                 <div
                   aria-hidden="true"
-                  className={`pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-[#EEF3FF] via-[#E5EDFF] to-[#F4FBE0] transition-transform duration-1000 ease-in-out ${
+                  className={`pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-[#D9F83B]/40 via-[#EAF9B8] to-[#DBEAFE] transition-transform duration-1000 ease-in-out ${
                     hoveredSide === "left" ? "translate-x-0" : "-translate-x-full"
                   }`}
                 />
+                {/* Cursor spotlight glow when cursor is on the Right Form */}
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute inset-0 z-0 transition-opacity duration-500 ${
+                    hoveredSide === "right" ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{
+                    background: `radial-gradient(380px circle at ${cursorPos.x}% ${cursorPos.y}%, rgba(29, 49, 137, 0.09), transparent 65%)`,
+                  }}
+                />
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9F83B] z-10" />
 
-                <div className="relative z-10 space-y-5">
+                <div className="relative z-10 space-y-4">
 
                   {/* ── TOP MAIN MODE TABS: SIGN UP vs SIGN IN ── */}
                   <div className="grid grid-cols-2 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 font-sans text-xs font-bold">
@@ -728,40 +757,41 @@ function StudentLoginInner() {
                   {/* MODE 1: FULL SIGN UP FORM                                     */}
                   {/* ══════════════════════════════════════════════════════════════ */}
                   {authMode === "signup" && (
-                    <form onSubmit={handleSignUpSubmit} className="space-y-3.5 font-sans text-xs">
+                    <form onSubmit={handleSignUpSubmit} className="space-y-2.5 font-sans text-xs">
 
-                      {/* Full Name */}
-                      <div>
-                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
-                          Full Name *
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          value={signUpForm.name}
-                          onChange={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
-                          placeholder="e.g. Rahul Sharma"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
-                        />
-                      </div>
+                      {/* Full Name & Email Row */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div>
+                          <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                            Full Name *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={signUpForm.name}
+                            onChange={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
+                            placeholder="e.g. Rahul Sharma"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
+                          />
+                        </div>
 
-                      {/* Email Address */}
-                      <div>
-                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={signUpForm.email}
-                          onChange={(e) => setSignUpForm({ ...signUpForm, email: e.target.value })}
-                          placeholder="student@college.edu"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
-                        />
+                        <div>
+                          <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                            Email Address *
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            value={signUpForm.email}
+                            onChange={(e) => setSignUpForm({ ...signUpForm, email: e.target.value })}
+                            placeholder="student@college.edu"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
+                          />
+                        </div>
                       </div>
 
                       {/* Phone & College Row */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         <div>
                           <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
                             Mobile Phone
@@ -771,7 +801,7 @@ function StudentLoginInner() {
                             value={signUpForm.phone}
                             onChange={(e) => setSignUpForm({ ...signUpForm, phone: e.target.value })}
                             placeholder="9876543210"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                           />
                         </div>
 
@@ -784,46 +814,47 @@ function StudentLoginInner() {
                             value={signUpForm.organization}
                             onChange={(e) => setSignUpForm({ ...signUpForm, organization: e.target.value })}
                             placeholder="e.g. IET DAVV / PBCOE"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                           />
                         </div>
                       </div>
 
-                      {/* Select Cohort Track */}
-                      <div>
-                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
-                          Select Builder Track *
-                        </label>
-                        <select
-                          value={signUpForm.track}
-                          onChange={(e) => setSignUpForm({ ...signUpForm, track: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-semibold focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all cursor-pointer"
-                        >
-                          <option value="bundle">Open Builder Pass (100% Free - 100 Coins)</option>
-                          <option value="bootcamp-01">Verified Cohort Pass (₹299 - Full Certificate &amp; Squad)</option>
-                          <option value="bootcamp-02">Founder Placement Track (₹1,999 - 1-on-1 Teardown)</option>
-                        </select>
-                      </div>
+                      {/* Select Cohort Track & GitHub Row */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div>
+                          <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                            Select Builder Track *
+                          </label>
+                          <select
+                            value={signUpForm.track}
+                            onChange={(e) => setSignUpForm({ ...signUpForm, track: e.target.value })}
+                            className="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-semibold focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all cursor-pointer"
+                          >
+                            <option value="bundle">Open Builder Pass (Free - 100 Coins)</option>
+                            <option value="bootcamp-01">Verified Cohort Pass (₹299)</option>
+                            <option value="bootcamp-02">Founder Placement Track (₹1,999)</option>
+                          </select>
+                        </div>
 
-                      {/* GitHub Username */}
-                      <div>
-                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
-                          GitHub Username (Optional)
-                        </label>
-                        <input
-                          type="text"
-                          value={signUpForm.githubUsername}
-                          onChange={(e) => setSignUpForm({ ...signUpForm, githubUsername: e.target.value })}
-                          placeholder="e.g. alex-developer"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
-                        />
+                        <div>
+                          <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                            GitHub Username (Optional)
+                          </label>
+                          <input
+                            type="text"
+                            value={signUpForm.githubUsername}
+                            onChange={(e) => setSignUpForm({ ...signUpForm, githubUsername: e.target.value })}
+                            placeholder="e.g. alex-developer"
+                            className="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
+                          />
+                        </div>
                       </div>
 
                       {/* Submit Registration Button */}
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-sm font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
+                        className="w-full py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-sm font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
                       >
                         {submitting ? (
                           <>
@@ -988,7 +1019,7 @@ function StudentLoginInner() {
                             type="button"
                             onClick={handleGoogleLogin}
                             disabled={submitting}
-                            className="w-full py-4 px-5 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-sans text-sm font-black transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:shadow-blue-500/25 cursor-pointer border border-blue-400/30 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+                            className="w-full py-3.5 px-5 rounded-xl bg-[#1D3189] hover:bg-[#152468] text-white font-sans text-sm font-bold transition-all duration-300 flex items-center justify-center gap-3 shadow-lg cursor-pointer hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50"
                           >
                             {submitting ? (
                               <Loader2 size={18} className="animate-spin text-white" />
@@ -1015,18 +1046,17 @@ function StudentLoginInner() {
                             <span>Continue with Google Sign-In &rarr;</span>
                           </button>
 
-                          <div className="p-3.5 rounded-2xl bg-slate-50 border-2 border-slate-200 text-slate-700 font-sans text-xs space-y-1.5">
-                            <div className="flex items-center gap-1.5 text-[#0066FF] font-black uppercase tracking-wider text-[11px] font-mono">
-                              <Sparkles size={14} />
-                              <span>Instant Community Perks:</span>
+                          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 font-sans text-xs space-y-1.5">
+                            <div className="text-[#1D3189] font-bold uppercase tracking-wider text-[11px] font-sans">
+                              Instant Community Perks:
                             </div>
                             <div className="text-slate-600 font-medium space-y-1">
                               <div className="flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#1D3189]" />
                                 <span>Claim <strong className="text-slate-900 font-bold">100 Welcome Karma Coins</strong> instantly</span>
                               </div>
                               <div className="flex items-center gap-2">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#0066FF]" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#1D3189]" />
                                 <span>Open all {TOTAL_SYSTEMS_COUNT} Production System PRDs &amp; Roadmaps</span>
                               </div>
                             </div>
@@ -1040,9 +1070,9 @@ function StudentLoginInner() {
                           {!confirmationResult ? (
                             <form onSubmit={handleSendPhoneOtp} className="space-y-4 font-sans text-xs sm:text-sm">
                               <div>
-                                <label className="block text-slate-900 font-extrabold mb-1">Mobile Number *</label>
-                                <div className="flex rounded-2xl border-2 border-slate-200 overflow-hidden focus-within:border-[#0066FF] bg-slate-50">
-                                  <span className="px-4 py-3 text-slate-700 bg-slate-200 font-black border-r border-slate-300 font-mono">
+                                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">Mobile Number *</label>
+                                <div className="flex rounded-xl border-2 border-slate-200 overflow-hidden focus-within:border-[#1D3189] bg-slate-50">
+                                  <span className="px-4 py-2.5 text-slate-700 bg-slate-200 font-bold border-r border-slate-300 font-sans text-xs">
                                     +91
                                   </span>
                                   <input
@@ -1051,7 +1081,7 @@ function StudentLoginInner() {
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                     placeholder="9876543210"
-                                    className="flex-1 bg-transparent px-4 py-3 text-slate-900 font-bold focus:outline-none text-sm font-mono placeholder:text-slate-400"
+                                    className="flex-1 bg-transparent px-3.5 py-2.5 text-slate-900 font-medium focus:outline-none text-xs font-sans placeholder:text-slate-400"
                                   />
                                 </div>
                               </div>
@@ -1059,7 +1089,7 @@ function StudentLoginInner() {
                               <button
                                 type="submit"
                                 disabled={submitting}
-                                className="w-full py-3.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-extrabold uppercase tracking-wider transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 text-xs font-mono"
+                                className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-sm font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                               >
                                 {submitting ? (
                                   <>
