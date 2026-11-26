@@ -1,0 +1,991 @@
+"use client";
+
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  ArrowRight,
+  Check,
+  Copy,
+  Loader2,
+  X,
+  CheckCircle2,
+} from "lucide-react";
+import {
+  HackathonProject,
+  SOLO_HACKATHON_FEE,
+  TEAM_HACKATHON_FEE,
+} from "@/lib/hackathons";
+
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
+export default function HackathonsPage() {
+  const [projects, setProjects] = useState<HackathonProject[]>([]);
+  const [loadingProjects, setLoadingProjects] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("All");
+
+  // Enrollment Modal State (No Account Required)
+  const [enrollProject, setEnrollProject] = useState<HackathonProject | null>(null);
+  const [mode, setMode] = useState<"solo" | "team">("solo");
+  const [teamName, setTeamName] = useState("");
+  const [leaderName, setLeaderName] = useState("");
+  const [leaderEmail, setLeaderEmail] = useState("");
+  const [leaderPhone, setLeaderPhone] = useState("");
+  const [leaderOrg, setLeaderOrg] = useState("");
+  const [leaderGithub, setLeaderGithub] = useState("");
+  const [member2Name, setMember2Name] = useState("");
+  const [member2Email, setMember2Email] = useState("");
+  const [member3Name, setMember3Name] = useState("");
+  const [member3Email, setMember3Email] = useState("");
+  const [enrollError, setEnrollError] = useState("");
+  const [paying, setPaying] = useState(false);
+  const [enrolledReceipt, setEnrolledReceipt] = useState<any>(null);
+  const [copiedCode, setCopiedCode] = useState(false);
+
+  // Submission Section State
+  const [subUniqueCode, setSubUniqueCode] = useState("");
+  const [lookupLoading, setLookupLoading] = useState(false);
+  const [lookupError, setLookupError] = useState("");
+  const [verifiedReg, setVerifiedReg] = useState<any>(null);
+  const [subTeamName, setSubTeamName] = useState("");
+  const [subProjectTitle, setSubProjectTitle] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
+  const [deployedUrl, setDeployedUrl] = useState("");
+  const [subNotes, setSubNotes] = useState("");
+  const [submittingProject, setSubmittingProject] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submitSuccessPopup, setSubmitSuccessPopup] = useState<any>(null);
+
+  useEffect(() => {
+    fetch("/api/hackathons")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.projects)) {
+          setProjects(data.projects);
+        }
+      })
+      .catch((err) => console.error("Failed to load hackathons:", err))
+      .finally(() => setLoadingProjects(false));
+  }, []);
+
+  const domains = useMemo(() => {
+    return Array.from(new Set(projects.map((p) => p.domain))).sort();
+  }, [projects]);
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter((p) => {
+      if (selectedDomain !== "All" && p.domain !== selectedDomain) return false;
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const inTitle = p.title.toLowerCase().includes(q);
+        const inDomain = p.domain.toLowerCase().includes(q);
+        const inStack = (p.techStack || []).some((t) => t.toLowerCase().includes(q));
+        if (!inTitle && !inDomain && !inStack) return false;
+      }
+      return true;
+    });
+  }, [projects, selectedDomain, searchQuery]);
+
+  const loadRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (typeof window !== "undefined" && window.Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const openEnrollModal = (project: HackathonProject, initialMode: "solo" | "team" = "solo") => {
+    setEnrollProject(project);
+    setMode(initialMode);
+    setEnrollError("");
+    setEnrolledReceipt(null);
+  };
+
+  const handleEnrollAndPay = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!enrollProject) return;
+    setEnrollError("");
+
+    if (!leaderName.trim() || !leaderEmail.trim() || !leaderPhone.trim()) {
+      setEnrollError("Please fill in Leader Name, Email, and Mobile Number.");
+      return;
+    }
+
+    const membersPayload: Array<{ name: string; email: string; role: string }> = [
+      { name: leaderName.trim(), email: leaderEmail.trim(), role: mode === "team" ? "Team Leader" : "Solo Builder" },
+    ];
+
+    if (mode === "team") {
+      if (!teamName.trim()) {
+        setEnrollError("Team Name is required for Team Hackathon.");
+        return;
+      }
+      if (!member2Name.trim() || !member2Email.trim()) {
+        setEnrollError("Team requires at least 2 members (Leader + Member 2).");
+        return;
+      }
+      membersPayload.push({ name: member2Name.trim(), email: member2Email.trim(), role: "Member 2" });
+      if (member3Name.trim() || member3Email.trim()) {
+        if (!member3Name.trim() || !member3Email.trim()) {
+          setEnrollError("Please enter both Name and Email for Member 3, or leave both blank.");
+          return;
+        }
+        membersPayload.push({ name: member3Name.trim(), email: member3Email.trim(), role: "Member 3" });
+      }
+    }
+
+    setPaying(true);
+    try {
+      const orderRes = await fetch("/api/hackathons/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectId: enrollProject.id,
+          projectTitle: enrollProject.title,
+          mode,
+          teamName: mode === "team" ? teamName.trim() : leaderName.trim(),
+          leader: {
+            name: leaderName.trim(),
+            email: leaderEmail.trim(),
+            phone: leaderPhone.trim(),
+            organization: leaderOrg.trim(),
+            github: leaderGithub.trim(),
+          },
+          members: membersPayload,
+        }),
+      });
+      const orderData = await orderRes.json();
+      if (!orderRes.ok || !orderData.success) {
+        throw new Error(orderData.error || "Could not initialize payment.");
+      }
+
+      const completeVerification = async (paymentIds: {
+        razorpay_order_id: string;
+        razorpay_payment_id: string;
+        razorpay_signature: string;
+      }) => {
+        const verifyRes = await fetch("/api/hackathons/verify-and-enroll", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...paymentIds,
+            projectId: enrollProject.id,
+            projectTitle: enrollProject.title,
+            mode,
+            teamName: mode === "team" ? teamName.trim() : leaderName.trim(),
+            leader: {
+              name: leaderName.trim(),
+              email: leaderEmail.trim(),
+              phone: leaderPhone.trim(),
+              organization: leaderOrg.trim(),
+              github: leaderGithub.trim(),
+            },
+            members: membersPayload,
+          }),
+        });
+        const verifyData = await verifyRes.json();
+        if (!verifyRes.ok || !verifyData.success) {
+          throw new Error(verifyData.error || "Payment verification failed.");
+        }
+        setEnrolledReceipt(verifyData.registration);
+        setPaying(false);
+      };
+
+      if (orderData.isDevMock) {
+        await completeVerification({
+          razorpay_order_id: orderData.orderId,
+          razorpay_payment_id: `pay_hack_mock_${Date.now()}`,
+          razorpay_signature: "mock_sig",
+        });
+        return;
+      }
+
+      const loaded = await loadRazorpayScript();
+      if (!loaded) {
+        throw new Error("Razorpay SDK failed to load. Please check your internet connection.");
+      }
+
+      const rzp = new window.Razorpay({
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Botmartz Online Hackathons",
+        description: `${mode === "team" ? "Team (2-3)" : "Solo"} Entry — ${enrollProject.title}`,
+        order_id: orderData.orderId,
+        prefill: {
+          name: leaderName.trim(),
+          email: leaderEmail.trim(),
+          contact: leaderPhone.trim(),
+        },
+        theme: { color: "#1D3189" },
+        handler: async (response: any) => {
+          try {
+            await completeVerification({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+          } catch (err: any) {
+            setEnrollError(err.message || "Verification failed.");
+            setPaying(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setPaying(false);
+          },
+        },
+      });
+      rzp.open();
+    } catch (err: any) {
+      setEnrollError(err.message || "Enrollment failed.");
+      setPaying(false);
+    }
+  };
+
+  const handleLookupUniqueCode = async (codeToLookup?: string) => {
+    const clean = (codeToLookup ?? subUniqueCode).trim().toUpperCase();
+    setLookupError("");
+    setVerifiedReg(null);
+    setSubTeamName("");
+    setSubProjectTitle("");
+
+    if (!clean) {
+      setLookupError("Please enter your Unique ID first.");
+      return;
+    }
+
+    setLookupLoading(true);
+    try {
+      const res = await fetch("/api/hackathons/lookup-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uniqueCode: clean }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.valid) {
+        setLookupError(data.error || "Invalid or expired Unique ID.");
+        return;
+      }
+
+      setVerifiedReg(data.registration);
+      setSubTeamName(data.registration.teamName || data.registration.leaderName || "");
+      setSubProjectTitle(data.registration.projectTitle || "");
+      if (data.alreadySubmitted) {
+        setLookupError("A project has already been submitted for this Unique ID.");
+      }
+    } catch (err: any) {
+      setLookupError(err.message || "Could not verify Unique ID.");
+    } finally {
+      setLookupLoading(false);
+    }
+  };
+
+  // Auto-lookup when a full BM-HACK-XXXXXX code (14 chars) is entered
+  useEffect(() => {
+    const clean = subUniqueCode.trim().toUpperCase();
+    if (/^BM-HACK-[A-Z0-9]{6}$/.test(clean)) {
+      handleLookupUniqueCode(clean);
+    } else {
+      setVerifiedReg(null);
+      setSubTeamName("");
+      setSubProjectTitle("");
+      setLookupError("");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subUniqueCode]);
+
+  const handleProjectSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitError("");
+
+    if (!verifiedReg) {
+      setSubmitError("Please enter a valid, non-expired Unique ID first.");
+      return;
+    }
+
+    setSubmittingProject(true);
+    try {
+      const res = await fetch("/api/hackathons/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uniqueCode: subUniqueCode.trim().toUpperCase(),
+          githubUrl: githubUrl.trim(),
+          deployedUrl: deployedUrl.trim(),
+          notes: subNotes.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Submission failed.");
+      }
+
+      setSubmitSuccessPopup(data.submission);
+      setGithubUrl("");
+      setDeployedUrl("");
+      setSubNotes("");
+    } catch (err: any) {
+      setSubmitError(err.message || "Could not submit project.");
+    } finally {
+      setSubmittingProject(false);
+    }
+  };
+
+  return (
+    <div
+      className="bg-white min-h-screen text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
+      {/* ── 1. HERO SECTION ── */}
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-10">
+        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-7 sm:p-11 border border-white/15 shadow-2xl">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-60"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+                </span>
+                <span>24-Hour Online Hackathons • No Account Needed</span>
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
+                Ship Real Systems in <span className="text-[#D9F83B]">24 Hours</span> &amp; Unlock Direct Job Screening
+              </h1>
+
+              <p className="text-sm sm:text-base text-blue-100/85 font-sans leading-relaxed max-w-2xl">
+                Pick a production problem statement, enroll as a Solo Builder or a Team of 2–3, receive your 24-hour Unique ID via email, and submit your live GitHub &amp; deployed build.
+              </p>
+
+              {/* 4 Editorial Perks & Rules Strip */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">01</span>
+                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">₹{SOLO_HACKATHON_FEE}</div>
+                  <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Solo Builder Entry</div>
+                </div>
+
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">02</span>
+                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">₹{TEAM_HACKATHON_FEE}</div>
+                  <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Team (2–3 Members)</div>
+                </div>
+
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">03</span>
+                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">24 Hours</div>
+                  <div className="text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Unique ID Validity</div>
+                </div>
+
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">04</span>
+                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">Job Track</div>
+                  <div className="text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Screening &amp; Referral</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Pricing & Quick Jump */}
+            <div className="lg:col-span-4 space-y-3">
+              <div className="p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md space-y-3">
+                <div className="text-xs font-bold uppercase tracking-wider text-[#D9F83B]">What Every Eligible Builder Gets</div>
+                <ul className="space-y-2 text-xs text-blue-50 font-medium">
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] mt-1.5 shrink-0" />
+                    <span>Verified Online Hackathon Certificate</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] mt-1.5 shrink-0" />
+                    <span>Founder Recommendation Letter for Job Applications</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] mt-1.5 shrink-0" />
+                    <span>Solo &amp; Team Eligibility for Direct Job Screening Round</span>
+                  </li>
+                </ul>
+              </div>
+
+              <a
+                href="#submit-project"
+                className="w-full px-6 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all flex items-center justify-between group cursor-pointer shadow-lg shadow-lime-400/20"
+              >
+                <span>Already Have a Unique ID? Submit Project</span>
+                <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                  <ArrowRight size={14} />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 2. HOW IT WORKS + SOLO VS TEAM TIERS ── */}
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-sm">
+            <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">Step 01 • Instant Entry</div>
+            <h3 className="text-base font-extrabold text-slate-950 mb-1.5">Pick Project &amp; Pay (No Login)</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Choose any live hackathon challenge below. Select Solo (₹{SOLO_HACKATHON_FEE}) or Team (₹{TEAM_HACKATHON_FEE}, 2–3 members) and complete Razorpay checkout.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-sm">
+            <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">Step 02 • 24-Hour Unique ID</div>
+            <h3 className="text-base font-extrabold text-slate-950 mb-1.5">Unique Code Sent to Leader Email</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Your team/solo entry is stored in that project&apos;s dedicated database table with a Unique ID valid for strictly 24 hours.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-sm">
+            <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">Step 03 • Ship &amp; Screen</div>
+            <h3 className="text-base font-extrabold text-slate-950 mb-1.5">Submit GitHub &amp; Live Link</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Enter your Unique ID below to auto-fetch your team name, submit your working GitHub &amp; deployed URL, and receive results within 24 hours.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. SEARCH & FILTER BAR ── */}
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
+        <div className="bg-white border border-slate-200 rounded-3xl p-5 shadow-md flex flex-col sm:flex-row items-center gap-3">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search hackathon challenges by title, domain, or tech stack..."
+            className="w-full flex-1 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3 text-xs sm:text-sm font-sans text-slate-950 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#1D3189] font-medium"
+          />
+
+          <select
+            value={selectedDomain}
+            onChange={(e) => setSelectedDomain(e.target.value)}
+            className="w-full sm:w-64 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3 text-xs sm:text-sm font-sans text-slate-950 focus:bg-white focus:outline-none focus:border-[#1D3189] font-semibold cursor-pointer"
+          >
+            <option value="All">All Domains ({projects.length})</option>
+            {domains.map((d) => (
+              <option key={d} value={d}>{d}</option>
+            ))}
+          </select>
+        </div>
+      </section>
+
+      {/* ── 4. HACKATHON PROJECTS GRID ── */}
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-16">
+        {loadingProjects ? (
+          <div className="p-12 rounded-3xl bg-white border border-slate-200 text-center flex items-center justify-center gap-2 text-sm font-semibold text-slate-600">
+            <Loader2 size={18} className="animate-spin text-[#1D3189]" />
+            <span>Loading Online Hackathon Challenges...</span>
+          </div>
+        ) : filteredProjects.length === 0 ? (
+          <div className="p-12 rounded-3xl bg-white border border-slate-200 text-center space-y-3">
+            <h3 className="text-lg font-extrabold text-slate-950">No hackathon challenges match your filter</h3>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedDomain("All");
+              }}
+              className="px-5 py-2.5 rounded-xl bg-[#1D3189] text-white text-xs font-bold cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProjects.map((project) => (
+              <div
+                key={project.id}
+                className="relative overflow-hidden bg-white border border-slate-200 hover:border-[#1D3189] rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-5 group hover:-translate-y-1"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 font-sans text-[10px] font-bold uppercase tracking-wider truncate">
+                      {project.domain}
+                    </span>
+                    <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-800 border border-slate-200">
+                      {project.difficulty}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-2 leading-snug">
+                    {project.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed mb-3 font-medium">
+                    {project.problemStatement}
+                  </p>
+
+                  {/* Tech Stack Pills */}
+                  <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
+                    {(project.techStack || []).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] group-hover:border-[#070E54] font-sans text-[10px] font-semibold transition-all duration-500"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 space-y-2.5">
+                  <div className="flex items-center justify-between text-[11px] font-bold text-slate-700">
+                    <span>Solo: ₹{project.soloFee || SOLO_HACKATHON_FEE}</span>
+                    <span>Team (2–3): ₹{project.teamFee || TEAM_HACKATHON_FEE}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => openEnrollModal(project, "solo")}
+                      className="py-2.5 rounded-xl bg-slate-100 hover:bg-[#1D3189] hover:text-white border border-slate-200 text-slate-900 font-bold text-xs transition-all cursor-pointer"
+                    >
+                      Solo (₹{project.soloFee || SOLO_HACKATHON_FEE})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => openEnrollModal(project, "team")}
+                      className="py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all cursor-pointer shadow-sm"
+                    >
+                      Team (₹{project.teamFee || TEAM_HACKATHON_FEE})
+                    </button>
+                  </div>
+                </div>
+
+                {/* Bottom-only slow-motion color fill bar */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* ── 5. PROJECT SUBMISSION SECTION (UNIQUE ID AUTO-FETCH) ── */}
+      <section id="submit-project" className="w-full px-4 sm:px-8 lg:px-12">
+        <div className="max-w-4xl mx-auto bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
+          <div className="bg-[#070E54] px-6 sm:px-8 py-6 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#D9F83B]">
+                24-Hour Submission Portal
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold mt-1">
+                Submit Your Working Hackathon Project
+              </h2>
+            </div>
+            <span className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-semibold text-blue-100 shrink-0">
+              Results Declared Within 24 Hours
+            </span>
+          </div>
+
+          <form onSubmit={handleProjectSubmit} className="p-6 sm:p-8 space-y-5 text-xs">
+            {/* Unique ID Input + Lookup */}
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                Hackathon Unique ID * (Sent to Team Leader Email)
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2.5">
+                <input
+                  type="text"
+                  required
+                  value={subUniqueCode}
+                  onChange={(e) => setSubUniqueCode(e.target.value.toUpperCase())}
+                  placeholder="e.g. BM-HACK-8F4K2A"
+                  className="flex-1 px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-bold uppercase tracking-wider focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleLookupUniqueCode()}
+                  disabled={lookupLoading}
+                  className="px-5 py-3 rounded-xl bg-[#1D3189] hover:bg-[#152468] text-white font-bold transition-all cursor-pointer disabled:opacity-50 shrink-0"
+                >
+                  {lookupLoading ? "Checking..." : "Verify Unique ID"}
+                </button>
+              </div>
+              {lookupError && (
+                <p className="mt-2 text-xs font-semibold text-rose-600">{lookupError}</p>
+              )}
+              {verifiedReg && !lookupError && (
+                <p className="mt-2 text-xs font-semibold text-emerald-700">
+                  Verified ({verifiedReg.mode === "team" ? "Team" : "Solo"}) • Valid until{" "}
+                  {new Date(verifiedReg.expiresAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
+                </p>
+              )}
+            </div>
+
+            {/* Auto-Filled Team Name & Project Title */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Team / Participant Name (Auto-Filled)
+                </label>
+                <input
+                  type="text"
+                  readOnly
+                  value={subTeamName}
+                  placeholder="Enter valid Unique ID to auto-fetch..."
+                  className="w-full px-4 py-3 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-bold cursor-not-allowed"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Selected Hackathon Project (Auto-Filled)
+                </label>
+                <input
+                  type="text"
+                  readOnly
+                  value={subProjectTitle}
+                  placeholder="Auto-fetched from database..."
+                  className="w-full px-4 py-3 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-semibold cursor-not-allowed"
+                />
+              </div>
+            </div>
+
+            {/* Working GitHub & Deployed Links */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Working GitHub Repository Link *
+                </label>
+                <input
+                  type="url"
+                  required
+                  value={githubUrl}
+                  onChange={(e) => setGithubUrl(e.target.value)}
+                  placeholder="https://github.com/username/hackathon-project"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Live Deployed Link *
+                </label>
+                <input
+                  type="url"
+                  required
+                  value={deployedUrl}
+                  onChange={(e) => setDeployedUrl(e.target.value)}
+                  placeholder="https://your-project.vercel.app"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                Architecture / Demo Notes (Optional)
+              </label>
+              <textarea
+                rows={2}
+                value={subNotes}
+                onChange={(e) => setSubNotes(e.target.value)}
+                placeholder="Key features implemented, test credentials, or walkthrough notes..."
+                className="w-full px-4 py-3 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-950 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+              />
+            </div>
+
+            {submitError && (
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-semibold">
+                {submitError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={submittingProject || !verifiedReg || Boolean(lookupError)}
+              className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {submittingProject ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  <span>Submitting Project...</span>
+                </>
+              ) : (
+                <span>Submit Hackathon Project &rarr;</span>
+              )}
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* ── ENROLLMENT & PAYMENT MODAL (NO ACCOUNT REQUIRED) ── */}
+      {enrollProject && (
+        <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-950/80 backdrop-blur-md p-4">
+          <div className="min-h-full flex items-center justify-center">
+            <div className="relative w-full max-w-xl bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-8 text-slate-900">
+              <button
+                type="button"
+                onClick={() => setEnrollProject(null)}
+                className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+
+              {enrolledReceipt ? (
+                <div className="text-center space-y-5 py-2">
+                  <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                    <CheckCircle2 size={30} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-slate-950">Hackathon Enrollment Confirmed</h3>
+                    <p className="text-xs text-slate-600 mt-1">
+                      Your Unique ID has been emailed to <strong>{enrolledReceipt.leader?.email}</strong> and saved in{" "}
+                      <strong>{enrollProject.title}</strong>&apos;s registration table.
+                    </p>
+                  </div>
+
+                  <div className="p-5 rounded-2xl bg-[#070E54] text-white space-y-2">
+                    <div className="text-[11px] uppercase tracking-wider text-blue-200 font-bold">
+                      24-Hour Hackathon Unique ID
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-2xl font-black tracking-widest text-[#D9F83B]">
+                        {enrolledReceipt.uniqueCode}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(enrolledReceipt.uniqueCode);
+                          setCopiedCode(true);
+                          setTimeout(() => setCopiedCode(false), 2000);
+                        }}
+                        className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"
+                        title="Copy Unique ID"
+                      >
+                        {copiedCode ? <Check size={15} /> : <Copy size={15} />}
+                      </button>
+                    </div>
+                    <div className="text-[11px] text-blue-100/80">
+                      Valid for 24 hours until{" "}
+                      {new Date(enrolledReceipt.expiresAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubUniqueCode(enrolledReceipt.uniqueCode);
+                      setEnrollProject(null);
+                      document.getElementById("submit-project")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="w-full py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm cursor-pointer"
+                  >
+                    Use Unique ID in Submission Form &rarr;
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleEnrollAndPay} className="space-y-4 text-xs">
+                  <div>
+                    <div className="text-[11px] font-bold text-[#1D3189] uppercase tracking-wider">
+                      No Account Needed • Instant Razorpay Entry
+                    </div>
+                    <h3 className="text-lg font-extrabold text-slate-950 mt-0.5">{enrollProject.title}</h3>
+                  </div>
+
+                  {/* Solo vs Team Switcher */}
+                  <div className="grid grid-cols-2 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => setMode("solo")}
+                      className={`py-2.5 rounded-xl font-bold transition-all cursor-pointer ${
+                        mode === "solo" ? "bg-[#1D3189] text-white shadow-sm" : "text-slate-700"
+                      }`}
+                    >
+                      Solo Builder (₹{SOLO_HACKATHON_FEE})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setMode("team")}
+                      className={`py-2.5 rounded-xl font-bold transition-all cursor-pointer ${
+                        mode === "team" ? "bg-[#1D3189] text-white shadow-sm" : "text-slate-700"
+                      }`}
+                    >
+                      Team 2–3 Members (₹{TEAM_HACKATHON_FEE})
+                    </button>
+                  </div>
+
+                  {mode === "team" && (
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-700 uppercase mb-1">
+                        Team Name *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={teamName}
+                        onChange={(e) => setTeamName(e.target.value)}
+                        placeholder="e.g. Neural Ninjas"
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                      />
+                    </div>
+                  )}
+
+                  {/* Leader Details */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-700 uppercase mb-1">
+                        {mode === "team" ? "Team Leader Name *" : "Your Full Name *"}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={leaderName}
+                        onChange={(e) => setLeaderName(e.target.value)}
+                        placeholder="e.g. Aarav Verma"
+                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-700 uppercase mb-1">
+                        {mode === "team" ? "Leader Email * (Receives Unique ID)" : "Email * (Receives Unique ID)"}
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={leaderEmail}
+                        onChange={(e) => setLeaderEmail(e.target.value)}
+                        placeholder="leader@college.edu"
+                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-700 uppercase mb-1">
+                        Mobile Number *
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={leaderPhone}
+                        onChange={(e) => setLeaderPhone(e.target.value)}
+                        placeholder="9876543210"
+                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-700 uppercase mb-1">
+                        College / Company
+                      </label>
+                      <input
+                        type="text"
+                        value={leaderOrg}
+                        onChange={(e) => setLeaderOrg(e.target.value)}
+                        placeholder="e.g. IET DAVV"
+                        className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                      />
+                    </div>
+                  </div>
+
+                  {mode === "team" && (
+                    <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+                      <div className="text-[11px] font-bold text-[#1D3189] uppercase">
+                        Team Members (Min 2, Max 3 Total Including Leader)
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          required
+                          value={member2Name}
+                          onChange={(e) => setMember2Name(e.target.value)}
+                          placeholder="Member 2 Name *"
+                          className="px-3 py-2 rounded-xl bg-white border border-slate-200 font-medium focus:outline-none focus:border-[#1D3189]"
+                        />
+                        <input
+                          type="email"
+                          required
+                          value={member2Email}
+                          onChange={(e) => setMember2Email(e.target.value)}
+                          placeholder="Member 2 Email *"
+                          className="px-3 py-2 rounded-xl bg-white border border-slate-200 font-medium focus:outline-none focus:border-[#1D3189]"
+                        />
+                        <input
+                          type="text"
+                          value={member3Name}
+                          onChange={(e) => setMember3Name(e.target.value)}
+                          placeholder="Member 3 Name (Optional)"
+                          className="px-3 py-2 rounded-xl bg-white border border-slate-200 font-medium focus:outline-none focus:border-[#1D3189]"
+                        />
+                        <input
+                          type="email"
+                          value={member3Email}
+                          onChange={(e) => setMember3Email(e.target.value)}
+                          placeholder="Member 3 Email (Optional)"
+                          className="px-3 py-2 rounded-xl bg-white border border-slate-200 font-medium focus:outline-none focus:border-[#1D3189]"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {enrollError && (
+                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-semibold">
+                      {enrollError}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={paying}
+                    className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all shadow-lg shadow-lime-400/20 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                  >
+                    {paying ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>Processing Payment...</span>
+                      </>
+                    ) : (
+                      <span>
+                        Pay ₹{mode === "team" ? TEAM_HACKATHON_FEE : SOLO_HACKATHON_FEE} &amp; Get Unique ID &rarr;
+                      </span>
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── SUBMISSION SUCCESS POPUP MODAL ── */}
+      {submitSuccessPopup && (
+        <div className="fixed inset-0 z-[9999] bg-slate-950/80 backdrop-blur-md p-4 flex items-center justify-center">
+          <div className="relative w-full max-w-md bg-white rounded-3xl border border-slate-200 shadow-2xl p-7 text-center space-y-4">
+            <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+              <CheckCircle2 size={34} />
+            </div>
+            <h3 className="text-xl font-extrabold text-slate-950">Project Submitted Successfully!</h3>
+            <p className="text-sm font-bold text-[#1D3189]">
+              Under 24 hours, results will be declared.
+            </p>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Confirmation has been sent to <strong>{submitSuccessPopup.leader?.email || "your registered email"}</strong>. Your Unique ID (<strong>{submitSuccessPopup.uniqueCode}</strong>) is now queued for evaluation.
+            </p>
+            <button
+              type="button"
+              onClick={() => setSubmitSuccessPopup(null)}
+              className="w-full py-3 rounded-xl bg-[#070E54] hover:bg-[#1D3189] text-white font-bold text-sm cursor-pointer"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
