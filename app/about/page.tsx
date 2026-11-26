@@ -215,20 +215,37 @@ export default function AboutPage() {
                     </span>
                   </div>
 
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors mb-2 leading-snug">
+                  {/* Boxed Heading with Blue Background + Circle Arrow */}
+                  <Link
+                    href={item.href}
+                    className="flex items-center justify-between gap-3 p-4 rounded-2xl bg-[#162774] text-white border border-[#162774] shadow-sm group-hover:shadow-md transition-all"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                      backgroundSize: "28px 28px",
+                    }}
+                  >
+                    <h3 className="text-base sm:text-lg font-extrabold text-white group-hover:text-[#D9F83B] transition-colors leading-snug">
                       {item.title}
                     </h3>
-                    <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
-                      {item.summary}
-                    </p>
-                  </div>
+                    <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-45">
+                      <ArrowRight size={13} />
+                    </span>
+                  </Link>
 
-                  <ul className="space-y-2 pt-2 border-t border-slate-200/80 text-[13px] text-slate-800 font-medium">
+                  <p className="text-[13px] text-slate-700 leading-relaxed font-medium border-l-2 border-l-[#162774] pl-3">
+                    {item.summary}
+                  </p>
+
+                  {/* Formatted Key Points */}
+                  <ul className="space-y-2 text-[13px] text-slate-800 font-medium">
                     {item.points.map((pt) => (
-                      <li key={pt} className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#162774] mt-1.5 shrink-0" />
-                        <span>{pt}</span>
+                      <li
+                        key={pt}
+                        className="flex items-start gap-2.5 p-2.5 rounded-xl bg-white border border-slate-200/80"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-[#162774] mt-1.5 shrink-0" />
+                        <span className="leading-snug">{pt}</span>
                       </li>
                     ))}
                   </ul>
