@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import {
   Sparkles,
@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Layers,
   ArrowRight,
+  ChevronDown,
   CheckCircle2,
   Trophy,
   Terminal,
@@ -39,9 +40,21 @@ export default function ArenaPage() {
   const [allProjectsList, setAllProjectsList] = useState<ArenaProject[]>(ARENA_PROJECTS);
   const [activeTier, setActiveTier] = useState<"All" | "Baby Step" | "Easy" | "Intermediate" | "Hard" | "Insane" | "Go To Hell">("All");
   const [selectedDomain, setSelectedDomain] = useState<string>("All");
+  const [domainMenuOpen, setDomainMenuOpen] = useState(false);
+  const domainMenuRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 9;
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (domainMenuRef.current && !domainMenuRef.current.contains(event.target as Node)) {
+        setDomainMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Enrollment & Gating States
   const [userEnrollments, setUserEnrollments] = useState<any[]>([]);
@@ -361,17 +374,68 @@ export default function ArenaPage() {
               )}
             </div>
 
-            {/* Domain Dropdown */}
-            <select
-              value={selectedDomain}
-              onChange={(e) => setSelectedDomain(e.target.value)}
-              className="w-full sm:w-64 bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 py-3 text-xs sm:text-sm font-sans text-slate-950 focus:bg-white focus:outline-none focus:border-[#1D3189] transition-all duration-200 font-semibold cursor-pointer"
-            >
-              <option value="All">All Domains ({allProjectsList.length})</option>
-              {allDomains.map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
-            </select>
+            {/* Custom Domain Dropdown with Rotating Circle Arrow */}
+            <div ref={domainMenuRef} className="relative w-full sm:w-72">
+              <button
+                type="button"
+                onClick={() => setDomainMenuOpen((prev) => !prev)}
+                className={`w-full bg-slate-50 border-2 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-sans text-slate-950 focus:outline-none transition-all duration-300 font-semibold cursor-pointer flex items-center justify-between gap-3 group ${
+                  domainMenuOpen ? "border-[#1D3189] bg-white shadow-md" : "border-slate-200 hover:border-[#1D3189] hover:bg-white"
+                }`}
+              >
+                <span className="truncate">
+                  {selectedDomain === "All" ? `All Domains (${allProjectsList.length})` : selectedDomain}
+                </span>
+                <span
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ease-in-out ${
+                    domainMenuOpen
+                      ? "bg-[#D9F83B] text-slate-950 rotate-180"
+                      : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-[#1D3189] group-hover:text-white group-hover:rotate-180"
+                  }`}
+                >
+                  <ChevronDown size={14} />
+                </span>
+              </button>
+
+              {domainMenuOpen && (
+                <div className="absolute right-0 mt-2 w-full sm:w-80 bg-white border border-slate-200 rounded-2xl shadow-2xl p-1.5 z-50 max-h-72 overflow-y-auto space-y-0.5 font-sans">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedDomain("All");
+                      setDomainMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                      selectedDomain === "All"
+                        ? "bg-[#070E54] text-white"
+                        : "text-slate-700 hover:bg-[#070E54] hover:text-white"
+                    }`}
+                  >
+                    <span>All Domains ({allProjectsList.length})</span>
+                    {selectedDomain === "All" && <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />}
+                  </button>
+
+                  {allDomains.map((d) => (
+                    <button
+                      key={d}
+                      type="button"
+                      onClick={() => {
+                        setSelectedDomain(d);
+                        setDomainMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
+                        selectedDomain === d
+                          ? "bg-[#070E54] text-white"
+                          : "text-slate-700 hover:bg-[#070E54] hover:text-white"
+                      }`}
+                    >
+                      <span className="truncate pr-2">{d}</span>
+                      {selectedDomain === d && <span className="w-2 h-2 rounded-full bg-[#D9F83B] shrink-0" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Tier Selector Pills */}
