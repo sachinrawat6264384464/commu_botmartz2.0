@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Calendar, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
 
 const FOOTER_LINK_CLASS =
@@ -53,45 +53,6 @@ export default function CommunityFooter() {
         backgroundSize: "72px 72px",
       }}
     >
-      {/* Top Banner: Indore Hybrid Hub & Weekly Rituals */}
-      <div className="border-b border-white/10 bg-[#1D3189]/30 w-full relative z-10">
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/15 text-[#D9F83B] flex items-center justify-center shrink-0">
-              <MapPin size={20} />
-            </div>
-            <div>
-              <div className="font-bold text-white text-base font-sans flex flex-wrap items-center gap-2.5">
-                <span>Indore AI Tech Lab</span>
-                <span className="px-3 py-0.5 rounded-full bg-white/10 text-blue-100 text-xs font-medium border border-white/15">
-                  Every Saturday 5:00 PM IST &bull; 50+ RSVP
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm text-blue-100/75 mt-1">
-                In-person architecture teardowns in Indore when 50+ RSVP; otherwise livestreamed globally.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 shrink-0">
-            <Link
-              href="/arena/calendar"
-              prefetch={false}
-              className="group relative overflow-hidden pl-5 pr-2.5 py-2.5 rounded-xl bg-[#D9F83B] text-slate-950 font-bold text-sm transition-all flex items-center gap-3 shadow-lg shadow-lime-400/15 cursor-pointer"
-            >
-              <span className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out" />
-              <span className="relative z-10 inline-flex items-center gap-2">
-                <Calendar size={15} />
-                <span>Indian Community Calendar</span>
-              </span>
-              <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] inline-flex items-center justify-center shrink-0">
-                <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
-              </span>
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* Main 4-Column Navigation */}
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-12 sm:py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
@@ -127,35 +88,67 @@ export default function CommunityFooter() {
           </div>
 
           {/* Columns 2, 3, 4 */}
-          {FOOTER_COLUMNS.map((col) => (
-            <div
-              key={col.title}
-              className="group/card space-y-4 rounded-2xl bg-white/[0.03] hover:bg-white border border-white/10 hover:border-white p-6 shadow-sm hover:shadow-2xl transition-all duration-300"
-            >
-              <h4 className="text-white group-hover/card:text-slate-950 font-bold uppercase text-xs tracking-widest font-sans flex items-center justify-between gap-2 pb-3 border-b border-white/10 group-hover/card:border-slate-200 transition-colors duration-300">
-                <span className="inline-flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#D9F83B] group-hover/card:bg-[#1D3189] transition-colors duration-300" />
-                  <span>{col.title}</span>
-                </span>
-                <span className="w-7 h-7 rounded-full bg-white/10 group-hover/card:bg-[#D9F83B] text-white group-hover/card:text-slate-950 inline-flex items-center justify-center shrink-0 transition-all duration-300">
-                  <ArrowRight size={13} className="transition-transform duration-300 group-hover/card:-rotate-[50deg]" />
-                </span>
-              </h4>
-              <ul className="space-y-3 font-sans">
-                {col.links.map((item) => (
-                  <li key={item.href}>
-                    <Link href={item.href} className={FOOTER_LINK_CLASS}>
-                      <span>{item.label}</span>
-                      <ArrowRight
-                        size={13}
-                        className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 group-hover/link:-rotate-[50deg] text-[#1D3189] transition-all duration-200"
-                      />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {FOOTER_COLUMNS.map((col, idx) => {
+            const isDefaultWhite = idx === 0;
+            return (
+              <div
+                key={col.title}
+                className={`group/card space-y-4 rounded-2xl border p-6 transition-all duration-300 ${
+                  isDefaultWhite
+                    ? "bg-white border-white shadow-2xl"
+                    : "bg-white/[0.03] hover:bg-white border-white/10 hover:border-white shadow-sm hover:shadow-2xl"
+                }`}
+              >
+                <h4
+                  className={`font-bold uppercase text-xs tracking-widest font-sans flex items-center justify-between gap-2 pb-3 border-b transition-colors duration-300 ${
+                    isDefaultWhite
+                      ? "text-slate-950 border-slate-200"
+                      : "text-white group-hover/card:text-slate-950 border-white/10 group-hover/card:border-slate-200"
+                  }`}
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <span
+                      className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                        isDefaultWhite
+                          ? "bg-[#1D3189]"
+                          : "bg-[#D9F83B] group-hover/card:bg-[#1D3189]"
+                      }`}
+                    />
+                    <span>{col.title}</span>
+                  </span>
+                  <span
+                    className={`w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 transition-all duration-300 ${
+                      isDefaultWhite
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-white/10 group-hover/card:bg-[#D9F83B] text-white group-hover/card:text-slate-950"
+                    }`}
+                  >
+                    <ArrowRight size={13} className="transition-transform duration-300 group-hover/card:-rotate-[50deg]" />
+                  </span>
+                </h4>
+                <ul className="space-y-3 font-sans">
+                  {col.links.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className={
+                          isDefaultWhite
+                            ? "group/link inline-flex items-center gap-2 text-sm font-medium text-slate-700 hover:text-slate-950 hover:font-semibold hover:translate-x-1.5 transition-all duration-200 cursor-pointer"
+                            : FOOTER_LINK_CLASS
+                        }
+                      >
+                        <span>{item.label}</span>
+                        <ArrowRight
+                          size={13}
+                          className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 group-hover/link:-rotate-[50deg] text-[#1D3189] transition-all duration-200"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
       </div>
 
