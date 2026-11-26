@@ -223,6 +223,7 @@ export default function MagazinePage() {
   });
 
   const leadArticle = ARTICLES[0];
+  const editorPicks = ARTICLES.slice(1, 3);
 
   const handleCopyCitation = (article: Article) => {
     const citation = `Sharma, S. et al. (2026). "${article.title}". Botmartz Applied AI Magazine, Vol. IV. https://botmartz.com/magazine#${article.id}`;
@@ -240,8 +241,9 @@ export default function MagazinePage() {
         backgroundSize: "72px 72px",
       }}
     >
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-8 space-y-12 relative z-10">
-        {/* ── 1. EDITORIAL MASTHEAD HERO (NO BOXES, CLEAN TYPOGRAPHY) ── */}
+      {/* Full-Width Container matching site rhythm */}
+      <div className="w-full px-4 sm:px-8 lg:px-12 space-y-10 relative z-10">
+        {/* ── 1. EDITORIAL MASTHEAD HERO ── */}
         <section
           className="rounded-3xl bg-[#162774] text-white p-7 sm:p-11 border border-white/15 shadow-2xl"
           style={{
@@ -277,7 +279,7 @@ export default function MagazinePage() {
             </button>
           </div>
 
-          {/* Inline Editorial Metrics Strip (No Boxes) */}
+          {/* Inline Editorial Metrics Strip */}
           <div className="mt-8 pt-6 border-t border-white/15 flex flex-wrap items-center gap-x-10 gap-y-3 text-xs">
             <div>
               <span className="text-[#D9F83B] font-extrabold">15+ Dissertations</span>
@@ -298,49 +300,97 @@ export default function MagazinePage() {
           </div>
         </section>
 
-        {/* ── 2. FEATURED LEAD STORY (EDITORIAL BROADSHEET STRIP, NOT A BOX) ── */}
-        <section
-          onClick={() => setActiveArticle(leadArticle)}
-          className="border-y-2 border-[#162774] py-8 cursor-pointer group transition-colors hover:bg-[#F4F6FB]/70 px-2 sm:px-4"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="space-y-3 max-w-3xl">
+        {/* ── 2. ASYMMETRIC EDITORIAL SPOTLIGHT (LEAD STORY + EDITOR'S PICKS) ── */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          {/* Left 7 cols: Lead Story Spotlight */}
+          <div
+            onClick={() => setActiveArticle(leadArticle)}
+            className="lg:col-span-7 rounded-3xl bg-[#162774] text-white border border-white/15 border-l-4 border-l-[#D9F83B] p-7 sm:p-9 shadow-xl cursor-pointer group flex flex-col justify-between gap-6 transition-all duration-500 hover:-translate-y-1"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)",
+              backgroundSize: "44px 44px",
+            }}
+          >
+            <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-wider">
-                <span className="px-3 py-0.5 rounded-full bg-[#162774] text-[#D9F83B]">
+                <span className="px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold">
                   Lead Research Story
                 </span>
-                <span className="text-[#1D3189]">#{leadArticle.tag}</span>
-                <span className="text-slate-500">{leadArticle.readingTime}</span>
-                <span className="text-slate-400">{leadArticle.publishedDate}</span>
+                <span className="text-[#D9F83B]">#{leadArticle.tag}</span>
+                <span className="text-blue-200/80">{leadArticle.readingTime}</span>
               </div>
 
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white group-hover:text-[#D9F83B] transition-colors leading-snug">
                 {leadArticle.title}
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="text-xs sm:text-sm text-blue-100/85 leading-relaxed">
                 {leadArticle.summary}
               </p>
-
-              <div className="text-xs font-semibold text-slate-700 pt-1">
-                By <span className="text-slate-950 font-bold">{leadArticle.author.name}</span> &mdash;{" "}
-                <span className="text-slate-500">{leadArticle.author.role}</span>
-              </div>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
-                Read Teardown
+            <div className="pt-5 border-t border-white/15 flex items-center justify-between gap-4">
+              <div className="text-xs">
+                <div className="font-extrabold text-white">{leadArticle.author.name}</div>
+                <div className="text-blue-200/75 text-[11px]">{leadArticle.author.role}</div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-[#D9F83B]">
+                  Read Teardown
+                </span>
+                <span className="w-10 h-10 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center transition-transform duration-500 group-hover:rotate-180 shadow-md">
+                  <ArrowRight size={16} />
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right 5 cols: Editor's Picks Split Panel */}
+          <div className="lg:col-span-5 rounded-3xl bg-[#F4F6FB] border border-slate-200 p-6 sm:p-7 flex flex-col justify-between shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+              <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#162774]">
+                Editor&apos;s Picks &bull; Vol. IV
               </span>
-              <span className="w-11 h-11 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] text-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-500 group-hover:rotate-180 shadow-md">
-                <ArrowRight size={17} />
-              </span>
+              <span className="text-[11px] font-bold text-slate-500">Featured Issues</span>
+            </div>
+
+            <div className="divide-y divide-slate-200 flex-1 flex flex-col justify-center">
+              {editorPicks.map((pick, i) => (
+                <div
+                  key={pick.id}
+                  onClick={() => setActiveArticle(pick)}
+                  className="py-5 first:pt-4 last:pb-2 flex items-start justify-between gap-4 cursor-pointer group"
+                >
+                  <div className="space-y-1.5 min-w-0">
+                    <div className="flex items-center gap-2 text-[10px] font-extrabold uppercase tracking-wider">
+                      <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0">
+                        0{i + 2}
+                      </span>
+                      <span className="text-[#162774]">#{pick.tag}</span>
+                      <span className="text-slate-400">&bull;</span>
+                      <span className="text-slate-500">{pick.readingTime}</span>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-snug line-clamp-2">
+                      {pick.title}
+                    </h3>
+                    <div className="text-[11px] text-slate-500">
+                      By <span className="font-bold text-slate-800">{pick.author.name}</span>
+                    </div>
+                  </div>
+
+                  <span className="w-9 h-9 rounded-full bg-white border border-slate-200 group-hover:bg-[#162774] text-slate-900 group-hover:text-[#D9F83B] flex items-center justify-center shrink-0 transition-all duration-500 group-hover:rotate-180 mt-1">
+                    <ArrowRight size={14} />
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ── 3. MINIMAL FILTER & SEARCH BAR (NO BOXES, NO ICONS) ── */}
-        <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200">
+        {/* ── 3. FILTER & SEARCH BAR (NO ICONS) ── */}
+        <section className="bg-[#F4F6FB] border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {CATEGORIES.map((cat) => (
               <button
@@ -350,7 +400,7 @@ export default function MagazinePage() {
                 className={`px-3.5 py-1.5 rounded-full font-bold transition-all cursor-pointer ${
                   selectedCat === cat
                     ? "bg-[#162774] text-[#D9F83B]"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    : "bg-white border border-slate-200 text-slate-700 hover:border-[#162774]"
                 }`}
               >
                 {cat === "All" ? "All Issues" : `#${cat}`}
@@ -363,14 +413,14 @@ export default function MagazinePage() {
             placeholder="Search dissertations, topics, authors..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full sm:w-72 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#162774] font-medium"
+            className="w-full sm:w-80 px-4 py-2 bg-white border border-slate-200 rounded-full text-xs text-slate-900 focus:outline-none focus:border-[#162774] font-medium"
           />
         </section>
 
-        {/* ── 4. EDITORIAL INDEX LIST (NO CARD BOXES, CLEAN DIVIDED ROWS + 180° CIRCLE ARROW) ── */}
-        <section className="divide-y divide-slate-200 border-b border-slate-200">
+        {/* ── 4. 2-COLUMN BROADSHEET PUBLICATION ROWS (FULL-WIDTH, BOTTOM SLIDE HOVER + 180° ARROW) ── */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-8">
           {filtered.length === 0 ? (
-            <div className="py-14 text-center text-sm font-semibold text-slate-500">
+            <div className="lg:col-span-2 py-14 rounded-3xl bg-[#F4F6FB] border border-slate-200 text-center text-sm font-semibold text-slate-500">
               No matching articles found. Try clearing your search or selecting All Issues.
             </div>
           ) : (
@@ -378,45 +428,59 @@ export default function MagazinePage() {
               <article
                 key={article.id}
                 onClick={() => setActiveArticle(article)}
-                className="py-7 px-3 sm:px-5 flex flex-col md:flex-row md:items-center justify-between gap-6 cursor-pointer group hover:bg-[#F4F6FB]/90 transition-colors duration-300"
+                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-pointer group flex flex-col justify-between"
               >
-                <div className="flex items-start gap-5 flex-1 min-w-0">
-                  {/* Issue Numeral */}
-                  <span className="w-9 h-9 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950 font-extrabold text-xs flex items-center justify-center shrink-0 transition-colors duration-300 mt-0.5">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-
-                  <div className="space-y-1.5 min-w-0">
-                    <div className="flex flex-wrap items-center gap-3 text-[11px] font-bold uppercase tracking-wider">
+                <div className="p-6 sm:p-7 pb-5 space-y-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex flex-wrap items-center gap-2.5 text-[11px] font-bold uppercase tracking-wider">
+                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
                       <span className="text-[#162774]">#{article.tag}</span>
                       <span className="text-slate-400">&bull;</span>
                       <span className="text-slate-500">{article.readingTime}</span>
-                      <span className="text-slate-400">&bull;</span>
-                      <span className="text-slate-400">{article.publishedDate}</span>
                     </div>
-
-                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-snug">
-                      {article.title}
-                    </h3>
-
-                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 max-w-3xl">
-                      {article.summary}
-                    </p>
-
-                    <div className="text-[11px] text-slate-500 pt-1">
-                      <span className="font-bold text-slate-800">{article.author.name}</span> &bull; {article.author.role}
-                    </div>
+                    <span className="text-[11px] font-semibold text-slate-400 shrink-0">
+                      {article.publishedDate}
+                    </span>
                   </div>
+
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-snug">
+                    {article.title}
+                  </h3>
+
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                    {article.summary}
+                  </p>
                 </div>
 
-                {/* Right Action: Circle Arrow rotating 180deg */}
-                <div className="flex items-center gap-3 shrink-0 self-end md:self-center">
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-[#162774] transition-colors">
-                    Read
-                  </span>
-                  <span className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#162774] text-slate-900 group-hover:text-[#D9F83B] flex items-center justify-center transition-all duration-500 group-hover:rotate-180">
-                    <ArrowRight size={15} />
-                  </span>
+                {/* Bottom Strip: Navbar Blue #162774 + Grid Lines Slide Hover + 180deg Arrow */}
+                <div className="relative overflow-hidden px-6 sm:px-7 py-3.5 border-t border-slate-200/80 group-hover:border-[#162774] flex items-center justify-between gap-4 transition-colors duration-500">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                      backgroundSize: "28px 28px",
+                    }}
+                  />
+
+                  <div className="relative z-10 text-[11px] text-slate-600 group-hover:text-blue-100 transition-colors duration-500">
+                    <span className="font-bold text-slate-900 group-hover:text-white transition-colors duration-500">
+                      {article.author.name}
+                    </span>{" "}
+                    &bull; {article.author.role}
+                  </div>
+
+                  <div className="relative z-10 flex items-center gap-2.5 shrink-0">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-[#162774] group-hover:text-[#D9F83B] transition-colors duration-500">
+                      Read
+                    </span>
+                    <span className="w-8 h-8 rounded-full bg-white group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-180 shadow-2xs">
+                      <ArrowRight size={13} />
+                    </span>
+                  </div>
                 </div>
               </article>
             ))
