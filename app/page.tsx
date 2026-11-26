@@ -240,7 +240,7 @@ export default async function CommunityHomePage() {
               className="group relative bg-gradient-to-br from-[#1D3189] to-[#070E54] rounded-2xl border border-[#1D3189] p-7 sm:p-8 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden text-white"
             >
               <div className="absolute top-0 left-0 right-0 h-1 bg-[#D9F83B]" />
-              <span className="absolute top-4 right-6 text-6xl font-black text-white/10 group-hover:text-[#D9F83B]/20 transition-colors select-none font-sans">
+              <span className="absolute top-4 right-6 text-6xl font-black text-white/25 group-hover:text-[#D9F83B]/40 transition-colors select-none font-sans">
                 03
               </span>
 
@@ -271,14 +271,14 @@ export default async function CommunityHomePage() {
 
       {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
       <section
-        className="py-20 sm:py-24 bg-[#162774] text-white border-b border-white/10 relative"
+        className="py-16 sm:py-20 bg-[#162774] text-white border-b border-white/10 relative"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
         }}
       >
-        <div className="w-full px-4 sm:px-8 lg:px-14 max-w-[1440px] mx-auto">
+        <div className="w-full px-4 sm:px-8 lg:px-10 max-w-6xl mx-auto">
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
