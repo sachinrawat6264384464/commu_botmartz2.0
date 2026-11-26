@@ -114,10 +114,10 @@ export default function CommunityNavbar() {
   ];
 
   const RESOURCE_ITEMS = [
-    { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools", locked: false },
-    { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers", locked: false },
-    { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials", locked: false },
-    { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: false }
+    { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools", locked: false, requiresAuth: false },
+    { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers", locked: false, requiresAuth: true },
+    { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials", locked: false, requiresAuth: false },
+    { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: false, requiresAuth: false }
   ];
 
   const isInternshipActive =
@@ -359,7 +359,9 @@ export default function CommunityNavbar() {
                   <span>Developer Resources &amp; Credentials</span>
                 </div>
                 <div className="space-y-1">
-                  {RESOURCE_ITEMS.map((item) => {
+                  {RESOURCE_ITEMS.filter(
+                    (item) => !item.requiresAuth || (mounted && user)
+                  ).map((item) => {
                     const itemActive =
                       pathname === item.href || pathname.startsWith(item.href + "/");
                     return (
@@ -577,7 +579,9 @@ export default function CommunityNavbar() {
 
           <div className="space-y-1 border-t border-slate-100 pt-3">
             <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3 py-1">Resources &amp; Credentials</div>
-            {RESOURCE_ITEMS.map((item) => (
+            {RESOURCE_ITEMS.filter(
+              (item) => !item.requiresAuth || (mounted && user)
+            ).map((item) => (
               <Link
                 key={item.href}
                 href={item.href}

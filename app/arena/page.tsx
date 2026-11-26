@@ -526,7 +526,7 @@ export default function ArenaPage() {
               return (
                 <div
                   key={project.id}
-                  className={`relative overflow-hidden bg-white border rounded-3xl shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between group ${isThisEnrolled
+                  className={`relative overflow-hidden bg-[#F4F6FB] hover:bg-[#FAFBFD] border rounded-3xl shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between group ${isThisEnrolled
                       ? "border-emerald-500 ring-2 ring-emerald-500/20"
                       : isCardLocked
                         ? "border-slate-200 opacity-90"

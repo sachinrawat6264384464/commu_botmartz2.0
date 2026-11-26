@@ -551,19 +551,17 @@ export default function HackathonsPage() {
               <button
                 type="button"
                 onClick={() => setDomainMenuOpen((prev) => !prev)}
-                className={`w-full bg-slate-50 border-2 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-sans text-slate-950 focus:outline-none transition-all duration-300 font-semibold cursor-pointer flex items-center justify-between gap-3 group ${
-                  domainMenuOpen ? "border-[#1D3189] bg-white shadow-md" : "border-slate-200 hover:border-[#1D3189] hover:bg-white"
-                }`}
+                className={`w-full bg-slate-50 border-2 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-sans text-slate-950 focus:outline-none transition-all duration-300 font-semibold cursor-pointer flex items-center justify-between gap-3 group ${domainMenuOpen ? "border-[#1D3189] bg-white shadow-md" : "border-slate-200 hover:border-[#1D3189] hover:bg-white"
+                  }`}
               >
                 <span className="truncate">
                   {selectedDomain === "All" ? `All Domains (${projects.length})` : selectedDomain}
                 </span>
                 <span
-                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ease-in-out ${
-                    domainMenuOpen
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ease-in-out ${domainMenuOpen
                       ? "bg-[#D9F83B] text-slate-950 rotate-180"
                       : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-[#1D3189] group-hover:text-white group-hover:rotate-180"
-                  }`}
+                    }`}
                 >
                   <ChevronDown size={14} />
                 </span>
@@ -577,11 +575,10 @@ export default function HackathonsPage() {
                       setSelectedDomain("All");
                       setDomainMenuOpen(false);
                     }}
-                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                      selectedDomain === "All"
+                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${selectedDomain === "All"
                         ? "bg-[#070E54] text-white"
                         : "text-slate-700 hover:bg-[#070E54] hover:text-white"
-                    }`}
+                      }`}
                   >
                     <span>All Domains ({projects.length})</span>
                     {selectedDomain === "All" && <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />}
@@ -594,11 +591,10 @@ export default function HackathonsPage() {
                         setSelectedDomain(d);
                         setDomainMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                        selectedDomain === d
+                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${selectedDomain === d
                           ? "bg-[#070E54] text-white"
                           : "text-slate-700 hover:bg-[#070E54] hover:text-white"
-                      }`}
+                        }`}
                     >
                       <span className="truncate pr-2">{d}</span>
                       {selectedDomain === d && <span className="w-2 h-2 rounded-full bg-[#D9F83B] shrink-0" />}
@@ -625,33 +621,30 @@ export default function HackathonsPage() {
               <button
                 type="button"
                 onClick={() => setModeFilter("all")}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${
-                  modeFilter === "all"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${modeFilter === "all"
                     ? "bg-[#1D3189] text-white border-[#1D3189]"
                     : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 All Modes
               </button>
               <button
                 type="button"
                 onClick={() => setModeFilter("solo")}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${
-                  modeFilter === "solo"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${modeFilter === "solo"
                     ? "bg-[#1D3189] text-white border-[#1D3189]"
                     : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 Solo (₹{SOLO_HACKATHON_FEE})
               </button>
               <button
                 type="button"
                 onClick={() => setModeFilter("team")}
-                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${
-                  modeFilter === "team"
+                className={`px-3.5 py-1.5 rounded-xl font-bold transition-all cursor-pointer border ${modeFilter === "team"
                     ? "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
                     : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 Team 2–3 (₹{TEAM_HACKATHON_FEE})
               </button>
@@ -662,11 +655,10 @@ export default function HackathonsPage() {
               <button
                 type="button"
                 onClick={() => setSelectedDomain("All")}
-                className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${
-                  selectedDomain === "All"
+                className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${selectedDomain === "All"
                     ? "bg-[#070E54] text-white border-[#070E54]"
                     : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
-                }`}
+                  }`}
               >
                 All
               </button>
@@ -675,11 +667,10 @@ export default function HackathonsPage() {
                   key={d}
                   type="button"
                   onClick={() => setSelectedDomain(d)}
-                  className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${
-                    selectedDomain === d
+                  className={`px-3 py-1 rounded-xl text-[11px] font-bold transition-all cursor-pointer border ${selectedDomain === d
                       ? "bg-[#070E54] text-white border-[#070E54]"
                       : "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200"
-                  }`}
+                    }`}
                 >
                   {d}
                 </button>
@@ -756,11 +747,10 @@ export default function HackathonsPage() {
                       <button
                         type="button"
                         onClick={() => openEnrollModal(project, "solo")}
-                        className={`py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${
-                          modeFilter === "solo"
+                        className={`py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${modeFilter === "solo"
                             ? "bg-[#1D3189] hover:bg-[#152468] text-white shadow-sm"
                             : "bg-slate-100 hover:bg-[#1D3189] hover:text-white border border-slate-200 text-slate-900"
-                        }`}
+                          }`}
                       >
                         Enroll Solo (₹{project.soloFee || SOLO_HACKATHON_FEE})
                       </button>
@@ -1033,18 +1023,16 @@ export default function HackathonsPage() {
                     <button
                       type="button"
                       onClick={() => setMode("solo")}
-                      className={`py-2.5 rounded-xl font-bold transition-all cursor-pointer ${
-                        mode === "solo" ? "bg-[#1D3189] text-white shadow-sm" : "text-slate-700"
-                      }`}
+                      className={`py-2.5 rounded-xl font-bold transition-all cursor-pointer ${mode === "solo" ? "bg-[#1D3189] text-white shadow-sm" : "text-slate-700"
+                        }`}
                     >
                       Solo Builder (₹{SOLO_HACKATHON_FEE})
                     </button>
                     <button
                       type="button"
                       onClick={() => setMode("team")}
-                      className={`py-2.5 rounded-xl font-bold transition-all cursor-pointer ${
-                        mode === "team" ? "bg-[#1D3189] text-white shadow-sm" : "text-slate-700"
-                      }`}
+                      className={`py-2.5 rounded-xl font-bold transition-all cursor-pointer ${mode === "team" ? "bg-[#1D3189] text-white shadow-sm" : "text-slate-700"
+                        }`}
                     >
                       Team 2–3 Members (₹{TEAM_HACKATHON_FEE})
                     </button>
