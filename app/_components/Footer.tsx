@@ -7,7 +7,41 @@ import { MapPin, Calendar, ArrowRight } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
 
 const FOOTER_LINK_CLASS =
-  "group inline-flex items-center gap-2 text-sm font-medium text-blue-100/80 hover:text-[#D9F83B] hover:translate-x-1.5 transition-all duration-200 cursor-pointer";
+  "group/link inline-flex items-center gap-2 text-sm font-medium text-blue-100/80 group-hover/card:text-slate-700 hover:!text-slate-950 hover:font-semibold hover:translate-x-1.5 transition-all duration-200 cursor-pointer";
+
+const FOOTER_COLUMNS = [
+  {
+    title: "Virtual Internship",
+    links: [
+      { label: "Virtual AI Internship", href: "/virtual-ai-internship" },
+      { label: "59+ System PRD Catalog", href: "/arena" },
+      { label: "Daily Standup & Proof-of-Work", href: "/arena/daily-log" },
+      { label: "Platform & Product Tour", href: "/product-tour" },
+      { label: "Propose Custom Blueprint", href: "/arena/custom-project" },
+      { label: "Stage-by-Stage Roadmaps", href: "/arena/roadmaps" },
+    ],
+  },
+  {
+    title: "Career OS & Bounties",
+    links: [
+      { label: "Student Karma Wallet", href: "/arena/wallet" },
+      { label: "Blocker Bounty Board", href: "/arena/bounties" },
+      { label: "Career & LinkedIn Strategy", href: "/arena/career-checklist" },
+      { label: "Squad Matchmaking", href: "/arena/collaborate" },
+      { label: "Proof-of-Work Showcases", href: "/showcase" },
+    ],
+  },
+  {
+    title: "Community & Summits",
+    links: [
+      { label: "AI Summits & Conferences", href: "/events" },
+      { label: "Discussions & Technical Q&A", href: "/discussions" },
+      { label: "Hands-on Workshops", href: "/workshops" },
+      { label: "Developer Magazine", href: "/magazine" },
+      { label: "Verify Student Credentials", href: "/certificates" },
+    ],
+  },
+];
 
 export default function CommunityFooter() {
   return (
@@ -96,131 +130,36 @@ export default function CommunityFooter() {
             </div>
           </div>
 
-          {/* Column 2: Virtual Internship & System Catalog */}
-          <div className="space-y-4 rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-white/20 transition-colors">
-            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2 pb-3 border-b border-white/10">
-              <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
-              <span>Virtual Internship</span>
-            </h4>
-            <ul className="space-y-3 font-sans">
-              <li>
-                <Link href="/virtual-ai-internship" className={FOOTER_LINK_CLASS}>
-                  <span>Virtual AI Internship</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena" className={FOOTER_LINK_CLASS}>
-                  <span>59+ System PRD Catalog</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/daily-log" className={FOOTER_LINK_CLASS}>
-                  <span>Daily Standup &amp; Proof-of-Work</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/product-tour" className={FOOTER_LINK_CLASS}>
-                  <span>Platform &amp; Product Tour</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/custom-project" className={FOOTER_LINK_CLASS}>
-                  <span>Propose Custom Blueprint</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/roadmaps" className={FOOTER_LINK_CLASS}>
-                  <span>Stage-by-Stage Roadmaps</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Career OS & Bounties */}
-          <div className="space-y-4 rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-white/20 transition-colors">
-            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2 pb-3 border-b border-white/10">
-              <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
-              <span>Career OS &amp; Bounties</span>
-            </h4>
-            <ul className="space-y-3 font-sans">
-              <li>
-                <Link href="/arena/wallet" className={FOOTER_LINK_CLASS}>
-                  <span>Student Karma Wallet</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/bounties" className={FOOTER_LINK_CLASS}>
-                  <span>Blocker Bounty Board</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/career-checklist" className={FOOTER_LINK_CLASS}>
-                  <span>Career &amp; LinkedIn Strategy</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/arena/collaborate" className={FOOTER_LINK_CLASS}>
-                  <span>Squad Matchmaking</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/showcase" className={FOOTER_LINK_CLASS}>
-                  <span>Proof-of-Work Showcases</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4: Community & Summits */}
-          <div className="space-y-4 rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-white/20 transition-colors">
-            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2 pb-3 border-b border-white/10">
-              <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
-              <span>Community &amp; Summits</span>
-            </h4>
-            <ul className="space-y-3 font-sans">
-              <li>
-                <Link href="/events" className={FOOTER_LINK_CLASS}>
-                  <span>AI Summits &amp; Conferences</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/discussions" className={FOOTER_LINK_CLASS}>
-                  <span>Discussions &amp; Technical Q&amp;A</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/workshops" className={FOOTER_LINK_CLASS}>
-                  <span>Hands-on Workshops</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/magazine" className={FOOTER_LINK_CLASS}>
-                  <span>Developer Magazine</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-              <li>
-                <Link href="/certificates" className={FOOTER_LINK_CLASS}>
-                  <span>Verify Student Credentials</span>
-                  <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Columns 2, 3, 4 */}
+          {FOOTER_COLUMNS.map((col) => (
+            <div
+              key={col.title}
+              className="group/card space-y-4 rounded-2xl bg-white/[0.03] hover:bg-white border border-white/10 hover:border-white p-6 shadow-sm hover:shadow-2xl transition-all duration-300"
+            >
+              <h4 className="text-white group-hover/card:text-slate-950 font-bold uppercase text-xs tracking-widest font-sans flex items-center justify-between gap-2 pb-3 border-b border-white/10 group-hover/card:border-slate-200 transition-colors duration-300">
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#D9F83B] group-hover/card:bg-[#1D3189] transition-colors duration-300" />
+                  <span>{col.title}</span>
+                </span>
+                <span className="w-7 h-7 rounded-full bg-white/10 group-hover/card:bg-[#D9F83B] text-white group-hover/card:text-slate-950 inline-flex items-center justify-center shrink-0 transition-all duration-300">
+                  <ArrowRight size={13} className="transition-transform duration-300 group-hover/card:-rotate-[50deg]" />
+                </span>
+              </h4>
+              <ul className="space-y-3 font-sans">
+                {col.links.map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} className={FOOTER_LINK_CLASS}>
+                      <span>{item.label}</span>
+                      <ArrowRight
+                        size={13}
+                        className="opacity-0 -translate-x-1 group-hover/link:opacity-100 group-hover/link:translate-x-0 group-hover/link:-rotate-[50deg] text-[#1D3189] transition-all duration-200"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
 
