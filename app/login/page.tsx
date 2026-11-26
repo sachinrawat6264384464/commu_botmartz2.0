@@ -243,7 +243,7 @@ function StudentLoginInner() {
               githubUsername: signUpForm.githubUsername,
               karmaCoins: 100
             });
-          } catch (e) {}
+          } catch (e) { }
         }
         router.push(redirectUrl);
       }
@@ -318,10 +318,10 @@ function StudentLoginInner() {
 
   return (
     <div
-      className="min-h-[calc(100vh-80px)] bg-[#162774] text-slate-900 pt-6 sm:pt-10 pb-10 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex flex-col justify-center relative overflow-hidden"
+      className="min-h-[calc(100vh-80px)] bg-white text-slate-900 pt-6 sm:pt-10 pb-10 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex flex-col justify-center relative overflow-hidden"
       style={{
         backgroundImage:
-          "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+          "linear-gradient(to right, rgba(29, 49, 137, 0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.045) 1px, transparent 1px)",
         backgroundSize: "72px 72px",
       }}
     >
@@ -329,10 +329,10 @@ function StudentLoginInner() {
 
       {/* Dynamic 100% Full-Width Container */}
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10 flex-1 flex flex-col justify-center">
-        
+
         {/* ── 2-COLUMN SPLIT HERO LOGIN / SIGNUP LAYOUT ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full flex-1">
-          
+
           {/* ── LEFT COLUMN (7 COLS): HIGH-TECH HERO BRANDING BANNER ── */}
           <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/90 p-6 sm:p-9 border border-white/15 shadow-2xl flex flex-col justify-between h-full backdrop-blur-xl hover:border-[#D9F83B]/40 transition-all duration-500 group text-white">
 
@@ -448,7 +448,7 @@ function StudentLoginInner() {
 
           {/* ── RIGHT COLUMN (5 COLS): AUTH CARD WITH SIGN UP & SIGN IN TABS ── */}
           <div className="lg:col-span-5 flex flex-col h-full min-h-[calc(100vh-180px)] lg:min-h-[640px]">
-            
+
             {/* REGISTRATION SUCCESS CARD VIEW */}
             {registrationSuccess ? (
               <div className="h-full bg-white rounded-3xl border-2 border-emerald-400 shadow-2xl p-8 space-y-6 font-sans text-xs relative overflow-hidden flex flex-col justify-between animate-fadeIn">
@@ -553,7 +553,7 @@ function StudentLoginInner() {
               /* ALREADY LOGGED IN STATE */
               <div className="h-full bg-white rounded-3xl border-2 border-slate-200 shadow-xl p-8 sm:p-10 text-center space-y-6 font-sans text-xs relative overflow-hidden flex flex-col justify-between hover:border-[#0066FF] transition-all">
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-blue-500 to-cyan-500" />
-                
+
                 <div className="space-y-4 pt-4">
                   <div className="w-20 h-20 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto overflow-hidden border-4 border-blue-200 shadow-md">
                     {user.photoURL ? (
@@ -615,11 +615,11 @@ function StudentLoginInner() {
               </div>
             ) : (
               /* MAIN AUTH CARD (SIGN UP / SIGN IN) */
-              <div className="h-full bg-white rounded-3xl border border-white/20 shadow-2xl p-6 sm:p-8 space-y-5 relative overflow-hidden flex flex-col justify-between transition-all duration-500">
+              <div className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-6 sm:p-8 space-y-5 relative overflow-hidden flex flex-col justify-between transition-all duration-500">
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9F83B]" />
-                
+
                 <div className="space-y-5">
-                  
+
                   {/* ── TOP MAIN MODE TABS: SIGN UP vs SIGN IN ── */}
                   <div className="grid grid-cols-2 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 font-sans text-xs font-bold">
                     <button
@@ -629,11 +629,10 @@ function StudentLoginInner() {
                         setError("");
                         setInfoMsg("");
                       }}
-                      className={`py-3 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${
-                        authMode === "signup"
+                      className={`py-3 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${authMode === "signup"
                           ? "bg-[#1D3189] text-white shadow-md font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
-                      }`}
+                        }`}
                     >
                       <UserPlus size={15} />
                       <span>Create Account (Sign Up)</span>
@@ -646,11 +645,10 @@ function StudentLoginInner() {
                         setError("");
                         setInfoMsg("");
                       }}
-                      className={`py-3 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${
-                        authMode === "signin"
+                      className={`py-3 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${authMode === "signin"
                           ? "bg-[#1D3189] text-white shadow-md font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
-                      }`}
+                        }`}
                     >
                       <Lock size={15} />
                       <span>Sign In to Portal</span>
@@ -713,7 +711,7 @@ function StudentLoginInner() {
                   {/* ══════════════════════════════════════════════════════════════ */}
                   {authMode === "signup" && (
                     <form onSubmit={handleSignUpSubmit} className="space-y-3.5 font-sans text-xs">
-                      
+
                       {/* Full Name */}
                       <div>
                         <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
@@ -873,7 +871,7 @@ function StudentLoginInner() {
                   {/* ══════════════════════════════════════════════════════════════ */}
                   {authMode === "signin" && (
                     <div className="space-y-4 font-sans text-xs">
-                      
+
                       {/* Sub Auth Method Switcher (Passcode / Google / Phone) */}
                       <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-100 rounded-xl font-sans text-xs border border-slate-200">
                         <button
@@ -882,11 +880,10 @@ function StudentLoginInner() {
                             setAuthMethod("passcode");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${
-                            authMethod === "passcode"
+                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${authMethod === "passcode"
                               ? "bg-[#1D3189] text-white shadow-xs"
                               : "text-slate-600 hover:text-slate-900"
-                          }`}
+                            }`}
                         >
                           <KeyRound size={13} />
                           <span>Passcode</span>
@@ -898,11 +895,10 @@ function StudentLoginInner() {
                             setAuthMethod("google");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${
-                            authMethod === "google"
+                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${authMethod === "google"
                               ? "bg-[#1D3189] text-white shadow-xs"
                               : "text-slate-600 hover:text-slate-900"
-                          }`}
+                            }`}
                         >
                           <span>Google</span>
                         </button>
@@ -913,11 +909,10 @@ function StudentLoginInner() {
                             setAuthMethod("phone");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${
-                            authMethod === "phone"
+                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${authMethod === "phone"
                               ? "bg-[#1D3189] text-white shadow-xs"
                               : "text-slate-600 hover:text-slate-900"
-                          }`}
+                            }`}
                         >
                           <Phone size={13} />
                           <span>Phone OTP</span>
