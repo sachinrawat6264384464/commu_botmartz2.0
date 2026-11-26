@@ -219,12 +219,12 @@ export default function AboutPage() {
                     <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors mb-2 leading-snug">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                    <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
                       {item.summary}
                     </p>
                   </div>
 
-                  <ul className="space-y-2 pt-2 border-t border-slate-200/80 text-xs text-slate-700">
+                  <ul className="space-y-2 pt-2 border-t border-slate-200/80 text-[13px] text-slate-800 font-medium">
                     {item.points.map((pt) => (
                       <li key={pt} className="flex items-start gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#162774] mt-1.5 shrink-0" />

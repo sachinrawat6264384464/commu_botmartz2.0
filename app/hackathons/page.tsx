@@ -504,10 +504,10 @@ export default function HackathonsPage() {
                     {step.num}
                   </span>
                 </div>
-                <h3 className="text-base font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors duration-300 mb-1.5">
+                <h3 className="text-lg font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors duration-300 mb-1.5">
                   {step.title}
                 </h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
                   {step.desc}
                 </p>
               </div>
@@ -720,7 +720,7 @@ export default function HackathonsPage() {
                   <h3 className="text-lg font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-2 leading-snug">
                     {project.title}
                   </h3>
-                  <p className="text-xs text-slate-600 leading-relaxed mb-3 font-medium">
+                  <p className="text-[13px] text-slate-700 leading-relaxed mb-3 font-medium">
                     {project.problemStatement}
                   </p>
 
@@ -729,7 +729,7 @@ export default function HackathonsPage() {
                     {(project.techStack || []).map((tech) => (
                       <span
                         key={tech}
-                        className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] group-hover:border-[#070E54] font-sans text-[10px] font-semibold transition-all duration-500"
+                        className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 border border-slate-200 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] group-hover:border-[#070E54] font-sans text-[11px] font-semibold transition-all duration-500"
                       >
                         {tech}
                       </span>
