@@ -74,10 +74,6 @@ export default function ProgressiveRoadmapsPage() {
   };
 
   return (
-    <AuthGate
-      featureTitle="50 Progressive Career Roadmaps"
-      featureDescription="Sign in to explore stage-by-stage engineering milestones, foundational prerequisites, and systems design concepts for all 50 specialized roles."
-    >
       <div
         className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
         style={{
@@ -95,10 +91,10 @@ export default function ProgressiveRoadmapsPage() {
                 Career Discovery &amp; Learning Roadmaps
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Progressive Career Roadmaps
+                20 Progressive Career Roadmaps
               </h1>
               <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
-                Step-by-step career path guides across 50+ technical, product, and cross-discipline roles. Discover required foundational concepts, system design prerequisites, and measurable stage milestones.
+                Step-by-step career path guides across 20 specialized technical, product, and AI engineering roles. Discover required foundational concepts, system design prerequisites, and measurable stage milestones.
               </p>
             </div>
 
@@ -391,6 +387,5 @@ export default function ProgressiveRoadmapsPage() {
       </div>
 
       </div>
-    </AuthGate>
   );
 }

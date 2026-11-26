@@ -94,14 +94,14 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
-    { name: "My Learning & Projects", href: "/arena/my-learning", icon: BookOpen, desc: "Enrolled projects, 45-day commit progress & badges", locked: false },
-    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: false },
-    { name: `Internship Playground (${TOTAL_SYSTEMS_COUNT} PRDs)`, href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false },
-    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false },
-    { name: `${TOTAL_SYSTEMS_COUNT} Career Roadmaps`, href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: false },
-    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: false },
-    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages", locked: false },
-    { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: false }
+    { name: "My Learning & Projects", href: "/arena/my-learning", icon: BookOpen, desc: "Enrolled projects, 45-day commit progress & badges", locked: false, requiresAuth: true },
+    { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: false, requiresAuth: false },
+    { name: `Internship Playground (${TOTAL_SYSTEMS_COUNT} PRDs)`, href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false, requiresAuth: false },
+    { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false, requiresAuth: true },
+    { name: "20 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: false, requiresAuth: false },
+    { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: false, requiresAuth: true },
+    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages", locked: false, requiresAuth: false },
+    { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: false, requiresAuth: true }
   ];
 
   const COMMUNITY_ITEMS: Array<{ name: string; href: string; icon: any; desc: string; locked?: boolean; external?: boolean }> = [
@@ -249,7 +249,7 @@ export default function CommunityNavbar() {
                 </div>
                 <div className="space-y-1">
                   {INTERNSHIP_ITEMS.filter(
-                    (item) => item.href !== "/arena/my-learning" || (mounted && user)
+                    (item) => !item.requiresAuth || (mounted && user)
                   ).map((item) => (
                     <Link
                       key={item.href}
@@ -481,7 +481,7 @@ export default function CommunityNavbar() {
           <div className="space-y-1 border-t border-slate-100 pt-3">
             <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3 py-1">Virtual AI Internship &amp; Arena</div>
             {INTERNSHIP_ITEMS.filter(
-              (item) => item.href !== "/arena/my-learning" || (mounted && user)
+              (item) => !item.requiresAuth || (mounted && user)
             ).map((item) => (
               <Link
                 key={item.href}
