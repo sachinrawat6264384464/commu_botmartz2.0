@@ -702,43 +702,62 @@ export default function HackathonsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProjects.map((project) => (
+            {filteredProjects.map((project, idx) => (
               <div
                 key={project.id}
                 className="relative overflow-hidden bg-[#F4F6FB] hover:bg-[#FAFBFD] border border-slate-200/90 hover:border-[#1D3189] rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-5 group hover:-translate-y-1"
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-2">
                     <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 font-sans text-[10px] font-bold uppercase tracking-wider truncate">
                       {project.domain}
                     </span>
-                    <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-800 border border-slate-200">
+                    <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-white text-slate-800 border border-slate-200">
                       {project.difficulty}
                     </span>
                   </div>
 
-                  <h3 className="text-lg font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-2 leading-snug">
-                    {project.title}
-                  </h3>
-                  <p className="text-[13px] text-slate-700 leading-relaxed mb-3 font-medium">
+                  {/* Boxed Blue Heading + Circle Arrow */}
+                  <div
+                    className="flex items-center justify-between gap-3 p-4 rounded-2xl bg-[#162774] text-white shadow-sm"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                      backgroundSize: "28px 28px",
+                    }}
+                  >
+                    <h3 className="text-base sm:text-lg font-extrabold text-white group-hover:text-[#D9F83B] transition-colors leading-snug">
+                      {project.title}
+                    </h3>
+                    <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-45">
+                      <ArrowRight size={13} />
+                    </span>
+                  </div>
+
+                  {/* Rich Structured Metadata (No Tech Stack Pills) */}
+                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 space-y-2 text-xs">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-slate-800 font-bold">
+                      <span>Solo (1) or Team (2–3)</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold">
+                        Online &bull; 24 Hours
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600 font-semibold pt-1.5 border-t border-slate-100">
+                      <span>Botmartz Community</span>
+                      <span className="text-[#162774] font-bold">Open Tech Stack</span>
+                    </div>
+                    <div className="pt-1.5 border-t border-slate-100 text-[11px] font-extrabold text-emerald-700">
+                      Reward: Certificate + Direct Job Screening
+                    </div>
+                  </div>
+
+                  <p className="text-[13px] text-slate-700 leading-relaxed font-medium border-l-2 border-l-[#162774] pl-3">
                     {project.problemStatement}
                   </p>
-
-                  {/* Tech Stack Pills */}
-                  <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
-                    {(project.techStack || []).map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 border border-slate-200 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] group-hover:border-[#070E54] font-sans text-[11px] font-semibold transition-all duration-500"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 space-y-2.5">
-                  <div className="flex items-center justify-between text-[11px] font-bold text-slate-700">
+                <div className="pt-4 border-t border-slate-200/80 space-y-2.5">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-800">
                     <span>Solo: ₹{project.soloFee || SOLO_HACKATHON_FEE}</span>
                     <span>Team (2–3): ₹{project.teamFee || TEAM_HACKATHON_FEE}</span>
                   </div>
@@ -749,7 +768,7 @@ export default function HackathonsPage() {
                         onClick={() => openEnrollModal(project, "solo")}
                         className={`py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${modeFilter === "solo"
                             ? "bg-[#1D3189] hover:bg-[#152468] text-white shadow-sm"
-                            : "bg-slate-100 hover:bg-[#1D3189] hover:text-white border border-slate-200 text-slate-900"
+                            : "bg-white hover:bg-[#1D3189] hover:text-white border border-slate-200 text-slate-900"
                           }`}
                       >
                         Enroll Solo (₹{project.soloFee || SOLO_HACKATHON_FEE})
@@ -759,7 +778,7 @@ export default function HackathonsPage() {
                       <button
                         type="button"
                         onClick={() => openEnrollModal(project, "team")}
-                        className="py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all cursor-pointer shadow-sm"
+                        className="py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all cursor-pointer shadow-sm"
                       >
                         Enroll Team (₹{project.teamFee || TEAM_HACKATHON_FEE})
                       </button>
@@ -784,6 +803,146 @@ export default function HackathonsPage() {
             ))}
           </div>
         )}
+      </section>
+
+      {/* ── 4B. JUDGING RUBRIC (100 POINTS) & OFFICIAL HACKATHON GUIDELINES ── */}
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-16 space-y-8">
+        <div
+          className="rounded-3xl bg-[#162774] text-white p-7 sm:p-10 border border-white/15 shadow-2xl space-y-6"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/15 pb-5">
+            <div>
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold uppercase tracking-wider mb-2">
+                Evaluation &amp; Scoring Rubric (100 Points)
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                How Judges Score Your Hackathon Submission
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-blue-100/85 max-w-md font-medium">
+              Tech stack is completely open — build in any language or framework. You are judged strictly on execution, workflow, UI, and live deployment.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              {
+                num: "01",
+                pts: "20 Points",
+                title: "UI / UX & Product Polish",
+                desc: "Clean, responsive interface, intuitive navigation, clear error states, and zero broken layouts.",
+              },
+              {
+                num: "02",
+                pts: "25 Points",
+                title: "Complete Working Project",
+                desc: "End-to-end working functionality with real data flow — no static mockups or placeholder buttons.",
+              },
+              {
+                num: "03",
+                pts: "15 Points",
+                title: "Tech Stack & Architecture",
+                desc: "Open tech stack choice! Evaluated on clean code organization, schema design, and API structure.",
+              },
+              {
+                num: "04",
+                pts: "20 Points",
+                title: "Workflow & System Logic",
+                desc: "Logical user/system workflow, edge-case handling, retry/fallback safety, and reliable execution.",
+              },
+              {
+                num: "05",
+                pts: "15 Points",
+                title: "Live Deployed URL & Repo",
+                desc: "Publicly accessible deployed app (Vercel/Render/Railway) plus clean GitHub repository with README.",
+              },
+              {
+                num: "06",
+                pts: "5 Bonus Pts",
+                title: "Security, Validation & Extras",
+                desc: "Input sanitization, rate-limiting, telemetry logs, or standout performance & testing coverage.",
+              },
+            ].map((rubric) => (
+              <div
+                key={rubric.num}
+                className="p-5 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B] space-y-2"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[11px] flex items-center justify-center">
+                    {rubric.num}
+                  </span>
+                  <span className="px-3 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold">
+                    {rubric.pts}
+                  </span>
+                </div>
+                <h3 className="text-base font-extrabold text-white">{rubric.title}</h3>
+                <p className="text-xs text-blue-100/85 leading-relaxed">{rubric.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Official Hackathon Rules & Guidelines */}
+        <div className="rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#D9F83B] p-7 sm:p-9 space-y-5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
+            <div>
+              <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+                Official Rules &amp; Guidelines
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                Mandatory Participation &amp; Submission Rules
+              </h3>
+            </div>
+            <span className="text-xs font-bold text-[#162774]">Strict 24-Hour Window</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[13px] text-slate-800 font-medium">
+            {[
+              {
+                title: "Open Tech Stack Freedom",
+                desc: "Use any programming language, framework, database, or AI model that solves the problem cleanly.",
+              },
+              {
+                title: "Originality & Anti-Plagiarism",
+                desc: "Code must be built during your 24-hour Unique ID window. Copied or pre-built templates are disqualified.",
+              },
+              {
+                title: "Mandatory Deliverables",
+                desc: "Submit both a public GitHub Repository URL (with setup README) and a working Live Deployed URL.",
+              },
+              {
+                title: "Solo & Team Eligibility",
+                desc: "Solo (1 builder, ₹159) or Team (2–3 members, ₹450). Only 1 submission per Unique ID is evaluated.",
+              },
+              {
+                title: "24-Hour Evaluation & Results",
+                desc: "All projects are reviewed within 24 hours of submission. Top scorers unlock certificates & job screening.",
+              },
+              {
+                title: "Clean Deployment Requirement",
+                desc: "Your deployed link must load without server crashes, exposed API secrets, or broken core workflows.",
+              },
+            ].map((rule, i) => (
+              <div
+                key={rule.title}
+                className="p-4 rounded-2xl bg-white border border-slate-200/90 flex items-start gap-3"
+              >
+                <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                  0{i + 1}
+                </span>
+                <div>
+                  <div className="font-extrabold text-slate-950 mb-0.5">{rule.title}</div>
+                  <div className="text-xs text-slate-600 leading-relaxed">{rule.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ── 5. PROJECT SUBMISSION MODAL (OPENED FROM TOP BUTTON) ── */}

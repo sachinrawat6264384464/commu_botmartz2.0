@@ -232,11 +232,10 @@ export default function WorkshopsPage() {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-1.5 rounded-full font-bold transition-all cursor-pointer ${
-                  selectedCategory === cat
+                className={`px-4 py-1.5 rounded-full font-bold transition-all cursor-pointer ${selectedCategory === cat
                     ? "bg-[#162774] text-[#D9F83B]"
                     : "bg-white border border-slate-200 text-slate-700 hover:border-[#162774]"
-                }`}
+                  }`}
               >
                 {cat}
               </button>
