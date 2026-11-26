@@ -208,11 +208,15 @@ export default async function CommunityHomePage() {
 
             <Link
               href="/arena/calendar"
-              className="px-6 py-3 rounded-full bg-[#1D3189] hover:bg-[#070E54] text-white font-sans text-xs sm:text-sm font-bold transition-all shrink-0 inline-flex items-center gap-2 shadow-md"
+              className="group pl-5 pr-2.5 py-2.5 rounded-full bg-[#1D3189] hover:bg-[#070E54] text-white font-sans text-xs sm:text-sm font-bold transition-all shrink-0 inline-flex items-center gap-3 shadow-md cursor-pointer"
             >
-              <Calendar size={15} className="text-[#D9F83B]" />
-              <span>View Community Calendar</span>
-              <ArrowRight size={14} />
+              <span className="inline-flex items-center gap-2">
+                <Calendar size={15} className="text-[#D9F83B]" />
+                <span>View Community Calendar</span>
+              </span>
+              <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center shrink-0">
+                <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-[50deg]" />
+              </span>
             </Link>
           </div>
 
