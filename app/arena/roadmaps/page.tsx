@@ -78,35 +78,40 @@ export default function ProgressiveRoadmapsPage() {
       featureTitle="50 Progressive Career Roadmaps"
       featureDescription="Sign in to explore stage-by-stage engineering milestones, foundational prerequisites, and systems design concepts for all 50 specialized roles."
     >
-      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+      <div
+        className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
         
         {/* Header Banner */}
-        <div className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
+          <div className="bg-[#070E54] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3">
-                <Compass size={14} /> Career Discovery &amp; Learning Roadmaps
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+                Career Discovery &amp; Learning Roadmaps
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                 Progressive Career Roadmaps
               </h1>
-              <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2 leading-relaxed">
-                Step-by-step career path guides across 50 technical, product, and cross-discipline roles. Discover required foundational concepts, system design prerequisites, and measurable stage milestones.
+              <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
+                Step-by-step career path guides across 50+ technical, product, and cross-discipline roles. Discover required foundational concepts, system design prerequisites, and measurable stage milestones.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0 font-mono text-xs">
+            <div className="flex items-center gap-3 shrink-0 font-sans text-xs">
               <Link
                 href="/arena"
-                className="px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold uppercase tracking-wider transition-all"
+                className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md"
               >
-                Internship Playground
+                Internship Playground &rarr;
               </Link>
             </div>
           </div>
         </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
         

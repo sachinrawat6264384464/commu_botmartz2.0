@@ -362,48 +362,52 @@ function DailyPoWLogPageInner() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 py-8 sm:py-12 px-4 sm:px-8 lg:px-12 font-sans">
+    <div
+      className="min-h-screen bg-white text-slate-900 pt-24 pb-16 px-4 sm:px-8 lg:px-12 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* ── HEADER ── */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="bg-[#070E54] text-white rounded-3xl p-6 sm:p-8 border border-white/15 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-blue-200">
-              <Terminal size={14} /> 45-Day Proof-of-Work Logger
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+              Proof-of-Work Logger
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight font-sans">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
               Daily Commit &amp; Progress Log
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 font-mono mt-1">
+            <p className="text-xs sm:text-sm text-blue-100/85 font-sans mt-1.5">
               Submit daily GitHub commits to build your streak, earn +20 to +70 Karma Coins, and qualify for founder recommendations.
             </p>
           </div>
 
           <Link
             href="/arena"
-            className="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-slate-900 font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 shrink-0 self-start md:self-auto"
+            className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all shadow-md flex items-center gap-2 shrink-0 self-start md:self-auto group"
           >
             <span>Explore All PRDs</span>
-            <ArrowRight size={13} />
+            <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>
 
         {/* ── EMPTY STATE: NOT ENROLLED IN ANY PROJECTS ── */}
         {!fetchingEnrollments && enrolledProjects.length === 0 && (
-          <div className="p-8 rounded-3xl bg-white border-2 border-dashed border-blue-300 text-center space-y-4 shadow-sm">
-            <div className="w-16 h-16 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto">
-              <Layers size={32} />
-            </div>
-            <h3 className="text-xl font-bold font-sans text-slate-900">
+          <div className="p-8 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] text-center space-y-4 shadow-md">
+            <h3 className="text-xl font-extrabold font-sans text-slate-950">
               No Enrolled Projects Found
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600 font-mono max-w-md mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-md mx-auto leading-relaxed">
               Daily logs are tied to your specific enrolled project. Explore the {TOTAL_SYSTEMS_COUNT} production systems in the Arena and enroll with 1-click to start your daily sprint.
             </p>
             <div className="pt-2">
               <Link
                 href="/arena"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all shadow-md cursor-pointer"
               >
                 <span>Browse {TOTAL_SYSTEMS_COUNT} PRDs &amp; Enroll Now &rarr;</span>
               </Link>

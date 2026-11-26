@@ -283,38 +283,43 @@ export default function StudentWalletPage() {
       featureTitle="Student Karma Wallet"
       featureDescription="Sign in to view your earned Karma Coins balance, tip squad members, redeem compute grants, and unlock architectural hints."
     >
-      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+      <div
+        className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
       
       {/* Header Banner */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 py-10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-800 font-mono text-xs font-bold uppercase tracking-wider mb-3 border border-amber-200">
-                <Coins size={14} className="text-amber-600" /> Student Karma Economy
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                Botmartz Builder Wallet &amp; Rewards Ledger
-              </h1>
-              <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2 leading-relaxed">
-                Earn karma coins by submitting daily proof of work, publishing LinkedIn updates, and peer-reviewing squad code. Redeem coins for cloud grants, swag kits, and fast-tracked company referrals.
-              </p>
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-2">
+        <div className="bg-[#070E54] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+              Student Karma Economy
             </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Botmartz Builder Wallet &amp; Rewards Ledger
+            </h1>
+            <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
+              Earn karma coins by submitting daily proof of work, publishing LinkedIn updates, and peer-reviewing squad code. Redeem coins for cloud grants, swag kits, and fast-tracked company referrals.
+            </p>
+          </div>
 
-            <div className="flex items-center gap-3 shrink-0 font-mono text-xs">
-              <button
-                onClick={() => setShowTransferModal(true)}
-                className="px-5 py-3 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-xs flex items-center gap-2 cursor-pointer"
-              >
-                <Send size={14} /> Tip a Teammate
-              </button>
-              <Link
-                href="/arena/bounties"
-                className="px-5 py-3 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold uppercase tracking-wider transition-all"
-              >
-                Bounty Board
-              </Link>
-            </div>
+          <div className="flex items-center gap-3 shrink-0 font-sans text-xs">
+            <button
+              onClick={() => setShowTransferModal(true)}
+              className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md cursor-pointer"
+            >
+              Tip a Teammate
+            </button>
+            <Link
+              href="/arena/bounties"
+              className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white hover:text-slate-950 text-white border border-white/25 font-bold transition-all"
+            >
+              Bounty Board
+            </Link>
           </div>
         </div>
       </div>

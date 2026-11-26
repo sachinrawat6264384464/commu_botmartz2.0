@@ -268,35 +268,40 @@ Best,
       featureTitle="Career OS & Profile Strategy"
       featureDescription="Sign in with your builder profile to access the 8-step recruiter checklist, copy cold outreach templates, and claim +50 Karma Coins for LinkedIn posts."
     >
-      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 pb-24 font-sans selection:bg-[#0066FF] selection:text-white">
+      <div
+        className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
         
         {/* Header Banner */}
-        <div className="bg-white border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
+          <div className="bg-[#070E54] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-3">
-                <Target size={14} /> Career Growth &amp; Proof-of-Work Referral Engine
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+                Career Growth &amp; Proof-of-Work Referral Engine
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                 LinkedIn UGC &amp; Career Conversion Checklist
               </h1>
-              <p className="text-slate-600 text-xs sm:text-sm font-mono mt-2 leading-relaxed">
+              <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
                 Turn your daily proof-of-work into inbound recruiter interview calls. Compose daily LinkedIn progress updates, submit your post links to earn +50 Karma Coins, and unlock 15 direct tech company referrals.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0 font-mono text-xs">
+            <div className="flex items-center gap-3 shrink-0 font-sans text-xs">
               <Link
                 href="/profile"
-                className="px-5 py-3 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold uppercase tracking-wider transition-all shadow-xs"
+                className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md"
               >
                 View Builder Profile &rarr;
               </Link>
             </div>
           </div>
         </div>
-      </div>
 
       {/* Auth Gating Notice if not logged in */}
       {!user && !loading && (

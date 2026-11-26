@@ -267,69 +267,55 @@ export default function MagazinePage() {
   };
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 py-12 pt-24 font-sans selection:bg-[#0066FF] selection:text-white">
+    <div
+      className="bg-white min-h-screen text-slate-900 py-12 pt-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
       
       {/* 100% Full-Width Container */}
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-slate-900 to-blue-950 p-6 sm:p-12 border border-slate-800 shadow-2xl mb-12">
-          {/* Background Ambient Glows */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
-
+        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-7 sm:p-11 border border-white/15 shadow-2xl mb-12">
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             {/* Left Column: Title & Description */}
             <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold border border-cyan-500/20 backdrop-blur-md shadow-xs">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                </span>
-                <BookOpen size={14} className="text-cyan-400" />
-                <span>VOL. IV &bull; QUARTERLY ISSUE &bull; AUGUST 2026</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                <span>Vol. IV &bull; Quarterly Issue &bull; 2026</span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
-                Botmartz Applied AI <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Magazine</span>
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
+                Botmartz Applied AI <span className="text-[#D9F83B]">Magazine</span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+              <p className="text-xs sm:text-sm text-blue-100/85 font-sans leading-relaxed">
                 In-depth architectural teardowns, production evaluation benchmarks, and applied engineering dissertations published by Botmartz researchers and community fellows.
               </p>
 
-              {/* Stats Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-mono text-xs">
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <BookOpen size={16} className="text-blue-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">15+ Dissertations</div>
-                    <div className="text-slate-400 text-[10px]">Applied AI Teardowns</div>
-                  </div>
+              {/* Stats Bar (Editorial Cards, No Icons) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-sans text-xs">
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">15+ Dissertations</div>
+                  <div className="text-blue-200/80 text-[11px]">Applied AI Teardowns</div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <ShieldCheck size={16} className="text-emerald-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">Peer Reviewed</div>
-                    <div className="text-slate-400 text-[10px]">Editorial Board</div>
-                  </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">Peer Reviewed</div>
+                  <div className="text-[#D9F83B] text-[11px] font-semibold">Editorial Board</div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <Code2 size={16} className="text-cyan-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">100% Code</div>
-                    <div className="text-slate-400 text-[10px]">Verifiable Repos</div>
-                  </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">100% Code</div>
+                  <div className="text-blue-200/80 text-[11px]">Verifiable Repos</div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md">
-                  <Award size={16} className="text-purple-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">Quarterly</div>
-                    <div className="text-slate-400 text-[10px]">Open Research</div>
-                  </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">Quarterly</div>
+                  <div className="text-[#D9F83B] text-[11px] font-semibold">Open Research</div>
                 </div>
               </div>
             </div>

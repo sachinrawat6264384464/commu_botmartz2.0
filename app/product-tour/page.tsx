@@ -243,76 +243,68 @@ export default function ProductTourPage() {
   });
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-24 pb-28 font-sans">
+    <div
+      className="bg-white min-h-screen text-slate-900 selection:bg-[#D9F83B] selection:text-slate-950 pt-24 pb-28 font-sans"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
       {/* 100% Full-Width Container */}
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-8 sm:p-12 border-2 border-slate-800 shadow-2xl mb-12 hover:border-blue-500/40 transition-all duration-500 group">
-          {/* Background Ambient Glows */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/25 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none group-hover:scale-110 transition-transform duration-700" />
-
+        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-8 sm:p-12 border border-white/15 shadow-2xl mb-12">
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             {/* Left Column: Title & Description */}
             <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/15 text-cyan-300 font-mono text-xs font-extrabold border border-cyan-500/30 backdrop-blur-md shadow-xs">
-                <BookOpen size={14} className="text-cyan-400" />
-                <span>COMPREHENSIVE PLATFORM &amp; PRODUCT TOUR</span>
+              <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
+                Comprehensive Platform &amp; Product Tour
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
-                How Botmartz Community <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Works</span>
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
+                How Botmartz Community <span className="text-[#D9F83B]">Works</span>
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-300 font-sans leading-relaxed font-normal">
+              <p className="text-sm sm:text-base text-blue-100/85 font-sans leading-relaxed font-normal">
                 Every feature on Botmartz is engineered with one goal: helping authentic builders ship verifiable production architectures, build undeniable proof-of-work, and unlock top-tier engineering roles.
               </p>
 
-              {/* Stats Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-2 font-mono text-xs">
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
-                  <Layers size={18} className="text-blue-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">14 Modules</div>
-                    <div className="text-slate-300 text-[10px]">Platform Suite</div>
-                  </div>
+              {/* Stats Bar (Editorial Cards, No Icons) */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-sans text-xs">
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">14 Modules</div>
+                  <div className="text-blue-200/80 text-[11px]">Platform Suite</div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
-                  <Zap size={18} className="text-cyan-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">45-Day</div>
-                    <div className="text-slate-300 text-[10px]">Sprint Window</div>
-                  </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">4-Week</div>
+                  <div className="text-blue-200/80 text-[11px]">Sprint Window</div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
-                  <ShieldCheck size={18} className="text-emerald-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">100% PoW</div>
-                    <div className="text-emerald-300 text-[10px] font-bold">Verified Commits</div>
-                  </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">100% PoW</div>
+                  <div className="text-[#D9F83B] text-[11px] font-semibold">Verified Commits</div>
                 </div>
 
-                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md hover:bg-white/15 transition-all duration-300">
-                  <Coins size={18} className="text-amber-400 shrink-0" />
-                  <div>
-                    <div className="text-white font-bold text-sm">Karma Ledger</div>
-                    <div className="text-amber-300 text-[10px] font-bold">Daily Bounties</div>
-                  </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-white font-extrabold text-sm">Karma Ledger</div>
+                  <div className="text-[#D9F83B] text-[11px] font-semibold">Daily Bounties</div>
                 </div>
               </div>
             </div>
 
             {/* Right Column: CTA */}
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-mono text-xs shrink-0 self-start lg:self-center">
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-sans text-xs shrink-0 self-start lg:self-center">
               <Link
                 href="/arena"
-                className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-600 hover:to-indigo-500 text-white font-extrabold transition-all duration-300 shadow-xl hover:shadow-blue-500/30 flex items-center justify-center gap-2 group text-sm cursor-pointer hover:scale-105 active:scale-95"
+                className="px-7 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all duration-300 shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2.5 group text-sm cursor-pointer"
               >
                 <span>Get Started in Arena</span>
-                <ArrowRight size={16} className="text-cyan-300 group-hover:translate-x-1.5 transition-transform duration-300" />
+                <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                  <ArrowRight size={13} />
+                </span>
               </Link>
             </div>
           </div>

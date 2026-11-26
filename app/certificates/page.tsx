@@ -148,36 +148,39 @@ function CertificatesContent() {
   };
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pb-16 pt-6 font-sans selection:bg-[#0066FF] selection:text-white">
+    <div
+      className="bg-white min-h-screen text-slate-900 pb-16 pt-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── 1. TECH HERO BANNER CARD ── */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-950 via-[#0B1528] to-blue-950 p-6 sm:p-10 border border-slate-800 shadow-2xl mb-10">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
-
+        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-7 sm:p-10 border border-white/15 shadow-2xl mb-10">
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold border border-cyan-500/30 backdrop-blur-md">
-                <ShieldCheck size={14} className="text-cyan-400" />
-                <span>BOTMARTZ AI SOLUTIONS &bull; VERIFICATION ENGINE</span>
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                Botmartz AI Solutions &bull; Verification Engine
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-sans leading-tight">
-                Verify Candidate <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300 bg-clip-text text-transparent">Certificates &amp; Badges</span>
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
+                Verify Candidate <span className="text-[#D9F83B]">Certificates &amp; Badges</span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
-                Validate the cryptographic authenticity of 45-day AI engineering completion certificates, earned streak badges, and founder mentorship credentials issued by Soham Sharma.
+              <p className="text-xs sm:text-sm text-blue-100/85 font-sans leading-relaxed">
+                Validate the cryptographic authenticity of AI engineering completion certificates, earned streak badges, and founder mentorship credentials issued by Soham Sharma.
               </p>
 
-              <div className="flex flex-wrap items-center gap-2 pt-2 font-mono text-xs text-slate-400">
-                <span className="text-[11px] font-bold uppercase text-slate-400">Sample Credentials:</span>
+              <div className="flex flex-wrap items-center gap-2 pt-2 font-sans text-xs text-blue-200">
+                <span className="text-[11px] font-bold uppercase text-blue-200/80">Sample Credentials:</span>
                 {["CERT-BM-982314", "CERT-BM-B1-98231", "CERT-2026-0812", "AI-AGENT-2026"].map((sample) => (
                   <button
                     key={sample}
                     onClick={() => handleQuickSample(sample)}
-                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-cyan-300 text-[11px] font-bold transition-all cursor-pointer"
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-[#D9F83B] hover:text-slate-950 border border-white/15 text-[#D9F83B] text-[11px] font-bold transition-all cursor-pointer"
                   >
                     {sample}
                   </button>
@@ -186,25 +189,22 @@ function CertificatesContent() {
             </div>
 
             {/* Embedded Glass Search Box */}
-            <div className="w-full lg:max-w-md bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md shadow-xl">
-              <form onSubmit={handleSearch} className="space-y-3 font-mono text-xs">
-                <label className="text-[11px] text-slate-300 font-bold uppercase tracking-wider block">
+            <div className="w-full lg:max-w-md bg-white/10 border border-white/15 rounded-2xl p-4 backdrop-blur-md shadow-xl">
+              <form onSubmit={handleSearch} className="space-y-3 font-sans text-xs">
+                <label className="text-[11px] text-blue-100 font-bold uppercase tracking-wider block">
                   Certificate Search Query:
                 </label>
-                <div className="relative">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Enter Unique Certificate ID (e.g. CERT-BM-XXXXXX)..."
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-colors"
-                  />
-                </div>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Enter Unique Certificate ID (e.g. CERT-BM-XXXXXX)..."
+                  className="w-full bg-white border border-white/20 rounded-xl px-4 py-3 text-xs text-slate-950 placeholder:text-slate-400 font-semibold focus:outline-none focus:ring-2 focus:ring-[#D9F83B] transition-all"
+                />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-[#0066FF] to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white py-3 rounded-xl font-bold uppercase tracking-wider transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                  className="w-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 py-3 rounded-xl font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
                 >
                   {loading ? <Loader2 size={16} className="animate-spin" /> : "Verify Authentic Credential ↗"}
                 </button>

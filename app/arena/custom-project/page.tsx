@@ -133,35 +133,40 @@ export default function CustomProjectProposalPage() {
       featureTitle="Custom Blueprint Proposal"
       featureDescription="Sign in to propose your own unique production architecture, define industry problem statements, and submit PRDs for founder review."
     >
-      <div className="min-h-screen bg-[#FAFCFF] text-slate-900 selection:bg-[#0066FF] selection:text-white pt-4 pb-28 font-sans">
+      <div
+        className="min-h-screen bg-white text-slate-900 selection:bg-[#D9F83B] selection:text-slate-950 pt-24 pb-28 font-sans"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
         <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
           
           {/* =========================================================================
               HERO BANNER
           ========================================================================= */}
-          <div className="relative bg-gradient-to-r from-slate-950 via-[#0B1528] to-slate-950 border border-slate-800/80 rounded-3xl p-8 sm:p-12 shadow-2xl overflow-hidden text-white mb-10">
-            {/* Ambient Lighting Orbs */}
-            <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-
+          <div className="relative bg-[#070E54] border border-white/15 rounded-3xl p-8 sm:p-10 shadow-2xl overflow-hidden text-white mb-10">
             <div className="relative z-10 w-full">
               <Link
                 href="/arena"
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-400 hover:text-cyan-400 mb-4 transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-sans font-bold text-blue-200 hover:text-[#D9F83B] mb-4 transition-colors"
               >
                 <ArrowLeft size={14} /> Back to Arena Catalog
               </Link>
               
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-4 border border-cyan-500/30 backdrop-blur-xs">
-                <Sparkles size={14} /> Custom Track Blueprint
+              <div className="block">
+                <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-4">
+                  Custom Track Blueprint
+                </div>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-cyan-400 tracking-tight font-sans">
-                Propose a Custom Production Project
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans">
+                Propose a Custom <span className="text-[#D9F83B]">Production Project</span>
               </h1>
 
-              <p className="text-slate-300 text-xs sm:text-sm font-mono mt-3 leading-relaxed w-full">
-                Follow our <strong>Top-Company Problem Discovery Framework</strong>. Benchmark 20–30 leading tech companies in your target sector, pinpoint the mathematical or architectural bottleneck, pair it with verified open datasets, and submit your PRD for Founder Soham Sharma&apos;s review.
+              <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-3 leading-relaxed w-full max-w-3xl">
+                Follow our <strong className="text-white">Top-Company Problem Discovery Framework</strong>. Benchmark 20–30 leading tech companies in your target sector, pinpoint the mathematical or architectural bottleneck, pair it with verified open datasets, and submit your PRD for Founder Soham Sharma&apos;s review.
               </p>
             </div>
           </div>
