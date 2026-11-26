@@ -255,7 +255,14 @@ export default function ProductTourPage() {
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
-        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-8 sm:p-12 border border-white/15 shadow-2xl mb-12">
+        <div
+          className="relative overflow-hidden rounded-3xl bg-[#162774] p-8 sm:p-12 border border-white/15 shadow-2xl mb-12"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             {/* Left Column: Title & Description */}
             <div className="space-y-4 max-w-3xl">
@@ -271,27 +278,27 @@ export default function ProductTourPage() {
                 Every feature on Botmartz is engineered with one goal: helping authentic builders ship verifiable production architectures, build undeniable proof-of-work, and unlock top-tier engineering roles.
               </p>
 
-              {/* Stats Bar (Editorial Cards, No Icons) */}
+              {/* Stats Bar */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-sans text-xs">
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                  <div className="text-white font-extrabold text-sm">14 Modules</div>
-                  <div className="text-blue-200/80 text-[11px]">Platform Suite</div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                  <div className="text-white font-extrabold text-sm">4-Week</div>
-                  <div className="text-blue-200/80 text-[11px]">Sprint Window</div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                  <div className="text-white font-extrabold text-sm">100% PoW</div>
-                  <div className="text-[#D9F83B] text-[11px] font-semibold">Verified Commits</div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                  <div className="text-white font-extrabold text-sm">Karma Ledger</div>
-                  <div className="text-[#D9F83B] text-[11px] font-semibold">Daily Bounties</div>
-                </div>
+                {[
+                  { num: "01", val: "14 Modules", label: "Platform Suite", accent: false },
+                  { num: "02", val: "4-Week", label: "Sprint Window", accent: false },
+                  { num: "03", val: "100% PoW", label: "Verified Commits", accent: true },
+                  { num: "04", val: "Karma Ledger", label: "Daily Bounties", accent: true },
+                ].map((stat) => (
+                  <div
+                    key={stat.num}
+                    className="relative p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]"
+                  >
+                    <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs">
+                      {stat.num}
+                    </span>
+                    <div className="text-white font-extrabold text-sm pr-7">{stat.val}</div>
+                    <div className={`text-[11px] ${stat.accent ? "text-[#D9F83B] font-semibold" : "text-blue-200/80"}`}>
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -311,84 +318,109 @@ export default function ProductTourPage() {
         </div>
 
         {/* ── 2. 4-STEP STUDENT LIFECYCLE JOURNEY BANNER ── */}
-        <div className="bg-white border-2 border-slate-300 rounded-3xl p-6 sm:p-10 mb-12 shadow-md hover:shadow-xl transition-all duration-300">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b-2 border-slate-100 pb-6">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 mb-12 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 border-b border-slate-100 pb-6">
             <div>
-              <div className="text-xs font-mono font-black text-[#0066FF] uppercase tracking-wider mb-1">THE 4-STEP JOURNEY</div>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-950 font-sans tracking-tight">How A Student Progresses in 45 Days</h2>
+              <div className="text-xs font-extrabold text-[#162774] uppercase tracking-wider mb-1">THE 4-STEP JOURNEY</div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-sans tracking-tight">How A Student Progresses in 45 Days</h2>
             </div>
             <Link
               href="/arena"
-              className="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-extrabold transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2 shrink-0 self-start sm:self-auto hover:-translate-y-0.5"
+              className="px-6 py-3 rounded-full bg-[#162774] hover:bg-[#1D3189] text-[#D9F83B] font-sans text-xs font-extrabold transition-all duration-300 shadow-md flex items-center gap-2.5 shrink-0 self-start sm:self-auto group"
             >
               <span>Explore {TOTAL_SYSTEMS_COUNT} PRDs</span>
-              <ArrowRight size={14} />
+              <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <ArrowRight size={12} />
+              </span>
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-sans text-xs">
-            
-            {/* Step 1 */}
-            <div className="p-6 rounded-3xl bg-blue-50/70 border-2 border-blue-200/90 hover:border-[#0066FF] hover:bg-blue-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
-              <div className="w-10 h-10 rounded-2xl bg-[#0066FF] text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">1</div>
-              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-[#0066FF] transition-colors">Select Production PRD</h3>
-              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
-                Browse {TOTAL_SYSTEMS_COUNT} open blueprints from Baby Step to Go To Hell 💀. Complete profile verification and enroll in your chosen track.
-              </p>
-            </div>
+            {[
+              {
+                num: "01",
+                title: "Select Production PRD",
+                desc: `Browse ${TOTAL_SYSTEMS_COUNT} open blueprints from Baby Step to Go To Hell. Complete profile verification and enroll in your chosen track.`,
+                tag: "Track Selection",
+              },
+              {
+                num: "02",
+                title: "Daily Proof-of-Work",
+                desc: "Write code daily, log your GitHub commit URLs, and post LinkedIn updates to earn +20 to +70 Karma Coins every single day.",
+                tag: "Commit Streaks",
+              },
+              {
+                num: "03",
+                title: "Agile & QA Benchmark",
+                desc: "Manage sprint tasks in your Agile Workspace, collaborate with squad peers in the live room, and pass strict k6 load assertions.",
+                tag: "SLA Verification",
+              },
+              {
+                num: "04",
+                title: "Audit & Referrals",
+                desc: "Pass the 5-point proof-of-work audit by Soham Sharma, receive cryptographic credentials, and claim direct startup referrals.",
+                tag: "Founder Endorsed",
+              },
+            ].map((step) => (
+              <div
+                key={step.num}
+                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] transition-all duration-500 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group"
+              >
+                <div className="p-6 pb-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="w-8 h-8 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center font-extrabold text-xs transition-colors duration-500 shadow-xs">
+                      {step.num}
+                    </span>
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
+                      Step {step.num}
+                    </span>
+                  </div>
+                  <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-[#162774] transition-colors">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed font-sans font-medium">
+                    {step.desc}
+                  </p>
+                </div>
 
-            {/* Step 2 */}
-            <div className="p-6 rounded-3xl bg-indigo-50/70 border-2 border-indigo-200/90 hover:border-indigo-600 hover:bg-indigo-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">2</div>
-              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-indigo-600 transition-colors">Daily Proof-of-Work</h3>
-              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
-                Write code daily, log your GitHub commit URLs, and post LinkedIn updates to earn +20 to +70 Karma Coins every single day.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="p-6 rounded-3xl bg-purple-50/70 border-2 border-purple-200/90 hover:border-purple-600 hover:bg-purple-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
-              <div className="w-10 h-10 rounded-2xl bg-purple-600 text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">3</div>
-              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-purple-600 transition-colors">Agile &amp; QA Benchmark</h3>
-              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
-                Manage sprint tasks in your Agile Workspace, collaborate with squad peers in the live room, and pass strict k6 load assertions.
-              </p>
-            </div>
-
-            {/* Step 4 */}
-            <div className="p-6 rounded-3xl bg-emerald-50/70 border-2 border-emerald-200/90 hover:border-emerald-600 hover:bg-emerald-50 space-y-3 relative overflow-hidden group transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-md">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-110 transition-transform duration-300">4</div>
-              <h3 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-emerald-700 transition-colors">Audit &amp; Referrals</h3>
-              <p className="text-xs text-slate-700 leading-relaxed font-sans font-medium">
-                Pass the 5-point proof-of-work audit by Soham Sharma, receive cryptographic credentials, and claim direct startup referrals.
-              </p>
-            </div>
-
+                <div className="relative overflow-hidden px-6 py-3 border-t border-slate-200/80 group-hover:border-[#162774] flex items-center justify-between transition-colors duration-500">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                      backgroundSize: "28px 28px",
+                    }}
+                  />
+                  <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                    {step.tag}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* ── 3. SEARCH & CATEGORY FILTER BAR ── */}
-        <div className="bg-white border-2 border-slate-300 rounded-3xl p-6 mb-10 shadow-md hover:shadow-lg transition-all duration-300 space-y-5">
-          <div className="relative">
-            <Search className="absolute left-4.5 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search features (e.g. daily log, karma wallet, squad chat, resume generator, roadmaps, SLA)..."
-              className="w-full bg-slate-50 border-2 border-slate-300 rounded-2xl pl-12 pr-4 py-3.5 text-xs sm:text-sm font-mono text-slate-950 placeholder:text-slate-500 focus:bg-white focus:outline-none focus:border-[#0066FF] transition-all duration-200 font-bold"
-            />
-          </div>
+        {/* ── 3. SEARCH & CATEGORY FILTER BAR (NO ICONS) ── */}
+        <div className="bg-[#F4F6FB] border border-slate-200 rounded-3xl p-5 mb-10 shadow-sm space-y-4">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search features (e.g. daily log, karma wallet, squad chat, resume generator, roadmaps, SLA)..."
+            className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 text-xs sm:text-sm font-sans text-slate-950 placeholder:text-slate-400 focus:outline-none focus:border-[#162774] transition-all font-medium"
+          />
 
-          <div className="flex items-center gap-2.5 flex-wrap font-sans text-xs">
+          <div className="flex items-center gap-2 flex-wrap font-sans text-xs">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.key}
                 onClick={() => setSelectedCategory(cat.key)}
-                className={`px-4 py-2 rounded-xl font-extrabold transition-all duration-200 cursor-pointer border-2 ${
+                className={`px-4 py-2 rounded-full font-bold transition-all duration-200 cursor-pointer ${
                   selectedCategory === cat.key
-                    ? "bg-[#0066FF] text-white border-[#0066FF] shadow-md scale-[1.02]"
-                    : "bg-slate-100 text-slate-700 border-slate-200 hover:border-slate-400 hover:bg-slate-200/70"
+                    ? "bg-[#162774] text-[#D9F83B] shadow-sm"
+                    : "bg-white text-slate-700 border border-slate-200 hover:border-[#162774]"
                 }`}
               >
                 {cat.label}
@@ -397,125 +429,131 @@ export default function ProductTourPage() {
           </div>
         </div>
 
-        {/* ── 4. MODULES BREAKDOWN 2-COLUMN GRID ── */}
+        {/* ── 4. MODULES BREAKDOWN 2-COLUMN GRID (NO ICONS, BOTTOM SLIDE HOVER) ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {filteredModules.map((module, idx) => {
-            const Icon = module.icon;
-            return (
-              <div
-                key={module.id}
-                id={module.id}
-                className="bg-white border-2 border-slate-300 hover:border-[#0066FF] rounded-3xl p-7 sm:p-9 shadow-md hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between space-y-6 group"
-              >
-                <div>
-                  {/* Header */}
-                  <div className="flex items-start justify-between gap-4 border-b-2 border-slate-100 pb-5 mb-5">
-                    <div className="flex items-center gap-3.5">
-                      <div className={`w-13 h-13 rounded-2xl bg-gradient-to-br ${module.color} text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon size={24} />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2 flex-wrap mb-1">
-                          <h3 className="text-lg sm:text-xl font-black text-slate-950 font-sans group-hover:text-[#0066FF] transition-colors duration-200">
-                            {idx + 1}. {module.title}
-                          </h3>
-                        </div>
-                        <span className="px-3 py-1 rounded-full bg-blue-100/70 text-[#0066FF] font-mono text-[11px] font-black border border-blue-300 uppercase tracking-wider">
-                          {module.badge}
-                        </span>
-                      </div>
+          {filteredModules.map((module, idx) => (
+            <div
+              key={module.id}
+              id={module.id}
+              className="relative overflow-hidden bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
+            >
+              <div className="p-7 sm:p-8 pb-5 space-y-5">
+                {/* Header */}
+                <div className="flex items-start justify-between gap-4 border-b border-slate-200/80 pb-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2.5 flex-wrap">
+                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <span className="px-3 py-0.5 rounded-full bg-white text-[#162774] border border-slate-200 text-[10px] font-extrabold uppercase tracking-wider">
+                        {module.badge}
+                      </span>
                     </div>
-
-                    <Link
-                      href={module.href}
-                      className="p-3 rounded-2xl bg-slate-100 hover:bg-[#0066FF] border-2 border-slate-200 hover:border-[#0066FF] text-slate-800 hover:text-white font-mono text-xs font-bold transition-all duration-300 shrink-0 flex items-center justify-center shadow-xs"
-                      title={module.cta}
-                    >
-                      <ArrowRight size={16} />
-                    </Link>
+                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 font-sans group-hover:text-[#162774] transition-colors duration-200">
+                      {module.title}
+                    </h3>
                   </div>
 
-                  {/* 3 Pillars: What / Why / How */}
-                  <div className="space-y-3 font-sans text-xs">
-                    
-                    {/* What */}
-                    <div className="p-4 rounded-2xl bg-blue-50/70 border-2 border-blue-200/80 space-y-1">
-                      <div className="flex items-center gap-1.5 text-[#0066FF] font-black font-mono text-[11px] uppercase tracking-wider">
-                        <HelpCircle size={14} />
-                        <span>What It Is</span>
-                      </div>
-                      <p className="text-slate-700 leading-relaxed font-sans text-xs font-medium">
-                        {module.what}
-                      </p>
-                    </div>
-
-                    {/* Why */}
-                    <div className="p-4 rounded-2xl bg-amber-50/70 border-2 border-amber-200/80 space-y-1">
-                      <div className="flex items-center gap-1.5 text-amber-800 font-black font-mono text-[11px] uppercase tracking-wider">
-                        <Zap size={14} />
-                        <span>Why It Exists</span>
-                      </div>
-                      <p className="text-slate-700 leading-relaxed font-sans text-xs font-medium">
-                        {module.why}
-                      </p>
-                    </div>
-
-                    {/* How */}
-                    <div className="p-4 rounded-2xl bg-emerald-50/70 border-2 border-emerald-200/80 space-y-1">
-                      <div className="flex items-center gap-1.5 text-emerald-800 font-black font-mono text-[11px] uppercase tracking-wider">
-                        <CheckCircle2 size={14} />
-                        <span>How To Use It</span>
-                      </div>
-                      <p className="text-slate-700 leading-relaxed font-sans text-xs font-medium">
-                        {module.how}
-                      </p>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t-2 border-slate-100 flex items-center justify-between font-mono text-xs">
-                  <span className="text-xs text-slate-500 font-bold">Route: {module.href}</span>
                   <Link
                     href={module.href}
-                    className="text-[#0066FF] font-black hover:underline flex items-center gap-1 group-hover:translate-x-1 transition-transform duration-200"
+                    className="w-9 h-9 rounded-full bg-white group-hover:bg-[#D9F83B] border border-slate-200 text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shrink-0 shadow-2xs"
+                    title={module.cta}
                   >
-                    <span>{module.cta}</span>
-                    <ArrowRight size={13} />
+                    <ArrowRight size={15} />
                   </Link>
                 </div>
 
+                {/* 3 Pillars: What / Why / How (Clean Typography, Project Colors, No Icons) */}
+                <div className="space-y-3 font-sans text-xs">
+                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 border-l-2 border-l-[#162774] space-y-1">
+                    <div className="text-[#162774] font-extrabold text-[11px] uppercase tracking-wider">
+                      What It Is
+                    </div>
+                    <p className="text-slate-600 leading-relaxed text-xs font-medium">
+                      {module.what}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 border-l-2 border-l-[#D9F83B] space-y-1">
+                    <div className="text-[#1D3189] font-extrabold text-[11px] uppercase tracking-wider">
+                      Why It Exists
+                    </div>
+                    <p className="text-slate-600 leading-relaxed text-xs font-medium">
+                      {module.why}
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 border-l-2 border-l-[#162774] space-y-1">
+                    <div className="text-[#162774] font-extrabold text-[11px] uppercase tracking-wider">
+                      How To Use It
+                    </div>
+                    <p className="text-slate-600 leading-relaxed text-xs font-medium">
+                      {module.how}
+                    </p>
+                  </div>
+                </div>
               </div>
-            );
-          })}
+
+              {/* Bottom Slide Hover Strip */}
+              <div className="relative overflow-hidden px-7 sm:px-8 py-4 border-t border-slate-200/80 group-hover:border-[#162774] flex items-center justify-between font-sans text-xs transition-colors duration-500">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                    backgroundSize: "28px 28px",
+                  }}
+                />
+                <span className="relative z-10 text-xs text-slate-500 group-hover:text-blue-200 font-semibold transition-colors duration-500">
+                  {module.href}
+                </span>
+                <Link
+                  href={module.href}
+                  className="relative z-10 text-[#162774] group-hover:text-[#D9F83B] font-extrabold flex items-center gap-2 transition-colors duration-500"
+                >
+                  <span>{module.cta}</span>
+                  <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* ── 5. CALL TO ACTION FOOTER BANNER ── */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-slate-950 text-white text-center space-y-6 shadow-2xl relative overflow-hidden border-2 border-slate-800 hover:border-blue-500/40 transition-all duration-500 group">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 text-blue-300 font-mono text-xs font-extrabold uppercase border border-blue-500/30">
-            <Sparkles size={14} /> START YOUR 45-DAY SPRINT TODAY
+        <div
+          className="p-8 sm:p-12 rounded-3xl bg-[#162774] text-white text-center space-y-6 shadow-2xl relative overflow-hidden border border-white/15"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold uppercase tracking-wider">
+            Start Your 45-Day Sprint Today
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black font-sans max-w-2xl mx-auto tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-extrabold font-sans max-w-2xl mx-auto tracking-tight">
             Ready to Build Authentic Production Proof-of-Work?
           </h2>
-          <p className="text-slate-300 font-sans text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
+          <p className="text-blue-100/85 font-sans text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
             Select an industrial system blueprint, enroll with your verified student profile, and start building with daily founder accountability.
           </p>
 
           <div className="flex items-center justify-center gap-4 pt-2 flex-wrap font-sans text-xs sm:text-sm">
             <Link
               href="/arena"
-              className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-extrabold transition-all duration-300 shadow-xl hover:shadow-blue-500/30 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
+              className="px-7 py-3.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all duration-300 shadow-lg flex items-center gap-2.5 group cursor-pointer"
             >
-              <Layers size={16} />
               <span>Browse {TOTAL_SYSTEMS_COUNT} PRDs</span>
+              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <ArrowRight size={12} />
+              </span>
             </Link>
             <Link
               href="/login"
-              className="px-8 py-4 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-extrabold transition-all duration-300 border-2 border-slate-700 flex items-center gap-2 cursor-pointer hover:scale-105 active:scale-95"
+              className="px-7 py-3.5 rounded-full bg-white/10 hover:bg-white hover:text-slate-950 text-white font-extrabold transition-all duration-300 border border-white/25 cursor-pointer"
             >
-              <User size={16} />
-              <span>Create Builder Profile</span>
+              Create Builder Profile
             </Link>
           </div>
         </div>
