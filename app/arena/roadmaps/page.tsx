@@ -115,40 +115,67 @@ export default function ProgressiveRoadmapsPage() {
             STEP 1: SELECT PRIMARY DISCIPLINE / DOMAIN
         ========================================================================= */}
         <div>
-          <div className="flex items-center gap-2 font-mono text-xs font-bold text-slate-500 uppercase mb-3">
-            <span>Step 1: Choose Your Primary Discipline</span>
+          <div className="font-sans text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-3">
+            Step 1: Choose Your Primary Discipline
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {PRIMARY_DOMAINS.map((domain) => {
-              const IconComp = domain.icon;
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PRIMARY_DOMAINS.map((domain, idx) => {
               const isSelected = selectedDomain === domain.id;
+              const num = String(idx + 1).padStart(2, "0");
               return (
                 <button
                   key={domain.id}
                   onClick={() => handleDomainSelect(domain.id)}
-                  className={`p-5 rounded-3xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                  className={`relative overflow-hidden p-6 rounded-3xl border border-l-4 border-l-[#D9F83B] text-left transition-all duration-500 cursor-pointer flex flex-col justify-between group ${
                     isSelected
-                      ? "bg-slate-900 text-white border-slate-900 shadow-md ring-2 ring-[#0066FF]/20"
-                      : "bg-white hover:bg-slate-50 border-slate-200 text-slate-800"
+                      ? "bg-[#070E54] text-white border-[#070E54] shadow-xl -translate-y-1"
+                      : "bg-white hover:border-[#1D3189] border-slate-200 text-slate-900 shadow-sm hover:shadow-xl hover:-translate-y-1"
                   }`}
                 >
                   <div>
-                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center mb-3 ${
-                      isSelected ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-700"
-                    }`}>
-                      <IconComp size={20} />
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <span
+                        className={`px-3.5 py-1 rounded-tr-xl rounded-bl-xl rounded-tl-md rounded-br-md font-black text-xs tracking-wider ${
+                          isSelected
+                            ? "bg-[#D9F83B] text-slate-950"
+                            : "bg-[#D9F83B] text-slate-950 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] transition-colors duration-300"
+                        }`}
+                      >
+                        {num}
+                      </span>
+                      <span
+                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500 ${
+                          isSelected
+                            ? "bg-[#D9F83B] text-slate-950 rotate-45"
+                            : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 group-hover:rotate-45"
+                        }`}
+                      >
+                        <ArrowRight size={14} />
+                      </span>
                     </div>
-                    <h3 className="font-bold text-base mb-1 font-sans">{domain.label}</h3>
-                    <p className={`text-xs font-mono leading-relaxed ${isSelected ? "text-slate-300" : "text-slate-500"}`}>
+                    <h3 className="font-extrabold text-base mb-1.5 font-sans">{domain.label}</h3>
+                    <p
+                      className={`text-xs font-sans leading-relaxed font-medium ${
+                        isSelected ? "text-blue-100/85" : "text-slate-600"
+                      }`}
+                    >
                       {domain.desc}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-mono font-bold">
+                  <div
+                    className={`mt-4 pt-3 border-t flex items-center justify-between text-xs font-sans font-bold ${
+                      isSelected ? "border-white/15 text-[#D9F83B]" : "border-slate-100 text-[#1D3189]"
+                    }`}
+                  >
                     <span>{isSelected ? "Selected Discipline" : "Select Path"}</span>
-                    <ChevronRight size={14} />
+                    <span>&rarr;</span>
                   </div>
+
+                  {!isSelected && (
+                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
+                  )}
                 </button>
               );
             })}
@@ -158,19 +185,19 @@ export default function ProgressiveRoadmapsPage() {
         {/* =========================================================================
             STEP 2: SELECT SPECIALIZED CAREER ROLE
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
             <div>
-              <div className="text-xs font-mono font-bold text-slate-500 uppercase mb-1">
+              <div className="text-xs font-sans font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">
                 Step 2: Select Specific Career Track ({availableRoles.length} Tracks Available)
               </div>
-              <h2 className="text-xl font-bold text-slate-900 font-sans">
+              <h2 className="text-xl font-extrabold text-slate-950 font-sans">
                 Choose Your Target Specialization
               </h2>
             </div>
 
             {/* Experience Level Selector */}
-            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl font-mono text-xs font-bold">
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl font-sans text-xs font-bold border border-slate-200">
               {(["beginner", "intermediate", "advanced"] as const).map((lvl) => (
                 <button
                   key={lvl}
@@ -181,7 +208,7 @@ export default function ProgressiveRoadmapsPage() {
                     if (lvl === "advanced") setActiveStageNum(3);
                   }}
                   className={`px-3.5 py-1.5 rounded-xl capitalize transition-all cursor-pointer ${
-                    experienceLevel === lvl ? "bg-white text-slate-900 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                    experienceLevel === lvl ? "bg-[#070E54] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   {lvl}
@@ -191,7 +218,7 @@ export default function ProgressiveRoadmapsPage() {
           </div>
 
           {/* Roles Horizontal Pill Bar - Constrained with Custom Scrollbar */}
-          <div className="pt-6 w-full max-w-full overflow-x-auto pb-3 flex items-center gap-2.5 scrollbar-thin font-mono text-xs">
+          <div className="pt-6 w-full max-w-full overflow-x-auto pb-3 flex items-center gap-2.5 scrollbar-thin font-sans text-xs">
             {availableRoles.map((r) => (
               <button
                 key={r.id}
@@ -201,8 +228,8 @@ export default function ProgressiveRoadmapsPage() {
                 }}
                 className={`px-4 py-3 rounded-2xl font-bold whitespace-nowrap shrink-0 transition-all border cursor-pointer ${
                   currentRoadmap.id === r.id
-                    ? "bg-[#0066FF] text-white border-[#0066FF] shadow-xs"
-                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                    ? "bg-[#D9F83B] text-slate-950 border-[#D9F83B] shadow-sm"
+                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-[#1D3189]/40"
                 }`}
               >
                 {r.roleName}
@@ -214,14 +241,13 @@ export default function ProgressiveRoadmapsPage() {
         {/* =========================================================================
             STEP 3: COMPREHENSIVE PROGRESSIVE ROADMAP BREAKDOWN
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md">
           
           {/* Experience Level Context Banner */}
-          <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 text-blue-900 font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-2">
-              <Sparkles size={15} className="text-[#0066FF] shrink-0" />
-              <span>
-                <strong>{experienceLevel.toUpperCase()} TRACK:</strong>{" "}
+          <div className="p-4 rounded-2xl bg-[#070E54] text-white font-sans text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div>
+              <strong className="text-[#D9F83B] uppercase">{experienceLevel} TRACK:</strong>{" "}
+              <span className="text-blue-100/90">
                 {experienceLevel === "beginner"
                   ? "Focused on Stage 1 (Foundations, Syntax, REST endpoints & Core Data Structures)."
                   : experienceLevel === "intermediate"
@@ -229,7 +255,7 @@ export default function ProgressiveRoadmapsPage() {
                   : "Focused on Stage 3 (Sub-150ms SLA gates, ONNX Quantization, Kernel eBPF & Senior Production Mastery)."}
               </span>
             </div>
-            <span className="text-[10px] text-[#0066FF] font-bold shrink-0 uppercase bg-white px-2.5 py-1 rounded-lg border border-blue-200 self-start sm:self-auto">
+            <span className="text-[11px] text-slate-950 font-extrabold shrink-0 uppercase bg-[#D9F83B] px-3 py-1 rounded-full self-start sm:self-auto">
               Stage {experienceLevel === "beginner" ? 1 : experienceLevel === "intermediate" ? 2 : 3} Active
             </span>
           </div>
@@ -237,33 +263,33 @@ export default function ProgressiveRoadmapsPage() {
           {/* Header of Active Roadmap */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold border ${currentRoadmap.badgeColor}`}>
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <span className="px-3 py-1 rounded-full text-xs font-sans font-bold bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20">
                   {currentRoadmap.category}
                 </span>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   {currentRoadmap.disciplines.map((d) => (
-                    <span key={d} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[10px] font-mono font-semibold">
+                    <span key={d} className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-sans font-semibold">
                       {d}
                     </span>
                   ))}
                 </div>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 font-sans">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-sans">
                 {currentRoadmap.roleName}
               </h2>
-              <p className="text-xs sm:text-sm text-slate-600 font-mono mt-1">
+              <p className="text-xs sm:text-sm text-slate-600 font-sans mt-1 font-medium">
                 {currentRoadmap.tagline}
               </p>
             </div>
 
             <div className="text-left md:text-right shrink-0">
-              <div className="text-[10px] font-mono text-slate-400 uppercase font-bold mb-1.5">Common Hiring Companies</div>
-              <div className="flex flex-wrap gap-1 justify-start md:justify-end">
+              <div className="text-[10px] font-sans text-slate-500 uppercase font-bold mb-1.5">Common Hiring Companies</div>
+              <div className="flex flex-wrap gap-1.5 justify-start md:justify-end">
                 {currentRoadmap.targetCompanies.map((comp) => (
                   <span
                     key={comp}
-                    className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-[11px] font-mono font-semibold"
+                    className="px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 text-[11px] font-sans font-semibold"
                   >
                     {comp}
                   </span>
@@ -274,50 +300,52 @@ export default function ProgressiveRoadmapsPage() {
 
           {/* Stage Progression Stepper */}
           <div className="py-6 border-b border-slate-100">
-            <div className="text-xs font-mono text-slate-400 uppercase font-bold mb-3">
+            <div className="text-xs font-sans text-slate-500 uppercase font-extrabold mb-3 tracking-wider">
               Curriculum Progression ({currentRoadmap.stages.length} Stages)
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-sans text-xs">
               {currentRoadmap.stages.map((stage) => (
                 <button
                   key={stage.stageNumber}
                   onClick={() => setActiveStageNum(stage.stageNumber)}
                   className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
                     activeStageNum === stage.stageNumber
-                      ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                      ? "bg-[#070E54] text-white border-[#070E54] shadow-md"
                       : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold">Stage {stage.stageNumber}</span>
-                    <span className="text-[10px] opacity-75">{stage.duration}</span>
+                    <span className={`font-extrabold ${activeStageNum === stage.stageNumber ? "text-[#D9F83B]" : "text-[#1D3189]"}`}>
+                      Stage {stage.stageNumber}
+                    </span>
+                    <span className="text-[10px] opacity-80 font-semibold">{stage.duration}</span>
                   </div>
-                  <div className="text-xs font-medium truncate font-sans">{stage.stageName}</div>
+                  <div className="text-xs font-bold truncate font-sans">{stage.stageName}</div>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Active Stage Deep Dive */}
-          <div className="pt-6 grid grid-cols-1 lg:grid-cols-3 gap-8 font-mono text-xs">
+          <div className="pt-6 grid grid-cols-1 lg:grid-cols-3 gap-8 font-sans text-xs">
             
             {/* Core Competencies & Concept Foundations */}
             <div className="lg:col-span-2 space-y-6">
               <div>
-                <div className="text-[11px] text-slate-400 uppercase font-bold mb-1">
-                  Stage {currentStage.stageNumber} Learning Focus:
+                <div className="text-[11px] text-[#1D3189] uppercase font-extrabold mb-1 tracking-wider">
+                  Stage {currentStage.stageNumber} Learning Focus
                 </div>
-                <h3 className="text-lg font-bold text-slate-900 font-sans mb-2">
+                <h3 className="text-lg font-extrabold text-slate-950 font-sans mb-2">
                   {currentStage.stageName} ({currentStage.duration})
                 </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-mono">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans font-medium">
                   {currentStage.focus}
                 </p>
               </div>
 
               <div>
-                <div className="text-[11px] text-slate-400 uppercase font-bold mb-2">
-                  Key Technical Competencies &amp; Algorithms:
+                <div className="text-[11px] text-slate-500 uppercase font-extrabold mb-2 tracking-wider">
+                  Key Technical Competencies &amp; Algorithms
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {currentStage.coreSkills.map((skill) => (
@@ -332,13 +360,15 @@ export default function ProgressiveRoadmapsPage() {
               </div>
 
               <div>
-                <div className="text-[11px] text-slate-400 uppercase font-bold mb-2">
-                  Milestone Deliverables &amp; Proof-of-Work Checklist:
+                <div className="text-[11px] text-slate-500 uppercase font-extrabold mb-2 tracking-wider">
+                  Milestone Deliverables &amp; Proof-of-Work Checklist
                 </div>
                 <div className="space-y-2">
                   {currentStage.deliverables.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-700">
-                      <CheckCircle2 size={16} className="text-[#0066FF] shrink-0 mt-0.5" />
+                    <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 font-medium">
+                      <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                        {idx + 1}
+                      </span>
                       <span>{item}</span>
                     </div>
                   ))}
@@ -347,36 +377,39 @@ export default function ProgressiveRoadmapsPage() {
             </div>
 
             {/* System Design Core Prerequisites */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex flex-col justify-between font-mono text-xs">
+            <div className="bg-[#070E54] text-white border border-white/15 rounded-3xl p-6 flex flex-col justify-between font-sans text-xs shadow-xl">
               <div>
-                <div className="flex items-center gap-2 text-purple-700 font-bold uppercase text-[11px] mb-2">
-                  <GraduationCap size={15} /> System Design &amp; AI Concepts
+                <div className="text-[#D9F83B] font-extrabold uppercase text-[11px] tracking-wider mb-2">
+                  System Design &amp; AI Concepts
                 </div>
-                <p className="text-xs text-slate-600 mb-4 leading-relaxed font-sans">
-                  Mandatory concepts to master before building production systems (anti-vibe coding):
+                <p className="text-xs text-blue-100/85 mb-4 leading-relaxed font-sans">
+                  Mandatory concepts to master before building production systems:
                 </p>
 
-                <div className="space-y-2 mb-6">
-                  <div className="p-3 bg-white rounded-xl border border-slate-200">
-                    <div className="font-bold text-slate-900 mb-0.5">Database &amp; Latency Internals</div>
-                    <div className="text-[11px] text-slate-500">Connection pools, B-Tree vs BRIN indexes, p95 vs p99 latency profiling.</div>
+                <div className="space-y-2.5 mb-6">
+                  <div className="p-3.5 bg-white/[0.06] rounded-2xl border border-white/15">
+                    <div className="font-bold text-white mb-0.5">Database &amp; Latency Internals</div>
+                    <div className="text-[11px] text-blue-200/80">Connection pools, B-Tree vs BRIN indexes, p95 vs p99 latency profiling.</div>
                   </div>
-                  <div className="p-3 bg-white rounded-xl border border-slate-200">
-                    <div className="font-bold text-slate-900 mb-0.5">State Machine Determinism</div>
-                    <div className="text-[11px] text-slate-500">Idempotency keys, distributed locks, recovery from 504 tool call timeouts.</div>
+                  <div className="p-3.5 bg-white/[0.06] rounded-2xl border border-white/15">
+                    <div className="font-bold text-white mb-0.5">State Machine Determinism</div>
+                    <div className="text-[11px] text-blue-200/80">Idempotency keys, distributed locks, recovery from 504 tool call timeouts.</div>
                   </div>
-                  <div className="p-3 bg-white rounded-xl border border-slate-200">
-                    <div className="font-bold text-slate-900 mb-0.5">Automated Test Gates</div>
-                    <div className="text-[11px] text-slate-500">Playwright E2E suites, k6 distributed spike tests, zero flaky tests in CI/CD.</div>
+                  <div className="p-3.5 bg-white/[0.06] rounded-2xl border border-white/15">
+                    <div className="font-bold text-white mb-0.5">Automated Test Gates</div>
+                    <div className="text-[11px] text-blue-200/80">Playwright E2E suites, k6 distributed spike tests, zero flaky tests in CI/CD.</div>
                   </div>
                 </div>
               </div>
 
               <Link
-                href="/arena/daily-log"
-                className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-center block transition-all shadow-xs"
+                href="/arena"
+                className="w-full py-3 px-4 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all shadow-md flex items-center justify-between group"
               >
-                Log Stage Progress
+                <span>Explore Arena PRDs</span>
+                <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                  <ArrowRight size={12} />
+                </span>
               </Link>
             </div>
 
