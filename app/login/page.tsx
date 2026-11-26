@@ -318,7 +318,7 @@ function StudentLoginInner() {
 
   return (
     <div
-      className="min-h-[calc(100vh-80px)] bg-white text-slate-900 pt-6 sm:pt-10 pb-10 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex flex-col justify-center relative overflow-hidden"
+      className="min-h-[calc(100vh-80px)] bg-white text-slate-900 py-4 sm:py-5 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex flex-col justify-center relative overflow-hidden"
       style={{
         backgroundImage:
           "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
@@ -328,17 +328,17 @@ function StudentLoginInner() {
       <div id="recaptcha-container" suppressHydrationWarning={true}></div>
 
       {/* Dynamic 100% Full-Width Container */}
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10 flex-1 flex flex-col justify-center">
+      <div className="w-full max-w-[1340px] mx-auto px-4 sm:px-8 lg:px-10 relative z-10 flex-1 flex flex-col justify-center">
 
         {/* ── 2-COLUMN SPLIT HERO LOGIN / SIGNUP LAYOUT ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
 
           {/* ── LEFT COLUMN (7 COLS): HIGH-TECH HERO BRANDING BANNER ── */}
-          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/90 p-6 sm:p-9 border border-white/15 shadow-2xl flex flex-col justify-between h-full backdrop-blur-xl hover:border-[#D9F83B]/40 transition-all duration-500 group text-white">
+          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/95 p-5 sm:p-6 border border-white/15 shadow-2xl flex flex-col justify-between backdrop-blur-xl hover:border-[#D9F83B]/40 transition-all duration-500 group text-white">
 
-            <div className="relative z-10 space-y-5">
+            <div className="relative z-10 space-y-3.5">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-60"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
@@ -347,95 +347,95 @@ function StudentLoginInner() {
               </div>
 
               {/* Heading */}
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-sans leading-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans leading-tight">
                 Build Real Systems with{" "}
                 <span className="text-[#D9F83B]">Verifiable Proof-of-Work</span>
               </h1>
 
-              <p className="text-xs sm:text-sm text-blue-100/85 font-sans leading-relaxed font-normal">
+              <p className="text-xs sm:text-[13px] text-blue-100/85 font-sans leading-relaxed font-normal">
                 {authMode === "signup"
                   ? `Create your student builder account to unlock 100 free Welcome Karma Coins, ${TOTAL_SYSTEMS_COUNT} production PRDs, and daily Git commit logs.`
                   : "Sign in to access your student Karma Wallet, daily Git commit standup log, Agile sprint workspaces, and founder architecture teardowns."}
               </p>
 
               {/* 4 Feature Cards Grid (Clean Editorial Structure, No Icons) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1 font-sans">
-                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
-                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">01</span>
-                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">Daily Git Commit Logger</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-0.5 font-sans">
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">01</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">Daily Git Commit Logger</div>
                   <div className="text-[#D9F83B] group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">+20 to +70 Coins Every Day</div>
                 </div>
 
-                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
-                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">02</span>
-                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">{TOTAL_SYSTEMS_COUNT} Production System PRDs</div>
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">02</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">{TOTAL_SYSTEMS_COUNT} Production System PRDs</div>
                   <div className="text-blue-200/80 group-hover/feat:text-slate-600 text-[11px] transition-colors">LangGraph, eBPF, PostGIS</div>
                 </div>
 
-                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
-                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">03</span>
-                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">Agile Workspaces &amp; Chat</div>
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">03</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">Agile Workspaces &amp; Chat</div>
                   <div className="text-blue-200/80 group-hover/feat:text-slate-600 text-[11px] transition-colors">Jira/Linear Boards &amp; Live Squad</div>
                 </div>
 
-                <div className="group/feat relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
-                  <span className="absolute top-2.5 right-3.5 text-xl font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">04</span>
-                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-1 transition-colors">Cryptographic Credentials</div>
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                  <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">04</span>
+                  <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">Cryptographic Credentials</div>
                   <div className="text-[#D9F83B] group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">QR Verifiable PDF Certificates</div>
                 </div>
               </div>
 
               {/* ── CLEAN SPRINT & KARMA PIPELINE WIDGET ── */}
-              <div className="p-5 rounded-2xl bg-[#1D3189]/40 border border-white/15 backdrop-blur-md space-y-4">
+              <div className="p-3.5 rounded-2xl bg-[#1D3189]/40 border border-white/15 backdrop-blur-md space-y-2.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-xs font-extrabold text-white font-sans uppercase tracking-wider">
+                  <span className="text-[11px] font-extrabold text-white font-sans uppercase tracking-wider">
                     Active Cohort Architecture Pipeline
                   </span>
-                  <span className="text-[10px] font-sans text-slate-950 font-bold px-3 py-0.5 rounded-full bg-[#D9F83B]">
+                  <span className="text-[10px] font-sans text-slate-950 font-bold px-2.5 py-0.5 rounded-full bg-[#D9F83B]">
                     Live Telemetry: Active
                   </span>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 text-[11px] font-sans">
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10">
                     <div className="text-[#D9F83B] font-bold">Week 1</div>
-                    <div className="text-blue-100/80">PRD &amp; Setup</div>
+                    <div className="text-blue-100/80 text-[10px]">PRD &amp; Setup</div>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10">
                     <div className="text-[#D9F83B] font-bold">Week 2–3</div>
-                    <div className="text-blue-100/80">Core Build</div>
+                    <div className="text-blue-100/80 text-[10px]">Core Build</div>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="p-2 rounded-xl bg-white/5 border border-white/10">
                     <div className="text-[#D9F83B] font-bold">Week 4</div>
-                    <div className="text-blue-100/80">SLA &amp; Review</div>
+                    <div className="text-blue-100/80 text-[10px]">SLA &amp; Review</div>
                   </div>
                 </div>
 
                 {/* Tech Stack Pills */}
-                <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-sans text-blue-100">
-                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">LangGraph</span>
-                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">Firestore Pipelines</span>
-                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">Hostinger SMTP</span>
-                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">PostGIS</span>
-                  <span className="px-2.5 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">RBAC Security</span>
+                <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-sans text-blue-100">
+                  <span className="px-2 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">LangGraph</span>
+                  <span className="px-2 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">Firestore Pipelines</span>
+                  <span className="px-2 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">Hostinger SMTP</span>
+                  <span className="px-2 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">PostGIS</span>
+                  <span className="px-2 py-0.5 rounded-md bg-white/10 border border-white/10 font-medium">RBAC Security</span>
                 </div>
               </div>
             </div>
 
             {/* Bottom Founder Stat Ticker */}
-            <div className="relative z-10 pt-4 mt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs font-sans text-blue-100">
+            <div className="relative z-10 pt-3 mt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs font-sans text-blue-100">
               <span className="flex items-center gap-2 font-semibold text-white">
-                <ShieldCheck size={16} className="text-[#D9F83B]" />
+                <ShieldCheck size={15} className="text-[#D9F83B]" />
                 <span>Zero-Trust Authenticated Sessions</span>
               </span>
-              <span className="text-slate-950 font-bold px-3.5 py-1 rounded-full bg-[#D9F83B]">
+              <span className="text-slate-950 font-bold px-3 py-0.5 rounded-full bg-[#D9F83B] text-[11px]">
                 100 Free Welcome Coins
               </span>
             </div>
           </div>
 
           {/* ── RIGHT COLUMN (5 COLS): AUTH CARD WITH SIGN UP & SIGN IN TABS ── */}
-          <div className="lg:col-span-5 flex flex-col h-full min-h-[calc(100vh-180px)] lg:min-h-[640px]">
+          <div className="lg:col-span-5 flex flex-col">
 
             {/* REGISTRATION SUCCESS CARD VIEW */}
             {registrationSuccess ? (
@@ -603,7 +603,7 @@ function StudentLoginInner() {
               </div>
             ) : (
               /* MAIN AUTH CARD (SIGN UP / SIGN IN) */
-              <div className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-6 sm:p-8 space-y-5 relative overflow-hidden flex flex-col justify-between transition-all duration-500">
+              <div className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-4 relative overflow-hidden flex flex-col justify-between transition-all duration-500">
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9F83B]" />
 
                 <div className="space-y-5">
