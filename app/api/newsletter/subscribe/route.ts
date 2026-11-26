@@ -76,6 +76,14 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    if (isAlreadyActive) {
+      return NextResponse.json({
+        success: true,
+        alreadySubscribed: true,
+        message: "You are already subscribed to the newsletter!",
+      });
+    }
+
     // 2. Direct Firestore REST fallback to guarantee database persistence
     const docId = normalizedEmail.replace(/[^a-zA-Z0-9]/g, "_");
     await saveDocToFirestoreRest("newsletter_subscribers", docId, {
@@ -88,14 +96,6 @@ export async function POST(req: NextRequest) {
       createdAt: now,
       updatedAt: now,
     });
-
-    if (isAlreadyActive) {
-      return NextResponse.json({
-        success: true,
-        alreadySubscribed: true,
-        message: "You are already subscribed to the newsletter!",
-      });
-    }
 
     // 3. Immediate SMTP Dispatch of Welcome & Onboarding Drip Email
     (async () => {
