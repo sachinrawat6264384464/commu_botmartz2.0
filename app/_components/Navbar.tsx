@@ -235,6 +235,19 @@ export default function CommunityNavbar() {
             <span>Hackathons</span>
           </Link>
 
+          {/* About Us Pill */}
+          <Link
+            href="/about"
+            prefetch={false}
+            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              pathname === "/about"
+                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                : "text-blue-100 hover:text-white hover:bg-white/10"
+            }`}
+          >
+            <span>About</span>
+          </Link>
+
           {/* 3. Internship Dropdown */}
           <div className="relative" ref={internshipMenuRef}>
             <button
@@ -547,6 +560,16 @@ export default function CommunityNavbar() {
             >
               <Award size={15} className="text-[#0066FF]" />
               <span className="font-bold">Online Hackathons</span>
+            </Link>
+            <Link
+              href="/about"
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
+                pathname === "/about" ? "bg-blue-50 text-[#0066FF]" : "text-slate-800 hover:bg-slate-50"
+              }`}
+            >
+              <Globe size={15} className="text-[#0066FF]" />
+              <span className="font-bold">About Us</span>
             </Link>
             {mounted && user && (
               <Link
