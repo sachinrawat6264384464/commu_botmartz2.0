@@ -14,7 +14,7 @@ export default function InternshipJourneyClient() {
       desc: (
         <>
           Select an enrolled project from the {TOTAL_SYSTEMS_COUNT} PRD blueprints. Read the schema requirements, initialize your repository, and log daily commits on{" "}
-          <Link href="/arena/daily-log" className="text-[#1D3189] underline font-bold">
+          <Link href="/arena/daily-log" className="text-[#D9F83B] group-hover:text-[#1D3189] underline font-bold transition-colors duration-500">
             /arena/daily-log
           </Link>
           .
@@ -72,24 +72,29 @@ export default function InternshipJourneyClient() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay: idx * 0.14, ease: "easeOut" }}
-                  className={`relative overflow-hidden p-8 rounded-3xl bg-white border border-l-4 border-l-[#D9F83B] flex flex-col justify-between transition-all duration-500 group ${
+                  className={`relative overflow-hidden rounded-3xl bg-white border border-l-4 border-l-[#D9F83B] flex flex-col justify-between transition-all duration-500 group ${
                     isBlueSlideCard
-                      ? "border-[#070E54]/20 shadow-lg hover:shadow-2xl hover:-translate-y-1.5"
+                      ? "border-[#162774]/25 shadow-lg hover:shadow-2xl hover:-translate-y-1.5"
                       : "border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1.5"
                   }`}
                 >
-                  {/* Default deep blue background ONLY on 01 that slides left on hover to reveal white theme */}
+                  {/* Default Navbar blue (#162774) + grid lines ONLY on 01 that slides left on hover to reveal white theme */}
                   {isBlueSlideCard && (
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 bg-[#070E54] translate-x-0 group-hover:-translate-x-full transition-transform duration-700 ease-in-out"
+                      className="pointer-events-none absolute inset-0 bg-[#162774] translate-x-0 group-hover:-translate-x-full transition-transform duration-700 ease-in-out"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                        backgroundSize: "48px 48px",
+                      }}
                     />
                   )}
 
-                  <div className="relative z-10">
+                  <div className="relative z-10 p-8 pb-4 flex-1">
                     {/* Top Row: Custom Shaped Number Badge + Top-Right Circle Arrow (45deg on hover) */}
                     <div className="flex items-center justify-between gap-3 mb-5">
-                      <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-tr-2xl rounded-bl-2xl rounded-tl-md rounded-br-md bg-[#D9F83B] group-hover:bg-[#070E54] text-slate-950 group-hover:text-[#D9F83B] font-black text-sm tracking-wider transition-colors duration-500 shadow-xs">
+                      <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-tr-2xl rounded-bl-2xl rounded-tl-md rounded-br-md bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-black text-sm tracking-wider transition-colors duration-500 shadow-xs">
                         {step.num}
                       </span>
 
@@ -119,7 +124,7 @@ export default function InternshipJourneyClient() {
                       {step.title}
                     </h3>
                     <p
-                      className={`leading-relaxed mb-6 font-medium transition-colors duration-500 ${
+                      className={`leading-relaxed font-medium transition-colors duration-500 ${
                         isBlueSlideCard
                           ? "text-blue-100/85 group-hover:text-slate-600"
                           : "text-slate-600"
@@ -129,18 +134,25 @@ export default function InternshipJourneyClient() {
                     </p>
                   </div>
 
-                  <div
-                    className={`relative z-10 font-bold uppercase tracking-wider text-[11px] transition-colors duration-500 ${
-                      isBlueSlideCard
-                        ? "text-[#D9F83B] group-hover:text-[#1D3189]"
-                        : "text-[#1D3189]"
-                    }`}
-                  >
-                    {step.tag}
-                  </div>
-
-                  {!isBlueSlideCard && (
-                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
+                  {isBlueSlideCard ? (
+                    <div className="relative z-10 px-8 py-5 font-bold uppercase tracking-wider text-[11px] text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-500">
+                      {step.tag}
+                    </div>
+                  ) : (
+                    <div className="relative overflow-hidden px-8 py-5 border-t border-slate-100 group-hover:border-[#162774] transition-colors duration-500">
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                          backgroundSize: "28px 28px",
+                        }}
+                      />
+                      <div className="relative z-10 font-bold uppercase tracking-wider text-[11px] text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                        {step.tag}
+                      </div>
+                    </div>
                   )}
                 </motion.div>
               );
