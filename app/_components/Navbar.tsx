@@ -100,7 +100,6 @@ export default function CommunityNavbar() {
     { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false, requiresAuth: true },
     { name: "20 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: false, requiresAuth: false },
     { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: false, requiresAuth: true },
-    { name: "Platform & Product Tour", href: "/product-tour", icon: BookOpen, desc: "Interactive guide to all features & pages", locked: false, requiresAuth: false },
     { name: "Propose Custom Project", href: "/arena/custom-project", icon: Edit3, desc: "Submit domain ideas for founder review", locked: false, requiresAuth: true }
   ];
 
@@ -120,6 +119,19 @@ export default function CommunityNavbar() {
     { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials", locked: false },
     { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: false }
   ];
+
+  const isInternshipActive =
+    pathname.startsWith("/virtual-ai-internship") ||
+    pathname.startsWith("/arena/roadmaps") ||
+    pathname.startsWith("/arena/daily-log") ||
+    pathname.startsWith("/arena/career-checklist") ||
+    pathname.startsWith("/arena/custom-project");
+
+  const isResourcesActive =
+    pathname.startsWith("/product-tour") ||
+    pathname.startsWith("/arena/wallet") ||
+    pathname.startsWith("/certificates") ||
+    pathname.startsWith("/magazine");
 
   const isTransparentHero = pathname === "/" && !isScrolled && !mobileOpen;
 
@@ -232,13 +244,20 @@ export default function CommunityNavbar() {
                 setResourcesOpen(false);
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
-                internshipOpen || pathname.startsWith("/virtual-ai-internship")
+                isInternshipActive
                   ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                  : internshipOpen
+                  ? "bg-white/25 text-white shadow-sm font-extrabold ring-1 ring-white/30"
                   : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
             >
               <span>Internship</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${internshipOpen || pathname.startsWith("/virtual-ai-internship") ? "rotate-180 text-slate-950" : "text-blue-200 group-hover:text-white"}`} />
+              <ChevronDown
+                size={13}
+                className={`transition-transform duration-200 ${
+                  internshipOpen ? "rotate-180" : ""
+                } ${isInternshipActive ? "text-slate-950" : "text-blue-200 group-hover:text-white"}`}
+              />
             </button>
 
             {internshipOpen && (
@@ -250,30 +269,59 @@ export default function CommunityNavbar() {
                 <div className="space-y-1">
                   {INTERNSHIP_ITEMS.filter(
                     (item) => !item.requiresAuth || (mounted && user)
-                  ).map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl hover:bg-[#1D3189] transition-all duration-200 group"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-white transition-colors flex items-center gap-2">
-                          <span className="truncate">{item.name}</span>
-                          {item.locked && (
-                            <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
-                              <Lock size={9} /> Scheduled
-                            </span>
-                          )}
+                  ).map((item) => {
+                    const itemActive =
+                      item.href === "/arena"
+                        ? pathname === "/arena"
+                        : pathname === item.href || pathname.startsWith(item.href + "/");
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group ${
+                          itemActive
+                            ? "bg-[#1D3189] text-white shadow-sm"
+                            : "hover:bg-[#1D3189]"
+                        }`}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <div
+                            className={`font-bold text-xs font-sans transition-colors flex items-center gap-2 ${
+                              itemActive ? "text-white" : "text-slate-900 group-hover:text-white"
+                            }`}
+                          >
+                            <span className="truncate">{item.name}</span>
+                            {item.locked && (
+                              <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
+                                <Lock size={9} /> Scheduled
+                              </span>
+                            )}
+                          </div>
+                          <div
+                            className={`text-[11px] font-sans font-normal mt-0.5 line-clamp-1 transition-colors ${
+                              itemActive ? "text-blue-100/90" : "text-slate-500 group-hover:text-blue-100/85"
+                            }`}
+                          >
+                            {item.desc}
+                          </div>
                         </div>
-                        <div className="text-[11px] text-slate-500 group-hover:text-blue-100/85 font-sans font-normal mt-0.5 line-clamp-1 transition-colors">
-                          {item.desc}
-                        </div>
-                      </div>
-                      <span className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950 flex items-center justify-center shrink-0 transition-all duration-300">
-                        <ArrowRight size={13} className="transition-transform duration-300 group-hover:-rotate-45" />
-                      </span>
-                    </Link>
-                  ))}
+                        <span
+                          className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
+                            itemActive
+                              ? "bg-[#D9F83B] text-slate-950"
+                              : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950"
+                          }`}
+                        >
+                          <ArrowRight
+                            size={13}
+                            className={`transition-transform duration-300 ${
+                              itemActive ? "-rotate-45" : "group-hover:-rotate-45"
+                            }`}
+                          />
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -288,13 +336,20 @@ export default function CommunityNavbar() {
                 setCommunityOpen(false);
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${
-                resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine")
+                isResourcesActive
                   ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                  : resourcesOpen
+                  ? "bg-white/25 text-white shadow-sm font-extrabold ring-1 ring-white/30"
                   : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
             >
               <span>Resources</span>
-              <ChevronDown size={13} className={`transition-transform duration-200 ${resourcesOpen || pathname.includes("/product-tour") || pathname.includes("/wallet") || pathname.includes("/magazine") ? "rotate-180 text-slate-950" : "text-blue-200 group-hover:text-white"}`} />
+              <ChevronDown
+                size={13}
+                className={`transition-transform duration-200 ${
+                  resourcesOpen ? "rotate-180" : ""
+                } ${isResourcesActive ? "text-slate-950" : "text-blue-200 group-hover:text-white"}`}
+              />
             </button>
 
             {resourcesOpen && (
@@ -304,25 +359,52 @@ export default function CommunityNavbar() {
                   <span>Developer Resources &amp; Credentials</span>
                 </div>
                 <div className="space-y-1">
-                  {RESOURCE_ITEMS.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl hover:bg-[#1D3189] transition-all duration-200 group"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-white transition-colors truncate">
-                          {item.name}
+                  {RESOURCE_ITEMS.map((item) => {
+                    const itemActive =
+                      pathname === item.href || pathname.startsWith(item.href + "/");
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group ${
+                          itemActive
+                            ? "bg-[#1D3189] text-white shadow-sm"
+                            : "hover:bg-[#1D3189]"
+                        }`}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <div
+                            className={`font-bold text-xs font-sans transition-colors truncate ${
+                              itemActive ? "text-white" : "text-slate-900 group-hover:text-white"
+                            }`}
+                          >
+                            {item.name}
+                          </div>
+                          <div
+                            className={`text-[11px] font-sans font-normal mt-0.5 line-clamp-1 transition-colors ${
+                              itemActive ? "text-blue-100/90" : "text-slate-500 group-hover:text-blue-100/85"
+                            }`}
+                          >
+                            {item.desc}
+                          </div>
                         </div>
-                        <div className="text-[11px] text-slate-500 group-hover:text-blue-100/85 font-sans font-normal mt-0.5 line-clamp-1 transition-colors">
-                          {item.desc}
-                        </div>
-                      </div>
-                      <span className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950 flex items-center justify-center shrink-0 transition-all duration-300">
-                        <ArrowRight size={13} className="transition-transform duration-300 group-hover:-rotate-45" />
-                      </span>
-                    </Link>
-                  ))}
+                        <span
+                          className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
+                            itemActive
+                              ? "bg-[#D9F83B] text-slate-950"
+                              : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950"
+                          }`}
+                        >
+                          <ArrowRight
+                            size={13}
+                            className={`transition-transform duration-300 ${
+                              itemActive ? "-rotate-45" : "group-hover:-rotate-45"
+                            }`}
+                          />
+                        </span>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             )}
