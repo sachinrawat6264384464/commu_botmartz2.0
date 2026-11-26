@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Check, Star, ArrowRight } from "lucide-react";
 import RazorpayModal from "./RazorpayModal";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
 export default function PricingTierCards() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(1);
+  const [isDesktop, setIsDesktop] = useState(false);
+
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     amount: number;
@@ -16,6 +20,47 @@ export default function PricingTierCards() {
     amount: 299,
     itemName: "Verified Builder Pass (1-Month AI Internship)"
   });
+
+  useEffect(() => {
+    const updateScroll = () => {
+      const desktop = window.innerWidth >= 1024;
+      setIsDesktop(desktop);
+      if (!desktop || !gridRef.current) {
+        setProgress(1);
+        return;
+      }
+
+      const rect = gridRef.current.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const startTop = vh * 0.98;
+      const endTop = vh * 0.56;
+      const raw = (startTop - rect.top) / (startTop - endTop);
+      setProgress(Math.max(0, Math.min(1, raw)));
+    };
+
+    updateScroll();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    window.addEventListener("resize", updateScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updateScroll);
+      window.removeEventListener("resize", updateScroll);
+    };
+  }, []);
+
+  const inv = 1 - progress;
+  const sideScale = isDesktop ? 0.9 + progress * 0.1 : 1;
+  const centerScale = isDesktop ? 0.94 + progress * 0.06 : 1;
+  const opacityVal = isDesktop ? 0.4 + progress * 0.6 : 1;
+
+  const leftTransform = isDesktop
+    ? `translate3d(${68 * inv}%, ${24 * inv}px, 0) rotate(${-5 * inv}deg) scale(${sideScale})`
+    : undefined;
+  const centerTransform = isDesktop
+    ? `translate3d(0, ${36 * inv}px, 0) scale(${centerScale})`
+    : undefined;
+  const rightTransform = isDesktop
+    ? `translate3d(${-68 * inv}%, ${24 * inv}px, 0) rotate(${5 * inv}deg) scale(${sideScale})`
+    : undefined;
 
   const handleOpenCheckout = (amount: number, itemName: string) => {
     setModalState({
@@ -27,10 +72,17 @@ export default function PricingTierCards() {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch font-sans">
+      <div ref={gridRef} className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch font-sans relative">
         
         {/* TIER 1: FREE OPEN BUILDER */}
-        <div className="group p-7 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-[#1D3189]/40 transition-all duration-300 flex flex-col justify-between">
+        <div
+          style={{
+            transform: leftTransform,
+            opacity: opacityVal,
+            zIndex: 10,
+          }}
+          className="group p-7 sm:p-8 rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-[#1D3189]/40 transition-[border-color,box-shadow] duration-300 flex flex-col justify-between"
+        >
           <div>
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-700 font-bold uppercase tracking-wider text-[11px] mb-4">
               Track 1 &bull; Self-Paced
@@ -76,7 +128,14 @@ export default function PricingTierCards() {
         </div>
 
         {/* TIER 2: ₹299 VERIFIED BUILDER PASS */}
-        <div className="group p-7 sm:p-8 rounded-3xl bg-white border-2 border-[#1D3189] shadow-2xl shadow-[#1D3189]/10 flex flex-col justify-between relative">
+        <div
+          style={{
+            transform: centerTransform,
+            opacity: opacityVal,
+            zIndex: 30,
+          }}
+          className="group p-7 sm:p-8 rounded-3xl bg-white border-2 border-[#1D3189] shadow-2xl shadow-[#1D3189]/10 transition-[box-shadow] duration-300 flex flex-col justify-between relative"
+        >
           <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider shadow-sm whitespace-nowrap">
             Most Popular for Students
           </div>
@@ -131,7 +190,14 @@ export default function PricingTierCards() {
         </div>
 
         {/* TIER 3: ₹1,999 FOUNDER PLACEMENT TRACK */}
-        <div className="group p-7 sm:p-8 rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white border border-[#1D3189] shadow-2xl flex flex-col justify-between relative overflow-hidden">
+        <div
+          style={{
+            transform: rightTransform,
+            opacity: opacityVal,
+            zIndex: 20,
+          }}
+          className="group p-7 sm:p-8 rounded-3xl bg-gradient-to-br from-[#1D3189] to-[#070E54] text-white border border-[#1D3189] shadow-2xl transition-[box-shadow] duration-300 flex flex-col justify-between relative overflow-hidden"
+        >
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
