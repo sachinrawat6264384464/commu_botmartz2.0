@@ -84,34 +84,34 @@ export default function CommunityFooter() {
               <strong className="text-white font-semibold">Build. Ship. Learn. Connect.</strong> Strictly for authentic builders constructing frontier production architectures in AI and Systems.
             </p>
 
-            <div className="pt-1 text-xs sm:text-sm text-blue-100/80 space-y-1 font-sans">
-              <div className="text-white font-semibold">Rolling 45-Day Internship</div>
-              <div className="leading-relaxed text-blue-100/75">
-                Start anytime — your personal 45-day milestone sprint begins on enrollment.
+            <div className="rounded-xl bg-white/[0.04] border border-white/10 p-3.5 text-xs sm:text-[13px] text-blue-100/85 space-y-1 font-sans">
+              <div className="text-[#D9F83B] font-bold">Flexible 3-Week &amp; 4-Week Sprints</div>
+              <div className="leading-relaxed text-blue-100/75 text-xs">
+                Sprint duration depends on your chosen project (3-week or 4-week tracks) — start anytime and ship real production systems.
               </div>
             </div>
 
-            <div className="pt-4 border-t border-white/10">
+            <div className="pt-3 border-t border-white/10">
               <NewsletterForm variant="footer" />
             </div>
           </div>
 
-          {/* Column 2: 45-Day Internship & System Catalog */}
-          <div className="space-y-4">
-            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B]" />
+          {/* Column 2: Virtual Internship & System Catalog */}
+          <div className="space-y-4 rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-white/20 transition-colors">
+            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2 pb-3 border-b border-white/10">
+              <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
               <span>Virtual Internship</span>
             </h4>
             <ul className="space-y-3 font-sans">
               <li>
                 <Link href="/virtual-ai-internship" className={FOOTER_LINK_CLASS}>
-                  <span>45-Day Virtual AI Internship</span>
+                  <span>Virtual AI Internship</span>
                   <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
                 </Link>
               </li>
               <li>
                 <Link href="/arena" className={FOOTER_LINK_CLASS}>
-                  <span>50-System PRD Catalog</span>
+                  <span>59+ System PRD Catalog</span>
                   <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
                 </Link>
               </li>
@@ -143,9 +143,9 @@ export default function CommunityFooter() {
           </div>
 
           {/* Column 3: Career OS & Bounties */}
-          <div className="space-y-4">
-            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B]" />
+          <div className="space-y-4 rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-white/20 transition-colors">
+            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2 pb-3 border-b border-white/10">
+              <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
               <span>Career OS &amp; Bounties</span>
             </h4>
             <ul className="space-y-3 font-sans">
@@ -183,9 +183,9 @@ export default function CommunityFooter() {
           </div>
 
           {/* Column 4: Community & Summits */}
-          <div className="space-y-4">
-            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B]" />
+          <div className="space-y-4 rounded-2xl bg-white/[0.03] border border-white/10 p-6 hover:border-white/20 transition-colors">
+            <h4 className="text-white font-bold uppercase text-xs tracking-widest font-sans flex items-center gap-2 pb-3 border-b border-white/10">
+              <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
               <span>Community &amp; Summits</span>
             </h4>
             <ul className="space-y-3 font-sans">
