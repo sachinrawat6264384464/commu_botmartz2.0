@@ -270,9 +270,9 @@ export default async function CommunityHomePage() {
       </section>
 
       {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
-      <section className="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 bg-white border-b border-slate-200/80">
+      <section className="py-10 sm:py-12 px-4 sm:px-8 lg:px-12 bg-white border-b border-slate-200/80">
         <div
-          className="w-full max-w-[1440px] mx-auto rounded-3xl bg-[#162774] text-white p-7 sm:p-10 lg:p-14 border border-[#1D3189]/20 shadow-2xl overflow-hidden relative"
+          className="w-full max-w-[1440px] mx-auto rounded-3xl bg-[#162774] text-white p-6 sm:p-8 lg:p-10 border border-[#1D3189]/20 shadow-2xl overflow-hidden relative"
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
@@ -280,58 +280,58 @@ export default async function CommunityHomePage() {
           }}
         >
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#070E54]/80 text-[#D9F83B] font-sans text-xs font-bold uppercase tracking-wider mb-3 border border-white/15">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#070E54]/80 text-[#D9F83B] font-sans text-xs font-bold uppercase tracking-wider mb-2.5 border border-white/15">
                 <Activity size={13} /> Frontier Engineering Projects
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
                 Featured Internship Playground Systems
               </h2>
-              <p className="text-blue-200/85 text-sm sm:text-base font-sans mt-2">
+              <p className="text-blue-200/85 text-xs sm:text-sm font-sans mt-1.5">
                 Zero toy apps. Every project has strict test commands and SLA acceptance gates.
               </p>
             </div>
 
             <Link
               href="/arena"
-              className="px-6 py-3 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs sm:text-sm font-bold transition-all shrink-0 flex items-center gap-2 shadow-lg shadow-lime-400/15"
+              className="px-6 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs sm:text-sm font-bold transition-all shrink-0 flex items-center gap-2 shadow-lg shadow-lime-400/15"
             >
               <span>View All {TOTAL_SYSTEMS_COUNT} Projects</span>
               <ArrowRight size={15} />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
-            {featuredProjects.map((p) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-sans text-xs">
+            {featuredProjects.slice(0, 3).map((p) => (
               <div
                 key={p.id}
-                className="p-6 sm:p-7 rounded-2xl bg-[#070E54]/85 backdrop-blur-md border border-white/15 flex flex-col justify-between hover:border-[#D9F83B]/60 hover:-translate-y-1 transition-all duration-300 group shadow-xl"
+                className="p-5 sm:p-6 rounded-2xl bg-white text-slate-900 border border-white/20 flex flex-col justify-between hover:border-[#D9F83B] hover:-translate-y-1 transition-all duration-300 group shadow-xl"
               >
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="px-3 py-1 rounded-full bg-white/10 text-[#D9F83B] font-bold text-[11px] border border-white/15">
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="px-3 py-0.5 rounded-full bg-[#1D3189]/10 text-[#1D3189] font-bold text-[11px]">
                       {p.difficulty}
                     </span>
-                    <span className="text-xs text-blue-200/75 font-medium">{p.durationDays} Days Cohort</span>
+                    <span className="text-xs text-slate-500 font-medium">{p.durationDays} Days Cohort</span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-white font-sans mb-2 group-hover:text-[#D9F83B] transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-950 font-sans mb-1.5 group-hover:text-[#1D3189] transition-colors">
                     {p.title}
                   </h3>
-                  <p className="text-blue-100/80 text-sm font-sans line-clamp-3 mb-5 leading-relaxed">
+                  <p className="text-slate-600 text-xs sm:text-sm font-sans line-clamp-2 mb-4 leading-relaxed">
                     {p.overview}
                   </p>
 
-                  <div className="p-3.5 rounded-xl bg-[#1D3189]/45 border border-white/10 text-xs text-blue-100/90 mb-5">
-                    <span className="text-[#D9F83B] font-bold">Strict SLA:</span> {p.productionSla}
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 mb-4">
+                    <span className="text-[#1D3189] font-bold">Strict SLA:</span> {p.productionSla}
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+                <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between">
                   <div className="flex flex-wrap gap-1.5">
                     {p.techStack.slice(0, 2).map((t, ti) => (
-                      <span key={ti} className="text-[11px] text-blue-100/80 bg-white/10 px-2.5 py-1 rounded-md font-medium">
+                      <span key={ti} className="text-[11px] text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md font-medium">
                         #{t}
                       </span>
                     ))}
@@ -339,7 +339,7 @@ export default async function CommunityHomePage() {
 
                   <Link
                     href={`/arena/${p.id}`}
-                    className="px-4 py-2 rounded-full bg-white/10 group-hover:bg-[#D9F83B] text-white group-hover:text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all"
+                    className="px-4 py-2 rounded-full bg-[#1D3189] group-hover:bg-[#D9F83B] text-white group-hover:text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
                     <span>View Spec</span>
                     <ArrowRight size={13} />
