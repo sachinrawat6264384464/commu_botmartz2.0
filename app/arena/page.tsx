@@ -454,33 +454,42 @@ export default function ArenaPage() {
                 }
               }
 
+              const techList = Array.isArray(project.techStack) ? project.techStack : [];
+              const difficultyLabel = project.difficulty === "Expert Tier" ? "Go To Hell" : (project.difficulty || "Intermediate");
+
               return (
                 <div
                   key={project.id}
-                  className={`bg-white border rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-5 group ${
+                  className={`relative overflow-hidden bg-white border rounded-3xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col justify-between space-y-5 group ${
                     isThisEnrolled
                       ? "border-emerald-500 ring-2 ring-emerald-500/20"
                       : isCardLocked
                       ? "border-slate-200 opacity-90"
-                      : "border-slate-200 hover:border-[#1D3189] hover:-translate-y-1"
+                      : "border-slate-200 hover:border-[#070E54] hover:-translate-y-1"
                   }`}
                 >
-                  <div>
+                  {/* Slow-motion sliding navy background fill on hover */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                  />
+
+                  <div className="relative z-10">
                     {/* Card Header: Difficulty & Domain */}
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] font-sans text-[10px] font-bold border border-[#1D3189]/20 uppercase tracking-wider">
-                        {project.domain}
+                      <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 group-hover:bg-white/10 group-hover:text-[#D9F83B] group-hover:border-[#D9F83B]/40 font-sans text-[10px] font-bold uppercase tracking-wider transition-colors duration-500 truncate">
+                        {project.domain || "AI Systems"}
                       </span>
                       {isThisEnrolled ? (
-                        <span className="px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
                           Active Track
                         </span>
                       ) : isCardLocked ? (
-                        <span className="px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200" title={cardLockReason}>
+                        <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200" title={cardLockReason}>
                           Locked
                         </span>
                       ) : (
-                        <span className={`px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider border ${
+                        <span className={`shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider border ${
                           project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
                             ? "bg-slate-950 text-purple-300 border-purple-800"
                             : project.difficulty === "Insane" 
@@ -493,42 +502,42 @@ export default function ArenaPage() {
                             ? "bg-cyan-100 text-cyan-900 border-cyan-300"
                             : "bg-emerald-100 text-emerald-900 border-emerald-300"
                         }`}>
-                          {project.difficulty === "Expert Tier" ? "Go To Hell" : project.difficulty}
+                          {difficultyLabel}
                         </span>
                       )}
                     </div>
 
                     {/* Title & Overview */}
-                    <h3 className="text-base font-extrabold text-slate-950 font-sans group-hover:text-[#1D3189] transition-colors duration-200 line-clamp-2 mb-2 leading-snug">
+                    <h3 className="text-base font-extrabold text-slate-950 font-sans group-hover:text-white transition-colors duration-500 line-clamp-2 mb-2 leading-snug">
                       {project.title}
                     </h3>
-                    <p className="text-xs text-slate-600 font-sans line-clamp-3 leading-relaxed mb-4 font-medium">
+                    <p className="text-xs text-slate-600 group-hover:text-blue-100/85 font-sans line-clamp-3 leading-relaxed mb-4 font-medium transition-colors duration-500">
                       {project.overview}
                     </p>
 
                     {/* Tech Stack Pills */}
-                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
-                      {project.techStack.slice(0, 4).map((tech) => (
+                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 group-hover:border-white/15 transition-colors duration-500">
+                      {techList.slice(0, 4).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-sans text-[10px] font-semibold border border-slate-200"
+                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 group-hover:bg-white/10 group-hover:text-blue-100 group-hover:border-white/15 font-sans text-[10px] font-semibold transition-colors duration-500"
                         >
                           {tech}
                         </span>
                       ))}
-                      {project.techStack.length > 4 && (
-                        <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 font-sans text-[10px] font-semibold border border-slate-200">
-                          +{project.techStack.length - 4}
+                      {techList.length > 4 && (
+                        <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 border border-slate-200 group-hover:bg-white/10 group-hover:text-blue-200 group-hover:border-white/15 font-sans text-[10px] font-semibold transition-colors duration-500">
+                          +{techList.length - 4}
                         </span>
                       )}
                     </div>
                   </div>
 
                   {/* 2 Clean Action Buttons */}
-                  <div className="flex items-center gap-2.5 pt-4 border-t border-slate-100 font-sans text-xs">
+                  <div className="relative z-10 flex items-center gap-2.5 pt-4 border-t border-slate-100 group-hover:border-white/15 font-sans text-xs transition-colors duration-500">
                     <Link
                       href={`/arena/${project.id}`}
-                      className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-bold text-center transition-all duration-200 flex items-center justify-center shadow-xs"
+                      className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-white border border-slate-200 text-slate-800 group-hover:bg-white/15 group-hover:text-white group-hover:border-white/25 group-hover:hover:bg-white group-hover:hover:text-slate-950 font-bold text-center transition-all duration-300 flex items-center justify-center shadow-xs"
                     >
                       <span>Inspect PRD</span>
                     </Link>
@@ -536,7 +545,7 @@ export default function ArenaPage() {
                     {isThisEnrolled ? (
                       <Link
                         href={`/arena/${project.id}`}
-                        className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center"
+                        className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center transition-all duration-300 shadow-sm flex items-center justify-center"
                       >
                         <span>Enrolled</span>
                       </Link>
@@ -544,14 +553,14 @@ export default function ArenaPage() {
                       <button
                         disabled
                         title={cardLockReason}
-                        className="flex-1 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-bold text-center transition-all duration-200 opacity-70 cursor-not-allowed flex items-center justify-center"
+                        className="flex-1 py-2.5 rounded-xl bg-slate-100 border border-slate-200 group-hover:bg-white/10 group-hover:border-white/15 group-hover:text-blue-200/60 text-slate-400 font-bold text-center transition-all duration-300 opacity-70 cursor-not-allowed flex items-center justify-center"
                       >
                         <span>Locked</span>
                       </button>
                     ) : (
                       <button
                         onClick={() => handleEnrollClick(project)}
-                        className="flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
+                        className="flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-300 shadow-sm flex items-center justify-center cursor-pointer"
                       >
                         <span>Enroll</span>
                       </button>
@@ -593,44 +602,62 @@ export default function ArenaPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 font-sans text-xs">
           <Link
             href="/arena/roadmaps"
-            className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#1D3189] transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
+            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
           >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-black text-[#1D3189] uppercase tracking-wider">01 • Roadmaps</span>
-              <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300 group-hover:rotate-45">
-                <ArrowRight size={14} />
-              </span>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+            />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-black text-[#1D3189] group-hover:text-[#D9F83B] uppercase tracking-wider transition-colors duration-500">01 • Roadmaps</span>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                  <ArrowRight size={14} />
+                </span>
+              </div>
+              <h4 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-white transition-colors duration-500">{allProjectsList.length} Role Roadmaps (Free)</h4>
+              <p className="text-slate-600 group-hover:text-blue-100/85 text-xs font-sans mt-1.5 font-medium leading-relaxed transition-colors duration-500">Prerequisites &amp; architecture milestones for every track.</p>
             </div>
-            <h4 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-[#1D3189] transition-colors">{allProjectsList.length} Role Roadmaps (Free)</h4>
-            <p className="text-slate-600 text-xs font-sans mt-1.5 font-medium leading-relaxed">Prerequisites &amp; architecture milestones for every track.</p>
           </Link>
 
           <Link
             href="/arena/career-checklist"
-            className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#1D3189] transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
+            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
           >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-black text-[#1D3189] uppercase tracking-wider">02 • Career &amp; UGC</span>
-              <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300 group-hover:rotate-45">
-                <ArrowRight size={14} />
-              </span>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+            />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-black text-[#1D3189] group-hover:text-[#D9F83B] uppercase tracking-wider transition-colors duration-500">02 • Career &amp; UGC</span>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                  <ArrowRight size={14} />
+                </span>
+              </div>
+              <h4 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-white transition-colors duration-500">LinkedIn UGC Promoter</h4>
+              <p className="text-slate-600 group-hover:text-blue-100/85 text-xs font-sans mt-1.5 font-medium leading-relaxed transition-colors duration-500">Share daily build logs &amp; earn +50 Karma Coins per post.</p>
             </div>
-            <h4 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-[#1D3189] transition-colors">LinkedIn UGC Promoter</h4>
-            <p className="text-slate-600 text-xs font-sans mt-1.5 font-medium leading-relaxed">Share daily build logs &amp; earn +50 Karma Coins per post.</p>
           </Link>
 
           <Link
             href="/arena/daily-log"
-            className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#1D3189] transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
+            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
           >
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-black text-[#1D3189] uppercase tracking-wider">03 • Proof of Work</span>
-              <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300 group-hover:rotate-45">
-                <ArrowRight size={14} />
-              </span>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+            />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-black text-[#1D3189] group-hover:text-[#D9F83B] uppercase tracking-wider transition-colors duration-500">03 • Proof of Work</span>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                  <ArrowRight size={14} />
+                </span>
+              </div>
+              <h4 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-white transition-colors duration-500">Daily PoW Logger</h4>
+              <p className="text-slate-600 group-hover:text-blue-100/85 text-xs font-sans mt-1.5 font-medium leading-relaxed transition-colors duration-500">Submit daily GitHub commits to build your verified streak.</p>
             </div>
-            <h4 className="font-extrabold text-slate-950 font-sans text-base group-hover:text-[#1D3189] transition-colors">Daily PoW Logger</h4>
-            <p className="text-slate-600 text-xs font-sans mt-1.5 font-medium leading-relaxed">Submit daily GitHub commits to build your verified streak.</p>
           </Link>
         </div>
       </section>
