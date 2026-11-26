@@ -565,11 +565,18 @@ export default function ArenaPage() {
                       )}
                     </div>
 
-                    {/* Title & Overview */}
-                    <h3 className="text-lg font-extrabold text-slate-950 font-sans group-hover:text-[#1D3189] transition-colors duration-300 line-clamp-2 mb-2 leading-snug">
-                      {project.title}
-                    </h3>
-                    <p className="text-[13px] text-slate-700 font-sans line-clamp-3 leading-relaxed mb-4 font-medium">
+                    {/* Distinct PRD Blueprint Heading Block (White + #162774 Left Bar + #D9F83B Accent) */}
+                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 border-l-4 border-l-[#162774] mb-3.5 shadow-2xs flex items-start justify-between gap-2.5">
+                      <h3 className="text-base sm:text-[17px] font-extrabold text-slate-950 font-sans group-hover:text-[#162774] transition-colors duration-300 line-clamp-2 leading-snug">
+                        {project.title}
+                      </h3>
+                      <span className="w-6 h-6 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center shrink-0 transition-all duration-500 group-hover:rotate-45 mt-0.5">
+                        <ArrowRight size={11} />
+                      </span>
+                    </div>
+
+                    {/* Formatted Overview */}
+                    <p className="text-[13px] text-slate-700 font-sans line-clamp-3 leading-relaxed mb-4 font-medium pl-1">
                       {project.overview}
                     </p>
 
