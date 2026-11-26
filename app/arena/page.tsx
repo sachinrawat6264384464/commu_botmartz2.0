@@ -524,7 +524,7 @@ export default function ArenaPage() {
               return (
                 <div
                   key={project.id}
-                  className={`relative overflow-hidden bg-white border rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-5 group ${
+                  className={`relative overflow-hidden bg-white border rounded-3xl shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between group ${
                     isThisEnrolled
                       ? "border-emerald-500 ring-2 ring-emerald-500/20"
                       : isCardLocked
@@ -532,7 +532,7 @@ export default function ArenaPage() {
                       : "border-slate-200 hover:border-[#1D3189] hover:-translate-y-1"
                   }`}
                 >
-                  <div>
+                  <div className="p-6 pb-4 flex-1">
                     {/* Card Header: Difficulty & Domain */}
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 font-sans text-[10px] font-bold uppercase tracking-wider truncate">
@@ -591,11 +591,15 @@ export default function ArenaPage() {
                     </div>
                   </div>
 
-                  {/* 2 Clean Action Buttons */}
-                  <div className="flex items-center gap-2.5 pt-4 border-t border-slate-100 font-sans text-xs">
+                  {/* 2 Clean Action Buttons with Bottom Blue Slide Hover */}
+                  <div className="relative overflow-hidden px-6 py-4 border-t border-slate-100 bg-slate-50/70 flex items-center gap-2.5 font-sans text-xs">
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                    />
                     <Link
                       href={`/arena/${project.id}`}
-                      className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-bold text-center transition-all duration-200 flex items-center justify-center shadow-xs"
+                      className="relative z-10 flex-1 py-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold text-center transition-all duration-200 flex items-center justify-center shadow-xs"
                     >
                       <span>Inspect PRD</span>
                     </Link>
@@ -603,7 +607,7 @@ export default function ArenaPage() {
                     {isThisEnrolled ? (
                       <Link
                         href={`/arena/${project.id}`}
-                        className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center"
+                        className="relative z-10 flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center"
                       >
                         <span>Enrolled</span>
                       </Link>
@@ -611,25 +615,19 @@ export default function ArenaPage() {
                       <button
                         disabled
                         title={cardLockReason}
-                        className="flex-1 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-bold text-center transition-all duration-200 opacity-70 cursor-not-allowed flex items-center justify-center"
+                        className="relative z-10 flex-1 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-bold text-center transition-all duration-200 opacity-70 cursor-not-allowed flex items-center justify-center"
                       >
                         <span>Locked</span>
                       </button>
                     ) : (
                       <button
                         onClick={() => handleEnrollClick(project)}
-                        className="flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
+                        className="relative z-10 flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
                       >
                         <span>Enroll</span>
                       </button>
                     )}
                   </div>
-
-                  {/* Bottom-only slow-motion color fill bar on hover */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out"
-                  />
 
                 </div>
               );
