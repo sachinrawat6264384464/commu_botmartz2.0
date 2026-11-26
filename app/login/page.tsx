@@ -62,6 +62,7 @@ function StudentLoginInner() {
   // Primary mode state: signup vs signin (defaults to signin on /login route)
   const [authMode, setAuthMode] = useState<"signup" | "signin">(initialMode);
   const [authMethod, setAuthMethod] = useState<"passcode" | "google" | "phone">("passcode");
+  const [hoveredSide, setHoveredSide] = useState<"left" | "right" | null>(null);
 
   // Sync mode search param with authMode state
   useEffect(() => {
@@ -334,16 +335,36 @@ function StudentLoginInner() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
 
           {/* ── LEFT COLUMN (7 COLS): HIGH-TECH HERO BRANDING BANNER ── */}
-          <div className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/95 p-5 sm:p-6 border border-white/15 shadow-2xl flex flex-col justify-between backdrop-blur-xl hover:border-[#D9F83B]/40 transition-all duration-500 group text-white">
+          <div
+            onMouseEnter={() => setHoveredSide("left")}
+            onMouseLeave={() => setHoveredSide(null)}
+            className="lg:col-span-7 relative overflow-hidden rounded-3xl bg-[#070E54]/95 p-5 sm:p-6 border border-white/15 shadow-2xl flex flex-col justify-between backdrop-blur-xl hover:border-[#D9F83B]/40 transition-all duration-500 group text-white"
+          >
+            {/* Slow-motion sliding background fill when cursor hovers the Right Form */}
+            <div
+              aria-hidden="true"
+              className={`pointer-events-none absolute inset-0 bg-gradient-to-br from-[#1D3189] via-[#172875] to-[#0E185C] transition-transform duration-1000 ease-in-out ${
+                hoveredSide === "right" ? "translate-x-0" : "-translate-x-full"
+              }`}
+            />
 
             <div className="relative z-10 space-y-3.5">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-60"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
-                </span>
-                <span>Virtual AI Internship &amp; Builder Network</span>
+              {/* Top Row: Badge + Top-Right 180deg Rotating Circle Arrow */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-60"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+                  </span>
+                  <span>Virtual AI Internship &amp; Builder Network</span>
+                </div>
+
+                <div className="w-10 h-10 rounded-full bg-white/10 border border-white/25 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] flex items-center justify-center shrink-0 transition-all duration-700 ease-in-out">
+                  <ArrowRight
+                    size={17}
+                    className="text-[#D9F83B] group-hover:text-slate-950 transition-transform duration-700 ease-in-out group-hover:rotate-180"
+                  />
+                </div>
               </div>
 
               {/* Heading */}
@@ -603,10 +624,21 @@ function StudentLoginInner() {
               </div>
             ) : (
               /* MAIN AUTH CARD (SIGN UP / SIGN IN) */
-              <div className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-4 relative overflow-hidden flex flex-col justify-between transition-all duration-500">
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9F83B]" />
+              <div
+                onMouseEnter={() => setHoveredSide("right")}
+                onMouseLeave={() => setHoveredSide(null)}
+                className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-4 relative overflow-hidden flex flex-col justify-between transition-all duration-500"
+              >
+                {/* Slow-motion sliding background fill when cursor hovers the Left Box */}
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-[#EEF3FF] via-[#E5EDFF] to-[#F4FBE0] transition-transform duration-1000 ease-in-out ${
+                    hoveredSide === "left" ? "translate-x-0" : "-translate-x-full"
+                  }`}
+                />
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9F83B] z-10" />
 
-                <div className="space-y-5">
+                <div className="relative z-10 space-y-5">
 
                   {/* ── TOP MAIN MODE TABS: SIGN UP vs SIGN IN ── */}
                   <div className="grid grid-cols-2 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 font-sans text-xs font-bold">
@@ -617,12 +649,11 @@ function StudentLoginInner() {
                         setError("");
                         setInfoMsg("");
                       }}
-                      className={`py-3 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${authMode === "signup"
+                      className={`py-2.5 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center ${authMode === "signup"
                           ? "bg-[#1D3189] text-white shadow-md font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold"
                         }`}
                     >
-                      <UserPlus size={15} />
                       <span>Create Account (Sign Up)</span>
                     </button>
 
@@ -633,12 +664,11 @@ function StudentLoginInner() {
                         setError("");
                         setInfoMsg("");
                       }}
-                      className={`py-3 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${authMode === "signin"
+                      className={`py-2.5 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center ${authMode === "signin"
                           ? "bg-[#1D3189] text-white shadow-md font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold"
                         }`}
                     >
-                      <Lock size={15} />
                       <span>Sign In to Portal</span>
                     </button>
                   </div>
@@ -702,9 +732,8 @@ function StudentLoginInner() {
 
                       {/* Full Name */}
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                          <User size={13} className="text-[#0066FF]" />
-                          <span>Full Name *</span>
+                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                          Full Name *
                         </label>
                         <input
                           type="text"
@@ -712,15 +741,14 @@ function StudentLoginInner() {
                           value={signUpForm.name}
                           onChange={(e) => setSignUpForm({ ...signUpForm, name: e.target.value })}
                           placeholder="e.g. Rahul Sharma"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                         />
                       </div>
 
                       {/* Email Address */}
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                          <Mail size={13} className="text-[#0066FF]" />
-                          <span>Email Address *</span>
+                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                          Email Address *
                         </label>
                         <input
                           type="email"
@@ -728,51 +756,48 @@ function StudentLoginInner() {
                           value={signUpForm.email}
                           onChange={(e) => setSignUpForm({ ...signUpForm, email: e.target.value })}
                           placeholder="student@college.edu"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                         />
                       </div>
 
                       {/* Phone & College Row */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                            <Phone size={13} className="text-[#0066FF]" />
-                            <span>Mobile Phone</span>
+                          <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                            Mobile Phone
                           </label>
                           <input
                             type="tel"
                             value={signUpForm.phone}
                             onChange={(e) => setSignUpForm({ ...signUpForm, phone: e.target.value })}
                             placeholder="9876543210"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                           />
                         </div>
 
                         <div>
-                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                            <GraduationCap size={13} className="text-[#0066FF]" />
-                            <span>College / Org</span>
+                          <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                            College / Org
                           </label>
                           <input
                             type="text"
                             value={signUpForm.organization}
                             onChange={(e) => setSignUpForm({ ...signUpForm, organization: e.target.value })}
                             placeholder="e.g. IET DAVV / PBCOE"
-                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                            className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                           />
                         </div>
                       </div>
 
                       {/* Select Cohort Track */}
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                          <Sparkles size={13} className="text-amber-500" />
-                          <span>Select Builder Track *</span>
+                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                          Select Builder Track *
                         </label>
                         <select
                           value={signUpForm.track}
                           onChange={(e) => setSignUpForm({ ...signUpForm, track: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-bold focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all cursor-pointer"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-semibold focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all cursor-pointer"
                         >
                           <option value="bundle">Open Builder Pass (100% Free - 100 Coins)</option>
                           <option value="bootcamp-01">Verified Cohort Pass (₹299 - Full Certificate &amp; Squad)</option>
@@ -782,16 +807,15 @@ function StudentLoginInner() {
 
                       {/* GitHub Username */}
                       <div>
-                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                          <Github size={13} className="text-slate-800" />
-                          <span>GitHub Username (Optional)</span>
+                        <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                          GitHub Username (Optional)
                         </label>
                         <input
                           type="text"
                           value={signUpForm.githubUsername}
                           onChange={(e) => setSignUpForm({ ...signUpForm, githubUsername: e.target.value })}
                           placeholder="e.g. alex-developer"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                         />
                       </div>
 
@@ -799,7 +823,7 @@ function StudentLoginInner() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-mono text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer border border-blue-400/30 disabled:opacity-50 mt-1"
+                        className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-sm font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
                       >
                         {submitting ? (
                           <>
@@ -807,10 +831,7 @@ function StudentLoginInner() {
                             <span>Creating Account &amp; Saving to Database...</span>
                           </>
                         ) : (
-                          <>
-                            <Sparkles size={16} className="text-cyan-300" />
-                            <span>Create Account &amp; Save Profile &rarr;</span>
-                          </>
+                          <span>Create Account &amp; Save Profile &rarr;</span>
                         )}
                       </button>
 
@@ -868,12 +889,11 @@ function StudentLoginInner() {
                             setAuthMethod("passcode");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${authMethod === "passcode"
-                              ? "bg-[#1D3189] text-white shadow-xs"
-                              : "text-slate-600 hover:text-slate-900"
+                          className={`py-2 rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-center ${authMethod === "passcode"
+                              ? "bg-[#1D3189] text-white shadow-xs font-bold"
+                              : "text-slate-600 hover:text-slate-900 font-semibold"
                             }`}
                         >
-                          <KeyRound size={13} />
                           <span>Passcode</span>
                         </button>
 
@@ -883,9 +903,9 @@ function StudentLoginInner() {
                             setAuthMethod("google");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${authMethod === "google"
-                              ? "bg-[#1D3189] text-white shadow-xs"
-                              : "text-slate-600 hover:text-slate-900"
+                          className={`py-2 rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-center ${authMethod === "google"
+                              ? "bg-[#1D3189] text-white shadow-xs font-bold"
+                              : "text-slate-600 hover:text-slate-900 font-semibold"
                             }`}
                         >
                           <span>Google</span>
@@ -897,12 +917,11 @@ function StudentLoginInner() {
                             setAuthMethod("phone");
                             setError("");
                           }}
-                          className={`py-2 rounded-lg font-bold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 ${authMethod === "phone"
-                              ? "bg-[#1D3189] text-white shadow-xs"
-                              : "text-slate-600 hover:text-slate-900"
+                          className={`py-2 rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-center ${authMethod === "phone"
+                              ? "bg-[#1D3189] text-white shadow-xs font-bold"
+                              : "text-slate-600 hover:text-slate-900 font-semibold"
                             }`}
                         >
-                          <Phone size={13} />
                           <span>Phone OTP</span>
                         </button>
                       </div>
@@ -911,9 +930,8 @@ function StudentLoginInner() {
                       {authMethod === "passcode" && (
                         <form id="login-form" data-testid="login-form" noValidate onSubmit={handlePasscodeLogin} className="space-y-3.5 font-sans text-xs">
                           <div>
-                            <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                              <Mail size={13} className="text-[#0066FF]" />
-                              <span>Registered Email *</span>
+                            <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                              Registered Email *
                             </label>
                             <input
                               id="email-input"
@@ -922,14 +940,13 @@ function StudentLoginInner() {
                               value={passcodeForm.email}
                               onChange={(e) => setPasscodeForm({ ...passcodeForm, email: e.target.value })}
                               placeholder="student@college.edu"
-                              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all"
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-medium focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all"
                             />
                           </div>
 
                           <div>
-                            <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5 font-mono">
-                              <KeyRound size={13} className="text-[#0066FF]" />
-                              <span>Passcode / Access Code *</span>
+                            <label className="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1 font-sans">
+                              Passcode / Access Code *
                             </label>
                             <input
                               id="password-input"
@@ -938,9 +955,9 @@ function StudentLoginInner() {
                               value={passcodeForm.passcode}
                               onChange={(e) => setPasscodeForm({ ...passcodeForm, passcode: e.target.value })}
                               placeholder="e.g. BM-849201"
-                              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-mono font-bold focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all tracking-wider uppercase"
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-slate-900 text-xs font-sans font-semibold focus:outline-none focus:border-[#1D3189] focus:bg-white transition-all tracking-wider uppercase"
                             />
-                            <p className="text-[10px] text-slate-500 font-mono mt-1">
+                            <p className="text-[11px] text-slate-500 font-sans font-normal mt-1">
                               Enter the Passcode sent to your registered email upon signup.
                             </p>
                           </div>
@@ -958,10 +975,7 @@ function StudentLoginInner() {
                                 <span>Verifying Passcode...</span>
                               </>
                             ) : (
-                              <>
-                                <Lock size={15} />
-                                <span>Sign In</span>
-                              </>
+                              <span>Sign In</span>
                             )}
                           </button>
                         </form>
@@ -1107,11 +1121,8 @@ function StudentLoginInner() {
                 </div>
 
                 {/* Zero-Trust Security Footer Notice */}
-                <div className="pt-3 border-t-2 border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-mono font-bold">
-                  <span className="flex items-center gap-1.5">
-                    <Lock size={13} className="text-emerald-600" />
-                    <span>256-bit Encrypted</span>
-                  </span>
+                <div className="relative z-10 pt-3 border-t border-slate-200/70 flex items-center justify-between text-[11px] text-slate-500 font-sans font-medium">
+                  <span>256-bit Encrypted</span>
                   <span className="text-slate-400">DPDP 2023 Compliant</span>
                 </div>
 
