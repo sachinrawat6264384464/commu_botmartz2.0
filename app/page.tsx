@@ -51,78 +51,78 @@ export default async function CommunityHomePage() {
         <div className="w-full px-4 sm:px-8 lg:px-14 relative z-10 max-w-[1600px] mx-auto flex flex-col items-center flex-1 justify-between">
           <div className="flex flex-col items-center pt-2 sm:pt-4">
             {/* Centered Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[64px] xl:text-[74px] font-extrabold tracking-tight leading-[1.06] text-white text-center max-w-5xl font-sans">
+            <h1 className="text-3xl sm:text-5xl lg:text-[62px] xl:text-[72px] font-extrabold tracking-tight leading-[1.08] text-white text-center max-w-5xl font-sans">
               Build Production Systems. <br />
               Ship Daily. Get Hired.
             </h1>
 
             {/* Primary Lime CTA + Secondary Links */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-7 sm:mt-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 mt-6 sm:mt-8 w-full sm:w-auto">
               <Link
                 href="/login"
                 prefetch={false}
-                className="inline-flex items-center gap-2.5 group cursor-pointer"
+                className="inline-flex items-center gap-2 group cursor-pointer"
               >
-                <span className="px-8 py-4 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-base tracking-tight shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:scale-[1.02]">
+                <span className="px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm sm:text-base tracking-tight shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:scale-[1.02]">
                   Join 45-Day Cohort (Free)
                 </span>
-                <span className="w-14 h-14 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 flex items-center justify-center shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:rotate-12 group-hover:scale-105">
-                  <ArrowUpRight size={22} strokeWidth={2.5} />
+                <span className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 flex items-center justify-center shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:rotate-12 group-hover:scale-105">
+                  <ArrowUpRight size={20} strokeWidth={2.5} />
                 </span>
               </Link>
 
               <Link
                 href="/arena"
                 prefetch={false}
-                className="px-7 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2.5 backdrop-blur-sm"
+                className="px-6 py-3 sm:px-7 sm:py-4 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2.5 backdrop-blur-sm"
               >
-                <Terminal size={17} className="text-[#D9F83B]" />
+                <Terminal size={16} className="text-[#D9F83B]" />
                 <span>Explore {TOTAL_SYSTEMS_COUNT}+ Systems</span>
               </Link>
             </div>
           </div>
 
           {/* 3-Column Bottom Showcase Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end w-full mt-6 lg:mt-8 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end w-full mt-8 lg:mt-6 relative">
             {/* Left Column: Quote + Stat */}
-            <div className="lg:col-span-4 flex flex-col items-start text-left space-y-5 pb-8 lg:pb-12 z-10">
+            <div className="lg:col-span-4 flex flex-col items-center text-center lg:items-start lg:text-left space-y-4 sm:space-y-5 pb-2 lg:pb-12 lg:pl-8 z-10 order-2 lg:order-1">
               <div className="space-y-2.5 max-w-sm">
-                <Quote size={26} className="text-white/90 fill-white/90 rotate-180" />
-                <p className="text-base text-blue-100/90 leading-relaxed font-normal">
+                <Quote size={24} className="text-white/90 fill-white/90 rotate-180 mx-auto lg:mx-0" />
+                <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed font-normal">
                   From AI-enhanced architectures to real-world systems, our playground empowers you to ship daily.
                 </p>
               </div>
 
               <div>
-                <div className="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight font-sans">
                   {TOTAL_SYSTEMS_COUNT}+
                 </div>
-                <div className="text-sm text-blue-200/90 font-medium mt-1">
+                <div className="text-xs sm:text-sm text-blue-200/90 font-medium mt-1">
                   Production Systems &bull; 15+ Partner Companies
                 </div>
               </div>
             </div>
 
             {/* Center Column: Semi-Circular Navy Dome + Visual */}
-            <div className="lg:col-span-4 relative flex items-end justify-center min-h-[260px] sm:min-h-[320px]">
+            <div className="lg:col-span-4 relative flex items-end justify-center min-h-[240px] sm:min-h-[300px] lg:min-h-[340px] order-1 lg:order-2">
               {/* Dark Navy Arch / Dome */}
-              <div className="w-[390px] sm:w-[440px] lg:w-[570px] h-[190px] sm:h-[220px] lg:h-[290px] rounded-t-full bg-[#070E54] absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none shadow-2xl" />
+              <div className="w-[290px] sm:w-[420px] lg:w-[500px] xl:w-[570px] h-[145px] sm:h-[210px] lg:h-[250px] xl:h-[285px] rounded-t-full bg-[#070E54] absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none shadow-2xl" />
 
               {/* Center Visual */}
               <div className="relative z-10 flex items-end justify-center overflow-hidden">
                 <Image
-                  src="/soham_transparent.png"
-                  alt="Botmartz Founder & Mentor"
+                  src="/hero-student.png"
+                  alt="Botmartz Builder"
                   width={440}
                   height={480}
-                  className="object-contain object-bottom drop-shadow-2xl max-h-[310px] sm:max-h-[360px] w-auto scale-110 sm:scale-120 origin-top translate-y-4 sm:translate-y-6"
+                  className="object-contain object-bottom drop-shadow-2xl max-h-[260px] sm:max-h-[330px] lg:max-h-[370px] w-auto"
                   priority
                 />
               </div>
             </div>
 
             {/* Right Column: Stars + Testimonial */}
-            <div className="lg:col-span-4 flex flex-col items-start lg:items-end text-left lg:text-right space-y-4 pb-8 lg:pb-12 z-10">
+            <div className="lg:col-span-4 flex flex-col items-center text-center lg:items-end lg:text-right space-y-3 sm:space-y-4 pb-8 lg:pb-12 z-10 order-3">
               <div className="flex items-center gap-1 text-[#FACC15]">
                 <Star size={18} className="fill-[#FACC15]" />
                 <Star size={18} className="fill-[#FACC15]" />

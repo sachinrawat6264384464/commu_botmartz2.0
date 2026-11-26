@@ -52,9 +52,9 @@ const DEFAULT_STATE: AccessibilityState = {
 };
 
 // Sacred Om (ॐ) SVG/Typography Component
-function OmIcon({ className = "w-6 h-6" }: { className?: string }) {
+function OmIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center justify-center font-bold text-emerald-300 text-2xl sm:text-3xl leading-none select-none drop-shadow-[0_0_10px_rgba(52,211,153,1)] ${className}`}>
+    <span className={`inline-flex items-center justify-center font-bold text-[#D9F83B] text-lg sm:text-xl leading-none select-none drop-shadow-[0_0_8px_rgba(217,248,59,0.65)] ${className}`}>
       ॐ
     </span>
   );
@@ -388,17 +388,17 @@ export default function AccessibilityToolbox() {
           onTouchEnd={handleTouchEnd}
           onClick={handleButtonClick}
           aria-label="Open Accessibility Toolbox"
-          className={`group w-12 h-12 sm:w-16 sm:h-16 shrink-0 inline-flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#0066FF] via-blue-600 to-cyan-500 text-white shadow-[0_0_25px_rgba(0,102,255,0.8)] hover:shadow-[0_0_35px_rgba(0,229,255,1)] border-2 border-white/90 transition-transform duration-100 relative ${
+          className={`group w-10 h-10 sm:w-12 sm:h-12 shrink-0 inline-flex items-center justify-center rounded-full bg-gradient-to-br from-[#070E54] via-[#132270] to-[#1D3189] text-[#D9F83B] shadow-[0_0_20px_rgba(7,14,84,0.65)] hover:shadow-[0_0_24px_rgba(217,248,59,0.45)] border-2 border-[#D9F83B]/80 transition-transform duration-100 relative ${
             isDragging ? "cursor-grabbing scale-110 shadow-2xl" : "cursor-grab hover:scale-105 active:scale-95"
           }`}
         >
-          {/* Live Blue Glowing Pointer Dot */}
-          <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 pointer-events-none">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-95" />
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-[#0066FF] border-2 border-white shadow-[0_0_12px_#00E5FF]" />
+          {/* Live Lime Glowing Pointer Dot */}
+          <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3 pointer-events-none">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D9F83B] opacity-90" />
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#D9F83B] border-2 border-[#070E54] shadow-[0_0_8px_rgba(217,248,59,0.9)]" />
           </span>
 
-          <OmIcon className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-300 pointer-events-none" />
+          <OmIcon className="w-5 h-5 sm:w-6 sm:h-6 pointer-events-none" />
           <span className="sr-only">Accessibility Toolbox</span>
         </button>
       </div>
