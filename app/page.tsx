@@ -287,9 +287,9 @@ export default async function CommunityHomePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 flex-1">
                 <Link
                   href="/showcase"
-                  className="group p-6 rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all flex flex-col justify-between"
+                  className="group overflow-hidden rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
                 >
-                  <div>
+                  <div className="p-6 pb-4">
                     <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-[11px] font-bold uppercase tracking-wider mb-3">
                       Thursday &bull; 7:00 PM IST
                     </div>
@@ -300,7 +300,7 @@ export default async function CommunityHomePage() {
                       Demo live working systems to peers and invited engineering leads.
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-slate-200/70 flex items-center justify-between text-xs font-bold text-[#1D3189]">
+                  <div className="px-6 py-4 mt-2 border-t border-slate-200/70 group-hover:border-[#1D3189] bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#1D3189] group-hover:to-[#070E54] flex items-center justify-between text-xs font-bold text-[#1D3189] group-hover:text-white transition-all duration-300">
                     <span>Explore Showcases</span>
                     <span className="w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
                       <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
@@ -310,9 +310,9 @@ export default async function CommunityHomePage() {
 
                 <Link
                   href="/arena/daily-log"
-                  className="group p-6 rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all flex flex-col justify-between"
+                  className="group overflow-hidden rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
                 >
-                  <div>
+                  <div className="p-6 pb-4">
                     <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-bold uppercase tracking-wider mb-3">
                       Daily &bull; Proof of Work
                     </div>
@@ -323,7 +323,7 @@ export default async function CommunityHomePage() {
                       Log daily progress, clear technical bounties, and climb the builder leaderboard.
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-slate-200/70 flex items-center justify-between text-xs font-bold text-[#1D3189]">
+                  <div className="px-6 py-4 mt-2 border-t border-slate-200/70 group-hover:border-[#1D3189] bg-transparent group-hover:bg-gradient-to-r group-hover:from-[#1D3189] group-hover:to-[#070E54] flex items-center justify-between text-xs font-bold text-[#1D3189] group-hover:text-white transition-all duration-300">
                     <span>Submit Daily Log</span>
                     <span className="w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
                       <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
