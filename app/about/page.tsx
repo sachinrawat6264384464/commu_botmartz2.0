@@ -301,12 +301,17 @@ export default function AboutPage() {
                 ].map((line, i) => (
                   <div
                     key={line}
-                    className="flex items-start gap-3 p-3.5 rounded-2xl bg-white border border-slate-200/80"
+                    className="flex items-start gap-3 p-3.5 rounded-2xl bg-[#162774] text-white border border-[#162774] shadow-xs"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                      backgroundSize: "28px 28px",
+                    }}
                   >
                     <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shrink-0">
                       0{i + 1}
                     </span>
-                    <span className="font-medium leading-relaxed">{line}</span>
+                    <span className="font-medium leading-relaxed text-blue-50">{line}</span>
                   </div>
                 ))}
               </div>
@@ -354,12 +359,12 @@ export default function AboutPage() {
                 ].map((line, i) => (
                   <div
                     key={line}
-                    className="flex items-start gap-3 p-3.5 rounded-2xl bg-white/[0.08] border border-white/15"
+                    className="flex items-start gap-3 p-3.5 rounded-2xl bg-white text-slate-950 border border-white shadow-sm"
                   >
-                    <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shrink-0">
+                    <span className="w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shrink-0">
                       0{i + 1}
                     </span>
-                    <span className="text-blue-50 font-medium leading-relaxed">{line}</span>
+                    <span className="text-slate-900 font-semibold leading-relaxed">{line}</span>
                   </div>
                 ))}
               </div>
