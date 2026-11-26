@@ -2,14 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
-  CheckCircle2,
-  Check,
-  Star,
-  ShieldCheck,
-  Sparkles,
-  Award
 } from "lucide-react";
 import RazorpayModal from "@/app/_components/RazorpayModal";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
@@ -27,10 +22,16 @@ export default function VirtualInternshipPricingClient() {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch font-sans text-xs">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch font-sans text-xs overflow-hidden py-2">
 
         {/* TIER 1: FREE OPEN BUILDER */}
-        <div className="relative overflow-hidden p-8 rounded-3xl bg-white border border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group">
+        <motion.div
+          initial={{ opacity: 0, x: -50, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: "easeOut" }}
+          className="relative overflow-hidden p-8 rounded-3xl bg-white border border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group"
+        >
           <div>
             <div className="text-slate-500 font-bold uppercase tracking-wider text-[11px] mb-2">
               Track 1: Self-Paced
@@ -68,15 +69,24 @@ export default function VirtualInternshipPricingClient() {
 
           <Link
             href="/arena"
-            className="w-full py-3.5 rounded-2xl bg-slate-100 hover:bg-[#070E54] hover:text-white text-slate-900 font-bold text-center transition-all duration-300 cursor-pointer"
+            className="w-full py-3.5 px-5 rounded-2xl bg-slate-100 hover:bg-[#070E54] hover:text-white text-slate-900 font-bold text-center transition-all duration-300 cursor-pointer flex items-center justify-between gap-2 group/btn"
           >
-            Start Free in Arena &rarr;
+            <span>Start Free in Arena</span>
+            <span className="w-7 h-7 rounded-full bg-[#070E54] group-hover/btn:bg-[#D9F83B] text-[#D9F83B] group-hover/btn:text-slate-950 flex items-center justify-center transition-all duration-500 ease-out group-hover/btn:rotate-[60deg] shrink-0">
+              <ArrowRight size={13} />
+            </span>
           </Link>
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-        </div>
+        </motion.div>
 
         {/* TIER 2: ₹299 VERIFIED BUILDER PASS (SWEET SPOT) */}
-        <div className="relative overflow-hidden p-8 rounded-3xl bg-white border-2 border-[#1D3189] shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group">
+        <motion.div
+          initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
+          className="relative overflow-hidden p-8 rounded-3xl bg-white border-2 border-[#1D3189] shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group"
+        >
           <div className="inline-block w-fit px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[10px] font-extrabold uppercase tracking-wider mb-3">
             Most Popular for Students
           </div>
@@ -126,15 +136,24 @@ export default function VirtualInternshipPricingClient() {
               "Verified Builder Pass (1-Month AI Internship)",
               "Includes Cryptographic QR Certificate, Weekly Reviews & Automated SLA Gates."
             )}
-            className="w-full py-3.5 rounded-2xl bg-[#1D3189] hover:bg-[#152468] text-white font-bold text-center transition-all duration-300 shadow-md cursor-pointer"
+            className="w-full py-3.5 px-5 rounded-2xl bg-[#1D3189] hover:bg-[#152468] text-white font-bold text-center transition-all duration-300 shadow-md cursor-pointer flex items-center justify-between gap-2 group/btn"
           >
-            Get Verified Pass (₹299) &rarr;
+            <span>Get Verified Pass (₹299)</span>
+            <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center transition-transform duration-500 ease-out group-hover/btn:rotate-[60deg] shrink-0">
+              <ArrowRight size={13} />
+            </span>
           </button>
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-        </div>
+        </motion.div>
 
         {/* TIER 3: ₹1,999 ELITE FOUNDER TRACK */}
-        <div className="relative overflow-hidden p-8 rounded-3xl bg-[#070E54] text-white border border-white/15 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group">
+        <motion.div
+          initial={{ opacity: 0, x: 50, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, delay: 0.15, ease: "easeOut" }}
+          className="relative overflow-hidden p-8 rounded-3xl bg-[#070E54] text-white border border-white/15 shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group"
+        >
           <div>
             <div className="text-[#D9F83B] font-bold uppercase tracking-wider text-[11px] mb-2">
               Track 3: Founder Mentorship
@@ -180,12 +199,15 @@ export default function VirtualInternshipPricingClient() {
               "Elite Founder Track (4-Week Mentorship & Code Audit)",
               "Includes 1-on-1 Code Audits with Founder Soham Sharma & Mock Technical Defense."
             )}
-            className="w-full py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-300 cursor-pointer shadow-lg shadow-lime-400/20"
+            className="w-full py-3.5 px-5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-300 cursor-pointer shadow-lg shadow-lime-400/20 flex items-center justify-between gap-2 group/btn"
           >
-            Join Founder Track (₹1,999) &rarr;
+            <span>Join Founder Track (₹1,999)</span>
+            <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 ease-out group-hover/btn:rotate-[60deg] shrink-0">
+              <ArrowRight size={13} />
+            </span>
           </button>
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-        </div>
+        </motion.div>
 
       </div>
 
