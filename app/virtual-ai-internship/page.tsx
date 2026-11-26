@@ -148,10 +148,10 @@ export default function VirtualAIInternshipPage() {
         <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
+
             {/* LEFT COLUMN: HEADLINE & ACTIONS */}
             <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
-              
+
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold uppercase tracking-wider shadow-xs">
                 <span>Virtual AI Engineering Fellowship</span>
               </div>
@@ -232,21 +232,20 @@ export default function VirtualAIInternshipPage() {
                       <span>4-Week Proof-of-Work Streak</span>
                       <span className="text-[#D9F83B]">100% VERIFIED</span>
                     </div>
-                    
+
                     {/* Simulated Heatmap Grid */}
                     <div className="grid grid-cols-9 gap-1.5 pt-1">
                       {Array.from({ length: 27 }).map((_, i) => (
                         <div
                           key={i}
-                          className={`h-4 rounded-sm transition-all ${
-                            i % 4 === 0
+                          className={`h-4 rounded-sm transition-all ${i % 4 === 0
                               ? "bg-[#D9F83B]"
                               : i % 3 === 0
-                              ? "bg-[#D9F83B]/75"
-                              : i % 2 === 0
-                              ? "bg-emerald-400"
-                              : "bg-white/20"
-                          }`}
+                                ? "bg-[#D9F83B]/75"
+                                : i % 2 === 0
+                                  ? "bg-emerald-400"
+                                  : "bg-white/20"
+                            }`}
                         />
                       ))}
                     </div>
@@ -281,7 +280,7 @@ export default function VirtualAIInternshipPage() {
       {/* ── 4. FEATURED INSANE PROJECTS ── */}
       <section className="py-20 bg-[#070E54] text-white border-b border-white/10">
         <div className="w-full px-4 sm:px-8 lg:px-12">
-          
+
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
@@ -357,7 +356,7 @@ export default function VirtualAIInternshipPage() {
       {/* ── 5. TRANSPARENT 3-TIER PRICING TABLE (₹0 / ₹299 / ₹1,999) ── */}
       <section id="pricing" className="py-20 border-b border-slate-200/80">
         <div className="w-full px-4 sm:px-8 lg:px-12">
-          
+
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
               Accessible &amp; Honest Pricing
@@ -378,16 +377,16 @@ export default function VirtualAIInternshipPage() {
       {/* ── 6. STRICT CRITERIA POLICY ── */}
       <section className="py-16 border-b border-slate-200/80">
         <div className="w-full px-4 sm:px-8 lg:px-12">
-          
+
           <div className="p-8 sm:p-10 rounded-3xl bg-[#070E54] text-white border border-white/15 shadow-2xl">
             <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-4">
               Strict Meritocracy Policy
             </div>
-            
+
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-sans mb-3">
               How Founder Code Audit &amp; Recommendation Works
             </h3>
-            
+
             <p className="text-blue-100/85 font-sans text-xs sm:text-sm leading-relaxed mb-6">
               We enforce authentic engineering rigor. Founder Soham Sharma reviews your code and writes your portfolio recommendation <strong className="text-white">only when you meet these strict gates:</strong>
             </p>

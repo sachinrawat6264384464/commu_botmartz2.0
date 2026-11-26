@@ -70,9 +70,15 @@ export default function InternshipJourneyClient() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: idx * 0.14, ease: "easeOut" }}
-                className="relative overflow-hidden p-8 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-md hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 group"
+                className="relative overflow-hidden p-8 rounded-3xl bg-white border border-[#070E54]/20 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
               >
-                <div>
+                {/* Default deep blue background that slides left on hover to reveal white theme */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[#070E54] translate-x-0 group-hover:-translate-x-full transition-transform duration-700 ease-in-out"
+                />
+
+                <div className="relative z-10">
                   {/* Top Row: Custom Shaped Number Badge + Top-Right Circle Arrow (45deg on hover) */}
                   <div className="flex items-center justify-between gap-3 mb-5">
                     <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-tr-2xl rounded-bl-2xl rounded-tl-md rounded-br-md bg-[#D9F83B] group-hover:bg-[#070E54] text-slate-950 group-hover:text-[#D9F83B] font-black text-sm tracking-wider transition-colors duration-500 shadow-xs">
@@ -82,7 +88,7 @@ export default function InternshipJourneyClient() {
                     <Link
                       href={step.href}
                       aria-label={step.title}
-                      className="w-9 h-9 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] border border-slate-200 group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 shrink-0"
+                      className="w-9 h-9 rounded-full bg-white/15 group-hover:bg-[#D9F83B] border border-white/25 group-hover:border-[#D9F83B] text-white group-hover:text-slate-950 flex items-center justify-center transition-all duration-500 shrink-0"
                     >
                       <ArrowRight
                         size={15}
@@ -91,17 +97,17 @@ export default function InternshipJourneyClient() {
                     </Link>
                   </div>
 
-                  <h3 className="text-xl font-extrabold text-slate-950 mb-2 font-sans group-hover:text-[#1D3189] transition-colors">
+                  <h3 className="text-xl font-extrabold text-white group-hover:text-slate-950 mb-2 font-sans transition-colors duration-500">
                     {step.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed mb-6 font-medium">{step.desc}</p>
+                  <p className="text-blue-100/85 group-hover:text-slate-600 leading-relaxed mb-6 font-medium transition-colors duration-500">
+                    {step.desc}
+                  </p>
                 </div>
 
-                <div className="text-[#1D3189] font-bold uppercase tracking-wider text-[11px]">
+                <div className="relative z-10 text-[#D9F83B] group-hover:text-[#1D3189] font-bold uppercase tracking-wider text-[11px] transition-colors duration-500">
                   {step.tag}
                 </div>
-
-                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
               </motion.div>
             ))}
           </div>
@@ -143,18 +149,26 @@ export default function InternshipJourneyClient() {
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full lg:w-auto font-sans text-xs">
               <Link
                 href="/arena/calendar"
-                className="px-6 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-300 shadow-lg shadow-lime-400/20 flex items-center justify-between gap-3 group"
+                className="relative overflow-hidden px-6 py-3.5 rounded-2xl bg-[#D9F83B] text-slate-950 font-bold text-center transition-all duration-300 shadow-lg shadow-lime-400/20 flex items-center justify-between gap-3 group/btn"
               >
-                <span>View Event Calendar</span>
-                <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 group-hover:rotate-45 shrink-0">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-in-out"
+                />
+                <span className="relative z-10">View Event Calendar</span>
+                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 group-hover/btn:rotate-45 shrink-0">
                   <ArrowRight size={13} />
                 </span>
               </Link>
               <Link
                 href="/discussions"
-                className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white hover:text-slate-950 text-white font-bold text-center transition-all duration-300 border border-white/25"
+                className="relative overflow-hidden px-6 py-3.5 rounded-2xl bg-white/10 text-white hover:text-slate-950 font-bold text-center transition-colors duration-500 border border-white/25 group/btn"
               >
-                Join Discussions Forum
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-in-out"
+                />
+                <span className="relative z-10">Join Discussions Forum</span>
               </Link>
             </div>
           </motion.div>
