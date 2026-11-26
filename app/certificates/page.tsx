@@ -2,24 +2,15 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
 import {
-  Award,
-  Search,
+  ArrowRight,
   CheckCircle2,
   AlertCircle,
   Download,
-  ExternalLink,
-  ShieldCheck,
   Loader2,
-  FileCheck,
   Lock,
-  QrCode,
-  Sparkles,
-  Building2,
   Linkedin,
-  Flame,
-  Zap,
-  Check
 } from "lucide-react";
 import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
 import CertificateCard from "@/app/_components/CertificateCard";
@@ -159,7 +150,14 @@ function CertificatesContent() {
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── 1. TECH HERO BANNER CARD ── */}
-        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-7 sm:p-10 border border-white/15 shadow-2xl mb-10">
+        <div
+          className="relative overflow-hidden rounded-3xl bg-[#162774] p-7 sm:p-10 border border-white/15 shadow-2xl mb-10"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="space-y-4 max-w-3xl">
               <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
@@ -204,9 +202,18 @@ function CertificatesContent() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 py-3 rounded-xl font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                  className="w-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 py-3 px-4 rounded-xl font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2.5 group cursor-pointer disabled:opacity-60"
                 >
-                  {loading ? <Loader2 size={16} className="animate-spin" /> : "Verify Authentic Credential ↗"}
+                  {loading ? (
+                    <Loader2 size={16} className="animate-spin" />
+                  ) : (
+                    <>
+                      <span>Verify Authentic Credential</span>
+                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                        <ArrowRight size={12} />
+                      </span>
+                    </>
+                  )}
                 </button>
               </form>
             </div>
@@ -290,76 +297,121 @@ function CertificatesContent() {
           /* ── 3. RICH FEATURES & TRUST SHOWCASE GRID (Default View) ── */
           <div className="space-y-12">
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-mono text-xs">
-              <div className="p-6 rounded-3xl bg-white border-2 border-slate-200 hover:border-[#0066FF] transition-all shadow-md hover:shadow-xl space-y-3 group">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0066FF] border border-blue-200 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Lock size={22} />
-                </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-[#0066FF] transition-colors">SHA-256 Verified Ledger</h3>
-                <p className="text-slate-600 text-xs font-sans leading-relaxed">
-                  Cryptographically signed completion credentials verified against Botmartz database to prevent tampering.
-                </p>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-sans text-xs">
+              {[
+                {
+                  num: "01",
+                  title: "SHA-256 Verified Ledger",
+                  desc: "Cryptographically signed completion credentials verified against Botmartz database to prevent tampering.",
+                  tag: "Tamper-Proof Registry",
+                  initial: { opacity: 0, x: -36, y: 0, filter: "blur(6px)" },
+                },
+                {
+                  num: "02",
+                  title: "Direct QR Verification",
+                  desc: "Every issued PDF includes a scannable QR code linking to candidate proof-of-work commit history.",
+                  tag: "Instant Scan Check",
+                  initial: { opacity: 0, x: 0, y: 30, filter: "blur(6px)" },
+                },
+                {
+                  num: "03",
+                  title: "Botmartz AI Endorsed",
+                  desc: "Officially issued by Botmartz AI Solutions with founder endorsement by Soham Sharma.",
+                  tag: "Founder Signed",
+                  initial: { opacity: 0, x: 0, y: 30, filter: "blur(6px)" },
+                },
+                {
+                  num: "04",
+                  title: "Gamified Skill Badges",
+                  desc: "Includes 10-day, 20-day streak badges and production system milestone credentials.",
+                  tag: "Milestone Proofs",
+                  initial: { opacity: 0, x: 36, y: 0, filter: "blur(6px)" },
+                },
+              ].map((card, idx) => (
+                <motion.div
+                  key={card.num}
+                  initial={card.initial}
+                  whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
+                  className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] transition-all duration-500 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group"
+                >
+                  <div className="p-6 pb-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500">
+                        {card.num}
+                      </span>
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
+                        Verified
+                      </span>
+                    </div>
+                    <h3 className="font-extrabold text-slate-950 text-sm group-hover:text-[#162774] transition-colors">
+                      {card.title}
+                    </h3>
+                    <p className="text-slate-600 text-xs leading-relaxed">
+                      {card.desc}
+                    </p>
+                  </div>
 
-              <div className="p-6 rounded-3xl bg-white border-2 border-slate-200 hover:border-cyan-500 transition-all shadow-md hover:shadow-xl space-y-3 group">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 border border-cyan-200 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <QrCode size={22} />
-                </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-cyan-600 transition-colors">Direct QR Verification</h3>
-                <p className="text-slate-600 text-xs font-sans leading-relaxed">
-                  Every issued PDF includes a scannable QR code linking to candidate proof-of-work commit history.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-3xl bg-white border-2 border-slate-200 hover:border-purple-500 transition-all shadow-md hover:shadow-xl space-y-3 group">
-                <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 border border-purple-200 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Building2 size={22} />
-                </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-purple-600 transition-colors">Botmartz AI Endorsed</h3>
-                <p className="text-slate-600 text-xs font-sans leading-relaxed">
-                  Officially issued by Botmartz AI Solutions with founder endorsement by Soham Sharma.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-3xl bg-white border-2 border-slate-200 hover:border-emerald-500 transition-all shadow-md hover:shadow-xl space-y-3 group">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Award size={22} />
-                </div>
-                <h3 className="font-bold text-slate-900 font-sans text-sm group-hover:text-emerald-600 transition-colors">Gamified Skill Badges</h3>
-                <p className="text-slate-600 text-xs font-sans leading-relaxed">
-                  Includes 10-day, 20-day streak badges and production system milestone credentials.
-                </p>
-              </div>
+                  <div className="relative overflow-hidden px-6 py-3.5 border-t border-slate-200/80 group-hover:border-[#162774] flex items-center justify-between transition-colors duration-500">
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                        backgroundSize: "28px 28px",
+                      }}
+                    />
+                    <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                      {card.tag}
+                    </span>
+                    <span className="relative z-10 w-6 h-6 rounded-full bg-white group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shadow-2xs">
+                      <ArrowRight size={12} />
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
             </div>
 
             {/* Sample Search Quick Box */}
-            <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-blue-950 rounded-3xl p-8 sm:p-10 border border-slate-800 text-white shadow-2xl relative overflow-hidden">
+            <div
+              className="bg-[#162774] rounded-3xl p-8 sm:p-10 border border-white/15 text-white shadow-2xl relative overflow-hidden"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                backgroundSize: "56px 56px",
+              }}
+            >
               <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="space-y-4 max-w-xl">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-300 font-mono text-[11px] font-bold border border-cyan-500/20">
-                    <Sparkles size={13} /> CREDENTIAL VERIFICATION DEMO
+                  <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                    Credential Verification Demo
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-black font-sans text-white">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold font-sans text-white">
                     Need to verify candidate credentials for hiring?
                   </h2>
-                  <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed">
+                  <p className="text-xs sm:text-sm text-blue-100/85 font-sans leading-relaxed">
                     Type the Unique Certificate ID (e.g. CERT-BM-982314) found on the PDF credential to view candidate proof of work.
                   </p>
                 </div>
 
-                <div className="w-full md:w-auto shrink-0 font-mono text-xs">
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md space-y-3">
-                    <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
-                      <FileCheck size={16} /> Sample Verification ID:
+                <div className="w-full md:w-auto shrink-0 font-sans text-xs">
+                  <div className="p-6 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md space-y-3 min-w-[260px]">
+                    <div className="text-[#D9F83B] font-extrabold text-[11px] uppercase tracking-wider">
+                      Sample Verification ID:
                     </div>
-                    <code className="block p-3 rounded-xl bg-slate-900 text-cyan-300 text-sm font-bold border border-slate-800 text-center">
+                    <code className="block p-3 rounded-xl bg-white/10 text-white text-sm font-extrabold border border-white/15 text-center tracking-wider">
                       CERT-BM-982314
                     </code>
                     <button
                       onClick={() => handleQuickSample("CERT-BM-982314")}
-                      className="w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-colors cursor-pointer text-center block"
+                      className="w-full py-2.5 px-4 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 group"
                     >
-                      Test Sample Search ↗
+                      <span>Test Sample Search</span>
+                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                        <ArrowRight size={12} />
+                      </span>
                     </button>
                   </div>
                 </div>
