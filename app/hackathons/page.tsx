@@ -368,7 +368,14 @@ export default function HackathonsPage() {
     >
       {/* ── 1. HERO SECTION ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-10">
-        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-7 sm:p-11 border border-white/15 shadow-2xl">
+        <div
+          className="relative overflow-hidden rounded-3xl bg-[#162774] p-7 sm:p-11 border border-white/15 shadow-2xl"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">

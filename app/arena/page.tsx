@@ -247,7 +247,14 @@ export default function ArenaPage() {
     >
       {/* ── 1. HEADER SECTION (REDESIGNED HERO CARD) ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
-        <div className="relative overflow-hidden rounded-3xl bg-[#070E54] p-7 sm:p-10 border border-white/15 shadow-2xl">
+        <div
+          className="relative overflow-hidden rounded-3xl bg-[#162774] p-7 sm:p-10 border border-white/15 shadow-2xl"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             {/* Left Column: Badge, Title & Description */}
             <div className="space-y-4 max-w-3xl">

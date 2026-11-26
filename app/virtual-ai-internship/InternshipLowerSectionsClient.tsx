@@ -10,7 +10,14 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
   return (
     <section className="py-16 border-b border-slate-200/80 overflow-hidden">
       <div className="w-full px-4 sm:px-8 lg:px-12">
-        <div className="rounded-3xl bg-[#070E54] text-white p-7 sm:p-11 border border-white/15 shadow-2xl">
+        <div
+          className="rounded-3xl bg-[#162774] text-white p-7 sm:p-11 border border-white/15 shadow-2xl"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
           <motion.div
             initial={{ opacity: 0, x: -40, filter: "blur(6px)" }}
             whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
@@ -146,7 +153,12 @@ export function FounderAuditPolicyClient() {
           whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.65, ease: "easeOut" }}
-          className="p-8 sm:p-10 rounded-3xl bg-[#070E54] text-white border border-white/15 shadow-2xl"
+          className="p-8 sm:p-10 rounded-3xl bg-[#162774] text-white border border-white/15 shadow-2xl"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
         >
           <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-4">
             Strict Meritocracy Policy
