@@ -524,24 +524,18 @@ export default function ArenaPage() {
               return (
                 <div
                   key={project.id}
-                  className={`relative overflow-hidden bg-white border rounded-3xl p-6 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col justify-between space-y-5 group ${
+                  className={`relative overflow-hidden bg-white border rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-5 group ${
                     isThisEnrolled
                       ? "border-emerald-500 ring-2 ring-emerald-500/20"
                       : isCardLocked
                       ? "border-slate-200 opacity-90"
-                      : "border-slate-200 hover:border-[#070E54] hover:-translate-y-1"
+                      : "border-slate-200 hover:border-[#1D3189] hover:-translate-y-1"
                   }`}
                 >
-                  {/* Slow-motion sliding navy background fill on hover */}
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
-                  />
-
-                  <div className="relative z-10">
+                  <div>
                     {/* Card Header: Difficulty & Domain */}
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 group-hover:bg-white/10 group-hover:text-[#D9F83B] group-hover:border-[#D9F83B]/40 font-sans text-[10px] font-bold uppercase tracking-wider transition-colors duration-500 truncate">
+                      <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 font-sans text-[10px] font-bold uppercase tracking-wider truncate">
                         {project.domain || "AI Systems"}
                       </span>
                       {isThisEnrolled ? (
@@ -572,25 +566,25 @@ export default function ArenaPage() {
                     </div>
 
                     {/* Title & Overview */}
-                    <h3 className="text-base font-extrabold text-slate-950 font-sans group-hover:text-white transition-colors duration-500 line-clamp-2 mb-2 leading-snug">
+                    <h3 className="text-base font-extrabold text-slate-950 font-sans group-hover:text-[#1D3189] transition-colors duration-300 line-clamp-2 mb-2 leading-snug">
                       {project.title}
                     </h3>
-                    <p className="text-xs text-slate-600 group-hover:text-blue-100/85 font-sans line-clamp-3 leading-relaxed mb-4 font-medium transition-colors duration-500">
+                    <p className="text-xs text-slate-600 font-sans line-clamp-3 leading-relaxed mb-4 font-medium">
                       {project.overview}
                     </p>
 
-                    {/* Tech Stack Pills */}
-                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 group-hover:border-white/15 transition-colors duration-500">
+                    {/* Tech Stack Pills (Color Fill on Hover) */}
+                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
                       {techList.slice(0, 4).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 group-hover:bg-white/10 group-hover:text-blue-100 group-hover:border-white/15 font-sans text-[10px] font-semibold transition-colors duration-500"
+                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] group-hover:border-[#070E54] font-sans text-[10px] font-semibold transition-all duration-500"
                         >
                           {tech}
                         </span>
                       ))}
                       {techList.length > 4 && (
-                        <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 border border-slate-200 group-hover:bg-white/10 group-hover:text-blue-200 group-hover:border-white/15 font-sans text-[10px] font-semibold transition-colors duration-500">
+                        <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 border border-slate-200 group-hover:bg-[#1D3189] group-hover:text-white group-hover:border-[#1D3189] font-sans text-[10px] font-semibold transition-all duration-500">
                           +{techList.length - 4}
                         </span>
                       )}
@@ -598,10 +592,10 @@ export default function ArenaPage() {
                   </div>
 
                   {/* 2 Clean Action Buttons */}
-                  <div className="relative z-10 flex items-center gap-2.5 pt-4 border-t border-slate-100 group-hover:border-white/15 font-sans text-xs transition-colors duration-500">
+                  <div className="flex items-center gap-2.5 pt-4 border-t border-slate-100 font-sans text-xs">
                     <Link
                       href={`/arena/${project.id}`}
-                      className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-white border border-slate-200 text-slate-800 group-hover:bg-white/15 group-hover:text-white group-hover:border-white/25 group-hover:hover:bg-white group-hover:hover:text-slate-950 font-bold text-center transition-all duration-300 flex items-center justify-center shadow-xs"
+                      className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 font-bold text-center transition-all duration-200 flex items-center justify-center shadow-xs"
                     >
                       <span>Inspect PRD</span>
                     </Link>
@@ -609,7 +603,7 @@ export default function ArenaPage() {
                     {isThisEnrolled ? (
                       <Link
                         href={`/arena/${project.id}`}
-                        className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center transition-all duration-300 shadow-sm flex items-center justify-center"
+                        className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center"
                       >
                         <span>Enrolled</span>
                       </Link>
@@ -617,19 +611,25 @@ export default function ArenaPage() {
                       <button
                         disabled
                         title={cardLockReason}
-                        className="flex-1 py-2.5 rounded-xl bg-slate-100 border border-slate-200 group-hover:bg-white/10 group-hover:border-white/15 group-hover:text-blue-200/60 text-slate-400 font-bold text-center transition-all duration-300 opacity-70 cursor-not-allowed flex items-center justify-center"
+                        className="flex-1 py-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-400 font-bold text-center transition-all duration-200 opacity-70 cursor-not-allowed flex items-center justify-center"
                       >
                         <span>Locked</span>
                       </button>
                     ) : (
                       <button
                         onClick={() => handleEnrollClick(project)}
-                        className="flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-300 shadow-sm flex items-center justify-center cursor-pointer"
+                        className="flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
                       >
                         <span>Enroll</span>
                       </button>
                     )}
                   </div>
+
+                  {/* Bottom-only slow-motion color fill bar on hover */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out"
+                  />
 
                 </div>
               );
