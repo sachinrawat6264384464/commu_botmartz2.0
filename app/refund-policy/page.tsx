@@ -1,16 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Metadata } from "next";
-import {
-  ShieldCheck,
-  RotateCcw,
-  CheckCircle2,
-  Lock,
-  ArrowRight,
-  Sparkles,
-  ExternalLink,
-  ChevronRight
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import RefundPolicyClient from "./RefundPolicyClient";
 
 export const metadata: Metadata = {
@@ -38,73 +29,87 @@ export const metadata: Metadata = {
 
 export default function RefundPolicyPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-[#0066FF] selection:text-white font-sans antialiased">
-      
-      {/* Hero Header */}
-      <div className="relative border-b border-slate-800 bg-linear-to-b from-slate-900 via-slate-950 to-slate-950 py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto space-y-4">
-          
-          <div className="flex items-center gap-2 text-xs font-mono text-[#0066FF] uppercase font-bold tracking-wider">
-            <ShieldCheck size={16} className="text-emerald-400" />
-            <span>LEGAL, COMPLIANCE &amp; CONSUMER ASSURANCE</span>
+    <div
+      className="min-h-screen bg-white text-slate-900 pt-24 pb-16 font-sans antialiased selection:bg-[#D9F83B] selection:text-slate-950"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
+      <div className="w-full px-4 sm:px-8 lg:px-12 space-y-10">
+        {/* Hero Header */}
+        <section
+          className="rounded-3xl bg-[#162774] text-white p-7 sm:p-11 border border-white/15 shadow-2xl space-y-4"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+            Legal, Compliance &amp; Consumer Assurance
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white font-sans">
-            Refund &amp; Cancellation Policy
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white font-sans">
+            Refund &amp; <span className="text-[#D9F83B]">Cancellation Policy</span>
           </h1>
 
-          <p className="text-slate-400 text-sm sm:text-base max-w-3xl font-sans leading-relaxed">
+          <p className="text-blue-100/85 text-xs sm:text-sm max-w-3xl font-sans leading-relaxed">
             Transparent, builder-first guidelines governing purchases across the 45-Day Virtual AI Fellowship, hands-on masterclasses, developer summit passes, and Karma Coin packs.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-2 font-mono text-xs text-slate-500">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Governed by Founder Soham Sharma</span>
+          <div className="flex flex-wrap items-center gap-4 pt-2 text-xs text-blue-200/80">
+            <span className="text-[#D9F83B] font-bold">
+              Governed by Founder Soham Sharma
             </span>
-            <span>•</span>
+            <span>&bull;</span>
             <span>Last Updated: September 2026</span>
-            <span>•</span>
-            <span className="text-slate-400">Razorpay 256-Bit Escrow Gateway</span>
+            <span>&bull;</span>
+            <span>Razorpay 256-Bit Escrow Gateway</span>
           </div>
-        </div>
-      </div>
+        </section>
 
-      {/* Main Interactive Policy Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Main Interactive Policy Content (Left Sticky TOC + Right Scrollable Sections) */}
         <RefundPolicyClient />
-      </div>
 
-      {/* Footer Assistance CTA */}
-      <div className="border-t border-slate-900 bg-slate-900/30 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 p-8 rounded-3xl bg-slate-900/70 border border-slate-800 shadow-xl">
-          <div className="space-y-1 text-center md:text-left">
-            <h3 className="text-lg font-bold text-white font-sans">
+        {/* Footer Assistance CTA */}
+        <section
+          className="flex flex-col md:flex-row items-center justify-between gap-6 p-7 sm:p-10 rounded-3xl bg-[#162774] text-white border border-white/15 shadow-2xl"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        >
+          <div className="space-y-1.5 text-center md:text-left">
+            <h3 className="text-lg sm:text-xl font-extrabold text-white font-sans">
               Have questions regarding a recent charge?
             </h3>
-            <p className="text-xs text-slate-400 font-sans">
+            <p className="text-xs sm:text-sm text-blue-100/80 font-sans">
               Our billing support team typically responds to all inquiries within 24 business hours.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0 font-mono text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-3 shrink-0 font-sans text-xs">
             <Link
               href="/virtual-ai-internship"
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition-all border border-slate-700"
+              className="px-5 py-3 rounded-full bg-white/10 hover:bg-white hover:text-slate-950 text-white font-bold transition-all border border-white/25"
             >
               Explore Programs
             </Link>
             <a
               href="mailto:support@botmartz.com?subject=Refund%20Question"
-              className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5"
+              className="px-6 py-3 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all shadow-lg flex items-center gap-2 group"
             >
-              <span>Contact Billing Desk</span>
-              <ArrowRight size={13} />
+              <span>Contact Billing Support</span>
+              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <ArrowRight size={12} />
+              </span>
             </a>
           </div>
-        </div>
+        </section>
       </div>
-
     </div>
   );
 }

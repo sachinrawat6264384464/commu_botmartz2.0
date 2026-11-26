@@ -253,7 +253,7 @@ export default function ProductTourPage() {
     >
       {/* 100% Full-Width Container */}
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
-        
+
         {/* ── 1. REDESIGNED TECH HERO BANNER CARD ── */}
         <div
           className="relative overflow-hidden rounded-3xl bg-[#162774] p-8 sm:p-12 border border-white/15 shadow-2xl mb-12"
@@ -417,11 +417,10 @@ export default function ProductTourPage() {
               <button
                 key={cat.key}
                 onClick={() => setSelectedCategory(cat.key)}
-                className={`px-4 py-2 rounded-full font-bold transition-all duration-200 cursor-pointer ${
-                  selectedCategory === cat.key
-                    ? "bg-[#162774] text-[#D9F83B] shadow-sm"
-                    : "bg-white text-slate-700 border border-slate-200 hover:border-[#162774]"
-                }`}
+                className={`px-4 py-2 rounded-full font-bold transition-all duration-200 cursor-pointer ${selectedCategory === cat.key
+                  ? "bg-[#162774] text-[#D9F83B] shadow-sm"
+                  : "bg-white text-slate-700 border border-slate-200 hover:border-[#162774]"
+                  }`}
               >
                 {cat.label}
               </button>
