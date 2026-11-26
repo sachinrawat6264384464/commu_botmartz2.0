@@ -44,26 +44,17 @@ export default function CommunityHubPage() {
               </h1>
 
               <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl font-normal">
-                Launched at AI Frontier 2026 — meetups, a Discord, an open-source GitHub org, a reading club and hackathons, all in one place for engineers who want to build, not just watch.
+                Launched at AI Frontier 2026 — meetups, an open-source GitHub org, a reading club and hackathons, all in one place for engineers who want to build, not just watch.
               </p>
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 pt-2">
-                <a
-                  href="https://discord.gg/QfxuHQAZz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-7 py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-semibold text-sm tracking-wide transition-all shadow-lg shadow-blue-600/30 flex items-center gap-2 group cursor-pointer"
-                >
-                  <span>Join the Discord</span>
-                  <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-                </a>
-
                 <Link
                   href="/community/events"
-                  className="px-6 py-3.5 rounded-xl bg-[#0B132B]/80 hover:bg-[#111A38] text-white border border-slate-700/80 font-semibold text-sm transition-all flex items-center gap-2 cursor-pointer"
+                  className="px-7 py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-semibold text-sm tracking-wide transition-all shadow-lg shadow-blue-600/30 flex items-center gap-2 group cursor-pointer"
                 >
-                  See Upcoming Events
+                  <span>See Upcoming Events</span>
+                  <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
             </div>
@@ -157,32 +148,6 @@ export default function CommunityHubPage() {
               </div>
             </div>
 
-            {/* Card 2: Discord */}
-            <div className="bg-white rounded-2xl p-7 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
-              <div className="space-y-4">
-                <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#0066FF] font-bold text-xs flex items-center justify-center uppercase tracking-wider">
-                  DC
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">
-                  Discord
-                </h3>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  The daily home for questions, job posts, and project feedback.
-                </p>
-              </div>
-              <div className="pt-6">
-                <a
-                  href="https://discord.gg/QfxuHQAZz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#0066FF] font-semibold text-sm inline-flex items-center gap-1 hover:underline"
-                >
-                  <span>Join server</span>
-                  <ArrowRight size={14} />
-                </a>
-              </div>
-            </div>
-
             {/* Card 3: Open-Source GitHub Org */}
             <div className="bg-white rounded-2xl p-7 sm:p-8 border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
@@ -223,15 +188,13 @@ export default function CommunityHubPage() {
                 </p>
               </div>
               <div className="pt-6">
-                <a
-                  href="https://discord.gg/QfxuHQAZz"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/discussions"
                   className="text-[#0066FF] font-semibold text-sm inline-flex items-center gap-1 hover:underline"
                 >
                   <span>Read along</span>
                   <ArrowRight size={14} />
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -272,15 +235,13 @@ export default function CommunityHubPage() {
                 </p>
               </div>
               <div className="pt-6">
-                <a
-                  href="https://discord.gg/QfxuHQAZz"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/discussions"
                   className="text-[#0066FF] font-semibold text-sm inline-flex items-center gap-1 hover:underline"
                 >
-                  <span>Subscribe</span>
+                  <span>Explore updates</span>
                   <ArrowRight size={14} />
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -335,35 +296,6 @@ export default function CommunityHubPage() {
                   </p>
                 </div>
               </div>
-            </div>
-
-            {/* White Banner CTA Card */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
-              
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center shrink-0">
-                  <Diamond size={20} className="fill-[#0066FF]/20 text-[#0066FF]" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900">
-                    Not on Discord Yet?
-                  </h3>
-                  <p className="text-sm text-slate-600 mt-0.5">
-                    Join hundreds of AI engineers already sharing projects, jobs and ideas.
-                  </p>
-                </div>
-              </div>
-
-              <a
-                href="https://discord.gg/QfxuHQAZz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3.5 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-semibold text-sm transition-all shadow-md shadow-blue-500/20 flex items-center gap-2 shrink-0 cursor-pointer"
-              >
-                <span>Join the Discord</span>
-                <ArrowRight size={16} />
-              </a>
-
             </div>
 
             {/* Official Social Links Card */}

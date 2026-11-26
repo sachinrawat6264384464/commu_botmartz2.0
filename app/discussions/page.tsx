@@ -558,11 +558,11 @@ function DiscussionsContent() {
           </div>
         )}
 
-        {/* WhatsApp & Discord Callout Bar */}
+        {/* WhatsApp Callout Bar */}
         <div className="bg-gradient-to-r from-emerald-50 via-indigo-50 to-blue-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
           <div className="flex items-center gap-3 text-xs text-slate-700">
             <Sparkles size={16} className="text-[#0066FF] shrink-0" />
-            <span>Join our real-time developer groups for daily voice jams, instant debugging, and job openings.</span>
+            <span>Join our real-time developer group for daily voice jams, instant debugging, and job openings.</span>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <a
@@ -573,14 +573,6 @@ function DiscussionsContent() {
             >
               <MessageCircle size={13} />
               <span>WhatsApp Group</span>
-            </a>
-            <a
-              href="https://discord.gg/k75ZpEnzp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-xs font-bold shadow-2xs"
-            >
-              Discord Server
             </a>
           </div>
         </div>
@@ -918,26 +910,14 @@ function DiscussionsContent() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-mono text-slate-600 mb-1">GitHub URL</label>
-                  <input
-                    type="url"
-                    value={profile.github}
-                    onChange={(e) => setProfile({ ...profile, github: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-mono text-slate-600 mb-1">Discord Tag</label>
-                  <input
-                    type="text"
-                    value={profile.discord}
-                    onChange={(e) => setProfile({ ...profile, discord: e.target.value })}
-                    placeholder="user#1234"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-mono text-slate-600 mb-1">GitHub URL</label>
+                <input
+                  type="url"
+                  value={profile.github}
+                  onChange={(e) => setProfile({ ...profile, github: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                />
               </div>
 
               <div>

@@ -30,8 +30,7 @@ import {
   Lock,
   Globe,
   BookOpen,
-  Code2,
-  Flame
+  Code2
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
@@ -99,7 +98,7 @@ export default function CommunityNavbar() {
   const COMMUNITY_ITEMS: Array<{ name: string; href: string; icon: any; desc: string; locked?: boolean; external?: boolean }> = [
     { name: "Events Directory", href: "/community/events", icon: Calendar, desc: "Browse upcoming & past AI conferences, summits & meetups", locked: false, external: false },
     { name: "AI Accelerator Workshop", href: "/community/ai-accelerator-workshop", icon: Sparkles, desc: "Hands-on bootcamp series landing page & certificate showcase", locked: false, external: false },
-    { name: "Discord & Forum Hub", href: "/community", icon: MessageSquare, desc: "Community hub with Discord links, projects & reading club", locked: false, external: false },
+    { name: "Community & Forum Hub", href: "/community", icon: MessageSquare, desc: "Community hub with projects, meetups & reading club", locked: false, external: false },
     { name: "Progress Diaries", href: "/arena/progress", icon: Activity, desc: "Live public feed of daily student commits", locked: false, external: false },
     { name: "Blocker Bounty Board", href: "/arena/bounties", icon: Coins, desc: "Post technical bottlenecks with coin rewards", locked: false, external: false },
     { name: "Squad Matchmaker", href: "/arena/collaborate", icon: Users, desc: "Find cross-functional builder teammates", locked: false, external: false },
@@ -115,28 +114,6 @@ export default function CommunityNavbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b-2 border-slate-100 shadow-md transition-all duration-300">
-      
-      {/* Top Flash Announcement Bar */}
-      <a
-        href="https://classes.botmartz.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="w-full bg-gradient-to-r from-blue-700 via-indigo-600 to-cyan-600 hover:from-blue-600 hover:to-cyan-500 text-white py-3 px-4 sm:px-6 text-sm sm:text-base font-sans font-bold flex items-center justify-center gap-2.5 sm:gap-3 tracking-wide cursor-pointer transition-all duration-300 shadow-md border-b border-blue-400/40 group"
-      >
-        <span className="relative flex h-2.5 w-2.5 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-80"></span>
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-300"></span>
-        </span>
-        <Flame size={18} className="text-amber-300 animate-bounce shrink-0" />
-        <span className="truncate">
-          <strong className="font-extrabold uppercase tracking-wider text-amber-200">LIVE COHORT 1:</strong> DSA with Python Starting 5th Oct! Limited Seats.
-        </span>
-        <span className="inline-flex items-center gap-1.5 bg-white/25 hover:bg-white/35 px-3.5 py-1 rounded-full text-xs sm:text-sm font-black text-white border border-white/40 shrink-0 group-hover:scale-105 transition-transform shadow-xs ml-1.5">
-          <span>Enroll Now</span>
-          <ExternalLink size={13} />
-        </span>
-      </a>
-
       <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Brand Logo & Live Cohort Badge */}

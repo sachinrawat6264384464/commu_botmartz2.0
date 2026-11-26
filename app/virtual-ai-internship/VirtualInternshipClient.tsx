@@ -43,7 +43,7 @@ export default function VirtualInternshipPricingClient() {
               <span className="text-slate-500 text-xs">/ Forever Free</span>
             </div>
             <p className="text-slate-600 leading-relaxed mb-6 font-sans text-xs">
-              For independent self-learners who want open access to production system PRDs and community Discord.
+              For independent self-learners who want open access to production system PRDs and community resources.
             </p>
 
             <div className="space-y-3 pt-4 border-t border-slate-100 mb-8">
@@ -53,7 +53,7 @@ export default function VirtualInternshipPricingClient() {
               </div>
               <div className="flex items-start gap-2 text-slate-700">
                 <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
-                <span>Open Discord Builder Community</span>
+                <span>Open Builder Community</span>
               </div>
               <div className="flex items-start gap-2 text-slate-700">
                 <Check size={15} className="text-emerald-600 shrink-0 mt-0.5" />
@@ -111,7 +111,7 @@ export default function VirtualInternshipPricingClient() {
               </div>
               <div className="flex items-start gap-2 text-slate-900">
                 <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />
-                <span>Saturday Live Architecture Teardowns (Indore / Discord)</span>
+                <span>Saturday Live Architecture Teardowns (Indore / Online)</span>
               </div>
               <div className="flex items-start gap-2 text-slate-900">
                 <Check size={15} className="text-[#0066FF] shrink-0 mt-0.5" />

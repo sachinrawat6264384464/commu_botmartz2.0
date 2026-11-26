@@ -23,13 +23,13 @@ export default function CommunityFooter() {
             </div>
             <div>
               <div className="font-bold text-white text-sm font-sans flex items-center gap-2">
-                <span>Indore AI Tech Lab &amp; Global Discord Stage</span>
+                <span>Indore AI Tech Lab</span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] border border-emerald-500/30">
                   Every Saturday 5:00 PM IST (50+ RSVP Trigger)
                 </span>
               </div>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                In-person architecture teardowns in Indore when 50+ RSVP; otherwise livestreamed globally via Discord Voice Stage.
+                In-person architecture teardowns in Indore when 50+ RSVP; otherwise livestreamed globally.
               </p>
             </div>
           </div>
@@ -43,15 +43,6 @@ export default function CommunityFooter() {
               <Calendar size={13} className="text-amber-400" />
               <span>Indian Community Calendar</span>
             </Link>
-            <a
-              href="https://discord.gg/k75ZpEnzp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all flex items-center gap-1.5 shadow-2xs"
-            >
-              <span>Join Discord Stage</span>
-              <ExternalLink size={13} />
-            </a>
           </div>
         </div>
       </div>
@@ -207,12 +198,6 @@ export default function CommunityFooter() {
         <div className="w-full px-4 sm:px-8 lg:px-12 flex flex-wrap items-center justify-between gap-4 text-xs font-sans">
           <div className="flex flex-wrap items-center gap-4 text-slate-400">
             <span className="text-slate-200 font-bold">Connect Official:</span>
-            <a href="https://discord.gg/QfxuHQAZz" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors font-medium flex items-center gap-1">
-              <span>Discord Hub</span> &rarr;
-            </a>
-            <a href="https://discord.gg/k75ZpEnzp" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors flex items-center gap-1">
-              <span>Event Discord</span> &rarr;
-            </a>
             <a href="https://www.linkedin.com/company/botmartz-ai-solutions" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-[#0066FF] transition-colors">
               Botmartz LinkedIn
             </a>

@@ -396,7 +396,7 @@ export default function VirtualAIInternshipPage() {
                 Saturday Founder Technical Office Hours
               </h2>
               <p className="text-slate-300 font-mono text-xs sm:text-sm leading-relaxed">
-                Join Founder Soham Sharma every Saturday from <strong>3:00 PM – 7:00 PM IST</strong> on Discord / Google Meet for live architecture teardowns, latency profiling, schema reviews, and code debugging.
+                Join Founder Soham Sharma every Saturday from <strong>3:00 PM – 7:00 PM IST</strong> on Google Meet for live architecture teardowns, latency profiling, schema reviews, and code debugging.
               </p>
               <div className="flex flex-wrap gap-4 text-xs font-mono pt-2">
                 <div className="flex items-center gap-2 text-emerald-400 font-bold">

@@ -6,7 +6,6 @@ import CommunityNavbar from "./_components/Navbar";
 import CommunityFooter from "./_components/Footer";
 import PageLockGate from "./_components/PageLockGate";
 import AccessibilityToolbox from "./_components/AccessibilityToolbox";
-import LiveCohortPopup from "./_components/LiveCohortPopup";
 import AnalyticsProvider from "@/components/AnalyticsProvider";
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { ToastProvider } from "@/lib/toast-context";
@@ -72,7 +71,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <>
       <CommunityNavbar />
-      <main className="flex-1 pt-28 sm:pt-32 lg:pt-36">
+      <main className="flex-1 pt-20 sm:pt-24">
         {lockStatus.isLocked ? (
           <PageLockGate
             pathname={pathname}
@@ -85,7 +84,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       </main>
       <CommunityFooter />
       <AccessibilityToolbox />
-      <LiveCohortPopup />
     </>
   );
 }

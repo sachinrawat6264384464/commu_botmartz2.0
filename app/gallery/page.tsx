@@ -209,27 +209,6 @@ export default function GalleryPage() {
           <p className="text-slate-600 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
             Glimpses from our AI Frontier summits, hands-on agentic hackathons, developer masterclasses, and AI community sprints.
           </p>
-
-          {/* COMMUNITY DISCORD BANNER CARD */}
-          <div className="max-w-2xl mx-auto p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xl shadow-blue-500/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3 text-left">
-              <div className="w-10 h-10 rounded-xl bg-[#5865F2] flex items-center justify-center text-white shrink-0 shadow-md">
-                <MessageSquare size={20} />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-900 text-sm sm:text-base">Join the Botmartz AI Community</h3>
-                <p className="text-xs text-slate-500">Connect with 1,000+ AI developers, share projects &amp; attend workshops.</p>
-              </div>
-            </div>
-            <a
-              href="https://discord.gg/k75ZpEnzp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md shadow-[#5865F2]/25 flex-shrink-0"
-            >
-              Join Discord Community →
-            </a>
-          </div>
         </div>
       </section>
 

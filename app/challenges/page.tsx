@@ -197,14 +197,6 @@ export default function ChallengesPage() {
 
           <div className="flex items-center justify-center gap-3 mt-6">
             <a
-              href="https://discord.gg/k75ZpEnzp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-mono text-xs font-bold border border-indigo-200 transition-colors inline-flex items-center gap-1.5"
-            >
-              <span>#hackathon-lounge Discord</span>
-            </a>
-            <a
               href="https://chat.whatsapp.com/DkzKwpjuktaCYAofOtMlAQ"
               target="_blank"
               rel="noopener noreferrer"
@@ -357,14 +349,6 @@ export default function ChallengesPage() {
                 </div>
 
                 <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <a
-                    href="https://discord.gg/k75ZpEnzp"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-xs font-bold"
-                  >
-                    Join #hackathon-arena on Discord →
-                  </a>
                   <button
                     onClick={() => setSelectedChallenge(null)}
                     className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono text-xs font-bold"
@@ -445,19 +429,6 @@ export default function ChallengesPage() {
                       value={leadPhone}
                       onChange={(e) => setLeadPhone(e.target.value)}
                       required
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-mono text-slate-700 font-bold mb-1">
-                      Discord Handle / Tag
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="soham_ai#0001"
-                      value={discordHandle}
-                      onChange={(e) => setDiscordHandle(e.target.value)}
                       className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
                     />
                   </div>

@@ -763,7 +763,7 @@ export default function ArenaPage() {
                   </div>
 
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 font-sans">
-                    ✨ <strong>What happens next:</strong> You will receive an immediate confirmation email with repo setup checklist, daily log instructions, and Discord access.
+                    ✨ <strong>What happens next:</strong> You will receive an immediate confirmation email with repo setup checklist and daily log instructions.
                   </div>
 
                   <div className="pt-3 flex items-center gap-3">

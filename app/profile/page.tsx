@@ -1581,7 +1581,7 @@ export default function StudentProfilePortal() {
               {
                 key: "saturdayMeetups",
                 title: "Saturday Indore AI Lab & Wednesday Stage",
-                desc: "Notifications for in-person Indore teardowns (50+ RSVPs) and weekly online Discord voice stages."
+                desc: "Notifications for in-person Indore teardowns (50+ RSVPs) and weekly online live stages."
               },
               {
                 key: "recruiterAlerts",

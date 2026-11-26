@@ -322,7 +322,7 @@ export default function WorkshopsPage() {
                 <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-8 p-4 rounded-2xl bg-slate-900 border border-slate-800">
                   <div className="flex items-center gap-2">
                     <Clock size={15} className="text-purple-400 shrink-0" />
-                    <span>Indore Tech Hub In-Person &amp; Live Discord</span>
+                    <span>Indore Tech Hub In-Person &amp; Live Online</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Award size={15} className="text-purple-400 shrink-0" />
