@@ -169,17 +169,23 @@ export function FounderAuditPolicyClient() {
                 whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.55, delay: idx * 0.1, ease: "easeOut" }}
-                className="p-4 rounded-2xl bg-white/[0.06] border border-white/15 flex items-center justify-between gap-4 hover:border-[#D9F83B]/60 transition-all duration-300 group"
+                className="relative overflow-hidden p-4 rounded-2xl bg-white/[0.06] border border-white/15 flex items-center justify-between gap-4 hover:border-white transition-colors duration-500 group"
               >
-                <div className="flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold flex items-center justify-center shrink-0">
+                {/* Top-to-bottom slow-motion white slide fill on hover */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+
+                <div className="relative z-10 flex items-start gap-3">
+                  <span className="w-6 h-6 rounded-full bg-[#D9F83B] group-hover:bg-[#070E54] text-slate-950 group-hover:text-[#D9F83B] font-extrabold flex items-center justify-center shrink-0 transition-colors duration-500">
                     {gate.num}
                   </span>
-                  <div>
-                    <strong className="text-white">{gate.title}</strong> {gate.desc}
+                  <div className="text-blue-100/90 group-hover:text-slate-700 transition-colors duration-500">
+                    <strong className="text-white group-hover:text-slate-950 transition-colors duration-500">{gate.title}</strong> {gate.desc}
                   </div>
                 </div>
-                <span className="w-7 h-7 rounded-full bg-white/10 group-hover:bg-[#D9F83B] text-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center shrink-0 transition-all duration-500 ease-out group-hover:rotate-[60deg]">
+                <span className="relative z-10 w-7 h-7 rounded-full bg-white/10 group-hover:bg-[#070E54] text-[#D9F83B] flex items-center justify-center shrink-0 transition-all duration-500 ease-out group-hover:rotate-[60deg]">
                   <ArrowRight size={13} />
                 </span>
               </motion.div>
