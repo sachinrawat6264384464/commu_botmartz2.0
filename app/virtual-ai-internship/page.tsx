@@ -320,9 +320,9 @@ export default function VirtualAIInternshipPage() {
               {insaneProjects.map((p) => (
                 <div
                   key={p.id}
-                  className="relative overflow-hidden p-6 rounded-3xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
+                  className="relative overflow-hidden rounded-3xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
                 >
-                  <div>
+                  <div className="p-6 pb-4">
                     <div className="flex items-center justify-between gap-2 mb-3">
                       <span className="px-2.5 py-0.5 rounded-full bg-[#070E54] text-[#D9F83B] font-bold text-[10px] uppercase">
                         {p.difficulty}
@@ -337,15 +337,24 @@ export default function VirtualAIInternshipPage() {
                       {p.overview}
                     </p>
 
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-700 mb-4 font-medium">
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-700 font-medium">
                       <span className="text-[#1D3189] font-bold">Strict SLA:</span> {p.productionSla}
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
-                    <div className="flex flex-wrap gap-1.5">
+                  {/* Bottom Footer Strip: Slow-motion blue slide fill ONLY in this bottom section */}
+                  <div className="relative overflow-hidden px-6 py-4 border-t border-slate-100 group-hover:border-[#070E54] flex items-center justify-between gap-2 transition-colors duration-500">
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                    />
+
+                    <div className="relative z-10 flex flex-wrap gap-1.5">
                       {p.techStack.slice(0, 2).map((t, ti) => (
-                        <span key={ti} className="text-[10px] text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-lg font-semibold">
+                        <span
+                          key={ti}
+                          className="text-[10px] text-slate-700 bg-slate-100 border border-slate-200 group-hover:bg-white/15 group-hover:text-[#D9F83B] group-hover:border-white/20 px-2.5 py-1 rounded-lg font-semibold transition-all duration-500"
+                        >
                           {t}
                         </span>
                       ))}
@@ -353,7 +362,7 @@ export default function VirtualAIInternshipPage() {
 
                     <Link
                       href={`/arena/${p.slug || p.id}`}
-                      className="px-3.5 py-2 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all duration-300 flex items-center gap-2 group/btn shrink-0"
+                      className="relative z-10 px-3.5 py-2 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all duration-300 flex items-center gap-2 group/btn shrink-0"
                     >
                       <span>View PRD</span>
                       <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 ease-out group-hover/btn:rotate-[60deg]">
@@ -361,8 +370,6 @@ export default function VirtualAIInternshipPage() {
                       </span>
                     </Link>
                   </div>
-
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
                 </div>
               ))}
             </div>
