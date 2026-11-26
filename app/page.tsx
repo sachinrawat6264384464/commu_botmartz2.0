@@ -198,8 +198,8 @@ export default async function CommunityHomePage() {
 
               <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
                 <span>Browse {TOTAL_SYSTEMS_COUNT} Projects Matrix</span>
-                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-colors">
-                  <ArrowRight size={15} />
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
+                  <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
                 </span>
               </div>
             </Link>
@@ -228,8 +228,8 @@ export default async function CommunityHomePage() {
 
               <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
                 <span>Daily Proof-of-Work Log</span>
-                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-colors">
-                  <ArrowRight size={15} />
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
+                  <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
                 </span>
               </div>
             </Link>
@@ -258,8 +258,8 @@ export default async function CommunityHomePage() {
 
               <div className="relative z-10 pt-5 mt-7 border-t border-white/15 flex items-center justify-between text-[#D9F83B] font-sans text-sm font-bold">
                 <span>View Plans (Free / ₹299 / ₹1,999)</span>
-                <span className="w-8 h-8 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center group-hover:scale-105 transition-transform">
-                  <ArrowRight size={15} />
+                <span className="w-8 h-8 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center group-hover:scale-105 transition-all duration-300">
+                  <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
                 </span>
               </div>
             </Link>
