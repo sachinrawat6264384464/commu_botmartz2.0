@@ -480,7 +480,14 @@ export default function CareerRoadmapsPage() {
                     </div>
 
                     <div className="relative overflow-hidden px-6 py-3.5 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between text-xs font-bold">
-                      <div className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out" />
+                      <div
+                        className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                          backgroundSize: "28px 28px",
+                        }}
+                      />
                       <span className="relative z-10 text-slate-500 group-hover:text-blue-200 transition-colors duration-500">
                         {rm.stages?.length || 0} Stages
                       </span>

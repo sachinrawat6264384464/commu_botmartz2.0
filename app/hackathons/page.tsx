@@ -397,25 +397,25 @@ export default function HackathonsPage() {
               {/* 4 Editorial Perks & Rules Strip */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">01</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">01</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">₹{SOLO_HACKATHON_FEE}</div>
                   <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Solo Builder Entry</div>
                 </div>
 
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">02</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">02</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">₹{TEAM_HACKATHON_FEE}</div>
                   <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Team (2–3 Members)</div>
                 </div>
 
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">03</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">03</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">24 Hours</div>
                   <div className="text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Unique ID Validity</div>
                 </div>
 
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15">04</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">04</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">Job Track</div>
                   <div className="text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Screening &amp; Referral</div>
                 </div>

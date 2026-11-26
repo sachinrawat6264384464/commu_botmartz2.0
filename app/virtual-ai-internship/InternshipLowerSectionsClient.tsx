@@ -89,10 +89,15 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
                   </div>
 
                   {/* Bottom Footer Strip: Slow-motion blue slide fill ONLY in this bottom section */}
-                  <div className="relative overflow-hidden px-6 py-4 border-t border-slate-100 group-hover:border-[#070E54] flex items-center justify-between gap-2 transition-colors duration-500">
+                  <div className="relative overflow-hidden px-6 py-4 border-t border-slate-100 group-hover:border-[#162774] flex items-center justify-between gap-2 transition-colors duration-500">
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                        backgroundSize: "28px 28px",
+                      }}
                     />
 
                     <div className="relative z-10 flex flex-wrap gap-1.5">

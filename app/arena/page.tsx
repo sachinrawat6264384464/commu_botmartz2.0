@@ -277,25 +277,25 @@ export default function ArenaPage() {
               {/* Stats Strip (Editorial Cards, No Icons) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-sans">
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15 select-none">01</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">01</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">{allProjectsList.length}+</div>
                   <div className="text-blue-200/80 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Production PRDs</div>
                 </div>
 
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15 select-none">02</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">02</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">100%</div>
                   <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Verifiable PoW</div>
                 </div>
 
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15 select-none">03</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">03</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">Daily</div>
                   <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Standup Streak</div>
                 </div>
 
                 <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2 right-3 text-base font-black text-white/15 group-hover/stat:text-[#1D3189]/15 select-none">04</span>
+                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">04</span>
                   <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">4-Week</div>
                   <div className="text-blue-200/80 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Virtual Internship</div>
                 </div>
@@ -360,7 +360,7 @@ export default function ArenaPage() {
       {/* ── 2. FILTER & SEARCH BAR ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
         <div className="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 shadow-md space-y-4">
-          
+
           <div className="flex flex-col sm:flex-row items-center gap-3">
             {/* Search Input */}
             <div className="relative flex-1 w-full">
@@ -372,7 +372,7 @@ export default function ArenaPage() {
                 className="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-4 pr-14 py-3 text-xs sm:text-sm font-sans text-slate-950 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:border-[#1D3189] transition-all duration-200 font-medium"
               />
               {searchQuery && (
-                <button 
+                <button
                   onClick={() => setSearchQuery("")}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 font-sans text-xs font-bold cursor-pointer"
                 >
@@ -386,19 +386,17 @@ export default function ArenaPage() {
               <button
                 type="button"
                 onClick={() => setDomainMenuOpen((prev) => !prev)}
-                className={`w-full bg-slate-50 border-2 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-sans text-slate-950 focus:outline-none transition-all duration-300 font-semibold cursor-pointer flex items-center justify-between gap-3 group ${
-                  domainMenuOpen ? "border-[#1D3189] bg-white shadow-md" : "border-slate-200 hover:border-[#1D3189] hover:bg-white"
-                }`}
+                className={`w-full bg-slate-50 border-2 rounded-2xl px-4 py-2.5 text-xs sm:text-sm font-sans text-slate-950 focus:outline-none transition-all duration-300 font-semibold cursor-pointer flex items-center justify-between gap-3 group ${domainMenuOpen ? "border-[#1D3189] bg-white shadow-md" : "border-slate-200 hover:border-[#1D3189] hover:bg-white"
+                  }`}
               >
                 <span className="truncate">
                   {selectedDomain === "All" ? `All Domains (${allProjectsList.length})` : selectedDomain}
                 </span>
                 <span
-                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ease-in-out ${
-                    domainMenuOpen
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-500 ease-in-out ${domainMenuOpen
                       ? "bg-[#D9F83B] text-slate-950 rotate-180"
                       : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-[#1D3189] group-hover:text-white group-hover:rotate-180"
-                  }`}
+                    }`}
                 >
                   <ChevronDown size={14} />
                 </span>
@@ -412,11 +410,10 @@ export default function ArenaPage() {
                       setSelectedDomain("All");
                       setDomainMenuOpen(false);
                     }}
-                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                      selectedDomain === "All"
+                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${selectedDomain === "All"
                         ? "bg-[#070E54] text-white"
                         : "text-slate-700 hover:bg-[#070E54] hover:text-white"
-                    }`}
+                      }`}
                   >
                     <span>All Domains ({allProjectsList.length})</span>
                     {selectedDomain === "All" && <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />}
@@ -430,11 +427,10 @@ export default function ArenaPage() {
                         setSelectedDomain(d);
                         setDomainMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${
-                        selectedDomain === d
+                      className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-between cursor-pointer ${selectedDomain === d
                           ? "bg-[#070E54] text-white"
                           : "text-slate-700 hover:bg-[#070E54] hover:text-white"
-                      }`}
+                        }`}
                     >
                       <span className="truncate pr-2">{d}</span>
                       {selectedDomain === d && <span className="w-2 h-2 rounded-full bg-[#D9F83B] shrink-0" />}
@@ -453,11 +449,10 @@ export default function ArenaPage() {
                 <button
                   key={tier}
                   onClick={() => setActiveTier(tier)}
-                  className={`px-3.5 py-1.5 text-[11px] sm:text-xs rounded-xl font-bold transition-all duration-200 cursor-pointer border ${
-                    activeTier === tier
+                  className={`px-3.5 py-1.5 text-[11px] sm:text-xs rounded-xl font-bold transition-all duration-200 cursor-pointer border ${activeTier === tier
                       ? "bg-[#1D3189] text-white border-[#1D3189] shadow-sm"
                       : "bg-slate-100 text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-200/70"
-                  }`}
+                    }`}
                 >
                   {tier === "All" ? `All Systems (${filteredProjects.length})` : tier}
                 </button>
@@ -531,13 +526,12 @@ export default function ArenaPage() {
               return (
                 <div
                   key={project.id}
-                  className={`relative overflow-hidden bg-white border rounded-3xl shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between group ${
-                    isThisEnrolled
+                  className={`relative overflow-hidden bg-white border rounded-3xl shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between group ${isThisEnrolled
                       ? "border-emerald-500 ring-2 ring-emerald-500/20"
                       : isCardLocked
-                      ? "border-slate-200 opacity-90"
-                      : "border-slate-200 hover:border-[#1D3189] hover:-translate-y-1"
-                  }`}
+                        ? "border-slate-200 opacity-90"
+                        : "border-slate-200 hover:border-[#1D3189] hover:-translate-y-1"
+                    }`}
                 >
                   <div className="p-6 pb-4 flex-1">
                     {/* Card Header: Difficulty & Domain */}
@@ -554,19 +548,18 @@ export default function ArenaPage() {
                           Locked
                         </span>
                       ) : (
-                        <span className={`shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider border ${
-                          project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
+                        <span className={`shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider border ${project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
                             ? "bg-slate-950 text-purple-300 border-purple-800"
-                            : project.difficulty === "Insane" 
-                            ? "bg-rose-100 text-rose-800 border-rose-300" 
-                            : project.difficulty === "Hard"
-                            ? "bg-amber-100 text-amber-900 border-amber-300"
-                            : project.difficulty === "Intermediate"
-                            ? "bg-indigo-100 text-[#1D3189] border-indigo-200"
-                            : project.difficulty === "Easy"
-                            ? "bg-cyan-100 text-cyan-900 border-cyan-300"
-                            : "bg-emerald-100 text-emerald-900 border-emerald-300"
-                        }`}>
+                            : project.difficulty === "Insane"
+                              ? "bg-rose-100 text-rose-800 border-rose-300"
+                              : project.difficulty === "Hard"
+                                ? "bg-amber-100 text-amber-900 border-amber-300"
+                                : project.difficulty === "Intermediate"
+                                  ? "bg-indigo-100 text-[#1D3189] border-indigo-200"
+                                  : project.difficulty === "Easy"
+                                    ? "bg-cyan-100 text-cyan-900 border-cyan-300"
+                                    : "bg-emerald-100 text-emerald-900 border-emerald-300"
+                          }`}>
                           {difficultyLabel}
                         </span>
                       )}
@@ -602,7 +595,12 @@ export default function ArenaPage() {
                   <div className="relative overflow-hidden px-6 py-4 border-t border-slate-100 bg-slate-50/70 flex items-center gap-2.5 font-sans text-xs">
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                        backgroundSize: "28px 28px",
+                      }}
                     />
                     <Link
                       href={`/arena/${project.id}`}
@@ -736,157 +734,157 @@ export default function ArenaPage() {
         <div className="fixed inset-0 z-[9999] overflow-y-auto bg-slate-950/80 backdrop-blur-md p-4 sm:p-6">
           <div className="min-h-full flex items-center justify-center">
             <div className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl p-6 sm:p-8 text-slate-900">
-            
-            <button
-              onClick={() => {
-                setShowEnrollModal(false);
-                setEnrollSuccess(false);
-                setEnrollError("");
-              }}
-              className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
-            >
-              <X size={18} />
-            </button>
 
-            {enrollSuccess ? (
-              <div className="text-center py-4 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                  <CheckCircle2 size={36} />
-                </div>
-                <h3 className="text-xl font-bold font-sans text-slate-900">
-                  Enrolled in {selectedProjectForEnroll.title}!
-                </h3>
-                <p className="text-xs text-slate-600 font-sans max-w-md mx-auto">
-                  Your onboarding email with GitHub checklist and PRD specifications has been sent to <strong>{user?.email}</strong>.
-                </p>
+              <button
+                onClick={() => {
+                  setShowEnrollModal(false);
+                  setEnrollSuccess(false);
+                  setEnrollError("");
+                }}
+                className="absolute top-5 right-5 p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              >
+                <X size={18} />
+              </button>
 
-                {/* Paid Track Upgrade Box */}
-                <div className="p-5 rounded-2xl bg-[#070E54] text-white text-left border border-white/15 space-y-3 font-sans text-xs">
-                  <div className="text-[#D9F83B] font-bold text-[10px] uppercase tracking-wider">
-                    UPGRADE TO 4-WEEK VIRTUAL AI INTERNSHIP
+              {enrollSuccess ? (
+                <div className="text-center py-4 space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                    <CheckCircle2 size={36} />
                   </div>
-                  <h4 className="text-sm font-bold font-sans text-white">
-                    Get Code Audits, QR Certificate &amp; 15 Referrals
-                  </h4>
-                  <p className="text-[11px] text-blue-100/80 font-sans">
-                    Solo Fellow Track: <strong>₹299</strong> &bull; Squad Track: <strong>₹1,999</strong>
+                  <h3 className="text-xl font-bold font-sans text-slate-900">
+                    Enrolled in {selectedProjectForEnroll.title}!
+                  </h3>
+                  <p className="text-xs text-slate-600 font-sans max-w-md mx-auto">
+                    Your onboarding email with GitHub checklist and PRD specifications has been sent to <strong>{user?.email}</strong>.
                   </p>
-                  <button
-                    type="button"
-                    onClick={() => setShowRazorpayModal(true)}
-                    className="w-full py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all shadow-sm cursor-pointer block"
-                  >
-                    Upgrade to Paid Fellow Track (₹299) →
-                  </button>
-                </div>
 
-                <div className="flex items-center gap-3 pt-2 font-sans">
-                  <Link
-                    href={`/arena/${selectedProjectForEnroll.id}`}
-                    className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold text-center"
-                  >
-                    Open PRD Blueprint
-                  </Link>
-                  <Link
-                    href="/profile"
-                    className="flex-1 py-2.5 rounded-xl bg-[#1D3189] hover:bg-[#152468] text-white text-xs font-bold text-center"
-                  >
-                    Go to Profile Workspace
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div className="text-[11px] font-sans text-[#1D3189] font-bold uppercase tracking-wider mb-1">
-                  INSTANT ENROLLMENT
-                </div>
-                <h3 className="text-xl font-extrabold text-slate-900 font-sans">
-                  Enroll in {selectedProjectForEnroll.title}
-                </h3>
-                <p className="text-xs text-slate-500 font-sans mt-1">
-                  Start logging your daily commits, earning Karma, and building your verified proof-of-work.
-                </p>
-
-                {enrollError && (
-                  <div className="mt-3 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-sans text-xs font-medium">
-                    {enrollError}
-                  </div>
-                )}
-
-                <form onSubmit={handleEnrollSubmit} className="mt-5 space-y-4 font-sans text-xs">
-                  <div>
-                    <label className="block text-slate-700 font-semibold mb-1">Student Builder</label>
-                    <input
-                      type="text"
-                      disabled
-                      value={`${studentProfile?.displayName || user?.displayName || "Builder"} (${user?.email})`}
-                      className="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-slate-600 font-sans text-xs"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-slate-700 font-semibold mb-1">Primary Role</label>
-                      <select
-                        value={enrollRole}
-                        onChange={(e) => setEnrollRole(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#1D3189]"
-                      >
-                        <option value="AI Engineer">AI Engineer</option>
-                        <option value="Backend Dev">Backend Dev</option>
-                        <option value="Frontend Dev">Frontend Dev</option>
-                        <option value="Fullstack Dev">Fullstack Dev</option>
-                      </select>
+                  {/* Paid Track Upgrade Box */}
+                  <div className="p-5 rounded-2xl bg-[#070E54] text-white text-left border border-white/15 space-y-3 font-sans text-xs">
+                    <div className="text-[#D9F83B] font-bold text-[10px] uppercase tracking-wider">
+                      UPGRADE TO 4-WEEK VIRTUAL AI INTERNSHIP
                     </div>
-
-                    <div>
-                      <label className="block text-slate-700 font-semibold mb-1">Format</label>
-                      <select
-                        value={enrollTeamType}
-                        onChange={(e) => setEnrollTeamType(e.target.value as any)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#1D3189]"
-                      >
-                        <option value="Solo">Solo Shipper</option>
-                        <option value="Squad">Squad Team</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 font-sans">
-                    <strong>What happens next:</strong> You will receive an immediate confirmation email with repo setup checklist and daily log instructions.
-                  </div>
-
-                  <div className="pt-3 flex items-center gap-3">
+                    <h4 className="text-sm font-bold font-sans text-white">
+                      Get Code Audits, QR Certificate &amp; 15 Referrals
+                    </h4>
+                    <p className="text-[11px] text-blue-100/80 font-sans">
+                      Solo Fellow Track: <strong>₹299</strong> &bull; Squad Track: <strong>₹1,999</strong>
+                    </p>
                     <button
                       type="button"
-                      onClick={() => setShowEnrollModal(false)}
-                      className="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors cursor-pointer"
+                      onClick={() => setShowRazorpayModal(true)}
+                      className="w-full py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all shadow-sm cursor-pointer block"
                     >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={enrolling}
-                      className="flex-2 py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-                    >
-                      {enrolling ? (
-                        <>
-                          <Loader2 size={14} className="animate-spin" />
-                          <span>Enrolling...</span>
-                        </>
-                      ) : (
-                        <span>Confirm Enrollment</span>
-                      )}
+                      Upgrade to Paid Fellow Track (₹299) →
                     </button>
                   </div>
-                </form>
-              </div>
-            )}
 
+                  <div className="flex items-center gap-3 pt-2 font-sans">
+                    <Link
+                      href={`/arena/${selectedProjectForEnroll.id}`}
+                      className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold text-center"
+                    >
+                      Open PRD Blueprint
+                    </Link>
+                    <Link
+                      href="/profile"
+                      className="flex-1 py-2.5 rounded-xl bg-[#1D3189] hover:bg-[#152468] text-white text-xs font-bold text-center"
+                    >
+                      Go to Profile Workspace
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="text-[11px] font-sans text-[#1D3189] font-bold uppercase tracking-wider mb-1">
+                    INSTANT ENROLLMENT
+                  </div>
+                  <h3 className="text-xl font-extrabold text-slate-900 font-sans">
+                    Enroll in {selectedProjectForEnroll.title}
+                  </h3>
+                  <p className="text-xs text-slate-500 font-sans mt-1">
+                    Start logging your daily commits, earning Karma, and building your verified proof-of-work.
+                  </p>
+
+                  {enrollError && (
+                    <div className="mt-3 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 font-sans text-xs font-medium">
+                      {enrollError}
+                    </div>
+                  )}
+
+                  <form onSubmit={handleEnrollSubmit} className="mt-5 space-y-4 font-sans text-xs">
+                    <div>
+                      <label className="block text-slate-700 font-semibold mb-1">Student Builder</label>
+                      <input
+                        type="text"
+                        disabled
+                        value={`${studentProfile?.displayName || user?.displayName || "Builder"} (${user?.email})`}
+                        className="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-slate-600 font-sans text-xs"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-slate-700 font-semibold mb-1">Primary Role</label>
+                        <select
+                          value={enrollRole}
+                          onChange={(e) => setEnrollRole(e.target.value)}
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                        >
+                          <option value="AI Engineer">AI Engineer</option>
+                          <option value="Backend Dev">Backend Dev</option>
+                          <option value="Frontend Dev">Frontend Dev</option>
+                          <option value="Fullstack Dev">Fullstack Dev</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-slate-700 font-semibold mb-1">Format</label>
+                        <select
+                          value={enrollTeamType}
+                          onChange={(e) => setEnrollTeamType(e.target.value as any)}
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#1D3189]"
+                        >
+                          <option value="Solo">Solo Shipper</option>
+                          <option value="Squad">Squad Team</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-[11px] text-slate-600 font-sans">
+                      <strong>What happens next:</strong> You will receive an immediate confirmation email with repo setup checklist and daily log instructions.
+                    </div>
+
+                    <div className="pt-3 flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setShowEnrollModal(false)}
+                        className="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={enrolling}
+                        className="flex-2 py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                      >
+                        {enrolling ? (
+                          <>
+                            <Loader2 size={14} className="animate-spin" />
+                            <span>Enrolling...</span>
+                          </>
+                        ) : (
+                          <span>Confirm Enrollment</span>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
 
       {/* ── 7. REUSABLE BUILDER PROFILE GATE MODAL ── */}
       <BuilderProfileGateModal
