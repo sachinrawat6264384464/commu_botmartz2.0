@@ -186,85 +186,95 @@ export default function VirtualAIInternshipPage() {
 
             </div>
 
-            {/* RIGHT COLUMN: HIGH-TECH LIVE FELLOWSHIP SIMULATOR TERMINAL CARD */}
+            {/* RIGHT COLUMN: EDITORIAL PROOF-OF-WORK TELEMETRY CARD */}
             <div className="lg:col-span-5 w-full">
-              <div className="bg-[#070E54] text-white rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl relative overflow-hidden font-sans">
-                {/* Header bar */}
-                <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-rose-500" />
-                    <div className="w-3 h-3 rounded-full bg-amber-500" />
-                    <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                    <span className="text-xs text-slate-400 font-bold ml-2">botmartz-pow-simulator.v2</span>
+              <div
+                className="bg-[#070E54] text-white rounded-3xl p-6 sm:p-7 border border-white/15 shadow-2xl relative overflow-hidden font-sans"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                  backgroundSize: "44px 44px",
+                }}
+              >
+                {/* Header bar (No colored dots) */}
+                <div className="flex items-center justify-between border-b border-white/15 pb-4 mb-5">
+                  <div>
+                    <div className="text-[10px] font-extrabold uppercase tracking-widest text-[#D9F83B]">
+                      Architecture &amp; SLA Telemetry
+                    </div>
+                    <div className="text-sm font-extrabold text-white mt-0.5">
+                      Production Proof-of-Work Engine
+                    </div>
                   </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    LIVE RUNNER
+                  <span className="px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider shrink-0">
+                    Live Runner
                   </span>
                 </div>
 
-                {/* Simulated Benchmarks */}
-                <div className="space-y-4 text-xs">
-                  <div className="p-4 rounded-2xl bg-white/[0.06] border border-white/15 space-y-2 hover:border-[#D9F83B]/50 transition-all duration-300">
-                    <div className="flex items-center justify-between text-blue-100">
-                      <span className="font-bold text-white">LangGraph Multi-Agent Checkpointer</span>
-                      <span className="text-[#D9F83B] font-bold text-[11px]">SLA PASS</span>
+                {/* 2-Column Benchmark Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 text-xs">
+                  <div className="p-3.5 rounded-2xl bg-white/[0.07] border border-white/15 border-l-4 border-l-[#D9F83B] space-y-1.5 hover:bg-white/[0.12] transition-all duration-300">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[10px] font-bold uppercase text-blue-200/80">01 • Agents</span>
+                      <span className="text-[#D9F83B] font-extrabold text-[10px]">SLA PASS</span>
                     </div>
-                    <div className="flex items-center justify-between text-[11px] text-blue-200/80 pt-1 border-t border-white/10">
-                      <span>p95 Latency: <strong className="text-white">42ms</strong> (&lt;150ms)</span>
-                      <span>Memory Leak: <strong className="text-[#D9F83B]">0 KB</strong></span>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-white/[0.06] border border-white/15 space-y-2 hover:border-[#D9F83B]/50 transition-all duration-300">
-                    <div className="flex items-center justify-between text-blue-100">
-                      <span className="font-bold text-white">Enterprise Qdrant Hybrid BM25 RAG</span>
-                      <span className="text-[#D9F83B] font-bold text-[11px]">SLA PASS</span>
-                    </div>
-                    <div className="flex items-center justify-between text-[11px] text-blue-200/80 pt-1 border-t border-white/10">
-                      <span>Precision @ k=5: <strong className="text-white">96.4%</strong></span>
-                      <span>RAGAS Score: <strong className="text-[#D9F83B]">0.94</strong></span>
+                    <div className="font-bold text-white text-xs leading-snug">LangGraph Checkpointer</div>
+                    <div className="text-[11px] text-blue-200/80 pt-1 border-t border-white/10">
+                      p95: <strong className="text-white">42ms</strong> &bull; Leak: <strong className="text-[#D9F83B]">0 KB</strong>
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-white/[0.06] border border-white/15 space-y-3">
-                    <div className="flex items-center justify-between text-xs text-blue-100 font-bold">
-                      <span>4-Week Proof-of-Work Streak</span>
-                      <span className="text-[#D9F83B]">100% VERIFIED</span>
+                  <div className="p-3.5 rounded-2xl bg-white/[0.07] border border-white/15 border-l-4 border-l-[#D9F83B] space-y-1.5 hover:bg-white/[0.12] transition-all duration-300">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[10px] font-bold uppercase text-blue-200/80">02 • Retrieval</span>
+                      <span className="text-[#D9F83B] font-extrabold text-[10px]">SLA PASS</span>
                     </div>
-
-                    {/* Simulated Heatmap Grid */}
-                    <div className="grid grid-cols-9 gap-1.5 pt-1">
-                      {Array.from({ length: 27 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className={`h-4 rounded-sm transition-all ${i % 4 === 0
-                              ? "bg-[#D9F83B]"
-                              : i % 3 === 0
-                                ? "bg-[#D9F83B]/75"
-                                : i % 2 === 0
-                                  ? "bg-emerald-400"
-                                  : "bg-white/20"
-                            }`}
-                        />
-                      ))}
+                    <div className="font-bold text-white text-xs leading-snug">Qdrant Hybrid BM25 RAG</div>
+                    <div className="text-[11px] text-blue-200/80 pt-1 border-t border-white/10">
+                      P@5: <strong className="text-white">96.4%</strong> &bull; RAGAS: <strong className="text-[#D9F83B]">0.94</strong>
                     </div>
                   </div>
+                </div>
 
-                  {/* Founder Recommendation Tag */}
-                  <div className="p-4 rounded-2xl bg-white/[0.08] border border-white/15 flex items-center justify-between gap-3">
-                    <div>
-                      <div className="font-bold text-white text-xs font-sans">Founder Technical Audit</div>
-                      <div className="text-[10px] text-blue-200/80 mt-0.5">Governed &amp; Reviewed by Soham Sharma</div>
-                    </div>
-                    <Link
-                      href="/login"
-                      className="px-4 py-2 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 text-[11px] font-bold transition-all shrink-0 cursor-pointer shadow-md"
-                    >
-                      Start Sprint &rarr;
-                    </Link>
+                {/* Streak Heatmap */}
+                <div className="p-4 rounded-2xl bg-white/[0.07] border border-white/15 space-y-3 mb-4 text-xs">
+                  <div className="flex items-center justify-between text-xs text-blue-100 font-bold">
+                    <span>4-Week Proof-of-Work Streak</span>
+                    <span className="text-[#D9F83B] font-extrabold">100% VERIFIED</span>
                   </div>
 
+                  <div className="grid grid-cols-9 gap-1.5">
+                    {Array.from({ length: 27 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className={`h-3.5 rounded-md transition-all ${i % 4 === 0
+                            ? "bg-[#D9F83B]"
+                            : i % 3 === 0
+                              ? "bg-[#D9F83B]/70"
+                              : i % 2 === 0
+                                ? "bg-emerald-400"
+                                : "bg-white/20"
+                          }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Founder Technical Audit Footer */}
+                <div className="p-4 rounded-2xl bg-white/[0.09] border border-white/15 flex items-center justify-between gap-3">
+                  <div>
+                    <div className="font-extrabold text-white text-xs font-sans">Founder Technical Audit</div>
+                    <div className="text-[11px] text-blue-200/80 mt-0.5">Governed &amp; Reviewed by Soham Sharma</div>
+                  </div>
+                  <Link
+                    href="/login"
+                    className="px-4 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 text-xs font-bold transition-all shrink-0 cursor-pointer shadow-md flex items-center gap-2 group"
+                  >
+                    <span>Start Sprint</span>
+                    <span className="w-5 h-5 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                      <ArrowRight size={11} />
+                    </span>
+                  </Link>
                 </div>
               </div>
             </div>
