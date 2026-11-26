@@ -31,7 +31,8 @@ import {
   Globe,
   BookOpen,
   Code2,
-  Home
+  Home,
+  ArrowRight
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
@@ -228,30 +229,36 @@ export default function CommunityNavbar() {
             </button>
 
             {internshipOpen && (
-              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-xl shadow-slate-900/10 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3.5 py-2 border-b border-slate-100 mb-1">
-                  Virtual Internship Playground
+              <div className="absolute top-full left-0 mt-3 w-[340px] bg-white/98 backdrop-blur-2xl border border-[#1D3189]/15 rounded-2xl shadow-2xl shadow-[#070E54]/15 p-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="text-[10px] font-sans text-[#1D3189] uppercase font-extrabold tracking-widest px-3.5 py-2 border-b border-slate-100 mb-1.5 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] ring-1 ring-[#1D3189]/30" />
+                  <span>Virtual Internship Playground</span>
                 </div>
-                <div className="space-y-0.5">
+                <div className="space-y-1">
                   {INTERNSHIP_ITEMS.filter(
                     (item) => item.href !== "/arena/my-learning" || (mounted && user)
                   ).map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block px-3.5 py-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
+                      className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl hover:bg-[#1D3189] transition-all duration-200 group"
                     >
-                      <div className="text-slate-900 font-semibold text-xs font-sans group-hover:text-[#0066FF] transition-colors flex items-center justify-between">
-                        <span>{item.name}</span>
-                        {item.locked && (
-                          <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
-                            <Lock size={9} /> Scheduled
-                          </span>
-                        )}
+                      <div className="min-w-0 flex-1">
+                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-white transition-colors flex items-center gap-2">
+                          <span className="truncate">{item.name}</span>
+                          {item.locked && (
+                            <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-600 font-normal bg-amber-50 px-1.5 py-0.5 rounded-full border border-amber-200">
+                              <Lock size={9} /> Scheduled
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-[11px] text-slate-500 group-hover:text-blue-100/85 font-sans font-normal mt-0.5 line-clamp-1 transition-colors">
+                          {item.desc}
+                        </div>
                       </div>
-                      <div className="text-[11px] text-slate-500 font-sans font-normal mt-0.5 line-clamp-1">
-                        {item.desc}
-                      </div>
+                      <span className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950 flex items-center justify-center shrink-0 transition-all duration-300">
+                        <ArrowRight size={13} className="transition-transform duration-300 group-hover:-rotate-45" />
+                      </span>
                     </Link>
                   ))}
                 </div>
@@ -278,23 +285,29 @@ export default function CommunityNavbar() {
             </button>
 
             {resourcesOpen && (
-              <div className="absolute top-full left-0 mt-3 w-80 bg-white/98 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-xl shadow-slate-900/10 p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3.5 py-2 border-b border-slate-100 mb-1">
-                  Developer Resources &amp; Credentials
+              <div className="absolute top-full left-0 mt-3 w-[340px] bg-white/98 backdrop-blur-2xl border border-[#1D3189]/15 rounded-2xl shadow-2xl shadow-[#070E54]/15 p-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="text-[10px] font-sans text-[#1D3189] uppercase font-extrabold tracking-widest px-3.5 py-2 border-b border-slate-100 mb-1.5 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] ring-1 ring-[#1D3189]/30" />
+                  <span>Developer Resources &amp; Credentials</span>
                 </div>
-                <div className="space-y-0.5">
+                <div className="space-y-1">
                   {RESOURCE_ITEMS.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block px-3.5 py-2.5 rounded-xl hover:bg-slate-50 transition-colors group"
+                      className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl hover:bg-[#1D3189] transition-all duration-200 group"
                     >
-                      <div className="text-slate-900 font-semibold text-xs font-sans group-hover:text-[#0066FF] transition-colors">
-                        {item.name}
+                      <div className="min-w-0 flex-1">
+                        <div className="text-slate-900 font-bold text-xs font-sans group-hover:text-white transition-colors truncate">
+                          {item.name}
+                        </div>
+                        <div className="text-[11px] text-slate-500 group-hover:text-blue-100/85 font-sans font-normal mt-0.5 line-clamp-1 transition-colors">
+                          {item.desc}
+                        </div>
                       </div>
-                      <div className="text-[11px] text-slate-500 font-sans font-normal mt-0.5 line-clamp-1">
-                        {item.desc}
-                      </div>
+                      <span className="w-7 h-7 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950 flex items-center justify-center shrink-0 transition-all duration-300">
+                        <ArrowRight size={13} className="transition-transform duration-300 group-hover:-rotate-45" />
+                      </span>
                     </Link>
                   ))}
                 </div>
