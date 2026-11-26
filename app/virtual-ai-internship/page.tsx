@@ -248,12 +248,12 @@ export default function VirtualAIInternshipPage() {
                       <div
                         key={i}
                         className={`h-3.5 rounded-md transition-all ${i % 4 === 0
-                            ? "bg-[#D9F83B]"
-                            : i % 3 === 0
-                              ? "bg-[#D9F83B]/70"
-                              : i % 2 === 0
-                                ? "bg-emerald-400"
-                                : "bg-white/20"
+                          ? "bg-[#D9F83B]"
+                          : i % 3 === 0
+                            ? "bg-[#D9F83B]/70"
+                            : i % 2 === 0
+                              ? "bg-emerald-400"
+                              : "bg-white/20"
                           }`}
                       />
                     ))}
@@ -288,78 +288,86 @@ export default function VirtualAIInternshipPage() {
       <InternshipJourneyClient />
 
       {/* ── 4. FEATURED INSANE PROJECTS ── */}
-      <section className="py-20 bg-[#070E54] text-white border-b border-white/10">
+      <section className="py-16 border-b border-slate-200/80">
         <div className="w-full px-4 sm:px-8 lg:px-12">
+          <div className="rounded-3xl bg-[#070E54] text-white p-7 sm:p-11 border border-white/15 shadow-2xl">
 
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-            <div>
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
-                The Crucial Milestone
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+              <div>
+                <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+                  The Crucial Milestone
+                </div>
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
+                  The &quot;Insane&quot; Projects Matrix
+                </h2>
+                <p className="text-blue-100/80 text-xs sm:text-sm font-sans mt-1.5">
+                  Completing any of these 6 production systems unlocks Founder Code Audit &amp; Recommendation eligibility.
+                </p>
               </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
-                The &quot;Insane&quot; Projects Matrix
-              </h2>
-              <p className="text-blue-100/80 text-xs sm:text-sm font-sans mt-1.5">
-                Completing any of these 6 production systems unlocks Founder Code Audit &amp; Recommendation eligibility.
-              </p>
+
+              <Link
+                href="/arena"
+                className="px-6 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all duration-300 shrink-0 flex items-center gap-2.5 group"
+              >
+                <span>Explore All {TOTAL_SYSTEMS_COUNT} PRDs</span>
+                <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 ease-out group-hover:rotate-[60deg]">
+                  <ArrowRight size={13} />
+                </span>
+              </Link>
             </div>
 
-            <Link
-              href="/arena"
-              className="px-6 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all duration-300 shrink-0 hover:-translate-y-0.5"
-            >
-              Explore All {TOTAL_SYSTEMS_COUNT} PRDs &rarr;
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
-            {insaneProjects.map((p) => (
-              <div
-                key={p.id}
-                className="relative overflow-hidden p-6 rounded-3xl bg-white/[0.06] border border-white/15 flex flex-col justify-between hover:border-[#D9F83B]/60 hover:-translate-y-1.5 transition-all duration-500 group"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 font-bold text-[10px] uppercase">
-                      {p.difficulty}
-                    </span>
-                    <span className="text-[11px] text-blue-200/80 font-semibold">{p.durationDays} Days Sprint</span>
-                  </div>
-
-                  <h3 className="text-base font-extrabold text-white font-sans mb-1.5 group-hover:text-[#D9F83B] transition-colors duration-300">
-                    {p.title}
-                  </h3>
-                  <p className="text-blue-100/80 text-xs font-sans line-clamp-3 mb-4 leading-relaxed">
-                    {p.overview}
-                  </p>
-
-                  <div className="p-3 rounded-xl bg-black/25 border border-white/10 text-[11px] text-blue-100 mb-4">
-                    <span className="text-[#D9F83B] font-bold">Strict SLA:</span> {p.productionSla}
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.techStack.slice(0, 2).map((t, ti) => (
-                      <span key={ti} className="text-[10px] text-blue-100 bg-white/10 px-2.5 py-1 rounded-lg font-semibold">
-                        {t}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans text-xs">
+              {insaneProjects.map((p) => (
+                <div
+                  key={p.id}
+                  className="relative overflow-hidden p-6 rounded-3xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#070E54] text-[#D9F83B] font-bold text-[10px] uppercase">
+                        {p.difficulty}
                       </span>
-                    ))}
+                      <span className="text-[11px] text-slate-500 font-semibold">{p.durationDays} Days Sprint</span>
+                    </div>
+
+                    <h3 className="text-base font-extrabold text-slate-950 font-sans mb-1.5 group-hover:text-[#1D3189] transition-colors duration-300">
+                      {p.title}
+                    </h3>
+                    <p className="text-slate-600 text-xs font-sans line-clamp-3 mb-4 leading-relaxed font-medium">
+                      {p.overview}
+                    </p>
+
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-700 mb-4 font-medium">
+                      <span className="text-[#1D3189] font-bold">Strict SLA:</span> {p.productionSla}
+                    </div>
                   </div>
 
-                  <Link
-                    href={`/arena/${p.slug || p.id}`}
-                    className="px-4 py-2 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all duration-300"
-                  >
-                    View PRD &rarr;
-                  </Link>
+                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.techStack.slice(0, 2).map((t, ti) => (
+                        <span key={ti} className="text-[10px] text-slate-700 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-lg font-semibold">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      href={`/arena/${p.slug || p.id}`}
+                      className="px-3.5 py-2 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all duration-300 flex items-center gap-2 group/btn shrink-0"
+                    >
+                      <span>View PRD</span>
+                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 ease-out group-hover/btn:rotate-[60deg]">
+                        <ArrowRight size={11} />
+                      </span>
+                    </Link>
+                  </div>
+
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] via-[#070E54] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
                 </div>
+              ))}
+            </div>
 
-                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
-              </div>
-            ))}
           </div>
-
         </div>
       </section>
 
