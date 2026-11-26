@@ -15,6 +15,9 @@ export default function CareerRoadmapsPage() {
   const [roadmaps, setRoadmaps] = useState<ManagedRoadmap[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDomain, setSelectedDomain] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   // Top Unique Code Unlock Bar State
   const [codeInput, setCodeInput] = useState("");
@@ -84,26 +87,33 @@ export default function CareerRoadmapsPage() {
     };
   }, [viewerData]);
 
-  // Group roadmaps by Domain (category)
-  const groupedByDomain = useMemo(() => {
+  const domains = useMemo(() => {
+    const unique = Array.from(
+      new Set(roadmaps.map((r) => r.category || "Core Engineering"))
+    );
+    return ["All", ...unique];
+  }, [roadmaps]);
+
+  const filteredRoadmaps = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    const filtered = roadmaps.filter((r) => {
+    return roadmaps.filter((r) => {
+      const cat = r.category || "Core Engineering";
+      if (selectedDomain !== "All" && cat !== selectedDomain) return false;
       if (!q) return true;
       return (
         r.roleName.toLowerCase().includes(q) ||
-        r.category.toLowerCase().includes(q) ||
+        cat.toLowerCase().includes(q) ||
         r.tagline.toLowerCase().includes(q)
       );
     });
+  }, [roadmaps, searchQuery, selectedDomain]);
 
-    const groups: Record<string, ManagedRoadmap[]> = {};
-    for (const rm of filtered) {
-      const cat = rm.category || "Core Engineering";
-      if (!groups[cat]) groups[cat] = [];
-      groups[cat].push(rm);
-    }
-    return groups;
-  }, [roadmaps, searchQuery]);
+  const totalPages = Math.max(1, Math.ceil(filteredRoadmaps.length / itemsPerPage));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedRoadmaps = useMemo(() => {
+    const start = (safePage - 1) * itemsPerPage;
+    return filteredRoadmaps.slice(start, start + itemsPerPage);
+  }, [filteredRoadmaps, safePage, itemsPerPage]);
 
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -362,85 +372,171 @@ export default function CareerRoadmapsPage() {
           </div>
         </div>
 
-        {/* ── 2. QUICK SEARCH ── */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search roadmaps by role, domain, or skill..."
-            className="w-full sm:max-w-md px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
-          />
-          <div className="text-xs font-semibold text-slate-500">
-            Showing {Object.values(groupedByDomain).reduce((s, l) => s + l.length, 0)} Roadmaps across{" "}
-            {Object.keys(groupedByDomain).length} Domains
+        {/* ── 2. QUICK SEARCH & DOMAIN FILTER PILLS ── */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm space-y-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
+              placeholder="Search roadmaps by role, domain, or skill..."
+              className="w-full sm:max-w-md px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:bg-white focus:outline-none focus:border-[#1D3189]"
+            />
+            <div className="text-xs font-semibold text-slate-500">
+              {filteredRoadmaps.length === 0
+                ? "Showing 0 Roadmaps"
+                : `Showing ${(safePage - 1) * itemsPerPage + 1}–${Math.min(
+                    safePage * itemsPerPage,
+                    filteredRoadmaps.length
+                  )} of ${filteredRoadmaps.length} Roadmaps`}
+            </div>
           </div>
+
+          {domains.length > 1 && (
+            <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-100">
+              {domains.map((dom) => {
+                const active = selectedDomain === dom;
+                return (
+                  <button
+                    key={dom}
+                    type="button"
+                    onClick={() => {
+                      setSelectedDomain(dom);
+                      setCurrentPage(1);
+                    }}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
+                      active
+                        ? "bg-[#070E54] text-[#D9F83B] shadow-sm"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
+                    }`}
+                  >
+                    {dom === "All" ? "All Domains" : dom}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
-        {/* ── 3. ALL ROADMAPS GROUPED BY DOMAIN (NO MANUAL STEPPER) ── */}
+        {/* ── 3. GAP-FREE 10-PER-PAGE ROADMAPS GRID ── */}
         {loading ? (
           <div className="p-12 rounded-3xl bg-white border border-slate-200 flex items-center justify-center gap-2 text-sm font-semibold text-slate-600">
             <Loader2 size={18} className="animate-spin text-[#1D3189]" />
             <span>Loading Domain-Wise Roadmaps...</span>
           </div>
+        ) : paginatedRoadmaps.length === 0 ? (
+          <div className="p-12 rounded-3xl bg-white border border-slate-200 text-center space-y-2">
+            <p className="text-sm font-bold text-slate-800">No matching roadmaps found</p>
+            <p className="text-xs text-slate-500">Try clearing your search or selecting All Domains.</p>
+          </div>
         ) : (
-          <div className="space-y-10">
-            {Object.entries(groupedByDomain).map(([domainName, domainRoadmaps]) => (
-              <section key={domainName} className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-950">{domainName}</h2>
-                  <span className="px-3 py-1 rounded-full bg-[#070E54] text-[#D9F83B] text-[11px] font-bold">
-                    {domainRoadmaps.length} Tracks
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {domainRoadmaps.map((rm) => {
-                    const isUnlocked = !rm.isPaid || Boolean(unlockedMap[rm.id]);
-                    return (
-                      <div
-                        key={rm.id}
-                        onClick={() => handleCardClick(rm)}
-                        className="relative overflow-hidden bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#1D3189] rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between space-y-4 cursor-pointer group"
-                      >
-                        <div>
-                          <div className="flex items-center justify-between gap-2 mb-3">
-                            {isUnlocked ? (
-                              <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wider">
-                                {!rm.isPaid ? "Free Access" : "Unlocked"}
-                              </span>
-                            ) : (
-                              <span className="px-3 py-1 rounded-full bg-[#070E54] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
-                                ₹{rm.price} • {rm.validityDays} Days
-                              </span>
-                            )}
-                            <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
-                              <ArrowRight size={13} />
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {paginatedRoadmaps.map((rm) => {
+                const isUnlocked = !rm.isPaid || Boolean(unlockedMap[rm.id]);
+                return (
+                  <div
+                    key={rm.id}
+                    onClick={() => handleCardClick(rm)}
+                    className="relative overflow-hidden bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#1D3189] rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between cursor-pointer group"
+                  >
+                    <div className="p-6 pb-4 flex-1">
+                      <div className="flex items-center justify-between gap-2 mb-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          {isUnlocked ? (
+                            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wider">
+                              {!rm.isPaid ? "Free Access" : "Unlocked"}
                             </span>
-                          </div>
-
-                          <h3 className="text-base font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-1.5">
-                            {rm.roleName}
-                          </h3>
-                          <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 font-medium">
-                            {rm.tagline}
-                          </p>
-                        </div>
-
-                        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold">
-                          <span className="text-slate-500">{rm.stages?.length || 0} Stages</span>
-                          <span className={isUnlocked ? "text-emerald-700" : "text-[#1D3189]"}>
-                            {isUnlocked ? "View Full Roadmap →" : `Unlock (₹${rm.price}) →`}
+                          ) : (
+                            <span className="px-3 py-1 rounded-full bg-[#070E54] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                              ₹{rm.price} • {rm.validityDays} Days
+                            </span>
+                          )}
+                          <span className="px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">
+                            {rm.category || "Core Engineering"}
                           </span>
                         </div>
-
-                        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-in-out" />
+                        <span className="w-8 h-8 shrink-0 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                          <ArrowRight size={13} />
+                        </span>
                       </div>
-                    );
-                  })}
-                </div>
-              </section>
-            ))}
+
+                      <h3 className="text-base font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-1.5">
+                        {rm.roleName}
+                      </h3>
+                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 font-medium">
+                        {rm.tagline}
+                      </p>
+                    </div>
+
+                    <div className="relative overflow-hidden px-6 py-3.5 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between text-xs font-bold">
+                      <div className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out" />
+                      <span className="relative z-10 text-slate-500 group-hover:text-blue-200 transition-colors duration-500">
+                        {rm.stages?.length || 0} Stages
+                      </span>
+                      <span
+                        className={`relative z-10 transition-colors duration-500 ${
+                          isUnlocked
+                            ? "text-emerald-700 group-hover:text-[#D9F83B]"
+                            : "text-[#1D3189] group-hover:text-[#D9F83B]"
+                        }`}
+                      >
+                        {isUnlocked ? "View Full Roadmap →" : `Unlock (₹${rm.price}) →`}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                <button
+                  type="button"
+                  disabled={safePage <= 1}
+                  onClick={() => {
+                    setCurrentPage((p) => Math.max(1, p - 1));
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                >
+                  ← Prev
+                </button>
+
+                {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    type="button"
+                    onClick={() => {
+                      setCurrentPage(pageNum);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className={`w-9 h-9 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
+                      pageNum === safePage
+                        ? "bg-[#070E54] text-[#D9F83B] shadow-md"
+                        : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+
+                <button
+                  type="button"
+                  disabled={safePage >= totalPages}
+                  onClick={() => {
+                    setCurrentPage((p) => Math.min(totalPages, p + 1));
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
