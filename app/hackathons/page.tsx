@@ -930,14 +930,27 @@ export default function HackathonsPage() {
             ].map((rule, i) => (
               <div
                 key={rule.title}
-                className="p-4 rounded-2xl bg-white border border-slate-200/90 flex items-start gap-3"
+                className="relative overflow-hidden p-4 rounded-2xl bg-white border border-slate-200/90 hover:border-[#162774] flex items-start gap-3 transition-colors duration-500 group"
               >
-                <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                    backgroundSize: "28px 28px",
+                  }}
+                />
+                <span className="relative z-10 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shrink-0 mt-0.5">
                   0{i + 1}
                 </span>
-                <div>
-                  <div className="font-extrabold text-slate-950 mb-0.5">{rule.title}</div>
-                  <div className="text-xs text-slate-600 leading-relaxed">{rule.desc}</div>
+                <div className="relative z-10">
+                  <div className="font-extrabold text-slate-950 group-hover:text-[#D9F83B] transition-colors duration-500 mb-0.5">
+                    {rule.title}
+                  </div>
+                  <div className="text-xs text-slate-600 group-hover:text-blue-100/90 transition-colors duration-500 leading-relaxed">
+                    {rule.desc}
+                  </div>
                 </div>
               </div>
             ))}
