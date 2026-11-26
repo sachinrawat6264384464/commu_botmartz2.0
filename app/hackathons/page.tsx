@@ -870,18 +870,18 @@ export default function HackathonsPage() {
             ].map((rubric) => (
               <div
                 key={rubric.num}
-                className="p-5 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B] space-y-2"
+                className="p-5 rounded-2xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-md space-y-2.5"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[11px] flex items-center justify-center">
+                  <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center">
                     {rubric.num}
                   </span>
                   <span className="px-3 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold">
                     {rubric.pts}
                   </span>
                 </div>
-                <h3 className="text-base font-extrabold text-white">{rubric.title}</h3>
-                <p className="text-xs text-blue-100/85 leading-relaxed">{rubric.desc}</p>
+                <h3 className="text-base font-extrabold text-slate-950">{rubric.title}</h3>
+                <p className="text-xs text-slate-700 leading-relaxed font-medium">{rubric.desc}</p>
               </div>
             ))}
           </div>
