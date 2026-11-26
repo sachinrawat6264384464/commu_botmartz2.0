@@ -77,13 +77,14 @@ export default function CommunityFooter() {
             <Link
               href="/arena/calendar"
               prefetch={false}
-              className="group pl-5 pr-2.5 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all flex items-center gap-3 shadow-lg shadow-lime-400/15 cursor-pointer"
+              className="group relative overflow-hidden pl-5 pr-2.5 py-2.5 rounded-xl bg-[#D9F83B] text-slate-950 font-bold text-sm transition-all flex items-center gap-3 shadow-lg shadow-lime-400/15 cursor-pointer"
             >
-              <span className="inline-flex items-center gap-2">
+              <span className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out" />
+              <span className="relative z-10 inline-flex items-center gap-2">
                 <Calendar size={15} />
                 <span>Indian Community Calendar</span>
               </span>
-              <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] inline-flex items-center justify-center shrink-0">
+              <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] inline-flex items-center justify-center shrink-0">
                 <ArrowRight size={14} className="transition-transform duration-300 group-hover:-rotate-45" />
               </span>
             </Link>
@@ -95,37 +96,32 @@ export default function CommunityFooter() {
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-12 sm:py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Column 1: Brand Info */}
-          <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-3 group w-fit">
-              <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-xl bg-white/10 border border-white/15 group-hover:border-[#D9F83B] transition-colors">
-                <Image
-                  src="/logo.png"
-                  alt="Botmartz Logo"
-                  width={34}
-                  height={34}
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <div className="font-extrabold text-white text-lg tracking-tight font-sans">BOTMARTZ</div>
-                <div className="text-[11px] text-blue-200/80 font-semibold uppercase tracking-widest -mt-0.5">
-                  Builders Community
+          <div className="flex flex-col justify-between gap-6">
+            <div className="space-y-4">
+              <Link href="/" className="flex items-center gap-3 group w-fit">
+                <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-xl bg-white/10 border border-white/15 group-hover:border-[#D9F83B] transition-colors">
+                  <Image
+                    src="/logo.png"
+                    alt="Botmartz Logo"
+                    width={34}
+                    height={34}
+                    className="object-contain"
+                  />
                 </div>
-              </div>
-            </Link>
+                <div>
+                  <div className="font-extrabold text-white text-lg tracking-tight font-sans">BOTMARTZ</div>
+                  <div className="text-[11px] text-blue-200/80 font-semibold uppercase tracking-widest -mt-0.5">
+                    Builders Community
+                  </div>
+                </div>
+              </Link>
 
-            <p className="text-blue-100/80 text-sm font-sans leading-relaxed">
-              <strong className="text-white font-semibold">Build. Ship. Learn. Connect.</strong> Strictly for authentic builders constructing frontier production architectures in AI and Systems.
-            </p>
-
-            <div className="rounded-xl bg-white/[0.04] border border-white/10 p-3.5 text-xs sm:text-[13px] text-blue-100/85 space-y-1 font-sans">
-              <div className="text-[#D9F83B] font-bold">Flexible 3-Week &amp; 4-Week Sprints</div>
-              <div className="leading-relaxed text-blue-100/75 text-xs">
-                Sprint duration depends on your chosen project (3-week or 4-week tracks) — start anytime and ship real production systems.
-              </div>
+              <p className="text-blue-100/80 text-sm font-sans leading-relaxed">
+                <strong className="text-white font-semibold">Build. Ship. Learn. Connect.</strong> Strictly for authentic builders constructing frontier production architectures in AI and Systems.
+              </p>
             </div>
 
-            <div className="pt-3 border-t border-white/10">
+            <div className="pt-5 border-t border-white/10">
               <NewsletterForm variant="footer" />
             </div>
           </div>
