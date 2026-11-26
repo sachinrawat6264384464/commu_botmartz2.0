@@ -66,21 +66,35 @@ export default async function CommunityHomePage() {
                 prefetch={false}
                 className="inline-flex items-center gap-2 group cursor-pointer"
               >
-                <span className="px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm sm:text-base tracking-tight shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:scale-[1.02]">
-                  Join 45-Day Cohort (Free)
+                <span className="relative overflow-hidden px-6 py-3 sm:px-8 sm:py-4 rounded-full bg-[#D9F83B] text-slate-950 font-bold text-sm sm:text-base tracking-tight shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:scale-[1.02]">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="relative z-10">Join 45-Day Cohort (Free)</span>
                 </span>
-                <span className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 flex items-center justify-center shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:rotate-12 group-hover:scale-105">
-                  <ArrowUpRight size={20} strokeWidth={2.5} />
+                <span className="relative overflow-hidden w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shadow-lg shadow-lime-400/20 transition-all duration-200 group-hover:rotate-12 group-hover:scale-105">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <ArrowUpRight size={20} strokeWidth={2.5} className="relative z-10" />
                 </span>
               </Link>
 
               <Link
                 href="/arena"
                 prefetch={false}
-                className="px-6 py-3 sm:px-7 sm:py-4 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/25 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2.5 backdrop-blur-sm"
+                className="group relative overflow-hidden px-6 py-3 sm:px-7 sm:py-4 rounded-full bg-white/10 text-white border border-white/25 hover:border-white text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all duration-500 flex items-center gap-2.5 backdrop-blur-sm"
               >
-                <Terminal size={16} className="text-[#D9F83B]" />
-                <span>Explore {TOTAL_SYSTEMS_COUNT}+ Systems</span>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <Terminal size={16} className="relative z-10 text-[#D9F83B] group-hover:text-[#162774] transition-colors duration-500" />
+                <span className="relative z-10 group-hover:text-slate-950 transition-colors duration-500">
+                  Explore {TOTAL_SYSTEMS_COUNT}+ Systems
+                </span>
               </Link>
             </div>
           </div>
