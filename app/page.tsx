@@ -303,50 +303,107 @@ export default async function CommunityHomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-sans text-xs">
-            {featuredProjects.slice(0, 3).map((p) => (
-              <div
-                key={p.id}
-                className="p-5 sm:p-6 rounded-2xl bg-white text-slate-900 border border-white/20 flex flex-col justify-between hover:border-[#D9F83B] hover:-translate-y-1 transition-all duration-300 group shadow-xl"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="px-3 py-0.5 rounded-full bg-[#1D3189]/10 text-[#1D3189] font-bold text-[11px]">
-                      {p.difficulty}
-                    </span>
-                    <span className="text-xs text-slate-500 font-medium">{p.durationDays} Days Cohort</span>
-                  </div>
-
-                  <h3 className="text-base sm:text-lg font-bold text-slate-950 font-sans mb-1.5 group-hover:text-[#1D3189] transition-colors">
-                    {p.title}
-                  </h3>
-                  <p className="text-slate-600 text-xs sm:text-sm font-sans line-clamp-2 mb-4 leading-relaxed">
-                    {p.overview}
-                  </p>
-
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-700 mb-4">
-                    <span className="text-[#1D3189] font-bold">Strict SLA:</span> {p.productionSla}
-                  </div>
-                </div>
-
-                <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.techStack.slice(0, 2).map((t, ti) => (
-                      <span key={ti} className="text-[11px] text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md font-medium">
-                        #{t}
+            {featuredProjects.slice(0, 3).map((p, idx) => {
+              const isHighlight = idx === 0;
+              return (
+                <div
+                  key={p.id}
+                  className={`p-5 sm:p-6 rounded-2xl border flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 group shadow-xl ${
+                    isHighlight
+                      ? "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
+                      : "bg-white text-slate-900 border-white/20 hover:border-[#D9F83B]"
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span
+                        className={`px-3 py-0.5 rounded-full font-bold text-[11px] ${
+                          isHighlight
+                            ? "bg-slate-950 text-[#D9F83B]"
+                            : "bg-[#1D3189]/10 text-[#1D3189]"
+                        }`}
+                      >
+                        {p.difficulty}
                       </span>
-                    ))}
+                      <span
+                        className={`text-xs font-medium ${
+                          isHighlight ? "text-slate-800" : "text-slate-500"
+                        }`}
+                      >
+                        {p.durationDays} Days Cohort
+                      </span>
+                    </div>
+
+                    <h3
+                      className={`text-base sm:text-lg font-bold font-sans mb-1.5 transition-colors ${
+                        isHighlight
+                          ? "text-slate-950"
+                          : "text-slate-950 group-hover:text-[#1D3189]"
+                      }`}
+                    >
+                      {p.title}
+                    </h3>
+                    <p
+                      className={`text-xs sm:text-sm font-sans line-clamp-2 mb-4 leading-relaxed ${
+                        isHighlight ? "text-slate-800" : "text-slate-600"
+                      }`}
+                    >
+                      {p.overview}
+                    </p>
+
+                    <div
+                      className={`p-3 rounded-xl border text-xs mb-4 ${
+                        isHighlight
+                          ? "bg-black/5 border-black/10 text-slate-900"
+                          : "bg-slate-50 border-slate-200/80 text-slate-700"
+                      }`}
+                    >
+                      <span
+                        className={`font-bold ${
+                          isHighlight ? "text-slate-950" : "text-[#1D3189]"
+                        }`}
+                      >
+                        Strict SLA:
+                      </span>{" "}
+                      {p.productionSla}
+                    </div>
                   </div>
 
-                  <Link
-                    href={`/arena/${p.id}`}
-                    className="px-4 py-2 rounded-full bg-[#1D3189] group-hover:bg-[#D9F83B] text-white group-hover:text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all"
+                  <div
+                    className={`pt-3.5 border-t flex items-center justify-between ${
+                      isHighlight ? "border-black/10" : "border-slate-100"
+                    }`}
                   >
-                    <span>View Spec</span>
-                    <ArrowRight size={13} />
-                  </Link>
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.techStack.slice(0, 2).map((t, ti) => (
+                        <span
+                          key={ti}
+                          className={`text-[11px] px-2.5 py-1 rounded-md font-medium ${
+                            isHighlight
+                              ? "text-slate-900 bg-black/10"
+                              : "text-slate-700 bg-slate-100"
+                          }`}
+                        >
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      href={`/arena/${p.id}`}
+                      className={`px-4 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all ${
+                        isHighlight
+                          ? "bg-slate-950 hover:bg-[#070E54] text-white"
+                          : "bg-[#1D3189] group-hover:bg-[#D9F83B] text-white group-hover:text-slate-950"
+                      }`}
+                    >
+                      <span>View Spec</span>
+                      <ArrowRight size={13} />
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>
