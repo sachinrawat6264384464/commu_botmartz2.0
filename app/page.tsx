@@ -272,40 +272,10 @@ export default async function CommunityHomePage() {
 
       {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
       <section className="py-10 sm:py-12 px-4 sm:px-8 lg:px-12 bg-white border-b border-slate-200/80">
-        <div
-          className="w-full max-w-[1440px] mx-auto rounded-3xl bg-[#162774] text-white p-6 sm:p-8 lg:p-10 border border-[#1D3189]/20 shadow-2xl overflow-hidden relative"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
-            backgroundSize: "72px 72px",
-          }}
-        >
-
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#070E54]/80 text-[#D9F83B] font-sans text-xs font-bold uppercase tracking-wider mb-2.5 border border-white/15">
-                <Activity size={13} /> Frontier Engineering Projects
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
-                Featured Internship Playground Systems
-              </h2>
-              <p className="text-blue-200/85 text-xs sm:text-sm font-sans mt-1.5">
-                Zero toy apps. Every project has strict test commands and SLA acceptance gates.
-              </p>
-            </div>
-
-            <Link
-              href="/arena"
-              className="px-6 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs sm:text-sm font-bold transition-all shrink-0 flex items-center gap-2 shadow-lg shadow-lime-400/15"
-            >
-              <span>View All {TOTAL_SYSTEMS_COUNT} Projects</span>
-              <ArrowRight size={15} />
-            </Link>
-          </div>
-
-          <FeaturedSystemsGrid projects={featuredProjects.slice(0, 3)} />
-
-        </div>
+        <FeaturedSystemsGrid
+          projects={featuredProjects.slice(0, 3)}
+          totalSystemsCount={TOTAL_SYSTEMS_COUNT}
+        />
       </section>
 
       {/* ── 4. WEEKLY LIVE RITUALS & CAREER ENGINE (ASYMMETRIC BENTO LAYOUT) ── */}

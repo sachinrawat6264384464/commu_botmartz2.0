@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { Activity, ArrowRight } from "lucide-react";
 
 interface ProjectPreview {
   id: string;
@@ -14,7 +14,13 @@ interface ProjectPreview {
   techStack: string[];
 }
 
-export default function FeaturedSystemsGrid({ projects }: { projects: ProjectPreview[] }) {
+export default function FeaturedSystemsGrid({
+  projects,
+  totalSystemsCount,
+}: {
+  projects: ProjectPreview[];
+  totalSystemsCount: number;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [splitProgress, setSplitProgress] = useState(1);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -31,10 +37,10 @@ export default function FeaturedSystemsGrid({ projects }: { projects: ProjectPre
 
       const rect = containerRef.current.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Starts stacked on the left as section enters bottom (0.95 * vh)
-      // Finishes splitting into place when section reaches center (~0.32 * vh)
-      const startTop = vh * 0.95;
-      const endTop = vh * 0.32;
+      // Starts stacked on the left as the grid enters bottom (0.98 * vh)
+      // Completes full split cleanly by the time the section is comfortably visible (0.52 * vh)
+      const startTop = vh * 0.98;
+      const endTop = vh * 0.52;
       const raw = (startTop - rect.top) / (startTop - endTop);
       const clamped = Math.max(0, Math.min(1, raw));
       setSplitProgress(clamped);
@@ -51,172 +57,230 @@ export default function FeaturedSystemsGrid({ projects }: { projects: ProjectPre
 
   return (
     <div
-      ref={containerRef}
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-sans text-xs relative"
+      className={`w-full max-w-[1440px] mx-auto rounded-3xl p-6 sm:p-8 lg:p-10 border shadow-2xl overflow-hidden relative transition-colors duration-500 ${
+        isMiddleHovered
+          ? "bg-white text-slate-950 border-slate-200"
+          : "bg-[#162774] text-white border-[#1D3189]/20"
+      }`}
     >
-      {projects.slice(0, 3).map((p, idx) => {
-        // Scroll-driven split from on top of the left card (idx === 0)
-        // idx 1 starts at -104% (over idx 0), idx 2 starts at -208% (over idx 0)
-        const offsetMultiplier = idx === 0 ? 0 : idx === 1 ? -104 : -208;
-        const translatePercent = isDesktop ? offsetMultiplier * (1 - splitProgress) : 0;
+      {/* Grid Overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none transition-opacity duration-500"
+        style={{
+          backgroundImage: isMiddleHovered
+            ? "linear-gradient(to right, rgba(29, 49, 137, 0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.045) 1px, transparent 1px)"
+            : "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      />
 
-        // When middle card is hovered:
-        // - Middle card (idx === 1) stays crisp white
-        // - Left (idx === 0) & Right (idx === 2) cards turn deep indigo-navy
-        const activeSideByMiddle = isMiddleHovered && (idx === 0 || idx === 2);
-
-        return (
+      {/* Section Header */}
+      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
           <div
-            key={p.id}
-            onMouseEnter={() => {
-              if (idx === 1) setIsMiddleHovered(true);
-            }}
-            onMouseLeave={() => {
-              if (idx === 1) setIsMiddleHovered(false);
-            }}
-            style={{
-              transform: `translate3d(${translatePercent}%, 0, 0)`,
-              zIndex: idx === 0 ? 30 : idx === 1 ? 20 : 10,
-            }}
-            className={`group relative overflow-hidden p-5 sm:p-6 rounded-2xl border flex flex-col justify-between shadow-xl transition-[border-color,box-shadow] duration-300 ${
-              activeSideByMiddle
-                ? "border-[#D9F83B]/70"
-                : "bg-white text-slate-900 border-white/20 hover:border-[#D9F83B]"
+            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full font-sans text-xs font-bold uppercase tracking-wider mb-2.5 border transition-colors duration-300 ${
+              isMiddleHovered
+                ? "bg-[#1D3189]/10 text-[#1D3189] border-[#1D3189]/20"
+                : "bg-[#070E54]/80 text-[#D9F83B] border-white/15"
             }`}
           >
-            {/* Base White Background */}
-            <div className="absolute inset-0 bg-white pointer-events-none z-0" />
+            <Activity size={13} /> Frontier Engineering Projects
+          </div>
+          <h2
+            className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-sans transition-colors duration-300 ${
+              isMiddleHovered ? "text-slate-950" : "text-white"
+            }`}
+          >
+            Featured Internship Playground Systems
+          </h2>
+          <p
+            className={`text-xs sm:text-sm font-sans mt-1.5 transition-colors duration-300 ${
+              isMiddleHovered ? "text-slate-600" : "text-blue-200/85"
+            }`}
+          >
+            Zero toy apps. Every project has strict test commands and SLA acceptance gates.
+          </p>
+        </div>
 
-            {/* Sliding Deep Indigo Layer (Right to Left) for Left & Right Cards Only */}
-            {idx !== 1 && (
-              <div
-                className={`absolute inset-0 bg-gradient-to-br from-[#1D3189] to-[#070E54] transition-transform duration-500 ease-out pointer-events-none z-[1] ${
-                  activeSideByMiddle ? "translate-x-0" : "translate-x-full group-hover:translate-x-0"
-                }`}
-              />
-            )}
+        <Link
+          href="/arena"
+          className={`px-6 py-2.5 rounded-full font-sans text-xs sm:text-sm font-bold transition-all shrink-0 flex items-center gap-2 shadow-lg ${
+            isMiddleHovered
+              ? "bg-[#1D3189] hover:bg-[#070E54] text-white shadow-[#1D3189]/20"
+              : "bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 shadow-lime-400/15"
+          }`}
+        >
+          <span>View All {totalSystemsCount} Projects</span>
+          <ArrowRight size={15} />
+        </Link>
+      </div>
 
-            <div className="relative z-10">
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span
-                  className={`px-3 py-0.5 rounded-full font-bold text-[11px] transition-colors duration-300 ${
-                    idx === 1
-                      ? "bg-[#1D3189]/10 text-[#1D3189]"
-                      : activeSideByMiddle
-                      ? "bg-[#D9F83B] text-slate-950"
-                      : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-[#D9F83B] group-hover:text-slate-950"
-                  }`}
-                >
-                  {p.difficulty}
-                </span>
-                <span
-                  className={`text-xs font-medium transition-colors duration-300 ${
-                    idx === 1
-                      ? "text-slate-500"
-                      : activeSideByMiddle
-                      ? "text-blue-200"
-                      : "text-slate-500 group-hover:text-blue-200"
-                  }`}
-                >
-                  {p.durationDays} Days Cohort
-                </span>
-              </div>
+      {/* 3 Cards Grid */}
+      <div
+        ref={containerRef}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-sans text-xs relative z-10"
+      >
+        {projects.slice(0, 3).map((p, idx) => {
+          const offsetMultiplier = idx === 0 ? 0 : idx === 1 ? -104 : -208;
+          const translatePercent = isDesktop ? offsetMultiplier * (1 - splitProgress) : 0;
 
-              <h3
-                className={`text-base sm:text-lg font-bold font-sans mb-1.5 transition-colors duration-300 ${
-                  idx === 1
-                    ? "text-slate-950"
-                    : activeSideByMiddle
-                    ? "text-white"
-                    : "text-slate-950 group-hover:text-white"
-                }`}
-              >
-                {p.title}
-              </h3>
-              <p
-                className={`text-xs sm:text-sm font-sans line-clamp-2 mb-4 leading-relaxed transition-colors duration-300 ${
-                  idx === 1
-                    ? "text-slate-600"
-                    : activeSideByMiddle
-                    ? "text-blue-100/85"
-                    : "text-slate-600 group-hover:text-blue-100/85"
-                }`}
-              >
-                {p.overview}
-              </p>
+          const activeSideByMiddle = isMiddleHovered && (idx === 0 || idx === 2);
 
-              <div
-                className={`p-3 rounded-xl border text-xs mb-4 transition-colors duration-300 ${
-                  idx === 1
-                    ? "bg-slate-50 border-slate-200/80 text-slate-700"
-                    : activeSideByMiddle
-                    ? "bg-white/10 border-white/15 text-blue-100"
-                    : "bg-slate-50 border-slate-200/80 text-slate-700 group-hover:bg-white/10 group-hover:border-white/15 group-hover:text-blue-100"
-                }`}
-              >
-                <span
-                  className={`font-bold transition-colors duration-300 ${
-                    idx === 1
-                      ? "text-[#1D3189]"
-                      : activeSideByMiddle
-                      ? "text-[#D9F83B]"
-                      : "text-[#1D3189] group-hover:text-[#D9F83B]"
-                  }`}
-                >
-                  Strict SLA:
-                </span>{" "}
-                {p.productionSla}
-              </div>
-            </div>
-
+          return (
             <div
-              className={`relative z-10 pt-3.5 border-t flex items-center justify-between transition-colors duration-300 ${
-                idx === 1
-                  ? "border-slate-100"
+              key={p.id}
+              onMouseEnter={() => {
+                if (idx === 1) setIsMiddleHovered(true);
+              }}
+              onMouseLeave={() => {
+                if (idx === 1) setIsMiddleHovered(false);
+              }}
+              style={{
+                transform: `translate3d(${translatePercent}%, 0, 0)`,
+                zIndex: idx === 0 ? 30 : idx === 1 ? 20 : 10,
+              }}
+              className={`group relative overflow-hidden p-5 sm:p-6 rounded-2xl border flex flex-col justify-between shadow-xl transition-[border-color,box-shadow] duration-300 ${
+                idx === 1 && isMiddleHovered
+                  ? "bg-white text-slate-900 border-2 border-[#1D3189]"
                   : activeSideByMiddle
-                  ? "border-white/15"
-                  : "border-slate-100 group-hover:border-white/15"
+                  ? "border-[#D9F83B]/70"
+                  : "bg-white text-slate-900 border-white/20 hover:border-[#D9F83B]"
               }`}
             >
-              <div className="flex flex-wrap gap-1.5">
-                {p.techStack.slice(0, 2).map((t, ti) => (
-                  <span
-                    key={ti}
-                    className={`text-[11px] px-2.5 py-1 rounded-md font-medium transition-colors duration-300 ${
-                      idx === 1
-                        ? "text-slate-700 bg-slate-100"
-                        : activeSideByMiddle
-                        ? "text-blue-100 bg-white/10"
-                        : "text-slate-700 bg-slate-100 group-hover:text-blue-100 group-hover:bg-white/10"
-                    }`}
-                  >
-                    #{t}
-                  </span>
-                ))}
-              </div>
+              {/* Base White Background */}
+              <div className="absolute inset-0 bg-white pointer-events-none z-0" />
 
-              <Link
-                href={`/arena/${p.id}`}
-                className={`px-4 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all duration-300 ${
-                  idx === 1
-                    ? "bg-[#1D3189] text-white group-hover:bg-slate-950"
-                    : activeSideByMiddle
-                    ? "bg-[#D9F83B] text-slate-950"
-                    : "bg-[#1D3189] text-white group-hover:bg-[#D9F83B] group-hover:text-slate-950"
-                }`}
-              >
-                <span>View Spec</span>
-                <ArrowRight
-                  size={13}
-                  className={`transition-transform duration-300 ${
-                    activeSideByMiddle ? "-rotate-45" : "group-hover:-rotate-45"
+              {/* Sliding Deep Indigo Layer (Right to Left) for Left & Right Cards Only */}
+              {idx !== 1 && (
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br from-[#1D3189] to-[#070E54] transition-transform duration-500 ease-out pointer-events-none z-[1] ${
+                    activeSideByMiddle ? "translate-x-0" : "translate-x-full group-hover:translate-x-0"
                   }`}
                 />
-              </Link>
+              )}
+
+              <div className="relative z-10">
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <span
+                    className={`px-3 py-0.5 rounded-full font-bold text-[11px] transition-colors duration-300 ${
+                      idx === 1
+                        ? "bg-[#1D3189]/10 text-[#1D3189]"
+                        : activeSideByMiddle
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-[#D9F83B] group-hover:text-slate-950"
+                    }`}
+                  >
+                    {p.difficulty}
+                  </span>
+                  <span
+                    className={`text-xs font-medium transition-colors duration-300 ${
+                      idx === 1
+                        ? "text-slate-500"
+                        : activeSideByMiddle
+                        ? "text-blue-200"
+                        : "text-slate-500 group-hover:text-blue-200"
+                    }`}
+                  >
+                    {p.durationDays} Days Cohort
+                  </span>
+                </div>
+
+                <h3
+                  className={`text-base sm:text-lg font-bold font-sans mb-1.5 transition-colors duration-300 ${
+                    idx === 1
+                      ? "text-slate-950"
+                      : activeSideByMiddle
+                      ? "text-white"
+                      : "text-slate-950 group-hover:text-white"
+                  }`}
+                >
+                  {p.title}
+                </h3>
+                <p
+                  className={`text-xs sm:text-sm font-sans line-clamp-2 mb-4 leading-relaxed transition-colors duration-300 ${
+                    idx === 1
+                      ? "text-slate-600"
+                      : activeSideByMiddle
+                      ? "text-blue-100/85"
+                      : "text-slate-600 group-hover:text-blue-100/85"
+                  }`}
+                >
+                  {p.overview}
+                </p>
+
+                <div
+                  className={`p-3 rounded-xl border text-xs mb-4 transition-colors duration-300 ${
+                    idx === 1
+                      ? "bg-slate-50 border-slate-200/80 text-slate-700"
+                      : activeSideByMiddle
+                      ? "bg-white/10 border-white/15 text-blue-100"
+                      : "bg-slate-50 border-slate-200/80 text-slate-700 group-hover:bg-white/10 group-hover:border-white/15 group-hover:text-blue-100"
+                  }`}
+                >
+                  <span
+                    className={`font-bold transition-colors duration-300 ${
+                      idx === 1
+                        ? "text-[#1D3189]"
+                        : activeSideByMiddle
+                        ? "text-[#D9F83B]"
+                        : "text-[#1D3189] group-hover:text-[#D9F83B]"
+                    }`}
+                  >
+                    Strict SLA:
+                  </span>{" "}
+                  {p.productionSla}
+                </div>
+              </div>
+
+              <div
+                className={`relative z-10 pt-3.5 border-t flex items-center justify-between transition-colors duration-300 ${
+                  idx === 1
+                    ? "border-slate-100"
+                    : activeSideByMiddle
+                    ? "border-white/15"
+                    : "border-slate-100 group-hover:border-white/15"
+                }`}
+              >
+                <div className="flex flex-wrap gap-1.5">
+                  {p.techStack.slice(0, 2).map((t, ti) => (
+                    <span
+                      key={ti}
+                      className={`text-[11px] px-2.5 py-1 rounded-md font-medium transition-colors duration-300 ${
+                        idx === 1
+                          ? "text-slate-700 bg-slate-100"
+                          : activeSideByMiddle
+                          ? "text-blue-100 bg-white/10"
+                          : "text-slate-700 bg-slate-100 group-hover:text-blue-100 group-hover:bg-white/10"
+                      }`}
+                    >
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+
+                <Link
+                  href={`/arena/${p.id}`}
+                  className={`px-4 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all duration-300 ${
+                    idx === 1
+                      ? "bg-[#1D3189] text-white group-hover:bg-slate-950"
+                      : activeSideByMiddle
+                      ? "bg-[#D9F83B] text-slate-950"
+                      : "bg-[#1D3189] text-white group-hover:bg-[#D9F83B] group-hover:text-slate-950"
+                  }`}
+                >
+                  <span>View Spec</span>
+                  <ArrowRight
+                    size={13}
+                    className={`transition-transform duration-300 ${
+                      activeSideByMiddle ? "-rotate-45" : "group-hover:-rotate-45"
+                    }`}
+                  />
+                </Link>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
