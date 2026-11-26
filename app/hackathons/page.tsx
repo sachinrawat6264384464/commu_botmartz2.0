@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   ChevronDown,
@@ -458,31 +459,78 @@ export default function HackathonsPage() {
       </section>
 
       {/* ── 2. HOW IT WORKS + SOLO VS TEAM TIERS ── */}
-      <section className="w-full px-4 sm:px-8 lg:px-12 mb-10">
+      <section className="w-full px-4 sm:px-8 lg:px-12 mb-10 overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-sm">
-            <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">Step 01 • Instant Entry</div>
-            <h3 className="text-base font-extrabold text-slate-950 mb-1.5">Pick Project &amp; Pay (No Login)</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Choose any live hackathon challenge below. Select Solo (₹{SOLO_HACKATHON_FEE}) or Team (₹{TEAM_HACKATHON_FEE}, 2–3 members) and complete Razorpay checkout.
-            </p>
-          </div>
+          {[
+            {
+              num: "01",
+              eyebrow: "Step 01 • Instant Entry",
+              title: "Pick Project & Pay (No Login)",
+              desc: `Choose any live hackathon challenge below. Select Solo (₹${SOLO_HACKATHON_FEE}) or Team (₹${TEAM_HACKATHON_FEE}, 2–3 members) and complete Razorpay checkout.`,
+              tag: "Zero-Account Razorpay Entry",
+              initial: { opacity: 0, x: -45, y: 0, filter: "blur(8px)" },
+            },
+            {
+              num: "02",
+              eyebrow: "Step 02 • 24-Hour Unique ID",
+              title: "Unique Code Sent to Leader Email",
+              desc: "Your team/solo entry is stored in that project's dedicated database table with a Unique ID valid for strictly 24 hours.",
+              tag: "Instant Email Code Dispatch",
+              initial: { opacity: 0, x: 0, y: 36, filter: "blur(8px)" },
+            },
+            {
+              num: "03",
+              eyebrow: "Step 03 • Ship & Screen",
+              title: "Submit GitHub & Live Link",
+              desc: "Enter your Unique ID below to auto-fetch your team name, submit your working GitHub & deployed URL, and receive results within 24 hours.",
+              tag: "Direct Job Screening Track",
+              initial: { opacity: 0, x: 45, y: 0, filter: "blur(8px)" },
+            },
+          ].map((step, idx) => (
+            <motion.div
+              key={step.num}
+              initial={step.initial}
+              whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.65, delay: idx * 0.1, ease: "easeOut" }}
+              className="relative overflow-hidden rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group"
+            >
+              <div className="p-6 pb-4">
+                <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider">
+                    {step.eyebrow}
+                  </div>
+                  <span className="w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0 shadow-xs">
+                    {step.num}
+                  </span>
+                </div>
+                <h3 className="text-base font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors duration-300 mb-1.5">
+                  {step.title}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
 
-          <div className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-sm">
-            <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">Step 02 • 24-Hour Unique ID</div>
-            <h3 className="text-base font-extrabold text-slate-950 mb-1.5">Unique Code Sent to Leader Email</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Your team/solo entry is stored in that project&apos;s dedicated database table with a Unique ID valid for strictly 24 hours.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-sm">
-            <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider mb-1">Step 03 • Ship &amp; Screen</div>
-            <h3 className="text-base font-extrabold text-slate-950 mb-1.5">Submit GitHub &amp; Live Link</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Enter your Unique ID below to auto-fetch your team name, submit your working GitHub &amp; deployed URL, and receive results within 24 hours.
-            </p>
-          </div>
+              <div className="relative overflow-hidden px-6 py-3.5 border-t border-slate-100 group-hover:border-[#162774] bg-slate-50/70 flex items-center justify-between transition-colors duration-500">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
+                    backgroundSize: "28px 28px",
+                  }}
+                />
+                <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                  {step.tag}
+                </span>
+                <span className="relative z-10 w-6 h-6 rounded-full bg-white group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shadow-2xs">
+                  <ArrowRight size={12} />
+                </span>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
