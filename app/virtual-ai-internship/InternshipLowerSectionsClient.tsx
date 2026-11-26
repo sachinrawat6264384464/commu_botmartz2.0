@@ -56,8 +56,8 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
                 col === 0
                   ? { opacity: 0, x: -45, y: 0, filter: "blur(8px)" }
                   : col === 2
-                  ? { opacity: 0, x: 45, y: 0, filter: "blur(8px)" }
-                  : { opacity: 0, x: 0, y: 36, filter: "blur(8px)" };
+                    ? { opacity: 0, x: 45, y: 0, filter: "blur(8px)" }
+                    : { opacity: 0, x: 0, y: 36, filter: "blur(8px)" };
 
               return (
                 <motion.div

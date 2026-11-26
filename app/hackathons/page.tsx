@@ -714,7 +714,7 @@ export default function HackathonsPage() {
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
-                className="relative overflow-hidden bg-white border border-slate-200 hover:border-[#1D3189] rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-5 group hover:-translate-y-1"
+                className="relative overflow-hidden bg-[#F4F6FB] hover:bg-[#FAFBFD] border border-slate-200/90 hover:border-[#1D3189] rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-5 group hover:-translate-y-1"
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
