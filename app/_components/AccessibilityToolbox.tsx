@@ -427,205 +427,182 @@ export default function AccessibilityToolbox() {
                     left: "24px",
                   }
             }
-            className="z-[999999] w-[calc(100vw-32px)] sm:w-[440px] max-h-[75vh] sm:max-h-[580px] bg-[#090D16]/95 border-2 border-blue-500/50 rounded-3xl shadow-[0_10px_50px_rgba(0,102,255,0.5)] overflow-hidden font-sans text-white text-xs flex flex-col animate-in slide-in-from-bottom-3 fade-in duration-200"
+            className="z-[999999] w-[calc(100vw-32px)] sm:w-[440px] max-h-[75vh] sm:max-h-[580px] bg-white border-2 border-[#162774]/20 rounded-3xl shadow-2xl overflow-hidden font-sans text-slate-900 text-xs flex flex-col animate-in slide-in-from-bottom-3 fade-in duration-200"
           >
           
           {/* ── HEADER ── */}
-          <div className="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-900/60 shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#0066FF]/20 text-emerald-400 flex items-center justify-center shadow-lg shadow-blue-500/25 shrink-0 border border-blue-400/40">
-                <OmIcon className="w-5 h-5 text-emerald-400" />
+          <div
+            className="p-4 sm:p-5 border-b border-white/15 flex items-center justify-between bg-[#162774] text-white shrink-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          >
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="text-base font-extrabold text-white font-sans tracking-tight">
+                  Accessibility Toolbox
+                </h3>
+                <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[10px] font-extrabold uppercase tracking-wider">
+                  WCAG 2.2 AA/AAA
+                </span>
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-base font-black text-white font-sans tracking-tight">
-                    Accessibility Toolbox
-                  </h3>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-mono text-[10px] font-extrabold border border-emerald-500/40">
-                    WCAG 2.2 AA/AAA
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-400 font-sans font-medium mt-0.5">
-                  Customize your visual and cognitive experience
-                </p>
-              </div>
+              <p className="text-[11px] text-blue-100/80 font-sans font-medium mt-0.5">
+                Customize your visual and cognitive experience
+              </p>
             </div>
 
             <button
               onClick={() => setIsOpen(false)}
-              className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-[#D9F83B] text-white hover:text-slate-950 flex items-center justify-center transition-colors cursor-pointer shrink-0"
             >
               <X size={16} />
             </button>
           </div>
 
-          {/* ── TABS HEADER ── */}
-          <div className="grid grid-cols-3 border-b border-slate-800 bg-slate-950 font-sans font-extrabold text-xs shrink-0">
+          {/* ── TABS HEADER (NO ICONS) ── */}
+          <div className="grid grid-cols-3 border-b border-slate-200 bg-[#F4F6FB] font-sans font-extrabold text-xs shrink-0">
             <button
               onClick={() => setActiveTab("profiles")}
-              className={`py-3 flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
+              className={`py-3 flex items-center justify-center border-b-2 transition-all cursor-pointer ${
                 activeTab === "profiles"
-                  ? "border-[#0066FF] text-[#0066FF] bg-blue-500/10"
-                  : "border-transparent text-slate-400 hover:text-slate-200"
+                  ? "border-[#162774] text-[#162774] bg-white"
+                  : "border-transparent text-slate-500 hover:text-slate-900"
               }`}
             >
-              <Sparkles size={14} />
               <span>Profiles</span>
             </button>
 
             <button
               onClick={() => setActiveTab("controls")}
-              className={`py-3 flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
+              className={`py-3 flex items-center justify-center border-b-2 transition-all cursor-pointer ${
                 activeTab === "controls"
-                  ? "border-[#0066FF] text-[#0066FF] bg-blue-500/10"
-                  : "border-transparent text-slate-400 hover:text-slate-200"
+                  ? "border-[#162774] text-[#162774] bg-white"
+                  : "border-transparent text-slate-500 hover:text-slate-900"
               }`}
             >
-              <Eye size={14} />
               <span>Custom Controls</span>
             </button>
 
             <button
               onClick={() => setActiveTab("guide")}
-              className={`py-3 flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
+              className={`py-3 flex items-center justify-center border-b-2 transition-all cursor-pointer ${
                 activeTab === "guide"
-                  ? "border-[#0066FF] text-[#0066FF] bg-blue-500/10"
-                  : "border-transparent text-slate-400 hover:text-slate-200"
+                  ? "border-[#162774] text-[#162774] bg-white"
+                  : "border-transparent text-slate-500 hover:text-slate-900"
               }`}
             >
-              <HelpCircle size={14} />
               <span>Guide</span>
             </button>
           </div>
 
           {/* ── TAB CONTENT SCROLLABLE BODY ── */}
-          <div className="p-4 sm:p-5 overflow-y-auto flex-1 space-y-5 custom-scrollbar">
+          <div className="p-4 sm:p-5 overflow-y-auto flex-1 space-y-5 custom-scrollbar bg-white">
             
-            {/* ── TAB 1: PROFILES ── */}
+            {/* ── TAB 1: PROFILES (NO ICONS, PROJECT COLORS) ── */}
             {activeTab === "profiles" && (
               <div className="space-y-4">
-                <p className="text-slate-300 font-medium text-xs">
+                <p className="text-slate-600 font-medium text-xs">
                   Select a curated accessibility profile or customize individually:
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  
-                  {/* 1. Visual Impairment */}
-                  <div
-                    onClick={() => activateProfile("visual")}
-                    className={`p-4 rounded-2xl border-2 transition-all cursor-pointer space-y-2 relative ${
-                      state.activeProfile === "visual"
-                        ? "bg-blue-500/20 border-[#0066FF] shadow-lg shadow-blue-500/20"
-                        : "bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-cyan-400 flex items-center justify-center">
-                        <Eye size={18} />
+                  {[
+                    {
+                      id: "visual" as const,
+                      num: "01",
+                      title: "Visual Impairment",
+                      desc: "Large text (+30%), High Contrast theme, prominent links & focus highlights.",
+                    },
+                    {
+                      id: "adhd" as const,
+                      num: "02",
+                      title: "Cognitive & ADHD",
+                      desc: "Medium text (+15%), Low Saturation colors, paused animations, clear links.",
+                    },
+                    {
+                      id: "dyslexia" as const,
+                      num: "03",
+                      title: "Dyslexia & Reading",
+                      desc: "Dyslexia-friendly typography, tracking Reading Guide bar, heading underlines.",
+                    },
+                    {
+                      id: "motor" as const,
+                      num: "04",
+                      title: "Motor Difficulty",
+                      desc: "Big mouse cursor, bright neon focus ring, frozen motion/animations.",
+                    },
+                  ].map((prof) => {
+                    const isActive = state.activeProfile === prof.id;
+                    return (
+                      <div
+                        key={prof.id}
+                        onClick={() => activateProfile(prof.id)}
+                        className={`p-4 rounded-2xl border border-l-4 border-l-[#D9F83B] transition-all cursor-pointer space-y-2 relative ${
+                          isActive
+                            ? "bg-[#162774] border-[#162774] text-white shadow-lg"
+                            : "bg-[#F4F6FB] border-slate-200 hover:border-[#162774] hover:bg-white text-slate-900"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span
+                            className={`w-6 h-6 rounded-full font-extrabold text-[10px] flex items-center justify-center ${
+                              isActive
+                                ? "bg-[#D9F83B] text-slate-950"
+                                : "bg-[#162774] text-[#D9F83B]"
+                            }`}
+                          >
+                            {prof.num}
+                          </span>
+                          <span
+                            className={`text-[10px] font-bold uppercase tracking-widest ${
+                              isActive ? "text-[#D9F83B]" : "text-[#1D3189]"
+                            }`}
+                          >
+                            PROFILE
+                          </span>
+                        </div>
+                        <h4
+                          className={`font-extrabold text-sm font-sans ${
+                            isActive ? "text-white" : "text-slate-950"
+                          }`}
+                        >
+                          {prof.title}
+                        </h4>
+                        <p
+                          className={`text-[11px] leading-relaxed ${
+                            isActive ? "text-blue-100/85" : "text-slate-600"
+                          }`}
+                        >
+                          {prof.desc}
+                        </p>
                       </div>
-                      <span className="text-[10px] font-mono font-black text-cyan-400 uppercase tracking-widest">
-                        PROFILE
-                      </span>
-                    </div>
-                    <h4 className="font-black text-sm text-white font-sans">Visual Impairment</h4>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
-                      Large text (+30%), High Contrast theme, prominent links &amp; focus highlights.
-                    </p>
-                  </div>
-
-                  {/* 2. Cognitive & ADHD */}
-                  <div
-                    onClick={() => activateProfile("adhd")}
-                    className={`p-4 rounded-2xl border-2 transition-all cursor-pointer space-y-2 relative ${
-                      state.activeProfile === "adhd"
-                        ? "bg-purple-500/20 border-purple-500 shadow-lg shadow-purple-500/20"
-                        : "bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center">
-                        <Sparkles size={18} />
-                      </div>
-                      <span className="text-[10px] font-mono font-black text-purple-400 uppercase tracking-widest">
-                        PROFILE
-                      </span>
-                    </div>
-                    <h4 className="font-black text-sm text-white font-sans">Cognitive &amp; ADHD</h4>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
-                      Medium text (+15%), Low Saturation colors, paused animations, clear links.
-                    </p>
-                  </div>
-
-                  {/* 3. Dyslexia & Reading */}
-                  <div
-                    onClick={() => activateProfile("dyslexia")}
-                    className={`p-4 rounded-2xl border-2 transition-all cursor-pointer space-y-2 relative ${
-                      state.activeProfile === "dyslexia"
-                        ? "bg-amber-500/20 border-amber-500 shadow-lg shadow-amber-500/20"
-                        : "bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
-                        <Baseline size={18} />
-                      </div>
-                      <span className="text-[10px] font-mono font-black text-amber-400 uppercase tracking-widest">
-                        PROFILE
-                      </span>
-                    </div>
-                    <h4 className="font-black text-sm text-white font-sans">Dyslexia &amp; Reading</h4>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
-                      Dyslexia-friendly typography, tracking Reading Guide bar, heading underlines.
-                    </p>
-                  </div>
-
-                  {/* 4. Motor Difficulty */}
-                  <div
-                    onClick={() => activateProfile("motor")}
-                    className={`p-4 rounded-2xl border-2 transition-all cursor-pointer space-y-2 relative ${
-                      state.activeProfile === "motor"
-                        ? "bg-emerald-500/20 border-emerald-500 shadow-lg shadow-emerald-500/20"
-                        : "bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-900"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                        <Compass size={18} />
-                      </div>
-                      <span className="text-[10px] font-mono font-black text-emerald-400 uppercase tracking-widest">
-                        PROFILE
-                      </span>
-                    </div>
-                    <h4 className="font-black text-sm text-white font-sans">Motor Difficulty</h4>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
-                      Big mouse cursor, bright neon focus ring, frozen motion/animations.
-                    </p>
-                  </div>
-
+                    );
+                  })}
                 </div>
               </div>
             )}
 
-            {/* ── TAB 2: CUSTOM CONTROLS ── */}
+            {/* ── TAB 2: CUSTOM CONTROLS (NO ICONS) ── */}
             {activeTab === "controls" && (
               <div className="space-y-5">
                 
                 {/* TEXT SCALING */}
                 <div className="space-y-2.5">
-                  <div className="flex items-center gap-2 font-mono text-[11px] font-black uppercase text-slate-300">
-                    <Baseline size={14} className="text-[#0066FF]" />
-                    <span>TEXT SCALING</span>
+                  <div className="font-sans text-[11px] font-extrabold uppercase tracking-wider text-[#162774]">
+                    TEXT SCALING
                   </div>
-                  <div className="grid grid-cols-4 gap-2 p-1 bg-slate-900 rounded-2xl border border-slate-800">
+                  <div className="grid grid-cols-4 gap-2 p-1 bg-[#F4F6FB] rounded-2xl border border-slate-200">
                     {(["100", "115", "130", "145"] as TextScaling[]).map((scale) => (
                       <button
                         key={scale}
                         type="button"
                         onClick={() => setState((prev) => ({ ...prev, textScaling: scale, activeProfile: null }))}
-                        className={`py-2 rounded-xl font-mono text-xs font-black transition-all cursor-pointer ${
+                        className={`py-2 rounded-xl font-sans text-xs font-extrabold transition-all cursor-pointer ${
                           state.textScaling === scale
-                            ? "bg-[#0066FF] text-white shadow-md"
-                            : "text-slate-400 hover:text-white"
+                            ? "bg-[#162774] text-[#D9F83B] shadow-sm"
+                            : "text-slate-600 hover:text-slate-950"
                         }`}
                       >
                         {scale}%
@@ -636,9 +613,8 @@ export default function AccessibilityToolbox() {
 
                 {/* COLOR & CONTRAST */}
                 <div className="space-y-2.5">
-                  <div className="flex items-center gap-2 font-mono text-[11px] font-black uppercase text-slate-300">
-                    <Eye size={14} className="text-[#0066FF]" />
-                    <span>COLOR &amp; CONTRAST</span>
+                  <div className="font-sans text-[11px] font-extrabold uppercase tracking-wider text-[#162774]">
+                    COLOR &amp; CONTRAST
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {[
@@ -659,14 +635,16 @@ export default function AccessibilityToolbox() {
                             activeProfile: null
                           }))
                         }
-                        className={`p-3 rounded-2xl border text-left font-extrabold text-xs transition-all flex items-center justify-between cursor-pointer ${
+                        className={`p-3 rounded-2xl border text-left font-bold text-xs transition-all flex items-center justify-between cursor-pointer ${
                           state.contrast === item.key
-                            ? "bg-blue-500/20 border-[#0066FF] text-cyan-300"
-                            : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
+                            ? "bg-[#162774] border-[#162774] text-[#D9F83B]"
+                            : "bg-[#F4F6FB] border-slate-200 text-slate-800 hover:border-[#162774]"
                         }`}
                       >
                         <span>{item.name}</span>
-                        {state.contrast === item.key && <Check size={14} className="text-cyan-400" />}
+                        {state.contrast === item.key && (
+                          <span className="w-2 h-2 rounded-full bg-[#D9F83B] shrink-0" />
+                        )}
                       </button>
                     ))}
                   </div>
@@ -674,9 +652,8 @@ export default function AccessibilityToolbox() {
 
                 {/* COGNITIVE & VISUAL ASSISTS TOGGLES */}
                 <div className="space-y-2.5">
-                  <div className="flex items-center gap-2 font-mono text-[11px] font-black uppercase text-slate-300">
-                    <Compass size={14} className="text-[#0066FF]" />
-                    <span>COGNITIVE &amp; VISUAL ASSISTS</span>
+                  <div className="font-sans text-[11px] font-extrabold uppercase tracking-wider text-[#162774]">
+                    COGNITIVE &amp; VISUAL ASSISTS
                   </div>
 
                   <div className="space-y-2">
@@ -733,22 +710,22 @@ export default function AccessibilityToolbox() {
                               activeProfile: null
                             }))
                           }
-                          className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between cursor-pointer hover:border-slate-700 transition-all"
+                          className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex items-center justify-between gap-3 cursor-pointer hover:border-[#162774] transition-all"
                         >
                           <div className="space-y-0.5">
-                            <div className="font-black text-xs text-white">{toggle.title}</div>
-                            <div className="text-[11px] text-slate-400">{toggle.desc}</div>
+                            <div className="font-bold text-xs text-slate-950">{toggle.title}</div>
+                            <div className="text-[11px] text-slate-600">{toggle.desc}</div>
                           </div>
                           
                           {/* Toggle Switch */}
                           <div
-                            className={`w-11 h-6 rounded-full p-1 transition-colors ${
-                              isChecked ? "bg-[#0066FF]" : "bg-slate-800"
+                            className={`w-11 h-6 rounded-full p-1 transition-colors shrink-0 ${
+                              isChecked ? "bg-[#162774]" : "bg-slate-300"
                             }`}
                           >
                             <div
-                              className={`w-4 h-4 rounded-full bg-white transition-transform ${
-                                isChecked ? "translate-x-5" : "translate-x-0"
+                              className={`w-4 h-4 rounded-full transition-transform ${
+                                isChecked ? "translate-x-5 bg-[#D9F83B]" : "translate-x-0 bg-white"
                               }`}
                             />
                           </div>
@@ -761,62 +738,58 @@ export default function AccessibilityToolbox() {
               </div>
             )}
 
-            {/* ── TAB 3: GUIDE ── */}
+            {/* ── TAB 3: GUIDE (NO ICONS) ── */}
             {activeTab === "guide" && (
               <div className="space-y-4">
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                  <div className="flex items-center gap-2 text-cyan-300 font-extrabold text-xs">
-                    <HelpCircle size={16} />
-                    <span>Keyboard Navigation Shortcuts</span>
+                <div className="p-4 rounded-2xl bg-[#F4F6FB] border border-slate-200 space-y-3">
+                  <div className="text-[#162774] font-extrabold text-xs uppercase tracking-wider">
+                    Keyboard Navigation Shortcuts
                   </div>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-slate-600">
                     Our site is built to WCAG 2.2 AA &amp; AAA specifications for universal accessibility.
                   </p>
 
-                  <div className="space-y-2 font-mono text-[11px]">
-                    <div className="flex items-center justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-300 font-sans">Toggle Accessibility Panel:</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 font-black">
+                  <div className="space-y-2 text-[11px]">
+                    <div className="flex items-center justify-between py-1.5 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium">Toggle Accessibility Panel:</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] font-bold">
                         Alt + A
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-300 font-sans">Skip to Main Content:</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 font-black">
+                    <div className="flex items-center justify-between py-1.5 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium">Skip to Main Content:</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] font-bold">
                         Tab (1st press)
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-300 font-sans">Close Panel:</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 font-black">
+                    <div className="flex items-center justify-between py-1.5 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium">Close Panel:</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] font-bold">
                         Esc
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between py-1 border-b border-slate-800">
-                      <span className="text-slate-300 font-sans">Navigate Elements:</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 font-black">
+                    <div className="flex items-center justify-between py-1.5 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium">Navigate Elements:</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] font-bold">
                         Tab / Shift + Tab
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between py-1">
-                      <span className="text-slate-300 font-sans">Activate Button/Link:</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-800 text-cyan-300 border border-slate-700 font-black">
+                    <div className="flex items-center justify-between py-1.5">
+                      <span className="text-slate-700 font-medium">Activate Button/Link:</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] font-bold">
                         Enter / Space
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs space-y-1">
-                  <div className="font-black flex items-center gap-1.5">
-                    <Check size={15} className="text-emerald-400" />
-                    <span>Our Commitment</span>
-                  </div>
-                  <p className="text-[11px] leading-relaxed opacity-90 font-sans">
+                <div className="p-4 rounded-2xl bg-[#162774] text-white border-l-4 border-l-[#D9F83B] text-xs space-y-1">
+                  <div className="font-extrabold text-[#D9F83B]">Our Commitment</div>
+                  <p className="text-[11px] leading-relaxed text-blue-100/85 font-sans">
                     Botmartz is dedicated to making enterprise AI engineering accessible to everyone. All preferences are automatically saved to your browser session.
                   </p>
                 </div>
@@ -825,21 +798,20 @@ export default function AccessibilityToolbox() {
 
           </div>
 
-          {/* ── FOOTER BAR ── */}
-          <div className="p-4 border-t border-slate-800 bg-slate-900/60 flex items-center justify-between shrink-0">
+          {/* ── FOOTER BAR (NO ICONS, PROJECT COLORS) ── */}
+          <div className="p-4 border-t border-slate-200 bg-[#F4F6FB] flex items-center justify-between shrink-0">
             <button
               type="button"
               onClick={resetDefaults}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-extrabold text-xs transition-colors flex items-center gap-2 cursor-pointer border border-slate-700"
+              className="px-4 py-2 rounded-full bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-950 font-bold text-xs transition-colors cursor-pointer border border-slate-200"
             >
-              <RotateCcw size={14} />
-              <span>Reset All Defaults</span>
+              Reset All Defaults
             </button>
 
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="px-6 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-black text-xs transition-all shadow-md shadow-blue-500/25 cursor-pointer"
+              className="px-6 py-2 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all shadow-sm cursor-pointer"
             >
               Done
             </button>
