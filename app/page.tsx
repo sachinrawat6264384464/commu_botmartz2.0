@@ -270,15 +270,15 @@ export default async function CommunityHomePage() {
       </section>
 
       {/* ── 3. FEATURED INTERNSHIP PLAYGROUND PROJECTS PREVIEW ── */}
-      <section
-        className="py-16 sm:py-20 bg-[#162774] text-white border-b border-white/10 relative"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-        }}
-      >
-        <div className="w-full px-4 sm:px-8 lg:px-10 max-w-6xl mx-auto">
+      <section className="py-12 sm:py-16 px-4 sm:px-8 lg:px-12 bg-white border-b border-slate-200/80">
+        <div
+          className="w-full max-w-[1440px] mx-auto rounded-3xl bg-[#162774] text-white p-7 sm:p-10 lg:p-14 border border-[#1D3189]/20 shadow-2xl overflow-hidden relative"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "72px 72px",
+          }}
+        >
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
