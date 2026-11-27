@@ -941,33 +941,32 @@ export default function StudentProfilePortal() {
         <>
 
         {/* =========================================================================
-            PERSONAL 45-DAY VIRTUAL AI INTERNSHIP COUNTDOWN & MILESTONES
+            PERSONAL 45-DAY VIRTUAL AI INTERNSHIP COUNTDOWN & MILESTONES (ICON-FREE)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans text-xs">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-bold text-xs uppercase mb-2 border border-blue-200">
-                <Clock size={13} /> Rolling 45-Day Internship Sprint
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider mb-2">
+                Rolling 45-Day Internship Sprint
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 font-sans">
                 Personal 45-Day Progress &amp; Milestone Timer
               </h3>
-              <p className="text-xs text-slate-500 font-mono mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
                 Every builder operates on their own 45-day window from the day of first enrollment.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
-              <div className="px-4 py-2 rounded-2xl bg-slate-900 text-white font-mono text-xs font-bold flex items-center gap-2">
-                <Flame size={14} className="text-amber-400" />
-                <span>Day {daysElapsed} / 45</span>
+            <div className="flex items-center gap-2.5 shrink-0">
+              <div className="px-4 py-2 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold">
+                Day {daysElapsed} / 45
               </div>
-              <div className={`px-4 py-2 rounded-2xl font-mono text-xs font-bold border ${
+              <div className={`px-4 py-2 rounded-full text-xs font-extrabold border ${
                 daysRemaining <= 7
-                  ? "bg-rose-50 text-rose-700 border-rose-200 animate-pulse"
+                  ? "bg-rose-50 text-rose-700 border-rose-200"
                   : daysRemaining <= 15
                   ? "bg-amber-50 text-amber-800 border-amber-200"
-                  : "bg-emerald-50 text-emerald-800 border-emerald-200"
+                  : "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
               }`}>
                 {daysRemaining > 0 ? `${daysRemaining} Days Left` : "Sprint Complete"}
               </div>
@@ -976,38 +975,32 @@ export default function StudentProfilePortal() {
 
           {/* Milestone Warnings */}
           {daysRemaining <= 7 && daysRemaining > 0 && (
-            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 mb-6 flex items-start gap-3">
-              <AlertCircle size={18} className="text-rose-600 shrink-0 mt-0.5" />
-              <div>
-                <div className="font-bold text-sm font-sans">🚨 Final Week Sprint Alert: Complete Cloud Deploy &amp; Audit!</div>
-                <p className="text-xs text-rose-700 mt-0.5">
-                  You have less than 7 days remaining in your 45-day sprint. Ensure your QA test pass rate is 100%, deploy your Docker container to cloud, and push your final commit!
-                </p>
-              </div>
+            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 border-l-4 border-l-rose-600 text-rose-900 mb-6">
+              <div className="font-extrabold text-sm">Final Week Sprint Alert: Complete Cloud Deploy &amp; Audit</div>
+              <p className="text-xs text-rose-700 mt-0.5 font-medium">
+                You have less than 7 days remaining in your 45-day sprint. Ensure your QA test pass rate is 100%, deploy your Docker container to cloud, and push your final commit.
+              </p>
             </div>
           )}
 
           {daysRemaining <= 15 && daysRemaining > 7 && (
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 mb-6 flex items-start gap-3">
-              <AlertCircle size={18} className="text-amber-600 shrink-0 mt-0.5" />
-              <div>
-                <div className="font-bold text-sm font-sans">⚠️ 15-Day Milestone Warning: Finalize Core APIs &amp; QA Test Suite</div>
-                <p className="text-xs text-amber-800 mt-0.5">
-                  You have 15 days left. Make sure all core microservices are built and your k6 load test scripts demonstrate &lt;150ms p95 latency.
-                </p>
-              </div>
+            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 border-l-4 border-l-amber-500 text-amber-900 mb-6">
+              <div className="font-extrabold text-sm">15-Day Milestone Warning: Finalize Core APIs &amp; QA Test Suite</div>
+              <p className="text-xs text-amber-800 mt-0.5 font-medium">
+                You have 15 days left. Make sure all core microservices are built and your k6 load test scripts demonstrate &lt;150ms p95 latency.
+              </p>
             </div>
           )}
 
           {/* Progress Bar */}
           <div className="space-y-2 mb-6">
-            <div className="flex justify-between text-[11px] text-slate-500 font-mono font-bold">
+            <div className="flex justify-between text-xs text-slate-700 font-bold">
               <span>Overall Sprint Completion: {percentComplete}%</span>
               <span>{45 - daysRemaining} / 45 Days Logged</span>
             </div>
-            <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+            <div className="h-3 w-full bg-[#F4F6FB] rounded-full overflow-hidden border border-slate-200">
               <div
-                className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-emerald-500 rounded-full transition-all duration-500"
+                className="h-full bg-[#162774] rounded-full transition-all duration-500"
                 style={{ width: `${percentComplete}%` }}
               />
             </div>
@@ -1023,42 +1016,48 @@ export default function StudentProfilePortal() {
             ].map((stg, idx) => (
               <div
                 key={idx}
-                className={`p-3.5 rounded-2xl border transition-all ${
+                className={`p-4 rounded-2xl border transition-all ${
                   stg.status === "PASSED"
-                    ? "bg-emerald-50/60 border-emerald-200 text-emerald-950"
+                    ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 text-slate-950"
                     : stg.status === "IN_PROGRESS"
-                    ? "bg-blue-50/80 border-[#0066FF] shadow-xs text-slate-900"
-                    : "bg-slate-50 border-slate-200 text-slate-500"
+                    ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-sm text-slate-950"
+                    : "bg-[#F4F6FB] border-slate-200 text-slate-600"
                 }`}
               >
-                <div className="flex items-center justify-between text-[10px] font-bold mb-1">
-                  <span>{stg.phase}</span>
-                  <span className={`px-1.5 py-0.5 rounded-md ${
+                <div className="flex items-center justify-between text-[10px] font-extrabold mb-1.5">
+                  <span className="text-[#162774] uppercase">{stg.phase}</span>
+                  <span className={`px-2 py-0.5 rounded-full ${
                     stg.status === "PASSED"
-                      ? "bg-emerald-200 text-emerald-800"
+                      ? "bg-emerald-100 text-emerald-800"
                       : stg.status === "IN_PROGRESS"
-                      ? "bg-blue-600 text-white"
-                      : "bg-slate-200 text-slate-600"
+                      ? "bg-[#D9F83B] text-slate-950"
+                      : "bg-white text-slate-500 border border-slate-200"
                   }`}>
-                    {stg.status === "PASSED" ? "✓ Done" : stg.status === "IN_PROGRESS" ? "Active" : "Upcoming"}
+                    {stg.status === "PASSED" ? "Done" : stg.status === "IN_PROGRESS" ? "Active" : "Upcoming"}
                   </span>
                 </div>
-                <div className="font-bold font-sans text-xs mb-0.5">{stg.title}</div>
-                <div className="text-[10px] opacity-80 leading-relaxed">{stg.desc}</div>
+                <div className="font-extrabold text-sm text-slate-950 mb-1">{stg.title}</div>
+                <div className="text-xs text-slate-600 font-medium leading-relaxed">{stg.desc}</div>
               </div>
             ))}
           </div>
 
           <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
-            <div className="text-[11px] text-slate-500">
+            <div className="text-xs text-slate-600 font-medium">
               Submit daily GitHub commits to keep your streak unbroken and earn +20 to +70 Karma Coins every day.
             </div>
             <Link
               href="/arena/daily-log"
-              className="px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-xs hover:bg-blue-600 transition-colors flex items-center gap-1.5 shadow-xs"
+              className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs transition-all flex items-center gap-2 shadow-sm"
             >
-              <Terminal size={13} />
-              <span>Log Daily Commit &rarr;</span>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+              />
+              <span className="relative z-10 group-hover:text-white transition-colors duration-500">Log Daily Commit</span>
+              <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                <ArrowRight size={11} />
+              </span>
             </Link>
           </div>
         </div>
@@ -1069,44 +1068,55 @@ export default function StudentProfilePortal() {
         {activeProfileSection === "projects" && (
         <>
         {/* =========================================================================
-            ENROLLED ARENA BLUEPRINTS
+            ENROLLED ARENA BLUEPRINTS (ICON-FREE)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+                Active System Tracks
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
                 My Enrolled Production PRDs
               </h3>
-              <p className="text-xs text-slate-500 font-mono mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
                 Active engineering systems assigned to your proof-of-work streak.
               </p>
             </div>
 
             <Link
               href="/arena"
-              className="px-4 py-2 rounded-xl bg-blue-50 text-[#0066FF] font-mono text-xs font-bold hover:bg-blue-100 transition-colors"
+              className="px-4 py-2 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold hover:bg-[#162774] hover:text-white transition-colors self-start sm:self-auto"
             >
-              Browse {TOTAL_SYSTEMS_COUNT} Systems &rarr;
+              Browse {TOTAL_SYSTEMS_COUNT} Systems
             </Link>
           </div>
 
           {loadingEnrollments ? (
-            <div className="py-12 text-center text-slate-400 font-mono text-xs flex items-center justify-center gap-2">
-              <Loader2 size={16} className="animate-spin" />
-              <span>Loading enrolled blueprints...</span>
+            <div className="py-12 text-center text-slate-500 font-sans text-xs font-semibold">
+              Loading enrolled blueprints...
             </div>
           ) : enrolledProjects.length === 0 ? (
-            <div className="py-12 text-center rounded-2xl bg-slate-50 border border-dashed border-slate-200 space-y-3">
-              <Layers size={28} className="text-slate-400 mx-auto" />
-              <div className="font-bold text-slate-700 font-sans text-sm">No Active PRD Enrollments Yet</div>
-              <p className="text-xs text-slate-500 font-mono max-w-sm mx-auto">
+            <div className="p-8 sm:p-10 text-center rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] space-y-3">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                Ready to Enroll
+              </span>
+              <div className="font-extrabold text-slate-950 text-lg">No Active PRD Enrollments Yet</div>
+              <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
                 Explore the {TOTAL_SYSTEMS_COUNT} production AI blueprints in the Arena catalog and enroll in your first track to begin shipping.
               </p>
               <Link
                 href="/arena"
-                className="inline-block px-5 py-2.5 rounded-xl bg-[#0066FF] text-white font-mono text-xs font-bold"
+                className="group relative overflow-hidden inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-extrabold shadow-sm"
               >
-                Enroll in a Project
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <span className="relative z-10 group-hover:text-white transition-colors duration-500">Enroll in a Project</span>
+                <span className="relative z-10 w-5 h-5 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                  <ArrowRight size={10} />
+                </span>
               </Link>
             </div>
           ) : (
@@ -1306,35 +1316,37 @@ export default function StudentProfilePortal() {
         {activeProfileSection === "certificates" && (
         <>
         {/* =========================================================================
-            SECTION CERTIFICATES: OFFICIAL VERIFIED COMPLETION CERTIFICATES & LINKEDIN
+            SECTION CERTIFICATES: OFFICIAL VERIFIED COMPLETION CERTIFICATES (ICON-FREE)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-sans">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-600 uppercase mb-1">
-                <Trophy size={16} /> Official Credentials
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+                Official Credentials
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
                 Verified Completion Certificates &amp; Passes
               </h3>
-              <p className="text-xs font-mono text-slate-500 mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
                 Issued by Botmartz AI Solutions upon completing 45 days of proof-of-work.
               </p>
             </div>
 
             <Link
               href="/certificates"
-              className="px-4 py-2 rounded-xl bg-blue-50 text-[#0066FF] font-mono text-xs font-bold hover:bg-blue-100 transition-colors"
+              className="px-4 py-2 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold hover:bg-[#162774] hover:text-white transition-colors self-start sm:self-auto"
             >
-              Verify Desk &rarr;
+              Verify Desk
             </Link>
           </div>
 
           {completedEnrollments.length === 0 ? (
-            <div className="p-8 rounded-2xl bg-slate-50 border border-dashed border-slate-200 text-center space-y-3 font-mono">
-              <Lock size={32} className="text-slate-400 mx-auto" />
-              <h4 className="font-bold text-slate-800 text-base font-sans">Certificate Locked (Day {daysElapsed}/45 Logged)</h4>
-              <p className="text-xs text-slate-500 max-w-md mx-auto">
+            <div className="p-8 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] text-center space-y-2.5">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
+                Day {daysElapsed}/45 Logged
+              </span>
+              <h4 className="font-extrabold text-slate-950 text-lg">Certificate Locked</h4>
+              <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
                 Your official certificate will generate automatically once you complete 45 days of daily standup logs or mark your project complete.
               </p>
             </div>
@@ -1521,25 +1533,28 @@ export default function StudentProfilePortal() {
         {/* =========================================================================
             SECTION B: INTERACTIVE LINKEDIN BUILDER CHECKLIST
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+        <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div>
-              <div className="text-xs font-bold text-[#0066FF] uppercase mb-1">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
                 LINKEDIN VISIBILITY &amp; REACH
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              </span>
+              <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
                 LinkedIn Builder Optimization Checklist
               </h3>
-              <p className="text-xs text-slate-500 font-mono mt-0.5">
+              <p className="text-sm font-medium text-slate-600 mt-1">
                 Convert your daily proof-of-work into inbound engineering interview invites.
               </p>
             </div>
 
             <Link
               href="/arena/career-checklist"
-              className="px-4 py-2 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 font-bold hover:bg-purple-100 transition-colors shrink-0"
+              className="group inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-[#F4F6FB] hover:bg-[#162774] text-[#162774] hover:text-white border border-slate-200 hover:border-[#162774] font-bold text-xs sm:text-sm transition-all shrink-0"
             >
-              Full Career Checklist &rarr;
+              <span>Full Career Checklist</span>
+              <span className="w-7 h-7 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] text-white group-hover:text-[#162774] flex items-center justify-center transition-colors">
+                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+              </span>
             </Link>
           </div>
 
@@ -1596,11 +1611,11 @@ export default function StudentProfilePortal() {
               return (
                 <div
                   key={idx}
-                  className={`p-3.5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
-                    isDone ? "bg-emerald-50/40 border-emerald-200 text-slate-800" : "bg-slate-50 border-slate-200 text-slate-600"
+                  className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
+                    isDone ? "bg-[#D9F83B]/15 border-[#162774]/30 text-[#162774]" : "bg-[#F4F6FB] border-slate-200 text-slate-700"
                   }`}
                 >
-                  <label className="flex items-center gap-3 cursor-pointer select-none">
+                  <label className="flex items-center gap-3 cursor-pointer select-none text-sm font-semibold">
                     <input
                       type="checkbox"
                       checked={Boolean(isDone)}
@@ -1610,15 +1625,15 @@ export default function StudentProfilePortal() {
                           [item.key]: !isDone
                         }));
                       }}
-                      className="w-4 h-4 rounded text-[#0066FF] border-slate-300 focus:ring-[#0066FF]"
+                      className="w-4 h-4 rounded accent-[#162774] border-slate-300 focus:ring-[#162774] cursor-pointer"
                     />
-                    <span className={isDone ? "font-bold text-slate-900" : ""}>{item.label}</span>
+                    <span className={isDone ? "font-bold text-[#162774]" : "font-semibold text-slate-800"}>{item.label}</span>
                   </label>
 
                   {item.action && (
                     <button
                       onClick={item.action}
-                      className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 hover:border-[#0066FF] text-[#0066FF] font-bold text-[11px] shrink-0 transition-colors cursor-pointer"
+                      className="px-3.5 py-2 rounded-full bg-white border border-slate-200 hover:border-[#162774] hover:bg-[#162774] hover:text-white text-[#162774] font-bold text-xs shrink-0 transition-all cursor-pointer"
                     >
                       {item.actionLabel}
                     </button>
@@ -1628,15 +1643,18 @@ export default function StudentProfilePortal() {
             })}
           </div>
 
-          <div className="mt-4 p-3.5 rounded-2xl bg-blue-50/70 border border-blue-200 flex items-center justify-between gap-4">
-            <div className="text-[11px] text-blue-900">
-              <strong>Tip:</strong> Submitting your live LinkedIn post URL on the Daily Log awards an instant <strong>+50 Karma Coins</strong>!
+          <div className="mt-5 p-4 rounded-2xl bg-[#162774] text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="text-sm font-medium text-white/90">
+              <strong className="text-[#D9F83B] font-extrabold">Tip:</strong> Submitting your live LinkedIn post URL on the Daily Log awards an instant <strong className="text-white font-bold">+50 Karma Coins</strong>!
             </div>
             <Link
               href="/arena/daily-log"
-              className="px-4 py-1.5 rounded-xl bg-[#0066FF] text-white font-bold text-xs shrink-0 hover:bg-blue-600 transition-colors"
+              className="group inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] font-extrabold text-xs sm:text-sm shrink-0 hover:bg-[#cff227] transition-all"
             >
-              Submit Post Link (+50)
+              <span>Submit Post Link (+50)</span>
+              <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center">
+                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+              </span>
             </Link>
           </div>
         </div>
@@ -1647,18 +1665,18 @@ export default function StudentProfilePortal() {
         {activeProfileSection === "notifications" && (
         <>
         {/* =========================================================================
-            SECTION B2: EMAIL NOTIFICATIONS & SPRINT ALERT PREFERENCES
+            SECTION B2: EMAIL NOTIFICATIONS & SPRINT ALERT PREFERENCES (ICON-FREE)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans text-xs">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-bold text-xs uppercase mb-1 border border-blue-200">
-                <Bell size={13} /> Communications &amp; Dispatch Control
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider mb-1.5">
+                Communications &amp; Dispatch Control
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
                 Email Notification &amp; Milestone Alerts
               </h3>
-              <p className="text-xs text-slate-500 font-mono mt-0.5">
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
                 Choose exactly which email notifications and reminders you want to receive. No spam — only critical sprint alerts.
               </p>
             </div>
@@ -1666,17 +1684,15 @@ export default function StudentProfilePortal() {
             <button
               onClick={handleSaveNotificationPrefs}
               disabled={savingPrefs}
-              className="px-5 py-2.5 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold transition-all shadow-xs flex items-center gap-2 cursor-pointer shrink-0 disabled:opacity-50"
+              className="px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-extrabold transition-all shadow-xs cursor-pointer shrink-0 disabled:opacity-50"
             >
-              {savingPrefs ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
-              <span>{savingPrefs ? "Saving..." : "Save Preferences"}</span>
+              {savingPrefs ? "Saving..." : "Save Preferences"}
             </button>
           </div>
 
           {prefsSuccessMsg && (
-            <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs mb-6 flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
-              <span>{prefsSuccessMsg}</span>
+            <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] font-bold text-xs mb-6">
+              {prefsSuccessMsg}
             </div>
           )}
 
@@ -1718,12 +1734,14 @@ export default function StudentProfilePortal() {
                 <div
                   key={pref.key}
                   className={`p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
-                    isChecked ? "bg-blue-50/40 border-blue-200" : "bg-slate-50 border-slate-200 opacity-70"
+                    isChecked
+                      ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-2xs"
+                      : "bg-[#F4F6FB] border-slate-200 opacity-75"
                   }`}
                 >
                   <div className="space-y-1">
-                    <div className="font-bold text-slate-900 font-sans text-sm">{pref.title}</div>
-                    <p className="text-[11px] text-slate-600 leading-relaxed font-mono">{pref.desc}</p>
+                    <div className="font-extrabold text-slate-950 text-sm">{pref.title}</div>
+                    <p className="text-xs text-slate-600 leading-relaxed font-medium">{pref.desc}</p>
                   </div>
 
                   <input
@@ -1735,7 +1753,7 @@ export default function StudentProfilePortal() {
                         [pref.key]: e.target.checked
                       });
                     }}
-                    className="w-5 h-5 mt-0.5 rounded text-[#0066FF] border-slate-300 focus:ring-[#0066FF] cursor-pointer"
+                    className="w-5 h-5 mt-0.5 rounded text-[#162774] border-slate-300 focus:ring-[#162774] cursor-pointer shrink-0"
                   />
                 </div>
               );
