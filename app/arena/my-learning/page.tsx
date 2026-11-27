@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   BookOpen,
   CheckCircle2,
@@ -180,34 +181,47 @@ export default function MyLearningPage() {
   };
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 pt-16 sm:pt-20 pb-20 font-sans selection:bg-[#0066FF] selection:text-white">
+    <div
+      className="bg-white min-h-screen text-slate-900 pt-24 pb-20 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 space-y-6">
         
         {/* =========================================================================
-            DARK GRADIENT HERO BANNER & HUD METRICS STRIP (Tight Top Gap)
+            HERO COMMAND CENTER (#162774 ROYAL BLUE GRID + #D9F83B)
         ========================================================================= */}
-        <div className="relative rounded-3xl bg-gradient-to-r from-slate-950 via-[#0B1528] to-slate-950 border border-slate-800/80 p-6 sm:p-8 text-white shadow-2xl overflow-hidden">
-          {/* Ambient Lighting Orbs */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-
+        <motion.div
+          initial={{ opacity: 0, y: -20, filter: "blur(6px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative rounded-3xl bg-[#162774] border border-white/15 p-6 sm:p-8 text-white shadow-2xl overflow-hidden"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        >
           <div className="relative z-10 space-y-6">
             
             {/* Top Bar: Title & Primary CTA */}
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800/80">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/15">
               <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider border border-cyan-500/30 backdrop-blur-xs">
-                  <Terminal size={14} className="text-cyan-400" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                  <Terminal size={13} />
                   <span>Candidate Production Command Center</span>
                 </div>
-                <h1 className="text-2xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-cyan-400 tracking-tight font-sans flex items-center gap-3">
-                  <span>My Learning &amp; Proof-of-Work</span>
-                  <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-sans flex flex-wrap items-center gap-3">
+                  <span>My Learning &amp; <span className="text-[#D9F83B]">Proof-of-Work</span></span>
+                  <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/15 text-[#D9F83B] border border-white/20">
                     Live Session
                   </span>
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-300 font-mono max-w-3xl leading-relaxed">
-                  Track enrolled production engineering PRDs, submit daily GitHub commits, view your 45-day streak heatmap, and claim cryptographically verified credentials.
+                <p className="text-xs sm:text-sm text-blue-100/85 font-sans max-w-3xl leading-relaxed">
+                  Follow your 4-step engineering journey below: complete your builder profile, pick a system PRD, log daily GitHub commits, and unlock verified certificates &amp; Karma rewards.
                 </p>
               </div>
 
@@ -215,84 +229,168 @@ export default function MyLearningPage() {
               <div className="flex flex-wrap items-center gap-3 shrink-0">
                 <Link
                   href="/arena/daily-log"
-                  className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[#0066FF] via-blue-600 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-mono text-xs font-black transition-all shadow-lg shadow-blue-500/25 border border-blue-400/30 flex items-center gap-2"
+                  className="group relative overflow-hidden px-5 py-3 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold transition-all shadow-lg flex items-center gap-2.5 cursor-pointer"
                 >
-                  <Terminal size={16} />
-                  <span>Log Today&apos;s Commit &rarr;</span>
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="relative z-10">Log Today&apos;s Commit</span>
+                  <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
+                    <ArrowRight size={12} />
+                  </span>
                 </Link>
                 <Link
                   href="/arena"
-                  className="px-5 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-mono text-xs font-bold transition-all flex items-center gap-2"
+                  className="group relative overflow-hidden px-5 py-3 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold transition-all shadow-sm flex items-center gap-2 cursor-pointer"
                 >
-                  <Compass size={16} className="text-cyan-400" />
-                  <span>Catalog</span>
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <Compass size={14} className="relative z-10" />
+                  <span className="relative z-10">Explore Catalog</span>
                 </Link>
               </div>
             </div>
 
-            {/* HUD Metrics Cards Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-mono">
-              
-              {/* Metric 1: Active Track */}
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/90 space-y-1">
-                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold flex items-center gap-1.5">
-                  <Layers size={13} className="text-[#0066FF]" />
+            {/* HUD Metrics Cards Grid (Crisp White Contrast) */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 font-sans">
+              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
+                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
+                  <Layers size={13} />
                   <span>Active Enrolled</span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black text-white font-sans">
-                  {activeEnrollments.length} <span className="text-xs text-slate-400 font-mono font-normal">Systems</span>
+                <div className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                  {activeEnrollments.length} <span className="text-xs text-slate-500 font-semibold">Systems</span>
                 </div>
               </div>
 
-              {/* Metric 2: 45-Day Progress */}
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/90 space-y-1">
-                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold flex items-center gap-1.5">
-                  <Flame size={13} className="text-amber-400" />
+              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
+                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
+                  <Flame size={13} />
                   <span>45-Day Sprint</span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black text-amber-300 font-sans flex items-center gap-2">
+                <div className="text-xl sm:text-2xl font-extrabold text-slate-950 flex items-center gap-2">
                   <span>Day {currentCompletedDays}/45</span>
-                  <span className="text-xs text-cyan-400 font-mono">({currentProgressPct}%)</span>
+                  <span className="text-xs text-[#162774] font-bold">({currentProgressPct}%)</span>
                 </div>
               </div>
 
-              {/* Metric 3: Karma Wallet */}
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/90 space-y-1">
-                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold flex items-center gap-1.5">
-                  <Coins size={13} className="text-amber-400" />
+              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
+                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
+                  <Coins size={13} />
                   <span>Karma Balance</span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black text-amber-400 font-sans">
-                  {totalKarma} <span className="text-xs text-amber-300/70 font-mono font-normal">Coins</span>
+                <div className="text-xl sm:text-2xl font-extrabold text-[#162774]">
+                  {totalKarma} <span className="text-xs text-slate-500 font-semibold">Coins</span>
                 </div>
               </div>
 
-              {/* Metric 4: Completed Passes */}
-              <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-800/90 space-y-1">
-                <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold flex items-center gap-1.5">
-                  <Trophy size={13} className="text-emerald-400" />
+              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
+                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
+                  <Trophy size={13} />
                   <span>Certificates</span>
                 </div>
-                <div className="text-xl sm:text-2xl font-black text-emerald-400 font-sans">
-                  {completedEnrollments.length} <span className="text-xs text-slate-400 font-mono font-normal">Passed</span>
+                <div className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                  {completedEnrollments.length} <span className="text-xs text-slate-500 font-semibold">Passed</span>
                 </div>
               </div>
-
             </div>
 
           </div>
+        </motion.div>
+
+        {/* =========================================================================
+            CLEAR 4-STEP POST-LOGIN BUILDER FLOW (ZERO CONFUSION)
+        ========================================================================= */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 overflow-hidden">
+          {[
+            {
+              num: "01",
+              title: "Complete Profile",
+              desc: "Add GitHub, LinkedIn & College to unlock +100 Karma Coins.",
+              href: "/profile",
+              done: Boolean(studentProfile?.githubUsername && studentProfile?.linkedinUrl),
+              cta: "Open Profile",
+            },
+            {
+              num: "02",
+              title: "Pick a System PRD",
+              desc: "Enroll in 1 of 59+ production AI & backend architectures.",
+              href: "/arena",
+              done: activeEnrollments.length > 0 || completedEnrollments.length > 0,
+              cta: "Browse Systems",
+            },
+            {
+              num: "03",
+              title: "Log Daily Build",
+              desc: "Submit daily GitHub commit URLs & earn +20 to +50 Karma.",
+              href: "/arena/daily-log",
+              done: dailyLogs.length > 0,
+              cta: "Log Commit",
+            },
+            {
+              num: "04",
+              title: "Claim Certs & Perks",
+              desc: "Redeem Karma Coins for clinics, referrals & QR certificates.",
+              href: "/arena/wallet",
+              done: completedEnrollments.length > 0,
+              cta: "Open Wallet",
+            },
+          ].map((step, idx) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, x: idx % 2 === 0 ? -24 : 24, y: 12, filter: "blur(5px)" }}
+              whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.55, delay: idx * 0.07, ease: "easeOut" }}
+            >
+              <Link
+                href={step.href}
+                className={`group block h-full p-4 rounded-2xl border transition-all duration-300 shadow-xs hover:shadow-md ${
+                  step.done
+                    ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600"
+                    : "bg-[#F4F6FB] hover:bg-white border-slate-200 border-l-4 border-l-[#162774]"
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+                    {step.num}
+                  </span>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider ${
+                    step.done
+                      ? "bg-emerald-100 text-emerald-800"
+                      : "bg-[#D9F83B] text-slate-950"
+                  }`}>
+                    {step.done ? "Completed" : "Next Step"}
+                  </span>
+                </div>
+                <div className="text-sm font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors">
+                  {step.title}
+                </div>
+                <p className="text-[11px] text-slate-600 mt-1 font-medium leading-relaxed">
+                  {step.desc}
+                </p>
+                <div className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-extrabold text-[#162774]">
+                  <span>{step.cta}</span>
+                  <ArrowRight size={11} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
 
         {/* =========================================================================
             CLEAN LIGHT INTERACTIVE TAB NAVIGATION STRIP
         ========================================================================= */}
-        <div className="flex items-center gap-2 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200 overflow-x-auto font-mono text-xs shadow-xs">
+        <div className="flex items-center gap-2 bg-[#F4F6FB] p-1.5 rounded-2xl border border-slate-200 overflow-x-auto font-sans text-xs shadow-xs">
           <button
             onClick={() => setActiveTab("projects")}
-            className={`px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
               activeTab === "projects"
-                ? "bg-[#0066FF] text-white shadow-md shadow-blue-500/20 font-extrabold"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
+                ? "bg-[#162774] text-[#D9F83B] shadow-md"
+                : "text-slate-600 hover:text-slate-950 hover:bg-white"
             }`}
           >
             <Layers size={14} />
@@ -301,10 +399,10 @@ export default function MyLearningPage() {
 
           <button
             onClick={() => setActiveTab("matrix")}
-            className={`px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
               activeTab === "matrix"
-                ? "bg-[#0066FF] text-white shadow-md shadow-blue-500/20 font-extrabold"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
+                ? "bg-[#162774] text-[#D9F83B] shadow-md"
+                : "text-slate-600 hover:text-slate-950 hover:bg-white"
             }`}
           >
             <Calendar size={14} />
@@ -313,10 +411,10 @@ export default function MyLearningPage() {
 
           <button
             onClick={() => setActiveTab("certificates")}
-            className={`px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
               activeTab === "certificates"
-                ? "bg-[#0066FF] text-white shadow-md shadow-blue-500/20 font-extrabold"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
+                ? "bg-[#162774] text-[#D9F83B] shadow-md"
+                : "text-slate-600 hover:text-slate-950 hover:bg-white"
             }`}
           >
             <Trophy size={14} />
@@ -325,10 +423,10 @@ export default function MyLearningPage() {
 
           <button
             onClick={() => setActiveTab("logs")}
-            className={`px-5 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
               activeTab === "logs"
-                ? "bg-[#0066FF] text-white shadow-md shadow-blue-500/20 font-extrabold"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70"
+                ? "bg-[#162774] text-[#D9F83B] shadow-md"
+                : "text-slate-600 hover:text-slate-950 hover:bg-white"
             }`}
           >
             <Terminal size={14} />

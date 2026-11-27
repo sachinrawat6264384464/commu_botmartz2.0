@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isPathAllowed, UserRole } from "@/lib/rbac";
 
 const SECURITY_SECRET = process.env.ADMIN_JWT_SECRET || process.env.ADMIN_PASSWORD || "botmartz_zero_trust_2026_master_key_9312";
 
@@ -24,10 +25,10 @@ function isRateLimited(key: string, limit: number, windowMs: number): boolean {
 }
 
 // Edge-compatible HMAC verify using Web Crypto API
-async function verifySessionTokenEdge(token: string): Promise<boolean> {
+async function verifySessionTokenEdge(token: string): Promise<{ valid: boolean; role?: UserRole }> {
   try {
     const parts = token.split(".");
-    if (parts.length !== 2) return false;
+    if (parts.length !== 2) return { valid: false };
 
     const [encodedPayload, signature] = parts;
     const encoder = new TextEncoder();
@@ -52,16 +53,17 @@ async function verifySessionTokenEdge(token: string): Promise<boolean> {
 
     const dataBytes = encoder.encode(encodedPayload);
     const isValid = await crypto.subtle.verify("HMAC", cryptoKey, sigBytes, dataBytes);
-    if (!isValid) return false;
+    if (!isValid) return { valid: false };
 
     // Check expiration
     let payloadBase64 = encodedPayload.replace(/-/g, "+").replace(/_/g, "/");
     while (payloadBase64.length % 4) payloadBase64 += "=";
     const payload = JSON.parse(atob(payloadBase64));
 
-    return Date.now() <= payload.expiresAt;
+    if (Date.now() > payload.expiresAt) return { valid: false };
+    return { valid: true, role: (payload.role || "super-admin") as UserRole };
   } catch (e) {
-    return false;
+    return { valid: false };
   }
 }
 
@@ -107,13 +109,21 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    const isValid = await verifySessionTokenEdge(sessionCookie);
-    if (!isValid) {
+    const verification = await verifySessionTokenEdge(sessionCookie);
+    if (!verification.valid) {
       const loginUrl = new URL("/admin/login", req.url);
       loginUrl.searchParams.set("error", "session_invalid");
       const res = NextResponse.redirect(loginUrl);
       res.cookies.delete("botmartz_admin_session");
       return res;
+    }
+
+    // Enforce RBAC permissions for admin sub-routes
+    const userRole = verification.role || "volunteer";
+    if (!isPathAllowed(userRole, pathname)) {
+      const forbiddenUrl = new URL("/admin", req.url);
+      forbiddenUrl.searchParams.set("error", "rbac_forbidden");
+      return NextResponse.redirect(forbiddenUrl);
     }
   }
 

@@ -31,7 +31,7 @@ export async function GET() {
       safeCount("showcase_projects"),
       safeCount("managed_workshops"),
       safeCount("discussions"),
-      safeCount("daily_logs"),
+      safeCount("arena_daily_logs"),
       safeCount("arena_projects"),
     ]);
 

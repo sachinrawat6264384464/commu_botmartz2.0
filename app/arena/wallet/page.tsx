@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   Coins,
   Sparkles,
@@ -166,7 +167,9 @@ export default function StudentWalletPage() {
       return;
     }
 
-    const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
+    const currentCoins = wallet?.balance ?? wallet?.coins ?? studentProfile?.karmaCoins ?? 0;
+  const lifetimeEarned = wallet?.totalEarned ?? currentCoins;
+  const totalSpent = wallet?.totalSpent ?? 0;
     if (currentCoins < perk.cost) {
       alert(`Insufficient Karma Coins! You need ${perk.cost} coins, but your current balance is ${currentCoins} coins.`);
       return;
@@ -217,7 +220,9 @@ export default function StudentWalletPage() {
     }
 
     const amt = parseInt(transferAmount) || 0;
-    const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
+    const currentCoins = wallet?.balance ?? wallet?.coins ?? studentProfile?.karmaCoins ?? 0;
+  const lifetimeEarned = wallet?.totalEarned ?? currentCoins;
+  const totalSpent = wallet?.totalSpent ?? 0;
 
     if (amt <= 0 || amt > currentCoins) {
       alert(`Invalid amount. You can transfer up to ${currentCoins} coins.`);
@@ -276,7 +281,9 @@ export default function StudentWalletPage() {
     setShowRazorpayModal(true);
   };
 
-  const currentCoins = wallet?.coins ?? (studentProfile?.karmaCoins || 150);
+  const currentCoins = wallet?.balance ?? wallet?.coins ?? studentProfile?.karmaCoins ?? 0;
+  const lifetimeEarned = wallet?.totalEarned ?? currentCoins;
+  const totalSpent = wallet?.totalSpent ?? 0;
 
   return (
     <AuthGate
@@ -294,37 +301,83 @@ export default function StudentWalletPage() {
       
       {/* Header Banner */}
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 pt-2">
-        <div className="bg-[#070E54] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: -20, filter: "blur(6px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="bg-[#162774] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        >
           <div className="max-w-3xl">
             <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
               Student Karma Economy
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Botmartz Builder Wallet &amp; Rewards Ledger
+              Botmartz Builder Wallet &amp; <span className="text-[#D9F83B]">Rewards Ledger</span>
             </h1>
             <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
               Earn karma coins by submitting daily proof of work, publishing LinkedIn updates, and peer-reviewing squad code. Redeem coins for cloud grants, swag kits, and fast-tracked company referrals.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0 font-sans text-xs">
+          <div className="flex flex-wrap items-center gap-3 shrink-0 font-sans text-xs">
             <button
               onClick={() => setShowTransferModal(true)}
-              className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md cursor-pointer"
+              className="group relative overflow-hidden px-5 py-3 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold transition-all shadow-md cursor-pointer flex items-center gap-2"
             >
-              Tip a Teammate
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+              />
+              <span className="relative z-10">Tip a Teammate</span>
+              <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
+                <ArrowRight size={12} />
+              </span>
             </button>
             <Link
               href="/arena/bounties"
-              className="px-5 py-3 rounded-2xl bg-white/10 hover:bg-white hover:text-slate-950 text-white border border-white/25 font-bold transition-all"
+              className="group relative overflow-hidden px-5 py-3 rounded-full bg-white text-[#162774] font-extrabold transition-all shadow-sm flex items-center gap-2"
             >
-              Bounty Board
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+              />
+              <span className="relative z-10">Bounty Board</span>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 mt-8 space-y-8">
+      <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 mt-6 space-y-8">
+        {/* Clear 3-Step Economy Flow */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-hidden">
+          {[
+            { num: "01", title: "Earn via Proof-of-Work", desc: "Log daily GitHub builds, LinkedIn updates, and peer reviews to earn verified Karma Coins." },
+            { num: "02", title: "Live Firestore Ledger", desc: "Every earned coin, transfer, and top-up is tracked transparently in your real-time wallet." },
+            { num: "03", title: "Redeem Career Perks", desc: "Spend Karma Coins on 1-on-1 founder clinics, mock interviews, cloud grants, and referrals." },
+          ].map((step, idx) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, x: idx === 0 ? -30 : idx === 2 ? 30 : 0, y: idx === 1 ? 24 : 0, filter: "blur(5px)" }}
+              whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.55, delay: idx * 0.08, ease: "easeOut" }}
+              className="p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] flex items-start gap-3 shadow-xs"
+            >
+              <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] text-[11px] font-extrabold flex items-center justify-center shrink-0">
+                {step.num}
+              </span>
+              <div>
+                <div className="text-sm font-extrabold text-slate-950">{step.title}</div>
+                <p className="text-xs text-slate-600 mt-0.5 font-medium leading-relaxed">{step.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
         
         {/* Notification message */}
         {buySuccess && (
@@ -364,48 +417,63 @@ export default function StudentWalletPage() {
         )}
 
         {/* =========================================================================
-            WALLET BALANCE CARD
+            WALLET BALANCE CARD (100% REAL FIRESTORE DATA)
         ========================================================================= */}
-        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-800/80 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97, y: 20, filter: "blur(6px)" }}
+          whileInView={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="bg-[#162774] text-white rounded-3xl p-6 sm:p-8 border border-white/15 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        >
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-mono text-[11px] font-bold uppercase tracking-wider mb-2 border border-amber-500/30">
-              <Coins size={13} className="text-amber-400" /> Active Student Balance
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-2">
+              <Coins size={13} /> Active Student Balance
             </div>
             <div className="flex items-baseline gap-3">
-              <span className="text-4xl sm:text-5xl font-black text-amber-400 font-mono">
+              <span className="text-4xl sm:text-5xl font-extrabold text-[#D9F83B] font-sans">
                 {currentCoins}
               </span>
-              <span className="text-sm font-mono text-slate-300 uppercase tracking-wider font-bold">
+              <span className="text-sm font-sans text-blue-100 uppercase tracking-wider font-bold">
                 Karma Coins
               </span>
             </div>
-            <p className="text-xs text-slate-400 font-mono mt-1">
+            <p className="text-xs text-blue-100/80 font-sans mt-1">
               Account: <strong className="text-white">{email || user?.email || "Guest Account"}</strong>
             </p>
           </div>
 
           {/* Quick Stats Grid & Buy Credits Trigger */}
-          <div className="flex flex-col sm:flex-row items-center gap-3 font-mono text-xs shrink-0 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-3 font-sans text-xs shrink-0 w-full sm:w-auto">
             <div className="grid grid-cols-2 gap-3 w-full sm:w-auto">
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Lifetime Earned</span>
-                <span className="text-lg font-bold text-emerald-400">+{wallet?.lifetimeEarned || 250} Coins</span>
+              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-sm">
+                <span className="text-[10px] text-slate-500 uppercase font-extrabold block mb-0.5">Lifetime Earned</span>
+                <span className="text-lg font-extrabold text-[#162774]">+{lifetimeEarned} Coins</span>
               </div>
-              <div className="p-4 rounded-2xl bg-slate-800/80 border border-slate-700/80">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-0.5">Perks Redeemed</span>
-                <span className="text-lg font-bold text-purple-400">-{wallet?.spent || 100} Coins</span>
+              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#162774] shadow-sm">
+                <span className="text-[10px] text-slate-500 uppercase font-extrabold block mb-0.5">Perks Redeemed</span>
+                <span className="text-lg font-extrabold text-slate-950">-{totalSpent} Coins</span>
               </div>
             </div>
 
             <button
               onClick={() => handleInitiatePurchase(CREDIT_PACKS[1])}
-              className="w-full sm:w-auto px-5 py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              className="group relative overflow-hidden w-full sm:w-auto px-5 py-4 rounded-2xl bg-[#D9F83B] text-slate-950 font-extrabold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Zap size={15} className="text-slate-950 fill-slate-950" />
-              <span>Buy Credit Pack</span>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+              />
+              <Zap size={15} className="relative z-10 text-slate-950 fill-slate-950" />
+              <span className="relative z-10">Buy Credit Pack</span>
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* =========================================================================
             BUY KARMA CREDIT PACKS (PRICED FOR INDIAN STUDENTS)
@@ -425,41 +493,65 @@ export default function StudentWalletPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-            {CREDIT_PACKS.map((pack) => (
-              <div
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-sans text-xs overflow-hidden">
+            {CREDIT_PACKS.map((pack, idx) => (
+              <motion.div
                 key={pack.id}
+                initial={{ opacity: 0, x: idx === 0 ? -36 : idx === 2 ? 36 : 0, y: idx === 1 ? 28 : 0, filter: "blur(6px)" }}
+                whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
                 className={`p-6 rounded-3xl border flex flex-col justify-between transition-all ${
                   pack.tag.includes("Popular")
-                    ? "bg-gradient-to-b from-blue-50/80 to-white border-[#0066FF] shadow-md ring-2 ring-[#0066FF]/20"
-                    : "bg-white border-slate-200 shadow-xs hover:border-slate-300"
+                    ? "bg-[#162774] text-white border-[#162774] shadow-xl ring-2 ring-[#D9F83B]"
+                    : "bg-[#F4F6FB] border-slate-200 shadow-xs hover:border-[#162774]"
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-bold text-[10px]">
+                    <span className={`px-3 py-1 rounded-full font-extrabold text-[10px] uppercase tracking-wider ${
+                      pack.tag.includes("Popular")
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-white text-[#162774] border border-slate-200"
+                    }`}>
                       {pack.tag}
                     </span>
-                    <span className="text-xl font-black text-slate-900">₹{pack.price}</span>
+                    <span className={`text-xl font-extrabold ${pack.tag.includes("Popular") ? "text-white" : "text-slate-950"}`}>
+                      ₹{pack.price}
+                    </span>
                   </div>
 
-                  <h3 className="font-bold text-slate-900 text-base font-sans mb-1">{pack.name}</h3>
-                  <div className="text-2xl font-black text-[#0066FF] mb-2">+{pack.coins} Coins</div>
-                  <p className="text-slate-600 font-sans text-xs leading-relaxed">{pack.desc}</p>
+                  <h3 className={`font-extrabold text-base mb-1 ${pack.tag.includes("Popular") ? "text-white" : "text-slate-950"}`}>
+                    {pack.name}
+                  </h3>
+                  <div className={`text-2xl font-extrabold mb-2 ${pack.tag.includes("Popular") ? "text-[#D9F83B]" : "text-[#162774]"}`}>
+                    +{pack.coins} Coins
+                  </div>
+                  <p className={`text-xs leading-relaxed font-medium ${pack.tag.includes("Popular") ? "text-blue-100" : "text-slate-600"}`}>
+                    {pack.desc}
+                  </p>
                 </div>
 
                 <button
                   onClick={() => handleInitiatePurchase(pack)}
-                  className={`w-full mt-5 py-3 rounded-2xl font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                  className={`group relative overflow-hidden w-full mt-5 py-3 px-4 rounded-2xl font-extrabold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                     pack.tag.includes("Popular")
-                      ? "bg-[#0066FF] hover:bg-[#0052CC] text-white shadow-xs"
-                      : "bg-slate-900 hover:bg-slate-800 text-white"
+                      ? "bg-[#D9F83B] text-slate-950 shadow-sm"
+                      : "bg-[#162774] text-white"
                   }`}
                 >
-                  <Coins size={14} />
-                  <span>Buy for ₹{pack.price}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`pointer-events-none absolute inset-0 -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out ${
+                      pack.tag.includes("Popular") ? "bg-white" : "bg-[#D9F83B]"
+                    }`}
+                  />
+                  <Coins size={14} className="relative z-10 group-hover:text-slate-950 transition-colors" />
+                  <span className="relative z-10 group-hover:text-slate-950 transition-colors">
+                    Buy for ₹{pack.price}
+                  </span>
                 </button>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

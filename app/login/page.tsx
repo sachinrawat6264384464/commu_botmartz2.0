@@ -651,8 +651,8 @@ function StudentLoginInner() {
                         setInfoMsg("");
                       }}
                       className={`py-2.5 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center ${authMode === "signup"
-                          ? "bg-[#1D3189] text-white shadow-md font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold"
+                        ? "bg-[#1D3189] text-white shadow-md font-bold"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold"
                         }`}
                     >
                       <span>Create Account (Sign Up)</span>
@@ -666,8 +666,8 @@ function StudentLoginInner() {
                         setInfoMsg("");
                       }}
                       className={`py-2.5 px-3 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-center ${authMode === "signin"
-                          ? "bg-[#1D3189] text-white shadow-md font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold"
+                        ? "bg-[#1D3189] text-white shadow-md font-bold"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/70 font-semibold"
                         }`}
                     >
                       <span>Sign In to Portal</span>
@@ -897,8 +897,8 @@ function StudentLoginInner() {
                             setError("");
                           }}
                           className={`py-2 rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-center ${authMethod === "passcode"
-                              ? "bg-[#1D3189] text-white shadow-xs font-bold"
-                              : "text-slate-600 hover:text-slate-900 font-semibold"
+                            ? "bg-[#1D3189] text-white shadow-xs font-bold"
+                            : "text-slate-600 hover:text-slate-900 font-semibold"
                             }`}
                         >
                           <span>Passcode</span>
@@ -911,8 +911,8 @@ function StudentLoginInner() {
                             setError("");
                           }}
                           className={`py-2 rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-center ${authMethod === "google"
-                              ? "bg-[#1D3189] text-white shadow-xs font-bold"
-                              : "text-slate-600 hover:text-slate-900 font-semibold"
+                            ? "bg-[#1D3189] text-white shadow-xs font-bold"
+                            : "text-slate-600 hover:text-slate-900 font-semibold"
                             }`}
                         >
                           <span>Google</span>
@@ -925,8 +925,8 @@ function StudentLoginInner() {
                             setError("");
                           }}
                           className={`py-2 rounded-lg transition-all duration-200 cursor-pointer flex items-center justify-center ${authMethod === "phone"
-                              ? "bg-[#1D3189] text-white shadow-xs font-bold"
-                              : "text-slate-600 hover:text-slate-900 font-semibold"
+                            ? "bg-[#1D3189] text-white shadow-xs font-bold"
+                            : "text-slate-600 hover:text-slate-900 font-semibold"
                             }`}
                         >
                           <span>Phone OTP</span>

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   CheckSquare,
   Square,
@@ -279,28 +280,45 @@ Best,
         
         {/* Header Banner */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
-          <div className="bg-[#070E54] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: -20, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="bg-[#162774] text-white rounded-3xl p-7 sm:p-10 border border-white/15 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          >
             <div className="max-w-3xl">
               <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
                 Career Growth &amp; Proof-of-Work Referral Engine
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                LinkedIn UGC &amp; Career Conversion Checklist
+                LinkedIn Build Log &amp; <span className="text-[#D9F83B]">Career Checklist</span>
               </h1>
               <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
-                Turn your daily proof-of-work into inbound recruiter interview calls. Compose daily LinkedIn progress updates, submit your post links to earn +50 Karma Coins, and unlock 15 direct tech company referrals.
+                Follow two clear steps: (1) Publish your daily LinkedIn build update to earn +50 Karma Coins, and (2) Complete your 8-step recruiter readiness checklist saved directly in Firestore.
               </p>
             </div>
 
             <div className="flex items-center gap-3 shrink-0 font-sans text-xs">
               <Link
                 href="/profile"
-                className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all shadow-md"
+                className="group relative overflow-hidden px-5 py-3 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold transition-all shadow-md flex items-center gap-2"
               >
-                View Builder Profile &rarr;
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <span className="relative z-10">View Builder Profile</span>
+                <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
+                  <ArrowRight size={12} />
+                </span>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
 
       {/* Auth Gating Notice if not logged in */}
@@ -334,15 +352,17 @@ Best,
       {/* Logged in student badge */}
       {user && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-mono text-xs">
-            <div className="flex items-center gap-2">
-              <ShieldCheck size={18} className="text-emerald-600 shrink-0" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] font-sans text-xs shadow-xs">
+            <div className="flex items-center gap-2.5 font-semibold">
+              <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center shrink-0">
+                <ShieldCheck size={15} />
+              </span>
               <span>
-                Verified Student: <strong>{user.email}</strong> • Real-time backend sync active ({doneCount}/{totalTasks} tasks completed)
+                Verified Student: <strong>{user.email}</strong> &bull; Real-time Firestore sync active ({doneCount}/{totalTasks} tasks completed)
               </span>
             </div>
             <div className="flex items-center gap-2 self-start sm:self-auto">
-              <span className="font-bold text-emerald-800 bg-emerald-100/80 px-3 py-1 rounded-full text-[11px] border border-emerald-300/60">
+              <span className="font-extrabold text-slate-950 bg-[#D9F83B] px-3.5 py-1 rounded-full text-[11px] shadow-xs">
                 +{pointsEarned} Karma Coins Earned
               </span>
             </div>
@@ -353,21 +373,32 @@ Best,
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
         
         {/* =========================================================================
-            SECTION 1: VIRAL LINKEDIN POST COMPOSER & UGC REWARDS (+50 KARMA)
+            SECTION 1: STEP 1 — VIRAL LINKEDIN POST COMPOSER (+50 KARMA)
         ========================================================================= */}
-        <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-indigo-800/80 shadow-lg">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-indigo-900 mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24, filter: "blur(6px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="bg-[#162774] text-white rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/15 mb-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 font-mono text-[11px] font-bold uppercase tracking-wider mb-2 border border-indigo-500/30">
-                <Linkedin size={13} /> Viral UGC &amp; Daily LinkedIn Post Engine
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-2">
+                <Linkedin size={13} /> Step 1 &bull; Daily LinkedIn Build Log
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-white font-sans">
-                Compose Today's Build Log &amp; Earn +50 Karma Points
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white font-sans">
+                Compose Today&apos;s Build Log &amp; Earn +50 Karma Points
               </h2>
             </div>
 
-            <div className="px-4 py-2 rounded-2xl bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono text-xs font-bold flex items-center gap-2 shrink-0">
-              <Coins size={16} className="text-amber-400" />
+            <div className="px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold flex items-center gap-2 shrink-0 shadow-sm">
+              <Coins size={15} className="text-[#162774]" />
               <span>{pointsEarned > 0 ? `+${pointsEarned} Points Earned Today` : "+50 Points per Post"}</span>
             </div>
           </div>
@@ -430,28 +461,32 @@ Best,
 
               <button
                 onClick={handleCopyLinkedInPost}
-                className="w-full py-3 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                className="group relative overflow-hidden w-full py-3 rounded-xl bg-[#D9F83B] text-slate-950 font-sans font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md"
               >
-                {copiedId === "linkedin_ugc" ? <Check size={14} /> : <Copy size={14} />}
-                <span>{copiedId === "linkedin_ugc" ? "Copied! Opening LinkedIn..." : "Copy Formatted Post & Open LinkedIn"}</span>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                {copiedId === "linkedin_ugc" ? <Check size={14} className="relative z-10" /> : <Copy size={14} className="relative z-10" />}
+                <span className="relative z-10">{copiedId === "linkedin_ugc" ? "Copied! Opening LinkedIn..." : "Copy Formatted Post & Open LinkedIn"}</span>
               </button>
             </div>
 
             {/* Generated Preview & Submission */}
-            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-4 flex flex-col justify-between backdrop-blur-xs">
               <div>
-                <div className="text-[10px] text-slate-400 uppercase font-bold mb-2 flex items-center justify-between">
+                <div className="text-[10px] text-blue-100 uppercase font-bold mb-2 flex items-center justify-between">
                   <span>Live Post Preview:</span>
-                  <span className="text-emerald-400">Ready to Publish</span>
+                  <span className="text-[#D9F83B]">Ready to Publish</span>
                 </div>
-                <pre className="text-xs text-slate-300 font-mono whitespace-pre-wrap leading-relaxed bg-slate-900/60 p-3.5 rounded-xl border border-slate-800 max-h-56 overflow-y-auto">
+                <pre className="text-xs text-white font-mono whitespace-pre-wrap leading-relaxed bg-[#070E54]/80 p-3.5 rounded-xl border border-white/15 max-h-56 overflow-y-auto">
                   {generatedLinkedInPost}
                 </pre>
               </div>
 
               {/* Submit Post Link */}
-              <form onSubmit={handleSubmitLinkedInUrl} className="mt-4 pt-4 border-t border-slate-800">
-                <label className="block text-slate-400 font-bold mb-1 text-[10px] uppercase">
+              <form onSubmit={handleSubmitLinkedInUrl} className="mt-4 pt-4 border-t border-white/15">
+                <label className="block text-blue-100 font-bold mb-1.5 text-[10px] uppercase">
                   Paste Your Published LinkedIn Post URL for +50 Points:
                 </label>
                 <div className="flex gap-2">
@@ -461,24 +496,24 @@ Best,
                     placeholder="https://linkedin.com/posts/..."
                     value={linkedInPostUrl}
                     onChange={(e) => setLinkedInPostUrl(e.target.value)}
-                    className="flex-1 bg-slate-900 border border-slate-700 text-white placeholder:text-slate-500 rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-400"
+                    className="flex-1 bg-white border border-white text-slate-950 placeholder:text-slate-400 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D9F83B]"
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition-all cursor-pointer shrink-0"
+                    className="px-4 py-2 rounded-xl bg-[#D9F83B] hover:bg-white text-slate-950 font-sans font-extrabold transition-all cursor-pointer shrink-0"
                   >
                     Claim +50 Points
                   </button>
                 </div>
                 {submittedUGC && (
-                  <p className="text-[11px] text-emerald-400 mt-1.5 flex items-center gap-1 font-bold">
+                  <p className="text-[11px] text-[#D9F83B] mt-1.5 flex items-center gap-1 font-bold">
                     <CheckCircle2 size={13} /> Verified! +50 Points awarded to your profile.
                   </p>
                 )}
               </form>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* =========================================================================
             SECTION 2: 3-TIER VERIFICATION PROTOCOL

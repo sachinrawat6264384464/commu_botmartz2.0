@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { 
   User, 
   ShieldCheck, 
@@ -546,39 +547,52 @@ export default function StudentProfilePortal() {
   const publicProfileUrl = `/member/${username}`;
 
   return (
-    <div className="bg-[#FAFCFF] min-h-screen text-slate-900 selection:bg-[#0066FF] selection:text-white pt-4 pb-28 font-sans">
+    <div
+      className="bg-white min-h-screen text-slate-900 selection:bg-[#D9F83B] selection:text-slate-950 pt-24 pb-28 font-sans"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+      }}
+    >
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
         
         {/* =========================================================================
-            DARK GRADIENT HERO BANNER & BUILDER PROFILE CARD
+            HERO BANNER & BUILDER PROFILE CARD (#162774 ROYAL BLUE GRID)
         ========================================================================= */}
-        <div className="relative bg-gradient-to-r from-slate-950 via-[#0B1528] to-slate-950 border border-slate-800/80 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden text-white mb-10">
-          {/* Ambient Glow Lights */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/15 rounded-full blur-3xl pointer-events-none" />
-
+        <motion.div
+          initial={{ opacity: 0, y: -20, filter: "blur(6px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative bg-[#162774] border border-white/15 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden text-white mb-10"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        >
           <div className="relative z-10 space-y-6">
             {/* Top Bar: Subheader Badge & Search Builder Form */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800/80 pb-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/15 pb-6">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-cyan-400 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-cyan-500/30 backdrop-blur-xs">
-                  <ShieldCheck size={14} className="text-emerald-400" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-2">
+                  <ShieldCheck size={13} />
                   <span>Universal Builder Identity &bull; Global Verified Proof-of-Work</span>
                 </div>
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-100 to-cyan-400 tracking-tight font-sans">
-                  Builder Profile &amp; Portfolio
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
+                  Builder Profile &amp; <span className="text-[#D9F83B]">Portfolio</span>
                 </h1>
               </div>
 
               <form onSubmit={handleSearch} className="w-full md:w-80">
-                <div className="relative font-mono text-xs">
+                <div className="relative font-sans text-xs">
                   <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                   <input
                     type="text"
                     value={searchHandle}
                     onChange={(e) => setSearchHandle(e.target.value)}
                     placeholder="Lookup builder @handle..."
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-2xl pl-10 pr-4 py-2.5 text-white placeholder:text-slate-400 focus:outline-none focus:border-cyan-400 transition-all shadow-inner"
+                    className="w-full bg-white border border-white rounded-2xl pl-10 pr-4 py-2.5 text-slate-950 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-[#D9F83B] transition-all shadow-sm"
                   />
                 </div>
               </form>
@@ -587,7 +601,7 @@ export default function StudentProfilePortal() {
             {/* Main Builder Avatar & Meta Details */}
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
               <div className="flex items-center gap-5">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-tr from-[#0066FF] via-indigo-600 to-cyan-400 text-white font-mono text-3xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border border-white/20">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#D9F83B] text-slate-950 font-sans text-3xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border-2 border-white">
                   {(studentProfile?.displayName || user?.displayName || "B")[0].toUpperCase()}
                 </div>
 
@@ -596,11 +610,11 @@ export default function StudentProfilePortal() {
                     <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-sans tracking-tight">
                       {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
                     </h2>
-                    <span className="text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800/80 px-2.5 py-0.5 rounded-full">
+                    <span className="text-xs font-mono font-bold text-slate-950 bg-[#D9F83B] px-2.5 py-0.5 rounded-full">
                       @{username}
                     </span>
                     {score >= 80 && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-[10px] font-bold flex items-center gap-1">
+                      <span className="px-2.5 py-0.5 rounded-full bg-white text-[#162774] font-sans text-[10px] font-extrabold flex items-center gap-1">
                         <CheckCircle2 size={12} /> VERIFIED BUILDER
                       </span>
                     )}
@@ -637,23 +651,23 @@ export default function StudentProfilePortal() {
 
               {/* Action Buttons & Karma Balance */}
               <div className="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end gap-3 w-full lg:w-auto shrink-0">
-                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-2xl bg-amber-400/10 border border-amber-400/30 text-amber-300 font-mono text-xs font-bold shadow-xs">
-                  <Coins size={16} className="text-amber-400" />
+                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold shadow-xs">
+                  <Coins size={15} className="text-[#162774]" />
                   <span>Karma Balance: {coins} Coins</span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleCopyPublicProfile}
-                    className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    className="px-4 py-2.5 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#162774] border border-white/25 font-sans text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                   >
-                    {copiedLink ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                    {copiedLink ? <Check size={14} className="text-[#D9F83B]" /> : <Copy size={14} />}
                     <span>{copiedLink ? "Copied!" : "Copy Link"}</span>
                   </button>
 
                   <Link
                     href={publicProfileUrl}
-                    className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                    className="group px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-slate-950 font-sans text-xs font-extrabold transition-all flex items-center justify-center gap-2 shadow-lg"
                   >
                     <span>Public Portfolio</span>
                     <ExternalLink size={13} />
@@ -735,7 +749,7 @@ export default function StudentProfilePortal() {
             )}
 
           </div>
-        </div>
+        </motion.div>
 
         {/* =========================================================================
             COMPLETENESS METER & 100% REWARD BANNER
