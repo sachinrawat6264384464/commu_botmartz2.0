@@ -181,7 +181,7 @@ export default function VirtualAIInternshipPage() {
                   href="/arena"
                   className="px-7 py-3.5 rounded-2xl bg-[#070E54] hover:bg-[#1D3189] text-white font-bold transition-all shadow-md"
                 >
-                  Explore {TOTAL_SYSTEMS_COUNT} PRD Blueprints
+                  Explore Internship Playground
                 </Link>
               </div>
 

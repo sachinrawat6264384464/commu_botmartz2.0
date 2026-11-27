@@ -954,7 +954,7 @@ export default function StudentProfilePortal() {
                         <span className="px-2.5 py-0.5 rounded-full bg-white/15 border border-white/20 text-white text-[10px] font-extrabold uppercase tracking-wider">Interactive Walkthrough</span>
                       </div>
                       <p className="text-xs sm:text-sm text-blue-100/90 font-medium">
-                        Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
+                        Discover what each page does (Internship Playground, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
                       </p>
                     </div>
 
@@ -1824,7 +1824,7 @@ export default function StudentProfilePortal() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {[
-                        { title: `The Arena (${TOTAL_SYSTEMS_COUNT} PRDs)`, desc: "Production system blueprints with SLA gates.", href: "/arena" },
+                        { title: "Internship Playground", desc: "Production system blueprints with SLA gates.", href: "/arena" },
                         { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log" },
                         { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship" },
                         { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet" },

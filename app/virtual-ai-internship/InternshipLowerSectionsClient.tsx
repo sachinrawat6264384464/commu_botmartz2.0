@@ -41,7 +41,7 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
               href="/arena"
               className="px-6 py-3 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-sans text-xs font-bold transition-all duration-300 shrink-0 flex items-center gap-2.5 group"
             >
-              <span>Explore All {TOTAL_SYSTEMS_COUNT} PRDs</span>
+              <span>Explore Internship Playground</span>
               <span className="w-7 h-7 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-500 ease-out group-hover:rotate-[60deg]">
                 <ArrowRight size={13} />
               </span>

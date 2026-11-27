@@ -95,7 +95,7 @@ export default function CommunityNavbar() {
 
   const INTERNSHIP_ITEMS = [
     { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: false, requiresAuth: false },
-    { name: `Internship Playground (${TOTAL_SYSTEMS_COUNT} PRDs)`, href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false, requiresAuth: false },
+    { name: "Internship Playground", href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false, requiresAuth: false },
     { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false, requiresAuth: true },
     { name: "20 Career Roadmaps", href: "/arena/roadmaps", icon: Compass, desc: "Progressive career paths for all roles", locked: false, requiresAuth: false },
     { name: "Career & LinkedIn Checklist", href: "/arena/career-checklist", icon: Briefcase, desc: "Profile checklist, templates & UGC composer", locked: false, requiresAuth: true },

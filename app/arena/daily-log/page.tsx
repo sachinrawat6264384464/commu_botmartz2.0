@@ -375,7 +375,7 @@ function DailyPoWLogPageInner() {
                 href="/arena"
                 className="inline-flex items-center px-6 py-3 rounded-2xl bg-[#162774] hover:bg-[#1e3494] text-white font-sans text-xs font-bold transition-all shadow-sm cursor-pointer"
               >
-                Browse {TOTAL_SYSTEMS_COUNT} PRDs &amp; Enroll Now
+                Browse Internship Playground &amp; Enroll Now
               </Link>
             </div>
           </div>

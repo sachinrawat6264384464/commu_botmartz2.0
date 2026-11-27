@@ -13,7 +13,7 @@ export default function InternshipJourneyClient() {
       title: "Enroll & Start Daily Sprints",
       desc: (
         <>
-          Select an enrolled project from the {TOTAL_SYSTEMS_COUNT} PRD blueprints. Read the schema requirements, initialize your repository, and log daily commits on{" "}
+          Select an enrolled project from the Internship Playground blueprints. Read the schema requirements, initialize your repository, and log daily commits on{" "}
           <Link href="/arena/daily-log" className="text-white group-hover:text-[#1D3189] underline font-bold transition-colors duration-500">
             /arena/daily-log
           </Link>
