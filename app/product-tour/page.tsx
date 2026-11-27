@@ -243,14 +243,7 @@ export default function ProductTourPage() {
   });
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 selection:bg-[#D9F83B] selection:text-slate-950 pt-24 pb-28 font-sans"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-28 font-sans">
       {/* 100% Full-Width Container */}
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
 
@@ -266,12 +259,12 @@ export default function ProductTourPage() {
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             {/* Left Column: Title & Description */}
             <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
+              <div className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-white font-sans text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
                 Comprehensive Platform &amp; Product Tour
               </div>
 
               <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
-                How Botmartz Community <span className="text-[#D9F83B]">Works</span>
+                How Botmartz Community Works
               </h1>
 
               <p className="text-sm sm:text-base text-blue-100/85 font-sans leading-relaxed font-normal">
@@ -281,20 +274,20 @@ export default function ProductTourPage() {
               {/* Stats Bar */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-sans text-xs">
                 {[
-                  { num: "01", val: "14 Modules", label: "Platform Suite", accent: false },
-                  { num: "02", val: "4-Week", label: "Sprint Window", accent: false },
-                  { num: "03", val: "100% PoW", label: "Verified Commits", accent: true },
-                  { num: "04", val: "Karma Ledger", label: "Daily Bounties", accent: true },
+                  { num: "01", val: "14 Modules", label: "Platform Suite" },
+                  { num: "02", val: "4-Week", label: "Sprint Window" },
+                  { num: "03", val: "100% PoW", label: "Verified Commits" },
+                  { num: "04", val: "Karma Ledger", label: "Daily Bounties" },
                 ].map((stat) => (
                   <div
                     key={stat.num}
-                    className="relative p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]"
+                    className="relative p-3.5 rounded-2xl bg-white/[0.06] border border-white/15"
                   >
-                    <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs">
+                    <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-white text-[#162774] font-extrabold text-[10px] flex items-center justify-center shadow-xs">
                       {stat.num}
                     </span>
                     <div className="text-white font-extrabold text-sm pr-7">{stat.val}</div>
-                    <div className={`text-[11px] ${stat.accent ? "text-[#D9F83B] font-semibold" : "text-blue-200/80"}`}>
+                    <div className="text-[11px] text-blue-200/85 font-medium">
                       {stat.label}
                     </div>
                   </div>
@@ -306,10 +299,10 @@ export default function ProductTourPage() {
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-sans text-xs shrink-0 self-start lg:self-center">
               <Link
                 href="/arena"
-                className="px-7 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all duration-300 shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2.5 group text-sm cursor-pointer"
+                className="px-7 py-3.5 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold transition-all duration-300 shadow-lg flex items-center justify-center gap-2.5 group text-sm cursor-pointer"
               >
                 <span>Get Started in Arena</span>
-                <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                   <ArrowRight size={13} />
                 </span>
               </Link>
@@ -326,10 +319,10 @@ export default function ProductTourPage() {
             </div>
             <Link
               href="/arena"
-              className="px-6 py-3 rounded-full bg-[#162774] hover:bg-[#1D3189] text-[#D9F83B] font-sans text-xs font-extrabold transition-all duration-300 shadow-md flex items-center gap-2.5 shrink-0 self-start sm:self-auto group"
+              className="px-6 py-3 rounded-full bg-[#162774] hover:bg-[#1D3189] text-white font-sans text-xs font-extrabold transition-all duration-300 shadow-md flex items-center gap-2.5 shrink-0 self-start sm:self-auto group"
             >
               <span>Explore {TOTAL_SYSTEMS_COUNT} PRDs</span>
-              <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+              <span className="w-6 h-6 rounded-full bg-white text-[#162774] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                 <ArrowRight size={12} />
               </span>
             </Link>
@@ -364,11 +357,11 @@ export default function ProductTourPage() {
             ].map((step) => (
               <div
                 key={step.num}
-                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] transition-all duration-500 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group"
+                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#162774] transition-all duration-500 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group"
               >
                 <div className="p-6 pb-4 space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="w-8 h-8 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center font-extrabold text-xs transition-colors duration-500 shadow-xs">
+                    <span className="w-8 h-8 rounded-full bg-[#162774] text-white flex items-center justify-center font-extrabold text-xs transition-colors duration-500 shadow-xs">
                       {step.num}
                     </span>
                     <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
@@ -393,7 +386,7 @@ export default function ProductTourPage() {
                       backgroundSize: "28px 28px",
                     }}
                   />
-                  <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                  <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-white transition-colors duration-500">
                     {step.tag}
                   </span>
                 </div>
@@ -418,7 +411,7 @@ export default function ProductTourPage() {
                 key={cat.key}
                 onClick={() => setSelectedCategory(cat.key)}
                 className={`px-4 py-2 rounded-full font-bold transition-all duration-200 cursor-pointer ${selectedCategory === cat.key
-                  ? "bg-[#162774] text-[#D9F83B] shadow-sm"
+                  ? "bg-[#162774] text-white shadow-sm"
                   : "bg-white text-slate-700 border border-slate-200 hover:border-[#162774]"
                   }`}
               >
@@ -434,14 +427,14 @@ export default function ProductTourPage() {
             <div
               key={module.id}
               id={module.id}
-              className="relative overflow-hidden bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
+              className="relative overflow-hidden bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#162774] rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
             >
               <div className="p-7 sm:p-8 pb-5 space-y-5">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-4 border-b border-slate-200/80 pb-4">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2.5 flex-wrap">
-                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0">
+                      <span className="w-7 h-7 rounded-full bg-[#162774] text-white font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0">
                         {String(idx + 1).padStart(2, "0")}
                       </span>
                       <span className="px-3 py-0.5 rounded-full bg-white text-[#162774] border border-slate-200 text-[10px] font-extrabold uppercase tracking-wider">
@@ -455,7 +448,7 @@ export default function ProductTourPage() {
 
                   <Link
                     href={module.href}
-                    className="w-9 h-9 rounded-full bg-white group-hover:bg-[#D9F83B] border border-slate-200 text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shrink-0 shadow-2xs"
+                    className="w-9 h-9 rounded-full bg-white group-hover:bg-[#162774] border border-slate-200 text-slate-900 group-hover:text-white flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shrink-0 shadow-2xs"
                     title={module.cta}
                   >
                     <ArrowRight size={15} />
@@ -465,7 +458,7 @@ export default function ProductTourPage() {
                 {/* 3 Pillars: What / Why / How (Blue Heading Pills, No Inner Box Lines) */}
                 <div className="space-y-4 font-sans text-xs">
                   <div className="space-y-1.5">
-                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-white font-extrabold text-[10px] uppercase tracking-wider">
                       What It Is
                     </span>
                     <p className="text-slate-600 leading-relaxed text-xs font-medium">
@@ -474,7 +467,7 @@ export default function ProductTourPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-white font-extrabold text-[10px] uppercase tracking-wider">
                       Why It Exists
                     </span>
                     <p className="text-slate-600 leading-relaxed text-xs font-medium">
@@ -483,7 +476,7 @@ export default function ProductTourPage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-white font-extrabold text-[10px] uppercase tracking-wider">
                       How To Use It
                     </span>
                     <p className="text-slate-600 leading-relaxed text-xs font-medium">
@@ -509,7 +502,7 @@ export default function ProductTourPage() {
                 </span>
                 <Link
                   href={module.href}
-                  className="relative z-10 text-[#162774] group-hover:text-[#D9F83B] font-extrabold flex items-center gap-2 transition-colors duration-500"
+                  className="relative z-10 text-[#162774] group-hover:text-white font-extrabold flex items-center gap-2 transition-colors duration-500"
                 >
                   <span>{module.cta}</span>
                   <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5" />
@@ -528,7 +521,7 @@ export default function ProductTourPage() {
             backgroundSize: "56px 56px",
           }}
         >
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold uppercase tracking-wider">
+          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/15 border border-white/20 text-white font-sans text-xs font-extrabold uppercase tracking-wider">
             Start Your 45-Day Sprint Today
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold font-sans max-w-2xl mx-auto tracking-tight">
@@ -541,10 +534,10 @@ export default function ProductTourPage() {
           <div className="flex items-center justify-center gap-4 pt-2 flex-wrap font-sans text-xs sm:text-sm">
             <Link
               href="/arena"
-              className="px-7 py-3.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all duration-300 shadow-lg flex items-center gap-2.5 group cursor-pointer"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-blue-50 text-[#162774] font-extrabold transition-all duration-300 shadow-lg flex items-center gap-2.5 group cursor-pointer"
             >
               <span>Browse {TOTAL_SYSTEMS_COUNT} PRDs</span>
-              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+              <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                 <ArrowRight size={12} />
               </span>
             </Link>
