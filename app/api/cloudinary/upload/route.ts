@@ -17,6 +17,11 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get("file");
+    const folderRaw = formData.get("folder");
+    const folder =
+      typeof folderRaw === "string" && /^[a-zA-Z0-9_-]+$/.test(folderRaw.trim())
+        ? folderRaw.trim()
+        : "botmartz-workshops";
 
     if (!file || !(file instanceof Blob)) {
       return NextResponse.json(
@@ -27,11 +32,11 @@ export async function POST(req: NextRequest) {
 
     const cloudinaryForm = new FormData();
     cloudinaryForm.append("file", file);
-    cloudinaryForm.append("folder", "botmartz-workshops");
+    cloudinaryForm.append("folder", folder);
 
     if (apiKey && apiSecret) {
       const timestamp = Math.floor(Date.now() / 1000).toString();
-      const paramsToSign = `folder=botmartz-workshops&timestamp=${timestamp}${apiSecret}`;
+      const paramsToSign = `folder=${folder}&timestamp=${timestamp}${apiSecret}`;
       const signature = crypto.createHash("sha1").update(paramsToSign).digest("hex");
       cloudinaryForm.append("api_key", apiKey);
       cloudinaryForm.append("timestamp", timestamp);

@@ -5,6 +5,7 @@ export interface ArenaProject {
   title: string;
   slug: string;
   tagline: string;
+  imageUrl?: string;
   difficulty: ProjectDifficulty | "Expert Tier";
   domain: 
     | "Baby Steps & Starter Kits"

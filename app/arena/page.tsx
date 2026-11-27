@@ -27,6 +27,7 @@ import {
   GraduationCap
 } from "lucide-react";
 import { ARENA_PROJECTS, ArenaProject } from "@/lib/arena-projects";
+import { getDefaultArenaProjectImage } from "@/lib/arena-project-images";
 import { useAuth } from "@/lib/auth-context";
 import { useToast } from "@/lib/toast-context";
 import BuilderProfileGateModal from "@/app/_components/BuilderProfileGateModal";
@@ -69,16 +70,16 @@ export default function ArenaPage() {
   const [enrollRole, setEnrollRole] = useState("AI Engineer");
   const [enrollTeamType, setEnrollTeamType] = useState<"Solo" | "Squad">("Solo");
 
-  // Fetch custom admin projects on mount
+  // Fetch live Arena projects from Firestore database
   useEffect(() => {
-    fetch("/api/admin/arena/projects")
+    fetch("/api/arena/projects", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
-        if (data.success && data.customProjects && data.customProjects.length > 0) {
-          setAllProjectsList([...data.customProjects, ...ARENA_PROJECTS]);
+        if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
+          setAllProjectsList(data.projects);
         }
       })
-      .catch((e) => console.warn("Could not fetch custom projects:", e));
+      .catch((e) => console.warn("Could not fetch arena projects from DB:", e));
   }, []);
 
   // Fetch user enrollments when user is logged in
@@ -533,38 +534,49 @@ export default function ArenaPage() {
                         : "border-slate-200 hover:border-[#1D3189] hover:-translate-y-1"
                     }`}
                 >
-                  <div className="p-6 pb-4 flex-1">
-                    {/* Card Header: Difficulty & Domain */}
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 font-sans text-[10px] font-bold uppercase tracking-wider truncate">
+                  <div className="relative h-40 sm:h-44 w-full overflow-hidden bg-[#162774] border-b border-slate-200/80">
+                    <img
+                      src={project.imageUrl || getDefaultArenaProjectImage(project.domain)}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#070E54]/85 via-[#070E54]/20 to-transparent"
+                    />
+                    <div className="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10">
+                      <span className="px-3 py-1 rounded-full bg-white/95 text-[#162774] border border-white font-sans text-[10px] font-extrabold uppercase tracking-wider truncate shadow-xs">
                         {project.domain || "AI Systems"}
                       </span>
                       {isThisEnrolled ? (
-                        <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500 text-white shadow-xs">
                           Active Track
                         </span>
                       ) : isCardLocked ? (
-                        <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-500 border border-slate-200" title={cardLockReason}>
+                        <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-extrabold uppercase tracking-wider bg-slate-900/90 text-slate-200 border border-white/20 shadow-xs" title={cardLockReason}>
                           Locked
                         </span>
                       ) : (
-                        <span className={`shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider border ${project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
-                            ? "bg-slate-950 text-purple-300 border-purple-800"
+                        <span className={`shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-extrabold uppercase tracking-wider border shadow-xs ${project.difficulty === "Go To Hell" || project.difficulty === "Expert Tier"
+                            ? "bg-slate-950 text-purple-300 border-purple-700"
                             : project.difficulty === "Insane"
-                              ? "bg-rose-100 text-rose-800 border-rose-300"
+                              ? "bg-rose-600 text-white border-rose-500"
                               : project.difficulty === "Hard"
-                                ? "bg-amber-100 text-amber-900 border-amber-300"
+                                ? "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
                                 : project.difficulty === "Intermediate"
-                                  ? "bg-indigo-100 text-[#1D3189] border-indigo-200"
+                                  ? "bg-white text-[#162774] border-white"
                                   : project.difficulty === "Easy"
-                                    ? "bg-cyan-100 text-cyan-900 border-cyan-300"
-                                    : "bg-emerald-100 text-emerald-900 border-emerald-300"
+                                    ? "bg-cyan-400 text-slate-950 border-cyan-300"
+                                    : "bg-emerald-400 text-slate-950 border-emerald-300"
                           }`}>
                           {difficultyLabel}
                         </span>
                       )}
                     </div>
+                  </div>
 
+                  <div className="p-6 pb-4 flex-1">
                     {/* Distinct PRD Blueprint Heading Block (White + #162774 Left Bar + #D9F83B Accent) */}
                     <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 border-l-4 border-l-[#162774] mb-3.5 shadow-2xs flex items-start justify-between gap-2.5">
                       <h3 className="text-base sm:text-[17px] font-extrabold text-slate-950 font-sans group-hover:text-[#162774] transition-colors duration-300 line-clamp-2 leading-snug">

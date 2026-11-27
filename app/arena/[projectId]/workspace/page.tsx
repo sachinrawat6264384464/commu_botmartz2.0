@@ -2,7 +2,10 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { getArenaProjectByIdOrSlugFromDb } from "@/lib/arena-projects-server";
 import ProjectWorkspaceClient from "./ProjectWorkspaceClient";
+
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ projectId: string }>;
@@ -23,9 +26,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { projectId } = await params;
-  const project = ARENA_PROJECTS.find(
-    (p) => p.slug === projectId || p.id === projectId
-  );
+  const project = await getArenaProjectByIdOrSlugFromDb(projectId);
 
   if (!project) {
     return {
@@ -41,9 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectWorkspacePage({ params }: Props) {
   const { projectId } = await params;
-  const project = ARENA_PROJECTS.find(
-    (p) => p.slug === projectId || p.id === projectId
-  );
+  const project = await getArenaProjectByIdOrSlugFromDb(projectId);
 
   if (!project) {
     notFound();

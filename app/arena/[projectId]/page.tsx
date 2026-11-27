@@ -2,7 +2,10 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
+import { getArenaProjectByIdOrSlugFromDb } from "@/lib/arena-projects-server";
 import ProjectPRDClient from "./ProjectPRDClient";
+
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ projectId: string }>;
@@ -25,9 +28,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { projectId } = await params;
-  const project = ARENA_PROJECTS.find(
-    (p) => p.slug === projectId || p.id === projectId
-  );
+  const project = await getArenaProjectByIdOrSlugFromDb(projectId);
 
   if (!project) {
     return {
@@ -62,29 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { projectId } = await params;
-  let project = ARENA_PROJECTS.find(
-    (p) => p.slug === projectId || p.id === projectId
-  );
-
-  if (!project) {
-    // Check custom projects from Firestore
-    try {
-      const { adminDb } = await import("@/lib/firebase-admin");
-      if (adminDb) {
-        const snap = await adminDb.collection("custom_arena_projects").where("slug", "==", projectId).limit(1).get();
-        if (!snap.empty) {
-          project = { id: snap.docs[0].id, ...snap.docs[0].data() } as any;
-        } else {
-          const byIdSnap = await adminDb.collection("custom_arena_projects").doc(projectId).get();
-          if (byIdSnap.exists) {
-            project = { id: byIdSnap.id, ...byIdSnap.data() } as any;
-          }
-        }
-      }
-    } catch (e) {
-      console.warn("Could not fetch custom project:", e);
-    }
-  }
+  const project = await getArenaProjectByIdOrSlugFromDb(projectId);
 
   if (!project) {
     notFound();
