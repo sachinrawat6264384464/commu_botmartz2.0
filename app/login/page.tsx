@@ -711,17 +711,21 @@ function StudentLoginInner() {
                         </div>
                       </div>
                     ) : (
-                      <div id="login-error-msg" data-testid="login-error-msg" className="p-3.5 rounded-2xl bg-rose-50 border-2 border-rose-200 text-rose-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
-                        <AlertCircle size={18} className="shrink-0 mt-0.5 text-rose-600" />
-                        <span>{error}</span>
+                      <div id="login-error-msg" data-testid="login-error-msg" className="p-3.5 rounded-2xl bg-white border border-rose-200 border-l-4 border-l-rose-600 text-slate-900 text-xs font-sans font-bold flex items-center gap-3 shadow-xs">
+                        <span className="w-7 h-7 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0">
+                          <AlertCircle size={15} />
+                        </span>
+                        <span className="leading-snug text-rose-800">{error}</span>
                       </div>
                     )
                   )}
 
                   {infoMsg && (
-                    <div className="p-3.5 rounded-2xl bg-emerald-50 border-2 border-emerald-200 text-emerald-700 text-xs sm:text-sm font-sans font-medium flex items-start gap-2.5">
-                      <CheckCircle2 size={18} className="shrink-0 mt-0.5 text-emerald-600" />
-                      <span>{infoMsg}</span>
+                    <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] text-xs font-sans font-bold flex items-center gap-3 shadow-xs">
+                      <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center shrink-0">
+                        <CheckCircle2 size={15} />
+                      </span>
+                      <span className="leading-snug">{infoMsg}</span>
                     </div>
                   )}
 
