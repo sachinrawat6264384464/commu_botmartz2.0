@@ -572,11 +572,20 @@ export default function AboutPage() {
 
           {/* Our Values & Community Guidelines */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 pt-2">
-            <div className="p-6 rounded-3xl bg-[#F4F6FB] border border-slate-200 space-y-3">
-              <div className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
+            <div className="group relative overflow-hidden p-6 rounded-3xl bg-[#F4F6FB] border border-slate-200 hover:border-[#162774] space-y-3 transition-colors duration-500 cursor-pointer">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[#162774] translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                  backgroundSize: "28px 28px",
+                }}
+              />
+              <div className="relative z-10 text-xs font-extrabold uppercase tracking-wider text-[#162774] group-hover:text-[#D9F83B] transition-colors duration-500">
                 Our Core Values
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   { title: "Innovation", desc: "Build forward-looking AI & cloud systems." },
                   { title: "Collaboration", desc: "Learn faster together in squads & reviews." },
@@ -590,21 +599,30 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="p-6 rounded-3xl bg-[#F4F6FB] border border-slate-200 space-y-3">
-              <div className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
+            <div className="group relative overflow-hidden p-6 rounded-3xl bg-[#F4F6FB] border border-slate-200 hover:border-[#162774] space-y-3 transition-colors duration-500 cursor-pointer">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[#162774] translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                  backgroundSize: "28px 28px",
+                }}
+              />
+              <div className="relative z-10 text-xs font-extrabold uppercase tracking-wider text-[#162774] group-hover:text-[#D9F83B] transition-colors duration-500">
                 Community Guidelines
               </div>
-              <ul className="space-y-2 text-xs text-slate-700 font-medium">
+              <ul className="relative z-10 space-y-2 text-xs text-slate-700 group-hover:text-blue-50 font-medium transition-colors duration-500">
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] mt-1.5 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] mt-1.5 shrink-0 transition-colors duration-500" />
                   <span>Respectful, constructive technical discussions and zero spam or self-promotion abuse.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] mt-1.5 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] mt-1.5 shrink-0 transition-colors duration-500" />
                   <span>Authentic Proof-of-Work only — plagiarized code or fake metrics result in immediate removal.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] mt-1.5 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] mt-1.5 shrink-0 transition-colors duration-500" />
                   <span>Help peers debug cleanly and share reproducible logs, repos, and benchmarks.</span>
                 </li>
               </ul>
