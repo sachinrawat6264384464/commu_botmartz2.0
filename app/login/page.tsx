@@ -572,52 +572,57 @@ function StudentLoginInner() {
               </div>
             ) : user ? (
               /* ALREADY LOGGED IN STATE */
-              <div className="h-full bg-white rounded-3xl border-2 border-slate-200 shadow-xl p-8 sm:p-10 text-center space-y-6 font-sans text-xs relative overflow-hidden flex flex-col justify-between hover:border-[#0066FF] transition-all">
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066FF] via-blue-500 to-cyan-500" />
-
-                <div className="space-y-4 pt-4">
-                  <div className="w-20 h-20 rounded-full bg-blue-50 text-[#0066FF] flex items-center justify-center mx-auto overflow-hidden border-4 border-blue-200 shadow-md">
+              <div className="h-full bg-white rounded-[28px] border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-xl p-8 sm:p-10 text-center space-y-6 font-sans relative overflow-hidden flex flex-col justify-between hover:border-[#162774] transition-all">
+                <div className="space-y-4 pt-2">
+                  <div className="w-20 h-20 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-2xl flex items-center justify-center mx-auto overflow-hidden border-4 border-[#D9F83B] shadow-md">
                     {user.photoURL ? (
                       <img src={user.photoURL} alt={user.displayName || "User"} className="w-full h-full object-cover" />
                     ) : (
-                      <CheckCircle2 size={38} />
+                      <span>{(studentProfile?.displayName || user.displayName || "B")[0].toUpperCase()}</span>
                     )}
                   </div>
 
-                  <div>
-                    <div className="text-xs text-emerald-600 font-extrabold uppercase tracking-wider mb-1 flex items-center justify-center gap-1.5 font-mono">
-                      <CheckCircle2 size={16} /> Authenticated Session Active
-                    </div>
-                    <h3 className="text-2xl font-black text-slate-900 font-sans">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold uppercase tracking-wider">
+                      Authenticated Session Active
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-extrabold text-[#162774] tracking-tight pt-1">
                       {studentProfile?.displayName || user.displayName || "Builder"}
                     </h3>
-                    <p className="text-slate-500 font-semibold text-sm mt-1">{user.email}</p>
+                    <p className="text-slate-600 font-medium text-sm">{user.email}</p>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-slate-50 border-2 border-slate-200 flex items-center justify-between text-left">
+                <div className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex items-center justify-between text-left">
                   <div>
-                    <span className="text-xs text-slate-500 uppercase font-extrabold font-mono">Karma Balance</span>
-                    <div className="text-base font-black text-slate-900 flex items-center gap-2 mt-0.5">
-                      <Coins size={18} className="text-amber-500" />
-                      <span>{studentProfile?.karmaCoins ?? 100} Coins</span>
+                    <span className="text-xs text-slate-500 uppercase font-extrabold tracking-wider">Karma Balance</span>
+                    <div className="text-lg font-extrabold text-[#162774] mt-0.5">
+                      {studentProfile?.karmaCoins ?? 100} Coins
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-xs text-slate-500 uppercase font-extrabold font-mono">Role Status</span>
-                    <div className="text-sm font-black text-[#0066FF] mt-0.5">
+                    <span className="text-xs text-slate-500 uppercase font-extrabold tracking-wider">Role Status</span>
+                    <div className="text-sm font-extrabold text-[#162774] mt-0.5">
                       {studentProfile?.personaType || "Verified Builder"}
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-2.5 font-mono text-xs">
+                <div className="space-y-3 font-sans">
                   <Link
                     href={redirectUrl}
-                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-700 hover:to-blue-600 text-white font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer text-xs"
+                    className="group relative overflow-hidden w-full py-3.5 pl-6 pr-2.5 rounded-full bg-[#162774] text-white font-extrabold text-sm flex items-center justify-between gap-3 shadow-lg transition-colors cursor-pointer"
                   >
-                    <span>Continue to Workspace &rarr;</span>
-                    <ArrowRight size={16} />
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+                    />
+                    <span className="relative z-10 group-hover:text-[#162774] transition-colors duration-300">
+                      Continue to Workspace
+                    </span>
+                    <span className="relative z-10 w-8 h-8 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B] flex items-center justify-center transition-colors duration-300">
+                      <ArrowRight size={15} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
+                    </span>
                   </Link>
 
                   <button
@@ -628,9 +633,15 @@ function StudentLoginInner() {
                       setError("");
                       setInfoMsg("");
                     }}
-                    className="w-full py-3 rounded-2xl bg-slate-100 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 border-2 border-slate-200 text-slate-700 font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="group relative overflow-hidden w-full py-3.5 px-5 rounded-full bg-[#F4F6FB] border border-slate-200 hover:border-rose-300 text-slate-700 font-bold text-sm transition-colors flex items-center justify-center cursor-pointer"
                   >
-                    <span>Sign Out to Register New Account</span>
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-rose-600 -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+                    />
+                    <span className="relative z-10 group-hover:text-white transition-colors duration-300">
+                      Sign Out to Register New Account
+                    </span>
                   </button>
                 </div>
               </div>
