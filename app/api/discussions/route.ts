@@ -40,13 +40,25 @@ export async function GET(request: Request) {
 
       const rawComments = data.commentsList;
       const commentsArray = Array.isArray(rawComments)
-        ? rawComments.map((c, idx) => ({
-            id: c.id || `c-${idx}`,
-            author: c.author || "Builder",
-            handle: c.handle || "@builder",
-            text: c.text || c.content || "",
-            timeAgo: c.timeAgo || "Recently"
-          }))
+        ? rawComments.map((c: any, idx: number) => {
+            const cAuthorName =
+              typeof c.author === "object" && c.author !== null
+                ? c.author.name || "Builder"
+                : typeof c.author === "string"
+                  ? c.author
+                  : "Builder";
+            const cAuthorHandle =
+              typeof c.author === "object" && c.author !== null
+                ? c.author.handle || "@builder"
+                : c.handle || "@builder";
+            return {
+              id: c.id || `c-${idx}`,
+              author: cAuthorName,
+              handle: cAuthorHandle,
+              text: c.text || c.content || "",
+              timeAgo: c.timeAgo || "Recently",
+            };
+          })
         : [];
 
       return {

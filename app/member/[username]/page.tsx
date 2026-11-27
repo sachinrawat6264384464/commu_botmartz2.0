@@ -1,33 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import {
-  Trophy,
-  Flame,
-  CheckCircle2,
-  Github,
-  Linkedin,
-  Terminal,
-  Layers,
-  ArrowLeft,
-  ExternalLink,
-  ShieldCheck,
-  Code2,
-  Calendar,
-  MessageCircle,
-  Share2,
-  Sparkles,
-  Award,
-  MapPin,
-  GraduationCap,
-  Briefcase,
-  Globe,
-  Coins,
-  Copy
-} from "lucide-react";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
-import { ARENA_PROJECTS } from "@/lib/arena-projects";
+
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -40,6 +16,7 @@ export default async function MemberProfilePage({ params }: Props) {
   let studentProfile: any = null;
   let enrollments: any[] = [];
   let dailyLogs: any[] = [];
+  let walletBalance: number | null = null;
 
   if (adminDb && hasAdminCredentials) {
     try {
@@ -61,7 +38,6 @@ export default async function MemberProfilePage({ params }: Props) {
           .get();
 
         if (profileSnap.empty) {
-          // Check by githubUsername or direct doc UID
           profileSnap = await adminDb
             .collection("student_profiles")
             .where("githubUsername", "==", decodedParam)
@@ -85,7 +61,7 @@ export default async function MemberProfilePage({ params }: Props) {
       const lookupEmail = studentProfile?.email || (isEmail ? decodedParam : null);
       const lookupGithub = studentProfile?.githubUsername || (!isEmail ? decodedParam : null);
 
-      // 2. Fetch Enrollments
+      // 2. Fetch Enrollments from Firestore
       let enrollQuery;
       if (lookupEmail) {
         enrollQuery = adminDb.collection("arena_enrollments").where("email", "==", lookupEmail);
@@ -100,17 +76,31 @@ export default async function MemberProfilePage({ params }: Props) {
         }
       }
 
-      // 3. Fetch Daily Logs
+      // 3. Fetch Daily Logs (no orderBy to avoid missing composite index errors)
       const effectiveEmail = lookupEmail || enrollments[0]?.email;
       if (effectiveEmail) {
         const logsSnap = await adminDb
           .collection("arena_daily_logs")
           .where("studentEmail", "==", effectiveEmail)
-          .orderBy("submittedAt", "desc")
           .get();
 
         if (!logsSnap.empty) {
-          dailyLogs = logsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          dailyLogs = logsSnap.docs
+            .map((d) => ({ id: d.id, ...d.data() }))
+            .sort((a: any, b: any) => String(b.submittedAt || "").localeCompare(String(a.submittedAt || "")));
+        }
+
+        // 4. Fetch live Karma Wallet balance
+        const walletSnap = await adminDb
+          .collection("student_wallets")
+          .where("email", "==", effectiveEmail)
+          .limit(1)
+          .get();
+        if (!walletSnap.empty) {
+          const wData = walletSnap.docs[0].data();
+          if (typeof wData.balance === "number") {
+            walletBalance = wData.balance;
+          }
         }
       }
     } catch (e) {
@@ -118,32 +108,29 @@ export default async function MemberProfilePage({ params }: Props) {
     }
   }
 
-  // Fallback metadata if no explicit profile exists yet
   const primaryEnrollment = enrollments[0];
   const displayName = studentProfile?.displayName || primaryEnrollment?.name || decodedParam.split("@")[0].toUpperCase();
   const displayHandle = studentProfile?.username || primaryEnrollment?.githubUsername || decodedParam.split("@")[0];
-  const role = studentProfile?.aiSpecialization || primaryEnrollment?.role || "Autonomous Agent Architect";
-  const college = studentProfile?.collegeName || primaryEnrollment?.college || "Engineering College (Indore / MP)";
-  const degreeBranch = studentProfile?.degreeBranch || "B.Tech Computer Science";
-  const gradYear = studentProfile?.graduationYear || "2026";
-  const bio = studentProfile?.bio || primaryEnrollment?.bio || `Student Builder developing deterministic agent swarms and full-stack AI systems across the Botmartz Cohort.`;
+  const role = studentProfile?.aiSpecialization || primaryEnrollment?.role || "AI Systems Builder";
+  const college = studentProfile?.collegeName || primaryEnrollment?.college || "Independent Builder";
+  const degreeBranch = studentProfile?.degreeBranch || "Engineering";
+  const gradYear = studentProfile?.graduationYear || "";
+  const bio =
+    studentProfile?.bio ||
+    primaryEnrollment?.bio ||
+    "Building deterministic AI workflows and production engineering systems in the Botmartz Builders Community.";
   const githubUser = studentProfile?.githubUsername || primaryEnrollment?.githubUsername;
   const linkedin = studentProfile?.linkedinUrl || primaryEnrollment?.linkedin;
   const portfolio = studentProfile?.portfolioUrl;
-  const location = studentProfile?.cityLocation || "Indore, MP / Remote India";
-  const karmaCoins = studentProfile?.karmaCoins || 100;
-  const isVerified = studentProfile?.isVerifiedBuilder ?? true;
+  const location = studentProfile?.cityLocation || "India";
+  const karmaCoins = walletBalance ?? studentProfile?.karmaCoins ?? 0;
+  const isVerified = Boolean(studentProfile);
 
-  const techStack: string[] = studentProfile?.primaryTechStack || [
-    "LangGraph",
-    "Python",
-    "FastAPI",
-    "Next.js",
-    "PostgreSQL",
-    "PyTorch"
-  ];
+  const techStack: string[] = Array.isArray(studentProfile?.primaryTechStack) && studentProfile.primaryTechStack.length > 0
+    ? studentProfile.primaryTechStack
+    : ["Python", "FastAPI", "Next.js", "PostgreSQL"];
 
-  // XP and Level Calculation
+  // XP and Level Calculation from real DB data
   const totalLogsCount = dailyLogs.length;
   const distinctProjects = Array.from(new Set(enrollments.map((e) => e.projectId)));
   const totalProjectsCount = distinctProjects.length;
@@ -164,160 +151,146 @@ export default async function MemberProfilePage({ params }: Props) {
   });
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 pb-20">
-      {/* Top Header Breadcrumb */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        {/* Top Blue Breadcrumb Strip */}
+        <div
+          className="bg-[#162774] text-white rounded-3xl px-6 py-4 flex flex-wrap items-center justify-between gap-4 shadow-lg"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }}
+        >
           <Link
             href="/arena"
-            className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-600 hover:text-[#0066FF] transition-colors"
+            className="text-xs sm:text-sm font-bold text-blue-100 hover:text-[#D9F83B] transition-colors"
           >
-            <ArrowLeft size={14} /> Back to Arena
+            &larr; Back to Arena
           </Link>
-          <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-            <span>Cohort 1 (14 Sept - Diwali)</span>
-            <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 flex items-center gap-1">
-              <ShieldCheck size={12} />
-              <span>Verified Student Builder</span>
+          <div className="flex items-center gap-3 text-xs font-semibold">
+            <span className="text-blue-100/90">Botmartz Builders Cohort</span>
+            <span className="px-3 py-1 rounded-full bg-white text-[#162774] font-extrabold text-[11px]">
+              {isVerified ? "Verified Builder" : "Community Profile"}
             </span>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
           {/* ── LEFT COLUMN: Profile Header & Contribution Wall (2 cols) ── */}
           <div className="lg:col-span-2 space-y-6">
-            
             {/* Main Profile Card */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+            <div className="bg-white border border-slate-200 border-l-4 border-l-[#162774] rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md transition-all">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                
-                <div className="flex items-center gap-5">
-                  {/* Avatar with Level Ring */}
-                  <div className="relative">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-3xl shadow-md border-4 border-white">
+                <div className="flex items-center gap-5 min-w-0">
+                  <div className="relative shrink-0">
+                    <div className="w-20 h-20 rounded-2xl bg-[#162774] text-white flex items-center justify-center font-extrabold text-3xl shadow-md">
                       {displayName.charAt(0)}
                     </div>
-                    <div className="absolute -bottom-1 -right-1 px-2 py-0.5 rounded-full bg-[#0066FF] text-white font-mono text-[11px] font-bold shadow-xs border-2 border-white">
+                    <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold shadow-xs border-2 border-white">
                       Lvl {level}
                     </div>
                   </div>
 
-                  <div>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h1 className="text-2xl font-bold text-slate-900 font-sans">{displayName}</h1>
-                      {isVerified && <ShieldCheck size={18} className="text-[#0066FF]" />}
-                      <span className="px-2 py-0.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-[10px] font-bold border border-blue-200">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2.5 flex-wrap">
+                      <h1 className="text-2xl sm:text-3xl font-extrabold text-[#162774] tracking-tight">
+                        {displayName}
+                      </h1>
+                      <span className="px-3 py-0.5 rounded-full bg-[#F4F6FB] text-[#162774] text-xs font-bold border border-slate-200">
                         {role}
                       </span>
                     </div>
-                    <p className="text-xs font-mono text-slate-500 mb-1">@{displayHandle}</p>
-                    
+                    <p className="text-xs font-bold text-slate-500 mt-0.5 mb-1.5">@{displayHandle}</p>
+
                     {studentProfile?.personaType === "WORKING_PROFESSIONAL" || studentProfile?.personaType === "FOUNDER_BUILDER" ? (
-                      <p className="text-xs text-slate-700 font-sans flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-indigo-700">{studentProfile?.companyName || "Tech Professional"}</span>
-                        <span>&bull;</span>
-                        <span>{studentProfile?.designationRole || "Software Engineer"} ({studentProfile?.yearsOfExperience || "Professional"})</span>
+                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
+                        <span className="font-bold text-[#162774]">{studentProfile?.companyName || "Tech Professional"}</span>{" "}
+                        &bull; {studentProfile?.designationRole || "Software Engineer"}
                       </p>
                     ) : (
-                      <p className="text-xs text-slate-700 font-sans flex items-center gap-2 flex-wrap">
-                        <span className="font-bold">{college}</span>
-                        <span>&bull;</span>
-                        <span>{degreeBranch} ({gradYear})</span>
+                      <p className="text-xs sm:text-sm text-slate-700 font-medium">
+                        <span className="font-bold text-slate-900">{college}</span>
+                        {gradYear ? ` • ${degreeBranch} (${gradYear})` : ""}
                       </p>
                     )}
                   </div>
                 </div>
 
-                {/* Profile Action Buttons */}
-                <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                {/* Profile Action Buttons (Light Lime, No Wrapping) */}
+                <div className="flex items-center gap-2.5 shrink-0">
                   <a
                     href={`mailto:${studentProfile?.email || primaryEnrollment?.email || "team@botmartz.com"}?subject=Hiring Inquiry for ${encodeURIComponent(displayName)} via Botmartz Arena`}
-                    className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold font-mono text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs"
+                    className="whitespace-nowrap px-5 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs sm:text-sm transition-all shadow-xs"
                   >
-                    <Briefcase size={14} />
-                    <span>Hire Builder</span>
+                    Hire Builder
                   </a>
                   <Link
                     href={`/discussions?author=${displayHandle}`}
-                    className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold font-mono text-xs transition-all flex items-center justify-center gap-1.5 border border-slate-200"
+                    className="whitespace-nowrap px-5 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs sm:text-sm transition-all shadow-xs"
                   >
-                    <MessageCircle size={14} />
-                    <span>Chat</span>
+                    Chat
                   </Link>
                 </div>
               </div>
 
               {/* Bio & Social Links */}
-              <div className="mt-6 pt-6 border-t border-slate-100 space-y-4">
-                <p className="text-xs text-slate-600 leading-relaxed font-sans">
+              <div className="mt-6 pt-6 border-t border-slate-200/80 space-y-4">
+                <p className="text-sm text-slate-700 leading-relaxed font-medium">
                   {bio}
                 </p>
 
-                {/* Location & Tags */}
-                <div className="flex items-center gap-4 text-xs font-mono text-slate-500 flex-wrap">
-                  <div className="flex items-center gap-1">
-                    <MapPin size={13} className="text-slate-400" />
-                    <span>{location}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Coins size={13} className="text-amber-500" />
-                    <span className="font-bold text-slate-700">{karmaCoins} Karma Coins</span>
-                  </div>
+                <div className="flex items-center gap-5 text-xs sm:text-sm text-slate-600 flex-wrap font-semibold">
+                  <span>Location: <strong className="text-slate-900">{location}</strong></span>
+                  <span>Karma Balance: <strong className="text-[#162774]">{karmaCoins} Coins</strong></span>
                 </div>
 
-                {/* Social Badges */}
-                <div className="flex items-center gap-3 text-xs font-mono pt-2">
-                  {githubUser && (
-                    <a
-                      href={`https://github.com/${githubUser}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 font-bold transition-colors"
-                    >
-                      <Github size={13} />
-                      <span>github.com/{githubUser}</span>
-                    </a>
-                  )}
-
-                  {linkedin && (
-                    <a
-                      href={linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0077B5] text-white hover:opacity-90 font-bold transition-colors"
-                    >
-                      <Linkedin size={13} />
-                      <span>LinkedIn</span>
-                    </a>
-                  )}
-
-                  {portfolio && (
-                    <a
-                      href={portfolio}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors"
-                    >
-                      <Globe size={13} />
-                      <span>Portfolio</span>
-                    </a>
-                  )}
-                </div>
+                {(githubUser || linkedin || portfolio) && (
+                  <div className="flex flex-wrap items-center gap-2.5 text-xs pt-1">
+                    {githubUser && (
+                      <a
+                        href={`https://github.com/${githubUser}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-bold transition-colors"
+                      >
+                        GitHub: {githubUser}
+                      </a>
+                    )}
+                    {linkedin && (
+                      <a
+                        href={linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 rounded-xl bg-[#F4F6FB] hover:bg-[#162774] text-[#162774] hover:text-white border border-slate-200 font-bold transition-colors"
+                      >
+                        LinkedIn Profile
+                      </a>
+                    )}
+                    {portfolio && (
+                      <a
+                        href={portfolio}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-4 py-2 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-colors"
+                      >
+                        Live Portfolio
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Primary Tech Stack */}
-              <div className="mt-6 pt-6 border-t border-slate-100">
-                <div className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider mb-2">
+              <div className="mt-6 pt-6 border-t border-slate-200/80">
+                <div className="text-xs font-extrabold text-[#162774] uppercase tracking-wider mb-2.5">
                   Verified Technical Specialties
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 font-mono text-[11px] font-bold border border-slate-200/80"
+                      className="px-3 py-1.5 rounded-xl bg-[#F4F6FB] hover:bg-[#162774] text-[#162774] hover:text-white text-xs font-bold border border-slate-200 transition-colors"
                     >
                       {tech}
                     </span>
@@ -326,88 +299,89 @@ export default async function MemberProfilePage({ params }: Props) {
               </div>
             </div>
 
-            {/* 70-Day Proof-of-Work Contribution Wall */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
-              <div className="flex items-center justify-between">
+            {/* 45-Day Proof-of-Work Contribution Wall */}
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+              <div className="flex items-center justify-between gap-3 flex-wrap">
                 <div>
-                  <h3 className="text-base font-bold text-slate-900 font-sans">
+                  <h3 className="text-lg font-extrabold text-[#162774]">
                     45-Day Proof-of-Work Heatmap
                   </h3>
-                  <p className="text-xs text-slate-500 font-sans">
-                    Autonomous GitHub commits &amp; daily standups logged during Cohort 1.
+                  <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                    GitHub commits &amp; daily standups logged in Firestore.
                   </p>
                 </div>
-                <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-mono text-xs font-bold border border-emerald-200">
+                <span className="px-3.5 py-1 rounded-full bg-[#162774] text-white text-xs font-bold">
                   {totalLogsCount} Commits Verified
                 </span>
               </div>
 
-              <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 overflow-x-auto">
-                <div className="flex gap-1.5 min-w-max">
+              <div className="p-5 rounded-2xl bg-[#162774] border border-white/15 overflow-x-auto">
+                <div className="flex gap-2 min-w-max">
                   {weeks.map((week, wIdx) => (
-                    <div key={wIdx} className="flex flex-col gap-1.5">
+                    <div key={wIdx} className="flex flex-col gap-2">
                       {week.map((d) => (
                         <div
                           key={d.dayIndex}
                           title={`Day ${d.dayIndex + 1}: ${d.count > 0 ? `${d.count} commits logged` : "No activity"}`}
-                          className={`w-3.5 h-3.5 rounded-xs transition-all ${
+                          className={`w-4 h-4 rounded-sm transition-all ${
                             d.count === 0
-                              ? "bg-slate-900"
+                              ? "bg-white/15"
                               : d.count === 1
-                              ? "bg-emerald-800"
-                              : d.count === 2
-                              ? "bg-emerald-600"
-                              : "bg-emerald-400 shadow-xs shadow-emerald-500/50"
+                                ? "bg-blue-300"
+                                : d.count === 2
+                                  ? "bg-emerald-400"
+                                  : "bg-[#D9F83B]"
                           }`}
                         />
                       ))}
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center justify-between mt-3 text-[10px] font-mono text-slate-500">
-                  <span>14th Sept (Cohort 1 Kickoff)</span>
+                <div className="flex items-center justify-between mt-4 text-[11px] font-semibold text-blue-100">
+                  <span>45-Day Cohort Window</span>
                   <div className="flex items-center gap-1.5">
                     <span>Less</span>
-                    <div className="w-2.5 h-2.5 rounded-xs bg-slate-900"></div>
-                    <div className="w-2.5 h-2.5 rounded-xs bg-emerald-800"></div>
-                    <div className="w-2.5 h-2.5 rounded-xs bg-emerald-400"></div>
+                    <div className="w-3 h-3 rounded-xs bg-white/15" />
+                    <div className="w-3 h-3 rounded-xs bg-blue-300" />
+                    <div className="w-3 h-3 rounded-xs bg-[#D9F83B]" />
                     <span>More</span>
                   </div>
-                  <span>Diwali 2026</span>
                 </div>
               </div>
             </div>
 
             {/* Enrolled Arena Systems Under Implementation */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
-              <h3 className="text-base font-bold text-slate-900 font-sans">
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm space-y-4">
+              <h3 className="text-lg font-extrabold text-[#162774]">
                 Active Arena Blueprints &amp; Systems
               </h3>
 
               {enrollments.length === 0 ? (
-                <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-500 font-mono">
-                  No public project blueprints enrolled yet.
+                <div className="p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-center text-sm text-slate-600 font-medium">
+                  No project blueprints enrolled yet.
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                   {enrollments.map((ep) => (
-                    <div key={ep.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+                    <div
+                      key={ep.id}
+                      className="p-5 rounded-2xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#162774] transition-all space-y-2.5"
+                    >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="px-2 py-0.5 rounded bg-blue-50 text-[#0066FF] font-bold text-[10px]">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-white font-bold text-[10px] uppercase">
                           {ep.difficulty || "Hard Tier"}
                         </span>
-                        <span className="text-[10px] text-slate-400">
+                        <span className="text-[11px] font-semibold text-slate-500">
                           {ep.teamType || "Solo Shipper"}
                         </span>
                       </div>
-                      <h4 className="font-bold text-slate-900 text-sm font-sans">{ep.projectTitle}</h4>
-                      <div className="pt-2 border-t border-slate-200/60">
+                      <h4 className="font-extrabold text-slate-900 text-sm">{ep.projectTitle}</h4>
+                      <div className="pt-2 border-t border-slate-200/70">
                         <Link
                           href={`/arena/${ep.projectId}`}
-                          className="text-[#0066FF] hover:underline font-bold text-[11px] flex items-center gap-1"
+                          className="inline-block px-3.5 py-1.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-colors"
                         >
-                          <span>Inspect PRD Blueprint</span>
-                          <ExternalLink size={11} />
+                          Inspect PRD Blueprint &rarr;
                         </Link>
                       </div>
                     </div>
@@ -415,111 +389,104 @@ export default async function MemberProfilePage({ params }: Props) {
                 </div>
               )}
             </div>
-
           </div>
 
           {/* ── RIGHT COLUMN: XP Ledger, Badges & Verification (1 col) ── */}
           <div className="space-y-6">
-            
             {/* Reputation XP Card */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs space-y-4 font-mono text-xs">
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-900 uppercase">Shipper Reputation</span>
-                <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 font-bold text-[10px]">
+                <span className="font-extrabold text-sm text-[#162774] uppercase tracking-wider">Shipper Reputation</span>
+                <span className="px-3 py-1 rounded-full bg-[#162774] text-white font-extrabold text-xs">
                   Lvl {level} Tier
                 </span>
               </div>
 
-              <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px]">
-                  <span className="text-slate-500">Level Progress</span>
-                  <span className="font-bold text-slate-800">{xpCurrentLevel} / 300 XP</span>
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-600">Level Progress</span>
+                  <span className="font-extrabold text-[#162774]">{xpCurrentLevel} / 300 XP</span>
                 </div>
-                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-[#F4F6FB] rounded-full h-2.5 overflow-hidden border border-slate-200">
                   <div
-                    className="bg-[#0066FF] h-2 rounded-full transition-all"
+                    className="bg-[#162774] h-2.5 rounded-full transition-all"
                     style={{ width: `${(xpCurrentLevel / 300) * 100}%` }}
                   />
                 </div>
-                <div className="text-[10px] text-slate-400 text-right">
+                <div className="text-xs text-slate-500 text-right font-medium">
                   {xpNeeded} XP to Level {level + 1}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 text-center">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <div className="text-lg font-black text-slate-900">{totalLogsCount}</div>
-                  <div className="text-[10px] text-slate-500 uppercase">Commits Logged</div>
+              <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-200/80 text-center">
+                <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-slate-200">
+                  <div className="text-xl font-extrabold text-[#162774]">{totalLogsCount}</div>
+                  <div className="text-[11px] text-slate-600 font-bold uppercase mt-0.5">Commits Logged</div>
                 </div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
-                  <div className="text-lg font-black text-amber-600">{karmaCoins}</div>
-                  <div className="text-[10px] text-slate-500 uppercase">Karma Coins</div>
+                <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-slate-200">
+                  <div className="text-xl font-extrabold text-[#162774]">{karmaCoins}</div>
+                  <div className="text-[11px] text-slate-600 font-bold uppercase mt-0.5">Karma Coins</div>
                 </div>
               </div>
             </div>
 
             {/* Badges Earned Card */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs space-y-4">
-              <h3 className="font-bold text-slate-900 text-sm font-sans">
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm space-y-4">
+              <h3 className="font-extrabold text-[#162774] text-base">
                 Verified Credentials &amp; Badges
               </h3>
-              <div className="space-y-3 font-mono text-xs">
-                <div className="p-3 rounded-2xl bg-blue-50/60 border border-blue-200/80 flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-blue-600 text-white">
-                    <ShieldCheck size={16} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900">🎓 Verified Student</div>
-                    <div className="text-[11px] text-slate-500 font-sans">College &amp; Roll No authenticated</div>
+              <div className="space-y-3 text-xs">
+                <div className="p-3.5 rounded-2xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] transition-all">
+                  <div className="font-extrabold text-slate-900 text-sm">Verified Student</div>
+                  <div className="text-xs text-slate-600 font-medium mt-0.5">
+                    {isVerified ? "Authenticated builder profile" : "Pending verification"}
                   </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-emerald-600 text-white">
-                    <Flame size={16} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900">⚡ Deterministic Shipper</div>
-                    <div className="text-[11px] text-slate-500 font-sans">Logged active PoW standup streak</div>
+                <div className="p-3.5 rounded-2xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] transition-all">
+                  <div className="font-extrabold text-slate-900 text-sm">Deterministic Shipper</div>
+                  <div className="text-xs text-slate-600 font-medium mt-0.5">
+                    {totalLogsCount > 0 ? `${totalLogsCount} PoW standup logs verified` : "No standup logs yet"}
                   </div>
                 </div>
 
-                <div className="p-3 rounded-2xl bg-purple-50/60 border border-purple-200/80 flex items-center gap-3">
-                  <div className="p-2 rounded-xl bg-purple-600 text-white">
-                    <Award size={16} />
-                  </div>
-                  <div>
-                    <div className="font-bold text-slate-900">🏆 Cohort 1 Pioneer</div>
-                    <div className="text-[11px] text-slate-500 font-sans">Diwali 2026 Virtual Internship Track</div>
+                <div className="p-3.5 rounded-2xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] transition-all">
+                  <div className="font-extrabold text-slate-900 text-sm">Cohort Builder</div>
+                  <div className="text-xs text-slate-600 font-medium mt-0.5">
+                    {totalProjectsCount > 0 ? `${totalProjectsCount} active system blueprints` : "Virtual Internship Track"}
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Recruiter / Founder Audit Card */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-950 to-blue-950 text-white border border-blue-500/30 space-y-3 shadow-lg font-mono text-xs">
-              <div className="flex items-center gap-2 text-cyan-400 font-bold text-[11px] uppercase">
-                <Sparkles size={14} />
-                <span>FOUNDER-AUDITED PORTFOLIO</span>
+            <div
+              className="p-6 rounded-3xl bg-[#162774] text-white border border-white/15 space-y-3.5 shadow-xl"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                backgroundSize: "36px 36px",
+              }}
+            >
+              <div className="text-xs font-extrabold uppercase tracking-wider text-blue-200">
+                Founder-Audited Portfolio
               </div>
-              <h4 className="text-sm font-bold font-sans text-white">
+              <h4 className="text-base font-extrabold text-white">
                 Cryptographic Proof-of-Work Dossier
               </h4>
-              <p className="text-[11px] text-slate-300 font-sans leading-relaxed">
-                All daily commits, PRD solutions, and code repositories on this profile are cryptographically timestamped and verifiable for engineering hiring managers.
+              <p className="text-xs sm:text-sm text-blue-100/85 leading-relaxed font-medium">
+                All daily commits, PRD solutions, and code repositories on this profile are timestamped and verifiable for hiring managers.
               </p>
               <div className="pt-2">
                 <Link
                   href="/arena"
-                  className="block w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-all shadow-sm"
+                  className="block w-full py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs sm:text-sm text-center transition-all shadow-sm"
                 >
-                  Explore {TOTAL_SYSTEMS_COUNT} Systems Catalog →
+                  Explore Live Systems Catalog &rarr;
                 </Link>
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
