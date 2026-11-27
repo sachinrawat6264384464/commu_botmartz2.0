@@ -629,60 +629,66 @@ export default function StudentProfilePortal() {
               </form>
             </div>
 
-            {/* Main Builder Avatar & Meta Details */}
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-              <div className="flex items-center gap-5">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-[#D9F83B] text-slate-950 font-sans text-3xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border-2 border-white">
+            {/* Main Builder Profile: 3 Equal Divided Columns */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center lg:divide-x lg:divide-white/15">
+              {/* Part 1: Identity & Bio */}
+              <div className="flex items-center gap-4 lg:pr-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#D9F83B] text-slate-950 font-sans text-2xl sm:text-3xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border-2 border-white">
                   {(studentProfile?.displayName || user?.displayName || "B")[0].toUpperCase()}
                 </div>
 
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2.5 flex-wrap">
-                    <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-sans tracking-tight">
+                <div className="space-y-1.5 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h2 className="text-xl sm:text-2xl font-extrabold text-white font-sans tracking-tight">
                       {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
                     </h2>
-                    <span className="text-xs font-sans font-extrabold text-slate-950 bg-[#D9F83B] px-3 py-1 rounded-full">
+                    <span className="text-xs font-sans font-extrabold text-slate-950 bg-[#D9F83B] px-2.5 py-0.5 rounded-full">
                       @{username}
                     </span>
                     {score >= 80 && (
-                      <span className="px-3 py-1 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold uppercase tracking-wider">
+                      <span className="px-2.5 py-0.5 rounded-full bg-white text-[#162774] font-sans text-[11px] font-extrabold uppercase tracking-wider">
                         VERIFIED BUILDER
                       </span>
                     )}
                   </div>
 
-                  <p className="text-sm text-white/85 font-sans font-medium w-full leading-relaxed">
+                  <p className="text-xs sm:text-sm text-white/85 font-sans font-medium leading-relaxed">
                     {(studentProfile as any)?.bio || "Building production AI systems, agent swarms, and high-frequency backend telemetry."}
                   </p>
-
-                  {/* Badges Pill Row */}
-                  <div className="flex items-center gap-2.5 pt-1 font-sans text-xs font-semibold text-white flex-wrap">
-                    {isProfessional ? (
-                      <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                        {(studentProfile as any)?.companyName || "Tech Professional"} &bull; {(studentProfile as any)?.designationRole || "Engineer"}
-                      </span>
-                    ) : (
-                      <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                        {studentProfile?.collegeName || "Engineering Student"} &bull; {studentProfile?.degreeBranch || "B.Tech CSE"} ({studentProfile?.graduationYear || "2026"})
-                      </span>
-                    )}
-                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                      {(studentProfile as any)?.cityLocation || "Indore / India"} ({(studentProfile as any)?.country || "India"})
-                    </span>
-                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                      {(studentProfile as any)?.timezone || "IST"}
-                    </span>
-                  </div>
                 </div>
               </div>
 
-              {/* Action Buttons & Karma Balance */}
-              <div className="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end gap-3 w-full lg:w-auto shrink-0">
+              {/* Part 2: Academic / Role, Location & Timezone */}
+              <div className="flex flex-col justify-center gap-2.5 lg:px-6 font-sans text-xs font-semibold text-white">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#D9F83B]">
+                  Builder Credentials &amp; Location
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {isProfessional ? (
+                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                      {(studentProfile as any)?.companyName || "Tech Professional"} &bull; {(studentProfile as any)?.designationRole || "Engineer"}
+                    </span>
+                  ) : (
+                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                      {studentProfile?.collegeName || "Engineering Student"} &bull; {studentProfile?.degreeBranch || "B.Tech CSE"} ({studentProfile?.graduationYear || "2026"})
+                    </span>
+                  )}
+                  <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                    {(studentProfile as any)?.cityLocation || "Indore / India"} ({(studentProfile as any)?.country || "India"})
+                  </span>
+                  <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                    {(studentProfile as any)?.timezone || "IST"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Part 3: Karma Balance & Portfolio Actions */}
+              <div className="flex flex-col items-stretch sm:items-start lg:items-end justify-center gap-3 lg:pl-6">
                 <div className="flex items-center justify-center px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold shadow-xs">
                   <span>Karma Balance: {coins} Coins</span>
                 </div>
 
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 flex-wrap">
                   <button
                     onClick={handleCopyPublicProfile}
                     className="px-4 py-2.5 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#162774] border border-white/25 font-sans text-xs sm:text-sm font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs"
