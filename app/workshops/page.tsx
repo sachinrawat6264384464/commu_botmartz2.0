@@ -253,7 +253,7 @@ export default function WorkshopsPage() {
             <span>Loading Live Workshops...</span>
           </div>
         ) : (
-          <section className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filtered.map((ws, idx) => (
               <div
                 key={ws.id}
@@ -261,25 +261,25 @@ export default function WorkshopsPage() {
               >
                 <div>
                   {/* Cover Image (Compact 3-col height) */}
-                  <div className="relative h-48 w-full overflow-hidden bg-[#162774]">
+                  <div className="relative h-24 sm:h-48 w-full overflow-hidden bg-[#162774]">
                     <img
                       src={ws.imageUrl}
                       alt={ws.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#162774]/75 via-transparent to-transparent" />
-                    <div className="absolute top-3 left-3 flex items-center gap-2">
-                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[11px] flex items-center justify-center shadow-md">
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex items-center gap-1 sm:gap-2">
+                      <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[9px] sm:text-[11px] flex items-center justify-center shadow-md">
                         {String(idx + 1).padStart(2, "0")}
                       </span>
-                      <span className="px-3 py-1 rounded-full bg-[#162774]/95 text-white text-[10px] font-extrabold uppercase tracking-wider border border-white/20">
+                      <span className="px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#162774]/95 text-white text-[8px] sm:text-[10px] font-extrabold uppercase tracking-wider border border-white/20 truncate max-w-[80px] sm:max-w-none">
                         {ws.category}
                       </span>
                     </div>
-                    <span className="absolute top-3 right-3 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-extrabold shadow-md">
+                    <span className="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[9px] sm:text-xs font-extrabold shadow-md">
                       {ws.isPaid && Number(ws.price) > 0 ? `₹${ws.price}` : "Free"}
                     </span>
-                    <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px] font-bold text-white">
+                    <div className="hidden sm:flex absolute bottom-2.5 left-3 right-3 items-center justify-between text-[11px] font-bold text-white">
                       <span>{ws.scheduleDate}</span>
                       <span className="px-2 py-0.5 rounded-full bg-white/15 backdrop-blur-xs">
                         {ws.duration}
@@ -288,40 +288,40 @@ export default function WorkshopsPage() {
                   </div>
 
                   {/* Body (Compact size with sharp readable contrast) */}
-                  <div className="p-5 pb-4 space-y-3">
-                    <h2 className="text-lg font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-snug">
+                  <div className="p-2.5 sm:p-5 pb-2.5 sm:pb-4 space-y-2 sm:space-y-3">
+                    <h2 className="text-[11.5px] sm:text-lg font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors leading-tight sm:leading-snug line-clamp-2">
                       {ws.title}
                     </h2>
 
-                    <p className="text-xs sm:text-[13px] text-slate-700 leading-relaxed line-clamp-2 font-medium">
+                    <p className="text-[10px] sm:text-[13px] text-slate-700 leading-snug sm:leading-relaxed line-clamp-2 font-medium">
                       {ws.tagline}
                     </p>
 
-                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 space-y-1.5">
-                      <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
+                    <div className="p-2 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 space-y-1 sm:space-y-1.5">
+                      <div className="text-[8.5px] sm:text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
                         What You Will Build
                       </div>
-                      <ul className="space-y-1 text-xs text-slate-800 font-medium">
-                        {(ws.whatYouWillBuild || []).slice(0, 3).map((item) => (
-                          <li key={item} className="flex items-start gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#162774] mt-1.5 shrink-0" />
+                      <ul className="space-y-0.5 sm:space-y-1 text-[9.5px] sm:text-xs text-slate-800 font-medium">
+                        {(ws.whatYouWillBuild || []).slice(0, 2).map((item) => (
+                          <li key={item} className="flex items-start gap-1.5 sm:gap-2">
+                            <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-[#162774] mt-1 sm:mt-1.5 shrink-0" />
                             <span className="line-clamp-1">{item}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="flex items-center justify-between text-xs text-slate-700 font-bold pt-1">
-                      <span>By {ws.instructor}</span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] text-[11px]">
-                        {ws.registrationCount || 0} Registered
+                    <div className="flex items-center justify-between text-[9.5px] sm:text-xs text-slate-700 font-bold pt-0.5 sm:pt-1 gap-1">
+                      <span className="truncate">By {ws.instructor}</span>
+                      <span className="shrink-0 px-1.5 sm:px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] text-[8.5px] sm:text-[11px]">
+                        {ws.registrationCount || 0} Reg
                       </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom Grid Slide Hover Footer */}
-                <div className="relative overflow-hidden px-5 py-3.5 border-t border-slate-200/80 group-hover:border-[#162774] flex items-center gap-2.5 transition-colors duration-500">
+                <div className="relative overflow-hidden px-2.5 py-2.5 sm:px-5 sm:py-3.5 border-t border-slate-200/80 group-hover:border-[#162774] flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5 sm:gap-2.5 transition-colors duration-500">
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
@@ -334,17 +334,17 @@ export default function WorkshopsPage() {
                   <button
                     type="button"
                     onClick={() => setDetailWorkshop(ws)}
-                    className="relative z-10 flex-1 py-2.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-950 font-extrabold text-xs transition-all cursor-pointer"
+                    className="relative z-10 flex-1 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-950 font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer"
                   >
                     View Details
                   </button>
                   <button
                     type="button"
                     onClick={() => openRegisterModal(ws)}
-                    className="relative z-10 flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                    className="relative z-10 flex-1 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5"
                   >
                     <span>{ws.isPaid && Number(ws.price) > 0 ? `Register (₹${ws.price})` : "Register Free"}</span>
-                    <ArrowRight size={12} />
+                    <ArrowRight size={11} />
                   </button>
                 </div>
               </div>

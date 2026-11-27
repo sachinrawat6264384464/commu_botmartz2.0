@@ -480,7 +480,7 @@ export default function HackathonsPage() {
 
       {/* ── 2. HOW IT WORKS + SOLO VS TEAM TIERS ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-10 overflow-hidden">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           {[
             {
               num: "01",
@@ -515,24 +515,24 @@ export default function HackathonsPage() {
               transition={{ duration: 0.65, delay: idx * 0.1, ease: "easeOut" }}
               className="relative overflow-hidden rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group"
             >
-              <div className="p-6 pb-4">
-                <div className="flex items-center justify-between gap-2 mb-2.5">
-                  <div className="text-xs font-extrabold text-[#1D3189] uppercase tracking-wider">
+              <div className="p-3 sm:p-6 pb-3 sm:pb-4">
+                <div className="flex items-center justify-between gap-1.5 sm:gap-2 mb-2 sm:mb-2.5">
+                  <div className="text-[9px] sm:text-xs font-extrabold text-[#1D3189] uppercase tracking-wider leading-tight">
                     {step.eyebrow}
                   </div>
-                  <span className="w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0 shadow-xs">
+                  <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[9px] sm:text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0 shadow-xs">
                     {step.num}
                   </span>
                 </div>
-                <h3 className="text-lg font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors duration-300 mb-1.5">
+                <h3 className="text-xs sm:text-lg font-extrabold text-slate-950 group-hover:text-[#1D3189] transition-colors duration-300 mb-1 sm:mb-1.5 leading-snug line-clamp-2">
                   {step.title}
                 </h3>
-                <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
+                <p className="text-[10.5px] sm:text-[13px] text-slate-700 leading-snug sm:leading-relaxed font-medium line-clamp-3">
                   {step.desc}
                 </p>
               </div>
 
-              <div className="relative overflow-hidden px-6 py-3.5 border-t border-slate-100 group-hover:border-[#162774] bg-slate-50/70 flex items-center justify-between transition-colors duration-500">
+              <div className="relative overflow-hidden px-3 py-2.5 sm:px-6 sm:py-3.5 border-t border-slate-100 group-hover:border-[#162774] bg-slate-50/70 flex items-center justify-between gap-1.5 transition-colors duration-500">
                 <div
                   aria-hidden="true"
                   className="pointer-events-none absolute inset-0 bg-[#162774] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"
@@ -542,7 +542,7 @@ export default function HackathonsPage() {
                     backgroundSize: "28px 28px",
                   }}
                 />
-                <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                <span className="relative z-10 text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500 truncate">
                   {step.tag}
                 </span>
                 <span className="relative z-10 w-6 h-6 rounded-full bg-white group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shadow-2xs">
@@ -721,72 +721,72 @@ export default function HackathonsPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredProjects.map((project, idx) => (
               <div
                 key={project.id}
-                className="relative overflow-hidden bg-[#F4F6FB] hover:bg-[#FAFBFD] border border-slate-200/90 hover:border-[#1D3189] rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-3.5 sm:space-y-5 group hover:-translate-y-1"
+                className="relative overflow-hidden bg-[#F4F6FB] hover:bg-[#FAFBFD] border border-slate-200/90 hover:border-[#1D3189] rounded-3xl p-4 sm:p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-3.5 sm:space-y-5 group hover:-translate-y-1"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 font-sans text-[10px] font-bold uppercase tracking-wider truncate">
+                <div className="space-y-2.5 sm:space-y-4">
+                  <div className="flex items-center justify-between gap-1.5 sm:gap-2">
+                    <span className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] border border-[#1D3189]/20 font-sans text-[8px] sm:text-[10px] font-bold uppercase tracking-wider truncate">
                       {project.domain}
                     </span>
-                    <span className="shrink-0 whitespace-nowrap px-2.5 py-0.5 rounded-full font-sans text-[10px] font-bold uppercase tracking-wider bg-white text-slate-800 border border-slate-200">
+                    <span className="shrink-0 whitespace-nowrap px-1.5 sm:px-2.5 py-0.5 rounded-full font-sans text-[8px] sm:text-[10px] font-bold uppercase tracking-wider bg-white text-slate-800 border border-slate-200">
                       {project.difficulty}
                     </span>
                   </div>
 
                   {/* Boxed Blue Heading + Circle Arrow */}
                   <div
-                    className="flex items-center justify-between gap-3 p-4 rounded-2xl bg-[#162774] text-white shadow-sm"
+                    className="flex items-center justify-between gap-1.5 sm:gap-3 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#162774] text-white shadow-sm"
                     style={{
                       backgroundImage:
                         "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
                       backgroundSize: "28px 28px",
                     }}
                   >
-                    <h3 className="text-base sm:text-lg font-extrabold text-white group-hover:text-[#D9F83B] transition-colors leading-snug">
+                    <h3 className="text-[11px] sm:text-lg font-extrabold text-white group-hover:text-[#D9F83B] transition-colors leading-tight sm:leading-snug line-clamp-2 min-w-0">
                       {project.title}
                     </h3>
-                    <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-45">
-                      <ArrowRight size={13} />
+                    <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-[60deg]">
+                      <ArrowRight size={11} />
                     </span>
                   </div>
 
                   {/* Rich Structured Metadata (No Tech Stack Pills) */}
-                  <div className="p-3.5 rounded-2xl bg-white border border-slate-200/90 space-y-2 text-xs">
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-slate-800 font-bold">
+                  <div className="p-2 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 space-y-1 sm:space-y-2 text-[9.5px] sm:text-xs">
+                    <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2 text-slate-800 font-bold">
                       <span>Solo (1) or Team (2–3)</span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold">
+                      <span className="px-1.5 sm:px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[8.5px] sm:text-[10px] font-extrabold">
                         Online &bull; 24 Hours
                       </span>
                     </div>
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600 font-semibold pt-1.5 border-t border-slate-100">
+                    <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2 text-[9px] sm:text-[11px] text-slate-600 font-semibold pt-1 sm:pt-1.5 border-t border-slate-100">
                       <span>Botmartz Community</span>
                       <span className="text-[#162774] font-bold">Open Tech Stack</span>
                     </div>
-                    <div className="pt-1.5 border-t border-slate-100 text-[11px] font-extrabold text-emerald-700">
+                    <div className="pt-1 sm:pt-1.5 border-t border-slate-100 text-[9px] sm:text-[11px] font-extrabold text-emerald-700">
                       Reward: Certificate + Direct Job Screening
                     </div>
                   </div>
 
-                  <p className="text-[13px] text-slate-700 leading-relaxed font-medium border-l-2 border-l-[#162774] pl-3">
+                  <p className="text-[10px] sm:text-[13px] text-slate-700 leading-snug sm:leading-relaxed font-medium border-l-2 border-l-[#162774] pl-2 sm:pl-3 line-clamp-3">
                     {project.problemStatement}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-200/80 space-y-2.5">
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-800">
+                <div className="pt-2.5 sm:pt-4 border-t border-slate-200/80 space-y-2 sm:space-y-2.5">
+                  <div className="flex items-center justify-between text-[9.5px] sm:text-xs font-bold text-slate-800">
                     <span>Solo: ₹{project.soloFee || SOLO_HACKATHON_FEE}</span>
-                    <span>Team (2–3): ₹{project.teamFee || TEAM_HACKATHON_FEE}</span>
+                    <span>Team: ₹{project.teamFee || TEAM_HACKATHON_FEE}</span>
                   </div>
-                  <div className={`grid gap-2.5 ${modeFilter === "all" ? "grid-cols-2" : "grid-cols-1"}`}>
+                  <div className={`grid gap-1.5 sm:gap-2.5 ${modeFilter === "all" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}>
                     {modeFilter !== "team" && (
                       <button
                         type="button"
                         onClick={() => openEnrollModal(project, "solo")}
-                        className={`py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${modeFilter === "solo"
+                        className={`py-1.5 sm:py-2.5 rounded-xl font-bold text-[10px] sm:text-xs transition-all cursor-pointer ${modeFilter === "solo"
                           ? "bg-[#1D3189] hover:bg-[#152468] text-white shadow-sm"
                           : "bg-white hover:bg-[#1D3189] hover:text-white border border-slate-200 text-slate-900"
                           }`}
@@ -798,7 +798,7 @@ export default function HackathonsPage() {
                       <button
                         type="button"
                         onClick={() => openEnrollModal(project, "team")}
-                        className="py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all cursor-pointer shadow-sm"
+                        className="py-1.5 sm:py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer shadow-sm"
                       >
                         Enroll Team (₹{project.teamFee || TEAM_HACKATHON_FEE})
                       </button>
@@ -828,7 +828,7 @@ export default function HackathonsPage() {
       {/* ── 4B. JUDGING RUBRIC (100 POINTS) & OFFICIAL HACKATHON GUIDELINES ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-16 space-y-8">
         <div
-          className="rounded-3xl bg-[#162774] text-white p-7 sm:p-10 border border-white/15 shadow-2xl space-y-6"
+          className="rounded-3xl bg-[#162774] text-white p-4 sm:p-10 border border-white/15 shadow-2xl space-y-5 sm:space-y-6"
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
@@ -849,7 +849,7 @@ export default function HackathonsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {[
               {
                 num: "01",
@@ -908,7 +908,7 @@ export default function HackathonsPage() {
         </div>
 
         {/* Official Hackathon Rules & Guidelines */}
-        <div className="rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#D9F83B] p-7 sm:p-9 space-y-5 shadow-sm">
+        <div className="rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#D9F83B] p-4 sm:p-9 space-y-4 sm:space-y-5 shadow-sm">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
               <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
@@ -921,7 +921,7 @@ export default function HackathonsPage() {
             <span className="text-xs font-bold text-[#162774]">Strict 24-Hour Window</span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 text-[12px] sm:text-[13px] text-slate-800 font-medium">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-[13px] text-slate-800 font-medium">
             {[
               {
                 title: "Open Tech Stack Freedom",
