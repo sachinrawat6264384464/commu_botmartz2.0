@@ -98,40 +98,42 @@ export default function CommunityFooter() {
             return (
               <div
                 key={col.title}
-                className={`group/card space-y-4 rounded-2xl border p-6 transition-all duration-300 ${
-                  isDefaultWhite
+                className={`group/card relative overflow-hidden space-y-4 rounded-2xl border p-6 transition-all duration-300 ${isDefaultWhite
                     ? "bg-white border-white shadow-2xl"
-                    : "bg-white/[0.03] hover:bg-white border-white/10 hover:border-white shadow-sm hover:shadow-2xl"
-                }`}
+                    : "bg-white/[0.03] border-white/10 hover:border-white shadow-sm hover:shadow-2xl"
+                  }`}
               >
+                {!isDefaultWhite && (
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white translate-y-full group-hover/card:translate-y-0 transition-transform duration-500 ease-out z-0"
+                  />
+                )}
                 <h4
-                  className={`font-bold uppercase text-xs tracking-widest font-sans flex items-center justify-between gap-2 pb-3 border-b transition-colors duration-300 ${
-                    isDefaultWhite
+                  className={`relative z-10 font-bold uppercase text-xs tracking-widest font-sans flex items-center justify-between gap-2 pb-3 border-b transition-colors duration-300 ${isDefaultWhite
                       ? "text-slate-950 border-slate-200"
                       : "text-white group-hover/card:text-slate-950 border-white/10 group-hover/card:border-slate-200"
-                  }`}
+                    }`}
                 >
                   <span className="inline-flex items-center gap-2">
                     <span
-                      className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                        isDefaultWhite
+                      className={`w-2 h-2 rounded-full transition-colors duration-300 ${isDefaultWhite
                           ? "bg-[#1D3189]"
                           : "bg-[#D9F83B] group-hover/card:bg-[#1D3189]"
-                      }`}
+                        }`}
                     />
                     <span>{col.title}</span>
                   </span>
                   <span
-                    className={`w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 transition-all duration-300 ${
-                      isDefaultWhite
+                    className={`w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 transition-all duration-300 ${isDefaultWhite
                         ? "bg-[#D9F83B] text-slate-950"
                         : "bg-white/10 group-hover/card:bg-[#D9F83B] text-white group-hover/card:text-slate-950"
-                    }`}
+                      }`}
                   >
                     <ArrowRight size={13} className="transition-transform duration-300 group-hover/card:-rotate-[50deg]" />
                   </span>
                 </h4>
-                <ul className="space-y-3 font-sans">
+                <ul className="relative z-10 space-y-3 font-sans">
                   {col.links.map((item) => (
                     <li key={item.href}>
                       <Link
