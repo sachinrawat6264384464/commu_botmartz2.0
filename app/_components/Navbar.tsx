@@ -94,7 +94,6 @@ export default function CommunityNavbar() {
   }, [pathname]);
 
   const INTERNSHIP_ITEMS = [
-    { name: "My Learning & Projects", href: "/arena/my-learning", icon: BookOpen, desc: "Enrolled projects, 45-day commit progress & badges", locked: false, requiresAuth: true },
     { name: "45-Day Virtual AI Internship", href: "/virtual-ai-internship", icon: Sparkles, desc: "Curriculum, daily commit tracker & founder reviews", locked: false, requiresAuth: false },
     { name: `Internship Playground (${TOTAL_SYSTEMS_COUNT} PRDs)`, href: "/arena", icon: Layers, desc: "Explore production engineering systems", locked: false, requiresAuth: false },
     { name: "Submit Daily Log", href: "/arena/daily-log", icon: Terminal, desc: "Submit daily PoW & earn Karma Coins", locked: false, requiresAuth: true },
@@ -192,22 +191,6 @@ export default function CommunityNavbar() {
             <Home size={14} />
             <span>Home</span>
           </Link>
-
-          {/* My Learning Pill (Visible only after login) */}
-          {mounted && user && (
-            <Link
-              href="/arena/my-learning"
-              prefetch={false}
-              className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
-                pathname === "/arena/my-learning"
-                  ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                  : "text-blue-100 hover:text-white hover:bg-white/10"
-              }`}
-            >
-              <BookOpen size={14} />
-              <span>My Learning</span>
-            </Link>
-          )}
 
           {/* 1. 50 Systems Catalog */}
           <Link
@@ -560,9 +543,6 @@ export default function CommunityNavbar() {
               { href: "/hackathons", label: "Hackathons", icon: <Award size={14} /> },
               { href: "/workshops", label: "Workshops", icon: <Calendar size={14} /> },
               { href: "/about", label: "About Us", icon: <Globe size={14} /> },
-              ...(mounted && user
-                ? [{ href: "/arena/my-learning", label: "My Learning", icon: <BookOpen size={14} /> }]
-                : []),
             ].map((item) => {
               const active =
                 item.href === "/"
