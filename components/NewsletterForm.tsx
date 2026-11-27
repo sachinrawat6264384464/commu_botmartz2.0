@@ -138,7 +138,7 @@ export default function NewsletterForm({ variant = "footer", className = "" }: N
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === "submitting"}
-          className="w-full rounded-xl border border-white/15 bg-white/10 py-2.5 pl-4 pr-28 text-xs text-white placeholder-blue-200/60 transition-all focus:border-[#D9F83B] focus:outline-none"
+          className="w-full rounded-xl border border-white bg-white py-2.5 pl-4 pr-28 text-xs font-medium text-slate-950 placeholder-slate-400 shadow-sm transition-all focus:border-[#D9F83B] focus:outline-none"
         />
         <button
           id="newsletter-footer-submit-btn"
