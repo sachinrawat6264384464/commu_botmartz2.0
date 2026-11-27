@@ -91,19 +91,29 @@ export default function RefundPolicyPage() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 shrink-0 font-sans text-xs">
+          <div className="flex flex-wrap items-center justify-center gap-3 shrink-0 font-sans text-xs sm:text-sm">
             <Link
               href="/virtual-ai-internship"
-              className="px-5 py-3 rounded-full bg-white/10 hover:bg-white hover:text-slate-950 text-white font-bold transition-all border border-white/25"
+              className="group relative overflow-hidden px-6 py-3 rounded-full bg-white/10 text-white font-extrabold transition-colors duration-300 border border-white/25 inline-flex items-center justify-center"
             >
-              Explore Programs
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+              />
+              <span className="relative z-10 group-hover:text-[#162774] transition-colors duration-300">
+                Explore Programs
+              </span>
             </Link>
             <a
               href="mailto:support@botmartz.com?subject=Refund%20Question"
-              className="px-6 py-3 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all shadow-lg flex items-center gap-2 group"
+              className="group relative overflow-hidden px-6 py-3 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold transition-all shadow-lg inline-flex items-center gap-2.5"
             >
-              <span>Contact Billing Support</span>
-              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
+              />
+              <span className="relative z-10">Contact Billing Support</span>
+              <span className="relative z-10 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
                 <ArrowRight size={12} />
               </span>
             </a>
