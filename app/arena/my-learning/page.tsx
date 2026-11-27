@@ -209,27 +209,26 @@ export default function MyLearningPage() {
             
             {/* Top Bar: Title & Primary CTA */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/15">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
-                  <Terminal size={13} />
-                  <span>Candidate Production Command Center</span>
+              <div className="space-y-2.5">
+                <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                  Candidate Production Command Center
                 </div>
-                <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-sans flex flex-wrap items-center gap-3">
+                <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight flex flex-wrap items-center gap-3">
                   <span>My Learning &amp; <span className="text-[#D9F83B]">Proof-of-Work</span></span>
-                  <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/15 text-[#D9F83B] border border-white/20">
+                  <span className="text-[11px] font-extrabold px-3 py-1 rounded-full bg-white/15 text-[#D9F83B] border border-white/20 uppercase tracking-wider">
                     Live Session
                   </span>
                 </h1>
-                <p className="text-xs sm:text-sm text-blue-100/85 font-sans max-w-3xl leading-relaxed">
+                <p className="text-sm sm:text-base text-blue-100/90 font-sans max-w-3xl leading-relaxed font-medium">
                   Follow your 4-step engineering journey below: complete your builder profile, pick a system PRD, log daily GitHub commits, and unlock verified certificates &amp; Karma rewards.
                 </p>
               </div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons (Icon-Free Text + 60deg Circle Arrow) */}
               <div className="flex flex-wrap items-center gap-3 shrink-0">
                 <Link
                   href="/arena/daily-log"
-                  className="group relative overflow-hidden px-5 py-3 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold transition-all shadow-lg flex items-center gap-2.5 cursor-pointer"
+                  className="group relative overflow-hidden px-6 py-3.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs sm:text-sm font-extrabold transition-all shadow-lg flex items-center gap-2.5 cursor-pointer"
                 >
                   <span
                     aria-hidden="true"
@@ -242,58 +241,65 @@ export default function MyLearningPage() {
                 </Link>
                 <Link
                   href="/arena"
-                  className="group relative overflow-hidden px-5 py-3 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+                  className="group relative overflow-hidden px-6 py-3.5 rounded-full bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold transition-all shadow-sm flex items-center gap-2 cursor-pointer"
                 >
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
                   />
-                  <Compass size={14} className="relative z-10" />
                   <span className="relative z-10">Explore Catalog</span>
                 </Link>
               </div>
             </div>
 
-            {/* HUD Metrics Cards Grid (Crisp White Contrast) */}
+            {/* HUD Metrics Cards Grid (Clean 01-04 Badges, Zero Clutter Icons) */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 font-sans">
-              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
-                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
-                  <Layers size={13} />
-                  <span>Active Enrolled</span>
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+                  01
+                </span>
+                <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
+                  Active Enrolled
                 </div>
-                <div className="text-xl sm:text-2xl font-extrabold text-slate-950">
-                  {activeEnrollments.length} <span className="text-xs text-slate-500 font-semibold">Systems</span>
+                <div className="text-2xl sm:text-3xl font-extrabold text-slate-950 leading-none">
+                  {activeEnrollments.length} <span className="text-xs text-slate-600 font-bold">Systems</span>
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
-                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
-                  <Flame size={13} />
-                  <span>45-Day Sprint</span>
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+                  02
+                </span>
+                <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
+                  45-Day Sprint
                 </div>
-                <div className="text-xl sm:text-2xl font-extrabold text-slate-950 flex items-center gap-2">
+                <div className="text-2xl sm:text-3xl font-extrabold text-slate-950 leading-none flex items-baseline gap-2">
                   <span>Day {currentCompletedDays}/45</span>
-                  <span className="text-xs text-[#162774] font-bold">({currentProgressPct}%)</span>
+                  <span className="text-xs text-[#162774] font-extrabold">({currentProgressPct}%)</span>
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
-                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
-                  <Coins size={13} />
-                  <span>Karma Balance</span>
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+                  03
+                </span>
+                <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
+                  Karma Balance
                 </div>
-                <div className="text-xl sm:text-2xl font-extrabold text-[#162774]">
-                  {totalKarma} <span className="text-xs text-slate-500 font-semibold">Coins</span>
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#162774] leading-none">
+                  {totalKarma} <span className="text-xs text-slate-600 font-bold">Coins</span>
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1">
-                <div className="text-[10px] text-[#162774] uppercase tracking-wider font-extrabold flex items-center gap-1.5">
-                  <Trophy size={13} />
-                  <span>Certificates</span>
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+                  04
+                </span>
+                <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
+                  Certificates
                 </div>
-                <div className="text-xl sm:text-2xl font-extrabold text-slate-950">
-                  {completedEnrollments.length} <span className="text-xs text-slate-500 font-semibold">Passed</span>
+                <div className="text-2xl sm:text-3xl font-extrabold text-slate-950 leading-none">
+                  {completedEnrollments.length} <span className="text-xs text-slate-600 font-bold">Passed</span>
                 </div>
               </div>
             </div>
@@ -348,33 +354,37 @@ export default function MyLearningPage() {
             >
               <Link
                 href={step.href}
-                className={`group block h-full p-4 rounded-2xl border transition-all duration-300 shadow-xs hover:shadow-md ${
+                className={`group flex flex-col justify-between h-full p-5 rounded-3xl border transition-all duration-300 shadow-xs hover:shadow-lg hover:-translate-y-0.5 ${
                   step.done
                     ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600"
                     : "bg-[#F4F6FB] hover:bg-white border-slate-200 border-l-4 border-l-[#162774]"
                 }`}
               >
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <span className="w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
-                    {step.num}
-                  </span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider ${
-                    step.done
-                      ? "bg-emerald-100 text-emerald-800"
-                      : "bg-[#D9F83B] text-slate-950"
-                  }`}>
-                    {step.done ? "Completed" : "Next Step"}
-                  </span>
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] text-[11px] font-extrabold flex items-center justify-center">
+                      {step.num}
+                    </span>
+                    <span className={`px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                      step.done
+                        ? "bg-emerald-100 text-emerald-800"
+                        : "bg-[#D9F83B] text-slate-950"
+                    }`}>
+                      {step.done ? "Completed" : "Next Step"}
+                    </span>
+                  </div>
+                  <div className="text-base font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors">
+                    {step.title}
+                  </div>
+                  <p className="text-xs sm:text-[13px] text-slate-700 mt-1.5 font-medium leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
-                <div className="text-sm font-extrabold text-slate-950 group-hover:text-[#162774] transition-colors">
-                  {step.title}
-                </div>
-                <p className="text-[11px] text-slate-600 mt-1 font-medium leading-relaxed">
-                  {step.desc}
-                </p>
-                <div className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-extrabold text-[#162774]">
+                <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs font-extrabold text-[#162774]">
                   <span>{step.cta}</span>
-                  <ArrowRight size={11} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  <span className="w-6 h-6 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                    <ArrowRight size={11} />
+                  </span>
                 </div>
               </Link>
             </motion.div>
@@ -382,55 +392,51 @@ export default function MyLearningPage() {
         </div>
 
         {/* =========================================================================
-            CLEAN LIGHT INTERACTIVE TAB NAVIGATION STRIP
+            CLEAN LIGHT INTERACTIVE TAB NAVIGATION STRIP (ICON-FREE)
         ========================================================================= */}
-        <div className="flex items-center gap-2 bg-[#F4F6FB] p-1.5 rounded-2xl border border-slate-200 overflow-x-auto font-sans text-xs shadow-xs">
+        <div className="flex items-center gap-2 bg-[#F4F6FB] p-1.5 rounded-2xl border border-slate-200 overflow-x-auto font-sans text-xs sm:text-sm shadow-xs">
           <button
             onClick={() => setActiveTab("projects")}
-            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all shrink-0 cursor-pointer ${
               activeTab === "projects"
                 ? "bg-[#162774] text-[#D9F83B] shadow-md"
-                : "text-slate-600 hover:text-slate-950 hover:bg-white"
+                : "text-slate-700 hover:text-slate-950 hover:bg-white"
             }`}
           >
-            <Layers size={14} />
-            <span>Active Enrolled Systems ({activeEnrollments.length})</span>
+            Active Enrolled Systems ({activeEnrollments.length})
           </button>
 
           <button
             onClick={() => setActiveTab("matrix")}
-            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all shrink-0 cursor-pointer ${
               activeTab === "matrix"
                 ? "bg-[#162774] text-[#D9F83B] shadow-md"
-                : "text-slate-600 hover:text-slate-950 hover:bg-white"
+                : "text-slate-700 hover:text-slate-950 hover:bg-white"
             }`}
           >
-            <Calendar size={14} />
-            <span>45-Day Proof-of-Work Matrix</span>
+            45-Day Proof-of-Work Matrix
           </button>
 
           <button
             onClick={() => setActiveTab("certificates")}
-            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all shrink-0 cursor-pointer ${
               activeTab === "certificates"
                 ? "bg-[#162774] text-[#D9F83B] shadow-md"
-                : "text-slate-600 hover:text-slate-950 hover:bg-white"
+                : "text-slate-700 hover:text-slate-950 hover:bg-white"
             }`}
           >
-            <Trophy size={14} />
-            <span>Certificates &amp; Passes ({completedEnrollments.length})</span>
+            Certificates &amp; Passes ({completedEnrollments.length})
           </button>
 
           <button
             onClick={() => setActiveTab("logs")}
-            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all flex items-center gap-2 shrink-0 cursor-pointer ${
+            className={`px-5 py-2.5 rounded-xl font-extrabold transition-all shrink-0 cursor-pointer ${
               activeTab === "logs"
                 ? "bg-[#162774] text-[#D9F83B] shadow-md"
-                : "text-slate-600 hover:text-slate-950 hover:bg-white"
+                : "text-slate-700 hover:text-slate-950 hover:bg-white"
             }`}
           >
-            <Terminal size={14} />
-            <span>GitHub Commit Feed ({dailyLogs.length})</span>
+            GitHub Commit Feed ({dailyLogs.length})
           </button>
         </div>
 
@@ -469,17 +475,30 @@ export default function MyLearningPage() {
                     ))}
                   </div>
                 ) : activeEnrollments.length === 0 ? (
-                  <div className="p-10 rounded-3xl bg-white border border-dashed border-slate-200 text-center space-y-3 shadow-xs">
-                    <Layers size={36} className="text-slate-400 mx-auto" />
-                    <h3 className="font-bold text-slate-800 font-sans text-lg">No Active PRD Enrollments</h3>
-                    <p className="text-xs font-mono text-slate-500 max-w-md mx-auto">
-                      Explore the catalog of 59 production engineering PRDs and enroll in a system track to start your 45-day virtual AI internship.
+                  <div className="p-10 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] text-center space-y-4 shadow-xs">
+                    <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                      Ready to Start Your First System
+                    </span>
+                    <h3 className="font-extrabold text-slate-950 font-sans text-xl sm:text-2xl">
+                      No Active PRD Enrollments Yet
+                    </h3>
+                    <p className="text-xs sm:text-sm font-sans font-medium text-slate-600 max-w-md mx-auto leading-relaxed">
+                      Explore the catalog of 59+ production engineering PRDs and enroll in a system track to start your 45-day virtual AI internship.
                     </p>
                     <Link
                       href="/arena"
-                      className="inline-block px-6 py-3 rounded-2xl bg-[#0066FF] text-white font-mono text-xs font-bold shadow-md shadow-blue-500/20"
+                      className="group relative overflow-hidden inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs sm:text-sm font-extrabold shadow-md transition-all cursor-pointer"
                     >
-                      Browse Systems Catalog &rarr;
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                      />
+                      <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                        Browse Systems Catalog
+                      </span>
+                      <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                        <ArrowRight size={12} />
+                      </span>
                     </Link>
                   </div>
                 ) : (
