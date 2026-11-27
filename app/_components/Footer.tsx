@@ -161,7 +161,7 @@ export default function CommunityFooter() {
               href="https://www.linkedin.com/company/botmartz-ai-solutions"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-[#D9F83B] text-blue-100 hover:text-slate-950 border border-white/10 hover:border-[#D9F83B] transition-all duration-200 font-medium text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Botmartz LinkedIn
             </a>
@@ -169,7 +169,7 @@ export default function CommunityFooter() {
               href="https://www.linkedin.com/in/soham-sharma/"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-[#D9F83B] text-blue-100 hover:text-slate-950 border border-white/10 hover:border-[#D9F83B] transition-all duration-200 font-medium text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Soham Sharma (Founder)
             </a>
@@ -177,7 +177,7 @@ export default function CommunityFooter() {
               href="https://x.com/botmartz"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-[#D9F83B] text-blue-100 hover:text-slate-950 border border-white/10 hover:border-[#D9F83B] transition-all duration-200 font-medium text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Official X
             </a>
@@ -185,7 +185,7 @@ export default function CommunityFooter() {
               href="https://twitter.com/sohamsharma"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-[#D9F83B] text-blue-100 hover:text-slate-950 border border-white/10 hover:border-[#D9F83B] transition-all duration-200 font-medium text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Soham X
             </a>
