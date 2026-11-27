@@ -45,7 +45,7 @@ export default function ArenaPage() {
   const domainMenuRef = useRef<HTMLDivElement>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 12;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -277,28 +277,44 @@ export default function ArenaPage() {
 
               {/* Stats Strip (Editorial Cards, No Icons) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 font-sans">
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">01</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">{allProjectsList.length}+</div>
-                  <div className="text-blue-200/80 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Production PRDs</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">01</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">{allProjectsList.length}+</div>
+                  <div className="relative z-10 text-blue-200/80 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors duration-500">Production PRDs</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">02</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">100%</div>
-                  <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Verifiable PoW</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">02</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">100%</div>
+                  <div className="relative z-10 text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Verifiable PoW</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">03</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">Daily</div>
-                  <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Standup Streak</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">03</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">Daily</div>
+                  <div className="relative z-10 text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Standup Streak</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">04</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">4-Week</div>
-                  <div className="text-blue-200/80 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Virtual Internship</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">04</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">4-Week</div>
+                  <div className="relative z-10 text-blue-200/80 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors duration-500">Virtual Internship</div>
                 </div>
               </div>
             </div>
@@ -307,19 +323,29 @@ export default function ArenaPage() {
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-sans text-sm shrink-0 self-start lg:self-center">
               <Link
                 href="/arena/custom-project"
-                className="px-6 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold transition-all duration-300 shadow-lg shadow-lime-400/20 flex items-center justify-between gap-3 group cursor-pointer"
+                className="relative overflow-hidden px-6 py-3.5 rounded-2xl bg-[#D9F83B] text-slate-950 font-bold transition-all duration-300 shadow-lg shadow-lime-400/20 flex items-center justify-between gap-3 group cursor-pointer"
               >
-                <span>Propose Custom System</span>
-                <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <span className="relative z-10">Propose Custom System</span>
+                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                   <ArrowRight size={14} />
                 </span>
               </Link>
 
               <Link
                 href="/arena/daily-log"
-                className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white hover:text-slate-950 border border-white/25 text-white font-bold transition-all duration-300 flex items-center justify-center text-center cursor-pointer"
+                className="group relative overflow-hidden px-6 py-3.5 rounded-2xl bg-white/10 border border-white/25 hover:border-white text-white font-bold transition-all duration-300 flex items-center justify-center text-center cursor-pointer"
               >
-                <span>Daily Standup Log</span>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <span className="relative z-10 group-hover:text-slate-950 transition-colors duration-500">
+                  Daily Standup Log
+                </span>
               </Link>
             </div>
           </div>
