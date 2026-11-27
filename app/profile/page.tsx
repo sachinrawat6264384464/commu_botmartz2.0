@@ -52,6 +52,7 @@ import { COMPANIES_DIRECTORY } from "@/lib/companies-directory";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 import { computeUserBadgeStatuses } from "@/lib/badges";
 import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
+import AuthGate from "@/app/_components/AuthGate";
 
 const GLOBAL_COUNTRIES = [
   "India",
@@ -156,7 +157,7 @@ function renderBadgeEmblem(
 }
 
 export default function StudentProfilePortal() {
-  const { user, studentProfile, refreshProfile } = useAuth();
+  const { user, studentProfile, loading: authLoading, refreshProfile } = useAuth();
   const { showToast } = useToast();
   const [isMounted, setIsMounted] = useState(false);
   const [searchHandle, setSearchHandle] = useState("");
@@ -549,6 +550,17 @@ export default function StudentProfilePortal() {
   const username = studentProfile?.username || user?.email?.split("@")[0] || "builder";
   const publicProfileUrl = `/member/${username}`;
 
+  if (authLoading || !user) {
+    return (
+      <AuthGate
+        featureTitle="Builder Profile & Portfolio"
+        featureDescription="Sign in to view and manage your verified builder profile, 45-day sprint progress, certificates, and career checklist."
+      >
+        <div />
+      </AuthGate>
+    );
+  }
+
   return (
     <div
       className="bg-white min-h-screen text-slate-900 selection:bg-[#D9F83B] selection:text-slate-950 pt-24 pb-28 font-sans"
@@ -787,15 +799,15 @@ export default function StudentProfilePortal() {
                     type="button"
                     onClick={() => setActiveProfileSection(nav.id as any)}
                     className={`group w-full px-3 py-2.5 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border ${isActive
-                        ? "bg-[#162774] text-white border-[#162774] shadow-md"
-                        : "bg-white hover:bg-slate-50 text-slate-800 border-slate-200/80 hover:border-[#162774]"
+                      ? "bg-[#162774] text-white border-[#162774] shadow-md"
+                      : "bg-white hover:bg-slate-50 text-slate-800 border-slate-200/80 hover:border-[#162774]"
                       }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span
                         className={`w-6 h-6 rounded-full text-[10px] font-extrabold flex items-center justify-center shrink-0 ${isActive
-                            ? "bg-[#D9F83B] text-slate-950"
-                            : "bg-[#F4F6FB] text-[#162774] group-hover:bg-[#162774] group-hover:text-[#D9F83B]"
+                          ? "bg-[#D9F83B] text-slate-950"
+                          : "bg-[#F4F6FB] text-[#162774] group-hover:bg-[#162774] group-hover:text-[#D9F83B]"
                           }`}
                       >
                         {nav.num}
@@ -804,8 +816,8 @@ export default function StudentProfilePortal() {
                     </div>
                     <span
                       className={`w-5 h-5 rounded-full hidden sm:flex items-center justify-center shrink-0 transition-transform duration-300 ${isActive
-                          ? "bg-[#D9F83B] text-slate-950"
-                          : "bg-slate-100 text-[#162774] group-hover:rotate-[60deg]"
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-slate-100 text-[#162774] group-hover:rotate-[60deg]"
                         }`}
                     >
                       <ArrowRight size={10} />
@@ -884,8 +896,8 @@ export default function StudentProfilePortal() {
                         <div
                           key={cp.label}
                           className={`p-3 rounded-2xl border flex items-center gap-2 ${cp.ok
-                              ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] text-slate-950"
-                              : "bg-[#F4F6FB] border-slate-200 text-slate-500"
+                            ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] text-slate-950"
+                            : "bg-[#F4F6FB] border-slate-200 text-slate-500"
                             }`}
                         >
                           <span className={`w-5 h-5 rounded-full text-[9px] font-extrabold flex items-center justify-center shrink-0 ${cp.ok ? "bg-[#162774] text-[#D9F83B]" : "bg-slate-200 text-slate-500"
@@ -953,10 +965,10 @@ export default function StudentProfilePortal() {
                           Day {daysElapsed} / 45
                         </div>
                         <div className={`px-4 py-2 rounded-full text-xs font-extrabold border ${daysRemaining <= 7
-                            ? "bg-rose-50 text-rose-700 border-rose-200"
-                            : daysRemaining <= 15
-                              ? "bg-amber-50 text-amber-800 border-amber-200"
-                              : "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
+                          ? "bg-rose-50 text-rose-700 border-rose-200"
+                          : daysRemaining <= 15
+                            ? "bg-amber-50 text-amber-800 border-amber-200"
+                            : "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
                           }`}>
                           {daysRemaining > 0 ? `${daysRemaining} Days Left` : "Sprint Complete"}
                         </div>
@@ -1007,19 +1019,19 @@ export default function StudentProfilePortal() {
                         <div
                           key={idx}
                           className={`p-4 rounded-2xl border transition-all ${stg.status === "PASSED"
-                              ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 text-slate-950"
-                              : stg.status === "IN_PROGRESS"
-                                ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-sm text-slate-950"
-                                : "bg-[#F4F6FB] border-slate-200 text-slate-600"
+                            ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 text-slate-950"
+                            : stg.status === "IN_PROGRESS"
+                              ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-sm text-slate-950"
+                              : "bg-[#F4F6FB] border-slate-200 text-slate-600"
                             }`}
                         >
                           <div className="flex items-center justify-between text-[10px] font-extrabold mb-1.5">
                             <span className="text-[#162774] uppercase">{stg.phase}</span>
                             <span className={`px-2 py-0.5 rounded-full ${stg.status === "PASSED"
-                                ? "bg-emerald-100 text-emerald-800"
-                                : stg.status === "IN_PROGRESS"
-                                  ? "bg-[#D9F83B] text-slate-950"
-                                  : "bg-white text-slate-500 border border-slate-200"
+                              ? "bg-emerald-100 text-emerald-800"
+                              : stg.status === "IN_PROGRESS"
+                                ? "bg-[#D9F83B] text-slate-950"
+                                : "bg-white text-slate-500 border border-slate-200"
                               }`}>
                               {stg.status === "PASSED" ? "Done" : stg.status === "IN_PROGRESS" ? "Active" : "Upcoming"}
                             </span>
@@ -1239,10 +1251,10 @@ export default function StudentProfilePortal() {
                         <div
                           key={b.id}
                           className={`p-5 rounded-3xl border flex flex-col justify-between space-y-4 transition-all ${b.isClaimed
-                              ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 shadow-xs"
-                              : b.isEligible
-                                ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-md"
-                                : "bg-[#F4F6FB] border-slate-200 border-l-4 border-l-[#162774]"
+                            ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 shadow-xs"
+                            : b.isEligible
+                              ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-md"
+                              : "bg-[#F4F6FB] border-slate-200 border-l-4 border-l-[#162774]"
                             }`}
                         >
                           <div className="space-y-2.5">
@@ -1254,10 +1266,10 @@ export default function StudentProfilePortal() {
                               <div className="flex items-center gap-1.5">
                                 <span
                                   className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${b.isClaimed
-                                      ? "bg-emerald-100 text-emerald-800"
-                                      : b.isEligible
-                                        ? "bg-[#D9F83B] text-slate-950"
-                                        : "bg-white text-slate-600 border border-slate-200"
+                                    ? "bg-emerald-100 text-emerald-800"
+                                    : b.isEligible
+                                      ? "bg-[#D9F83B] text-slate-950"
+                                      : "bg-white text-slate-600 border border-slate-200"
                                     }`}
                                 >
                                   {b.isClaimed ? "Claimed" : b.isEligible ? "Unlocked" : "Locked"}
@@ -1722,8 +1734,8 @@ export default function StudentProfilePortal() {
                           <div
                             key={pref.key}
                             className={`p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${isChecked
-                                ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-2xs"
-                                : "bg-[#F4F6FB] border-slate-200 opacity-75"
+                              ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-2xs"
+                              : "bg-[#F4F6FB] border-slate-200 opacity-75"
                               }`}
                           >
                             <div className="space-y-1">
@@ -1876,8 +1888,8 @@ export default function StudentProfilePortal() {
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "STUDENT" })}
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${formData.personaType === "STUDENT"
-                        ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
-                        : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+                      ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
+                      : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
                       }`}
                   >
                     <GraduationCap size={15} className="mx-auto mb-0.5" />
@@ -1888,8 +1900,8 @@ export default function StudentProfilePortal() {
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "WORKING_PROFESSIONAL" })}
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${formData.personaType === "WORKING_PROFESSIONAL"
-                        ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
-                        : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+                      ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
+                      : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
                       }`}
                   >
                     <Briefcase size={15} className="mx-auto mb-0.5" />
@@ -1900,8 +1912,8 @@ export default function StudentProfilePortal() {
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "FOUNDER_BUILDER" })}
                     className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${formData.personaType === "FOUNDER_BUILDER"
-                        ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
-                        : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+                      ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
+                      : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
                       }`}
                   >
                     <Building size={15} className="mx-auto mb-0.5" />

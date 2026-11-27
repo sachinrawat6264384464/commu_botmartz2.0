@@ -381,6 +381,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       try {
         localStorage.removeItem("botmartz_session");
+        localStorage.removeItem("botmartz_user_enrollments");
+        localStorage.removeItem("botmartz_user_logs");
+        localStorage.removeItem("botmartz_user_claimed_badges");
       } catch (e) {}
     }
     await fbSignOut(auth).catch(() => {});
