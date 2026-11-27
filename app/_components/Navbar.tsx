@@ -425,6 +425,12 @@ export default function CommunityNavbar() {
 
         {/* Dynamic User Auth Action */}
         <div className="hidden lg:flex items-center gap-3">
+          <Link
+            href="/partner"
+            className="px-4 py-2.5 rounded-full bg-[#FEF08A] hover:bg-[#FDE047] text-[#162774] font-sans text-xs sm:text-sm font-extrabold transition-all shadow-xs border border-[#FACC15]/60 shrink-0"
+          >
+            Partner With Us
+          </Link>
           {!mounted || loading ? (
             <div className="flex items-center gap-2 p-2 px-4 rounded-full border border-slate-200 bg-slate-100 text-slate-500 font-mono text-xs animate-pulse">
               <div className="w-5 h-5 rounded-full bg-slate-300" />
@@ -674,7 +680,14 @@ export default function CommunityNavbar() {
             </div>
           </div>
 
-          <div className="pt-1">
+          <div className="pt-1 space-y-2.5">
+            <Link
+              href="/partner"
+              onClick={() => setMobileOpen(false)}
+              className="block w-full py-3 px-4 rounded-2xl bg-[#FEF08A] text-[#162774] font-extrabold text-xs text-center shadow-sm"
+            >
+              Partner With Us &bull; Tie-Ups
+            </Link>
             {!mounted || loading ? (
               <div className="py-2.5 text-center text-slate-400 font-mono text-xs animate-pulse">Authenticating session...</div>
             ) : user ? (

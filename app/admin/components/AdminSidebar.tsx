@@ -23,7 +23,8 @@ import {
   Lock,
   Coins,
   Activity,
-  UserCheck
+  UserCheck,
+  Briefcase
 } from "lucide-react";
 import { UserRole, ROLE_PERMISSIONS } from "@/lib/rbac";
 
@@ -40,6 +41,7 @@ export default function AdminSidebar({ userRole = 'super-admin', userEmail = '',
   const NAV_ITEMS = [
     { label: "Dashboard", href: "/admin", icon: LayoutDashboard, allowed: true },
     { label: "Workshop Registrations", href: "/admin/workshops", icon: UserCheck, allowed: permissions.canManageEvents },
+    { label: "Partners & Tie-Ups", href: "/admin/partners", icon: Briefcase, allowed: permissions.canManageEvents },
     { label: "Page Locks & Scheduler", href: "/admin/page-locks", icon: Lock, allowed: permissions.canManageFinance },
     { label: "Zero-Trust Security", href: "/admin/security", icon: ShieldCheck, allowed: permissions.canManageFinance },
     { label: "Activity Audit Stream", href: "/admin/activity", icon: Activity, allowed: true },
