@@ -90,8 +90,8 @@ const FAQS = [
 
 function SectionBadge({ num, label }: { num: string; label: string }) {
   return (
-    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[11px] font-extrabold uppercase tracking-wider">
-      <span className="px-1.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px]">
+    <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#162774] text-white text-[11px] font-extrabold uppercase tracking-wider">
+      <span className="px-1.5 py-0.5 rounded-full bg-white text-[#162774] text-[10px]">
         {num}
       </span>
       <span>{label}</span>
@@ -316,7 +316,7 @@ export default function AboutPage() {
               }}
             >
               <div className="space-y-3">
-                <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
+                <span className="inline-block px-3.5 py-1 rounded-full bg-white/15 border border-white/20 text-white text-[10px] font-extrabold uppercase tracking-wider">
                   Our Vision
                 </span>
                 <h3 className="text-xl sm:text-2xl font-extrabold text-white">
@@ -326,7 +326,7 @@ export default function AboutPage() {
                   To build a connected technology ecosystem where a developer can go seamlessly from learning fundamentals and shipping real products to earning verified credentials and landing high-impact roles.
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/15 text-xs font-bold text-[#D9F83B]">
+              <div className="pt-3 border-t border-white/15 text-xs font-bold text-white">
                 Connected Community &bull; Proof-of-Work &bull; Career Growth
               </div>
             </motion.div>
@@ -660,7 +660,7 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.55, delay: idx * 0.07, ease: "easeOut" }}
-                className="p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5"
+                className="p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border border-white/20 shadow-md space-y-1.5"
               >
                 <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
                   0{idx + 1} &bull; Live DB
@@ -850,8 +850,8 @@ export default function AboutPage() {
                       <span
                         className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
                           isOpen
-                            ? "bg-[#D9F83B] text-slate-950"
-                            : "bg-[#162774] group-hover:bg-[#D9F83B] text-[#D9F83B] group-hover:text-slate-950"
+                            ? "bg-[#162774] text-white"
+                            : "bg-[#162774] group-hover:bg-white text-white group-hover:text-[#162774]"
                         }`}
                       >
                         <ArrowRight
@@ -892,7 +892,7 @@ export default function AboutPage() {
               href="mailto:team@botmartz.com?subject=Botmartz%20Community%20Inquiry"
               className="flex items-center gap-3 p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#162774] transition-all"
             >
-              <span className="w-9 h-9 rounded-xl bg-[#162774] text-[#D9F83B] flex items-center justify-center shrink-0">
+              <span className="w-9 h-9 rounded-xl bg-[#162774] text-white flex items-center justify-center shrink-0">
                 <Mail size={16} />
               </span>
               <div>
