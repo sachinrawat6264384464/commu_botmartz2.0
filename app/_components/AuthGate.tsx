@@ -33,14 +33,14 @@ export default function AuthGate({
   if (!user) {
     return (
       <div
-        className="min-h-screen bg-white text-slate-900 pt-24 pb-10 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex items-center justify-center overflow-x-hidden"
+        className="bg-white text-slate-900 pt-24 pb-16 font-sans selection:bg-[#D9F83B] selection:text-slate-950 overflow-x-hidden"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
         }}
       >
-        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10 relative z-10">
+        <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
             {/* ── LEFT COLUMN (7 COLS): COMPACT #162774 HERO BANNER ── */}
             <div
