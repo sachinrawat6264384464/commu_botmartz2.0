@@ -10,9 +10,9 @@ const COLLAB_TRACKS = [
     num: "01",
     track: "Campus Tie-Up",
     tag: "Colleges & Universities",
-    title: "Campus AI Cohort & Virtual Internships",
-    desc: "Launch a 45-day production engineering & virtual AI internship cohort for your students with daily GitHub proof-of-work tracking and QR-verified certificates.",
-    highlights: ["Dedicated campus cohort dashboard", "45-day GitHub commit verification", "QR-verified completion certificates"],
+    title: "Student Training, Internships & Jobs",
+    desc: "Partner with Botmartz to train your students on 59+ production AI & backend systems, unlock 45-day virtual AI internships, and connect top graduates to direct job placements.",
+    highlights: ["Hands-on student AI & systems training", "45-day virtual internships & QR certificates", "Direct job & placement drives for students"],
   },
   {
     num: "02",
@@ -45,6 +45,14 @@ const COLLAB_TRACKS = [
     title: "Custom AI Systems & Pilot Co-Build",
     desc: "Collaborate with Botmartz senior builders on custom LangGraph multi-agent workflows, Hybrid RAG search, or edge telemetry prototypes.",
     highlights: ["Production-grade PRD execution", "Sub-150ms latency benchmarks", "Dedicated engineering squad"],
+  },
+  {
+    num: "06",
+    track: "Faculty & Teacher Training",
+    tag: "University Faculty & Mentors",
+    title: "Faculty & Teacher AI Upskilling",
+    desc: "Equip college professors, lab instructors, and placement cells with hands-on AI agent, RAG, and cloud systems training plus ready-to-run lab blueprints.",
+    highlights: ["Faculty Development Programs (FDP) in AI", "Production lab & curriculum blueprints", "Co-mentored student capstone & placement prep"],
   },
 ];
 

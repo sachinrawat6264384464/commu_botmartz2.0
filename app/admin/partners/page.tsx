@@ -30,6 +30,7 @@ const STATUS_OPTIONS: PartnerRecord["status"][] = [
 
 const TRACK_OPTIONS = [
   "Campus Tie-Up",
+  "Faculty & Teacher Training",
   "Hiring Builders",
   "Sponsor Hackathon",
   "Co-Host Workshop",
