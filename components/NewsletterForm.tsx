@@ -150,7 +150,7 @@ export default function NewsletterForm({ variant = "footer", className = "" }: N
           id="newsletter-footer-submit-btn"
           type="submit"
           disabled={status === "submitting"}
-          className="absolute right-1.5 rounded-lg bg-[#162774] hover:bg-[#1D3189] px-3.5 py-1.5 text-xs font-bold text-white transition-all cursor-pointer disabled:opacity-50"
+          className="absolute right-1.5 rounded-lg bg-[#D9F83B] hover:bg-[#e5ff59] px-3.5 py-1.5 text-xs font-bold text-slate-950 transition-all cursor-pointer disabled:opacity-50"
         >
           {status === "submitting" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Subscribe"}
         </button>
