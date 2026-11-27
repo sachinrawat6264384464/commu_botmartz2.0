@@ -937,9 +937,6 @@ export default function HackathonsPage() {
         >
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/15 pb-5">
             <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold uppercase tracking-wider mb-2">
-                Evaluation &amp; Scoring Rubric (100 Points)
-              </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
                 How Judges Score Your Hackathon Submission
               </h2>
@@ -990,13 +987,13 @@ export default function HackathonsPage() {
             ].map((rubric) => (
               <div
                 key={rubric.num}
-                className="p-5 rounded-2xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-md space-y-2.5"
+                className="p-5 rounded-2xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#162774] shadow-md space-y-2.5"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center">
+                  <span className="w-7 h-7 rounded-full bg-[#162774] text-white font-extrabold text-[11px] flex items-center justify-center">
                     {rubric.num}
                   </span>
-                  <span className="px-3 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold">
+                  <span className="px-3 py-0.5 rounded-full bg-[#162774] text-white text-[11px] font-extrabold">
                     {rubric.pts}
                   </span>
                 </div>
