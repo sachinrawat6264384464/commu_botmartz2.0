@@ -201,14 +201,7 @@ export default function WorkshopsPage() {
   };
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 pt-24 pb-16 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-16 font-sans selection:bg-[#D9F83B] selection:text-slate-950">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
 
       <div className="w-full px-4 sm:px-8 lg:px-12 space-y-10 relative z-10">
@@ -223,24 +216,21 @@ export default function WorkshopsPage() {
         >
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="space-y-5 max-w-2xl">
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold uppercase tracking-wider">
-                Live Hands-On Workshops &bull; No Account Needed
-              </div>
               <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-                Production Engineering <span className="text-[#D9F83B]">Workshops</span>
+                Production Engineering Workshops
               </h1>
               <p className="text-xs sm:text-sm text-blue-100/85 leading-relaxed">
                 Pick any specialized live workshop across Python, RAG, Agentic RAG, Machine Learning, Prompt Engineering, or Career Roadmaps. Register in 30 seconds — no login required — and receive your confirmation &amp; live joining link directly via email.
               </p>
 
               <div className="grid grid-cols-2 gap-3 max-w-sm pt-1">
-                <div className="p-3.5 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                  <div className="text-xl sm:text-2xl font-extrabold text-[#D9F83B]">₹699</div>
-                  <div className="text-[11px] text-blue-100/80 font-medium">Per Live Workshop</div>
+                <div className="p-3.5 rounded-2xl bg-[#D9F83B] shadow-md">
+                  <div className="text-xl sm:text-2xl font-extrabold text-slate-950">₹699</div>
+                  <div className="text-[11px] text-slate-800 font-semibold">Per Live Workshop</div>
                 </div>
-                <div className="p-3.5 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                  <div className="text-xl sm:text-2xl font-extrabold text-white">100%</div>
-                  <div className="text-[11px] text-blue-100/80 font-medium">Code + Recording</div>
+                <div className="p-3.5 rounded-2xl bg-white shadow-md">
+                  <div className="text-xl sm:text-2xl font-extrabold text-[#162774]">100%</div>
+                  <div className="text-[11px] text-slate-600 font-semibold">Code + Recording</div>
                 </div>
               </div>
             </div>
