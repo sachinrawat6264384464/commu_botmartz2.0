@@ -727,10 +727,10 @@ export default function HackathonsPage() {
             <button
               type="button"
               onClick={openSubmitWithAuth}
-              className="w-full lg:w-auto px-5 py-3 rounded-2xl bg-[#070E54] hover:bg-[#1D3189] text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shrink-0 flex items-center justify-center gap-2"
+              className="w-full lg:w-auto px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs sm:text-sm transition-all cursor-pointer shrink-0 flex items-center justify-center gap-2 shadow-sm"
             >
               <span>Submit Project</span>
-              <ArrowRight size={14} className="text-[#D9F83B]" />
+              <ArrowRight size={14} className="text-slate-950" />
             </button>
           </div>
 
