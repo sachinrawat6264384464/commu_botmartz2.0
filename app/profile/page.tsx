@@ -232,8 +232,11 @@ export default function StudentProfilePortal() {
   const [serviceBookings, setServiceBookings] = useState<any[]>([]);
   const [hackathonRegistrations, setHackathonRegistrations] = useState<any[]>([]);
   const [workshopRegistrations, setWorkshopRegistrations] = useState<any[]>([]);
+  const [walletData, setWalletData] = useState<any>(null);
+  const [walletTransactions, setWalletTransactions] = useState<any[]>([]);
+  const [redeemingPerkId, setRedeemingPerkId] = useState<string | null>(null);
   const [activeProfileSection, setActiveProfileSection] = useState<
-    "completeness" | "countdown" | "projects" | "badges" | "certificates" | "resume" | "linkedin" | "notifications" | "tour" | "activity"
+    "completeness" | "countdown" | "projects" | "badges" | "certificates" | "resume" | "linkedin" | "notifications" | "tour" | "activity" | "wallet"
   >("completeness");
 
   useEffect(() => {
@@ -248,8 +251,52 @@ export default function StudentProfilePortal() {
           }
         })
         .catch(() => {});
+
+      fetch(`/api/arena/wallet?email=${encodeURIComponent(user.email)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && data.wallet) {
+            setWalletData(data.wallet);
+          }
+          if (data.success && Array.isArray(data.transactions)) {
+            setWalletTransactions(data.transactions);
+          }
+        })
+        .catch(() => {});
     }
   }, [user?.email]);
+
+  const handleRedeemPerk = async (perk: { id: string; title: string; cost: number }) => {
+    if (!user?.email) return;
+    setRedeemingPerkId(perk.id);
+    try {
+      const res = await fetch("/api/arena/wallet/redeem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          studentEmail: user.email,
+          perkId: perk.id,
+          perkTitle: perk.title,
+          perkCost: perk.cost,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(`Redeemed "${perk.title}"! Code: ${data.fulfillmentCode || "Sent to Email"}`, "success");
+        const wRes = await fetch(`/api/arena/wallet?email=${encodeURIComponent(user.email)}`);
+        const wData = await wRes.json();
+        if (wData.success && wData.wallet) setWalletData(wData.wallet);
+        if (wData.success && Array.isArray(wData.transactions)) setWalletTransactions(wData.transactions);
+        await refreshProfile();
+      } else {
+        showToast(data.error || "Insufficient Karma Coins balance.", "error");
+      }
+    } catch {
+      showToast("Failed to redeem perk.", "error");
+    } finally {
+      setRedeemingPerkId(null);
+    }
+  };
 
   useEffect(() => {
     if (user?.email) {
@@ -816,6 +863,7 @@ export default function StudentProfilePortal() {
                 { id: "notifications", num: "08", label: "Email Preferences" },
                 { id: "tour", num: "09", label: "Platform Tour" },
                 { id: "activity", num: "10", label: `Activity & Bookings (${serviceBookings.length + hackathonRegistrations.length + workshopRegistrations.length + enrolledProjects.length})` },
+                { id: "wallet", num: "11", label: `Karma Wallet (${walletData?.balance ?? coins})` },
               ].map((nav) => {
                 const isActive = activeProfileSection === nav.id;
                 return (
@@ -850,21 +898,6 @@ export default function StudentProfilePortal() {
                   </button>
                 );
               })}
-
-              <Link
-                href="/arena/wallet"
-                className="group w-full px-3 py-2.5 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border bg-[#D9F83B]/20 hover:bg-[#162774] text-[#162774] hover:text-white border-[#162774]/25 hover:border-[#162774]"
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="w-6 h-6 rounded-full text-[10px] font-extrabold flex items-center justify-center shrink-0 bg-[#162774] text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-[#162774]">
-                    11
-                  </span>
-                  <span className="text-xs font-extrabold truncate">Karma Wallet ({coins})</span>
-                </div>
-                <span className="w-5 h-5 rounded-full hidden sm:flex items-center justify-center shrink-0 transition-transform duration-300 bg-[#162774] text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-[#162774] group-hover:rotate-[60deg]">
-                  <ArrowRight size={10} />
-                </span>
-              </Link>
             </div>
           </aside>
 
@@ -2070,6 +2103,147 @@ export default function StudentProfilePortal() {
                             >
                               Open
                             </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {activeProfileSection === "wallet" && (
+                <div className="space-y-6 font-sans">
+                  {/* Balance & Stats Card */}
+                  <div className="bg-[#162774] text-white border border-white/15 rounded-[28px] p-6 sm:p-8 shadow-xl">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                      <div className="space-y-2">
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold uppercase tracking-wider">
+                          Botmartz Karma Wallet
+                        </span>
+                        <div className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                          {walletData?.balance ?? coins} <span className="text-[#D9F83B] text-xl">Karma Coins</span>
+                        </div>
+                        <p className="text-sm font-medium text-white/85">
+                          Earn coins via daily GitHub commits, LinkedIn posts &amp; discussions — redeem for founder clinics, swag &amp; referrals.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 shrink-0">
+                        <div className="px-4 py-3 rounded-2xl bg-white/10 border border-white/15 text-center">
+                          <div className="text-[11px] font-bold uppercase text-white/75">Lifetime Earned</div>
+                          <div className="text-lg font-extrabold text-[#D9F83B]">+{walletData?.totalEarned ?? coins}</div>
+                        </div>
+                        <div className="px-4 py-3 rounded-2xl bg-white/10 border border-white/15 text-center">
+                          <div className="text-[11px] font-bold uppercase text-white/75">Level</div>
+                          <div className="text-lg font-extrabold text-white">Lv {walletData?.reputationLevel ?? 1}</div>
+                        </div>
+                        <Link
+                          href="/arena/wallet"
+                          className="group pl-5 pr-2 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-[#162774] font-extrabold text-xs sm:text-sm inline-flex items-center gap-2.5 transition-all"
+                        >
+                          <span>Buy Packs / Tip</span>
+                          <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center">
+                            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                          </span>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Redeemable Perks */}
+                  <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 shadow-sm space-y-5">
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2">
+                          Redeem Perks
+                        </span>
+                        <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
+                          Redeemable Perks &amp; Grants
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      {[
+                        { id: "perk_1", title: "1-on-1 Founder Technical Clinic", cost: 300, badge: "Founder Clinic", desc: "20-minute architecture teardown with Founder Soham Sharma." },
+                        { id: "perk_4", title: "Mock System Design Technical Interview", cost: 400, badge: "Interview Prep", desc: "45-minute live technical interview simulation with feedback report." },
+                        { id: "perk_5", title: "Cloud GPU & Compute Credits Grant", cost: 500, badge: "Cloud Credits", desc: "$50 AWS / Qdrant cloud credits grant for container deployments." },
+                        { id: "perk_3", title: "Official Botmartz Builder Swag & Roadmap Book", cost: 800, badge: "Physical Swag", desc: "Printed AI & Systems Roadmap + Official Builder Tee." },
+                        { id: "perk_2", title: "Priority Portfolio Feature & Founder Recommendation", cost: 1000, badge: "Portfolio Feature", desc: "Featured showcase + personalized LinkedIn recommendation." },
+                      ].map((perk) => {
+                        const bal = walletData?.balance ?? coins;
+                        const canAfford = bal >= perk.cost;
+                        return (
+                          <div
+                            key={perk.id}
+                            className="p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                          >
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="font-extrabold text-[#162774] text-base">{perk.title}</span>
+                                <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] text-[11px] font-bold">
+                                  {perk.badge}
+                                </span>
+                              </div>
+                              <p className="text-sm font-medium text-slate-600">{perk.desc}</p>
+                            </div>
+
+                            <button
+                              type="button"
+                              disabled={redeemingPerkId === perk.id}
+                              onClick={() => handleRedeemPerk(perk)}
+                              className={`group pl-4 pr-2 py-2 rounded-full font-extrabold text-xs sm:text-sm transition-all cursor-pointer shrink-0 inline-flex items-center gap-2.5 ${
+                                canAfford
+                                  ? "bg-[#162774] text-[#D9F83B] hover:bg-[#0d1952]"
+                                  : "bg-white text-[#162774] border border-slate-200 hover:bg-[#162774] hover:text-white"
+                              }`}
+                            >
+                              <span>{redeemingPerkId === perk.id ? "Redeeming..." : `Redeem ${perk.cost} Coins`}</span>
+                              <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
+                                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                              </span>
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Recent Karma Transactions */}
+                  <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 shadow-sm space-y-4">
+                    <h3 className="text-xl font-extrabold text-[#162774] tracking-tight">
+                      Recent Karma Activity ({walletTransactions.length})
+                    </h3>
+                    {walletTransactions.length === 0 ? (
+                      <div className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-sm font-medium text-slate-600">
+                        Your welcome +100 Karma Coins are active. Log daily GitHub commits at{" "}
+                        <Link href="/arena/daily-log" className="text-[#162774] font-extrabold underline">
+                          Daily PoW Log
+                        </Link>{" "}
+                        to earn +20 to +70 Coins every day!
+                      </div>
+                    ) : (
+                      <div className="space-y-2.5">
+                        {walletTransactions.map((tx: any, idx: number) => (
+                          <div
+                            key={tx.id || idx}
+                            className="p-4 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex items-center justify-between gap-3"
+                          >
+                            <div>
+                              <div className="text-sm font-extrabold text-[#162774]">{tx.reason || tx.type}</div>
+                              <div className="text-xs font-medium text-slate-500">
+                                {tx.timestamp ? new Date(tx.timestamp).toLocaleDateString() : ""}
+                              </div>
+                            </div>
+                            <span
+                              className={`px-3 py-1 rounded-full text-xs font-extrabold ${
+                                tx.type === "SPEND"
+                                  ? "bg-rose-100 text-rose-700"
+                                  : "bg-[#162774] text-[#D9F83B]"
+                              }`}
+                            >
+                              {tx.type === "SPEND" ? `-${tx.amount}` : `+${tx.amount}`} Coins
+                            </span>
                           </div>
                         ))}
                       </div>
