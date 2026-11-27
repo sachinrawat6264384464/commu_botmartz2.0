@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Script from "next/script";
-import { ArrowRight, CheckCircle2, Loader2, X } from "lucide-react";
+import { ArrowRight, CheckCircle2, Loader2, Plus, X } from "lucide-react";
 import { ManagedWorkshop, WorkshopRegistration } from "@/lib/workshops";
 
 declare global {
@@ -199,7 +199,7 @@ export default function WorkshopsPage() {
           }}
         >
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-            <div className="space-y-4 max-w-3xl">
+            <div className="space-y-5 max-w-2xl">
               <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold uppercase tracking-wider">
                 Live Hands-On Workshops &bull; No Account Needed
               </div>
@@ -209,23 +209,78 @@ export default function WorkshopsPage() {
               <p className="text-xs sm:text-sm text-blue-100/85 leading-relaxed">
                 Pick any specialized live workshop across Python, RAG, Agentic RAG, Machine Learning, Prompt Engineering, or Career Roadmaps. Register in 30 seconds — no login required — and receive your confirmation &amp; live joining link directly via email.
               </p>
+
+              <div className="grid grid-cols-2 gap-3 max-w-sm pt-1">
+                <div className="p-3.5 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-xl sm:text-2xl font-extrabold text-[#D9F83B]">₹699</div>
+                  <div className="text-[11px] text-blue-100/80 font-medium">Per Live Workshop</div>
+                </div>
+                <div className="p-3.5 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B]">
+                  <div className="text-xl sm:text-2xl font-extrabold text-white">100%</div>
+                  <div className="text-[11px] text-blue-100/80 font-medium">Code + Recording</div>
+                </div>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 shrink-0 min-w-[260px]">
-              <div className="p-4 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                <div className="text-2xl font-extrabold text-[#D9F83B]">₹699</div>
-                <div className="text-[11px] text-blue-100/80 font-medium">Per Live Workshop</div>
+            {/* Right Reference Card: Keep Learning + Wave Graph + Student */}
+            <div className="relative overflow-hidden rounded-3xl bg-[#E4ECFF] text-slate-950 p-5 sm:p-6 shadow-2xl w-full lg:w-[440px] xl:w-[470px] shrink-0 flex items-end justify-between gap-2">
+              <div className="relative z-10 flex-1 space-y-3 pb-1">
+                <h2 className="text-lg sm:text-xl font-extrabold text-slate-950 leading-snug tracking-tight">
+                  Keep learning something new every day
+                </h2>
+                <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed font-medium max-w-[230px]">
+                  Learning is a continuous journey. Gain production AI skills, sharpen architectures, and ship real code.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    document.getElementById("workshops-catalog")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="group inline-flex items-center gap-2.5 pl-4 pr-1.5 py-1.5 rounded-full bg-[#1434F5] hover:bg-[#162774] text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+                >
+                  <span>Explore Cohort</span>
+                  <span className="w-6 h-6 rounded-full bg-white text-[#1434F5] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
+                    <Plus size={13} strokeWidth={2.5} />
+                  </span>
+                </button>
+
+                {/* Smooth Wave Area SVG */}
+                <div className="pt-1 -mb-2 pr-2">
+                  <svg viewBox="0 0 240 76" className="w-full h-14 overflow-visible" fill="none">
+                    <defs>
+                      <linearGradient id="wsHeroWaveFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#2545F4" stopOpacity="0.32" />
+                        <stop offset="100%" stopColor="#2545F4" stopOpacity="0.02" />
+                      </linearGradient>
+                    </defs>
+                    <path
+                      d="M0 52 C14 50, 20 18, 30 22 C40 26, 44 64, 54 62 C64 60, 70 42, 82 44 C94 46, 98 54, 108 46 C118 38, 122 14, 132 18 C142 22, 146 60, 156 58 C166 56, 174 34, 184 34 C194 34, 202 4, 212 8 C222 12, 228 24, 240 20 L240 76 L0 76 Z"
+                      fill="url(#wsHeroWaveFill)"
+                    />
+                    <path
+                      d="M0 52 C14 50, 20 18, 30 22 C40 26, 44 64, 54 62 C64 60, 70 42, 82 44 C94 46, 98 54, 108 46 C118 38, 122 14, 132 18 C142 22, 146 60, 156 58 C166 56, 174 34, 184 34 C194 34, 202 4, 212 8 C222 12, 228 24, 240 20"
+                      stroke="#2545F4"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
               </div>
-              <div className="p-4 rounded-2xl bg-white/[0.08] border border-white/15 border-l-4 border-l-[#D9F83B]">
-                <div className="text-2xl font-extrabold text-white">100%</div>
-                <div className="text-[11px] text-blue-100/80 font-medium">Code + Recording</div>
+
+              <div className="relative z-10 w-28 sm:w-36 shrink-0 self-end -mb-5 sm:-mb-6 -mr-2">
+                <img
+                  src="/hero-student.png"
+                  alt="Botmartz Student"
+                  className="w-full h-44 sm:h-52 object-contain object-bottom drop-shadow-md"
+                />
               </div>
             </div>
           </div>
         </section>
 
         {/* ── 2. CATEGORY FILTER STRIP ── */}
-        <section className="bg-[#F4F6FB] border border-slate-200 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
+        <section id="workshops-catalog" className="bg-[#F4F6FB] border border-slate-200 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2 text-xs">
             {categories.map((cat) => (
               <button
@@ -233,8 +288,8 @@ export default function WorkshopsPage() {
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-4 py-1.5 rounded-full font-bold transition-all cursor-pointer ${selectedCategory === cat
-                    ? "bg-[#162774] text-[#D9F83B]"
-                    : "bg-white border border-slate-200 text-slate-700 hover:border-[#162774]"
+                  ? "bg-[#162774] text-[#D9F83B]"
+                  : "bg-white border border-slate-200 text-slate-700 hover:border-[#162774]"
                   }`}
               >
                 {cat}
