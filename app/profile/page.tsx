@@ -228,6 +228,9 @@ export default function StudentProfilePortal() {
   });
   const [savingPrefs, setSavingPrefs] = useState(false);
   const [prefsSuccessMsg, setPrefsSuccessMsg] = useState("");
+  const [activeProfileSection, setActiveProfileSection] = useState<
+    "completeness" | "countdown" | "projects" | "badges" | "certificates" | "resume" | "linkedin" | "notifications" | "tour"
+  >("completeness");
 
   useEffect(() => {
     if (user?.email) {
@@ -575,9 +578,8 @@ export default function StudentProfilePortal() {
             {/* Top Bar: Subheader Badge & Search Builder Form */}
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/15 pb-6">
               <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-2">
-                  <ShieldCheck size={13} />
-                  <span>Universal Builder Identity &bull; Global Verified Proof-of-Work</span>
+                <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-2">
+                  Universal Builder Identity &bull; Global Verified Proof-of-Work
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
                   Builder Profile &amp; <span className="text-[#D9F83B]">Portfolio</span>
@@ -586,13 +588,12 @@ export default function StudentProfilePortal() {
 
               <form onSubmit={handleSearch} className="w-full md:w-80">
                 <div className="relative font-sans text-xs">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
                   <input
                     type="text"
                     value={searchHandle}
                     onChange={(e) => setSearchHandle(e.target.value)}
                     placeholder="Lookup builder @handle..."
-                    className="w-full bg-white border border-white rounded-2xl pl-10 pr-4 py-2.5 text-slate-950 placeholder:text-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-[#D9F83B] transition-all shadow-sm"
+                    className="w-full bg-white border border-white rounded-2xl px-4 py-2.5 text-slate-950 placeholder:text-slate-400 font-semibold focus:outline-none focus:ring-2 focus:ring-[#D9F83B] transition-all shadow-sm"
                   />
                 </div>
               </form>
@@ -752,113 +753,192 @@ export default function StudentProfilePortal() {
         </motion.div>
 
         {/* =========================================================================
-            COMPLETENESS METER & 100% REWARD BANNER
+            LEFT STICKY SIDEBAR + 1-CLICK ACTIVE SECTION PANEL (ZERO SCROLLING)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-bold text-slate-900 font-sans">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left Navigation Sidebar */}
+          <aside className="lg:col-span-3 lg:sticky lg:top-24 rounded-3xl bg-[#F4F6FB] border border-slate-200 p-4 space-y-3 shadow-sm">
+            <div className="px-2 pb-2 border-b border-slate-200/80 flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
+                  Profile Workspace
+                </div>
+                <div className="text-sm font-extrabold text-slate-950">
+                  Quick Navigation
+                </div>
+              </div>
+              <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold">
+                {score}%
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
+              {[
+                { id: "completeness", num: "01", label: "Profile Completeness" },
+                { id: "countdown", num: "02", label: "45-Day Sprint" },
+                { id: "projects", num: "03", label: `Enrolled (${enrolledProjects.length})` },
+                { id: "badges", num: "04", label: "Badges & Streaks" },
+                { id: "certificates", num: "05", label: "Certificates" },
+                { id: "resume", num: "06", label: "Resume Bullets" },
+                { id: "linkedin", num: "07", label: "LinkedIn Checklist" },
+                { id: "notifications", num: "08", label: "Email Preferences" },
+                { id: "tour", num: "09", label: "Platform Tour" },
+              ].map((nav) => {
+                const isActive = activeProfileSection === nav.id;
+                return (
+                  <button
+                    key={nav.id}
+                    type="button"
+                    onClick={() => setActiveProfileSection(nav.id as any)}
+                    className={`group w-full px-3 py-2.5 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border ${
+                      isActive
+                        ? "bg-[#162774] text-white border-[#162774] shadow-md"
+                        : "bg-white hover:bg-slate-50 text-slate-800 border-slate-200/80 hover:border-[#162774]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span
+                        className={`w-6 h-6 rounded-full text-[10px] font-extrabold flex items-center justify-center shrink-0 ${
+                          isActive
+                            ? "bg-[#D9F83B] text-slate-950"
+                            : "bg-[#F4F6FB] text-[#162774] group-hover:bg-[#162774] group-hover:text-[#D9F83B]"
+                        }`}
+                      >
+                        {nav.num}
+                      </span>
+                      <span className="text-xs font-extrabold truncate">{nav.label}</span>
+                    </div>
+                    <span
+                      className={`w-5 h-5 rounded-full hidden sm:flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                        isActive
+                          ? "bg-[#D9F83B] text-slate-950"
+                          : "bg-slate-100 text-[#162774] group-hover:rotate-[60deg]"
+                      }`}
+                    >
+                      <ArrowRight size={10} />
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </aside>
+
+          {/* Right Active Content Panel */}
+          <div className="lg:col-span-9 min-w-0">
+            <motion.div
+              key={activeProfileSection}
+              initial={{ opacity: 0, x: 16, filter: "blur(4px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+            >
+        {activeProfileSection === "completeness" && (
+        <>
+        {/* =========================================================================
+            COMPLETENESS METER & 100% REWARD BANNER (ICON-FREE)
+        ========================================================================= */}
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-6 shadow-xs font-sans">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <h3 className="text-xl font-extrabold text-slate-950">
                   Profile Completeness Score
                 </h3>
-                <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold">
+                <span className="px-3 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold">
                   {score}%
                 </span>
                 {score === 100 && (
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-xs font-bold flex items-center gap-1">
-                    <CheckCircle2 size={12} /> Verified Builder
+                  <span className="px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
+                    Verified Builder
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-500 font-sans mt-0.5">
-                Complete all 5 verification points to unlock company referral dispatches and earn <strong>+100 Karma Coins</strong>.
+              <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                Complete all 5 verification points to unlock company referral dispatches and earn <strong className="text-[#162774]">+100 Karma Coins</strong>.
               </p>
             </div>
 
             <button
               onClick={() => setIsEditModalOpen(true)}
-              className="px-5 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold flex items-center gap-2 shadow-xs transition-all cursor-pointer"
+              className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer shrink-0"
             >
-              <Edit3 size={14} />
-              <span>{score === 100 ? "Edit Profile" : "Complete Profile (Earn +100 Coins)"}</span>
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+              />
+              <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                {score === 100 ? "Edit Profile" : "Complete Profile (+100 Coins)"}
+              </span>
             </button>
           </div>
 
           {/* Progress Bar */}
-          <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden mb-6">
+          <div className="w-full h-3 bg-[#F4F6FB] rounded-full overflow-hidden mb-6 border border-slate-200">
             <div
-              className={`h-full transition-all duration-500 rounded-full ${
-                score === 100
-                  ? "bg-gradient-to-r from-emerald-500 to-teal-400"
-                  : "bg-gradient-to-r from-blue-600 to-cyan-500"
-              }`}
+              className="h-full transition-all duration-500 rounded-full bg-[#162774]"
               style={{ width: `${score}%` }}
             />
           </div>
 
-          {/* 5 Verification Checkpoints */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 font-mono text-xs">
-            <div className={`p-3 rounded-2xl border flex items-center gap-2 ${
-              studentProfile?.displayName ? "bg-emerald-50/60 border-emerald-200 text-emerald-800" : "bg-slate-50 border-slate-200 text-slate-400"
-            }`}>
-              {studentProfile?.displayName ? <CheckCircle2 size={15} className="text-emerald-600 shrink-0" /> : <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />}
-              <span className="truncate">Identity (20%)</span>
-            </div>
-
-            <div className={`p-3 rounded-2xl border flex items-center gap-2 ${
-              (studentProfile?.collegeName || (studentProfile as any)?.companyName) ? "bg-emerald-50/60 border-emerald-200 text-emerald-800" : "bg-slate-50 border-slate-200 text-slate-400"
-            }`}>
-              {(studentProfile?.collegeName || (studentProfile as any)?.companyName) ? <CheckCircle2 size={15} className="text-emerald-600 shrink-0" /> : <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />}
-              <span className="truncate">{isProfessional ? "Company" : "College"} (20%)</span>
-            </div>
-
-            <div className={`p-3 rounded-2xl border flex items-center gap-2 ${
-              studentProfile?.githubUsername ? "bg-emerald-50/60 border-emerald-200 text-emerald-800" : "bg-slate-50 border-slate-200 text-slate-400"
-            }`}>
-              {studentProfile?.githubUsername ? <CheckCircle2 size={15} className="text-emerald-600 shrink-0" /> : <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />}
-              <span className="truncate">GitHub (20%)</span>
-            </div>
-
-            <div className={`p-3 rounded-2xl border flex items-center gap-2 ${
-              studentProfile?.linkedinUrl ? "bg-emerald-50/60 border-emerald-200 text-emerald-800" : "bg-slate-50 border-slate-200 text-slate-400"
-            }`}>
-              {studentProfile?.linkedinUrl ? <CheckCircle2 size={15} className="text-emerald-600 shrink-0" /> : <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />}
-              <span className="truncate">LinkedIn (20%)</span>
-            </div>
-
-            <div className={`p-3 rounded-2xl border flex items-center gap-2 ${
-              studentProfile?.dpdpConsent !== false ? "bg-emerald-50/60 border-emerald-200 text-emerald-800" : "bg-slate-50 border-slate-200 text-slate-400"
-            }`}>
-              {studentProfile?.dpdpConsent !== false ? <CheckCircle2 size={15} className="text-emerald-600 shrink-0" /> : <div className="w-3.5 h-3.5 rounded-full border border-slate-300 shrink-0" />}
-              <span className="truncate">DPDP Consent (20%)</span>
-            </div>
+          {/* 5 Verification Checkpoints (Icon-Free) */}
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-bold">
+            {[
+              { label: "Identity (20%)", ok: Boolean(studentProfile?.displayName) },
+              { label: `${isProfessional ? "Company" : "College"} (20%)`, ok: Boolean(studentProfile?.collegeName || (studentProfile as any)?.companyName) },
+              { label: "GitHub (20%)", ok: Boolean(studentProfile?.githubUsername) },
+              { label: "LinkedIn (20%)", ok: Boolean(studentProfile?.linkedinUrl) },
+              { label: "DPDP Consent (20%)", ok: studentProfile?.dpdpConsent !== false },
+            ].map((cp, idx) => (
+              <div
+                key={cp.label}
+                className={`p-3 rounded-2xl border flex items-center gap-2 ${
+                  cp.ok
+                    ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] text-slate-950"
+                    : "bg-[#F4F6FB] border-slate-200 text-slate-500"
+                }`}
+              >
+                <span className={`w-5 h-5 rounded-full text-[9px] font-extrabold flex items-center justify-center shrink-0 ${
+                  cp.ok ? "bg-[#162774] text-[#D9F83B]" : "bg-slate-200 text-slate-500"
+                }`}>
+                  0{idx + 1}
+                </span>
+                <span className="truncate">{cp.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Platform Guide & Tour Banner */}
-        <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs font-mono text-xs">
-          <div className="flex items-center gap-3.5">
-            <div className="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-300 shrink-0">
-              <BookOpen size={20} />
+        {/* Platform Guide & Tour Banner (Icon-Free) */}
+        <div
+          className="p-6 rounded-3xl bg-[#162774] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg font-sans"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+            backgroundSize: "36px 36px",
+          }}
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-extrabold text-base text-white">Explore the Botmartz Platform &amp; Product Tour</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">Interactive Walkthrough</span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-sm font-sans text-white">Explore the Botmartz Platform &amp; Product Tour</span>
-                <span className="px-2 py-0.5 rounded-md bg-amber-400/20 text-amber-300 text-[10px] font-bold">Interactive Walkthrough</span>
-              </div>
-              <p className="text-xs text-blue-200 font-mono mt-0.5 w-full">
-                Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
-              </p>
-            </div>
+            <p className="text-xs sm:text-sm text-blue-100/90 font-medium">
+              Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
+            </p>
           </div>
 
           <Link
             href="/product-tour"
-            className="px-4 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold transition-all shrink-0 flex items-center gap-1.5 shadow-xs"
+            className="group px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-slate-950 text-xs font-extrabold transition-all shrink-0 flex items-center gap-2 shadow-sm"
           >
-            <span>Open Tour &rarr;</span>
+            <span>Open Tour</span>
+            <ArrowRight size={13} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
           </Link>
         </div>
+        </>
+        )}
+
+        {activeProfileSection === "countdown" && (
+        <>
 
         {/* =========================================================================
             PERSONAL 45-DAY VIRTUAL AI INTERNSHIP COUNTDOWN & MILESTONES
@@ -983,6 +1063,11 @@ export default function StudentProfilePortal() {
           </div>
         </div>
 
+        </>
+        )}
+
+        {activeProfileSection === "projects" && (
+        <>
         {/* =========================================================================
             ENROLLED ARENA BLUEPRINTS
         ========================================================================= */}
@@ -1113,6 +1198,11 @@ export default function StudentProfilePortal() {
         </div>
 
 
+        </>
+        )}
+
+        {activeProfileSection === "badges" && (
+        <>
         {/* =========================================================================
             SECTION BADGES: GAMIFIED CANDIDATE BADGES & STREAKS
         ========================================================================= */}
@@ -1210,6 +1300,11 @@ export default function StudentProfilePortal() {
           </div>
         </div>
 
+        </>
+        )}
+
+        {activeProfileSection === "certificates" && (
+        <>
         {/* =========================================================================
             SECTION CERTIFICATES: OFFICIAL VERIFIED COMPLETION CERTIFICATES & LINKEDIN
         ========================================================================= */}
@@ -1294,6 +1389,11 @@ export default function StudentProfilePortal() {
         </div>
 
 
+        </>
+        )}
+
+        {activeProfileSection === "resume" && (
+        <>
         {/* =========================================================================
             SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR (ENROLLED ONLY)
         ========================================================================= */}
@@ -1413,6 +1513,11 @@ export default function StudentProfilePortal() {
           })()}
         </div>
 
+        </>
+        )}
+
+        {activeProfileSection === "linkedin" && (
+        <>
         {/* =========================================================================
             SECTION B: INTERACTIVE LINKEDIN BUILDER CHECKLIST
         ========================================================================= */}
@@ -1536,6 +1641,11 @@ export default function StudentProfilePortal() {
           </div>
         </div>
 
+        </>
+        )}
+
+        {activeProfileSection === "notifications" && (
+        <>
         {/* =========================================================================
             SECTION B2: EMAIL NOTIFICATIONS & SPRINT ALERT PREFERENCES
         ========================================================================= */}
@@ -1633,6 +1743,11 @@ export default function StudentProfilePortal() {
           </div>
         </div>
 
+        </>
+        )}
+
+        {activeProfileSection === "tour" && (
+        <>
         {/* =========================================================================
             SECTION C: BOTMARTZ PLATFORM TOUR & FEATURE SITEMAP
         ========================================================================= */}
@@ -1688,6 +1803,11 @@ export default function StudentProfilePortal() {
                 </Link>
               );
             })}
+          </div>
+        </div>
+        </>
+        )}
+            </motion.div>
           </div>
         </div>
 
