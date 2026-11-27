@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, hasAdminCredentials } from "@/lib/firebase-admin";
 import { adjustStudentWallet } from "@/lib/wallet";
+import { addDocToFirestoreRest, fetchDocsFromFirestoreRest } from "@/lib/firestore-rest";
 
 export async function POST(req: Request) {
   try {
@@ -62,7 +63,7 @@ export async function POST(req: Request) {
 
     let logId = `log_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
 
-    if (adminDb) {
+    if (adminDb && hasAdminCredentials) {
       try {
         const docRef = await adminDb.collection("arena_daily_logs").add(logData);
         logId = docRef.id;
@@ -115,7 +116,12 @@ export async function POST(req: Request) {
         }
       } catch (dbErr) {
         console.error("Firestore daily log write warning:", dbErr);
+        const restId = await addDocToFirestoreRest("arena_daily_logs", logData);
+        if (restId) logId = restId;
       }
+    } else {
+      const restId = await addDocToFirestoreRest("arena_daily_logs", logData);
+      if (restId) logId = restId;
     }
 
     return NextResponse.json({
@@ -143,7 +149,7 @@ export async function GET(req: Request) {
 
     let logs: any[] = [];
 
-    if (adminDb) {
+    if (adminDb && hasAdminCredentials) {
       try {
         let query: any = adminDb.collection("arena_daily_logs").orderBy("submittedAt", "desc").limit(100);
         if (email) {
@@ -159,13 +165,32 @@ export async function GET(req: Request) {
         logs = snap.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }));
       } catch (dbErr) {
         console.warn("Firestore daily logs query index fallback:", dbErr);
-        let query: any = adminDb.collection("arena_daily_logs");
-        if (email) query = query.where("studentEmail", "==", email);
-        if (projectId) query = query.where("projectId", "==", projectId);
-        const snap = await query.get();
-        logs = snap.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }));
-        logs.sort((a, b) => new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime());
+        try {
+          let query: any = adminDb.collection("arena_daily_logs");
+          if (email) query = query.where("studentEmail", "==", email);
+          if (projectId) query = query.where("projectId", "==", projectId);
+          const snap = await query.get();
+          logs = snap.docs.map((doc: any) => ({ id: doc.id, ...doc.data() }));
+          logs.sort((a, b) => new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime());
+        } catch (fallbackErr) {
+          console.warn("Firestore daily logs fallback failed (using REST):", fallbackErr);
+        }
       }
+    }
+
+    if (logs.length === 0) {
+      let restLogs = await fetchDocsFromFirestoreRest("arena_daily_logs");
+      if (email) {
+        restLogs = restLogs.filter((l: any) => String(l.studentEmail || "").toLowerCase() === email);
+      }
+      if (projectId) {
+        restLogs = restLogs.filter((l: any) => l.projectId === projectId);
+      }
+      if (status) {
+        restLogs = restLogs.filter((l: any) => l.linkedinStatus === status);
+      }
+      restLogs.sort((a: any, b: any) => new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime());
+      logs = restLogs;
     }
 
     return NextResponse.json({
