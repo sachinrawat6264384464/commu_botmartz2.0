@@ -168,14 +168,7 @@ export default async function CommunityHomePage() {
       </section>
 
       {/* ── 2. THE 3-STEP OPERATING MACHINE ("HOW IT WORKS") ── */}
-      <section
-        className="py-20 sm:py-24 bg-white border-b border-slate-200/80 relative"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(29, 49, 137, 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.04) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-        }}
-      >
+      <section className="py-20 sm:py-24 bg-white border-b border-slate-200/80 relative">
         <div className="w-full px-4 sm:px-8 lg:px-14 max-w-[1440px] mx-auto">
 
           <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
@@ -244,15 +237,7 @@ export default async function CommunityHomePage() {
       <HomeGalleryShowcase />
 
       {/* ── 5. TRANSPARENT 3-TIER PRICING & FELLOWSHIP TRACKS (₹0 / ₹299 / ₹1,999) ── */}
-      <section
-        id="pricing"
-        className="py-16 sm:py-20 bg-white border-b border-slate-200/80 relative"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(29, 49, 137, 0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.035) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-        }}
-      >
+      <section id="pricing" className="py-16 sm:py-20 bg-white border-b border-slate-200/80 relative">
         <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto">
 
           <div className="text-center max-w-2xl mx-auto mb-14">
