@@ -1978,9 +1978,19 @@ export default function StudentProfilePortal() {
                                 Paid ₹{h.amountPaid || 0} &bull; {h.createdAt ? new Date(h.createdAt).toLocaleDateString() : "Active"}
                               </div>
                             </div>
-                            <span className="px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold self-start sm:self-center shrink-0">
-                              {h.submitted ? "Submitted" : "Registered"}
-                            </span>
+                            <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
+                              {!h.submitted && (
+                                <Link
+                                  href={`/hackathons${h.uniqueCode ? `?submitCode=${encodeURIComponent(h.uniqueCode)}` : ""}`}
+                                  className="px-4 py-1.5 rounded-full bg-[#162774] hover:bg-[#0d1952] text-[#D9F83B] text-xs font-extrabold transition-colors"
+                                >
+                                  Submit Project
+                                </Link>
+                              )}
+                              <span className="px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold">
+                                {h.submitted ? "Submitted" : "Registered"}
+                              </span>
+                            </div>
                           </div>
                         ))}
                       </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useAuth } from "@/lib/auth-context";
 import {
   ArrowRight,
   ChevronDown,
@@ -24,6 +26,8 @@ declare global {
 }
 
 export default function HackathonsPage() {
+  const router = useRouter();
+  const { user, studentProfile } = useAuth();
   const [projects, setProjects] = useState<HackathonProject[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -119,7 +123,37 @@ export default function HackathonsPage() {
     });
   };
 
+  useEffect(() => {
+    if (user || studentProfile) {
+      setLeaderName((prev) => prev || studentProfile?.displayName || user?.displayName || "");
+      setLeaderEmail((prev) => prev || studentProfile?.email || user?.email || "");
+    }
+  }, [user, studentProfile]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const codeParam = params.get("submitCode");
+      if (codeParam && user) {
+        setSubUniqueCode(codeParam);
+        setSubmitModalOpen(true);
+      }
+    }
+  }, [user]);
+
+  const openSubmitWithAuth = () => {
+    if (!user) {
+      router.push("/login?mode=signin&redirect=/hackathons");
+      return;
+    }
+    setSubmitModalOpen(true);
+  };
+
   const openEnrollModal = (project: HackathonProject, initialMode: "solo" | "team" = "solo") => {
+    if (!user) {
+      router.push("/login?mode=signin&redirect=/hackathons");
+      return;
+    }
     setEnrollProject(project);
     setMode(initialMode);
     setEnrollError("");
@@ -535,7 +569,7 @@ export default function HackathonsPage() {
 
               <button
                 type="button"
-                onClick={() => setSubmitModalOpen(true)}
+                onClick={openSubmitWithAuth}
                 className="relative overflow-hidden w-full px-6 py-3.5 rounded-2xl bg-[#D9F83B] text-slate-950 font-bold text-sm transition-all flex items-center justify-between group cursor-pointer shadow-lg shadow-lime-400/20"
               >
                 <span
@@ -700,7 +734,7 @@ export default function HackathonsPage() {
 
             <button
               type="button"
-              onClick={() => setSubmitModalOpen(true)}
+              onClick={openSubmitWithAuth}
               className="w-full lg:w-auto px-5 py-3 rounded-2xl bg-[#070E54] hover:bg-[#1D3189] text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shrink-0 flex items-center justify-center gap-2"
             >
               <span>Submit Project</span>

@@ -2,8 +2,10 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import Script from "next/script";
+import { useRouter } from "next/navigation";
 import { ArrowRight, CheckCircle2, Loader2, Plus, X } from "lucide-react";
 import { ManagedWorkshop, WorkshopRegistration } from "@/lib/workshops";
+import { useAuth } from "@/lib/auth-context";
 
 declare global {
   interface Window {
@@ -12,6 +14,8 @@ declare global {
 }
 
 export default function WorkshopsPage() {
+  const router = useRouter();
+  const { user, studentProfile } = useAuth();
   const [workshops, setWorkshops] = useState<ManagedWorkshop[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -57,7 +61,26 @@ export default function WorkshopsPage() {
     return workshops.filter((w) => w.category === selectedCategory);
   }, [workshops, selectedCategory]);
 
+  useEffect(() => {
+    if (user || studentProfile) {
+      setName((prev) => prev || studentProfile?.displayName || user?.displayName || "");
+      setEmail((prev) => prev || studentProfile?.email || user?.email || "");
+    }
+  }, [user, studentProfile]);
+
+  const handleViewDetails = (ws: ManagedWorkshop) => {
+    if (!user) {
+      router.push("/login?mode=signin&redirect=/workshops");
+      return;
+    }
+    setDetailWorkshop(ws);
+  };
+
   const openRegisterModal = (ws: ManagedWorkshop) => {
+    if (!user) {
+      router.push("/login?mode=signin&redirect=/workshops");
+      return;
+    }
     setDetailWorkshop(null);
     setRegisterWorkshop(ws);
     setConfirmedReg(null);
@@ -394,7 +417,7 @@ export default function WorkshopsPage() {
                   />
                   <button
                     type="button"
-                    onClick={() => setDetailWorkshop(ws)}
+                    onClick={() => handleViewDetails(ws)}
                     className="relative z-10 flex-1 py-1.5 sm:py-2.5 rounded-lg sm:rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-950 font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer"
                   >
                     View Details
