@@ -447,71 +447,87 @@ function StudentLoginInner() {
 
             {/* REGISTRATION SUCCESS CARD VIEW */}
             {registrationSuccess ? (
-              <div className="h-full bg-white rounded-3xl border-2 border-emerald-400 shadow-2xl p-8 space-y-6 font-sans text-xs relative overflow-hidden flex flex-col justify-between animate-fadeIn">
-                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500" />
+              <div className="h-full bg-white rounded-3xl border-2 border-[#162774] shadow-2xl p-6 sm:p-8 space-y-5 font-sans text-xs relative overflow-hidden flex flex-col justify-between animate-fadeIn">
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#162774] via-[#1D3189] to-[#D9F83B]" />
 
                 <div className="space-y-4 pt-2 text-center">
-                  <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto border-4 border-emerald-200 shadow-md">
-                    <CheckCircle2 size={36} />
+                  <div className="w-16 h-16 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center mx-auto border-4 border-[#D9F83B] shadow-md">
+                    <CheckCircle2 size={34} />
                   </div>
 
                   <div>
-                    <span className="text-[11px] font-mono uppercase font-black text-emerald-600 tracking-wider">
+                    <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
                       Account Registered &amp; Ticket Generated
                     </span>
-                    <h2 className="text-2xl font-black text-slate-900 mt-1">
+                    <h2 className="text-2xl font-extrabold text-slate-950 mt-2 tracking-tight">
                       Welcome, {registrationSuccess.name}!
                     </h2>
-                    <p className="text-slate-600 text-xs mt-1">
+                    <p className="text-slate-600 text-xs mt-1 font-medium">
                       Your builder record has been stored in the Firestore database.
                     </p>
                   </div>
 
-                  {/* Ticket Details Box */}
-                  <div className="p-4 rounded-2xl bg-slate-900 text-white border-2 border-slate-800 text-left space-y-2 font-mono">
-                    <div className="flex items-center justify-between text-xs text-cyan-300 border-b border-slate-800 pb-2">
-                      <span className="flex items-center gap-1.5 font-bold">
-                        <Ticket size={14} className="text-amber-400" />
+                  {/* Ticket Details Box (#162774 Royal Blue Grid) */}
+                  <div
+                    className="p-4 rounded-2xl bg-[#162774] text-white border border-[#162774] text-left space-y-3 shadow-md"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                      backgroundSize: "28px 28px",
+                    }}
+                  >
+                    <div className="flex items-center justify-between text-xs border-b border-white/15 pb-2.5">
+                      <span className="flex items-center gap-1.5 font-extrabold text-white">
+                        <Ticket size={14} className="text-[#D9F83B]" />
                         <span>Sign-In Passcode</span>
                       </span>
-                      <span className="bg-cyan-500/20 text-cyan-300 font-extrabold px-2.5 py-0.5 rounded border border-cyan-400/40 text-[11px] font-mono tracking-wider">
+                      <span className="bg-[#D9F83B] text-slate-950 font-extrabold px-3 py-1 rounded-full text-[11px] font-mono tracking-wider shadow-xs">
                         {registrationSuccess.passcode || registrationSuccess.checkInCode}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2 text-[11px] text-slate-300 pt-1">
+                    <div className="grid grid-cols-2 gap-3 text-[11px] pt-0.5">
                       <div>
-                        <span className="text-slate-400 text-[10px] block uppercase">Email</span>
+                        <span className="text-blue-200/80 text-[10px] font-bold block uppercase">Email</span>
                         <span className="font-bold text-white truncate block">{registrationSuccess.email}</span>
                       </div>
                       <div>
-                        <span className="text-slate-400 text-[10px] block uppercase">Track Plan</span>
-                        <span className="font-bold text-emerald-300 block uppercase">{registrationSuccess.plan}</span>
+                        <span className="text-blue-200/80 text-[10px] font-bold block uppercase">Track Plan</span>
+                        <span className="font-extrabold text-[#D9F83B] block uppercase">{registrationSuccess.plan}</span>
                       </div>
                     </div>
 
-                    <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px]">
-                      <span className="text-slate-400">Welcome Bonus:</span>
-                      <span className="text-amber-400 font-black flex items-center gap-1">
+                    <div className="pt-2.5 border-t border-white/15 flex items-center justify-between text-[11px]">
+                      <span className="text-blue-100 font-medium">Welcome Bonus:</span>
+                      <span className="text-[#D9F83B] font-extrabold flex items-center gap-1">
                         <Coins size={14} /> +100 Karma Coins Allocated
                       </span>
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-sans flex items-center gap-2 text-left">
-                    <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                  <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] text-slate-800 text-[11px] font-sans flex items-center gap-2.5 text-left font-medium">
+                    <CheckCircle2 size={16} className="text-[#162774] shrink-0" />
                     <span>
-                      <strong>Passcode Sent to Email:</strong> Your passcode <strong>{registrationSuccess.passcode || registrationSuccess.checkInCode}</strong> was sent to <strong>{registrationSuccess.email}</strong>.
+                      <strong className="text-slate-950">Passcode Sent to Email:</strong> Your passcode <strong className="text-[#162774]">{registrationSuccess.passcode || registrationSuccess.checkInCode}</strong> was sent to <strong>{registrationSuccess.email}</strong>.
                     </span>
                   </div>
                 </div>
 
-                <div className="space-y-3 pt-2 font-mono text-xs">
+                <div className="space-y-2.5 pt-2 font-sans text-xs">
                   <Link
                     href="/arena"
-                    className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#0066FF] to-blue-600 hover:from-blue-700 hover:to-blue-600 text-white font-bold uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 cursor-pointer text-xs font-mono"
+                    className="group relative overflow-hidden w-full py-3 px-5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold tracking-wide transition-all flex items-center justify-between gap-2 shadow-md cursor-pointer"
                   >
-                    <span>Enter AI Builder Arena &amp; PRDs &rarr;</span>
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                    />
+                    <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                      Enter AI Builder Arena &amp; PRDs
+                    </span>
+                    <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg] shrink-0">
+                      <ArrowRight size={13} />
+                    </span>
                   </Link>
 
                   <button
@@ -526,9 +542,18 @@ function StudentLoginInner() {
                       setError("");
                       setInfoMsg("Registration completed! Sign in with your Passcode below.");
                     }}
-                    className="w-full py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold font-mono text-xs cursor-pointer transition-all"
+                    className="group relative overflow-hidden w-full py-3 px-5 rounded-full bg-[#162774] text-white font-extrabold transition-all flex items-center justify-between gap-2 shadow-sm cursor-pointer"
                   >
-                    Sign In with Passcode &rarr;
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                    />
+                    <span className="relative z-10 group-hover:text-slate-950 transition-colors duration-500">
+                      Sign In with Passcode
+                    </span>
+                    <span className="relative z-10 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 group-hover:bg-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg] shrink-0">
+                      <ArrowRight size={12} />
+                    </span>
                   </button>
 
                   <button
@@ -539,7 +564,7 @@ function StudentLoginInner() {
                       setError("");
                       setInfoMsg("");
                     }}
-                    className="w-full py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold font-mono text-xs cursor-pointer transition-all"
+                    className="w-full py-2.5 rounded-full bg-[#F4F6FB] hover:bg-slate-200 border border-slate-200 text-slate-700 font-bold text-xs cursor-pointer transition-all"
                   >
                     Register Another Student Account
                   </button>
