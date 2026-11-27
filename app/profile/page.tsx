@@ -1204,18 +1204,18 @@ export default function StudentProfilePortal() {
         {activeProfileSection === "badges" && (
         <>
         {/* =========================================================================
-            SECTION BADGES: GAMIFIED CANDIDATE BADGES & STREAKS
+            SECTION BADGES: GAMIFIED CANDIDATE BADGES & STREAKS (ICON-FREE)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-sans">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-6">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#0066FF] uppercase mb-1">
-                <Award size={16} /> Earned Badges &amp; Production Milestones
-              </div>
-              <h3 className="text-xl font-bold font-sans text-slate-900">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+                Earned Badges &amp; Production Milestones
+              </span>
+              <h3 className="text-xl sm:text-2xl font-extrabold font-sans text-slate-950">
                 Gamified Candidate Badges &amp; Streaks
               </h3>
-              <p className="text-xs font-mono text-slate-500 mt-0.5">
+              <p className="text-xs sm:text-sm font-sans font-medium text-slate-600 mt-1">
                 Unlock and claim streak badges (10, 20, 45 days) &amp; project milestones (1, 2, 4 projects).
               </p>
             </div>
@@ -1225,73 +1225,73 @@ export default function StudentProfilePortal() {
                 <button
                   type="button"
                   onClick={handleClaimAllBadges}
-                  className="px-4 py-1.5 rounded-full bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold transition-all shadow-md shadow-blue-500/20 flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2 rounded-full bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-sans text-xs font-extrabold transition-all shadow-sm cursor-pointer"
                 >
-                  <Sparkles size={13} />
-                  <span>Claim All Unlocked Badges 🎉</span>
+                  Claim All Unlocked Badges
                 </button>
               )}
-              <span className="px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold border border-blue-200">
+              <span className="px-4 py-1.5 rounded-full bg-[#F4F6FB] text-[#162774] font-sans text-xs font-extrabold border border-slate-200">
                 {claimedBadges.length} Badges Claimed
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 font-mono text-xs">
-            {badgeStatuses.map((b) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-sans text-xs">
+            {badgeStatuses.map((b, idx) => (
               <div
                 key={b.id}
-                className={`p-5 rounded-2xl border-2 flex flex-col justify-between space-y-4 transition-all ${
+                className={`p-5 rounded-3xl border flex flex-col justify-between space-y-4 transition-all ${
                   b.isClaimed
-                    ? "bg-gradient-to-br from-emerald-50/90 via-white to-blue-50/40 border-emerald-300 text-emerald-950 shadow-md hover:shadow-lg"
+                    ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 shadow-xs"
                     : b.isEligible
-                    ? "bg-gradient-to-br from-blue-50/90 via-white to-indigo-50/40 border-[#0066FF] text-blue-950 shadow-md hover:shadow-lg"
-                    : "bg-slate-50 border-slate-200 text-slate-400 opacity-75"
+                    ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-md"
+                    : "bg-[#F4F6FB] border-slate-200 border-l-4 border-l-[#162774]"
                 }`}
               >
-                <div className="flex items-start gap-4">
-                  {renderBadgeEmblem(b.iconName, b.isClaimed, b.isEligible, b.badgeBg)}
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center shrink-0">
+                      {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                    </span>
 
-                  <div className="space-y-1 flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-1 flex-wrap mb-1">
+                    <div className="flex items-center gap-1.5">
                       <span
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
                           b.isClaimed
-                            ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                            ? "bg-emerald-100 text-emerald-800"
                             : b.isEligible
-                            ? "bg-blue-600 text-white shadow-xs"
-                            : "bg-slate-200 text-slate-600"
+                            ? "bg-[#D9F83B] text-slate-950"
+                            : "bg-white text-slate-600 border border-slate-200"
                         }`}
                       >
-                        {b.isClaimed ? "✓ Claimed" : b.isEligible ? "🎉 Unlocked" : "🔒 Locked"}
+                        {b.isClaimed ? "Claimed" : b.isEligible ? "Unlocked" : "Locked"}
                       </span>
-                      <span className="text-[10px] text-slate-500 font-bold uppercase font-mono">{b.category}</span>
+                      <span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[10px] text-[#162774] font-extrabold uppercase">
+                        {b.category}
+                      </span>
                     </div>
-
-                    <h4 className="font-extrabold text-slate-900 font-sans text-base leading-snug">{b.title}</h4>
-                    <p className="text-xs text-slate-600 font-sans leading-relaxed">{b.description}</p>
                   </div>
+
+                  <h4 className="font-extrabold text-slate-950 font-sans text-base leading-snug">{b.title}</h4>
+                  <p className="text-xs sm:text-[13px] text-slate-600 font-sans font-medium leading-relaxed">{b.description}</p>
                 </div>
 
                 <div>
                   {b.isClaimed ? (
-                    <div className="w-full py-2.5 rounded-xl bg-emerald-100/90 text-emerald-900 border border-emerald-300 text-center font-bold text-xs flex items-center justify-center gap-2 shadow-xs">
-                      <CheckCircle2 size={15} className="text-emerald-600" />
-                      <span>Active Verified Badge on Profile</span>
+                    <div className="w-full py-2.5 rounded-xl bg-emerald-100 text-emerald-900 text-center font-extrabold text-xs">
+                      Active Verified Badge on Profile
                     </div>
                   ) : b.canClaim ? (
                     <button
                       onClick={() => handleClaimBadge(b.id)}
                       disabled={claimingId === b.id}
-                      className="w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-all shadow-md shadow-blue-500/20 cursor-pointer flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-extrabold text-center transition-all shadow-sm cursor-pointer"
                     >
-                      {claimingId === b.id ? <Loader2 size={15} className="animate-spin" /> : <Sparkles size={15} />}
-                      <span>Claim Badge Now &rarr;</span>
+                      {claimingId === b.id ? "Claiming..." : "Claim Badge Now"}
                     </button>
                   ) : (
-                    <div className="w-full py-2 rounded-xl bg-slate-200/80 text-slate-500 text-center font-bold text-xs flex items-center justify-center gap-1">
-                      <Lock size={13} />
-                      <span>Need {b.requiredCount} {b.category === "streak" ? "Days" : "Projects"}</span>
+                    <div className="w-full py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 text-center font-bold text-xs">
+                      Need {b.requiredCount} {b.category === "streak" ? "Days" : "Projects"}
                     </div>
                   )}
                 </div>
