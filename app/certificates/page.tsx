@@ -139,14 +139,7 @@ function CertificatesContent() {
   };
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 pb-16 pt-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pb-16 pt-24 font-sans">
       <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
         
         {/* ── 1. TECH HERO BANNER CARD ── */}
@@ -160,12 +153,8 @@ function CertificatesContent() {
         >
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="space-y-4 max-w-3xl">
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
-                Botmartz AI Solutions &bull; Verification Engine
-              </div>
-
               <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
-                Verify Candidate <span className="text-[#D9F83B]">Certificates &amp; Badges</span>
+                Verify Candidate Certificates &amp; Badges
               </h1>
 
               <p className="text-xs sm:text-sm text-blue-100/85 font-sans leading-relaxed">
@@ -178,7 +167,7 @@ function CertificatesContent() {
                   <button
                     key={sample}
                     onClick={() => handleQuickSample(sample)}
-                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-[#D9F83B] hover:text-slate-950 border border-white/15 text-[#D9F83B] text-[11px] font-bold transition-all cursor-pointer"
+                    className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white hover:text-[#162774] border border-white/15 text-white text-[11px] font-bold transition-all cursor-pointer"
                   >
                     {sample}
                   </button>
@@ -197,19 +186,19 @@ function CertificatesContent() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Enter Unique Certificate ID (e.g. CERT-BM-XXXXXX)..."
-                  className="w-full bg-white border border-white/20 rounded-xl px-4 py-3 text-xs text-slate-950 placeholder:text-slate-400 font-semibold focus:outline-none focus:ring-2 focus:ring-[#D9F83B] transition-all"
+                  className="w-full bg-white border border-white/20 rounded-xl px-4 py-3 text-xs text-slate-950 placeholder:text-slate-400 font-semibold focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 py-3 px-4 rounded-xl font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2.5 group cursor-pointer disabled:opacity-60"
+                  className="w-full bg-white hover:bg-blue-50 text-[#162774] py-3 px-4 rounded-xl font-extrabold transition-all shadow-lg flex items-center justify-center gap-2.5 group cursor-pointer disabled:opacity-60"
                 >
                   {loading ? (
                     <Loader2 size={16} className="animate-spin" />
                   ) : (
                     <>
                       <span>Verify Authentic Credential</span>
-                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                      <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                         <ArrowRight size={12} />
                       </span>
                     </>
@@ -334,11 +323,11 @@ function CertificatesContent() {
                   whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
-                  className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] transition-all duration-500 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group"
+                  className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#162774] transition-all duration-500 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col justify-between group"
                 >
                   <div className="p-6 pb-4 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500">
+                      <span className="w-7 h-7 rounded-full bg-[#162774] text-white font-extrabold text-[11px] flex items-center justify-center transition-colors duration-500">
                         {card.num}
                       </span>
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
@@ -363,10 +352,10 @@ function CertificatesContent() {
                         backgroundSize: "28px 28px",
                       }}
                     />
-                    <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                    <span className="relative z-10 text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-white transition-colors duration-500">
                       {card.tag}
                     </span>
-                    <span className="relative z-10 w-6 h-6 rounded-full bg-white group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shadow-2xs">
+                    <span className="relative z-10 w-6 h-6 rounded-full bg-white text-[#162774] flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shadow-2xs">
                       <ArrowRight size={12} />
                     </span>
                   </div>
@@ -385,9 +374,6 @@ function CertificatesContent() {
             >
               <div className="flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="space-y-4 max-w-xl">
-                  <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
-                    Credential Verification Demo
-                  </div>
                   <h2 className="text-2xl sm:text-3xl font-extrabold font-sans text-white">
                     Need to verify candidate credentials for hiring?
                   </h2>
@@ -398,7 +384,7 @@ function CertificatesContent() {
 
                 <div className="w-full md:w-auto shrink-0 font-sans text-xs">
                   <div className="p-6 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md space-y-3 min-w-[260px]">
-                    <div className="text-[#D9F83B] font-extrabold text-[11px] uppercase tracking-wider">
+                    <div className="text-blue-200 font-extrabold text-[11px] uppercase tracking-wider">
                       Sample Verification ID:
                     </div>
                     <code className="block p-3 rounded-xl bg-white/10 text-white text-sm font-extrabold border border-white/15 text-center tracking-wider">
@@ -406,10 +392,10 @@ function CertificatesContent() {
                     </code>
                     <button
                       onClick={() => handleQuickSample("CERT-BM-982314")}
-                      className="w-full py-2.5 px-4 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 group"
+                      className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 group"
                     >
                       <span>Test Sample Search</span>
-                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                      <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                         <ArrowRight size={12} />
                       </span>
                     </button>
