@@ -191,14 +191,14 @@ function CertificatesContent() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-white hover:bg-blue-50 text-[#162774] py-3 px-4 rounded-xl font-extrabold transition-all shadow-lg flex items-center justify-center gap-2.5 group cursor-pointer disabled:opacity-60"
+                  className="w-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 py-3 px-4 rounded-xl font-extrabold transition-all shadow-lg flex items-center justify-center gap-2.5 group cursor-pointer disabled:opacity-60"
                 >
                   {loading ? (
                     <Loader2 size={16} className="animate-spin" />
                   ) : (
                     <>
                       <span>Verify Authentic Credential</span>
-                      <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                         <ArrowRight size={12} />
                       </span>
                     </>
@@ -392,10 +392,10 @@ function CertificatesContent() {
                     </code>
                     <button
                       onClick={() => handleQuickSample("CERT-BM-982314")}
-                      className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 group"
+                      className="w-full py-2.5 px-4 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 group"
                     >
                       <span>Test Sample Search</span>
-                      <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                         <ArrowRight size={12} />
                       </span>
                     </button>
