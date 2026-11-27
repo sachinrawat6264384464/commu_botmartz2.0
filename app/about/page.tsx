@@ -127,33 +127,84 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
-              <Link
-                href="/arena"
-                className="group relative overflow-hidden px-6 py-3.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs sm:text-sm transition-all flex items-center justify-between gap-3 shadow-lg cursor-pointer"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                />
-                <span className="relative z-10">Explore {TOTAL_SYSTEMS_COUNT}+ Systems</span>
-                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
-                  <ArrowRight size={13} />
+            {/* Right Column: Distinct White Ecosystem Proof & Velocity Card */}
+            <div className="w-full lg:w-[440px] xl:w-[470px] shrink-0 rounded-3xl bg-white text-slate-950 p-5 sm:p-6 shadow-2xl border-2 border-[#D9F83B]/85 space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] animate-pulse" />
+                  <span>Proof-of-Work Engine</span>
                 </span>
-              </Link>
+                <span className="text-[11px] font-bold text-slate-500">Indore Hub &bull; Remote</span>
+              </div>
 
-              <Link
-                href="/hackathons"
-                className="group relative overflow-hidden px-6 py-3 rounded-full bg-white/10 text-white border border-white/25 hover:border-white font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                />
-                <span className="relative z-10 group-hover:text-slate-950 transition-colors duration-500">
-                  Join Next Hackathon
-                </span>
-              </Link>
+              <div className="flex items-end justify-between gap-3">
+                <div>
+                  <h2 className="text-base sm:text-lg font-extrabold text-slate-950 leading-snug">
+                    Verified Engineering Signal
+                  </h2>
+                  <p className="text-[11px] text-slate-600 font-medium mt-0.5">
+                    Real systems shipped, audited, and verifiable by hiring teams.
+                  </p>
+                </div>
+
+                {/* Distinct Stepped Growth Bar Chart SVG */}
+                <svg viewBox="0 0 112 44" className="w-24 h-10 shrink-0" fill="none" aria-hidden="true">
+                  <rect x="2" y="28" width="12" height="14" rx="3" fill="#E2E8F0" />
+                  <rect x="20" y="22" width="12" height="20" rx="3" fill="#CBD5E1" />
+                  <rect x="38" y="16" width="12" height="26" rx="3" fill="#162774" fillOpacity="0.45" />
+                  <rect x="56" y="10" width="12" height="32" rx="3" fill="#162774" fillOpacity="0.75" />
+                  <rect x="74" y="6" width="12" height="36" rx="3" fill="#162774" />
+                  <rect x="92" y="2" width="14" height="40" rx="3.5" fill="#D9F83B" stroke="#162774" strokeWidth="1.5" />
+                </svg>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2.5">
+                {[
+                  { val: `${TOTAL_SYSTEMS_COUNT}+`, label: "Production PRDs" },
+                  { val: "24h", label: "Hackathon Sprints" },
+                  { val: "SHA-256", label: "QR Credentials" },
+                  { val: "100%", label: "Founder-Vetted" },
+                ].map((m) => (
+                  <div
+                    key={m.label}
+                    className="p-2.5 rounded-2xl bg-[#F4F6FB] border border-slate-200/80 border-l-3 border-l-[#162774]"
+                  >
+                    <div className="text-sm font-extrabold text-[#162774]">{m.val}</div>
+                    <div className="text-[10px] font-semibold text-slate-600">{m.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <Link
+                  href="/arena"
+                  className="group relative overflow-hidden px-4 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs transition-all flex items-center justify-between gap-2 shadow-sm cursor-pointer"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                    Explore {TOTAL_SYSTEMS_COUNT}+ Systems
+                  </span>
+                  <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg] shrink-0">
+                    <ArrowRight size={12} />
+                  </span>
+                </Link>
+
+                <Link
+                  href="/hackathons"
+                  className="group relative overflow-hidden px-4 py-2.5 rounded-full bg-[#F4F6FB] text-[#162774] border border-slate-200 hover:border-[#162774] font-extrabold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                    Join Next Hackathon
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
 
