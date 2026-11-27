@@ -461,12 +461,6 @@ export default function HackathonsPage() {
             {/* Right Column: 1st/2nd/3rd Winner Trophies & Highlighted Builder Perks */}
             <div className="lg:col-span-4 space-y-3">
               <div className="p-4 sm:p-5 rounded-3xl bg-white text-slate-950 border-2 border-[#D9F83B] shadow-2xl space-y-3.5">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
-                    What Every Eligible Builder Gets
-                  </span>
-                </div>
-
                 {/* 1st / 2nd / 3rd Winner Trophies Podium Visual */}
                 <div className="grid grid-cols-3 gap-2 items-end pt-1">
                   {/* 2nd Place - Silver Trophy */}
