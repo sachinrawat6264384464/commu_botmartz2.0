@@ -738,7 +738,7 @@ export default function AboutPage() {
                   </div>
 
                   <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-200/70">
-                    {member.specialties.slice(0, 3).map((spec) => (
+                    {member.specialties.slice(0, 4).map((spec) => (
                       <span
                         key={spec}
                         className="px-2.5 py-0.5 rounded-lg bg-white border border-slate-200 text-[10px] font-bold text-slate-700"

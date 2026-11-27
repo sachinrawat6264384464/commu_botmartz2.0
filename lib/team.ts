@@ -78,6 +78,6 @@ export const BOTMARTZ_TEAM: TeamMember[] = [
       bugsVerified: 14,
       officeHoursAttended: 10
     },
-    specialties: ["Python", "Node.js", "Next.js", "Redis Pub/Sub", "REST/GraphQL APIs"]
+    specialties: ["FastAPI", "RAG", "Agentic AI", "Django"]
   }
 ];
