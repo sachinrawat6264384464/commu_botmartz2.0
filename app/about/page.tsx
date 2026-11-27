@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, Sparkles } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import { BOTMARTZ_TEAM } from "@/lib/team";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
@@ -146,13 +146,12 @@ export default function AboutPage() {
               transition={{ duration: 0.65, ease: "easeOut" }}
               className="lg:col-span-7 space-y-5"
             >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 border border-white/20 text-white text-[11px] font-extrabold uppercase tracking-wider">
                 <span>01 &bull; Who We Are</span>
               </div>
 
               <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-                Building a Community Where Developers{" "}
-                <span className="text-[#D9F83B]">Learn, Build &amp; Grow.</span>
+                Building a Community Where Developers Learn, Build &amp; Grow.
               </h1>
 
               <p className="text-xs sm:text-base text-blue-100/90 leading-relaxed max-w-2xl">
@@ -195,18 +194,12 @@ export default function AboutPage() {
               transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
               className="lg:col-span-5"
             >
-              <div className="relative rounded-3xl overflow-hidden border-2 border-[#D9F83B]/80 shadow-2xl bg-[#070E54]">
+              <div className="relative rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-[#070E54]">
                 <img
                   src={HERO_COLLAB_IMAGE}
                   alt="Developers collaborating at Botmartz engineering workspace"
                   className="w-full h-60 sm:h-80 object-cover"
                 />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#070E54]/95 via-[#070E54]/60 to-transparent p-4 sm:p-5">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
-                    <Sparkles size={11} />
-                    <span>Collaborative Engineering Culture</span>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </div>
