@@ -299,10 +299,10 @@ export default function ProductTourPage() {
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 font-sans text-xs shrink-0 self-start lg:self-center">
               <Link
                 href="/arena"
-                className="px-7 py-3.5 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold transition-all duration-300 shadow-lg flex items-center justify-center gap-2.5 group text-sm cursor-pointer"
+                className="px-7 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all duration-300 shadow-lg flex items-center justify-center gap-2.5 group text-sm cursor-pointer"
               >
                 <span>Get Started in Arena</span>
-                <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                   <ArrowRight size={13} />
                 </span>
               </Link>
@@ -321,7 +321,7 @@ export default function ProductTourPage() {
               href="/arena"
               className="px-6 py-3 rounded-full bg-[#162774] hover:bg-[#1D3189] text-white font-sans text-xs font-extrabold transition-all duration-300 shadow-md flex items-center gap-2.5 shrink-0 self-start sm:self-auto group"
             >
-              <span>Explore {TOTAL_SYSTEMS_COUNT} PRDs</span>
+              <span>Explore Live Systems</span>
               <span className="w-6 h-6 rounded-full bg-white text-[#162774] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                 <ArrowRight size={12} />
               </span>
@@ -534,10 +534,10 @@ export default function ProductTourPage() {
           <div className="flex items-center justify-center gap-4 pt-2 flex-wrap font-sans text-xs sm:text-sm">
             <Link
               href="/arena"
-              className="px-7 py-3.5 rounded-full bg-white hover:bg-blue-50 text-[#162774] font-extrabold transition-all duration-300 shadow-lg flex items-center gap-2.5 group cursor-pointer"
+              className="px-7 py-3.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold transition-all duration-300 shadow-lg flex items-center gap-2.5 group cursor-pointer"
             >
-              <span>Browse {TOTAL_SYSTEMS_COUNT} PRDs</span>
-              <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+              <span>Explore Live Systems</span>
+              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                 <ArrowRight size={12} />
               </span>
             </Link>
