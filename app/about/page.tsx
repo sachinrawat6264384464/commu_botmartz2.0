@@ -121,14 +121,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 pt-24 pb-20 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-20 font-sans">
       <div className="w-full px-4 sm:px-8 lg:px-12 space-y-14 relative z-10">
         {/* ── 01. HERO SECTION — WHO WE ARE ── */}
         <section

@@ -194,14 +194,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 pt-24 pb-20 font-sans selection:bg-[#D9F83B] selection:text-[#162774]"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-20 font-sans">
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 space-y-12">
         {/* HERO BANNER */}
         <motion.div
@@ -228,7 +221,7 @@ export default function ServicesPage() {
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <Link
                 href="/profile"
-                className="px-5 py-3 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#162774] border border-white/25 font-bold text-xs sm:text-sm transition-all"
+                className="px-6 py-3 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs sm:text-sm transition-all shadow-md"
               >
                 View My Bookings
               </Link>
