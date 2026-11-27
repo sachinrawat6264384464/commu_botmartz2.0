@@ -331,7 +331,7 @@ export default function WorkshopsPage() {
             {filtered.map((ws, idx) => (
               <div
                 key={ws.id}
-                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
+                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
               >
                 <div>
                   {/* Cover Image (Compact 3-col height) */}
@@ -343,14 +343,14 @@ export default function WorkshopsPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#162774]/75 via-transparent to-transparent" />
                     <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex items-center gap-1 sm:gap-2">
-                      <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[9px] sm:text-[11px] flex items-center justify-center shadow-md">
+                      <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-white text-[#162774] font-extrabold text-[9px] sm:text-[11px] flex items-center justify-center shadow-md">
                         {String(idx + 1).padStart(2, "0")}
                       </span>
                       <span className="px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#162774]/95 text-white text-[8px] sm:text-[10px] font-extrabold uppercase tracking-wider border border-white/20 truncate max-w-[80px] sm:max-w-none">
                         {ws.category}
                       </span>
                     </div>
-                    <span className="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[9px] sm:text-xs font-extrabold shadow-md">
+                    <span className="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white text-[#162774] text-[9px] sm:text-xs font-extrabold shadow-md">
                       {ws.isPaid && Number(ws.price) > 0 ? `₹${ws.price}` : "Free"}
                     </span>
                     <div className="hidden sm:flex absolute bottom-2.5 left-3 right-3 items-center justify-between text-[11px] font-bold text-white">
