@@ -393,14 +393,7 @@ export default function HackathonsPage() {
   };
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950">
       {/* ── 1. HERO SECTION ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-10">
         <div
