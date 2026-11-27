@@ -898,7 +898,7 @@ export default function HackathonsPage() {
                       <button
                         type="button"
                         onClick={() => openEnrollModal(project, "team")}
-                        className="py-1.5 sm:py-2.5 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer shadow-sm"
+                        className="py-1.5 sm:py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer shadow-sm"
                       >
                         Enroll Team (₹{project.teamFee || TEAM_HACKATHON_FEE})
                       </button>
