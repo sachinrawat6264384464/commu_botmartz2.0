@@ -144,34 +144,34 @@ export default function CommunityNavbar() {
     >
       <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
         
-        {/* Brand Logo & Live Cohort Badge */}
-        <Link href="/" prefetch={false} className="flex items-center gap-2.5 sm:gap-3.5 group shrink-0">
-          <div className="relative w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center shrink-0 rounded-2xl bg-white/10 border border-white/20 group-hover:border-[#D9F83B] transition-all duration-300">
+        {/* Brand Logo & Vertical Stack */}
+        <Link href="/" prefetch={false} className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+          <div className="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shrink-0 rounded-2xl bg-white/10 border border-white/20 group-hover:border-[#D9F83B] transition-all duration-300">
             <Image
               src="/logo.png"
               alt="Botmartz Logo"
-              width={34}
-              height={34}
+              width={32}
+              height={32}
               className="object-contain drop-shadow-xs group-hover:scale-105 transition-transform duration-300"
               priority
             />
           </div>
-          <div className="flex flex-col">
-            <div className="font-black text-base sm:text-xl tracking-tight text-white flex items-center gap-1.5 sm:gap-2 font-sans">
-              <span>BOTMARTZ</span>
-              <span className="text-[#D9F83B] font-black text-xs sm:text-sm uppercase tracking-wide">
-                AI WORKSHOP
+          <div className="flex flex-col leading-tight font-sans">
+            <div className="flex items-center gap-2">
+              <span className="font-black text-base sm:text-lg tracking-tight text-white">
+                BOTMARTZ
               </span>
-            </div>
-            <div className="flex items-center gap-2 -mt-0.5">
-              <span className="text-[10px] font-mono text-blue-200/80 tracking-wider uppercase font-bold hidden sm:inline-block">
-                Production Engineering Cohort
-              </span>
-              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-400/15 text-emerald-300 font-mono text-[9px] font-bold border border-emerald-400/30">
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-400/15 text-emerald-300 text-[9px] font-extrabold border border-emerald-400/30 uppercase">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Live
               </span>
             </div>
+            <span className="text-[#D9F83B] font-extrabold text-[10px] sm:text-[11px] uppercase tracking-wider">
+              AI Workshop
+            </span>
+            <span className="text-[9px] text-blue-200/80 uppercase tracking-wider font-bold hidden sm:block">
+              Production Cohort
+            </span>
           </div>
         </Link>
 
@@ -524,20 +524,12 @@ export default function CommunityNavbar() {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-2.5 font-sans text-xs">
-              <Link
-                href="/login?mode=signup"
-                className="px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold transition-all cursor-pointer border border-white/20"
-              >
-                Sign Up
-              </Link>
-              <Link
-                href="/login?mode=signin"
-                className="px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs sm:text-sm font-bold transition-all duration-200 shadow-md shadow-lime-400/15 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-              >
-                Sign In
-              </Link>
-            </div>
+            <Link
+              href="/login?mode=signin"
+              className="px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-[#162774] font-sans text-xs sm:text-sm font-extrabold transition-all duration-200 shadow-md shadow-lime-400/15 hover:scale-[1.02] active:scale-[0.98] cursor-pointer shrink-0"
+            >
+              Sign In / Sign Up
+            </Link>
           )}
         </div>
 
