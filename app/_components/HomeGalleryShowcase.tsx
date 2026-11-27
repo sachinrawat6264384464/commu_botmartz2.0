@@ -154,7 +154,7 @@ export default function HomeGalleryShowcase() {
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-[#F4F6FB] border-b border-slate-200/80 font-sans overflow-hidden">
+    <section className="py-16 sm:py-20 bg-white border-b border-slate-200/80 font-sans overflow-hidden">
       <div className="w-full px-4 sm:px-8 lg:px-12 max-w-[1440px] mx-auto">
         {/* Section Header */}
         <motion.div
@@ -227,10 +227,10 @@ export default function HomeGalleryShowcase() {
               >
                 <Link
                   href={item.href}
-                  className="group block h-full bg-white rounded-[26px] border border-slate-200 hover:border-[#162774] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
+                  className="group block h-full bg-white rounded-2xl border border-slate-200 hover:border-[#162774]/40 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col"
                 >
-                  {/* Image Container */}
-                  <div className="relative h-56 sm:h-60 w-full overflow-hidden bg-[#162774]">
+                  {/* Clean Raw Image (Zero Overlay, Zero Badges, Zero Text) */}
+                  <div className="relative h-52 sm:h-56 w-full overflow-hidden bg-slate-100">
                     <Image
                       src={item.image}
                       alt={item.title}
@@ -238,48 +238,22 @@ export default function HomeGalleryShowcase() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#162774]/85 via-[#162774]/20 to-transparent" />
-
-                    {/* Top Badges */}
-                    <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold uppercase tracking-wider shadow-xs">
-                          {item.category}
-                        </span>
-                        <span className="px-2.5 py-1 rounded-full bg-white text-[#162774] text-[11px] font-extrabold uppercase tracking-wider shadow-xs">
-                          {item.mode}
-                        </span>
-                      </div>
-                      <span className="w-7 h-7 rounded-full bg-[#162774]/90 border border-white/25 text-[#D9F83B] text-xs font-extrabold flex items-center justify-center shrink-0">
-                        {item.num}
-                      </span>
-                    </div>
-
-                    {/* Bottom Meta */}
-                    <div className="absolute bottom-3.5 left-4 right-4">
-                      <span className="inline-block text-xs font-bold text-white/95 tracking-wide">
-                        {item.meta}
-                      </span>
-                    </div>
                   </div>
 
-                  {/* Card Body */}
-                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between gap-4">
+                  {/* Clean Card Body */}
+                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between gap-5">
                     <div>
-                      <h3 className="text-lg sm:text-xl font-extrabold text-[#162774] tracking-tight group-hover:text-[#0d1952] transition-colors">
+                      <h3 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-[#162774] transition-colors">
                         {item.title}
                       </h3>
-                      <p className="text-sm font-medium text-slate-700 mt-1.5 leading-relaxed">
+                      <p className="text-sm font-medium text-slate-600 mt-2 leading-relaxed">
                         {item.subtitle}
                       </p>
                     </div>
 
-                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs sm:text-sm font-extrabold text-[#162774]">
+                    <div>
+                      <span className="inline-block px-4 py-2 rounded-lg bg-[#162774] group-hover:bg-[#0d1952] text-white text-xs sm:text-sm font-bold transition-colors">
                         {item.ctaLabel}
-                      </span>
-                      <span className="w-8 h-8 rounded-full bg-[#F4F6FB] group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B] flex items-center justify-center transition-colors">
-                        <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-[60deg]" />
                       </span>
                     </div>
                   </div>
