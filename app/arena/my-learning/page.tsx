@@ -646,19 +646,26 @@ export default function MyLearningPage() {
 
             {/* TAB 2: 45-DAY PROOF-OF-WORK MATRIX HEATMAP */}
             {activeTab === "matrix" && (
-              <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
-                <div>
-                  <h3 className="text-xl font-bold font-sans text-slate-900 flex items-center gap-2">
-                    <Calendar size={20} className="text-[#0066FF]" />
-                    <span>45-Day Proof-of-Work Sprint Matrix</span>
+              <motion.div
+                initial={{ opacity: 0, y: 18, filter: "blur(5px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs font-sans"
+              >
+                <div className="space-y-1.5 border-b border-slate-100 pb-4">
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                    45-Day Milestone Map
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                    45-Day Proof-of-Work Sprint Matrix
                   </h3>
-                  <p className="text-xs font-mono text-slate-500 mt-1">
-                    Visual milestone map for your 45-day virtual AI internship. Submit daily commits to light up every box!
+                  <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                    Visual milestone map for your 45-day virtual AI internship. Submit daily commits to light up every box.
                   </p>
                 </div>
 
-                {/* 45 Boxes Grid */}
-                <div className="grid grid-cols-5 sm:grid-cols-9 md:grid-cols-15 gap-2.5 font-mono text-xs">
+                {/* 45 Boxes Grid (Icon-Free, Crisp Dots) */}
+                <div className="grid grid-cols-5 sm:grid-cols-9 md:grid-cols-15 gap-2.5 text-xs">
                   {Array.from({ length: 45 }).map((_, idx) => {
                     const dayNum = idx + 1;
                     const isLogged = currentCompletedDays >= dayNum;
@@ -667,111 +674,137 @@ export default function MyLearningPage() {
                     return (
                       <div
                         key={dayNum}
-                        className={`p-2.5 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all ${
+                        className={`p-2.5 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all ${
                           isLogged
-                            ? "bg-emerald-50 border-emerald-300 text-emerald-800 font-bold shadow-xs"
+                            ? "bg-[#162774] border-[#162774] text-[#D9F83B] font-extrabold shadow-xs"
                             : isCurrent
-                            ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold animate-pulse shadow-sm"
-                            : "bg-slate-50 border-slate-200 text-slate-400"
+                            ? "bg-[#F4F6FB] border-2 border-[#162774] text-[#162774] font-extrabold shadow-sm"
+                            : "bg-[#F4F6FB] border-slate-200 text-slate-500 font-bold"
                         }`}
                       >
-                        <span className="text-[10px] uppercase font-bold">D{dayNum}</span>
-                        {isLogged ? (
-                          <CheckCircle2 size={13} className="text-emerald-600" />
-                        ) : isCurrent ? (
-                          <Flame size={13} className="text-amber-500 animate-bounce" />
-                        ) : (
-                          <span className="w-2.5 h-2.5 rounded-full bg-slate-300" />
-                        )}
+                        <span className="text-[11px] uppercase font-extrabold">D{dayNum}</span>
+                        <span
+                          className={`w-2.5 h-2.5 rounded-full ${
+                            isLogged
+                              ? "bg-[#D9F83B]"
+                              : isCurrent
+                              ? "bg-[#162774] animate-pulse"
+                              : "bg-slate-300"
+                          }`}
+                        />
                       </div>
                     );
                   })}
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100 text-xs font-mono text-slate-500">
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-md bg-emerald-100 border border-emerald-300" /> Completed</span>
-                    <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-md bg-blue-100 border border-[#0066FF]" /> Today&apos;s Target</span>
-                    <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-md bg-slate-100 border border-slate-200" /> Upcoming</span>
+                <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100 text-xs font-semibold text-slate-600">
+                  <div className="flex items-center gap-5">
+                    <span className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-[#162774]" /> Completed
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full border-2 border-[#162774] bg-[#D9F83B]" /> Today&apos;s Target
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-slate-300" /> Upcoming
+                    </span>
                   </div>
                   <Link
                     href="/arena/daily-log"
-                    className="px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-xs hover:bg-blue-600 transition-colors flex items-center gap-1.5 shadow-xs"
+                    className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center gap-2.5 shadow-sm transition-all cursor-pointer"
                   >
-                    <Terminal size={13} />
-                    <span>Submit Day {currentCompletedDays + 1} Log &rarr;</span>
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                    />
+                    <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                      Submit Day {currentCompletedDays + 1} Log
+                    </span>
+                    <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                      <ArrowRight size={11} />
+                    </span>
                   </Link>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {/* TAB 3: CERTIFICATES & GAMIFIED BADGES */}
             {activeTab === "certificates" && (
-              <div className="space-y-8 font-sans">
+              <motion.div
+                initial={{ opacity: 0, y: 18, filter: "blur(5px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="space-y-8 font-sans"
+              >
                 
-                {/* SECTION 3A: GAMIFIED BADGES CLAIM GRID */}
+                {/* SECTION 3A: GAMIFIED BADGES CLAIM GRID (ICON-FREE) */}
                 <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
-                    <div>
-                      <h3 className="text-xl font-bold font-sans text-slate-900 flex items-center gap-2">
-                        <Award size={22} className="text-[#0066FF]" />
-                        <span>Gamified Candidate Badges &amp; Streaks</span>
+                    <div className="space-y-1">
+                      <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                        Streak &amp; Project Milestones
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                        Gamified Candidate Badges &amp; Streaks
                       </h3>
-                      <p className="text-xs font-mono text-slate-500 mt-1">
+                      <p className="text-xs sm:text-sm text-slate-600 font-medium">
                         Unlock and claim streak badges (10, 20, 45 days) &amp; project milestones (1, 2, 4 projects).
                       </p>
                     </div>
 
-                    <span className="px-3.5 py-1.5 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold border border-blue-200 self-start sm:self-auto">
+                    <span className="px-4 py-1.5 rounded-full bg-[#F4F6FB] text-[#162774] text-xs font-extrabold border border-slate-200 self-start sm:self-auto">
                       {claimedBadges.length} Badges Claimed
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
-                    {badgeStatuses.map((b) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                    {badgeStatuses.map((b, idx) => (
                       <div
                         key={b.id}
-                        className={`p-5 rounded-2xl border-2 flex flex-col justify-between space-y-4 transition-all ${
+                        className={`p-5 rounded-3xl border flex flex-col justify-between space-y-4 transition-all ${
                           b.isClaimed
-                            ? "bg-emerald-50/70 border-emerald-300 text-emerald-950"
+                            ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 shadow-xs"
                             : b.isEligible
-                            ? "bg-blue-50/70 border-[#0066FF] text-blue-950 shadow-md"
-                            : "bg-slate-50 border-slate-200 text-slate-400 opacity-70"
+                            ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-md"
+                            : "bg-[#F4F6FB] border-slate-200 border-l-4 border-l-slate-300"
                         }`}
                       >
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                              b.isClaimed ? "bg-emerald-100 text-emerald-800" : b.isEligible ? "bg-blue-600 text-white" : "bg-slate-200 text-slate-600"
-                            }`}>
-                              {b.isClaimed ? "✓ Claimed" : b.isEligible ? "🎉 Unlocked" : "🔒 Locked"}
+                        <div className="space-y-2.5">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+                              0{idx + 1}
                             </span>
-                            <span className="text-[10px] text-slate-500 font-bold uppercase">{b.category}</span>
+                            <span className={`px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                              b.isClaimed
+                                ? "bg-emerald-100 text-emerald-800"
+                                : b.isEligible
+                                ? "bg-[#D9F83B] text-slate-950"
+                                : "bg-white text-slate-500 border border-slate-200"
+                            }`}>
+                              {b.isClaimed ? "Claimed" : b.isEligible ? "Unlocked" : "Locked"}
+                            </span>
                           </div>
 
-                          <h4 className="font-extrabold text-slate-900 font-sans text-base leading-snug">{b.title}</h4>
-                          <p className="text-xs text-slate-600 font-sans">{b.description}</p>
+                          <h4 className="font-extrabold text-slate-950 text-base leading-snug">{b.title}</h4>
+                          <p className="text-xs sm:text-[13px] text-slate-600 font-medium leading-relaxed">{b.description}</p>
                         </div>
 
                         <div>
                           {b.isClaimed ? (
-                            <div className="w-full py-2 rounded-xl bg-emerald-100 text-emerald-800 text-center font-bold text-xs flex items-center justify-center gap-1.5">
-                              <CheckCircle2 size={14} className="text-emerald-600" />
-                              <span>Badge Active on Profile</span>
+                            <div className="w-full py-2.5 rounded-xl bg-emerald-100 text-emerald-800 text-center font-extrabold text-xs">
+                              Badge Active on Profile
                             </div>
                           ) : b.canClaim ? (
                             <button
                               onClick={() => handleClaimBadge(b.id)}
                               disabled={claimingId === b.id}
-                              className="w-full py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-colors shadow-md shadow-blue-500/20 cursor-pointer flex items-center justify-center gap-2"
+                              className="w-full py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-extrabold text-center transition-colors shadow-sm cursor-pointer"
                             >
-                              {claimingId === b.id ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-                              <span>Claim Badge Now &rarr;</span>
+                              {claimingId === b.id ? "Claiming..." : "Claim Badge Now"}
                             </button>
                           ) : (
-                            <div className="w-full py-2 rounded-xl bg-slate-200/80 text-slate-500 text-center font-bold text-xs flex items-center justify-center gap-1">
-                              <Lock size={13} />
-                              <span>Need {b.requiredCount} {b.category === "streak" ? "Days" : "Projects"}</span>
+                            <div className="w-full py-2.5 rounded-xl bg-white border border-slate-200 text-slate-500 text-center font-bold text-xs">
+                              Need {b.requiredCount} {b.category === "streak" ? "Days" : "Projects"}
                             </div>
                           )}
                         </div>
@@ -780,23 +813,29 @@ export default function MyLearningPage() {
                   </div>
                 </div>
 
-                {/* SECTION 3B: OFFICIAL COMPLETION CERTIFICATES */}
+                {/* SECTION 3B: OFFICIAL COMPLETION CERTIFICATES (ICON-FREE) */}
                 <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
-                  <div>
-                    <h3 className="text-xl font-bold font-sans text-slate-900 flex items-center gap-2">
-                      <Trophy size={22} className="text-amber-500" />
-                      <span>Verified Completion Certificates</span>
+                  <div className="space-y-1">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                      SHA-256 Credentials
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                      Verified Completion Certificates
                     </h3>
-                    <p className="text-xs font-mono text-slate-500 mt-1">
+                    <p className="text-xs sm:text-sm text-slate-600 font-medium">
                       Issued by Botmartz AI Solutions upon completing all 45 days of proof-of-work.
                     </p>
                   </div>
 
                   {completedEnrollments.length === 0 ? (
-                    <div className="p-8 rounded-2xl bg-slate-50 border border-dashed border-slate-200 text-center space-y-3">
-                      <Lock size={32} className="text-slate-400 mx-auto" />
-                      <h4 className="font-bold text-slate-800 text-base font-sans">Certificate Locked (Day {currentCompletedDays}/45 Logged)</h4>
-                      <p className="text-xs font-mono text-slate-500 max-w-md mx-auto">
+                    <div className="p-8 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] text-center space-y-2.5">
+                      <span className="inline-block px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
+                        Day {currentCompletedDays}/45 Logged
+                      </span>
+                      <h4 className="font-extrabold text-slate-950 text-lg">
+                        Certificate Locked
+                      </h4>
+                      <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
                         Your official certificate will generate automatically once you log 45 days of daily standup logs or mark your project complete.
                       </p>
                     </div>
@@ -850,32 +889,48 @@ export default function MyLearningPage() {
                   )}
                 </div>
 
-              </div>
+              </motion.div>
             )}
 
-            {/* TAB 4: GITHUB COMMIT LOGS FEED */}
+            {/* TAB 4: GITHUB COMMIT LOGS FEED (ICON-FREE) */}
             {activeTab === "logs" && (
-              <div className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-xl font-bold font-sans text-slate-900 flex items-center gap-2">
-                      <Terminal size={20} className="text-[#0066FF]" />
-                      <span>Submitted GitHub Proof-of-Work Feed</span>
+              <motion.div
+                initial={{ opacity: 0, y: 18, filter: "blur(5px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="rounded-3xl bg-white border border-slate-200 p-6 sm:p-8 space-y-6 shadow-xs font-sans"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                  <div className="space-y-1">
+                    <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                      Daily Commit History
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                      Submitted GitHub Proof-of-Work Feed
                     </h3>
-                    <p className="text-xs font-mono text-slate-500 mt-1">
+                    <p className="text-xs sm:text-sm text-slate-600 font-medium">
                       Recent daily commit URL log submissions and awarded karma points.
                     </p>
                   </div>
                   <Link
                     href="/arena/daily-log"
-                    className="px-4 py-2 rounded-xl bg-[#0066FF] text-white font-mono text-xs font-bold hover:bg-blue-600 transition-colors shadow-xs"
+                    className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center gap-2.5 shadow-sm transition-all cursor-pointer self-start sm:self-auto"
                   >
-                    Submit Log &rarr;
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                    />
+                    <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                      Submit Log
+                    </span>
+                    <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                      <ArrowRight size={11} />
+                    </span>
                   </Link>
                 </div>
 
                 {dailyLogs.length === 0 ? (
-                  <div className="py-8 text-center text-slate-400 font-mono text-xs">
+                  <div className="p-8 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] text-center text-slate-700 font-sans text-xs sm:text-sm font-semibold">
                     No daily commit logs submitted yet. Click &quot;Submit Log&quot; to start your streak!
                   </div>
                 ) : (
@@ -916,7 +971,7 @@ export default function MyLearningPage() {
                     ))}
                   </div>
                 )}
-              </div>
+              </motion.div>
             )}
 
           </div>
