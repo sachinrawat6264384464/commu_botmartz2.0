@@ -459,7 +459,11 @@ export default function CommunityNavbar() {
                     <Link
                       href="/arena/my-learning"
                       onClick={() => setUserDropdownOpen(false)}
-                      className="block px-3.5 py-2.5 rounded-xl bg-[#162774] text-white hover:bg-[#1e3494] transition-colors text-sm font-bold"
+                      className={`block px-3.5 py-2.5 rounded-xl transition-colors text-sm font-bold ${
+                        pathname?.startsWith("/arena/my-learning")
+                          ? "bg-[#162774] text-white hover:bg-[#1e3494]"
+                          : "text-[#162774] hover:bg-[#F4F6FB]"
+                      }`}
                     >
                       My Learning &amp; Projects
                     </Link>
@@ -467,7 +471,11 @@ export default function CommunityNavbar() {
                     <Link
                       href="/profile"
                       onClick={() => setUserDropdownOpen(false)}
-                      className="block px-3.5 py-2.5 rounded-xl text-[#162774] hover:bg-[#F4F6FB] transition-colors text-sm font-bold"
+                      className={`block px-3.5 py-2.5 rounded-xl transition-colors text-sm font-bold ${
+                        pathname?.startsWith("/profile")
+                          ? "bg-[#162774] text-white hover:bg-[#1e3494]"
+                          : "text-[#162774] hover:bg-[#F4F6FB]"
+                      }`}
                     >
                       My Profile &amp; Passes
                     </Link>
@@ -476,7 +484,11 @@ export default function CommunityNavbar() {
                       <Link
                         href="/admin"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="block px-3.5 py-2.5 rounded-xl text-[#162774] hover:bg-[#F4F6FB] transition-colors text-sm font-bold"
+                        className={`block px-3.5 py-2.5 rounded-xl transition-colors text-sm font-bold ${
+                          pathname?.startsWith("/admin")
+                            ? "bg-[#162774] text-white hover:bg-[#1e3494]"
+                            : "text-[#162774] hover:bg-[#F4F6FB]"
+                        }`}
                       >
                         Super Admin CMS
                       </Link>
