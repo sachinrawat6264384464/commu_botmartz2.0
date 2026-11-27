@@ -100,19 +100,27 @@ export default function PricingTierCards() {
 
             <div className="space-y-3 pt-5 border-t border-slate-100 mb-8 text-sm font-semibold">
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Access to all {TOTAL_SYSTEMS_COUNT} Production System PRDs</span>
               </div>
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Open Builder Community</span>
               </div>
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>6 Progressive Role Roadmaps</span>
               </div>
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Public GitHub Proof-of-Work Log</span>
               </div>
             </div>
@@ -159,23 +167,33 @@ export default function PricingTierCards() {
 
             <div className="space-y-3 pt-5 border-t border-slate-100 mb-8 text-sm font-semibold">
               <div className="flex items-start gap-2.5 text-slate-950 font-bold">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Everything in Open Builder</span>
               </div>
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Cryptographic PDF Certificate with QR Verification</span>
               </div>
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Automated SLA Benchmark &amp; Acceptance Gates</span>
               </div>
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Saturday Live Architecture Teardowns (Indore / Online)</span>
               </div>
               <div className="flex items-start gap-2.5 text-slate-800">
-                <Check size={16} className="text-[#1D3189] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#1D3189] text-[#D9F83B] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Wednesday Resume Teardown &amp; LinkedIn Profile Audit</span>
               </div>
             </div>
@@ -228,23 +246,33 @@ export default function PricingTierCards() {
 
             <div className="space-y-3 pt-5 border-t border-white/15 mb-8 text-sm font-semibold">
               <div className="flex items-start gap-2.5 text-white font-bold">
-                <Check size={16} className="text-[#D9F83B] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-[#1D3189] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Everything in Verified Pass</span>
               </div>
               <div className="flex items-start gap-2.5 text-white/95">
-                <Check size={16} className="text-[#D9F83B] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-[#1D3189] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>1-on-1 Architecture Code Review with Founder Soham</span>
               </div>
               <div className="flex items-start gap-2.5 text-white/95">
-                <Check size={16} className="text-[#D9F83B] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-[#1D3189] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Personalized LinkedIn Recommendation upon Insane PRD Completion</span>
               </div>
               <div className="flex items-start gap-2.5 text-white/95">
-                <Check size={16} className="text-[#D9F83B] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-[#1D3189] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>Direct Dispatch to 15 Hiring Partner Companies</span>
               </div>
               <div className="flex items-start gap-2.5 text-white/95">
-                <Check size={16} className="text-[#D9F83B] shrink-0 mt-0.5" />
+                <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-[#1D3189] flex items-center justify-center shrink-0 mt-0.5">
+                  <Check size={12} strokeWidth={3} />
+                </span>
                 <span>1-on-1 Mock Technical Interview &amp; Architecture Defense</span>
               </div>
             </div>
