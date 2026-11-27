@@ -123,12 +123,18 @@ export default function NewsletterForm({ variant = "footer", className = "" }: N
   // Default Footer Form Variant
   return (
     <div className={`space-y-3 font-sans ${className}`}>
-      <h4 className="text-xs font-bold uppercase tracking-widest text-white">
-        Stay Ahead in AI &amp; System Design
-      </h4>
-      <p className="text-xs text-blue-100/75 leading-relaxed">
-        Subscribe to receive weekly proof-of-work project updates and cohorts. No spam, ever.
-      </p>
+      <div className="space-y-1.5">
+        <div className="inline-flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
+          <h4 className="text-xs font-extrabold uppercase tracking-widest text-white">
+            Stay Ahead in AI &amp; System Design
+          </h4>
+        </div>
+        <p className="text-xs sm:text-[13px] text-blue-100/90 font-medium leading-relaxed">
+          Subscribe to receive weekly proof-of-work project updates and cohorts.{" "}
+          <span className="text-[#D9F83B] font-semibold">No spam, ever.</span>
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit} className="relative flex max-w-md items-center">
         <input

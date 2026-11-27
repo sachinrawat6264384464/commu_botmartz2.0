@@ -77,9 +77,14 @@ export default function CommunityFooter() {
                 </div>
               </Link>
 
-              <p className="text-blue-100/80 text-sm font-sans leading-relaxed">
-                <strong className="text-white font-semibold">Build. Ship. Learn. Connect.</strong> Strictly for authentic builders constructing frontier production architectures in AI and Systems.
-              </p>
+              <div className="pl-3.5 border-l-2 border-[#D9F83B] space-y-1.5">
+                <div className="text-[#D9F83B] text-xs font-extrabold uppercase tracking-widest">
+                  Build. Ship. Learn. Connect.
+                </div>
+                <p className="text-blue-50/90 text-sm font-sans font-medium leading-relaxed">
+                  Strictly for authentic builders constructing frontier production architectures in AI and Systems.
+                </p>
+              </div>
             </div>
 
             <div className="pt-5 border-t border-white/10">
