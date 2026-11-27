@@ -231,6 +231,19 @@ export default function CommunityNavbar() {
             <span>Workshops</span>
           </Link>
 
+          {/* Services & Programs Pill */}
+          <Link
+            href="/services"
+            prefetch={false}
+            className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              pathname === "/services"
+                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                : "text-blue-100 hover:text-white hover:bg-white/10"
+            }`}
+          >
+            <span>Services</span>
+          </Link>
+
           {/* About Us Pill */}
           <Link
             href="/about"

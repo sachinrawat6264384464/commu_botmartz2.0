@@ -229,9 +229,23 @@ export default function StudentProfilePortal() {
   });
   const [savingPrefs, setSavingPrefs] = useState(false);
   const [prefsSuccessMsg, setPrefsSuccessMsg] = useState("");
+  const [serviceBookings, setServiceBookings] = useState<any[]>([]);
   const [activeProfileSection, setActiveProfileSection] = useState<
-    "completeness" | "countdown" | "projects" | "badges" | "certificates" | "resume" | "linkedin" | "notifications" | "tour"
+    "completeness" | "countdown" | "projects" | "badges" | "certificates" | "resume" | "linkedin" | "notifications" | "tour" | "activity"
   >("completeness");
+
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`/api/services/bookings?email=${encodeURIComponent(user.email)}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.bookings)) {
+            setServiceBookings(data.bookings);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [user?.email]);
 
   useEffect(() => {
     if (user?.email) {
@@ -791,6 +805,7 @@ export default function StudentProfilePortal() {
                 { id: "linkedin", num: "07", label: "LinkedIn Checklist" },
                 { id: "notifications", num: "08", label: "Email Preferences" },
                 { id: "tour", num: "09", label: "Platform Tour" },
+                { id: "activity", num: "10", label: `Activity & Bookings (${serviceBookings.length + enrolledProjects.length})` },
               ].map((nav) => {
                 const isActive = activeProfileSection === nav.id;
                 return (
@@ -1825,6 +1840,115 @@ export default function StudentProfilePortal() {
                     </div>
                   </div>
                 </>
+              )}
+
+              {activeProfileSection === "activity" && (
+                <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                      <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
+                        MY ACTIVITY &amp; REGISTRATIONS
+                      </span>
+                      <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
+                        Applied Programs, Services &amp; Bookings
+                      </h3>
+                      <p className="text-sm font-medium text-slate-600 mt-1">
+                        Track every service booking, payment receipt, job/training application, and enrolled Arena project in one place.
+                      </p>
+                    </div>
+
+                    <Link
+                      href="/services"
+                      className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#162774] text-white font-bold text-xs sm:text-sm hover:bg-[#1e3494] transition-all shrink-0"
+                    >
+                      <span>Browse Services</span>
+                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                      </span>
+                    </Link>
+                  </div>
+
+                  {/* Service Bookings & Receipts */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
+                      Service Bookings &amp; Payment Receipts ({serviceBookings.length})
+                    </h4>
+                    {serviceBookings.length === 0 ? (
+                      <div className="p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-sm font-medium text-slate-600">
+                        No service bookings yet. Explore Jobs, 1-on-1 Doubt Sessions, Corporate Training, or Expert Project Reviews on{" "}
+                        <Link href="/services" className="text-[#162774] font-extrabold underline">
+                          Services
+                        </Link>
+                        .
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {serviceBookings.map((b) => (
+                          <div
+                            key={b.id}
+                            className="p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                          >
+                            <div className="space-y-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-[11px] font-extrabold">
+                                  {b.category}
+                                </span>
+                                <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] text-[11px] font-bold">
+                                  Receipt: {b.receiptId}
+                                </span>
+                              </div>
+                              <div className="text-base font-extrabold text-[#162774]">
+                                {b.serviceTitle}
+                              </div>
+                              <div className="text-xs font-medium text-slate-600">
+                                Paid ₹{b.amount} ({b.paymentStatus}) &bull; {new Date(b.createdAt).toLocaleDateString()}
+                              </div>
+                            </div>
+                            <span className="px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold self-start sm:self-center shrink-0">
+                              {b.status}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Enrolled Projects Summary */}
+                  <div className="space-y-3 pt-2 border-t border-slate-100">
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
+                      Enrolled Arena Systems ({enrolledProjects.length})
+                    </h4>
+                    {enrolledProjects.length === 0 ? (
+                      <div className="p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-sm font-medium text-slate-600">
+                        You have not enrolled in any Arena PRD track yet.
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {enrolledProjects.map((ep, idx) => (
+                          <div
+                            key={ep.id || idx}
+                            className="p-4 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex items-center justify-between gap-3"
+                          >
+                            <div className="min-w-0">
+                              <div className="text-sm font-extrabold text-[#162774] truncate">
+                                {ep.projectTitle || ep.projectId}
+                              </div>
+                              <div className="text-xs font-medium text-slate-600">
+                                Status: {ep.status || "Active"}
+                              </div>
+                            </div>
+                            <Link
+                              href={`/arena/${ep.projectId}`}
+                              className="px-3 py-1.5 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold shrink-0"
+                            >
+                              Open
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
             </motion.div>
           </div>
