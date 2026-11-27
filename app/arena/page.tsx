@@ -238,14 +238,7 @@ export default function ArenaPage() {
   };
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-24 font-sans selection:bg-[#162774] selection:text-white">
       {/* ── 1. HEADER SECTION (REDESIGNED HERO CARD) ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-8">
         <div
@@ -257,6 +250,7 @@ export default function ArenaPage() {
           }}
         >
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            {/* Left Column: Badge, Title & Description */}
             {/* Left Column: Title, Description & Stats */}
             <div className="space-y-4 max-w-3xl">
               <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
@@ -706,7 +700,7 @@ export default function ArenaPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 font-sans text-xs">
           <Link
             href="/arena/roadmaps"
-            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
+            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
           >
             <div
               aria-hidden="true"
@@ -714,8 +708,8 @@ export default function ArenaPage() {
             />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-black text-[#1D3189] group-hover:text-[#D9F83B] uppercase tracking-wider transition-colors duration-500">01 • Roadmaps</span>
-                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                <span className="text-xs font-black text-[#1D3189] group-hover:text-white uppercase tracking-wider transition-colors duration-500">01 • Roadmaps</span>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white text-slate-900 group-hover:text-[#162774] flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
                   <ArrowRight size={14} />
                 </span>
               </div>
@@ -726,7 +720,7 @@ export default function ArenaPage() {
 
           <Link
             href="/arena/career-checklist"
-            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
+            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
           >
             <div
               aria-hidden="true"
@@ -734,8 +728,8 @@ export default function ArenaPage() {
             />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-black text-[#1D3189] group-hover:text-[#D9F83B] uppercase tracking-wider transition-colors duration-500">02 • Career &amp; UGC</span>
-                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                <span className="text-xs font-black text-[#1D3189] group-hover:text-white uppercase tracking-wider transition-colors duration-500">02 • Career &amp; UGC</span>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white text-slate-900 group-hover:text-[#162774] flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
                   <ArrowRight size={14} />
                 </span>
               </div>
@@ -746,7 +740,7 @@ export default function ArenaPage() {
 
           <Link
             href="/arena/daily-log"
-            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
+            className="relative overflow-hidden p-6 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#070E54] transition-all duration-500 shadow-md hover:shadow-xl hover:-translate-y-1 block group"
           >
             <div
               aria-hidden="true"
@@ -754,8 +748,8 @@ export default function ArenaPage() {
             />
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-black text-[#1D3189] group-hover:text-[#D9F83B] uppercase tracking-wider transition-colors duration-500">03 • Proof of Work</span>
-                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                <span className="text-xs font-black text-[#1D3189] group-hover:text-white uppercase tracking-wider transition-colors duration-500">03 • Proof of Work</span>
+                <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white text-slate-900 group-hover:text-[#162774] flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
                   <ArrowRight size={14} />
                 </span>
               </div>
