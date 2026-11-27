@@ -33,6 +33,7 @@ import PricingTierCards from "./_components/PricingTierCards";
 import FeaturedSystemsGrid from "./_components/FeaturedSystemsGrid";
 import ThreeStepPathGrid from "./_components/ThreeStepPathGrid";
 import WeeklyRitualsBento from "./_components/WeeklyRitualsBento";
+import HomeGalleryShowcase from "./_components/HomeGalleryShowcase";
 
 export const revalidate = 60; // ISR 1 min
 
@@ -238,6 +239,9 @@ export default async function CommunityHomePage() {
 
         </div>
       </section>
+
+      {/* ── 4.5 COMMUNITY GALLERY: TRAINING, WORKSHOPS, HACKATHONS, JOBS & SESSIONS ── */}
+      <HomeGalleryShowcase />
 
       {/* ── 5. TRANSPARENT 3-TIER PRICING & FELLOWSHIP TRACKS (₹0 / ₹299 / ₹1,999) ── */}
       <section
