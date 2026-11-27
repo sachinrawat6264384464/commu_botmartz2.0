@@ -611,39 +611,35 @@ export default function StudentProfilePortal() {
                     <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-sans tracking-tight">
                       {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
                     </h2>
-                    <span className="text-xs font-mono font-bold text-slate-950 bg-[#D9F83B] px-2.5 py-0.5 rounded-full">
+                    <span className="text-xs font-sans font-extrabold text-slate-950 bg-[#D9F83B] px-3 py-1 rounded-full">
                       @{username}
                     </span>
                     {score >= 80 && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-white text-[#162774] font-sans text-[10px] font-extrabold flex items-center gap-1">
-                        <CheckCircle2 size={12} /> VERIFIED BUILDER
+                      <span className="px-3 py-1 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold uppercase tracking-wider">
+                        VERIFIED BUILDER
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-300 font-sans w-full leading-relaxed">
+                  <p className="text-sm text-white/85 font-sans font-medium w-full leading-relaxed">
                     {(studentProfile as any)?.bio || "Building production AI systems, agent swarms, and high-frequency backend telemetry."}
                   </p>
 
                   {/* Badges Pill Row */}
-                  <div className="flex items-center gap-3 pt-1 font-mono text-xs text-slate-300 flex-wrap">
+                  <div className="flex items-center gap-2.5 pt-1 font-sans text-xs font-semibold text-white flex-wrap">
                     {isProfessional ? (
-                      <span className="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-200">
-                        <Building size={14} className="text-cyan-400" />
+                      <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
                         {(studentProfile as any)?.companyName || "Tech Professional"} &bull; {(studentProfile as any)?.designationRole || "Engineer"}
                       </span>
                     ) : (
-                      <span className="flex items-center gap-1.5 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-200">
-                        <GraduationCap size={14} className="text-cyan-400" />
+                      <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
                         {studentProfile?.collegeName || "Engineering Student"} &bull; {studentProfile?.degreeBranch || "B.Tech CSE"} ({studentProfile?.graduationYear || "2026"})
                       </span>
                     )}
-                    <span className="flex items-center gap-1 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-300">
-                      <MapPin size={13} className="text-rose-400" />
+                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
                       {(studentProfile as any)?.cityLocation || "Indore / India"} ({(studentProfile as any)?.country || "India"})
                     </span>
-                    <span className="flex items-center gap-1 bg-slate-900/80 border border-slate-800 px-3 py-1 rounded-xl text-slate-300">
-                      <Clock size={13} className="text-purple-400" />
+                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
                       {(studentProfile as any)?.timezone || "IST"}
                     </span>
                   </div>
@@ -652,26 +648,26 @@ export default function StudentProfilePortal() {
 
               {/* Action Buttons & Karma Balance */}
               <div className="flex flex-col sm:flex-row lg:flex-col items-stretch lg:items-end gap-3 w-full lg:w-auto shrink-0">
-                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold shadow-xs">
-                  <Coins size={15} className="text-[#162774]" />
+                <div className="flex items-center justify-center px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold shadow-xs">
                   <span>Karma Balance: {coins} Coins</span>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <button
                     onClick={handleCopyPublicProfile}
-                    className="px-4 py-2.5 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#162774] border border-white/25 font-sans text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    className="px-4 py-2.5 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#162774] border border-white/25 font-sans text-xs sm:text-sm font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs"
                   >
-                    {copiedLink ? <Check size={14} className="text-[#D9F83B]" /> : <Copy size={14} />}
-                    <span>{copiedLink ? "Copied!" : "Copy Link"}</span>
+                    <span>{copiedLink ? "Link Copied!" : "Copy Link"}</span>
                   </button>
 
                   <Link
                     href={publicProfileUrl}
-                    className="group px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-slate-950 font-sans text-xs font-extrabold transition-all flex items-center justify-center gap-2 shadow-lg"
+                    className="group pl-5 pr-2 py-2 rounded-full bg-[#D9F83B] hover:bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold transition-all flex items-center justify-center gap-2.5 shadow-lg"
                   >
                     <span>Public Portfolio</span>
-                    <ExternalLink size={13} />
+                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center">
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -1409,16 +1405,16 @@ export default function StudentProfilePortal() {
         {/* =========================================================================
             SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR (ENROLLED ONLY)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
+        <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div>
-              <div className="text-xs font-bold text-[#0066FF] uppercase mb-1">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
                 RECRUITER &amp; ATS OPTIMIZATION
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              </span>
+              <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
                 Project Resume Builder &amp; STAR Bullet Generator
               </h3>
-              <p className="text-xs text-slate-500 font-mono mt-0.5">
+              <p className="text-sm font-medium text-slate-600 mt-1">
                 Automatically generate metric-driven, recruiter-ready STAR bullet points for your applied Arena projects.
               </p>
             </div>
@@ -1429,7 +1425,7 @@ export default function StudentProfilePortal() {
                 value={selectedResumeId}
                 onChange={(e) => setSelectedResumeId(e.target.value)}
                 disabled={enrolledProjects.length === 0}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF] disabled:opacity-50"
+                className="w-full bg-[#F4F6FB] border border-slate-200 rounded-full px-4 py-2.5 text-sm font-semibold text-[#162774] focus:bg-white focus:outline-none focus:border-[#162774] disabled:opacity-60"
               >
                 {enrolledProjects.length > 0 ? (
                   enrolledProjects.map((p) => (
@@ -1448,17 +1444,22 @@ export default function StudentProfilePortal() {
           {(() => {
             if (enrolledProjects.length === 0) {
               return (
-                <div className="p-8 rounded-2xl bg-slate-50 border border-dashed border-slate-200 text-center space-y-2">
-                  <div className="text-slate-400 font-bold font-sans text-sm">Strict Enrolled-Only Proof-of-Work Gate</div>
-                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                <div className="p-8 sm:p-10 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-center space-y-3">
+                  <div className="text-[#162774] font-extrabold text-lg">Strict Enrolled-Only Proof-of-Work Gate</div>
+                  <p className="text-sm font-medium text-slate-600 max-w-md mx-auto leading-relaxed">
                     To prevent unverified resume inflation, STAR bullet points are strictly generated only for projects you have enrolled in and actively logged.
                   </p>
-                  <Link
-                    href="/arena"
-                    className="inline-block mt-2 px-4 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-xs"
-                  >
-                    Enroll in an Arena Track &rarr;
-                  </Link>
+                  <div className="pt-2">
+                    <Link
+                      href="/arena"
+                      className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#162774] text-white font-bold text-sm hover:bg-[#1e3494] transition-all"
+                    >
+                      <span>Enroll in an Arena Track</span>
+                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
+                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                      </span>
+                    </Link>
+                  </div>
                 </div>
               );
             }
@@ -1481,15 +1482,15 @@ export default function StudentProfilePortal() {
 
             return (
               <div className="space-y-4">
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
-                  <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
-                    <span className="font-bold text-slate-900 text-sm font-sans">{currentProj.title}</span>
-                    <span className="text-[10px] text-slate-500 font-bold">{currentProj.difficulty}</span>
+                <div className="p-5 sm:p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <span className="font-extrabold text-[#162774] text-base">{currentProj.title}</span>
+                    <span className="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-[#162774] font-bold uppercase tracking-wider">{currentProj.difficulty}</span>
                   </div>
 
                   {bullets.map((b, bi) => (
-                    <div key={bi} className="flex items-start gap-2 text-slate-700 text-[11px] leading-relaxed">
-                      <span className="text-[#0066FF] font-bold shrink-0">•</span>
+                    <div key={bi} className="flex items-start gap-2.5 text-slate-700 text-sm font-medium leading-relaxed">
+                      <span className="text-[#162774] font-extrabold shrink-0">&bull;</span>
                       <span>{b}</span>
                     </div>
                   ))}
@@ -1502,9 +1503,8 @@ export default function StudentProfilePortal() {
                       setCopiedResumePlain(true);
                       setTimeout(() => setCopiedResumePlain(false), 2000);
                     }}
-                    className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    className="px-5 py-2.5 rounded-full bg-[#162774] hover:bg-[#1e3494] text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shadow-xs"
                   >
-                    {copiedResumePlain ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
                     <span>{copiedResumePlain ? "Plain Text Copied!" : "Copy Plain Text Bullets"}</span>
                   </button>
 
@@ -1514,9 +1514,8 @@ export default function StudentProfilePortal() {
                       setCopiedResumeLatex(true);
                       setTimeout(() => setCopiedResumeLatex(false), 2000);
                     }}
-                    className="px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#0066FF] border border-blue-200 font-bold transition-all flex items-center gap-1.5 cursor-pointer"
+                    className="px-5 py-2.5 rounded-full bg-[#F4F6FB] hover:bg-[#D9F83B] text-[#162774] border border-slate-200 font-bold text-xs sm:text-sm transition-all cursor-pointer"
                   >
-                    {copiedResumeLatex ? <Check size={13} className="text-emerald-600" /> : <Code2 size={13} />}
                     <span>{copiedResumeLatex ? "LaTeX Code Copied!" : "Copy LaTeX (Overleaf) Block"}</span>
                   </button>
                 </div>
@@ -1769,58 +1768,60 @@ export default function StudentProfilePortal() {
         {/* =========================================================================
             SECTION C: BOTMARTZ PLATFORM TOUR & FEATURE SITEMAP
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-8 shadow-xs font-mono text-xs">
-          <div className="flex items-center justify-between mb-6">
+        <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div>
-              <div className="text-xs font-bold text-emerald-700 uppercase mb-1">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
                 PLATFORM ECOSYSTEM TOUR
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              </span>
+              <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
                 Guide to All Platform Features
               </h3>
-              <p className="text-xs text-slate-500 font-mono mt-0.5">
+              <p className="text-sm font-medium text-slate-600 mt-1">
                 Every page on Botmartz and how to make the most of it.
               </p>
             </div>
 
             <Link
               href="/arena/antigravity-guide"
-              className="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold hover:bg-slate-800 transition-colors"
+              className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#162774] text-white font-bold text-xs sm:text-sm hover:bg-[#1e3494] transition-all shrink-0"
             >
-              Full Guide &rarr;
+              <span>Full Guide</span>
+              <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
+                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+              </span>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {[
-              { title: `The Arena (${TOTAL_SYSTEMS_COUNT} PRDs)`, desc: "Production system blueprints with SLA gates.", href: "/arena", icon: Layers },
-              { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log", icon: Terminal },
-              { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship", icon: Sparkles },
-              { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet", icon: Coins },
-              { title: "Saturday Office Hours", desc: "Weekly live architecture clinics with founder.", href: "/arena/calendar", icon: Calendar },
-              { title: "Discussion Channels", desc: "Community forum for code reviews & blockers.", href: "/discussions", icon: MessageSquare }
-            ].map((card, ci) => {
-              const IconComp = card.icon;
-              return (
-                <Link
-                  key={ci}
-                  href={card.href}
-                  className="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 hover:bg-blue-50/20 transition-all flex flex-col justify-between group"
-                >
-                  <div>
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <IconComp size={15} className="text-[#0066FF]" />
-                      <span className="font-bold text-slate-900 group-hover:text-[#0066FF] transition-colors">{card.title}</span>
-                    </div>
-                    <p className="text-[11px] text-slate-500 font-sans leading-relaxed">{card.desc}</p>
+              { title: `The Arena (${TOTAL_SYSTEMS_COUNT} PRDs)`, desc: "Production system blueprints with SLA gates.", href: "/arena" },
+              { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log" },
+              { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship" },
+              { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet" },
+              { title: "Saturday Office Hours", desc: "Weekly live architecture clinics with founder.", href: "/arena/calendar" },
+              { title: "Discussion Channels", desc: "Community forum for code reviews & blockers.", href: "/discussions" }
+            ].map((card, ci) => (
+              <Link
+                key={ci}
+                href={card.href}
+                className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 hover:border-[#162774] hover:bg-white transition-all flex flex-col justify-between group shadow-xs"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <span className="font-extrabold text-base text-[#162774] tracking-tight">{card.title}</span>
+                    <span className="text-[11px] font-extrabold text-slate-400">0{ci + 1}</span>
                   </div>
-                  <div className="text-[10px] text-[#0066FF] font-bold mt-3 flex items-center gap-1">
-                    <span>Open Page</span>
-                    <ArrowRight size={10} />
-                  </div>
-                </Link>
-              );
-            })}
+                  <p className="text-sm font-medium text-slate-600 leading-relaxed">{card.desc}</p>
+                </div>
+                <div className="mt-4 inline-flex items-center gap-2 text-xs font-extrabold text-[#162774]">
+                  <span>Open Page</span>
+                  <span className="w-6 h-6 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] text-white group-hover:text-[#162774] flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
         </>
