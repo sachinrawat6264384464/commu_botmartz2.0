@@ -167,13 +167,13 @@ export default function AboutPage() {
             ].map((stat) => (
               <div
                 key={stat.num}
-                className="relative p-4 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B]"
+                className="relative p-4 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-sm"
               >
-                <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center">
+                <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center">
                   {stat.num}
                 </span>
-                <div className="text-white font-extrabold text-sm pr-7">{stat.title}</div>
-                <div className="text-blue-200/80 text-[11px] mt-0.5">{stat.sub}</div>
+                <div className="text-slate-950 font-extrabold text-sm pr-7">{stat.title}</div>
+                <div className="text-slate-600 text-[11px] mt-0.5 font-medium">{stat.sub}</div>
               </div>
             ))}
           </div>
@@ -382,7 +382,7 @@ export default function AboutPage() {
               </Link>
               <Link
                 href="/showcase"
-                className="inline-flex items-center px-5 py-3 rounded-full bg-white/10 hover:bg-white hover:text-slate-950 text-white border border-white/25 text-xs font-bold transition-all"
+                className="inline-flex items-center px-5 py-3 rounded-full bg-white hover:bg-blue-50 text-[#162774] border border-white shadow-sm text-xs font-extrabold transition-all"
               >
                 View Live Showcases
               </Link>
@@ -420,7 +420,7 @@ export default function AboutPage() {
             </Link>
             <a
               href="mailto:team@botmartz.com?subject=Hiring%20%26%20Partnership%20Inquiry"
-              className="px-7 py-3.5 rounded-full bg-white/10 hover:bg-white hover:text-slate-950 text-white border border-white/25 font-bold text-xs sm:text-sm transition-all"
+              className="px-7 py-3.5 rounded-full bg-white hover:bg-blue-50 text-[#162774] border border-white shadow-sm font-extrabold text-xs sm:text-sm transition-all"
             >
               Partner With Us (team@botmartz.com)
             </a>
