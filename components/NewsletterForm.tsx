@@ -125,14 +125,14 @@ export default function NewsletterForm({ variant = "footer", className = "" }: N
     <div className={`space-y-3 font-sans ${className}`}>
       <div className="space-y-1.5">
         <div className="inline-flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#D9F83B]" />
+          <span className="w-2 h-2 rounded-full bg-white" />
           <h4 className="text-xs font-extrabold uppercase tracking-widest text-white">
             Stay Ahead in AI &amp; System Design
           </h4>
         </div>
         <p className="text-xs sm:text-[13px] text-blue-100/90 font-medium leading-relaxed">
           Subscribe to receive weekly proof-of-work project updates and cohorts.{" "}
-          <span className="text-[#D9F83B] font-semibold">No spam, ever.</span>
+          <span className="text-white font-semibold">No spam, ever.</span>
         </p>
       </div>
 
@@ -144,13 +144,13 @@ export default function NewsletterForm({ variant = "footer", className = "" }: N
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === "submitting"}
-          className="w-full rounded-xl border border-white bg-white py-2.5 pl-4 pr-28 text-xs font-medium text-slate-950 placeholder-slate-400 shadow-sm transition-all focus:border-[#D9F83B] focus:outline-none"
+          className="w-full rounded-xl border border-white bg-white py-2.5 pl-4 pr-28 text-xs font-medium text-slate-950 placeholder-slate-400 shadow-sm transition-all focus:border-[#162774] focus:outline-none"
         />
         <button
           id="newsletter-footer-submit-btn"
           type="submit"
           disabled={status === "submitting"}
-          className="absolute right-1.5 rounded-lg bg-[#D9F83B] hover:bg-[#e5ff59] px-3.5 py-1.5 text-xs font-bold text-slate-950 transition-all cursor-pointer disabled:opacity-50"
+          className="absolute right-1.5 rounded-lg bg-[#162774] hover:bg-[#1D3189] px-3.5 py-1.5 text-xs font-bold text-white transition-all cursor-pointer disabled:opacity-50"
         >
           {status === "submitting" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Subscribe"}
         </button>

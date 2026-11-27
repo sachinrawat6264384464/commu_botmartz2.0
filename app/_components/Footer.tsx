@@ -60,7 +60,7 @@ export default function CommunityFooter() {
           <div className="flex flex-col justify-between gap-6">
             <div className="space-y-4">
               <Link href="/" className="flex items-center gap-3 group w-fit">
-                <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-xl bg-white/10 border border-white/15 group-hover:border-[#D9F83B] transition-colors">
+                <div className="relative w-11 h-11 flex items-center justify-center shrink-0 rounded-xl bg-white/10 border border-white/15 group-hover:border-white transition-colors">
                   <Image
                     src="/logo.png"
                     alt="Botmartz Logo"
@@ -77,8 +77,8 @@ export default function CommunityFooter() {
                 </div>
               </Link>
 
-              <div className="pl-3.5 border-l-2 border-[#D9F83B] space-y-1.5">
-                <div className="text-[#D9F83B] text-xs font-extrabold uppercase tracking-widest">
+              <div className="pl-3.5 border-l-2 border-white space-y-1.5">
+                <div className="text-white text-xs font-extrabold uppercase tracking-widest">
                   Build. Ship. Learn. Connect.
                 </div>
                 <p className="text-blue-50/90 text-sm font-sans font-medium leading-relaxed">
@@ -119,15 +119,15 @@ export default function CommunityFooter() {
                     <span
                       className={`w-2 h-2 rounded-full transition-colors duration-300 ${isDefaultWhite
                           ? "bg-[#1D3189]"
-                          : "bg-[#D9F83B] group-hover/card:bg-[#1D3189]"
+                          : "bg-white group-hover/card:bg-[#1D3189]"
                         }`}
                     />
                     <span>{col.title}</span>
                   </span>
                   <span
                     className={`w-7 h-7 rounded-full inline-flex items-center justify-center shrink-0 transition-all duration-300 ${isDefaultWhite
-                        ? "bg-[#D9F83B] text-slate-950"
-                        : "bg-white/10 group-hover/card:bg-[#D9F83B] text-white group-hover/card:text-slate-950"
+                        ? "bg-[#162774] text-white"
+                        : "bg-white/10 group-hover/card:bg-[#162774] text-white"
                       }`}
                   >
                     <ArrowRight size={13} className="transition-transform duration-300 group-hover/card:-rotate-[50deg]" />
@@ -168,7 +168,7 @@ export default function CommunityFooter() {
               href="https://www.linkedin.com/company/botmartz-ai-solutions"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#162774] text-[#162774] hover:text-white border border-white shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Botmartz LinkedIn
             </a>
@@ -176,7 +176,7 @@ export default function CommunityFooter() {
               href="https://www.linkedin.com/in/soham-sharma/"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#162774] text-[#162774] hover:text-white border border-white shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Soham Sharma (Founder)
             </a>
@@ -184,7 +184,7 @@ export default function CommunityFooter() {
               href="https://x.com/botmartz"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#162774] text-[#162774] hover:text-white border border-white shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Official X
             </a>
@@ -192,7 +192,7 @@ export default function CommunityFooter() {
               href="https://twitter.com/sohamsharma"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#D9F83B] text-[#162774] hover:text-slate-950 border border-white hover:border-[#D9F83B] shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
+              className="px-3.5 py-1.5 rounded-full bg-white hover:bg-[#162774] text-[#162774] hover:text-white border border-white shadow-sm transition-all duration-200 font-bold text-xs cursor-pointer"
             >
               Soham X
             </a>
@@ -209,19 +209,19 @@ export default function CommunityFooter() {
 
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <span className="flex items-center gap-1.5 text-white font-medium">
-              <span className="w-2 h-2 rounded-full bg-[#D9F83B] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span>Zero-Trust Security WAF Active</span>
             </span>
             <span className="text-white/20">•</span>
-            <Link href="/refund-policy" className="text-blue-100 hover:text-[#D9F83B] transition-colors font-medium cursor-pointer">
+            <Link href="/refund-policy" className="text-blue-100 hover:text-white transition-colors font-medium cursor-pointer">
               Refund Policy
             </Link>
             <span className="text-white/20">•</span>
-            <Link href="/product-tour" className="hover:text-[#D9F83B] transition-colors cursor-pointer">
+            <Link href="/product-tour" className="hover:text-white transition-colors cursor-pointer">
               Platform Tour
             </Link>
             <span className="text-white/20">•</span>
-            <Link href="/login" className="hover:text-[#D9F83B] transition-colors cursor-pointer">
+            <Link href="/login" className="hover:text-white transition-colors cursor-pointer">
               Sign In
             </Link>
           </div>
