@@ -397,28 +397,44 @@ export default function HackathonsPage() {
 
               {/* 4 Editorial Perks & Rules Strip */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">01</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">₹{SOLO_HACKATHON_FEE}</div>
-                  <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Solo Builder Entry</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">01</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">₹{SOLO_HACKATHON_FEE}</div>
+                  <div className="relative z-10 text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Solo Builder Entry</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">02</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">₹{TEAM_HACKATHON_FEE}</div>
-                  <div className="text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors">Team (2–3 Members)</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">02</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">₹{TEAM_HACKATHON_FEE}</div>
+                  <div className="relative z-10 text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Team (2–3 Members)</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">03</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">24 Hours</div>
-                  <div className="text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Unique ID Validity</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">03</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">24 Hours</div>
+                  <div className="relative z-10 text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors duration-500">Unique ID Validity</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white transition-all duration-300">
-                  <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none">04</span>
-                  <div className="text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors">Job Track</div>
-                  <div className="text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors">Screening &amp; Referral</div>
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">04</span>
+                  <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">Job Track</div>
+                  <div className="relative z-10 text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors duration-500">Screening &amp; Referral</div>
                 </div>
               </div>
             </div>
@@ -446,10 +462,14 @@ export default function HackathonsPage() {
               <button
                 type="button"
                 onClick={() => setSubmitModalOpen(true)}
-                className="w-full px-6 py-3.5 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-sm transition-all flex items-center justify-between group cursor-pointer shadow-lg shadow-lime-400/20"
+                className="relative overflow-hidden w-full px-6 py-3.5 rounded-2xl bg-[#D9F83B] text-slate-950 font-bold text-sm transition-all flex items-center justify-between group cursor-pointer shadow-lg shadow-lime-400/20"
               >
-                <span>Already Have a Unique ID? Submit Project</span>
-                <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                />
+                <span className="relative z-10">Already Have a Unique ID? Submit Project</span>
+                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                   <ArrowRight size={14} />
                 </span>
               </button>
