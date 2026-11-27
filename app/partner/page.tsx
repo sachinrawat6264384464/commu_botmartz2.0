@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ChevronDown } from "lucide-react";
 
 const COLLAB_TRACKS = [
   {
@@ -63,6 +63,94 @@ const ORG_TYPES = [
   "Sponsor / Community",
   "Mentor / Speaker",
 ];
+
+function CustomSelect({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  options: { value: string; label: string }[];
+  onChange: (val: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const currentLabel = options.find((o) => o.value === value)?.label || value;
+
+  return (
+    <div ref={containerRef} className="relative">
+      <label className="block text-xs font-extrabold text-[#162774] uppercase tracking-wider mb-1.5">
+        {label}
+      </label>
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className={`w-full px-4 py-3.5 rounded-2xl border text-sm font-bold text-left flex items-center justify-between gap-3 transition-all cursor-pointer ${
+          open
+            ? "bg-white border-[#162774] ring-2 ring-[#162774]/10 text-[#162774]"
+            : "bg-[#F4F6FB] border-slate-200 hover:border-[#162774]/50 text-[#162774]"
+        }`}
+      >
+        <span className="truncate">{currentLabel}</span>
+        <ChevronDown
+          size={16}
+          className={`text-[#162774] shrink-0 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.16, ease: "easeOut" }}
+            className="absolute left-0 right-0 top-full mt-2 z-40 bg-white border border-slate-200 rounded-2xl shadow-2xl p-1.5 space-y-1 max-h-64 overflow-y-auto"
+          >
+            {options.map((opt) => {
+              const selected = opt.value === value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => {
+                    onChange(opt.value);
+                    setOpen(false);
+                  }}
+                  className={`w-full px-3.5 py-2.5 rounded-xl text-sm font-bold text-left flex items-center justify-between gap-2 transition-colors cursor-pointer ${
+                    selected
+                      ? "bg-[#162774] text-[#D9F83B]"
+                      : "text-[#162774] hover:bg-[#F4F6FB]"
+                  }`}
+                >
+                  <span className="truncate">{opt.label}</span>
+                  {selected && (
+                    <span className="w-2 h-2 rounded-full bg-[#D9F83B] shrink-0" />
+                  )}
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 export default function PartnerWithUsPage() {
   const [form, setForm] = useState({
@@ -277,11 +365,20 @@ export default function PartnerWithUsPage() {
                 Share what you want to offer or co-build with Botmartz. Every proposal is stored directly in our partnership pipeline and reviewed by the founding team within 24 hours.
               </p>
 
-              <div className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 space-y-2.5 text-sm font-semibold text-[#162774]">
-                <div>01 &bull; Campus MoUs &amp; Student Cohorts</div>
-                <div>02 &bull; Direct Tech Hiring &amp; Referrals</div>
-                <div>03 &bull; Hackathon Problem Sponsorship</div>
-                <div>04 &bull; Live Workshops &amp; Speaker Sessions</div>
+              <div className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 space-y-3 text-sm font-bold text-[#162774]">
+                {[
+                  { num: "01", text: "Campus MoUs, Student Training & Internships" },
+                  { num: "02", text: "Faculty & Teacher AI Upskilling" },
+                  { num: "03", text: "Direct Tech Hiring & Job Placements" },
+                  { num: "04", text: "Hackathons, Workshops & Live Sessions" },
+                ].map((row) => (
+                  <div key={row.num} className="flex items-center gap-3">
+                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold flex items-center justify-center shrink-0">
+                      {row.num}
+                    </span>
+                    <span>{row.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -390,40 +487,22 @@ export default function PartnerWithUsPage() {
                       />
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-extrabold text-[#162774] uppercase tracking-wider mb-1.5">
-                        Organization Type *
-                      </label>
-                      <select
-                        value={form.organizationType}
-                        onChange={(e) => setForm({ ...form, organizationType: e.target.value })}
-                        className="w-full px-4 py-3 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:border-[#162774]"
-                      >
-                        {ORG_TYPES.map((t) => (
-                          <option key={t} value={t}>
-                            {t}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                    <CustomSelect
+                      label="Organization Type *"
+                      value={form.organizationType}
+                      options={ORG_TYPES.map((t) => ({ value: t, label: t }))}
+                      onChange={(val) => setForm({ ...form, organizationType: val })}
+                    />
 
-                    <div>
-                      <label className="block text-xs font-extrabold text-[#162774] uppercase tracking-wider mb-1.5">
-                        Partnership Track *
-                      </label>
-                      <select
-                        value={form.partnershipTrack}
-                        onChange={(e) => setForm({ ...form, partnershipTrack: e.target.value })}
-                        className="w-full px-4 py-3 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:border-[#162774]"
-                      >
-                        {COLLAB_TRACKS.map((c) => (
-                          <option key={c.track} value={c.track}>
-                            {c.track}
-                          </option>
-                        ))}
-                        <option value="Other">Other Collaboration</option>
-                      </select>
-                    </div>
+                    <CustomSelect
+                      label="Partnership Track *"
+                      value={form.partnershipTrack}
+                      options={[
+                        ...COLLAB_TRACKS.map((c) => ({ value: c.track, label: c.track })),
+                        { value: "Other", label: "Other Collaboration" },
+                      ]}
+                      onChange={(val) => setForm({ ...form, partnershipTrack: val })}
+                    />
 
                     <div>
                       <label className="block text-xs font-extrabold text-[#162774] uppercase tracking-wider mb-1.5">
