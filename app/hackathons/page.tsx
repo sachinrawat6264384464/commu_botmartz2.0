@@ -413,16 +413,8 @@ export default function HackathonsPage() {
         >
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-60"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
-                </span>
-                <span>24-Hour Online Hackathons • No Account Needed</span>
-              </div>
-
               <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight">
-                Ship Real Systems in <span className="text-[#D9F83B]">24 Hours</span> &amp; Unlock Direct Job Screening
+                Ship Real Systems in 24 Hours &amp; Unlock Direct Job Screening
               </h1>
 
               <p className="text-sm sm:text-base text-blue-100/85 font-sans leading-relaxed max-w-2xl">
@@ -431,42 +423,42 @@ export default function HackathonsPage() {
 
               {/* 4 Editorial Perks & Rules Strip */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 hover:border-white cursor-pointer transition-all duration-500">
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
                   />
-                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">01</span>
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-white group-hover/stat:bg-[#162774] text-[#162774] group-hover/stat:text-white font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">01</span>
                   <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">₹{SOLO_HACKATHON_FEE}</div>
-                  <div className="relative z-10 text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Solo Builder Entry</div>
+                  <div className="relative z-10 text-blue-200/85 group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Solo Builder Entry</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 hover:border-white cursor-pointer transition-all duration-500">
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
                   />
-                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">02</span>
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-white group-hover/stat:bg-[#162774] text-[#162774] group-hover/stat:text-white font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">02</span>
                   <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">₹{TEAM_HACKATHON_FEE}</div>
-                  <div className="relative z-10 text-[#D9F83B] group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Team (2–3 Members)</div>
+                  <div className="relative z-10 text-blue-200/85 group-hover/stat:text-[#1D3189] text-[11px] font-semibold transition-colors duration-500">Team (2–3 Members)</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 hover:border-white cursor-pointer transition-all duration-500">
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
                   />
-                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">03</span>
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-white group-hover/stat:bg-[#162774] text-[#162774] group-hover/stat:text-white font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">03</span>
                   <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">24 Hours</div>
                   <div className="relative z-10 text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors duration-500">Unique ID Validity</div>
                 </div>
 
-                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] cursor-pointer transition-all duration-500">
+                <div className="group/stat relative overflow-hidden p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 hover:border-white cursor-pointer transition-all duration-500">
                   <span
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/stat:translate-y-0 transition-transform duration-700 ease-in-out"
                   />
-                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-[#D9F83B] group-hover/stat:bg-[#162774] text-slate-950 group-hover/stat:text-[#D9F83B] font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">04</span>
+                  <span className="absolute top-2.5 right-2.5 z-10 w-6 h-6 rounded-full bg-white group-hover/stat:bg-[#162774] text-[#162774] group-hover/stat:text-white font-extrabold text-[10px] flex items-center justify-center shadow-xs select-none transition-colors duration-500">04</span>
                   <div className="relative z-10 text-white group-hover/stat:text-slate-950 font-extrabold text-base transition-colors duration-500">Job Track</div>
                   <div className="relative z-10 text-blue-200/85 group-hover/stat:text-slate-600 text-[11px] font-semibold transition-colors duration-500">Screening &amp; Referral</div>
                 </div>
