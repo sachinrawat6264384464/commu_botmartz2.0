@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, Mail, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Mail, Sparkles } from "lucide-react";
 import { BOTMARTZ_TEAM } from "@/lib/team";
 import { TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 
@@ -139,7 +140,12 @@ export default function AboutPage() {
           }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 space-y-5">
+            <motion.div
+              initial={{ opacity: 0, x: -36, filter: "blur(6px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.65, ease: "easeOut" }}
+              className="lg:col-span-7 space-y-5"
+            >
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold uppercase tracking-wider">
                 <span>01 &bull; Who We Are</span>
               </div>
@@ -181,9 +187,14 @@ export default function AboutPage() {
                   </span>
                 </Link>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, x: 36, filter: "blur(6px)" }}
+              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
+              className="lg:col-span-5"
+            >
               <div className="relative rounded-3xl overflow-hidden border-2 border-[#D9F83B]/80 shadow-2xl bg-[#070E54]">
                 <img
                   src={HERO_COLLAB_IMAGE}
@@ -197,7 +208,7 @@ export default function AboutPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -237,18 +248,32 @@ export default function AboutPage() {
                 title: "Where We Are Going",
                 desc: "Becoming India's most trusted proof-of-work developer network connecting ambitious builders directly with engineering-first teams.",
               },
-            ].map((story) => (
-              <div
-                key={story.num}
-                className="p-5 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#D9F83B] space-y-2.5 shadow-xs"
-              >
-                <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center">
-                  {story.num}
-                </span>
-                <h3 className="text-base font-extrabold text-slate-950">{story.title}</h3>
-                <p className="text-xs text-slate-700 leading-relaxed font-medium">{story.desc}</p>
-              </div>
-            ))}
+            ].map((story, idx) => {
+              const splitInit =
+                idx === 0
+                  ? { opacity: 0, x: -32, y: 0, filter: "blur(6px)" }
+                  : idx === 1
+                    ? { opacity: 0, x: 0, y: 28, filter: "blur(6px)" }
+                    : idx === 2
+                      ? { opacity: 0, x: 0, y: -28, filter: "blur(6px)" }
+                      : { opacity: 0, x: 32, y: 0, filter: "blur(6px)" };
+              return (
+                <motion.div
+                  key={story.num}
+                  initial={splitInit}
+                  whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
+                  className="p-5 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#D9F83B] space-y-2.5 shadow-xs"
+                >
+                  <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center">
+                    {story.num}
+                  </span>
+                  <h3 className="text-base font-extrabold text-slate-950">{story.title}</h3>
+                  <p className="text-xs text-slate-700 leading-relaxed font-medium">{story.desc}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
@@ -261,8 +286,14 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-            <div className="rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] p-7 sm:p-9 space-y-4 shadow-sm flex flex-col justify-between">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0, x: -44, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.65, ease: "easeOut" }}
+              className="rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] p-7 sm:p-9 space-y-4 shadow-sm flex flex-col justify-between"
+            >
               <div className="space-y-3">
                 <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
                   Our Mission
@@ -277,9 +308,13 @@ export default function AboutPage() {
               <div className="pt-3 border-t border-slate-200 text-xs font-bold text-[#162774]">
                 Practical Execution &bull; Mentorship &bull; Industry Readiness
               </div>
-            </div>
+            </motion.div>
 
-            <div
+            <motion.div
+              initial={{ opacity: 0, x: 44, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.65, delay: 0.08, ease: "easeOut" }}
               className="rounded-3xl bg-[#162774] text-white border border-white/15 p-7 sm:p-9 space-y-4 shadow-xl flex flex-col justify-between"
               style={{
                 backgroundImage:
@@ -301,7 +336,7 @@ export default function AboutPage() {
               <div className="pt-3 border-t border-white/15 text-xs font-bold text-[#D9F83B]">
                 Connected Community &bull; Proof-of-Work &bull; Career Growth
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -319,10 +354,22 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-            {ECOSYSTEM_OFFERINGS.map((item) => (
-              <div
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 overflow-hidden">
+            {ECOSYSTEM_OFFERINGS.map((item, idx) => {
+              const colMod = idx % 3;
+              const initPos =
+                colMod === 0
+                  ? { opacity: 0, x: -34, y: 12, filter: "blur(6px)" }
+                  : colMod === 1
+                    ? { opacity: 0, x: 0, y: 32, filter: "blur(6px)" }
+                    : { opacity: 0, x: 34, y: 12, filter: "blur(6px)" };
+              return (
+              <motion.div
                 key={item.num}
+                initial={initPos}
+                whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.12 }}
+                transition={{ duration: 0.6, delay: colMod * 0.08, ease: "easeOut" }}
                 className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
               >
                 <div className="p-6 pb-4 space-y-4">
@@ -380,15 +427,22 @@ export default function AboutPage() {
                     />
                   </Link>
                 </div>
-              </div>
-            ))}
+              </motion.div>
+              );
+            })}
           </div>
         </section>
 
         {/* ── 05. OUR APPROACH — LEARN → BUILD → CONNECT → GROW ── */}
-        <section className="rounded-3xl bg-[#F4F6FB] border border-slate-200 p-6 sm:p-10 space-y-8 shadow-sm">
+        <section className="rounded-3xl bg-[#F4F6FB] border border-slate-200 p-6 sm:p-10 space-y-8 shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 space-y-5">
+            <motion.div
+              initial={{ opacity: 0, x: -38, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.65, ease: "easeOut" }}
+              className="lg:col-span-7 space-y-5"
+            >
               <SectionBadge num="05" label="Our Approach" />
               <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
                 Learn &rarr; Build &rarr; Connect &rarr; Grow
@@ -434,9 +488,15 @@ export default function AboutPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, x: 38, filter: "blur(6px)" }}
+              whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
+              className="lg:col-span-5"
+            >
               <div className="relative rounded-3xl overflow-hidden border-2 border-[#162774]/20 shadow-xl bg-white">
                 <img
                   src={APPROACH_STUDENTS_IMAGE}
@@ -452,7 +512,7 @@ export default function AboutPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -465,7 +525,7 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 overflow-hidden">
             {[
               {
                 num: "01",
@@ -492,9 +552,13 @@ export default function AboutPage() {
                 title: "Colleges & Institutions",
                 desc: "Partner for campus hackathons, bootcamps, and practical industry readiness.",
               },
-            ].map((who) => (
-              <div
+            ].map((who, idx) => (
+              <motion.div
                 key={who.num}
+                initial={{ opacity: 0, y: idx % 2 === 0 ? 28 : -24, filter: "blur(5px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.55, delay: idx * 0.06, ease: "easeOut" }}
                 className="p-5 rounded-3xl bg-white border border-slate-200 border-t-4 border-t-[#162774] shadow-xs space-y-2"
               >
                 <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold flex items-center justify-center">
@@ -502,7 +566,7 @@ export default function AboutPage() {
                 </span>
                 <h3 className="text-sm font-extrabold text-slate-950">{who.title}</h3>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">{who.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
 
@@ -579,8 +643,12 @@ export default function AboutPage() {
               { label: "Active Mentors & Team", value: liveStats.activeMentors },
               { label: "Community Contributions", value: liveStats.communityContributions },
             ].map((stat, idx) => (
-              <div
+              <motion.div
                 key={stat.label}
+                initial={{ opacity: 0, scale: 0.92, y: 20, filter: "blur(5px)" }}
+                whileInView={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.55, delay: idx * 0.07, ease: "easeOut" }}
                 className="p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5"
               >
                 <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
@@ -590,7 +658,7 @@ export default function AboutPage() {
                   {stat.value}
                 </div>
                 <div className="text-xs font-semibold text-slate-600">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -731,8 +799,14 @@ export default function AboutPage() {
         </section>
 
         {/* ── 10. FAQS + CONTACT & SOCIALS ── */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <div className="lg:col-span-7 space-y-4">
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, x: -36, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+            className="lg:col-span-7 space-y-4"
+          >
             <SectionBadge num="10" label="FAQs" />
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 tracking-tight">
               Frequently Asked Questions
@@ -744,22 +818,38 @@ export default function AboutPage() {
                 return (
                   <div
                     key={faq.q}
-                    className="rounded-2xl bg-[#F4F6FB] border border-slate-200 overflow-hidden"
+                    className={`rounded-2xl border overflow-hidden transition-all duration-300 ${
+                      isOpen
+                        ? "border-[#162774] shadow-md bg-white"
+                        : "border-slate-200 hover:border-[#162774] bg-[#F4F6FB]"
+                    }`}
                   >
                     <button
                       type="button"
                       onClick={() => setOpenFaq(isOpen ? null : idx)}
-                      className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-3 cursor-pointer"
+                      className="group relative overflow-hidden w-full p-4 sm:p-5 text-left flex items-center justify-between gap-3 cursor-pointer"
                     >
-                      <span className="text-xs sm:text-sm font-extrabold text-slate-950">
+                      <span
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                      />
+                      <span className="relative z-10 text-xs sm:text-sm font-extrabold text-slate-950 group-hover:text-white transition-colors duration-500">
                         {faq.q}
                       </span>
-                      <ChevronDown
-                        size={16}
-                        className={`text-[#162774] shrink-0 transition-transform duration-300 ${
-                          isOpen ? "rotate-180" : ""
+                      <span
+                        className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
+                          isOpen
+                            ? "bg-[#D9F83B] text-slate-950"
+                            : "bg-[#162774] group-hover:bg-[#D9F83B] text-[#D9F83B] group-hover:text-slate-950"
                         }`}
-                      />
+                      >
+                        <ArrowRight
+                          size={13}
+                          className={`transition-transform duration-300 ${
+                            isOpen ? "rotate-90" : "group-hover:rotate-[60deg]"
+                          }`}
+                        />
+                      </span>
                     </button>
                     {isOpen && (
                       <div className="px-4 sm:px-5 pb-4 text-xs text-slate-700 leading-relaxed font-medium border-t border-slate-200/70 pt-3 bg-white">
@@ -770,9 +860,15 @@ export default function AboutPage() {
                 );
               })}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-5 rounded-3xl bg-[#F4F6FB] border border-slate-200 p-6 sm:p-8 space-y-5">
+          <motion.div
+            initial={{ opacity: 0, x: 36, filter: "blur(6px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.65, delay: 0.08, ease: "easeOut" }}
+            className="lg:col-span-5 rounded-3xl bg-[#F4F6FB] border border-slate-200 p-6 sm:p-8 space-y-5"
+          >
             <SectionBadge num="Connect" label="Contact & Socials" />
             <h3 className="text-xl font-extrabold text-slate-950">
               Reach Out to Botmartz Team
@@ -817,11 +913,15 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* ── 11. FINAL CTA ── */}
-        <section
+        <motion.section
+          initial={{ opacity: 0, scale: 0.96, y: 24, filter: "blur(6px)" }}
+          whileInView={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.65, ease: "easeOut" }}
           className="rounded-3xl bg-[#162774] text-white p-8 sm:p-12 border border-white/15 shadow-2xl text-center space-y-5"
           style={{
             backgroundImage:
@@ -853,7 +953,7 @@ export default function AboutPage() {
               </span>
             </Link>
           </div>
-        </section>
+        </motion.section>
       </div>
     </div>
   );
