@@ -627,14 +627,7 @@ export default function StudentProfilePortal() {
   }
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 selection:bg-[#D9F83B] selection:text-slate-950 pt-24 pb-28 font-sans"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-28 font-sans">
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
 
         {/* =========================================================================
@@ -656,24 +649,24 @@ export default function StudentProfilePortal() {
             }}
           >
             <div className="relative z-10 space-y-3">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/15 border border-white/20 text-white font-sans text-[11px] font-extrabold uppercase tracking-wider">
                 Universal Builder Identity
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
-                Builder Profile &amp; <span className="text-[#D9F83B]">Portfolio</span>
+                Builder Profile &amp; Portfolio
               </h1>
             </div>
 
             <div className="relative z-10 flex items-center gap-4 pt-3 border-t border-white/15">
-              <div className="w-16 h-16 rounded-2xl bg-[#D9F83B] text-slate-950 font-sans text-2xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border-2 border-white">
+              <div className="w-16 h-16 rounded-2xl bg-white text-[#162774] font-sans text-2xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border-2 border-white">
                 {(studentProfile?.displayName || user?.displayName || "B")[0].toUpperCase()}
               </div>
               <div className="space-y-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <h2 className="text-xl font-extrabold text-white font-sans tracking-tight truncate">
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#D9F83B] font-sans tracking-tight truncate">
                     {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
                   </h2>
-                  <span className="text-[11px] font-sans font-extrabold text-slate-950 bg-[#D9F83B] px-2.5 py-0.5 rounded-full">
+                  <span className="text-[11px] font-sans font-extrabold text-white bg-white/15 border border-white/20 px-2.5 py-0.5 rounded-full">
                     @{username}
                   </span>
                 </div>
@@ -695,7 +688,7 @@ export default function StudentProfilePortal() {
           >
             <div className="relative z-10 space-y-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/15 border border-white/20 text-[#D9F83B] font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/15 border border-white/20 text-white font-sans text-[11px] font-extrabold uppercase tracking-wider">
                   Credentials &amp; Location
                 </span>
                 {score >= 80 && (
@@ -725,14 +718,14 @@ export default function StudentProfilePortal() {
             </div>
 
             <div className="relative z-10 pt-3 border-t border-white/15 flex items-center justify-between gap-3 flex-wrap font-sans text-xs font-bold">
-              <span className="text-white/75">Profile Score: <strong className="text-[#D9F83B]">{score}%</strong></span>
+              <span className="text-white/75">Profile Score: <strong className="text-white">{score}%</strong></span>
               <div className="flex items-center gap-3">
                 {studentProfile?.githubUsername && (
                   <a
                     href={`https://github.com/${studentProfile.githubUsername}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-[#D9F83B] transition-colors"
+                    className="text-white hover:text-blue-200 transition-colors"
                   >
                     GitHub &rarr;
                   </a>
@@ -742,7 +735,7 @@ export default function StudentProfilePortal() {
                     href={studentProfile.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#D9F83B] hover:text-white transition-colors"
+                    className="text-white hover:text-blue-200 transition-colors"
                   >
                     LinkedIn &rarr;
                   </a>
@@ -813,7 +806,7 @@ export default function StudentProfilePortal() {
                   Quick Navigation
                 </div>
               </div>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-white text-[10px] font-extrabold">
                 {score}%
               </span>
             </div>
@@ -846,8 +839,8 @@ export default function StudentProfilePortal() {
                     <div className="flex items-center gap-2 min-w-0">
                       <span
                         className={`w-6 h-6 rounded-full text-[10px] font-extrabold flex items-center justify-center shrink-0 ${isActive
-                          ? "bg-[#D9F83B] text-slate-950"
-                          : "bg-[#F4F6FB] text-[#162774] group-hover:bg-[#162774] group-hover:text-[#D9F83B]"
+                          ? "bg-white text-[#162774]"
+                          : "bg-[#F4F6FB] text-[#162774] group-hover:bg-[#162774] group-hover:text-white"
                           }`}
                       >
                         {nav.num}
@@ -856,7 +849,7 @@ export default function StudentProfilePortal() {
                     </div>
                     <span
                       className={`w-5 h-5 rounded-full hidden sm:flex items-center justify-center shrink-0 transition-transform duration-300 ${isActive
-                        ? "bg-[#D9F83B] text-slate-950"
+                        ? "bg-white text-[#162774]"
                         : "bg-slate-100 text-[#162774] group-hover:rotate-[60deg]"
                         }`}
                     >
@@ -888,7 +881,7 @@ export default function StudentProfilePortal() {
                           <h3 className="text-xl font-extrabold text-slate-950">
                             Profile Completeness Score
                           </h3>
-                          <span className="px-3 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold">
+                          <span className="px-3 py-0.5 rounded-full bg-[#162774] text-white text-xs font-extrabold">
                             {score}%
                           </span>
                           {score === 100 && (
@@ -904,13 +897,9 @@ export default function StudentProfilePortal() {
 
                       <button
                         onClick={() => setIsEditModalOpen(true)}
-                        className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer shrink-0"
+                        className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#162774] hover:bg-[#1D3189] text-white font-extrabold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer shrink-0"
                       >
-                        <span
-                          aria-hidden="true"
-                          className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                        />
-                        <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                        <span className="relative z-10">
                           {score === 100 ? "Edit Profile" : "Complete Profile (+100 Coins)"}
                         </span>
                       </button>
@@ -936,11 +925,11 @@ export default function StudentProfilePortal() {
                         <div
                           key={cp.label}
                           className={`p-3 rounded-2xl border flex items-center gap-2 ${cp.ok
-                            ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] text-slate-950"
+                            ? "bg-white border-[#162774] border-l-4 border-l-[#162774] text-slate-950"
                             : "bg-[#F4F6FB] border-slate-200 text-slate-500"
                             }`}
                         >
-                          <span className={`w-5 h-5 rounded-full text-[9px] font-extrabold flex items-center justify-center shrink-0 ${cp.ok ? "bg-[#162774] text-[#D9F83B]" : "bg-slate-200 text-slate-500"
+                          <span className={`w-5 h-5 rounded-full text-[9px] font-extrabold flex items-center justify-center shrink-0 ${cp.ok ? "bg-[#162774] text-white" : "bg-slate-200 text-slate-500"
                             }`}>
                             0{idx + 1}
                           </span>
@@ -962,7 +951,7 @@ export default function StudentProfilePortal() {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-extrabold text-base text-white">Explore the Botmartz Platform &amp; Product Tour</span>
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">Interactive Walkthrough</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-white/15 border border-white/20 text-white text-[10px] font-extrabold uppercase tracking-wider">Interactive Walkthrough</span>
                       </div>
                       <p className="text-xs sm:text-sm text-blue-100/90 font-medium">
                         Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
@@ -971,7 +960,7 @@ export default function StudentProfilePortal() {
 
                     <Link
                       href="/product-tour"
-                      className="group px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-slate-950 text-xs font-extrabold transition-all shrink-0 flex items-center gap-2 shadow-sm"
+                      className="group px-5 py-2.5 rounded-full bg-white hover:bg-blue-50 text-[#162774] text-xs font-extrabold transition-all shrink-0 flex items-center gap-2 shadow-sm"
                     >
                       <span>Open Tour</span>
                       <ArrowRight size={13} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
