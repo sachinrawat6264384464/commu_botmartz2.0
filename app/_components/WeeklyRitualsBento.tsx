@@ -63,7 +63,7 @@ export default function WeeklyRitualsBento() {
         <div className="absolute inset-0 bg-white translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out pointer-events-none z-[1]" />
 
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] group-hover:bg-[#1D3189] text-slate-950 group-hover:text-[#D9F83B] text-xs font-extrabold uppercase tracking-wider mb-5 transition-colors duration-500">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white group-hover:bg-[#1D3189] text-[#162774] group-hover:text-white text-xs font-extrabold uppercase tracking-wider mb-5 transition-colors duration-500">
             Saturday &bull; 5:00 PM – 7:00 PM IST
           </div>
           <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug mb-3 text-white group-hover:text-slate-950 transition-colors duration-500">
@@ -76,7 +76,7 @@ export default function WeeklyRitualsBento() {
 
         <div className="relative z-10 pt-5 border-t border-white/15 group-hover:border-slate-200 grid grid-cols-3 gap-3 text-center transition-colors duration-500">
           <div className="p-3 rounded-2xl bg-white/10 group-hover:bg-slate-50 border border-transparent group-hover:border-slate-200/80 backdrop-blur-sm transition-colors duration-500">
-            <div className="text-lg sm:text-xl font-black text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-500">
+            <div className="text-lg sm:text-xl font-black text-white group-hover:text-[#1D3189] transition-colors duration-500">
               50+
             </div>
             <div className="text-xs font-bold text-white/90 group-hover:text-slate-700 transition-colors duration-500">
@@ -92,7 +92,7 @@ export default function WeeklyRitualsBento() {
             </div>
           </div>
           <div className="p-3 rounded-2xl bg-white/10 group-hover:bg-slate-50 border border-transparent group-hover:border-slate-200/80 backdrop-blur-sm transition-colors duration-500">
-            <div className="text-lg sm:text-xl font-black text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-500">
+            <div className="text-lg sm:text-xl font-black text-white group-hover:text-[#1D3189] transition-colors duration-500">
               15+
             </div>
             <div className="text-xs font-bold text-white/90 group-hover:text-slate-700 transition-colors duration-500">
@@ -126,7 +126,7 @@ export default function WeeklyRitualsBento() {
               ATS optimization, GitHub proof-of-work pinned carousels, and direct HR cold-pitch templates reviewed live.
             </p>
           </div>
-          <span className="w-10 h-10 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center shrink-0 transition-all duration-300">
+          <span className="w-10 h-10 rounded-full bg-white border border-slate-200 group-hover:bg-[#162774] group-hover:border-[#162774] text-slate-900 group-hover:text-white flex items-center justify-center shrink-0 transition-all duration-300">
             <ArrowRight size={16} className="transition-transform duration-300 group-hover:-rotate-45" />
           </span>
         </Link>
@@ -152,7 +152,7 @@ export default function WeeklyRitualsBento() {
               {/* Slow-Motion Sliding Indigo Fill Layer */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#1D3189] to-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out pointer-events-none" />
               <span className="relative z-10">Explore Showcases</span>
-              <span className="relative z-10 w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500">
+              <span className="relative z-10 w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-white group-hover:border-white text-[#162774] flex items-center justify-center transition-all duration-500">
                 <ArrowRight size={14} className="transition-transform duration-500 group-hover:-rotate-45" />
               </span>
             </div>
@@ -163,7 +163,7 @@ export default function WeeklyRitualsBento() {
             className="group overflow-hidden rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
           >
             <div className="p-6 pb-4">
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-extrabold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-xs font-extrabold uppercase tracking-wider mb-3">
                 Daily &bull; Proof of Work
               </div>
               <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 tracking-tight group-hover:text-[#1D3189] transition-colors mb-2">
@@ -177,7 +177,7 @@ export default function WeeklyRitualsBento() {
               {/* Slow-Motion Sliding Indigo Fill Layer */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#1D3189] to-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out pointer-events-none" />
               <span className="relative z-10">Submit Daily Log</span>
-              <span className="relative z-10 w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500">
+              <span className="relative z-10 w-8 h-8 rounded-full bg-white border border-slate-200 group-hover:bg-white group-hover:border-white text-[#162774] flex items-center justify-center transition-all duration-500">
                 <ArrowRight size={14} className="transition-transform duration-500 group-hover:-rotate-45" />
               </span>
             </div>

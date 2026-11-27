@@ -77,15 +77,6 @@ export default function FeaturedSystemsGrid({
       {/* Section Header */}
       <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <div
-            className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full font-sans text-xs font-bold uppercase tracking-wider mb-2.5 border transition-colors duration-300 ${
-              isMiddleHovered
-                ? "bg-[#1D3189]/10 text-[#1D3189] border-[#1D3189]/20"
-                : "bg-[#070E54]/80 text-[#D9F83B] border-white/15"
-            }`}
-          >
-            <Activity size={13} /> Frontier Engineering Projects
-          </div>
           <h2
             className={`text-2xl sm:text-3xl font-extrabold tracking-tight font-sans transition-colors duration-300 ${
               isMiddleHovered ? "text-slate-950" : "text-white"
@@ -94,8 +85,8 @@ export default function FeaturedSystemsGrid({
             Featured Internship Playground Systems
           </h2>
           <p
-            className={`text-xs sm:text-sm font-sans mt-1.5 transition-colors duration-300 ${
-              isMiddleHovered ? "text-slate-600" : "text-blue-200/85"
+            className={`text-sm sm:text-base font-medium font-sans mt-1.5 transition-colors duration-300 ${
+              isMiddleHovered ? "text-slate-600" : "text-white/85"
             }`}
           >
             Zero toy apps. Every project has strict test commands and SLA acceptance gates.
@@ -104,10 +95,10 @@ export default function FeaturedSystemsGrid({
 
         <Link
           href="/arena"
-          className={`px-6 py-2.5 rounded-full font-sans text-xs sm:text-sm font-bold transition-all shrink-0 flex items-center gap-2 shadow-lg ${
+          className={`px-6 py-2.5 rounded-full font-sans text-xs sm:text-sm font-extrabold transition-all shrink-0 flex items-center gap-2 shadow-lg ${
             isMiddleHovered
               ? "bg-[#1D3189] hover:bg-[#070E54] text-white shadow-[#1D3189]/20"
-              : "bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 shadow-lime-400/15"
+              : "bg-white hover:bg-slate-100 text-[#162774]"
           }`}
         >
           <span>View All {totalSystemsCount} Projects</span>
@@ -143,8 +134,8 @@ export default function FeaturedSystemsGrid({
                 idx === 1 && isMiddleHovered
                   ? "bg-white text-slate-900 border-2 border-[#1D3189]"
                   : activeSideByMiddle
-                  ? "border-[#D9F83B]/70"
-                  : "bg-white text-slate-900 border-white/20 hover:border-[#D9F83B]"
+                  ? "border-white/70"
+                  : "bg-white text-slate-900 border-white/20 hover:border-white"
               }`}
             >
               {/* Base White Background */}
@@ -166,8 +157,8 @@ export default function FeaturedSystemsGrid({
                       idx === 1
                         ? "bg-[#1D3189]/10 text-[#1D3189]"
                         : activeSideByMiddle
-                        ? "bg-[#D9F83B] text-slate-950"
-                        : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-[#D9F83B] group-hover:text-slate-950"
+                        ? "bg-white text-[#162774]"
+                        : "bg-[#1D3189]/10 text-[#1D3189] group-hover:bg-white group-hover:text-[#162774]"
                     }`}
                   >
                     {p.difficulty}
@@ -222,8 +213,8 @@ export default function FeaturedSystemsGrid({
                       idx === 1
                         ? "text-[#1D3189]"
                         : activeSideByMiddle
-                        ? "text-[#D9F83B]"
-                        : "text-[#1D3189] group-hover:text-[#D9F83B]"
+                        ? "text-white"
+                        : "text-[#1D3189] group-hover:text-white"
                     }`}
                   >
                     Strict SLA:
@@ -264,8 +255,8 @@ export default function FeaturedSystemsGrid({
                     idx === 1
                       ? "bg-[#1D3189] text-white group-hover:bg-slate-950"
                       : activeSideByMiddle
-                      ? "bg-[#D9F83B] text-slate-950"
-                      : "bg-[#1D3189] text-white group-hover:bg-[#D9F83B] group-hover:text-slate-950"
+                      ? "bg-white text-[#162774]"
+                      : "bg-[#1D3189] text-white group-hover:bg-white group-hover:text-[#162774]"
                   }`}
                 >
                   <span>View Spec</span>
