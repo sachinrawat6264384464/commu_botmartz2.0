@@ -135,7 +135,7 @@ export default function CustomProjectProposalPage() {
     >
       <div className="min-h-screen bg-white text-slate-900 pt-24 pb-28 font-sans">
         <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
-          
+
           {/* =========================================================================
               HERO BANNER
           ========================================================================= */}
@@ -210,45 +210,40 @@ export default function CustomProjectProposalPage() {
               ].map((step, idx) => (
                 <div
                   key={step.num}
-                  className={`rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 ${
-                    idx === 0
+                  className={`rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 ${idx === 0
                       ? "bg-[#162774] text-white border border-[#162774]"
                       : "bg-[#F4F6FB] hover:bg-white text-slate-950 border border-slate-200 hover:border-[#162774]"
-                  }`}
+                    }`}
                 >
                   <div>
                     <div className="flex items-center justify-between gap-3 mb-4">
                       <span
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0 ${
-                          idx === 0
+                        className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0 ${idx === 0
                             ? "bg-white text-[#162774]"
                             : "bg-[#162774] text-white"
-                        }`}
+                          }`}
                       >
                         {step.num}
                       </span>
                     </div>
                     <h3
-                      className={`text-lg sm:text-xl font-extrabold mb-2.5 leading-snug ${
-                        idx === 0 ? "text-white" : "text-slate-950"
-                      }`}
+                      className={`text-lg sm:text-xl font-extrabold mb-2.5 leading-snug ${idx === 0 ? "text-white" : "text-slate-950"
+                        }`}
                     >
                       {step.title}
                     </h3>
                     <p
-                      className={`text-sm sm:text-[15px] font-medium leading-relaxed ${
-                        idx === 0 ? "text-blue-100/90" : "text-slate-700"
-                      }`}
+                      className={`text-sm sm:text-[15px] font-medium leading-relaxed ${idx === 0 ? "text-blue-100/90" : "text-slate-700"
+                        }`}
                     >
                       {step.desc}
                     </p>
                   </div>
                   <div
-                    className={`mt-6 pt-4 border-t text-xs font-extrabold uppercase tracking-wider ${
-                      idx === 0
+                    className={`mt-6 pt-4 border-t text-xs font-extrabold uppercase tracking-wider ${idx === 0
                         ? "border-white/15 text-blue-100"
                         : "border-slate-200 text-[#162774]"
-                    }`}
+                      }`}
                   >
                     {step.tag}
                   </div>
@@ -335,7 +330,7 @@ export default function CustomProjectProposalPage() {
               SECTION 3: CUSTOM PROPOSAL SUBMISSION FORM
           ========================================================================= */}
           <div className="rounded-3xl border border-slate-200 bg-white shadow-lg overflow-hidden w-full">
-            
+
             {successMsg ? (
               <div className="text-center py-14 px-6 space-y-4 font-sans w-full">
                 <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">

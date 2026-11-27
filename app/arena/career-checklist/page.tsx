@@ -269,14 +269,7 @@ Best,
       featureTitle="Career OS & Profile Strategy"
       featureDescription="Sign in with your builder profile to access the 8-step recruiter checklist, copy cold outreach templates, and claim +50 Karma Coins for LinkedIn posts."
     >
-      <div
-        className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-        }}
-      >
+      <div className="min-h-screen bg-white text-slate-800 pt-24 pb-24 font-sans">
         
         {/* Header Banner */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
@@ -292,28 +285,25 @@ Best,
             }}
           >
             <div className="max-w-3xl">
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
-                Career Growth &amp; Proof-of-Work Referral Engine
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                LinkedIn Build Log &amp; <span className="text-[#D9F83B]">Career Checklist</span>
+              <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                LinkedIn Build Log &amp; Career Checklist
               </h1>
-              <p className="text-blue-100/85 text-xs sm:text-sm font-sans mt-2 leading-relaxed">
-                Follow two clear steps: (1) Publish your daily LinkedIn build update to earn +50 Karma Coins, and (2) Complete your 8-step recruiter readiness checklist saved directly in Firestore.
+              <p className="text-blue-100/90 text-sm sm:text-base font-sans font-medium mt-3 leading-relaxed">
+                Follow two clear steps: (1) Publish your daily LinkedIn build update to earn +50 Karma Coins, and (2) Complete your 10-step recruiter readiness checklist saved directly in Firestore.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0 font-sans text-xs">
+            <div className="flex items-center gap-3 shrink-0 font-sans text-sm">
               <Link
                 href="/profile"
-                className="group relative overflow-hidden px-5 py-3 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold transition-all shadow-md flex items-center gap-2"
+                className="group relative overflow-hidden px-6 py-3.5 rounded-full bg-white text-[#162774] font-extrabold transition-all shadow-md flex items-center gap-2.5"
               >
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  className="pointer-events-none absolute inset-0 bg-blue-50 -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
                 />
                 <span className="relative z-10">View Builder Profile</span>
-                <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
+                <span className="relative z-10 w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
                   <ArrowRight size={12} />
                 </span>
               </Link>
@@ -324,25 +314,22 @@ Best,
       {/* Auth Gating Notice if not logged in */}
       {!user && !loading && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
-          <div className="p-8 rounded-3xl bg-slate-900 text-white border border-slate-800 shadow-xl font-mono text-xs">
+          <div className="p-8 rounded-3xl bg-[#162774] text-white border border-white/15 shadow-xl font-sans">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold uppercase text-[10px]">
-                  <Lock size={12} /> Student Login Required for Milestone Tracking
-                </div>
-                <h2 className="text-xl sm:text-2xl font-bold font-sans text-white">
+                <h2 className="text-2xl sm:text-3xl font-extrabold font-sans text-white">
                   Sign In to Save Your Career Checklist &amp; Claim +50 Karma Coins
                 </h2>
-                <p className="text-slate-400 max-w-2xl leading-relaxed text-xs">
+                <p className="text-blue-100/85 max-w-2xl leading-relaxed text-sm sm:text-base font-medium">
                   To prevent unverified activity and accurately track your milestone readiness for the 15-company referral dispatch, your checklist tasks and LinkedIn proof links are saved directly to your verified profile.
                 </p>
               </div>
               <Link
                 href="/login?redirect=/arena/career-checklist"
-                className="px-8 py-4 rounded-2xl bg-[#0066FF] hover:bg-[#0052CC] text-white font-bold uppercase tracking-wider transition-all shadow-md shrink-0 text-center flex items-center justify-center gap-2 cursor-pointer"
+                className="px-7 py-4 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold text-sm uppercase tracking-wider transition-all shadow-md shrink-0 text-center flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Sign In to Track Progress</span>
-                <ArrowRight size={14} />
+                <ArrowRight size={15} />
               </Link>
             </div>
           </div>
@@ -352,17 +339,12 @@ Best,
       {/* Logged in student badge */}
       {user && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] font-sans text-xs shadow-xs">
-            <div className="flex items-center gap-2.5 font-semibold">
-              <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center shrink-0">
-                <ShieldCheck size={15} />
-              </span>
-              <span>
-                Verified Student: <strong>{user.email}</strong> &bull; Real-time Firestore sync active ({doneCount}/{totalTasks} tasks completed)
-              </span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] font-sans text-sm shadow-xs">
+            <div className="font-semibold">
+              Verified Student: <strong className="font-extrabold">{user.email}</strong> &bull; Real-time Firestore sync active ({doneCount}/{totalTasks} tasks completed)
             </div>
             <div className="flex items-center gap-2 self-start sm:self-auto">
-              <span className="font-extrabold text-slate-950 bg-[#D9F83B] px-3.5 py-1 rounded-full text-[11px] shadow-xs">
+              <span className="font-extrabold text-white bg-[#162774] px-4 py-1.5 rounded-full text-xs shadow-xs">
                 +{pointsEarned} Karma Coins Earned
               </span>
             </div>
@@ -370,7 +352,7 @@ Best,
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 space-y-10">
         
         {/* =========================================================================
             SECTION 1: STEP 1 — VIRAL LINKEDIN POST COMPOSER (+50 KARMA)
@@ -380,7 +362,7 @@ Best,
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="bg-[#162774] text-white rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl"
+          className="bg-[#162774] text-white rounded-3xl p-6 sm:p-9 border border-white/15 shadow-2xl"
           style={{
             backgroundImage:
               "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
@@ -389,125 +371,117 @@ Best,
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/15 mb-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-2">
-                <Linkedin size={13} /> Step 1 &bull; Daily LinkedIn Build Log
-              </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-white font-sans">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white font-sans tracking-tight">
                 Compose Today&apos;s Build Log &amp; Earn +50 Karma Points
               </h2>
             </div>
 
-            <div className="px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold flex items-center gap-2 shrink-0 shadow-sm">
-              <Coins size={15} className="text-[#162774]" />
-              <span>{pointsEarned > 0 ? `+${pointsEarned} Points Earned Today` : "+50 Points per Post"}</span>
+            <div className="px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs font-extrabold shrink-0 shadow-sm">
+              {pointsEarned > 0 ? `+${pointsEarned} Points Earned Today` : "+50 Points per Post"}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-mono text-xs">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans text-sm">
             {/* Input Controls */}
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3.5">
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1 uppercase text-[10px]">Cohort Day # (1-45):</label>
+                  <label className="block text-blue-100 font-bold mb-1.5 uppercase text-xs tracking-wider">Cohort Day # (1-45)</label>
                   <input
                     type="number"
                     min={1}
                     max={45}
                     value={dayNumber}
                     onChange={(e) => setDayNumber(parseInt(e.target.value) || 1)}
-                    className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2 focus:outline-none focus:border-[#00B8F0]"
+                    className="w-full bg-white border border-white/25 text-slate-800 font-medium text-sm sm:text-base rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-400 font-bold mb-1 uppercase text-[10px]">Current Project Name:</label>
+                  <label className="block text-blue-100 font-bold mb-1.5 uppercase text-xs tracking-wider">Current Project Name</label>
                   <input
                     type="text"
                     value={projectTitle}
                     onChange={(e) => setProjectTitle(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2 focus:outline-none focus:border-[#00B8F0]"
+                    className="w-full bg-white border border-white/25 text-slate-800 font-medium text-sm sm:text-base rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1 uppercase text-[10px]">Technologies Deployed Today:</label>
+                <label className="block text-blue-100 font-bold mb-1.5 uppercase text-xs tracking-wider">Technologies Deployed Today</label>
                 <input
                   type="text"
                   value={techStackUsed}
                   onChange={(e) => setTechStackUsed(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2 focus:outline-none focus:border-[#00B8F0]"
+                  className="w-full bg-white border border-white/25 text-slate-800 font-medium text-sm sm:text-base rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1 uppercase text-[10px]">Key Architectural Breakthrough / Benchmark:</label>
+                <label className="block text-blue-100 font-bold mb-1.5 uppercase text-xs tracking-wider">Key Architectural Breakthrough / Benchmark</label>
                 <textarea
                   rows={2}
                   value={todayLearning}
                   onChange={(e) => setTodayLearning(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2 focus:outline-none focus:border-[#00B8F0]"
+                  className="w-full bg-white border border-white/25 text-slate-800 font-medium text-sm sm:text-base rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1 uppercase text-[10px]">GitHub Commit URL:</label>
+                <label className="block text-blue-100 font-bold mb-1.5 uppercase text-xs tracking-wider">GitHub Commit URL</label>
                 <input
                   type="text"
                   value={commitUrl}
                   onChange={(e) => setCommitUrl(e.target.value)}
-                  className="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-2 focus:outline-none focus:border-[#00B8F0]"
+                  className="w-full bg-white border border-white/25 text-slate-800 font-medium text-sm sm:text-base rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
               </div>
 
               <button
                 onClick={handleCopyLinkedInPost}
-                className="group relative overflow-hidden w-full py-3 rounded-xl bg-[#D9F83B] text-slate-950 font-sans font-extrabold transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md"
+                className="group relative overflow-hidden w-full py-3.5 rounded-xl bg-white hover:bg-blue-50 text-[#162774] font-sans font-extrabold text-sm sm:text-base transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md"
               >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                />
-                {copiedId === "linkedin_ugc" ? <Check size={14} className="relative z-10" /> : <Copy size={14} className="relative z-10" />}
-                <span className="relative z-10">{copiedId === "linkedin_ugc" ? "Copied! Opening LinkedIn..." : "Copy Formatted Post & Open LinkedIn"}</span>
+                {copiedId === "linkedin_ugc" ? <Check size={16} /> : <Copy size={16} />}
+                <span>{copiedId === "linkedin_ugc" ? "Copied! Opening LinkedIn..." : "Copy Formatted Post & Open LinkedIn"}</span>
               </button>
             </div>
 
             {/* Generated Preview & Submission */}
-            <div className="bg-white/10 border border-white/15 rounded-2xl p-4 flex flex-col justify-between backdrop-blur-xs">
+            <div className="bg-white/10 border border-white/15 rounded-2xl p-5 flex flex-col justify-between backdrop-blur-xs">
               <div>
-                <div className="text-[10px] text-blue-100 uppercase font-bold mb-2 flex items-center justify-between">
-                  <span>Live Post Preview:</span>
-                  <span className="text-[#D9F83B]">Ready to Publish</span>
+                <div className="text-xs text-blue-100 uppercase font-extrabold tracking-wider mb-2.5 flex items-center justify-between">
+                  <span>Live Post Preview</span>
+                  <span className="text-white">Ready to Publish</span>
                 </div>
-                <pre className="text-xs text-white font-mono whitespace-pre-wrap leading-relaxed bg-[#070E54]/80 p-3.5 rounded-xl border border-white/15 max-h-56 overflow-y-auto">
+                <pre className="text-sm text-white font-sans font-medium whitespace-pre-wrap leading-relaxed bg-[#070E54]/80 p-4 rounded-xl border border-white/15 max-h-60 overflow-y-auto">
                   {generatedLinkedInPost}
                 </pre>
               </div>
 
               {/* Submit Post Link */}
               <form onSubmit={handleSubmitLinkedInUrl} className="mt-4 pt-4 border-t border-white/15">
-                <label className="block text-blue-100 font-bold mb-1.5 text-[10px] uppercase">
+                <label className="block text-blue-100 font-bold mb-2 text-xs uppercase tracking-wider">
                   Paste Your Published LinkedIn Post URL for +50 Points:
                 </label>
-                <div className="flex gap-2">
+                <div className="flex gap-2.5">
                   <input
                     type="url"
                     required
                     placeholder="https://linkedin.com/posts/..."
                     value={linkedInPostUrl}
                     onChange={(e) => setLinkedInPostUrl(e.target.value)}
-                    className="flex-1 bg-white border border-white text-slate-950 placeholder:text-slate-400 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D9F83B]"
+                    className="flex-1 bg-white border border-white text-slate-800 font-medium text-sm placeholder:text-slate-400 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-xl bg-[#D9F83B] hover:bg-white text-slate-950 font-sans font-extrabold transition-all cursor-pointer shrink-0"
+                    className="px-5 py-3 rounded-xl bg-white hover:bg-blue-50 text-[#162774] font-sans font-extrabold text-sm transition-all cursor-pointer shrink-0 shadow-sm"
                   >
                     Claim +50 Points
                   </button>
                 </div>
                 {submittedUGC && (
-                  <p className="text-[11px] text-[#D9F83B] mt-1.5 flex items-center gap-1 font-bold">
-                    <CheckCircle2 size={13} /> Verified! +50 Points awarded to your profile.
+                  <p className="text-xs text-white mt-2 font-bold">
+                    Verified! +50 Points awarded to your profile.
                   </p>
                 )}
               </form>
@@ -518,51 +492,54 @@ Best,
         {/* =========================================================================
             SECTION 2: 3-TIER VERIFICATION PROTOCOL
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
-          <div className="max-w-3xl mb-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-emerald-700 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-emerald-200">
-              <ShieldCheck size={14} /> Production Quality Gate Protocol
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 font-sans">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-9 shadow-sm">
+          <div className="max-w-3xl mb-7">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#162774] font-sans tracking-tight">
               How Projects Are Verified by Botmartz Engineers
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-1 leading-relaxed">
+            <p className="text-slate-700 text-sm sm:text-base font-sans font-medium mt-2 leading-relaxed">
               Every project submission passes through 3 rigorous quality gates before unlocking verified credentials and referrals.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-xs">
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="w-8 h-8 rounded-xl bg-blue-100 text-[#0066FF] flex items-center justify-center font-bold mb-3">
-                1
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 font-sans">
+            <div className="p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] flex flex-col justify-between">
+              <div>
+                <div className="w-8 h-8 rounded-full bg-[#162774] text-white flex items-center justify-center font-extrabold text-xs mb-3.5">
+                  01
+                </div>
+                <h3 className="font-extrabold text-slate-800 text-lg mb-2">Automated CI/CD Test Gate</h3>
+                <p className="text-slate-700 text-sm font-medium leading-relaxed mb-4">
+                  Automated runners execute your test suite (pytest, cargo test, k6). Must pass 100% unit tests and verify p95 latency thresholds.
+                </p>
               </div>
-              <h3 className="font-bold text-slate-900 text-sm mb-1.5 font-sans">Automated CI/CD Test Gate</h3>
-              <p className="text-slate-600 text-[11px] leading-relaxed mb-3 font-mono">
-                Automated runners execute your test suite (`pytest`, `cargo test`, `k6`). Must pass 100% unit tests and verify p95 latency thresholds.
-              </p>
-              <span className="text-[10px] text-[#0066FF] font-bold">Automated Benchmark Pass</span>
+              <span className="text-xs text-[#162774] font-extrabold uppercase tracking-wider">Automated Benchmark Pass</span>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold mb-3">
-                2
+            <div className="p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] flex flex-col justify-between">
+              <div>
+                <div className="w-8 h-8 rounded-full bg-[#162774] text-white flex items-center justify-center font-extrabold text-xs mb-3.5">
+                  02
+                </div>
+                <h3 className="font-extrabold text-slate-800 text-lg mb-2">Core Engineering Audit</h3>
+                <p className="text-slate-700 text-sm font-medium leading-relaxed mb-4">
+                  Founder Soham Sharma and the core engineering squad audit code architecture, database indexing, state machines, and README clarity.
+                </p>
               </div>
-              <h3 className="font-bold text-slate-900 text-sm mb-1.5 font-sans">Core Engineering Audit</h3>
-              <p className="text-slate-600 text-[11px] leading-relaxed mb-3 font-mono">
-                Founder Soham Sharma and the core engineering squad audit code architecture, database indexing, state machines, and README clarity.
-              </p>
-              <span className="text-[10px] text-purple-700 font-bold">1-on-1 Code Review</span>
+              <span className="text-xs text-[#162774] font-extrabold uppercase tracking-wider">1-on-1 Code Review</span>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200">
-              <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold mb-3">
-                3
+            <div className="p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] flex flex-col justify-between">
+              <div>
+                <div className="w-8 h-8 rounded-full bg-[#162774] text-white flex items-center justify-center font-extrabold text-xs mb-3.5">
+                  03
+                </div>
+                <h3 className="font-extrabold text-slate-800 text-lg mb-2">Peer Red-Team Pen-Test</h3>
+                <p className="text-slate-700 text-sm font-medium leading-relaxed mb-4">
+                  Student pen-testers attack live staging deployments to hunt OWASP Top 10 vulnerabilities, SSRF, and prompt injections before sign-off.
+                </p>
               </div>
-              <h3 className="font-bold text-slate-900 text-sm mb-1.5 font-sans">Peer Red-Team Pen-Test</h3>
-              <p className="text-slate-600 text-[11px] leading-relaxed mb-3 font-mono">
-                Student pen-testers attack live staging deployments to hunt OWASP Top 10 vulnerabilities, SSRF, and prompt injections before sign-off.
-              </p>
-              <span className="text-[10px] text-rose-700 font-bold">Security Hardened</span>
+              <span className="text-xs text-[#162774] font-extrabold uppercase tracking-wider">Security Hardened</span>
             </div>
           </div>
         </div>
@@ -570,63 +547,60 @@ Best,
         {/* =========================================================================
             SECTION 3: CAREER CHECKLIST & OUTREACH TEMPLATES
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-9 shadow-sm">
           
           {/* Progress Overview Bar */}
-          <div className="pb-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="pb-6 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <div className="text-xs font-mono text-slate-500 uppercase font-bold mb-1">
+              <div className="text-xs font-sans text-[#162774] uppercase font-extrabold tracking-wider mb-2">
                 Your Career Conversion Progress ({doneCount}/{totalTasks} Completed)
               </div>
-              <div className="w-full sm:w-80 bg-slate-100 rounded-full h-3 overflow-hidden border border-slate-200">
+              <div className="w-full sm:w-96 bg-[#F4F6FB] rounded-full h-3.5 overflow-hidden border border-slate-200">
                 <div
-                  className="bg-[#0066FF] h-full transition-all duration-300"
+                  className="bg-[#162774] h-full transition-all duration-300"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
             </div>
 
-            <div className="font-mono text-xs font-bold text-slate-700">
+            <div className="font-sans text-sm font-extrabold text-[#162774]">
               {progressPercent}% Complete
             </div>
           </div>
 
           {/* Checklist Phases */}
-          <div className="mt-6 space-y-8">
+          <div className="mt-7 space-y-8">
             {CHECKLIST_PHASES.map((phase) => (
-              <div key={phase.phaseName} className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-700 font-mono text-[10px] font-bold uppercase">
-                    {phase.badge}
-                  </span>
-                  <h3 className="text-base font-bold text-slate-900 font-sans">{phase.phaseName}</h3>
-                </div>
+              <div key={phase.phaseName} className="space-y-4">
+                <h3 className="text-lg sm:text-xl font-extrabold text-[#162774] font-sans">
+                  {phase.phaseName}
+                </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {phase.tasks.map((task) => {
                     const isDone = !!completedTasks[task.id];
                     return (
                       <button
                         key={task.id}
                         onClick={() => toggleTask(task.id)}
-                        className={`p-4 rounded-2xl border text-left transition-all flex items-start gap-3 cursor-pointer ${
+                        className={`p-5 rounded-2xl border text-left transition-all flex items-start gap-3.5 cursor-pointer ${
                           isDone
-                            ? "bg-emerald-50/50 border-emerald-300 text-slate-900"
-                            : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700"
+                            ? "bg-blue-50/60 border-[#162774]/40 text-slate-800"
+                            : "bg-[#F4F6FB] hover:bg-white border-slate-200 hover:border-[#162774] text-slate-700"
                         }`}
                       >
                         <div className="mt-0.5 shrink-0">
                           {isDone ? (
-                            <CheckSquare className="text-emerald-600" size={18} />
+                            <CheckSquare className="text-[#162774]" size={20} />
                           ) : (
-                            <Square className="text-slate-400" size={18} />
+                            <Square className="text-slate-400" size={20} />
                           )}
                         </div>
                         <div>
-                          <div className={`text-xs font-mono font-bold ${isDone ? "line-through text-slate-500" : "text-slate-900"}`}>
+                          <div className={`text-sm sm:text-base font-extrabold ${isDone ? "line-through text-slate-500" : "text-slate-800"}`}>
                             {task.title}
                           </div>
-                          <div className="text-[11px] font-mono text-slate-500 mt-1 leading-relaxed">
+                          <div className="text-sm font-medium text-slate-600 mt-1.5 leading-relaxed">
                             {task.desc}
                           </div>
                         </div>
@@ -641,35 +615,32 @@ Best,
           {/* Outreach Templates */}
           <div className="mt-10 pt-8 border-t border-slate-200">
             <div className="max-w-2xl mb-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-[#0066FF] font-mono text-xs font-bold uppercase tracking-wider mb-2">
-                <Mail size={13} /> Architecture-First Outreach Templates
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 font-sans">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-[#162774] font-sans tracking-tight">
                 Cold Email &amp; LinkedIn DM Pitch Formats
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-mono text-xs">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans">
               {OUTREACH_TEMPLATES.map((tmpl) => (
-                <div key={tmpl.id} className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                <div key={tmpl.id} className="p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-bold text-slate-900 font-sans">{tmpl.title}</span>
-                      <span className="text-[10px] text-slate-500 uppercase">{tmpl.role}</span>
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <span className="font-extrabold text-base sm:text-lg text-slate-800">{tmpl.title}</span>
+                      <span className="text-xs font-bold text-[#162774] uppercase tracking-wider shrink-0">{tmpl.role}</span>
                     </div>
-                    <div className="text-[11px] text-slate-500 mb-3">
-                      <strong>Subject:</strong> {tmpl.subject}
+                    <div className="text-sm text-slate-700 font-medium mb-3">
+                      <strong className="font-extrabold text-slate-800">Subject:</strong> {tmpl.subject}
                     </div>
-                    <pre className="text-[11px] text-slate-700 bg-white p-3.5 rounded-xl border border-slate-200 whitespace-pre-wrap max-h-56 overflow-y-auto leading-relaxed mb-4">
+                    <pre className="text-sm font-sans font-medium text-slate-700 bg-white p-4 rounded-xl border border-slate-200 whitespace-pre-wrap max-h-64 overflow-y-auto leading-relaxed mb-4">
                       {tmpl.body}
                     </pre>
                   </div>
 
                   <button
                     onClick={() => copyToClipboard(tmpl.body, tmpl.id)}
-                    className="w-full py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-3 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-extrabold text-sm transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm"
                   >
-                    {copiedId === tmpl.id ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                    {copiedId === tmpl.id ? <Check size={15} /> : <Copy size={15} />}
                     <span>{copiedId === tmpl.id ? "Template Copied!" : "Copy Pitch Template"}</span>
                   </button>
                 </div>
@@ -682,37 +653,33 @@ Best,
         {/* =========================================================================
             SECTION 4: WHERE TO APPLY — HIRING DIRECTORY
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
-          <div className="max-w-3xl mb-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-700 font-mono text-xs font-bold uppercase tracking-wider mb-2 border border-purple-200">
-              <Briefcase size={14} /> Open Placement Application Directory
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 font-sans">
+        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-9 shadow-sm">
+          <div className="max-w-3xl mb-7">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#162774] font-sans tracking-tight">
               Where to Apply After Completing Projects
             </h2>
-            <p className="text-slate-600 text-xs sm:text-sm font-mono mt-1 leading-relaxed">
+            <p className="text-slate-700 text-sm sm:text-base font-sans font-medium mt-2 leading-relaxed">
               Direct technical career portals hiring builders with verified production portfolio repos:
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 font-mono text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans">
             {TARGET_HIRING_COMPANIES.map((company) => (
               <a
                 key={company.name}
                 href={company.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4 rounded-2xl bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-all flex flex-col justify-between group"
+                className="p-5 rounded-2xl bg-[#F4F6FB] hover:bg-white border border-slate-200 hover:border-[#162774] transition-all flex flex-col justify-between group shadow-xs hover:shadow-md"
               >
                 <div>
-                  <div className="font-bold text-slate-900 text-sm group-hover:text-[#0066FF] transition-colors font-sans mb-1">
+                  <div className="font-extrabold text-slate-800 text-base sm:text-lg group-hover:text-[#162774] transition-colors mb-1">
                     {company.name}
                   </div>
-                  <div className="text-[11px] text-slate-500 font-mono">{company.category}</div>
+                  <div className="text-sm text-slate-600 font-medium">{company.category}</div>
                 </div>
-                <div className="mt-3 text-[10px] text-[#0066FF] font-bold inline-flex items-center gap-1">
-                  <span>Open Portal</span>
-                  <ExternalLink size={11} />
+                <div className="mt-4 text-xs text-[#162774] font-extrabold uppercase tracking-wider">
+                  Open Portal &rarr;
                 </div>
               </a>
             ))}
