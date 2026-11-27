@@ -3,33 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {
-  Terminal,
-  CheckCircle2,
-  Calendar,
-  Github,
-  Linkedin,
-  MessageSquare,
-  HardDrive,
-  Loader2,
-  ExternalLink,
-  ArrowRight,
-  Sparkles,
-  HelpCircle,
-  Clock,
-  Presentation,
-  BookOpen,
-  Search,
-  Check,
-  PauseCircle,
-  Coins,
-  ShieldCheck,
-  AlertCircle,
-  Flame,
-  Layers,
-  Award,
-  Share2
-} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { ARENA_PROJECTS, ArenaProject, TOTAL_SYSTEMS_COUNT } from "@/lib/arena-projects";
 import { useAuth } from "@/lib/auth-context";
 import AuthGate from "@/app/_components/AuthGate";
@@ -362,42 +336,34 @@ function DailyPoWLogPageInner() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-white text-slate-900 pt-24 pb-16 px-4 sm:px-8 lg:px-12 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="min-h-screen bg-white text-slate-900 pt-24 pb-16 px-4 sm:px-8 lg:px-12 font-sans">
       <div className="max-w-7xl mx-auto space-y-8">
         
         {/* ── HEADER ── */}
-        <div className="bg-[#070E54] text-white rounded-3xl p-6 sm:p-8 border border-white/15 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="bg-[#162774] text-white rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/15 text-white border border-white/25 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
               Proof-of-Work Logger
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
               Daily Commit &amp; Progress Log
             </h1>
-            <p className="text-xs sm:text-sm text-blue-100/85 font-sans mt-1.5">
+            <p className="text-xs sm:text-sm text-blue-100 font-sans mt-1.5">
               Submit daily GitHub commits to build your streak, earn +20 to +70 Karma Coins, and qualify for founder recommendations.
             </p>
           </div>
 
           <Link
             href="/arena"
-            className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all shadow-md flex items-center gap-2 shrink-0 self-start md:self-auto group"
+            className="px-5 py-3 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-sans text-xs font-extrabold transition-all shadow-sm shrink-0 self-start md:self-auto whitespace-nowrap"
           >
-            <span>Explore All PRDs</span>
-            <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+            Explore All PRDs
           </Link>
         </div>
 
         {/* ── EMPTY STATE: NOT ENROLLED IN ANY PROJECTS ── */}
         {!fetchingEnrollments && enrolledProjects.length === 0 && (
-          <div className="p-8 rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] text-center space-y-4 shadow-md">
+          <div className="p-8 rounded-3xl bg-white border border-slate-200 text-center space-y-4 shadow-xs">
             <h3 className="text-xl font-extrabold font-sans text-slate-950">
               No Enrolled Projects Found
             </h3>
@@ -407,9 +373,9 @@ function DailyPoWLogPageInner() {
             <div className="pt-2">
               <Link
                 href="/arena"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all shadow-md cursor-pointer"
+                className="inline-flex items-center px-6 py-3 rounded-2xl bg-[#162774] hover:bg-[#1e3494] text-white font-sans text-xs font-bold transition-all shadow-sm cursor-pointer"
               >
-                <span>Browse {TOTAL_SYSTEMS_COUNT} PRDs &amp; Enroll Now &rarr;</span>
+                Browse {TOTAL_SYSTEMS_COUNT} PRDs &amp; Enroll Now
               </Link>
             </div>
           </div>
@@ -420,15 +386,15 @@ function DailyPoWLogPageInner() {
           <div className="space-y-6">
             
             {/* 1. PROJECT SELECTOR & STREAK STATUS BAR */}
-            <div className="p-5 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-xs">
+            <div className="p-5 rounded-3xl bg-white border border-slate-200 hover:border-[#162774] transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 font-sans text-xs">
               <div className="flex-1">
-                <label className="block text-[11px] text-slate-500 font-bold uppercase mb-1.5">
+                <label className="block text-[11px] text-[#162774] font-bold uppercase mb-1.5 tracking-wider">
                   Select Enrolled Project ({enrolledProjects.length} Enrolled)
                 </label>
                 <select
                   value={form.projectId}
                   onChange={(e) => setForm((prev) => ({ ...prev, projectId: e.target.value }))}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 font-bold focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 font-semibold focus:bg-white focus:outline-none focus:border-[#162774]"
                 >
                   {enrolledProjects.map((ep) => (
                     <option key={ep.projectId} value={ep.projectId}>
@@ -439,19 +405,17 @@ function DailyPoWLogPageInner() {
               </div>
 
               {currentEnrolledProject && (
-                <div className="flex items-center gap-3 pt-2 md:pt-0 border-t md:border-t-0 md:border-l md:pl-6 border-slate-100 shrink-0">
+                <div className="flex items-center gap-6 pt-2 md:pt-0 border-t md:border-t-0 md:border-l md:pl-6 border-slate-100 shrink-0">
                   <div className="text-left">
                     <span className="text-[10px] text-slate-400 font-bold uppercase">Current Streak</span>
-                    <div className="text-base font-extrabold text-amber-600 flex items-center gap-1">
-                      <Flame size={16} />
-                      <span>{currentEnrolledProject.streak || 0} Days</span>
+                    <div className="text-base font-extrabold text-[#162774]">
+                      {currentEnrolledProject.streak || 0} Days
                     </div>
                   </div>
                   <div className="text-left">
                     <span className="text-[10px] text-slate-400 font-bold uppercase">Experience</span>
-                    <div className="text-base font-extrabold text-[#0066FF] flex items-center gap-1">
-                      <Coins size={15} className="text-amber-500" />
-                      <span>{currentEnrolledProject.xp || 100} XP</span>
+                    <div className="text-base font-extrabold text-[#162774]">
+                      {currentEnrolledProject.xp || 100} XP
                     </div>
                   </div>
                 </div>
@@ -459,29 +423,25 @@ function DailyPoWLogPageInner() {
             </div>
 
             {/* 2. DYNAMIC GUIDED FOCUS FOR TODAY'S LOGGING DAY */}
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-950 to-blue-950 text-white border border-blue-500/30 shadow-md relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
-                <Terminal size={120} />
-              </div>
-
-              <div className="relative z-10 space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-[#0066FF] text-white font-mono text-xs font-bold uppercase tracking-wider">
+            <div className="p-6 sm:p-7 rounded-3xl bg-[#162774] text-white shadow-sm">
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className="px-3 py-1 rounded-full bg-white text-[#162774] text-xs font-extrabold uppercase tracking-wider">
                     Day {activeDayNumber} Focus
                   </span>
-                  <span className="text-xs text-blue-200 font-mono font-bold">
+                  <span className="text-sm text-white font-bold">
                     {currentGuidance.theme}
                   </span>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-200 font-mono leading-relaxed max-w-4xl">
+                <p className="text-xs sm:text-sm text-blue-100 leading-relaxed max-w-4xl">
                   {currentGuidance.focus}
                 </p>
 
-                <div className="space-y-1.5 pt-2 font-mono text-xs text-slate-300">
+                <div className="space-y-1.5 pt-2 text-xs text-blue-100">
                   {currentGuidance.tips.map((tip, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-[11px]">
-                      <CheckCircle2 size={13} className="text-cyan-400 shrink-0 mt-0.5" />
+                    <div key={idx} className="flex items-start gap-2.5 text-xs">
+                      <span className="font-bold text-white shrink-0">0{idx + 1}.</span>
                       <span>{tip}</span>
                     </div>
                   ))}
@@ -490,25 +450,23 @@ function DailyPoWLogPageInner() {
             </div>
 
             {/* 3. LOGGING FORM */}
-            <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-6">
+            <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 space-y-6">
               
               {/* Feedback Alerts */}
               {errorMsg && (
-                <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 font-mono text-xs flex items-center gap-2">
-                  <AlertCircle size={16} className="shrink-0" />
-                  <span>{errorMsg}</span>
+                <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold">
+                  {errorMsg}
                 </div>
               )}
 
               {successMsg && (
-                <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-mono text-xs flex items-center gap-2">
-                  <CheckCircle2 size={16} className="shrink-0" />
-                  <span>{successMsg}</span>
+                <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+                  {successMsg}
                 </div>
               )}
 
               {/* Day & Basic Info Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
                 <div>
                   <label className="block text-slate-700 font-bold mb-1.5">Day Number (1 - 45) *</label>
                   <input
@@ -518,7 +476,7 @@ function DailyPoWLogPageInner() {
                     required
                     value={form.dayNumber}
                     onChange={(e) => setForm((prev) => ({ ...prev, dayNumber: e.target.value }))}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 font-bold focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 font-bold focus:bg-white focus:outline-none focus:border-[#162774]"
                   />
                 </div>
 
@@ -530,16 +488,15 @@ function DailyPoWLogPageInner() {
                     value={form.studentName}
                     onChange={(e) => setForm((prev) => ({ ...prev, studentName: e.target.value }))}
                     placeholder="Your Name"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#162774]"
                   />
                 </div>
               </div>
 
               {/* GitHub Commit URL (Required) */}
-              <div className="font-mono text-xs">
-                <label className="block text-slate-700 font-bold mb-1.5 flex items-center gap-1.5">
-                  <Github size={14} className="text-slate-900" />
-                  <span>GitHub Commit / PR / Repository URL * (+20 Karma Coins)</span>
+              <div className="text-xs">
+                <label className="block text-slate-700 font-bold mb-1.5">
+                  GitHub Commit / PR / Repository URL * (+20 Karma Coins)
                 </label>
                 <input
                   type="url"
@@ -547,21 +504,20 @@ function DailyPoWLogPageInner() {
                   value={form.commitUrl}
                   onChange={(e) => setForm((prev) => ({ ...prev, commitUrl: e.target.value }))}
                   placeholder="https://github.com/username/project-repo/commit/abc1234"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#162774]"
                 />
-                <p className="text-[11px] text-slate-400 mt-1 font-sans">
+                <p className="text-[11px] text-slate-500 mt-1">
                   Paste the direct link to today&apos;s GitHub commit or pull request demonstrating your Proof-of-Work.
                 </p>
               </div>
 
               {/* LinkedIn Post URL (+50 Coins Reward) */}
-              <div className="font-mono text-xs p-4 rounded-2xl bg-blue-50/50 border border-blue-100">
+              <div className="text-xs p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#162774] transition-colors">
                 <div className="flex items-center justify-between gap-2 mb-1.5">
-                  <label className="text-slate-900 font-bold flex items-center gap-1.5">
-                    <Linkedin size={14} className="text-[#0077B5]" />
-                    <span>LinkedIn Proof-of-Work Post URL (Optional &bull; +50 Karma Coins Bonus ⭐)</span>
+                  <label className="text-slate-900 font-bold">
+                    LinkedIn Proof-of-Work Post URL (Optional &bull; +50 Karma Coins Bonus)
                   </label>
-                  <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-white text-[10px] font-bold">
                     Admin Audited
                   </span>
                 </div>
@@ -570,25 +526,24 @@ function DailyPoWLogPageInner() {
                   value={form.linkedinPostUrl}
                   onChange={(e) => setForm((prev) => ({ ...prev, linkedinPostUrl: e.target.value }))}
                   placeholder="https://www.linkedin.com/posts/username_botmartzai-activity-..."
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#0066FF]"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-[#162774]"
                 />
-                <p className="text-[11px] text-slate-600 mt-1.5 font-sans leading-relaxed">
+                <p className="text-[11px] text-slate-600 mt-1.5 leading-relaxed">
                   Earn an extra <strong>+50 Karma Coins</strong> by sharing your daily learnings on LinkedIn with the tag <strong>#BotmartzAI</strong>. Admins audit links for quality to ensure real Proof-of-Work.
                 </p>
               </div>
 
               {/* Research Notes & Architecture Breakdown */}
-              <div className="font-mono text-xs">
-                <label className="block text-slate-700 font-bold mb-1.5 flex items-center gap-1.5">
-                  <BookOpen size={14} className="text-[#0066FF]" />
-                  <span>Today&apos;s Engineering Notes, Key Learnings &amp; Blockers</span>
+              <div className="text-xs">
+                <label className="block text-slate-700 font-bold mb-1.5">
+                  Today&apos;s Engineering Notes, Key Learnings &amp; Blockers
                 </label>
                 <textarea
                   rows={4}
                   value={form.researchNotes}
                   onChange={(e) => setForm((prev) => ({ ...prev, researchNotes: e.target.value }))}
                   placeholder="e.g. Day 1: Cloned starter repo, read the PRD specifications, configured Docker Compose with PostgreSQL + pgvector, and defined the initial FastAPI router structure..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#0066FF]"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-[#162774]"
                 />
               </div>
 
@@ -597,7 +552,7 @@ function DailyPoWLogPageInner() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-4 rounded-2xl bg-[#0066FF] hover:bg-blue-600 text-white font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-4 rounded-2xl bg-[#162774] hover:bg-[#1e3494] text-white text-xs font-extrabold uppercase tracking-wider transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {loading ? (
                     <>
@@ -605,7 +560,7 @@ function DailyPoWLogPageInner() {
                       <span>Verifying &amp; Recording Day {form.dayNumber} Log...</span>
                     </>
                   ) : (
-                    <span>Log Day {form.dayNumber} Proof-of-Work (+{form.linkedinPostUrl ? "70" : "20"} Karma Coins) &rarr;</span>
+                    <span>Log Day {form.dayNumber} Proof-of-Work (+{form.linkedinPostUrl ? "70" : "20"} Karma Coins)</span>
                   )}
                 </button>
               </div>
@@ -614,29 +569,28 @@ function DailyPoWLogPageInner() {
 
             {/* 4. PAST SUBMITTED LOGS FOR THIS PROJECT */}
             {projectLogs.length > 0 && (
-              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+              <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base font-bold font-sans text-slate-900 flex items-center gap-2">
-                    <Clock size={16} className="text-[#0066FF]" />
-                    <span>Your Submitted Logs ({projectLogs.length} Days)</span>
+                  <h3 className="text-base font-bold text-slate-900">
+                    Your Submitted Logs ({projectLogs.length} Days)
                   </h3>
-                  <span className="text-xs font-mono text-slate-500">
+                  <span className="text-xs font-bold text-[#162774]">
                     Total Logged Coins: +{projectLogs.reduce((acc, l) => acc + (l.coinsAwarded || 20), 0)}
                   </span>
                 </div>
 
-                <div className="space-y-3 font-mono text-xs">
+                <div className="space-y-3 text-xs">
                   {projectLogs.map((log) => (
                     <div
                       key={log.id}
-                      className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      className="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-[#162774] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
                     >
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="px-2.5 py-0.5 rounded-md bg-blue-100 text-[#0066FF] font-bold text-[10px]">
+                          <span className="px-2.5 py-0.5 rounded-md bg-[#162774] text-white font-bold text-[10px]">
                             Day {log.dayNumber}
                           </span>
-                          <span className="text-[11px] text-slate-400">
+                          <span className="text-[11px] text-slate-500">
                             {new Date(log.submittedAt).toLocaleDateString("en-IN", { month: "short", day: "numeric" })}
                           </span>
                           {log.linkedinStatus === "PENDING_AUDIT" && (
@@ -646,13 +600,13 @@ function DailyPoWLogPageInner() {
                           )}
                           {log.linkedinStatus === "VERIFIED" && (
                             <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
-                              ✔ LinkedIn Verified
+                              LinkedIn Verified
                             </span>
                           )}
                         </div>
 
                         {log.researchNotes && (
-                          <p className="text-xs text-slate-600 font-sans line-clamp-2">
+                          <p className="text-xs text-slate-600 line-clamp-2">
                             {log.researchNotes}
                           </p>
                         )}
@@ -664,11 +618,9 @@ function DailyPoWLogPageInner() {
                             href={log.commitUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:text-slate-900 transition-colors flex items-center gap-1 text-[11px] font-bold"
+                            className="px-3 py-2 rounded-xl bg-white border border-slate-200 text-[#162774] hover:border-[#162774] transition-colors text-[11px] font-bold"
                           >
-                            <Github size={13} />
-                            <span>Commit</span>
-                            <ExternalLink size={10} />
+                            Commit
                           </a>
                         )}
 
@@ -677,20 +629,17 @@ function DailyPoWLogPageInner() {
                             href={log.linkedinPostUrl}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-2 rounded-xl bg-blue-50 border border-blue-200 text-[#0077B5] hover:text-blue-800 transition-colors flex items-center gap-1 text-[11px] font-bold"
+                            className="px-3 py-2 rounded-xl bg-[#162774] text-white hover:bg-[#1e3494] transition-colors text-[11px] font-bold"
                           >
-                            <Linkedin size={13} />
-                            <span>Post</span>
-                            <ExternalLink size={10} />
+                            Post
                           </a>
                         ) : (
                           <button
                             type="button"
                             onClick={() => openShareModal(currentEnrolledProject?.projectTitle || "Arena System", log.dayNumber, log.commitUrl || "", log.researchNotes || "")}
-                            className="p-2 rounded-xl bg-[#0077B5] hover:bg-[#006097] text-white transition-colors flex items-center gap-1 text-[11px] font-bold cursor-pointer"
+                            className="px-3 py-2 rounded-xl bg-[#162774] hover:bg-[#1e3494] text-white transition-colors text-[11px] font-bold cursor-pointer"
                           >
-                            <Linkedin size={13} />
-                            <span>Share ↗</span>
+                            Share
                           </button>
                         )}
                       </div>
@@ -724,8 +673,8 @@ export default function DailyPoWLogPage() {
   return (
     <React.Suspense
       fallback={
-        <div className="min-h-screen bg-slate-100 flex items-center justify-center font-mono text-xs text-slate-500">
-          <Loader2 size={20} className="animate-spin text-[#0066FF] mr-2" />
+        <div className="min-h-screen bg-white flex items-center justify-center text-xs text-slate-500">
+          <Loader2 size={20} className="animate-spin text-[#162774] mr-2" />
           <span>Loading 45-Day Proof-of-Work Logger...</span>
         </div>
       }

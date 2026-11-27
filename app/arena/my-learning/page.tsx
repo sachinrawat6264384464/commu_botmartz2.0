@@ -224,41 +224,29 @@ export default function MyLearningPage() {
   }
 
   return (
-    <div
-      className="bg-white min-h-screen text-slate-900 pt-24 pb-20 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="bg-white min-h-screen text-slate-900 pt-24 pb-20 font-sans">
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16 space-y-6">
         
         {/* =========================================================================
-            HERO COMMAND CENTER (#162774 ROYAL BLUE GRID + #D9F83B)
+            HERO COMMAND CENTER (#162774 ROYAL BLUE)
         ========================================================================= */}
         <motion.div
           initial={{ opacity: 0, y: -20, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative rounded-3xl bg-[#162774] border border-white/15 p-6 sm:p-8 text-white shadow-2xl overflow-hidden"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
+          className="relative rounded-3xl bg-[#162774] border border-white/15 p-6 sm:p-8 text-white shadow-xl overflow-hidden"
         >
           <div className="relative z-10 space-y-6">
             
             {/* Top Bar: Title & Primary CTA */}
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/15">
               <div className="space-y-2.5">
-                <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-white/15 text-white border border-white/25 font-sans text-[11px] font-extrabold uppercase tracking-wider">
                   Candidate Production Command Center
                 </div>
                 <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight font-sans leading-tight flex flex-wrap items-center gap-3">
-                  <span>My Learning &amp; <span className="text-[#D9F83B]">Proof-of-Work</span></span>
-                  <span className="text-[11px] font-extrabold px-3 py-1 rounded-full bg-white/15 text-[#D9F83B] border border-white/20 uppercase tracking-wider">
+                  <span>My Learning &amp; Proof-of-Work</span>
+                  <span className="text-[11px] font-extrabold px-3 py-1 rounded-full bg-white/15 text-white border border-white/20 uppercase tracking-wider">
                     Live Session
                   </span>
                 </h1>
@@ -267,38 +255,30 @@ export default function MyLearningPage() {
                 </p>
               </div>
 
-              {/* Action Buttons (Icon-Free Text + 60deg Circle Arrow) */}
+              {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-3 shrink-0">
                 <Link
                   href="/arena/daily-log"
-                  className="group relative overflow-hidden px-6 py-3.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs sm:text-sm font-extrabold transition-all shadow-lg flex items-center gap-2.5 cursor-pointer"
+                  className="group relative overflow-hidden px-6 py-3.5 rounded-full bg-white text-[#162774] hover:bg-blue-50 font-sans text-xs sm:text-sm font-extrabold transition-all shadow-md flex items-center gap-2.5 cursor-pointer"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                  />
                   <span className="relative z-10">Log Today&apos;s Commit</span>
-                  <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
+                  <span className="relative z-10 w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
                     <ArrowRight size={12} />
                   </span>
                 </Link>
                 <Link
                   href="/arena"
-                  className="group relative overflow-hidden px-6 py-3.5 rounded-full bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+                  className="px-6 py-3.5 rounded-full bg-white/15 hover:bg-white/25 border border-white/25 text-white font-sans text-xs sm:text-sm font-extrabold transition-all shadow-sm flex items-center gap-2 cursor-pointer"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                  />
-                  <span className="relative z-10">Explore Catalog</span>
+                  <span>Explore Catalog</span>
                 </Link>
               </div>
             </div>
 
-            {/* HUD Metrics Cards Grid (Clean 01-04 Badges, Zero Clutter Icons) */}
+            {/* HUD Metrics Cards Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 font-sans">
-              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
-                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-white text-[10px] font-extrabold flex items-center justify-center">
                   01
                 </span>
                 <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
@@ -309,8 +289,8 @@ export default function MyLearningPage() {
                 </div>
               </div>
 
-              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
-                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-white text-[10px] font-extrabold flex items-center justify-center">
                   02
                 </span>
                 <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
@@ -322,8 +302,8 @@ export default function MyLearningPage() {
                 </div>
               </div>
 
-              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
-                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-white text-[10px] font-extrabold flex items-center justify-center">
                   03
                 </span>
                 <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
@@ -334,8 +314,8 @@ export default function MyLearningPage() {
                 </div>
               </div>
 
-              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] shadow-md space-y-1.5">
-                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center">
+              <div className="relative p-4 sm:p-5 rounded-2xl bg-white text-slate-950 shadow-md space-y-1.5">
+                <span className="absolute top-3 right-3 w-6 h-6 rounded-full bg-[#162774] text-white text-[10px] font-extrabold flex items-center justify-center">
                   04
                 </span>
                 <div className="text-[11px] text-[#162774] uppercase tracking-wider font-extrabold pr-7">
@@ -405,13 +385,13 @@ export default function MyLearningPage() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] text-[11px] font-extrabold flex items-center justify-center">
+                    <span className="w-7 h-7 rounded-full bg-[#162774] text-white text-[11px] font-extrabold flex items-center justify-center">
                       {step.num}
                     </span>
                     <span className={`px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
                       step.done
                         ? "bg-emerald-100 text-emerald-800"
-                        : "bg-[#D9F83B] text-slate-950"
+                        : "bg-[#162774]/10 text-[#162774]"
                     }`}>
                       {step.done ? "Completed" : "Next Step"}
                     </span>
@@ -425,7 +405,7 @@ export default function MyLearningPage() {
                 </div>
                 <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between text-xs font-extrabold text-[#162774]">
                   <span>{step.cta}</span>
-                  <span className="w-6 h-6 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                  <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
                     <ArrowRight size={11} />
                   </span>
                 </div>

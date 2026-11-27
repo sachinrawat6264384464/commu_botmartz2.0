@@ -323,15 +323,14 @@ export default async function MemberProfilePage({ params }: Props) {
                         <div
                           key={d.dayIndex}
                           title={`Day ${d.dayIndex + 1}: ${d.count > 0 ? `${d.count} commits logged` : "No activity"}`}
-                          className={`w-4 h-4 rounded-sm transition-all ${
-                            d.count === 0
-                              ? "bg-white/15"
-                              : d.count === 1
-                                ? "bg-blue-300"
-                                : d.count === 2
-                                  ? "bg-emerald-400"
-                                  : "bg-[#D9F83B]"
-                          }`}
+                          className={`w-4 h-4 rounded-sm transition-all ${d.count === 0
+                            ? "bg-white/15"
+                            : d.count === 1
+                              ? "bg-blue-300"
+                              : d.count === 2
+                                ? "bg-emerald-400"
+                                : "bg-[#D9F83B]"
+                            }`}
                         />
                       ))}
                     </div>
