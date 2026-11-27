@@ -613,14 +613,14 @@ export default function HackathonsPage() {
               whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.65, delay: idx * 0.1, ease: "easeOut" }}
-              className="relative overflow-hidden rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group"
+              className="relative overflow-hidden rounded-3xl bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between group"
             >
               <div className="p-3 sm:p-6 pb-3 sm:pb-4">
                 <div className="flex items-center justify-between gap-1.5 sm:gap-2 mb-2 sm:mb-2.5">
                   <div className="text-[9px] sm:text-xs font-extrabold text-[#1D3189] uppercase tracking-wider leading-tight">
                     {step.eyebrow}
                   </div>
-                  <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-[9px] sm:text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0 shadow-xs">
+                  <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-[#162774] group-hover:bg-[#1D3189] text-white font-extrabold text-[9px] sm:text-[11px] flex items-center justify-center transition-colors duration-500 shrink-0 shadow-xs">
                     {step.num}
                   </span>
                 </div>
@@ -642,10 +642,10 @@ export default function HackathonsPage() {
                     backgroundSize: "28px 28px",
                   }}
                 />
-                <span className="relative z-10 text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500 truncate">
+                <span className="relative z-10 text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#1D3189] group-hover:text-white transition-colors duration-500 truncate">
                   {step.tag}
                 </span>
-                <span className="relative z-10 w-6 h-6 rounded-full bg-white group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shadow-2xs">
+                <span className="relative z-10 w-6 h-6 rounded-full bg-white text-[#162774] flex items-center justify-center transition-all duration-500 group-hover:rotate-45 shadow-2xs">
                   <ArrowRight size={12} />
                 </span>
               </div>
@@ -846,10 +846,10 @@ export default function HackathonsPage() {
                       backgroundSize: "28px 28px",
                     }}
                   >
-                    <h3 className="text-[11px] sm:text-lg font-extrabold text-white group-hover:text-[#D9F83B] transition-colors leading-tight sm:leading-snug line-clamp-2 min-w-0">
+                    <h3 className="text-[11px] sm:text-lg font-extrabold text-white transition-colors leading-tight sm:leading-snug line-clamp-2 min-w-0">
                       {project.title}
                     </h3>
-                    <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-[60deg]">
+                    <span className="w-5 h-5 sm:w-7 sm:h-7 rounded-full bg-white text-[#162774] flex items-center justify-center shrink-0 transition-transform duration-500 group-hover:rotate-[60deg]">
                       <ArrowRight size={11} />
                     </span>
                   </div>
@@ -858,7 +858,7 @@ export default function HackathonsPage() {
                   <div className="p-2 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white border border-slate-200/90 space-y-1 sm:space-y-2 text-[9.5px] sm:text-xs">
                     <div className="flex flex-wrap items-center justify-between gap-1 sm:gap-2 text-slate-800 font-bold">
                       <span>Solo (1) or Team (2–3)</span>
-                      <span className="px-1.5 sm:px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[8.5px] sm:text-[10px] font-extrabold">
+                      <span className="px-1.5 sm:px-2.5 py-0.5 rounded-full bg-[#162774]/10 text-[#162774] text-[8.5px] sm:text-[10px] font-extrabold">
                         Online &bull; 24 Hours
                       </span>
                     </div>
@@ -898,7 +898,7 @@ export default function HackathonsPage() {
                       <button
                         type="button"
                         onClick={() => openEnrollModal(project, "team")}
-                        className="py-1.5 sm:py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer shadow-sm"
+                        className="py-1.5 sm:py-2.5 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-extrabold text-[10px] sm:text-xs transition-all cursor-pointer shadow-sm"
                       >
                         Enroll Team (₹{project.teamFee || TEAM_HACKATHON_FEE})
                       </button>
@@ -909,15 +909,15 @@ export default function HackathonsPage() {
                 {/* Left, Top & Right 3px animated border color fill on hover */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute top-0 bottom-0 left-0 w-[3px] bg-gradient-to-b from-[#162774] to-[#D9F83B] scale-y-0 group-hover:scale-y-100 origin-bottom transition-transform duration-500 ease-out"
+                  className="pointer-events-none absolute top-0 bottom-0 left-0 w-[3px] bg-[#162774] scale-y-0 group-hover:scale-y-100 origin-bottom transition-transform duration-500 ease-out"
                 />
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#162774] via-[#1D3189] to-[#D9F83B] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"
+                  className="pointer-events-none absolute top-0 left-0 right-0 h-[3px] bg-[#162774] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"
                 />
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute top-0 bottom-0 right-0 w-[3px] bg-gradient-to-b from-[#D9F83B] to-[#162774] scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-out"
+                  className="pointer-events-none absolute top-0 bottom-0 right-0 w-[3px] bg-[#162774] scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-out"
                 />
               </div>
             ))}
