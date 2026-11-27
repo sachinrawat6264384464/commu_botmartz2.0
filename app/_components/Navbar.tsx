@@ -135,8 +135,8 @@ export default function CommunityNavbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isTransparentHero
-          ? "bg-transparent border-b border-transparent shadow-none"
-          : "bg-[#162774]/95 backdrop-blur-xl border-b border-white/10 shadow-lg"
+        ? "bg-transparent border-b border-transparent shadow-none"
+        : "bg-[#162774]/95 backdrop-blur-xl border-b border-white/10 shadow-lg"
         }`}
     >
       <div className="w-full px-4 sm:px-8 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
@@ -174,8 +174,8 @@ export default function CommunityNavbar() {
             href="/"
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${pathname === "/"
-                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                : "text-blue-100 hover:text-white hover:bg-white/10"
+              ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+              : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
           >
             <Home size={14} />
@@ -187,8 +187,8 @@ export default function CommunityNavbar() {
             href="/arena"
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${pathname === "/arena"
-                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                : "text-blue-100 hover:text-white hover:bg-white/10"
+              ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+              : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
           >
             <span>{TOTAL_SYSTEMS_COUNT} Systems</span>
@@ -199,8 +199,8 @@ export default function CommunityNavbar() {
             href="/hackathons"
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${pathname === "/hackathons"
-                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                : "text-blue-100 hover:text-white hover:bg-white/10"
+              ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+              : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
           >
             <span>Hackathons</span>
@@ -211,8 +211,8 @@ export default function CommunityNavbar() {
             href="/workshops"
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${pathname === "/workshops"
-                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                : "text-blue-100 hover:text-white hover:bg-white/10"
+              ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+              : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
           >
             <span>Workshops</span>
@@ -223,8 +223,8 @@ export default function CommunityNavbar() {
             href="/services"
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${pathname === "/services"
-                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                : "text-blue-100 hover:text-white hover:bg-white/10"
+              ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+              : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
           >
             <span>Services</span>
@@ -235,8 +235,8 @@ export default function CommunityNavbar() {
             href="/about"
             prefetch={false}
             className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 ${pathname === "/about"
-                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                : "text-blue-100 hover:text-white hover:bg-white/10"
+              ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+              : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
           >
             <span>About</span>
@@ -251,10 +251,10 @@ export default function CommunityNavbar() {
                 setResourcesOpen(false);
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${isInternshipActive
-                  ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                  : internshipOpen
-                    ? "bg-white/25 text-white shadow-sm font-extrabold ring-1 ring-white/30"
-                    : "text-blue-100 hover:text-white hover:bg-white/10"
+                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                : internshipOpen
+                  ? "bg-white/25 text-white shadow-sm font-extrabold ring-1 ring-white/30"
+                  : "text-blue-100 hover:text-white hover:bg-white/10"
                 }`}
             >
               <span>Internship</span>
@@ -284,8 +284,8 @@ export default function CommunityNavbar() {
                         key={item.href}
                         href={item.href}
                         className={`flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group ${itemActive
-                            ? "bg-[#1D3189] text-white shadow-sm"
-                            : "hover:bg-[#1D3189]"
+                          ? "bg-[#1D3189] text-white shadow-sm"
+                          : "hover:bg-[#1D3189]"
                           }`}
                       >
                         <div className="min-w-0 flex-1">
@@ -309,8 +309,8 @@ export default function CommunityNavbar() {
                         </div>
                         <span
                           className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${itemActive
-                              ? "bg-[#D9F83B] text-slate-950"
-                              : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950"
+                            ? "bg-[#D9F83B] text-slate-950"
+                            : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950"
                             }`}
                         >
                           <ArrowRight
@@ -336,10 +336,10 @@ export default function CommunityNavbar() {
                 setCommunityOpen(false);
               }}
               className={`px-4 py-2 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer group ${isResourcesActive
-                  ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
-                  : resourcesOpen
-                    ? "bg-white/25 text-white shadow-sm font-extrabold ring-1 ring-white/30"
-                    : "text-blue-100 hover:text-white hover:bg-white/10"
+                ? "bg-[#D9F83B] text-slate-950 shadow-sm font-extrabold"
+                : resourcesOpen
+                  ? "bg-white/25 text-white shadow-sm font-extrabold ring-1 ring-white/30"
+                  : "text-blue-100 hover:text-white hover:bg-white/10"
                 }`}
             >
               <span>Resources</span>
@@ -367,8 +367,8 @@ export default function CommunityNavbar() {
                         key={item.href}
                         href={item.href}
                         className={`flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200 group ${itemActive
-                            ? "bg-[#1D3189] text-white shadow-sm"
-                            : "hover:bg-[#1D3189]"
+                          ? "bg-[#1D3189] text-white shadow-sm"
+                          : "hover:bg-[#1D3189]"
                           }`}
                       >
                         <div className="min-w-0 flex-1">
@@ -387,8 +387,8 @@ export default function CommunityNavbar() {
                         </div>
                         <span
                           className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${itemActive
-                              ? "bg-[#D9F83B] text-slate-950"
-                              : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950"
+                            ? "bg-[#D9F83B] text-slate-950"
+                            : "bg-slate-100 group-hover:bg-[#D9F83B] text-slate-700 group-hover:text-slate-950"
                             }`}
                         >
                           <ArrowRight
@@ -545,8 +545,8 @@ export default function CommunityNavbar() {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={`group flex items-center justify-between gap-2 p-3 rounded-2xl border transition-all duration-300 ${active
-                      ? "bg-[#162774] text-white border-[#162774] shadow-md"
-                      : "bg-white text-slate-900 border-slate-200/90 hover:border-[#162774]"
+                    ? "bg-[#162774] text-white border-[#162774] shadow-md"
+                    : "bg-white text-slate-900 border-slate-200/90 hover:border-[#162774]"
                     }`}
                 >
                   <div className="flex items-center gap-2 min-w-0">
@@ -557,8 +557,8 @@ export default function CommunityNavbar() {
                   </div>
                   <span
                     className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${active
-                        ? "bg-[#D9F83B] text-slate-950"
-                        : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
+                      ? "bg-[#D9F83B] text-slate-950"
+                      : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
                       }`}
                   >
                     <ArrowRight
@@ -590,15 +590,15 @@ export default function CommunityNavbar() {
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className={`group flex items-center justify-between gap-2 px-3 py-2 rounded-xl transition-all duration-200 ${active
-                        ? "bg-[#162774] text-white"
-                        : "text-slate-800 hover:bg-slate-50"
+                      ? "bg-[#162774] text-white"
+                      : "text-slate-800 hover:bg-slate-50"
                       }`}
                   >
                     <span className="font-bold text-xs truncate">{item.name}</span>
                     <span
                       className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${active
-                          ? "bg-[#D9F83B] text-slate-950"
-                          : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
                         }`}
                     >
                       <ArrowRight
@@ -628,15 +628,15 @@ export default function CommunityNavbar() {
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className={`group flex items-center justify-between gap-2 px-3 py-2 rounded-xl transition-all duration-200 ${active
-                        ? "bg-[#162774] text-white"
-                        : "text-slate-800 hover:bg-slate-50"
+                      ? "bg-[#162774] text-white"
+                      : "text-slate-800 hover:bg-slate-50"
                       }`}
                   >
                     <span className="font-bold text-xs truncate">{item.name}</span>
                     <span
                       className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${active
-                          ? "bg-[#D9F83B] text-slate-950"
-                          : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
                         }`}
                     >
                       <ArrowRight

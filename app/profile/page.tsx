@@ -835,9 +835,9 @@ export default function StudentProfilePortal() {
             LEFT STICKY SIDEBAR + 1-CLICK ACTIVE SECTION PANEL (ZERO SCROLLING)
         ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Navigation Sidebar */}
-          <aside className="lg:col-span-3 lg:sticky lg:top-24 rounded-3xl bg-[#F4F6FB] border border-slate-200 p-4 space-y-3 shadow-sm">
-            <div className="px-2 pb-2 border-b border-slate-200/80 flex items-center justify-between">
+          {/* Left Non-Scrolling Fixed Sidebar */}
+          <aside className="lg:col-span-3 lg:sticky lg:top-24 rounded-3xl bg-[#F4F6FB] border border-slate-200 p-3.5 space-y-2 shadow-sm">
+            <div className="px-2 pb-1.5 border-b border-slate-200/80 flex items-center justify-between">
               <div>
                 <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#162774]">
                   Profile Workspace
@@ -851,7 +851,7 @@ export default function StudentProfilePortal() {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1">
               {[
                 { id: "completeness", num: "01", label: "Profile Completeness" },
                 { id: "countdown", num: "02", label: "45-Day Sprint" },
@@ -871,7 +871,7 @@ export default function StudentProfilePortal() {
                     key={nav.id}
                     type="button"
                     onClick={() => setActiveProfileSection(nav.id as any)}
-                    className={`group w-full px-3 py-2.5 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border ${isActive
+                    className={`group w-full px-3 py-2 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border ${isActive
                       ? "bg-[#162774] text-white border-[#162774] shadow-md"
                       : "bg-white hover:bg-slate-50 text-slate-800 border-slate-200/80 hover:border-[#162774]"
                       }`}
@@ -901,8 +901,8 @@ export default function StudentProfilePortal() {
             </div>
           </aside>
 
-          {/* Right Active Content Panel */}
-          <div className="lg:col-span-9 min-w-0">
+          {/* Right Active Content Panel (Independent Scroll) */}
+          <div className="lg:col-span-9 min-w-0 lg:h-[calc(100vh-7rem)] lg:overflow-y-auto lg:pr-1">
             <motion.div
               key={activeProfileSection}
               initial={{ opacity: 0, x: 16, filter: "blur(4px)" }}
