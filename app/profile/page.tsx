@@ -230,17 +230,21 @@ export default function StudentProfilePortal() {
   const [savingPrefs, setSavingPrefs] = useState(false);
   const [prefsSuccessMsg, setPrefsSuccessMsg] = useState("");
   const [serviceBookings, setServiceBookings] = useState<any[]>([]);
+  const [hackathonRegistrations, setHackathonRegistrations] = useState<any[]>([]);
+  const [workshopRegistrations, setWorkshopRegistrations] = useState<any[]>([]);
   const [activeProfileSection, setActiveProfileSection] = useState<
     "completeness" | "countdown" | "projects" | "badges" | "certificates" | "resume" | "linkedin" | "notifications" | "tour" | "activity"
   >("completeness");
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`/api/services/bookings?email=${encodeURIComponent(user.email)}`)
+      fetch(`/api/profile/activity?email=${encodeURIComponent(user.email)}`)
         .then((res) => res.json())
         .then((data) => {
-          if (data.success && Array.isArray(data.bookings)) {
-            setServiceBookings(data.bookings);
+          if (data.success) {
+            if (Array.isArray(data.serviceBookings)) setServiceBookings(data.serviceBookings);
+            if (Array.isArray(data.hackathonRegistrations)) setHackathonRegistrations(data.hackathonRegistrations);
+            if (Array.isArray(data.workshopRegistrations)) setWorkshopRegistrations(data.workshopRegistrations);
           }
         })
         .catch(() => {});
@@ -805,7 +809,7 @@ export default function StudentProfilePortal() {
                 { id: "linkedin", num: "07", label: "LinkedIn Checklist" },
                 { id: "notifications", num: "08", label: "Email Preferences" },
                 { id: "tour", num: "09", label: "Platform Tour" },
-                { id: "activity", num: "10", label: `Activity & Bookings (${serviceBookings.length + enrolledProjects.length})` },
+                { id: "activity", num: "10", label: `Activity & Bookings (${serviceBookings.length + hackathonRegistrations.length + workshopRegistrations.length + enrolledProjects.length})` },
               ].map((nav) => {
                 const isActive = activeProfileSection === nav.id;
                 return (
@@ -1913,8 +1917,110 @@ export default function StudentProfilePortal() {
                     )}
                   </div>
 
+                  {/* Hackathon Participations */}
+                  <div className="space-y-3 pt-4 border-t border-slate-100">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
+                        Hackathon Participations ({hackathonRegistrations.length})
+                      </h4>
+                      <Link href="/hackathons" className="text-xs font-extrabold text-[#162774] hover:underline">
+                        Explore Hackathons &rarr;
+                      </Link>
+                    </div>
+                    {hackathonRegistrations.length === 0 ? (
+                      <div className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-sm font-medium text-slate-600">
+                        You have not participated in any 24-hour hackathon yet.
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {hackathonRegistrations.map((h, idx) => (
+                          <div
+                            key={h.id || idx}
+                            className="p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                          >
+                            <div className="space-y-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-[11px] font-extrabold uppercase">
+                                  {h.mode || "Solo"} Hackathon
+                                </span>
+                                {h.uniqueCode && (
+                                  <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] text-[11px] font-bold">
+                                    Code: {h.uniqueCode}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-base font-extrabold text-[#162774]">
+                                {h.projectTitle || "Online Hackathon Track"}
+                              </div>
+                              <div className="text-xs font-medium text-slate-600">
+                                {h.teamName ? `Team: ${h.teamName} • ` : ""}
+                                Paid ₹{h.amountPaid || 0} &bull; {h.createdAt ? new Date(h.createdAt).toLocaleDateString() : "Active"}
+                              </div>
+                            </div>
+                            <span className="px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold self-start sm:self-center shrink-0">
+                              {h.submitted ? "Submitted" : "Registered"}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Workshop Registrations */}
+                  <div className="space-y-3 pt-4 border-t border-slate-100">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
+                        Workshop Registrations ({workshopRegistrations.length})
+                      </h4>
+                      <Link href="/workshops" className="text-xs font-extrabold text-[#162774] hover:underline">
+                        Browse Workshops &rarr;
+                      </Link>
+                    </div>
+                    {workshopRegistrations.length === 0 ? (
+                      <div className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-sm font-medium text-slate-600">
+                        You have not registered for any workshop yet.
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        {workshopRegistrations.map((w, idx) => (
+                          <div
+                            key={w.id || idx}
+                            className="p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                          >
+                            <div className="space-y-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="px-2.5 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-[11px] font-extrabold">
+                                  Workshop
+                                </span>
+                                {w.checkInCode && (
+                                  <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] text-[11px] font-bold">
+                                    Ticket: {w.checkInCode}
+                                  </span>
+                                )}
+                                {w.invoiceNumber && (
+                                  <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] text-[11px] font-bold">
+                                    {w.invoiceNumber}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-base font-extrabold text-[#162774]">
+                                {w.track || w.workshopTitle || "Botmartz Workshop"}
+                              </div>
+                              <div className="text-xs font-medium text-slate-600">
+                                {w.amount > 0 ? `Paid ₹${w.amount}` : "Free Registration"} &bull; {w.createdAt ? new Date(w.createdAt).toLocaleDateString() : "Confirmed"}
+                              </div>
+                            </div>
+                            <span className="px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold self-start sm:self-center shrink-0">
+                              {w.status || "Confirmed"}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   {/* Enrolled Projects Summary */}
-                  <div className="space-y-3 pt-2 border-t border-slate-100">
+                  <div className="space-y-3 pt-4 border-t border-slate-100">
                     <h4 className="text-xs font-extrabold uppercase tracking-wider text-[#162774]">
                       Enrolled Arena Systems ({enrolledProjects.length})
                     </h4>
