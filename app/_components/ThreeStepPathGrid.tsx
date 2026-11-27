@@ -65,18 +65,18 @@ export default function ThreeStepPathGrid({ totalSystemsCount }: { totalSystemsC
         </span>
 
         <div className="relative z-10">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-800 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-slate-100 text-slate-900 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-xs font-extrabold uppercase tracking-wider mb-5 transition-colors">
             Step 01
           </div>
-          <h3 className="text-xl font-bold text-slate-950 mb-2.5 font-sans">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 tracking-tight mb-3 font-sans">
             Pick a Track &amp; Warmup PRD
           </h3>
-          <p className="text-slate-600 text-sm font-sans leading-relaxed">
+          <p className="text-slate-700 text-sm sm:text-[15px] font-medium font-sans leading-relaxed">
             Select from {totalSystemsCount} projects (AI Agents, Defence, RAG, Embedded Edge, High-Frequency Telemetry) or follow our 6 Role Roadmaps.
           </p>
         </div>
 
-        <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
+        <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-extrabold">
           <span>Browse {totalSystemsCount} Projects Matrix</span>
           <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
@@ -101,18 +101,18 @@ export default function ThreeStepPathGrid({ totalSystemsCount }: { totalSystemsC
         </span>
 
         <div className="relative z-10">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-800 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-slate-100 text-slate-900 group-hover:bg-[#1D3189] group-hover:text-white font-sans text-xs font-extrabold uppercase tracking-wider mb-5 transition-colors">
             Step 02
           </div>
-          <h3 className="text-xl font-bold text-slate-950 mb-2.5 font-sans">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 tracking-tight mb-3 font-sans">
             Conquer the &quot;Insane&quot; Project
           </h3>
-          <p className="text-slate-600 text-sm font-sans leading-relaxed">
+          <p className="text-slate-700 text-sm sm:text-[15px] font-medium font-sans leading-relaxed">
             Build one of the high-difficulty systems (Satellite AI, 3D MRI, Rust Order Book, LangGraph Swarm) and pass automated SLA benchmarks with daily GitHub commit logs.
           </p>
         </div>
 
-        <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-bold">
+        <div className="relative z-10 pt-5 mt-7 border-t border-slate-100 flex items-center justify-between text-[#1D3189] font-sans text-sm font-extrabold">
           <span>Daily Proof-of-Work Log</span>
           <span className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-300">
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
@@ -137,18 +137,18 @@ export default function ThreeStepPathGrid({ totalSystemsCount }: { totalSystemsC
         </span>
 
         <div className="relative z-10">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-bold uppercase tracking-wider mb-5">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold uppercase tracking-wider mb-5">
             Step 03
           </div>
-          <h3 className="text-xl font-bold text-white mb-2.5 font-sans">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight mb-3 font-sans">
             Founder Recommendation &amp; Referral
           </h3>
-          <p className="text-blue-100/85 text-sm font-sans leading-relaxed">
+          <p className="text-white/90 text-sm sm:text-[15px] font-medium font-sans leading-relaxed">
             Pass strict code review on your Insane Project to unlock a personalized recommendation from Founder Soham Sharma and direct job referral assistance to 15 partner companies.
           </p>
         </div>
 
-        <div className="relative z-10 pt-5 mt-7 border-t border-white/15 flex items-center justify-between text-[#D9F83B] font-sans text-sm font-bold">
+        <div className="relative z-10 pt-5 mt-7 border-t border-white/15 flex items-center justify-between text-[#D9F83B] font-sans text-sm font-extrabold">
           <span>View Plans (Free / ₹299 / ₹1,999)</span>
           <span className="w-8 h-8 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center group-hover:scale-105 transition-all duration-300">
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />

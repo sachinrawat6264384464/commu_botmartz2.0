@@ -63,13 +63,13 @@ export default function WeeklyRitualsBento() {
         <div className="absolute inset-0 bg-white translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out pointer-events-none z-[1]" />
 
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] group-hover:bg-[#1D3189] text-slate-950 group-hover:text-[#D9F83B] text-[11px] font-bold uppercase tracking-wider mb-5 transition-colors duration-500">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D9F83B] group-hover:bg-[#1D3189] text-slate-950 group-hover:text-[#D9F83B] text-xs font-extrabold uppercase tracking-wider mb-5 transition-colors duration-500">
             Saturday &bull; 5:00 PM – 7:00 PM IST
           </div>
           <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug mb-3 text-white group-hover:text-slate-950 transition-colors duration-500">
             Indore AI Hub &amp; Live Architecture Teardowns
           </h3>
-          <p className="text-blue-100/85 group-hover:text-slate-600 text-sm leading-relaxed mb-6 transition-colors duration-500">
+          <p className="text-white/90 group-hover:text-slate-700 text-sm sm:text-[15px] font-medium leading-relaxed mb-6 transition-colors duration-500">
             In-person meetups at the Indore AI Hub unlock whenever 50+ builders RSVP (or join live online) for 1-on-1 architecture audits and bug fixes with Founder Soham Sharma.
           </p>
         </div>
@@ -79,7 +79,7 @@ export default function WeeklyRitualsBento() {
             <div className="text-lg sm:text-xl font-black text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-500">
               50+
             </div>
-            <div className="text-[11px] text-blue-100/80 group-hover:text-slate-600 transition-colors duration-500">
+            <div className="text-xs font-bold text-white/90 group-hover:text-slate-700 transition-colors duration-500">
               RSVP Trigger
             </div>
           </div>
@@ -87,7 +87,7 @@ export default function WeeklyRitualsBento() {
             <div className="text-lg sm:text-xl font-black text-white group-hover:text-slate-950 transition-colors duration-500">
               1-on-1
             </div>
-            <div className="text-[11px] text-blue-100/80 group-hover:text-slate-600 transition-colors duration-500">
+            <div className="text-xs font-bold text-white/90 group-hover:text-slate-700 transition-colors duration-500">
               Code Audits
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function WeeklyRitualsBento() {
             <div className="text-lg sm:text-xl font-black text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-500">
               15+
             </div>
-            <div className="text-[11px] text-blue-100/80 group-hover:text-slate-600 transition-colors duration-500">
+            <div className="text-xs font-bold text-white/90 group-hover:text-slate-700 transition-colors duration-500">
               Hiring Partners
             </div>
           </div>
@@ -116,13 +116,13 @@ export default function WeeklyRitualsBento() {
           className="group p-6 sm:p-7 rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         >
           <div className="space-y-2 max-w-xl">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-[11px] font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-xs font-extrabold uppercase tracking-wider">
               Wednesday &bull; 6:00 PM IST &bull; Career
             </div>
-            <h3 className="text-xl font-bold text-slate-950 group-hover:text-[#1D3189] transition-colors">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 tracking-tight group-hover:text-[#1D3189] transition-colors">
               Resume Teardown &amp; LinkedIn Profile Audit
             </h3>
-            <p className="text-slate-600 text-sm leading-relaxed">
+            <p className="text-slate-700 text-sm sm:text-[15px] font-medium leading-relaxed">
               ATS optimization, GitHub proof-of-work pinned carousels, and direct HR cold-pitch templates reviewed live.
             </p>
           </div>
@@ -138,17 +138,17 @@ export default function WeeklyRitualsBento() {
             className="group overflow-hidden rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
           >
             <div className="p-6 pb-4">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-[11px] font-bold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#1D3189]/10 text-[#1D3189] text-xs font-extrabold uppercase tracking-wider mb-3">
                 Thursday &bull; 7:00 PM IST
               </div>
-              <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-1.5">
+              <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 tracking-tight group-hover:text-[#1D3189] transition-colors mb-2">
                 Showcase Thursdays
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
+              <p className="text-slate-700 text-sm font-medium leading-relaxed">
                 Demo live working systems to peers and invited engineering leads.
               </p>
             </div>
-            <div className="relative overflow-hidden px-6 py-4 mt-2 border-t border-slate-200/70 group-hover:border-[#1D3189] flex items-center justify-between text-xs font-bold text-[#1D3189] group-hover:text-white transition-colors duration-500">
+            <div className="relative overflow-hidden px-6 py-4 mt-2 border-t border-slate-200/70 group-hover:border-[#1D3189] flex items-center justify-between text-xs sm:text-sm font-extrabold text-[#1D3189] group-hover:text-white transition-colors duration-500">
               {/* Slow-Motion Sliding Indigo Fill Layer */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#1D3189] to-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out pointer-events-none" />
               <span className="relative z-10">Explore Showcases</span>
@@ -163,17 +163,17 @@ export default function WeeklyRitualsBento() {
             className="group overflow-hidden rounded-3xl bg-slate-50 hover:bg-white border border-slate-200/90 hover:border-[#1D3189]/40 hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
           >
             <div className="p-6 pb-4">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-bold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-extrabold uppercase tracking-wider mb-3">
                 Daily &bull; Proof of Work
               </div>
-              <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1D3189] transition-colors mb-1.5">
+              <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 tracking-tight group-hover:text-[#1D3189] transition-colors mb-2">
                 Daily Commits &amp; Karma
               </h3>
-              <p className="text-slate-600 text-sm leading-relaxed">
+              <p className="text-slate-700 text-sm font-medium leading-relaxed">
                 Log daily progress, clear technical bounties, and climb the builder leaderboard.
               </p>
             </div>
-            <div className="relative overflow-hidden px-6 py-4 mt-2 border-t border-slate-200/70 group-hover:border-[#1D3189] flex items-center justify-between text-xs font-bold text-[#1D3189] group-hover:text-white transition-colors duration-500">
+            <div className="relative overflow-hidden px-6 py-4 mt-2 border-t border-slate-200/70 group-hover:border-[#1D3189] flex items-center justify-between text-xs sm:text-sm font-extrabold text-[#1D3189] group-hover:text-white transition-colors duration-500">
               {/* Slow-Motion Sliding Indigo Fill Layer */}
               <div className="absolute inset-0 bg-gradient-to-r from-[#1D3189] to-[#070E54] -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out pointer-events-none" />
               <span className="relative z-10">Submit Daily Log</span>

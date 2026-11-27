@@ -162,7 +162,7 @@ export default function FeaturedSystemsGrid({
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span
-                    className={`px-3 py-0.5 rounded-full font-bold text-[11px] transition-colors duration-300 ${
+                    className={`px-3.5 py-1 rounded-full font-extrabold text-xs transition-colors duration-300 ${
                       idx === 1
                         ? "bg-[#1D3189]/10 text-[#1D3189]"
                         : activeSideByMiddle
@@ -173,12 +173,12 @@ export default function FeaturedSystemsGrid({
                     {p.difficulty}
                   </span>
                   <span
-                    className={`text-xs font-medium transition-colors duration-300 ${
+                    className={`text-xs font-bold transition-colors duration-300 ${
                       idx === 1
-                        ? "text-slate-500"
+                        ? "text-slate-600"
                         : activeSideByMiddle
-                        ? "text-blue-200"
-                        : "text-slate-500 group-hover:text-blue-200"
+                        ? "text-white/85"
+                        : "text-slate-600 group-hover:text-white/85"
                     }`}
                   >
                     {p.durationDays} Days Cohort
@@ -186,7 +186,7 @@ export default function FeaturedSystemsGrid({
                 </div>
 
                 <h3
-                  className={`text-base sm:text-lg font-bold font-sans mb-1.5 transition-colors duration-300 ${
+                  className={`text-lg sm:text-xl font-extrabold tracking-tight font-sans mb-2 transition-colors duration-300 ${
                     idx === 1
                       ? "text-slate-950"
                       : activeSideByMiddle
@@ -197,28 +197,28 @@ export default function FeaturedSystemsGrid({
                   {p.title}
                 </h3>
                 <p
-                  className={`text-xs sm:text-sm font-sans line-clamp-2 mb-4 leading-relaxed transition-colors duration-300 ${
+                  className={`text-sm font-medium font-sans line-clamp-2 mb-4 leading-relaxed transition-colors duration-300 ${
                     idx === 1
-                      ? "text-slate-600"
+                      ? "text-slate-700"
                       : activeSideByMiddle
-                      ? "text-blue-100/85"
-                      : "text-slate-600 group-hover:text-blue-100/85"
+                      ? "text-white/90"
+                      : "text-slate-700 group-hover:text-white/90"
                   }`}
                 >
                   {p.overview}
                 </p>
 
                 <div
-                  className={`p-3 rounded-xl border text-xs mb-4 transition-colors duration-300 ${
+                  className={`p-3.5 rounded-xl border text-xs sm:text-sm font-medium mb-4 transition-colors duration-300 ${
                     idx === 1
                       ? "bg-slate-50 border-slate-200/80 text-slate-700"
                       : activeSideByMiddle
-                      ? "bg-white/10 border-white/15 text-blue-100"
-                      : "bg-slate-50 border-slate-200/80 text-slate-700 group-hover:bg-white/10 group-hover:border-white/15 group-hover:text-blue-100"
+                      ? "bg-white/10 border-white/15 text-white/95"
+                      : "bg-slate-50 border-slate-200/80 text-slate-700 group-hover:bg-white/10 group-hover:border-white/15 group-hover:text-white/95"
                   }`}
                 >
                   <span
-                    className={`font-bold transition-colors duration-300 ${
+                    className={`font-extrabold transition-colors duration-300 ${
                       idx === 1
                         ? "text-[#1D3189]"
                         : activeSideByMiddle
@@ -245,12 +245,12 @@ export default function FeaturedSystemsGrid({
                   {p.techStack.slice(0, 2).map((t, ti) => (
                     <span
                       key={ti}
-                      className={`text-[11px] px-2.5 py-1 rounded-md font-medium transition-colors duration-300 ${
+                      className={`text-xs px-2.5 py-1 rounded-md font-bold transition-colors duration-300 ${
                         idx === 1
-                          ? "text-slate-700 bg-slate-100"
+                          ? "text-slate-800 bg-slate-100"
                           : activeSideByMiddle
-                          ? "text-blue-100 bg-white/10"
-                          : "text-slate-700 bg-slate-100 group-hover:text-blue-100 group-hover:bg-white/10"
+                          ? "text-white bg-white/15"
+                          : "text-slate-800 bg-slate-100 group-hover:text-white group-hover:bg-white/15"
                       }`}
                     >
                       #{t}
@@ -260,7 +260,7 @@ export default function FeaturedSystemsGrid({
 
                 <Link
                   href={`/arena/${p.id}`}
-                  className={`px-4 py-2 rounded-full font-bold text-xs flex items-center gap-1.5 transition-all duration-300 ${
+                  className={`px-4 py-2 rounded-full font-extrabold text-xs sm:text-sm flex items-center gap-1.5 transition-all duration-300 ${
                     idx === 1
                       ? "bg-[#1D3189] text-white group-hover:bg-slate-950"
                       : activeSideByMiddle
