@@ -587,48 +587,58 @@ export default function StudentWalletPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* Redeemable Perks Matrix */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col justify-between">
+          <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 shadow-sm flex flex-col justify-between font-sans">
             <div>
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between gap-4 mb-6">
                 <div>
-                  <div className="text-xs font-mono font-bold text-purple-700 uppercase mb-1">
+                  <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2">
                     Store &amp; Privileges
-                  </div>
-                  <h2 className="text-xl font-bold text-slate-900 font-sans">
+                  </span>
+                  <h2 className="text-2xl font-extrabold text-[#162774] tracking-tight">
                     Redeemable Perks &amp; Grants
                   </h2>
                 </div>
-                <span className="text-xs font-mono text-slate-500">{REDEEMABLE_PERKS.length} Perks Active</span>
+                <span className="px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold shrink-0">
+                  {REDEEMABLE_PERKS.length} Perks Active
+                </span>
               </div>
 
-              <div className="space-y-3 font-mono text-xs">
+              <div className="space-y-3.5">
                 {REDEEMABLE_PERKS.map((perk) => {
                   const canAfford = currentCoins >= perk.cost;
                   return (
                     <div
                       key={perk.id}
-                      className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-slate-300 transition-all"
+                      className="p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#162774] transition-all"
                     >
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-bold text-slate-900 font-sans text-sm">{perk.title}</span>
-                          <span className="px-2 py-0.5 rounded-md bg-purple-100 text-purple-700 font-bold text-[9px]">
+                      <div className="space-y-1.5">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-extrabold text-[#162774] text-base tracking-tight">{perk.title}</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-white border border-slate-200 text-[#162774] font-bold text-[11px]">
                             {perk.badge}
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 font-mono leading-relaxed">{perk.desc}</p>
+                        <p className="text-sm font-medium text-slate-600 leading-relaxed">{perk.desc}</p>
                       </div>
 
                       <button
                         onClick={() => setSelectedPerk(perk)}
-                        className={`px-4 py-2 rounded-xl font-bold transition-all cursor-pointer shrink-0 text-center flex items-center justify-center gap-1.5 ${
+                        className={`group pl-4 pr-2 py-2 rounded-full font-extrabold text-xs sm:text-sm transition-all cursor-pointer shrink-0 inline-flex items-center justify-center gap-2.5 shadow-xs ${
                           canAfford
-                            ? "bg-slate-900 hover:bg-slate-800 text-white shadow-xs"
-                            : "bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200"
+                            ? "bg-[#162774] hover:bg-[#0d1952] text-[#D9F83B]"
+                            : "bg-white hover:bg-[#162774] text-[#162774] hover:text-white border border-slate-200 hover:border-[#162774]"
                         }`}
                       >
                         <span>Redeem {perk.cost} Coins</span>
-                        <ArrowRight size={12} />
+                        <span
+                          className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors ${
+                            canAfford
+                              ? "bg-[#D9F83B] text-[#162774]"
+                              : "bg-[#162774] group-hover:bg-[#D9F83B] text-[#D9F83B] group-hover:text-[#162774]"
+                          }`}
+                        >
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                        </span>
                       </button>
                     </div>
                   );
@@ -638,46 +648,44 @@ export default function StudentWalletPage() {
           </div>
 
           {/* How to Earn Coins Matrix */}
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs">
-            <div className="flex items-center justify-between mb-4">
+          <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 shadow-sm font-sans">
+            <div className="flex items-center justify-between gap-4 mb-6">
               <div>
-                <div className="text-xs font-mono font-bold text-emerald-700 uppercase mb-1">
+                <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2">
                   Earning Mechanics
-                </div>
-                <h2 className="text-xl font-bold text-slate-900 font-sans">
+                </span>
+                <h2 className="text-2xl font-extrabold text-[#162774] tracking-tight">
                   How to Earn Karma Coins
                 </h2>
               </div>
-              <span className="text-xs font-mono text-slate-500">6 Verified Routes</span>
+              <span className="px-3 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold shrink-0">
+                6 Verified Routes
+              </span>
             </div>
 
-            <div className="space-y-3 font-mono text-xs">
-              {EARN_CHANNELS.map((ch, idx) => {
-                const IconComponent = ch.icon;
-                return (
-                  <Link
-                    key={idx}
-                    href={ch.href}
-                    className="p-4 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-300 hover:bg-emerald-50/30 transition-all flex items-center justify-between gap-3 group cursor-pointer"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white transition-colors flex items-center justify-center shrink-0">
-                        <IconComponent size={16} />
-                      </div>
-                      <div>
-                        <div className="font-bold text-slate-900 group-hover:text-emerald-800 transition-colors flex items-center gap-1.5">
-                          <span>{ch.title}</span>
-                          <ArrowRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity text-emerald-600" />
-                        </div>
-                        <div className="text-[11px] text-slate-500 font-sans">{ch.desc}</div>
-                      </div>
-                    </div>
-                    <span className="px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 font-bold border border-emerald-200 shrink-0">
-                      {ch.reward}
+            <div className="space-y-3.5">
+              {EARN_CHANNELS.map((ch, idx) => (
+                <Link
+                  key={idx}
+                  href={ch.href}
+                  className="p-4 sm:p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 hover:border-[#162774] hover:bg-white transition-all flex items-center justify-between gap-4 group cursor-pointer"
+                >
+                  <div className="flex items-start gap-3.5 min-w-0">
+                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-[#162774] transition-colors flex items-center justify-center shrink-0 text-xs font-extrabold mt-0.5">
+                      0{idx + 1}
                     </span>
-                  </Link>
-                );
-              })}
+                    <div className="min-w-0">
+                      <div className="font-extrabold text-[#162774] text-base tracking-tight flex items-center gap-2">
+                        <span>{ch.title}</span>
+                      </div>
+                      <div className="text-sm font-medium text-slate-600 mt-0.5 leading-relaxed">{ch.desc}</div>
+                    </div>
+                  </div>
+                  <span className="px-3.5 py-1.5 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold shrink-0">
+                    {ch.reward}
+                  </span>
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -686,11 +694,15 @@ export default function StudentWalletPage() {
         {/* =========================================================================
             TRANSACTION HISTORY FEED
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-mono text-xs">
-          <h2 className="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <History size={16} className="text-slate-500" />
-            <span>Recent Karma Activity ({transactions.length})</span>
-          </h2>
+        <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 shadow-sm font-sans">
+          <div className="flex items-center justify-between gap-4 mb-5">
+            <h2 className="text-xl font-extrabold text-[#162774] tracking-tight">
+              Recent Karma Activity ({transactions.length})
+            </h2>
+            <span className="px-3 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold">
+              Verified Ledger
+            </span>
+          </div>
 
           <div className="space-y-2.5">
             {transactions.map((tx, idx) => (

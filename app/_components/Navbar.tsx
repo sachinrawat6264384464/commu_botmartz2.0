@@ -114,7 +114,6 @@ export default function CommunityNavbar() {
 
   const RESOURCE_ITEMS = [
     { name: "Platform Guide & Tour", href: "/product-tour", icon: BookOpen, desc: "Explore all 14 community engineering tools", locked: false, requiresAuth: false },
-    { name: "Botmartz Karma Wallet", href: "/arena/wallet", icon: Coins, desc: "Redeem perks, compute grants & tip peers", locked: false, requiresAuth: true },
     { name: "Verified Certificates", href: "/certificates", icon: ShieldCheck, desc: "Cryptographically verifiable credentials", locked: false, requiresAuth: false },
     { name: "Magazine & Research", href: "/magazine", icon: Presentation, desc: "Deep engineering teardowns & whitepapers", locked: false, requiresAuth: false }
   ];
@@ -128,7 +127,6 @@ export default function CommunityNavbar() {
 
   const isResourcesActive =
     pathname.startsWith("/product-tour") ||
-    pathname.startsWith("/arena/wallet") ||
     pathname.startsWith("/certificates") ||
     pathname.startsWith("/magazine");
 

@@ -850,6 +850,21 @@ export default function StudentProfilePortal() {
                   </button>
                 );
               })}
+
+              <Link
+                href="/arena/wallet"
+                className="group w-full px-3 py-2.5 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border bg-[#D9F83B]/20 hover:bg-[#162774] text-[#162774] hover:text-white border-[#162774]/25 hover:border-[#162774]"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="w-6 h-6 rounded-full text-[10px] font-extrabold flex items-center justify-center shrink-0 bg-[#162774] text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-[#162774]">
+                    11
+                  </span>
+                  <span className="text-xs font-extrabold truncate">Karma Wallet ({coins})</span>
+                </div>
+                <span className="w-5 h-5 rounded-full hidden sm:flex items-center justify-center shrink-0 transition-transform duration-300 bg-[#162774] text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-[#162774] group-hover:rotate-[60deg]">
+                  <ArrowRight size={10} />
+                </span>
+              </Link>
             </div>
           </aside>
 
