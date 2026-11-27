@@ -273,17 +273,13 @@ export default async function CommunityHomePage() {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center font-sans">
             {/* Left Copy */}
             <div className="lg:col-span-7 text-left space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-bold uppercase tracking-wider shadow-sm">
-                <ShieldCheck size={14} /> 100% Free &amp; Zero-Spam Verification
-              </div>
-
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.1]">
                 Ready to Build in the Internship Playground?
               </h2>
 
               <p className="text-blue-100/85 text-sm sm:text-base max-w-2xl leading-relaxed">
                 Create your verified student profile with Google or Phone OTP. Claim your{" "}
-                <strong className="text-[#D9F83B]">100 Welcome Karma Coins</strong> and start shipping production systems today.
+                <strong className="text-white">100 Welcome Karma Coins</strong> and start shipping production systems today.
               </p>
             </div>
 
@@ -322,19 +318,19 @@ export default async function CommunityHomePage() {
 
               <div className="flex flex-wrap items-center gap-4 text-xs text-blue-100 pt-2">
                 <span className="inline-flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center">
+                  <span className="w-4 h-4 rounded-full bg-white text-[#162774] inline-flex items-center justify-center">
                     <Check size={11} strokeWidth={3} />
                   </span>
                   <span>100 Welcome Coins</span>
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center">
+                  <span className="w-4 h-4 rounded-full bg-white text-[#162774] inline-flex items-center justify-center">
                     <Check size={11} strokeWidth={3} />
                   </span>
                   <span>Instant Repo Access</span>
                 </span>
                 <span className="inline-flex items-center gap-2">
-                  <span className="w-4 h-4 rounded-full bg-[#D9F83B] text-slate-950 inline-flex items-center justify-center">
+                  <span className="w-4 h-4 rounded-full bg-white text-[#162774] inline-flex items-center justify-center">
                     <Check size={11} strokeWidth={3} />
                   </span>
                   <span>QR Verified Pass</span>
