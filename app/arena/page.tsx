@@ -589,7 +589,7 @@ export default function ArenaPage() {
                             : project.difficulty === "Insane"
                               ? "bg-rose-600 text-white border-rose-500"
                               : project.difficulty === "Hard"
-                                ? "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
+                                ? "bg-[#162774] text-white border-[#162774]"
                                 : project.difficulty === "Intermediate"
                                   ? "bg-white text-[#162774] border-white"
                                   : project.difficulty === "Easy"
@@ -608,7 +608,7 @@ export default function ArenaPage() {
                       <h3 className="text-base sm:text-[17px] font-extrabold text-slate-950 font-sans group-hover:text-[#162774] transition-colors duration-300 line-clamp-2 leading-snug">
                         {project.title}
                       </h3>
-                      <span className="w-6 h-6 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center shrink-0 transition-all duration-500 group-hover:rotate-45 mt-0.5">
+                      <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center shrink-0 transition-all duration-500 group-hover:rotate-45 mt-0.5">
                         <ArrowRight size={11} />
                       </span>
                     </div>
@@ -672,7 +672,7 @@ export default function ArenaPage() {
                     ) : (
                       <button
                         onClick={() => handleEnrollClick(project)}
-                        className="relative z-10 flex-1 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-center transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
+                        className="relative z-10 flex-1 py-2.5 rounded-xl bg-[#162774] group-hover:bg-white text-white group-hover:text-[#162774] font-extrabold text-center transition-all duration-300 shadow-sm flex items-center justify-center cursor-pointer"
                       >
                         <span>Enroll</span>
                       </button>
