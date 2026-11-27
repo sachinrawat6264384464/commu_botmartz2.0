@@ -26,7 +26,7 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
             className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10"
           >
             <div>
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-white/15 border border-white/20 text-white font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
                 The Crucial Milestone
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
@@ -39,10 +39,10 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
 
             <Link
               href="/arena"
-              className="px-6 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all duration-300 shrink-0 flex items-center gap-2.5 group"
+              className="px-6 py-3 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-sans text-xs font-bold transition-all duration-300 shrink-0 flex items-center gap-2.5 group"
             >
               <span>Explore All {TOTAL_SYSTEMS_COUNT} PRDs</span>
-              <span className="w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 ease-out group-hover:rotate-[60deg]">
+              <span className="w-7 h-7 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-500 ease-out group-hover:rotate-[60deg]">
                 <ArrowRight size={13} />
               </span>
             </Link>
@@ -66,11 +66,11 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
                   whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ duration: 0.65, delay: (idx % 3) * 0.1, ease: "easeOut" }}
-                  className="relative overflow-hidden rounded-3xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#D9F83B] flex flex-col justify-between shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
+                  className="relative overflow-hidden rounded-3xl bg-white text-slate-950 border border-slate-200 border-l-4 border-l-[#162774] flex flex-col justify-between shadow-lg hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-500 group"
                 >
                   <div className="p-6 pb-4">
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="px-2.5 py-0.5 rounded-full bg-[#070E54] text-[#D9F83B] font-bold text-[10px] uppercase">
+                      <span className="px-2.5 py-0.5 rounded-full bg-[#070E54] text-white font-bold text-[10px] uppercase">
                         {p.difficulty}
                       </span>
                       <span className="text-[11px] text-slate-500 font-semibold">{p.durationDays} Days Sprint</span>
@@ -104,7 +104,7 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
                       {p.techStack.slice(0, 2).map((t, ti) => (
                         <span
                           key={ti}
-                          className="text-[10px] text-slate-700 bg-slate-100 border border-slate-200 group-hover:bg-white/15 group-hover:text-[#D9F83B] group-hover:border-white/20 px-2.5 py-1 rounded-lg font-semibold transition-all duration-500"
+                          className="text-[10px] text-slate-700 bg-slate-100 border border-slate-200 group-hover:bg-white/15 group-hover:text-white group-hover:border-white/20 px-2.5 py-1 rounded-lg font-semibold transition-all duration-500"
                         >
                           {t}
                         </span>
@@ -113,10 +113,10 @@ export function InsaneMatrixClient({ insaneProjects }: { insaneProjects: ArenaPr
 
                     <Link
                       href={`/arena/${p.slug || p.id}`}
-                      className="relative z-10 px-3.5 py-2 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all duration-300 flex items-center gap-2 group/btn shrink-0"
+                      className="relative z-10 px-3.5 py-2 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-bold text-xs transition-all duration-300 flex items-center gap-2 group/btn shrink-0"
                     >
                       <span>View PRD</span>
-                      <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 ease-out group-hover/btn:rotate-[60deg]">
+                      <span className="w-6 h-6 rounded-full bg-white text-[#162774] flex items-center justify-center transition-transform duration-500 ease-out group-hover/btn:rotate-[60deg]">
                         <ArrowRight size={11} />
                       </span>
                     </Link>
@@ -165,7 +165,7 @@ export function FounderAuditPolicyClient() {
             backgroundSize: "56px 56px",
           }}
         >
-          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-white/15 border border-white/20 text-white font-sans text-[11px] font-extrabold uppercase tracking-wider mb-4">
             Strict Meritocracy Policy
           </div>
 
@@ -195,14 +195,14 @@ export function FounderAuditPolicyClient() {
                 />
 
                 <div className="relative z-10 flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-full bg-[#D9F83B] group-hover:bg-[#070E54] text-slate-950 group-hover:text-[#D9F83B] font-extrabold flex items-center justify-center shrink-0 transition-colors duration-500">
+                  <span className="w-6 h-6 rounded-full bg-white group-hover:bg-[#070E54] text-[#162774] group-hover:text-white font-extrabold flex items-center justify-center shrink-0 transition-colors duration-500">
                     {gate.num}
                   </span>
                   <div className="text-blue-100/90 group-hover:text-slate-700 transition-colors duration-500">
                     <strong className="text-white group-hover:text-slate-950 transition-colors duration-500">{gate.title}</strong> {gate.desc}
                   </div>
                 </div>
-                <span className="relative z-10 w-7 h-7 rounded-full bg-white/10 group-hover:bg-[#070E54] text-[#D9F83B] flex items-center justify-center shrink-0 transition-all duration-500 ease-out group-hover:rotate-[60deg]">
+                <span className="relative z-10 w-7 h-7 rounded-full bg-white/10 group-hover:bg-[#070E54] text-white flex items-center justify-center shrink-0 transition-all duration-500 ease-out group-hover:rotate-[60deg]">
                   <ArrowRight size={13} />
                 </span>
               </motion.div>
@@ -215,10 +215,10 @@ export function FounderAuditPolicyClient() {
             </span>
             <Link
               href="/arena"
-              className="px-5 py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-xs font-bold transition-all flex items-center gap-2.5 group"
+              className="px-5 py-2.5 rounded-xl bg-white hover:bg-blue-50 text-[#162774] font-sans text-xs font-bold transition-all flex items-center gap-2.5 group"
             >
               <span>Pick an Insane Project</span>
-              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 ease-out group-hover:rotate-[60deg]">
+              <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-500 ease-out group-hover:rotate-[60deg]">
                 <ArrowRight size={12} />
               </span>
             </Link>

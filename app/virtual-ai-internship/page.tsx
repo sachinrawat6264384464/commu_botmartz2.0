@@ -153,7 +153,7 @@ export default function VirtualAIInternshipPage() {
             {/* LEFT COLUMN: HEADLINE & ACTIONS */}
             <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
 
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-xs font-extrabold uppercase tracking-wider shadow-xs">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#162774] text-white font-sans text-xs font-extrabold uppercase tracking-wider shadow-xs">
                 <span>Virtual AI Engineering Fellowship</span>
               </div>
 
@@ -200,39 +200,39 @@ export default function VirtualAIInternshipPage() {
                 {/* Header bar (No colored dots) */}
                 <div className="flex items-center justify-between border-b border-white/15 pb-4 mb-5">
                   <div>
-                    <div className="text-[10px] font-extrabold uppercase tracking-widest text-[#D9F83B]">
+                    <div className="text-[10px] font-extrabold uppercase tracking-widest text-blue-200">
                       Architecture &amp; SLA Telemetry
                     </div>
                     <div className="text-sm font-extrabold text-white mt-0.5">
                       Production Proof-of-Work Engine
                     </div>
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider shrink-0">
+                  <span className="px-3 py-1 rounded-full bg-white text-[#162774] text-[10px] font-extrabold uppercase tracking-wider shrink-0">
                     Live Runner
                   </span>
                 </div>
 
                 {/* 2-Column Benchmark Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 text-xs">
-                  <div className="p-3.5 rounded-2xl bg-white/[0.07] border border-white/15 border-l-4 border-l-[#D9F83B] space-y-1.5 hover:bg-white/[0.12] transition-all duration-300">
+                  <div className="p-3.5 rounded-2xl bg-white/[0.07] border border-white/15 border-l-4 border-l-white space-y-1.5 hover:bg-white/[0.12] transition-all duration-300">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-[10px] font-bold uppercase text-blue-200/80">01 • Agents</span>
-                      <span className="text-[#D9F83B] font-extrabold text-[10px]">SLA PASS</span>
+                      <span className="text-white font-extrabold text-[10px]">SLA PASS</span>
                     </div>
                     <div className="font-bold text-white text-xs leading-snug">LangGraph Checkpointer</div>
                     <div className="text-[11px] text-blue-200/80 pt-1 border-t border-white/10">
-                      p95: <strong className="text-white">42ms</strong> &bull; Leak: <strong className="text-[#D9F83B]">0 KB</strong>
+                      p95: <strong className="text-white">42ms</strong> &bull; Leak: <strong className="text-white">0 KB</strong>
                     </div>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-white/[0.07] border border-white/15 border-l-4 border-l-[#D9F83B] space-y-1.5 hover:bg-white/[0.12] transition-all duration-300">
+                  <div className="p-3.5 rounded-2xl bg-white/[0.07] border border-white/15 border-l-4 border-l-white space-y-1.5 hover:bg-white/[0.12] transition-all duration-300">
                     <div className="flex items-center justify-between gap-2">
                       <span className="text-[10px] font-bold uppercase text-blue-200/80">02 • Retrieval</span>
-                      <span className="text-[#D9F83B] font-extrabold text-[10px]">SLA PASS</span>
+                      <span className="text-white font-extrabold text-[10px]">SLA PASS</span>
                     </div>
                     <div className="font-bold text-white text-xs leading-snug">Qdrant Hybrid BM25 RAG</div>
                     <div className="text-[11px] text-blue-200/80 pt-1 border-t border-white/10">
-                      P@5: <strong className="text-white">96.4%</strong> &bull; RAGAS: <strong className="text-[#D9F83B]">0.94</strong>
+                      P@5: <strong className="text-white">96.4%</strong> &bull; RAGAS: <strong className="text-white">0.94</strong>
                     </div>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ export default function VirtualAIInternshipPage() {
                 <div className="p-4 rounded-2xl bg-white/[0.07] border border-white/15 space-y-3 mb-4 text-xs">
                   <div className="flex items-center justify-between text-xs text-blue-100 font-bold">
                     <span>4-Week Proof-of-Work Streak</span>
-                    <span className="text-[#D9F83B] font-extrabold">100% VERIFIED</span>
+                    <span className="text-white font-extrabold">100% VERIFIED</span>
                   </div>
 
                   <div className="grid grid-cols-9 gap-1.5">
@@ -249,9 +249,9 @@ export default function VirtualAIInternshipPage() {
                       <div
                         key={i}
                         className={`h-3.5 rounded-md transition-all ${i % 4 === 0
-                          ? "bg-[#D9F83B]"
+                          ? "bg-white"
                           : i % 3 === 0
-                            ? "bg-[#D9F83B]/70"
+                            ? "bg-blue-300"
                             : i % 2 === 0
                               ? "bg-emerald-400"
                               : "bg-white/20"

@@ -14,7 +14,7 @@ export default function InternshipJourneyClient() {
       desc: (
         <>
           Select an enrolled project from the {TOTAL_SYSTEMS_COUNT} PRD blueprints. Read the schema requirements, initialize your repository, and log daily commits on{" "}
-          <Link href="/arena/daily-log" className="text-[#D9F83B] group-hover:text-[#1D3189] underline font-bold transition-colors duration-500">
+          <Link href="/arena/daily-log" className="text-white group-hover:text-[#1D3189] underline font-bold transition-colors duration-500">
             /arena/daily-log
           </Link>
           .
@@ -51,7 +51,7 @@ export default function InternshipJourneyClient() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-center max-w-3xl mx-auto mb-14"
           >
-            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
+            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#162774] text-white font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
               The 3-Step Milestone Journey
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight font-sans">
@@ -72,7 +72,7 @@ export default function InternshipJourneyClient() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.6, delay: idx * 0.14, ease: "easeOut" }}
-                  className={`relative overflow-hidden rounded-3xl bg-white border border-l-4 border-l-[#D9F83B] flex flex-col justify-between transition-all duration-500 group ${
+                  className={`relative overflow-hidden rounded-3xl bg-white border border-l-4 border-l-[#162774] flex flex-col justify-between transition-all duration-500 group ${
                     isBlueSlideCard
                       ? "border-[#162774]/25 shadow-lg hover:shadow-2xl hover:-translate-y-1.5"
                       : "border-slate-200 shadow-md hover:shadow-xl hover:-translate-y-1.5"
@@ -94,7 +94,13 @@ export default function InternshipJourneyClient() {
                   <div className="relative z-10 p-8 pb-4 flex-1">
                     {/* Top Row: Custom Shaped Number Badge + Top-Right Circle Arrow (45deg on hover) */}
                     <div className="flex items-center justify-between gap-3 mb-5">
-                      <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-tr-2xl rounded-bl-2xl rounded-tl-md rounded-br-md bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-black text-sm tracking-wider transition-colors duration-500 shadow-xs">
+                      <span
+                        className={`inline-flex items-center justify-center px-4 py-1.5 rounded-tr-2xl rounded-bl-2xl rounded-tl-md rounded-br-md font-black text-sm tracking-wider transition-colors duration-500 shadow-xs ${
+                          isBlueSlideCard
+                            ? "bg-white text-[#162774] group-hover:bg-[#162774] group-hover:text-white"
+                            : "bg-[#162774] text-white"
+                        }`}
+                      >
                         {step.num}
                       </span>
 
@@ -103,8 +109,8 @@ export default function InternshipJourneyClient() {
                         aria-label={step.title}
                         className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all duration-500 shrink-0 ${
                           isBlueSlideCard
-                            ? "bg-white/15 group-hover:bg-[#D9F83B] border-white/25 group-hover:border-[#D9F83B] text-white group-hover:text-slate-950"
-                            : "bg-slate-100 group-hover:bg-[#D9F83B] border-slate-200 group-hover:border-[#D9F83B] text-slate-900"
+                            ? "bg-white/15 group-hover:bg-[#162774] border-white/25 group-hover:border-[#162774] text-white"
+                            : "bg-slate-100 group-hover:bg-[#162774] border-slate-200 group-hover:border-[#162774] text-slate-900 group-hover:text-white"
                         }`}
                       >
                         <ArrowRight
@@ -135,7 +141,7 @@ export default function InternshipJourneyClient() {
                   </div>
 
                   {isBlueSlideCard ? (
-                    <div className="relative z-10 px-8 py-5 font-bold uppercase tracking-wider text-[11px] text-[#D9F83B] group-hover:text-[#1D3189] transition-colors duration-500">
+                    <div className="relative z-10 px-8 py-5 font-bold uppercase tracking-wider text-[11px] text-white group-hover:text-[#1D3189] transition-colors duration-500">
                       {step.tag}
                     </div>
                   ) : (
@@ -149,7 +155,7 @@ export default function InternshipJourneyClient() {
                           backgroundSize: "28px 28px",
                         }}
                       />
-                      <div className="relative z-10 font-bold uppercase tracking-wider text-[11px] text-[#1D3189] group-hover:text-[#D9F83B] transition-colors duration-500">
+                      <div className="relative z-10 font-bold uppercase tracking-wider text-[11px] text-[#1D3189] group-hover:text-white transition-colors duration-500">
                         {step.tag}
                       </div>
                     </div>
@@ -177,7 +183,7 @@ export default function InternshipJourneyClient() {
             }}
           >
             <div className="space-y-4 max-w-2xl">
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-white/15 border border-white/20 text-white font-sans text-[11px] font-extrabold uppercase tracking-wider">
                 Weekly Mentorship &amp; Live Reviews
               </div>
               <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-sans">
@@ -189,7 +195,7 @@ export default function InternshipJourneyClient() {
               <div className="flex flex-wrap gap-5 text-xs font-sans pt-2">
                 {["1-on-1 Code Teardowns", "System Design Q&A", "Architecture Defense"].map((item) => (
                   <div key={item} className="flex items-center gap-2 text-blue-50 font-bold">
-                    <span className="w-5 h-5 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-white text-[#162774] flex items-center justify-center shrink-0">
                       <Check size={11} strokeWidth={3} />
                     </span>
                     <span>{item}</span>
@@ -201,24 +207,24 @@ export default function InternshipJourneyClient() {
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full lg:w-auto font-sans text-xs">
               <Link
                 href="/arena/calendar"
-                className="relative overflow-hidden px-6 py-3.5 rounded-2xl bg-[#D9F83B] text-slate-950 font-bold text-center transition-all duration-300 shadow-lg shadow-lime-400/20 flex items-center justify-between gap-3 group/btn"
+                className="relative overflow-hidden px-6 py-3.5 rounded-2xl bg-white text-[#162774] font-bold text-center transition-all duration-300 shadow-lg flex items-center justify-between gap-3 group/btn"
               >
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-in-out"
+                  className="pointer-events-none absolute inset-0 bg-blue-50 -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-in-out"
                 />
                 <span className="relative z-10">View Event Calendar</span>
-                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-500 group-hover/btn:rotate-45 shrink-0">
+                <span className="relative z-10 w-7 h-7 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-500 group-hover/btn:rotate-45 shrink-0">
                   <ArrowRight size={13} />
                 </span>
               </Link>
               <Link
                 href="/discussions"
-                className="relative overflow-hidden px-6 py-3.5 rounded-2xl bg-white/10 text-white hover:text-slate-950 font-bold text-center transition-colors duration-500 border border-white/25 group/btn"
+                className="relative overflow-hidden px-6 py-3.5 rounded-2xl bg-white/10 text-white hover:text-[#162774] font-bold text-center transition-colors duration-500 border border-white/25 group/btn"
               >
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-in-out"
+                  className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-500 ease-in-out"
                 />
                 <span className="relative z-10">Join Discussions Forum</span>
               </Link>
