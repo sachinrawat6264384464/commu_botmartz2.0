@@ -132,7 +132,7 @@ export default function ThreeStepPathGrid({ totalSystemsCount }: { totalSystemsC
         className="group relative bg-gradient-to-br from-[#1D3189] to-[#070E54] rounded-2xl border border-[#1D3189] p-7 sm:p-8 shadow-xl hover:shadow-2xl transition-[border-color,box-shadow] duration-300 flex flex-col justify-between overflow-hidden text-white"
       >
         <div className="absolute top-0 left-0 right-0 h-1 bg-[#D9F83B]" />
-        <span className="absolute top-4 right-6 text-6xl font-black text-white/25 group-hover:text-[#D9F83B]/40 transition-colors select-none font-sans">
+        <span className="absolute top-4 right-6 text-6xl font-black text-white/15 select-none font-sans">
           03
         </span>
 
@@ -148,9 +148,11 @@ export default function ThreeStepPathGrid({ totalSystemsCount }: { totalSystemsC
           </p>
         </div>
 
-        <div className="relative z-10 pt-5 mt-7 border-t border-white/15 flex items-center justify-between text-[#D9F83B] font-sans text-sm font-extrabold">
-          <span>View Plans (Free / ₹299 / ₹1,999)</span>
-          <span className="w-8 h-8 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center group-hover:scale-105 transition-all duration-300">
+        <div className="relative z-10 pt-5 mt-7 border-t border-white/15 flex items-center justify-between gap-3 font-sans text-sm font-extrabold">
+          <span className="px-4 py-2 rounded-xl bg-[#D9F83B] text-[#162774] font-extrabold shadow-sm">
+            View Plans (Free / ₹299 / ₹1,999)
+          </span>
+          <span className="w-8 h-8 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center group-hover:scale-105 transition-all duration-300 shrink-0">
             <ArrowRight size={15} className="transition-transform duration-300 group-hover:-rotate-45" />
           </span>
         </div>
