@@ -191,7 +191,7 @@ export default function CommunityNavbar() {
               : "text-blue-100 hover:text-white hover:bg-white/10"
               }`}
           >
-            <span>{TOTAL_SYSTEMS_COUNT} Systems</span>
+            <span>Internship Playground</span>
           </Link>
 
           {/* 2. Online Hackathons */}
@@ -530,7 +530,7 @@ export default function CommunityNavbar() {
           <div className="grid grid-cols-2 gap-2">
             {[
               { href: "/", label: "Home", icon: <Home size={14} /> },
-              { href: "/arena", label: `${TOTAL_SYSTEMS_COUNT} Systems`, icon: <Layers size={14} /> },
+              { href: "/arena", label: "Internship Playground", icon: <Layers size={14} /> },
               { href: "/hackathons", label: "Hackathons", icon: <Award size={14} /> },
               { href: "/workshops", label: "Workshops", icon: <Calendar size={14} /> },
               { href: "/about", label: "About Us", icon: <Globe size={14} /> },

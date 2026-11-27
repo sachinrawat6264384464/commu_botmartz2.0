@@ -318,10 +318,10 @@ export default function CareerRoadmapsPage() {
 
             <Link
               href="/arena"
-              className="px-5 py-3 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold text-xs transition-all shadow-md shrink-0 flex items-center gap-2 group w-fit"
+              className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all shadow-md shrink-0 flex items-center gap-2 group w-fit"
             >
               <span>Internship Playground</span>
-              <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                 <ArrowRight size={12} />
               </span>
             </Link>
