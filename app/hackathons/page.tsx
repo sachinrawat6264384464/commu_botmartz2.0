@@ -439,24 +439,98 @@ export default function HackathonsPage() {
               </div>
             </div>
 
-            {/* Right Column: Pricing & Quick Jump */}
+            {/* Right Column: 1st/2nd/3rd Winner Trophies & Highlighted Builder Perks */}
             <div className="lg:col-span-4 space-y-3">
-              <div className="p-5 rounded-2xl bg-white/10 border border-white/15 backdrop-blur-md space-y-3">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#D9F83B]">What Every Eligible Builder Gets</div>
-                <ul className="space-y-2 text-xs text-blue-50 font-medium">
-                  <li className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] mt-1.5 shrink-0" />
-                    <span>Verified Online Hackathon Certificate</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] mt-1.5 shrink-0" />
-                    <span>Founder Recommendation Letter for Job Applications</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] mt-1.5 shrink-0" />
-                    <span>Solo &amp; Team Eligibility for Direct Job Screening Round</span>
-                  </li>
-                </ul>
+              <div className="p-4 sm:p-5 rounded-3xl bg-white text-slate-950 border-2 border-[#D9F83B] shadow-2xl space-y-3.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                    What Every Eligible Builder Gets
+                  </span>
+                </div>
+
+                {/* 1st / 2nd / 3rd Winner Trophies Podium Visual */}
+                <div className="grid grid-cols-3 gap-2 items-end pt-1">
+                  {/* 2nd Place - Silver Trophy */}
+                  <div className="p-2.5 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-center space-y-1">
+                    <svg viewBox="0 0 48 48" className="w-9 h-9 mx-auto" fill="none" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="silverCup" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stopColor="#E2E8F0" />
+                          <stop offset="50%" stopColor="#94A3B8" />
+                          <stop offset="100%" stopColor="#64748B" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M14 8H34V18C34 23.5 29.5 28 24 28C18.5 28 14 23.5 14 18V8Z" fill="url(#silverCup)" />
+                      <path d="M14 11H9C9 16 11 19 14 19M34 11H39C39 16 37 19 34 19" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" />
+                      <rect x="21" y="28" width="6" height="8" rx="1" fill="#64748B" />
+                      <rect x="15" y="36" width="18" height="5" rx="2" fill="#162774" />
+                      <text x="24" y="20" textAnchor="middle" fill="#0F172A" fontSize="9" fontWeight="800">2nd</text>
+                    </svg>
+                    <div className="text-[10px] font-extrabold text-[#162774]">2nd Winner</div>
+                    <div className="text-[9px] font-semibold text-slate-600 leading-tight">Letter + Cert</div>
+                  </div>
+
+                  {/* 1st Place - Gold Trophy */}
+                  <div className="p-2.5 rounded-2xl bg-[#162774] text-white border-2 border-[#D9F83B] text-center space-y-1 shadow-md -mt-2">
+                    <svg viewBox="0 0 48 48" className="w-11 h-11 mx-auto" fill="none" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="goldCup" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stopColor="#FEF08A" />
+                          <stop offset="50%" stopColor="#FACC15" />
+                          <stop offset="100%" stopColor="#CA8A04" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M13 7H35V18C35 24 30 29 24 29C18 29 13 24 13 18V7Z" fill="url(#goldCup)" />
+                      <path d="M13 10H8C8 15.5 10 19 13 19M35 10H40C40 15.5 38 19 35 19" stroke="#FACC15" strokeWidth="2.5" strokeLinecap="round" />
+                      <rect x="21" y="29" width="6" height="7" rx="1" fill="#CA8A04" />
+                      <rect x="14" y="36" width="20" height="5" rx="2" fill="#D9F83B" />
+                      <text x="24" y="20" textAnchor="middle" fill="#0F172A" fontSize="9.5" fontWeight="900">1st</text>
+                    </svg>
+                    <div className="text-[10px] font-extrabold text-[#D9F83B]">1st Winner</div>
+                    <div className="text-[9px] font-semibold text-blue-100 leading-tight">Job Screening</div>
+                  </div>
+
+                  {/* 3rd Place - Bronze Trophy */}
+                  <div className="p-2.5 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-center space-y-1">
+                    <svg viewBox="0 0 48 48" className="w-9 h-9 mx-auto" fill="none" aria-hidden="true">
+                      <defs>
+                        <linearGradient id="bronzeCup" x1="0" y1="0" x2="1" y2="1">
+                          <stop offset="0%" stopColor="#FDBA74" />
+                          <stop offset="50%" stopColor="#EA580C" />
+                          <stop offset="100%" stopColor="#9A3412" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M14 8H34V18C34 23.5 29.5 28 24 28C18.5 28 14 23.5 14 18V8Z" fill="url(#bronzeCup)" />
+                      <path d="M14 11H9C9 16 11 19 14 19M34 11H39C39 16 37 19 34 19" stroke="#EA580C" strokeWidth="2.5" strokeLinecap="round" />
+                      <rect x="21" y="28" width="6" height="8" rx="1" fill="#9A3412" />
+                      <rect x="15" y="36" width="18" height="5" rx="2" fill="#162774" />
+                      <text x="24" y="20" textAnchor="middle" fill="#FFFFFF" fontSize="9" fontWeight="800">3rd</text>
+                    </svg>
+                    <div className="text-[10px] font-extrabold text-[#162774]">3rd Winner</div>
+                    <div className="text-[9px] font-semibold text-slate-600 leading-tight">Verified Cert</div>
+                  </div>
+                </div>
+
+                {/* Highlighted Perk Rows */}
+                <div className="space-y-2 pt-0.5">
+                  {[
+                    { num: "01", text: "Verified Online Hackathon Certificate" },
+                    { num: "02", text: "Founder Recommendation Letter for Job Applications" },
+                    { num: "03", text: "Solo & Team Eligibility for Direct Job Screening Round" },
+                  ].map((perk) => (
+                    <div
+                      key={perk.num}
+                      className="flex items-center gap-2.5 p-2 rounded-xl bg-[#F4F6FB] border border-slate-200/80 border-l-3 border-l-[#162774]"
+                    >
+                      <span className="w-5 h-5 rounded-full bg-[#162774] text-[#D9F83B] text-[9px] font-extrabold flex items-center justify-center shrink-0">
+                        {perk.num}
+                      </span>
+                      <span className="text-[11px] font-bold text-slate-900 leading-snug">
+                        {perk.text}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <button
@@ -469,7 +543,7 @@ export default function HackathonsPage() {
                   className="pointer-events-none absolute inset-0 bg-white -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
                 />
                 <span className="relative z-10">Already Have a Unique ID? Submit Project</span>
-                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
                   <ArrowRight size={14} />
                 </span>
               </button>
