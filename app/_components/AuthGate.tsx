@@ -33,14 +33,14 @@ export default function AuthGate({
   if (!user) {
     return (
       <div
-        className="min-h-screen lg:h-screen bg-white text-slate-900 pt-22 pb-6 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex flex-col justify-center overflow-x-hidden"
+        className="min-h-screen bg-white text-slate-900 pt-24 pb-10 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex items-center justify-center overflow-x-hidden"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
         }}
       >
-        <div className="w-full px-4 sm:px-8 lg:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-10 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full">
             {/* ── LEFT COLUMN (7 COLS): COMPACT #162774 HERO BANNER ── */}
             <div
@@ -163,7 +163,7 @@ export default function AuthGate({
                     className="w-full py-3.5 px-6 rounded-full bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 text-sm font-extrabold transition-all duration-300 flex items-center justify-center gap-3 shadow-md cursor-pointer group"
                   >
                     <span>Continue with Google Sign-In</span>
-                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
                       <ArrowRight size={14} />
                     </span>
                   </button>
