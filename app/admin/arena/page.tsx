@@ -84,11 +84,10 @@ function PaginationControls({
             {typeof page === "number" ? (
               <button
                 onClick={() => onPageChange(page)}
-                className={`w-8 h-8 rounded-lg font-bold transition-all cursor-pointer ${
-                  currentPage === page
-                    ? "bg-[#0066FF] text-white shadow-xs"
-                    : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
-                }`}
+                className={`w-8 h-8 rounded-lg font-bold transition-all cursor-pointer ${currentPage === page
+                  ? "bg-[#0066FF] text-white shadow-xs"
+                  : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
+                  }`}
               >
                 {page}
               </button>
@@ -231,7 +230,7 @@ export default function AdminArenaDashboardPage() {
         setRecentBugs(data.recentBugs || []);
         setClaims(data.recentClaims || []);
       }
-      
+
       const pRes = await fetch("/api/admin/arena/projects", { cache: "no-store" });
       const pData = await pRes.json();
       if (pData.success) {
@@ -344,7 +343,7 @@ export default function AdminArenaDashboardPage() {
 
   return (
     <div className="p-6 sm:p-10 max-w-7xl mx-auto font-sans text-slate-900">
-      
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
@@ -444,53 +443,47 @@ export default function AdminArenaDashboardPage() {
 
       {/* Navigation Tabs & Search */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 border-b border-slate-200 pb-4">
-        
+
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setActiveTab("students")}
-            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${
-              activeTab === "students" ? "bg-[#0066FF] text-white shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-            }`}
+            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${activeTab === "students" ? "bg-[#0066FF] text-white shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
           >
             Registered Students ({filteredEnrollments.length})
           </button>
           <button
             onClick={() => setActiveTab("shippers")}
-            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${
-              activeTab === "shippers" ? "bg-purple-600 text-white shadow-xs" : "bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200"
-            }`}
+            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${activeTab === "shippers" ? "bg-purple-600 text-white shadow-xs" : "bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200"
+              }`}
           >
             15-Company Referrals ({claims.length})
           </button>
           <button
             onClick={() => setActiveTab("logs")}
-            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${
-              activeTab === "logs" ? "bg-[#0066FF] text-white shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-            }`}
+            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${activeTab === "logs" ? "bg-[#0066FF] text-white shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
           >
             Daily PoW Logs ({recentLogs.length})
           </button>
           <button
             onClick={() => setActiveTab("bugs")}
-            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${
-              activeTab === "bugs" ? "bg-[#0066FF] text-white shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-            }`}
+            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${activeTab === "bugs" ? "bg-[#0066FF] text-white shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
           >
             Pentest Bug Reports ({recentBugs.length})
           </button>
           <button
             onClick={() => setActiveTab("gth")}
-            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${
-              activeTab === "gth" ? "bg-slate-950 text-purple-300 border border-purple-600 shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-            }`}
+            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all ${activeTab === "gth" ? "bg-slate-950 text-purple-300 border border-purple-600 shadow-xs" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
           >
             Expert Tier Finalists ({gthEnrollments.length})
           </button>
           <button
             onClick={() => setActiveTab("projects")}
-            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all flex items-center gap-1.5 ${
-              activeTab === "projects" ? "bg-emerald-600 text-white shadow-xs" : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
-            }`}
+            className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold cursor-pointer transition-all flex items-center gap-1.5 ${activeTab === "projects" ? "bg-emerald-600 text-white shadow-xs" : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200"
+              }`}
           >
             <Layers size={13} />
             <span>Manage Projects PRDs ({dbProjects.length})</span>
@@ -810,9 +803,8 @@ export default function AdminArenaDashboardPage() {
                     <tr key={b.id} className="hover:bg-slate-50 transition-colors">
                       <td className="py-3.5 px-4">
                         <span
-                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase mr-2 ${
-                            b.severity === "Critical" ? "bg-rose-100 text-rose-800" : b.severity === "High" ? "bg-amber-100 text-amber-800" : "bg-blue-100 text-[#0066FF]"
-                          }`}
+                          className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase mr-2 ${b.severity === "Critical" ? "bg-rose-100 text-rose-800" : b.severity === "High" ? "bg-amber-100 text-amber-800" : "bg-blue-100 text-[#0066FF]"
+                            }`}
                         >
                           {b.severity}
                         </span>
@@ -838,192 +830,191 @@ export default function AdminArenaDashboardPage() {
         </div>
       )}
 
-          {/* Tab 4: GTH 5-Slot Finalist Review Board */}
-          {activeTab === "gth" && (
-            <div className="bg-slate-950 text-white border-2 border-rose-600/80 rounded-3xl p-6 sm:p-8 shadow-2xl">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <div className="text-xs font-mono text-purple-400 uppercase font-bold">Expert Tier Evaluation Board</div>
-                  <h3 className="text-xl font-bold text-white font-sans">Expert Tier Finalists (5 Slots Max)</h3>
-                </div>
-                <div className="px-4 py-2 rounded-xl bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/40">
-                  Prize: ₹1,00,000 Total Pool
-                </div>
+      {/* Tab 4: GTH 5-Slot Finalist Review Board */}
+      {activeTab === "gth" && (
+        <div className="bg-slate-950 text-white border-2 border-rose-600/80 rounded-3xl p-6 sm:p-8 shadow-2xl">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="text-xs font-mono text-purple-400 uppercase font-bold">Expert Tier Evaluation Board</div>
+              <h3 className="text-xl font-bold text-white font-sans">Expert Tier Finalists (5 Slots Max)</h3>
+            </div>
+            <div className="px-4 py-2 rounded-xl bg-purple-500/20 text-purple-300 font-mono text-xs font-bold border border-purple-500/40">
+              Prize: ₹1,00,000 Total Pool
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {gthEnrollments.length === 0 ? (
+              <div className="py-8 text-center text-slate-400 font-mono text-xs">
+                No applicants for the GTH extreme tier yet.
               </div>
-
-              <div className="space-y-4">
-                {gthEnrollments.length === 0 ? (
-                  <div className="py-8 text-center text-slate-400 font-mono text-xs">
-                    No applicants for the GTH extreme tier yet.
-                  </div>
-                ) : (
-                  paginatedGth.map((g, idx) => (
-                    <div key={g.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded bg-rose-600 text-white font-bold">Slot #{((currentPage - 1) * ITEMS_PER_PAGE) + idx + 1}</span>
-                          <span className="text-base font-bold text-white">{g.name}</span>
-                          <span className="text-slate-400 text-xs">({g.email})</span>
-                        </div>
-                        <div className="text-slate-400 text-[11px] mt-1">
-                          Role: {g.role} • WhatsApp: {g.whatsapp} • GitHub: {g.github || "N/A"}
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 text-[11px] font-bold border border-amber-500/40">
-                          Under Strict Audit
-                        </span>
-                      </div>
+            ) : (
+              paginatedGth.map((g, idx) => (
+                <div key={g.id} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="px-2 py-0.5 rounded bg-rose-600 text-white font-bold">Slot #{((currentPage - 1) * ITEMS_PER_PAGE) + idx + 1}</span>
+                      <span className="text-base font-bold text-white">{g.name}</span>
+                      <span className="text-slate-400 text-xs">({g.email})</span>
                     </div>
-                  ))
-                )}
-              </div>
-              <PaginationControls
-                currentPage={currentPage}
-                totalPages={gthTotalPages}
-                totalItems={gthEnrollments.length}
-                itemsPerPage={ITEMS_PER_PAGE}
-                onPageChange={setCurrentPage}
-              />
+                    <div className="text-slate-400 text-[11px] mt-1">
+                      Role: {g.role} • WhatsApp: {g.whatsapp} • GitHub: {g.github || "N/A"}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 text-[11px] font-bold border border-amber-500/40">
+                      Under Strict Audit
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={gthTotalPages}
+            totalItems={gthEnrollments.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            onPageChange={setCurrentPage}
+          />
+        </div>
+      )}
+
+      {/* Tab 5: Dynamic Projects Catalog & Add/Edit/Delete PRDs */}
+      {activeTab === "projects" && (
+        <div className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-xs">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 font-sans">Arena System PRDs &amp; Firestore Database ({dbProjects.length})</h3>
+              <p className="text-xs text-slate-500 font-sans mt-0.5">
+                Every project and Cloudinary banner image is stored in Firestore. Add, edit, update images, or delete any system live.
+              </p>
+            </div>
+            <button
+              onClick={openAddProjectModal}
+              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase transition-all shadow-xs flex items-center gap-2 cursor-pointer shrink-0"
+            >
+              <Plus size={14} /> Add New Arena Project PRD
+            </button>
+          </div>
+
+          {projectMsg && (
+            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">
+              {projectMsg}
             </div>
           )}
 
-          {/* Tab 5: Dynamic Projects Catalog & Add/Edit/Delete PRDs */}
-          {activeTab === "projects" && (
-            <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-3xl border border-slate-200 shadow-xs">
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 font-sans">Arena System PRDs &amp; Firestore Database ({dbProjects.length})</h3>
-                  <p className="text-xs text-slate-500 font-sans mt-0.5">
-                    Every project and Cloudinary banner image is stored in Firestore. Add, edit, update images, or delete any system live.
-                  </p>
-                </div>
-                <button
-                  onClick={openAddProjectModal}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase transition-all shadow-xs flex items-center gap-2 cursor-pointer shrink-0"
-                >
-                  <Plus size={14} /> Add New Arena Project PRD
-                </button>
+          {/* Live Firestore Projects Table (All 59+ Systems & Custom Projects) */}
+          <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs">
+            <div className="p-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-900 text-xs uppercase flex items-center justify-between">
+              <span>All Arena Projects in Firestore ({filteredDbProjects.length})</span>
+              <span className="text-slate-500 text-[11px] font-normal">Live Firestore + Cloudinary Sync</span>
+            </div>
+
+            {filteredDbProjects.length === 0 ? (
+              <div className="p-8 text-center text-slate-400 font-sans">
+                No matching projects found in database.
               </div>
-
-              {projectMsg && (
-                <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold">
-                  {projectMsg}
-                </div>
-              )}
-
-              {/* Live Firestore Projects Table (All 59+ Systems & Custom Projects) */}
-              <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs">
-                <div className="p-4 bg-slate-50 border-b border-slate-200 font-bold text-slate-900 text-xs uppercase flex items-center justify-between">
-                  <span>All Arena Projects in Firestore ({filteredDbProjects.length})</span>
-                  <span className="text-slate-500 text-[11px] font-normal">Live Firestore + Cloudinary Sync</span>
-                </div>
-
-                {filteredDbProjects.length === 0 ? (
-                  <div className="p-8 text-center text-slate-400 font-sans">
-                    No matching projects found in database.
-                  </div>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse text-xs font-mono">
-                      <thead>
-                        <tr className="bg-slate-50/50 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
-                          <th className="py-3 px-4">Banner</th>
-                          <th className="py-3 px-4">Title &amp; Tagline</th>
-                          <th className="py-3 px-4">Domain</th>
-                          <th className="py-3 px-4">Difficulty</th>
-                          <th className="py-3 px-4">Tech Stack</th>
-                          <th className="py-3 px-4 text-right">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100">
-                        {paginatedDbProjects.map((p) => (
-                          <tr key={p.id} className="hover:bg-slate-50">
-                            <td className="py-3 px-4">
-                              <img
-                                src={p.imageUrl || getDefaultArenaProjectImage(p.domain)}
-                                alt={p.title}
-                                className="w-16 h-10 rounded-lg object-cover border border-slate-200 bg-slate-100"
-                              />
-                            </td>
-                            <td className="py-3 px-4 max-w-xs">
-                              <div className="font-bold text-slate-900 font-sans flex items-center gap-1.5">
-                                <span className="truncate">{p.title}</span>
-                                {p.isCustom && (
-                                  <span className="shrink-0 px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[9px] font-bold uppercase">
-                                    Custom
-                                  </span>
-                                )}
-                              </div>
-                              <div className="text-slate-500 text-[11px] font-sans truncate">{p.tagline}</div>
-                            </td>
-                            <td className="py-3 px-4 text-slate-600">{p.domain}</td>
-                            <td className="py-3 px-4">
-                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                                p.difficulty === "Insane" ? "bg-purple-100 text-purple-800" : p.difficulty === "Expert Tier" || p.difficulty === "Go To Hell" ? "bg-slate-900 text-purple-300" : "bg-blue-100 text-[#0066FF]"
-                              }`}>
-                                {p.difficulty}
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse text-xs font-mono">
+                  <thead>
+                    <tr className="bg-slate-50/50 border-b border-slate-200 text-slate-500 uppercase text-[10px]">
+                      <th className="py-3 px-4">Banner</th>
+                      <th className="py-3 px-4">Title &amp; Tagline</th>
+                      <th className="py-3 px-4">Domain</th>
+                      <th className="py-3 px-4">Difficulty</th>
+                      <th className="py-3 px-4">Tech Stack</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {paginatedDbProjects.map((p) => (
+                      <tr key={p.id} className="hover:bg-slate-50">
+                        <td className="py-3 px-4">
+                          <img
+                            src={p.imageUrl || getDefaultArenaProjectImage(p.domain)}
+                            alt={p.title}
+                            className="w-16 h-10 rounded-lg object-cover border border-slate-200 bg-slate-100"
+                          />
+                        </td>
+                        <td className="py-3 px-4 max-w-xs">
+                          <div className="font-bold text-slate-900 font-sans flex items-center gap-1.5">
+                            <span className="truncate">{p.title}</span>
+                            {p.isCustom && (
+                              <span className="shrink-0 px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[9px] font-bold uppercase">
+                                Custom
                               </span>
-                            </td>
-                            <td className="py-3 px-4 text-slate-500 text-[11px] max-w-[180px] truncate">
-                              {Array.isArray(p.techStack) ? p.techStack.slice(0, 4).join(", ") : p.techStack}
-                            </td>
-                            <td className="py-3 px-4 text-right">
-                              <div className="flex items-center justify-end gap-1.5">
-                                <button
-                                  onClick={() => openEditProjectModal(p)}
-                                  className="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#0066FF] border border-blue-200 cursor-pointer"
-                                  title="Edit project & image"
-                                >
-                                  <Pencil size={13} />
-                                </button>
-                                <a
-                                  href={`/arena/${p.slug || p.id}`}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"
-                                  title="View PRD"
-                                >
-                                  <ExternalLink size={13} />
-                                </a>
-                                <button
-                                  onClick={async () => {
-                                    if (!confirm(`Delete project "${p.title}" from Firestore database?`)) return;
-                                    try {
-                                      const res = await fetch(`/api/admin/arena/projects?projectId=${encodeURIComponent(p.id)}`, { method: "DELETE" });
-                                      const d = await res.json();
-                                      if (d.success) {
-                                        setDbProjects((prev) => prev.filter((item) => item.id !== p.id));
-                                        setProjectMsg(`Deleted "${p.title}" from database.`);
-                                      }
-                                    } catch (err) {
-                                      console.error("Delete project error:", err);
-                                    }
-                                  }}
-                                  className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 cursor-pointer"
-                                  title="Delete project"
-                                >
-                                  <Trash2 size={13} />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-                <PaginationControls
-                  currentPage={currentPage}
-                  totalPages={dbProjectsTotalPages}
-                  totalItems={filteredDbProjects.length}
-                  itemsPerPage={ITEMS_PER_PAGE}
-                  onPageChange={setCurrentPage}
-                />
+                            )}
+                          </div>
+                          <div className="text-slate-500 text-[11px] font-sans truncate">{p.tagline}</div>
+                        </td>
+                        <td className="py-3 px-4 text-slate-600">{p.domain}</td>
+                        <td className="py-3 px-4">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${p.difficulty === "Insane" ? "bg-purple-100 text-purple-800" : p.difficulty === "Expert Tier" || p.difficulty === "Go To Hell" ? "bg-slate-900 text-purple-300" : "bg-blue-100 text-[#0066FF]"
+                            }`}>
+                            {p.difficulty}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-slate-500 text-[11px] max-w-[180px] truncate">
+                          {Array.isArray(p.techStack) ? p.techStack.slice(0, 4).join(", ") : p.techStack}
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => openEditProjectModal(p)}
+                              className="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#0066FF] border border-blue-200 cursor-pointer"
+                              title="Edit project & image"
+                            >
+                              <Pencil size={13} />
+                            </button>
+                            <a
+                              href={`/arena/${p.slug || p.id}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700"
+                              title="View PRD"
+                            >
+                              <ExternalLink size={13} />
+                            </a>
+                            <button
+                              onClick={async () => {
+                                if (!confirm(`Delete project "${p.title}" from Firestore database?`)) return;
+                                try {
+                                  const res = await fetch(`/api/admin/arena/projects?projectId=${encodeURIComponent(p.id)}`, { method: "DELETE" });
+                                  const d = await res.json();
+                                  if (d.success) {
+                                    setDbProjects((prev) => prev.filter((item) => item.id !== p.id));
+                                    setProjectMsg(`Deleted "${p.title}" from database.`);
+                                  }
+                                } catch (err) {
+                                  console.error("Delete project error:", err);
+                                }
+                              }}
+                              className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 cursor-pointer"
+                              title="Delete project"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            </div>
-          )}
+            )}
+            <PaginationControls
+              currentPage={currentPage}
+              totalPages={dbProjectsTotalPages}
+              totalItems={filteredDbProjects.length}
+              itemsPerPage={ITEMS_PER_PAGE}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Add / Edit Project Modal */}
       {showAddProjectModal && (

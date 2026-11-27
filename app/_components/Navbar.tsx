@@ -551,126 +551,183 @@ export default function CommunityNavbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-8 space-y-4 font-mono text-xs max-h-[85vh] overflow-y-auto">
-          
-          <div className="space-y-1">
-            <Link
-              href="/"
-              onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
-                pathname === "/" ? "bg-blue-50 text-[#0066FF]" : "text-slate-800 hover:bg-slate-50"
-              }`}
-            >
-              <Home size={15} className="text-[#0066FF]" />
-              <span className="font-bold">Home</span>
-            </Link>
-            <Link
-              href="/hackathons"
-              onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
-                pathname === "/hackathons" ? "bg-blue-50 text-[#0066FF]" : "text-slate-800 hover:bg-slate-50"
-              }`}
-            >
-              <Award size={15} className="text-[#0066FF]" />
-              <span className="font-bold">Online Hackathons</span>
-            </Link>
-            <Link
-              href="/workshops"
-              onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
-                pathname === "/workshops" ? "bg-blue-50 text-[#0066FF]" : "text-slate-800 hover:bg-slate-50"
-              }`}
-            >
-              <Calendar size={15} className="text-[#0066FF]" />
-              <span className="font-bold">Workshops</span>
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
-                pathname === "/about" ? "bg-blue-50 text-[#0066FF]" : "text-slate-800 hover:bg-slate-50"
-              }`}
-            >
-              <Globe size={15} className="text-[#0066FF]" />
-              <span className="font-bold">About Us</span>
-            </Link>
-            {mounted && user && (
-              <Link
-                href="/arena/my-learning"
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl ${
-                  pathname === "/arena/my-learning" ? "bg-blue-50 text-[#0066FF]" : "text-[#0066FF] hover:bg-blue-50/60"
-                }`}
-              >
-                <BookOpen size={15} className="text-[#0066FF]" />
-                <span className="font-bold">My Learning</span>
-              </Link>
-            )}
+        <div className="lg:hidden bg-[#F4F6FB] border-b border-slate-200 px-4 pt-4 pb-8 space-y-4 font-sans text-xs max-h-[85vh] overflow-y-auto shadow-2xl">
+          {/* Primary Navigation Grid (2-column pairs with 60deg circle arrows) */}
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { href: "/", label: "Home", icon: <Home size={14} /> },
+              { href: "/arena", label: `${TOTAL_SYSTEMS_COUNT} Systems`, icon: <Layers size={14} /> },
+              { href: "/hackathons", label: "Hackathons", icon: <Award size={14} /> },
+              { href: "/workshops", label: "Workshops", icon: <Calendar size={14} /> },
+              { href: "/about", label: "About Us", icon: <Globe size={14} /> },
+              ...(mounted && user
+                ? [{ href: "/arena/my-learning", label: "My Learning", icon: <BookOpen size={14} /> }]
+                : []),
+            ].map((item) => {
+              const active =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname === item.href || pathname.startsWith(item.href + "/");
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`group flex items-center justify-between gap-2 p-3 rounded-2xl border transition-all duration-300 ${
+                    active
+                      ? "bg-[#162774] text-white border-[#162774] shadow-md"
+                      : "bg-white text-slate-900 border-slate-200/90 hover:border-[#162774]"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className={active ? "text-[#D9F83B]" : "text-[#162774]"}>
+                      {item.icon}
+                    </span>
+                    <span className="font-extrabold text-xs truncate">{item.label}</span>
+                  </div>
+                  <span
+                    className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                      active
+                        ? "bg-[#D9F83B] text-slate-950"
+                        : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
+                    }`}
+                  >
+                    <ArrowRight
+                      size={12}
+                      className="transition-transform duration-300 group-hover:rotate-[60deg]"
+                    />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
 
-          <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3 py-1">Virtual AI Internship &amp; Arena</div>
-            {INTERNSHIP_ITEMS.filter(
-              (item) => !item.requiresAuth || (mounted && user)
-            ).map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="block px-3 py-2 rounded-xl text-slate-800 hover:bg-slate-50 font-sans"
-              >
-                <div className="font-semibold text-xs">{item.name}</div>
-              </Link>
-            ))}
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-3 space-y-1.5">
+            <div className="text-[10px] font-sans text-[#162774] uppercase font-extrabold tracking-widest px-1.5 py-1 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] ring-1 ring-[#162774]/30" />
+              <span>Virtual AI Internship &amp; Arena</span>
+            </div>
+            <div className="grid grid-cols-1 gap-1">
+              {INTERNSHIP_ITEMS.filter(
+                (item) => !item.requiresAuth || (mounted && user)
+              ).map((item) => {
+                const active =
+                  item.href === "/arena"
+                    ? pathname === "/arena"
+                    : pathname === item.href || pathname.startsWith(item.href + "/");
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`group flex items-center justify-between gap-2 px-3 py-2 rounded-xl transition-all duration-200 ${
+                      active
+                        ? "bg-[#162774] text-white"
+                        : "text-slate-800 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="font-bold text-xs truncate">{item.name}</span>
+                    <span
+                      className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                        active
+                          ? "bg-[#D9F83B] text-slate-950"
+                          : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
+                      }`}
+                    >
+                      <ArrowRight
+                        size={11}
+                        className="transition-transform duration-300 group-hover:rotate-[60deg]"
+                      />
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="space-y-1 border-t border-slate-100 pt-3">
-            <div className="text-[10px] font-sans text-slate-400 uppercase font-bold tracking-wider px-3 py-1">Resources &amp; Credentials</div>
-            {RESOURCE_ITEMS.filter(
-              (item) => !item.requiresAuth || (mounted && user)
-            ).map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="block px-3 py-2 rounded-xl text-slate-800 hover:bg-slate-50 font-sans"
-              >
-                <div className="font-semibold text-xs">{item.name}</div>
-              </Link>
-            ))}
+          <div className="bg-white rounded-2xl border border-slate-200/90 p-3 space-y-1.5">
+            <div className="text-[10px] font-sans text-[#162774] uppercase font-extrabold tracking-widest px-1.5 py-1 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D9F83B] ring-1 ring-[#162774]/30" />
+              <span>Resources &amp; Credentials</span>
+            </div>
+            <div className="grid grid-cols-1 gap-1">
+              {RESOURCE_ITEMS.filter(
+                (item) => !item.requiresAuth || (mounted && user)
+              ).map((item) => {
+                const active = pathname === item.href || pathname.startsWith(item.href + "/");
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`group flex items-center justify-between gap-2 px-3 py-2 rounded-xl transition-all duration-200 ${
+                      active
+                        ? "bg-[#162774] text-white"
+                        : "text-slate-800 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="font-bold text-xs truncate">{item.name}</span>
+                    <span
+                      className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                        active
+                          ? "bg-[#D9F83B] text-slate-950"
+                          : "bg-slate-100 group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B]"
+                      }`}
+                    >
+                      <ArrowRight
+                        size={11}
+                        className="transition-transform duration-300 group-hover:rotate-[60deg]"
+                      />
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="border-t border-slate-100 pt-4">
+          <div className="pt-1">
             {!mounted || loading ? (
               <div className="py-2.5 text-center text-slate-400 font-mono text-xs animate-pulse">Authenticating session...</div>
             ) : user ? (
-              <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-2.5">
                 <Link
                   href="/profile"
-                  className="w-full py-3 rounded-xl bg-slate-900 text-white font-bold text-center block"
+                  onClick={() => setMobileOpen(false)}
+                  className="group py-3 px-4 rounded-2xl bg-[#162774] text-white font-extrabold text-xs flex items-center justify-between gap-2 shadow-sm"
                 >
-                  My Verified Profile
+                  <span>My Profile</span>
+                  <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0">
+                    <ArrowRight size={11} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
+                  </span>
                 </Link>
                 <button
                   onClick={() => logout()}
-                  className="w-full py-2.5 rounded-xl border border-rose-200 text-rose-600 font-bold"
+                  className="py-3 px-4 rounded-2xl bg-white border border-rose-200 text-rose-600 font-extrabold text-xs cursor-pointer"
                 >
                   Sign Out
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2.5">
                 <Link
                   href="/login?mode=signup"
                   onClick={() => setMobileOpen(false)}
-                  className="py-3 rounded-xl bg-[#0066FF] text-white font-bold text-center block uppercase tracking-wider text-xs"
+                  className="group py-3 px-4 rounded-2xl bg-[#162774] text-white font-extrabold text-xs flex items-center justify-between gap-2 shadow-sm"
                 >
-                  Sign Up
+                  <span>Sign Up</span>
+                  <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0">
+                    <ArrowRight size={11} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
+                  </span>
                 </Link>
                 <Link
                   href="/login?mode=signin"
                   onClick={() => setMobileOpen(false)}
-                  className="py-3 rounded-xl bg-slate-900 text-white font-bold text-center block uppercase tracking-wider text-xs"
+                  className="group py-3 px-4 rounded-2xl bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center justify-between gap-2 shadow-sm"
                 >
-                  Sign In
+                  <span>Sign In</span>
+                  <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center shrink-0">
+                    <ArrowRight size={11} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
+                  </span>
                 </Link>
               </div>
             )}

@@ -480,7 +480,7 @@ export default function HackathonsPage() {
 
       {/* ── 2. HOW IT WORKS + SOLO VS TEAM TIERS ── */}
       <section className="w-full px-4 sm:px-8 lg:px-12 mb-10 overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
           {[
             {
               num: "01",
@@ -721,11 +721,11 @@ export default function HackathonsPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {filteredProjects.map((project, idx) => (
               <div
                 key={project.id}
-                className="relative overflow-hidden bg-[#F4F6FB] hover:bg-[#FAFBFD] border border-slate-200/90 hover:border-[#1D3189] rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-5 group hover:-translate-y-1"
+                className="relative overflow-hidden bg-[#F4F6FB] hover:bg-[#FAFBFD] border border-slate-200/90 hover:border-[#1D3189] rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 shadow-md hover:shadow-xl transition-all duration-500 flex flex-col justify-between space-y-3.5 sm:space-y-5 group hover:-translate-y-1"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between gap-2">
@@ -849,7 +849,7 @@ export default function HackathonsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {[
               {
                 num: "01",
@@ -921,7 +921,7 @@ export default function HackathonsPage() {
             <span className="text-xs font-bold text-[#162774]">Strict 24-Hour Window</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[13px] text-slate-800 font-medium">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 text-[12px] sm:text-[13px] text-slate-800 font-medium">
             {[
               {
                 title: "Open Tech Stack Freedom",

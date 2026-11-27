@@ -253,7 +253,7 @@ export default function WorkshopsPage() {
             <span>Loading Live Workshops...</span>
           </div>
         ) : (
-          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <section className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {filtered.map((ws, idx) => (
               <div
                 key={ws.id}
