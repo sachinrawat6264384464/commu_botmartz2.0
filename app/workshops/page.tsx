@@ -237,10 +237,16 @@ export default function WorkshopsPage() {
                   onClick={() => {
                     document.getElementById("workshops-catalog")?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="group inline-flex items-center gap-2.5 pl-4 pr-1.5 py-1.5 rounded-full bg-[#1434F5] hover:bg-[#162774] text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+                  className="group relative overflow-hidden inline-flex items-center gap-2.5 pl-4 pr-1.5 py-1.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs shadow-md transition-all cursor-pointer"
                 >
-                  <span>Explore Cohort</span>
-                  <span className="w-6 h-6 rounded-full bg-white text-[#1434F5] flex items-center justify-center transition-transform duration-300 group-hover:rotate-[60deg]">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                  />
+                  <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                    Explore Cohort
+                  </span>
+                  <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
                     <Plus size={13} strokeWidth={2.5} />
                   </span>
                 </button>
