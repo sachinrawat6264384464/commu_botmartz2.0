@@ -217,12 +217,8 @@ export default function ServicesPage() {
         >
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="space-y-3 max-w-3xl">
-              <span className="inline-block px-4 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold uppercase tracking-wider">
-                Jobs &bull; Doubt Sessions &bull; Training &bull; Expert Reviews
-              </span>
               <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-                Career Programs, Training &amp;{" "}
-                <span className="text-[#D9F83B]">Expert Reviews</span>
+                Career Programs, Training &amp; Expert Reviews
               </h1>
               <p className="text-sm sm:text-base text-white/90 font-medium leading-relaxed">
                 Choose from direct job placement tracks, 1-on-1 doubt sessions, hands-on content &amp; corporate training, or live project reviews with industry experts.
