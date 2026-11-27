@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   BookOpen,
@@ -38,6 +39,7 @@ import { computeUserBadgeStatuses } from "@/lib/badges";
 import LinkedInShareModal from "@/app/_components/LinkedInShareModal";
 
 export default function MyLearningPage() {
+  const router = useRouter();
   const { user, studentProfile, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<"projects" | "matrix" | "certificates" | "logs">("projects");
   const [claimedBadges, setClaimedBadges] = useState<string[]>(() => {
@@ -122,8 +124,9 @@ export default function MyLearningPage() {
       fetchUserData(user.email);
     } else if (!authLoading && !user) {
       setLoading(false);
+      router.replace("/login?mode=signin");
     }
-  }, [user?.email, authLoading]);
+  }, [user?.email, authLoading, router]);
 
   const activeEnrollments = enrollments.filter(
     (e) => e.status !== "Completed" && e.status !== "Finished" && e.status !== "Cancelled" && e.status !== "Unenrolled"
@@ -179,6 +182,46 @@ export default function MyLearningPage() {
       setClaimingId(null);
     }
   };
+
+  if (authLoading || !user) {
+    return (
+      <div
+        className="bg-white min-h-screen text-slate-900 pt-28 pb-20 font-sans flex items-center justify-center px-4"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(29, 49, 137, 0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.08) 1px, transparent 1px)",
+          backgroundSize: "72px 72px",
+        }}
+      >
+        <div className="max-w-lg w-full p-8 sm:p-10 rounded-[28px] bg-[#162774] text-white border border-white/15 text-center space-y-5 shadow-2xl">
+          <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold uppercase tracking-wider">
+            Members Only Access
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            {authLoading ? "Verifying Builder Session..." : "Sign In Required for My Learning"}
+          </h1>
+          <p className="text-sm font-medium text-white/85 leading-relaxed">
+            {authLoading
+              ? "Please wait while we verify your account credentials."
+              : "You need an active Botmartz account to access your enrolled systems, 45-day sprint matrix, and daily proof-of-work logs."}
+          </p>
+          {!authLoading && (
+            <div className="pt-2">
+              <Link
+                href="/login?mode=signin"
+                className="group inline-flex items-center gap-3 pl-6 pr-2 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-[#162774] font-extrabold text-sm transition-all shadow-lg"
+              >
+                <span>Sign In to Botmartz</span>
+                <span className="w-8 h-8 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center">
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                </span>
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
