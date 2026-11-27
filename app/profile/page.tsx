@@ -4,28 +4,28 @@ import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { 
-  User, 
-  ShieldCheck, 
-  Flame, 
-  Trophy, 
-  ExternalLink, 
-  Github, 
-  Linkedin, 
-  Coins, 
-  Calendar, 
-  Layers, 
-  ArrowRight, 
-  Sparkles, 
-  CheckCircle2, 
-  Lock, 
-  Search, 
-  BookOpen, 
-  MessageSquare, 
-  Edit3, 
-  Zap, 
-  Star, 
-  Activity, 
+import {
+  User,
+  ShieldCheck,
+  Flame,
+  Trophy,
+  ExternalLink,
+  Github,
+  Linkedin,
+  Coins,
+  Calendar,
+  Layers,
+  ArrowRight,
+  Sparkles,
+  CheckCircle2,
+  Lock,
+  Search,
+  BookOpen,
+  MessageSquare,
+  Edit3,
+  Zap,
+  Star,
+  Activity,
   AlertCircle,
   Copy,
   Check,
@@ -175,7 +175,7 @@ export default function StudentProfilePortal() {
           setClaimedBadges((prev) => Array.from(new Set([...prev, ...parsed])));
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }, []);
 
   const handleUnenroll = async (enrollmentId: string, projectId: string, projectTitle: string) => {
@@ -241,7 +241,7 @@ export default function StudentProfilePortal() {
             setNotificationPrefs((prev) => ({ ...prev, ...data.preferences }));
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     }
   }, [user?.email]);
 
@@ -341,7 +341,7 @@ export default function StudentProfilePortal() {
           const merged = Array.from(new Set([...prev, ...p.claimedBadges]));
           try {
             localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(merged));
-          } catch (e) {}
+          } catch (e) { }
           return merged;
         });
       }
@@ -445,7 +445,7 @@ export default function StudentProfilePortal() {
         setClaimedBadges(updated);
         try {
           localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(updated));
-        } catch (e) {}
+        } catch (e) { }
         showToast(`🎉 Badge Claimed Successfully! ${data.message || ""}`, "success");
       } else {
         showToast(data.error || "Failed to claim badge.", "error");
@@ -474,7 +474,7 @@ export default function StudentProfilePortal() {
         setClaimedBadges(updated);
         try {
           localStorage.setItem("botmartz_user_claimed_badges", JSON.stringify(updated));
-        } catch (e) {}
+        } catch (e) { }
         showToast(`🎉 Successfully Claimed ${eligibleIds.length} Badges!`, "success");
       }
     } catch (e) {
@@ -489,8 +489,8 @@ export default function StudentProfilePortal() {
     setEditErrorMsg("");
     setEditSuccessMsg("");
 
-    const effectiveCollege = formData.collegeName === "Other" 
-      ? formData.customCollegeName.trim() 
+    const effectiveCollege = formData.collegeName === "Other"
+      ? formData.customCollegeName.trim()
       : formData.collegeName;
 
     const effectiveCompany = formData.companyName === "Other"
@@ -559,7 +559,7 @@ export default function StudentProfilePortal() {
       }}
     >
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
-        
+
         {/* =========================================================================
             HERO BANNER & BUILDER PROFILE CARD (#162774 ROYAL BLUE GRID)
         ========================================================================= */}
@@ -786,30 +786,27 @@ export default function StudentProfilePortal() {
                     key={nav.id}
                     type="button"
                     onClick={() => setActiveProfileSection(nav.id as any)}
-                    className={`group w-full px-3 py-2.5 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border ${
-                      isActive
+                    className={`group w-full px-3 py-2.5 rounded-2xl text-left flex items-center justify-between gap-2 transition-all cursor-pointer border ${isActive
                         ? "bg-[#162774] text-white border-[#162774] shadow-md"
                         : "bg-white hover:bg-slate-50 text-slate-800 border-slate-200/80 hover:border-[#162774]"
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-2 min-w-0">
                       <span
-                        className={`w-6 h-6 rounded-full text-[10px] font-extrabold flex items-center justify-center shrink-0 ${
-                          isActive
+                        className={`w-6 h-6 rounded-full text-[10px] font-extrabold flex items-center justify-center shrink-0 ${isActive
                             ? "bg-[#D9F83B] text-slate-950"
                             : "bg-[#F4F6FB] text-[#162774] group-hover:bg-[#162774] group-hover:text-[#D9F83B]"
-                        }`}
+                          }`}
                       >
                         {nav.num}
                       </span>
                       <span className="text-xs font-extrabold truncate">{nav.label}</span>
                     </div>
                     <span
-                      className={`w-5 h-5 rounded-full hidden sm:flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                        isActive
+                      className={`w-5 h-5 rounded-full hidden sm:flex items-center justify-center shrink-0 transition-transform duration-300 ${isActive
                           ? "bg-[#D9F83B] text-slate-950"
                           : "bg-slate-100 text-[#162774] group-hover:rotate-[60deg]"
-                      }`}
+                        }`}
                     >
                       <ArrowRight size={10} />
                     </span>
@@ -827,1005 +824,996 @@ export default function StudentProfilePortal() {
               animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
               transition={{ duration: 0.35, ease: "easeOut" }}
             >
-        {activeProfileSection === "completeness" && (
-        <>
-        {/* =========================================================================
+              {activeProfileSection === "completeness" && (
+                <>
+                  {/* =========================================================================
             COMPLETENESS METER & 100% REWARD BANNER (ICON-FREE)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-6 shadow-xs font-sans">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <h3 className="text-xl font-extrabold text-slate-950">
-                  Profile Completeness Score
-                </h3>
-                <span className="px-3 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold">
-                  {score}%
-                </span>
-                {score === 100 && (
-                  <span className="px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
-                    Verified Builder
-                  </span>
-                )}
-              </div>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium">
-                Complete all 5 verification points to unlock company referral dispatches and earn <strong className="text-[#162774]">+100 Karma Coins</strong>.
-              </p>
-            </div>
-
-            <button
-              onClick={() => setIsEditModalOpen(true)}
-              className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer shrink-0"
-            >
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-              />
-              <span className="relative z-10 group-hover:text-white transition-colors duration-500">
-                {score === 100 ? "Edit Profile" : "Complete Profile (+100 Coins)"}
-              </span>
-            </button>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="w-full h-3 bg-[#F4F6FB] rounded-full overflow-hidden mb-6 border border-slate-200">
-            <div
-              className="h-full transition-all duration-500 rounded-full bg-[#162774]"
-              style={{ width: `${score}%` }}
-            />
-          </div>
-
-          {/* 5 Verification Checkpoints (Icon-Free) */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-bold">
-            {[
-              { label: "Identity (20%)", ok: Boolean(studentProfile?.displayName) },
-              { label: `${isProfessional ? "Company" : "College"} (20%)`, ok: Boolean(studentProfile?.collegeName || (studentProfile as any)?.companyName) },
-              { label: "GitHub (20%)", ok: Boolean(studentProfile?.githubUsername) },
-              { label: "LinkedIn (20%)", ok: Boolean(studentProfile?.linkedinUrl) },
-              { label: "DPDP Consent (20%)", ok: studentProfile?.dpdpConsent !== false },
-            ].map((cp, idx) => (
-              <div
-                key={cp.label}
-                className={`p-3 rounded-2xl border flex items-center gap-2 ${
-                  cp.ok
-                    ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] text-slate-950"
-                    : "bg-[#F4F6FB] border-slate-200 text-slate-500"
-                }`}
-              >
-                <span className={`w-5 h-5 rounded-full text-[9px] font-extrabold flex items-center justify-center shrink-0 ${
-                  cp.ok ? "bg-[#162774] text-[#D9F83B]" : "bg-slate-200 text-slate-500"
-                }`}>
-                  0{idx + 1}
-                </span>
-                <span className="truncate">{cp.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Platform Guide & Tour Banner (Icon-Free) */}
-        <div
-          className="p-6 rounded-3xl bg-[#162774] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg font-sans"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
-            backgroundSize: "36px 36px",
-          }}
-        >
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-extrabold text-base text-white">Explore the Botmartz Platform &amp; Product Tour</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">Interactive Walkthrough</span>
-            </div>
-            <p className="text-xs sm:text-sm text-blue-100/90 font-medium">
-              Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
-            </p>
-          </div>
-
-          <Link
-            href="/product-tour"
-            className="group px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-slate-950 text-xs font-extrabold transition-all shrink-0 flex items-center gap-2 shadow-sm"
-          >
-            <span>Open Tour</span>
-            <ArrowRight size={13} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
-          </Link>
-        </div>
-        </>
-        )}
-
-        {activeProfileSection === "countdown" && (
-        <>
-
-        {/* =========================================================================
-            PERSONAL 45-DAY VIRTUAL AI INTERNSHIP COUNTDOWN & MILESTONES (ICON-FREE)
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans text-xs">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider mb-2">
-                Rolling 45-Day Internship Sprint
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 font-sans">
-                Personal 45-Day Progress &amp; Milestone Timer
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
-                Every builder operates on their own 45-day window from the day of first enrollment.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2.5 shrink-0">
-              <div className="px-4 py-2 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold">
-                Day {daysElapsed} / 45
-              </div>
-              <div className={`px-4 py-2 rounded-full text-xs font-extrabold border ${
-                daysRemaining <= 7
-                  ? "bg-rose-50 text-rose-700 border-rose-200"
-                  : daysRemaining <= 15
-                  ? "bg-amber-50 text-amber-800 border-amber-200"
-                  : "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
-              }`}>
-                {daysRemaining > 0 ? `${daysRemaining} Days Left` : "Sprint Complete"}
-              </div>
-            </div>
-          </div>
-
-          {/* Milestone Warnings */}
-          {daysRemaining <= 7 && daysRemaining > 0 && (
-            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 border-l-4 border-l-rose-600 text-rose-900 mb-6">
-              <div className="font-extrabold text-sm">Final Week Sprint Alert: Complete Cloud Deploy &amp; Audit</div>
-              <p className="text-xs text-rose-700 mt-0.5 font-medium">
-                You have less than 7 days remaining in your 45-day sprint. Ensure your QA test pass rate is 100%, deploy your Docker container to cloud, and push your final commit.
-              </p>
-            </div>
-          )}
-
-          {daysRemaining <= 15 && daysRemaining > 7 && (
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 border-l-4 border-l-amber-500 text-amber-900 mb-6">
-              <div className="font-extrabold text-sm">15-Day Milestone Warning: Finalize Core APIs &amp; QA Test Suite</div>
-              <p className="text-xs text-amber-800 mt-0.5 font-medium">
-                You have 15 days left. Make sure all core microservices are built and your k6 load test scripts demonstrate &lt;150ms p95 latency.
-              </p>
-            </div>
-          )}
-
-          {/* Progress Bar */}
-          <div className="space-y-2 mb-6">
-            <div className="flex justify-between text-xs text-slate-700 font-bold">
-              <span>Overall Sprint Completion: {percentComplete}%</span>
-              <span>{45 - daysRemaining} / 45 Days Logged</span>
-            </div>
-            <div className="h-3 w-full bg-[#F4F6FB] rounded-full overflow-hidden border border-slate-200">
-              <div
-                className="h-full bg-[#162774] rounded-full transition-all duration-500"
-                style={{ width: `${percentComplete}%` }}
-              />
-            </div>
-          </div>
-
-          {/* 4-Stage Milestone Matrix */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
-            {[
-              { phase: "Stage 1: Days 1–10", title: "Architecture & HLD/LLD", status: daysElapsed >= 10 ? "PASSED" : daysElapsed >= 1 ? "IN_PROGRESS" : "PENDING", desc: "System PRD, schemas & design matrices" },
-              { phase: "Stage 2: Days 11–25", title: "Core Microservices & APIs", status: daysElapsed >= 25 ? "PASSED" : daysElapsed >= 11 ? "IN_PROGRESS" : "PENDING", desc: "Pipeline logic, SLM/agent swarms & Redis" },
-              { phase: "Stage 3: Days 26–35", title: "QA Suite & SLA Benchmarking", status: daysElapsed >= 35 ? "PASSED" : daysElapsed >= 26 ? "IN_PROGRESS" : "PENDING", desc: "k6 load assertions & edge failure tests" },
-              { phase: "Stage 4: Days 36–45", title: "Cloud Deploy & Founder Audit", status: daysElapsed >= 45 ? "PASSED" : daysElapsed >= 36 ? "IN_PROGRESS" : "PENDING", desc: "Container deploy & referral verification" }
-            ].map((stg, idx) => (
-              <div
-                key={idx}
-                className={`p-4 rounded-2xl border transition-all ${
-                  stg.status === "PASSED"
-                    ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 text-slate-950"
-                    : stg.status === "IN_PROGRESS"
-                    ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-sm text-slate-950"
-                    : "bg-[#F4F6FB] border-slate-200 text-slate-600"
-                }`}
-              >
-                <div className="flex items-center justify-between text-[10px] font-extrabold mb-1.5">
-                  <span className="text-[#162774] uppercase">{stg.phase}</span>
-                  <span className={`px-2 py-0.5 rounded-full ${
-                    stg.status === "PASSED"
-                      ? "bg-emerald-100 text-emerald-800"
-                      : stg.status === "IN_PROGRESS"
-                      ? "bg-[#D9F83B] text-slate-950"
-                      : "bg-white text-slate-500 border border-slate-200"
-                  }`}>
-                    {stg.status === "PASSED" ? "Done" : stg.status === "IN_PROGRESS" ? "Active" : "Upcoming"}
-                  </span>
-                </div>
-                <div className="font-extrabold text-sm text-slate-950 mb-1">{stg.title}</div>
-                <div className="text-xs text-slate-600 font-medium leading-relaxed">{stg.desc}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
-            <div className="text-xs text-slate-600 font-medium">
-              Submit daily GitHub commits to keep your streak unbroken and earn +20 to +70 Karma Coins every day.
-            </div>
-            <Link
-              href="/arena/daily-log"
-              className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs transition-all flex items-center gap-2 shadow-sm"
-            >
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-              />
-              <span className="relative z-10 group-hover:text-white transition-colors duration-500">Log Daily Commit</span>
-              <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
-                <ArrowRight size={11} />
-              </span>
-            </Link>
-          </div>
-        </div>
-
-        </>
-        )}
-
-        {activeProfileSection === "projects" && (
-        <>
-        {/* =========================================================================
-            ENROLLED ARENA BLUEPRINTS (ICON-FREE)
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
-                Active System Tracks
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
-                My Enrolled Production PRDs
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
-                Active engineering systems assigned to your proof-of-work streak.
-              </p>
-            </div>
-
-            <Link
-              href="/arena"
-              className="px-4 py-2 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold hover:bg-[#162774] hover:text-white transition-colors self-start sm:self-auto"
-            >
-              Browse {TOTAL_SYSTEMS_COUNT} Systems
-            </Link>
-          </div>
-
-          {loadingEnrollments ? (
-            <div className="py-12 text-center text-slate-500 font-sans text-xs font-semibold">
-              Loading enrolled blueprints...
-            </div>
-          ) : enrolledProjects.length === 0 ? (
-            <div className="p-8 sm:p-10 text-center rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] space-y-3">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
-                Ready to Enroll
-              </span>
-              <div className="font-extrabold text-slate-950 text-lg">No Active PRD Enrollments Yet</div>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
-                Explore the {TOTAL_SYSTEMS_COUNT} production AI blueprints in the Arena catalog and enroll in your first track to begin shipping.
-              </p>
-              <Link
-                href="/arena"
-                className="group relative overflow-hidden inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-extrabold shadow-sm"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                />
-                <span className="relative z-10 group-hover:text-white transition-colors duration-500">Enroll in a Project</span>
-                <span className="relative z-10 w-5 h-5 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
-                  <ArrowRight size={10} />
-                </span>
-              </Link>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
-              {enrolledProjects.map((ep) => {
-                const completedDays = Math.min(45, Math.max(ep.lastDayLogged || 0, ep.streak || 0));
-                const progressPct = Math.min(100, Math.round((completedDays / 45) * 100));
-
-                return (
-                  <div
-                    key={ep.id || ep.projectId}
-                    className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all flex flex-col justify-between space-y-4"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between text-[10px] font-bold mb-2">
-                        <span className="px-2 py-0.5 rounded-md bg-blue-100 text-[#0066FF]">
-                          {ep.teamType || "Solo"} Track
-                        </span>
-                        <span className="text-emerald-700 font-bold">
-                          {ep.status || "Active"}
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-bold text-slate-900 font-sans mb-1">
-                        {ep.projectTitle || "Production AI System"}
-                      </h4>
-                      <div className="text-[11px] text-slate-500 mb-3">
-                        Role: <strong>{ep.role || "AI Engineer"}</strong>
-                      </div>
-
-                      {/* 45-Day Progress Bar */}
-                      <div className="p-3 rounded-xl bg-white border border-slate-200/80 space-y-1.5">
-                        <div className="flex items-center justify-between text-[10px]">
-                          <span className="font-bold text-slate-700 font-sans">
-                            Day {completedDays} / 45 Completed
+                  <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 mb-6 shadow-xs font-sans">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2.5 flex-wrap">
+                          <h3 className="text-xl font-extrabold text-slate-950">
+                            Profile Completeness Score
+                          </h3>
+                          <span className="px-3 py-0.5 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold">
+                            {score}%
                           </span>
-                          <span className="font-mono font-bold text-[#0066FF]">{progressPct}%</span>
-                        </div>
-                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-[#0066FF] to-cyan-400 rounded-full transition-all duration-300"
-                            style={{ width: `${progressPct}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 pt-3 border-t border-slate-200/80">
-                      <div className="flex items-center gap-2">
-                        <Link
-                          href={`/arena/${ep.projectId}`}
-                          className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
-                        >
-                          Open PRD
-                        </Link>
-                        <Link
-                          href={`/arena/daily-log?projectId=${ep.projectId}`}
-                          className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
-                        >
-                          Log Commit
-                        </Link>
-                        <button
-                          type="button"
-                          onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
-                          disabled={unenrollingId === (ep.id || ep.projectId)}
-                          className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
-                          title="Unenroll / Leave this project track"
-                        >
-                          {unenrollingId === (ep.id || ep.projectId) ? (
-                            <Loader2 size={13} className="animate-spin text-rose-500" />
-                          ) : (
-                            <span className="text-[10px] text-rose-600">Leave</span>
+                          {score === 100 && (
+                            <span className="px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-extrabold">
+                              Verified Builder
+                            </span>
                           )}
-                        </button>
+                        </div>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium">
+                          Complete all 5 verification points to unlock company referral dispatches and earn <strong className="text-[#162774]">+100 Karma Coins</strong>.
+                        </p>
                       </div>
 
-                    <Link
-                      href={`/showcase?autoOpen=true&title=${encodeURIComponent(ep.projectTitle || "Production AI System")}&desc=${encodeURIComponent(`Autonomous production build for ${ep.projectTitle}`)}&github=${encodeURIComponent(ep.githubRepoUrl || ep.github || "")}`}
-                      className="w-full py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 font-bold text-center flex items-center justify-center gap-1.5 transition-colors"
-                    >
-                      <Sparkles size={12} />
-                      <span>Publish to Community Showcase &rarr;</span>
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-            </div>
-          )}
-        </div>
-
-
-        </>
-        )}
-
-        {activeProfileSection === "badges" && (
-        <>
-        {/* =========================================================================
-            SECTION BADGES: GAMIFIED CANDIDATE BADGES & STREAKS (ICON-FREE)
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
-                Earned Badges &amp; Production Milestones
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold font-sans text-slate-950">
-                Gamified Candidate Badges &amp; Streaks
-              </h3>
-              <p className="text-xs sm:text-sm font-sans font-medium text-slate-600 mt-1">
-                Unlock and claim streak badges (10, 20, 45 days) &amp; project milestones (1, 2, 4 projects).
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2.5 flex-wrap self-start sm:self-auto">
-              {badgeStatuses.some((b) => b.canClaim) && (
-                <button
-                  type="button"
-                  onClick={handleClaimAllBadges}
-                  className="px-4 py-2 rounded-full bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-sans text-xs font-extrabold transition-all shadow-sm cursor-pointer"
-                >
-                  Claim All Unlocked Badges
-                </button>
-              )}
-              <span className="px-4 py-1.5 rounded-full bg-[#F4F6FB] text-[#162774] font-sans text-xs font-extrabold border border-slate-200">
-                {claimedBadges.length} Badges Claimed
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-sans text-xs">
-            {badgeStatuses.map((b, idx) => (
-              <div
-                key={b.id}
-                className={`p-5 rounded-3xl border flex flex-col justify-between space-y-4 transition-all ${
-                  b.isClaimed
-                    ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 shadow-xs"
-                    : b.isEligible
-                    ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-md"
-                    : "bg-[#F4F6FB] border-slate-200 border-l-4 border-l-[#162774]"
-                }`}
-              >
-                <div className="space-y-2.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center shrink-0">
-                      {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
-                    </span>
-
-                    <div className="flex items-center gap-1.5">
-                      <span
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
-                          b.isClaimed
-                            ? "bg-emerald-100 text-emerald-800"
-                            : b.isEligible
-                            ? "bg-[#D9F83B] text-slate-950"
-                            : "bg-white text-slate-600 border border-slate-200"
-                        }`}
-                      >
-                        {b.isClaimed ? "Claimed" : b.isEligible ? "Unlocked" : "Locked"}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[10px] text-[#162774] font-extrabold uppercase">
-                        {b.category}
-                      </span>
-                    </div>
-                  </div>
-
-                  <h4 className="font-extrabold text-slate-950 font-sans text-base leading-snug">{b.title}</h4>
-                  <p className="text-xs sm:text-[13px] text-slate-600 font-sans font-medium leading-relaxed">{b.description}</p>
-                </div>
-
-                <div>
-                  {b.isClaimed ? (
-                    <div className="w-full py-2.5 rounded-xl bg-emerald-100 text-emerald-900 text-center font-extrabold text-xs">
-                      Active Verified Badge on Profile
-                    </div>
-                  ) : b.canClaim ? (
-                    <button
-                      onClick={() => handleClaimBadge(b.id)}
-                      disabled={claimingId === b.id}
-                      className="w-full py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-extrabold text-center transition-all shadow-sm cursor-pointer"
-                    >
-                      {claimingId === b.id ? "Claiming..." : "Claim Badge Now"}
-                    </button>
-                  ) : (
-                    <div className="w-full py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 text-center font-bold text-xs">
-                      Need {b.requiredCount} {b.category === "streak" ? "Days" : "Projects"}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        </>
-        )}
-
-        {activeProfileSection === "certificates" && (
-        <>
-        {/* =========================================================================
-            SECTION CERTIFICATES: OFFICIAL VERIFIED COMPLETION CERTIFICATES (ICON-FREE)
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
-                Official Credentials
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
-                Verified Completion Certificates &amp; Passes
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
-                Issued by Botmartz AI Solutions upon completing 45 days of proof-of-work.
-              </p>
-            </div>
-
-            <Link
-              href="/certificates"
-              className="px-4 py-2 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold hover:bg-[#162774] hover:text-white transition-colors self-start sm:self-auto"
-            >
-              Verify Desk
-            </Link>
-          </div>
-
-          {completedEnrollments.length === 0 ? (
-            <div className="p-8 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] text-center space-y-2.5">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
-                Day {daysElapsed}/45 Logged
-              </span>
-              <h4 className="font-extrabold text-slate-950 text-lg">Certificate Locked</h4>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
-                Your official certificate will generate automatically once you complete 45 days of daily standup logs or mark your project complete.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
-              {completedEnrollments.map((c) => {
-                const certId = c.certificateId || `CERT-BM-${(c.projectId || "888").toUpperCase()}-98231`;
-                return (
-                  <div
-                    key={c.id || c.projectId}
-                    className="rounded-3xl bg-gradient-to-br from-emerald-50/80 via-white to-blue-50/50 border-2 border-emerald-300 p-6 space-y-4 shadow-md"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold uppercase text-[10px] flex items-center gap-1">
-                        <CheckCircle2 size={13} className="text-emerald-600" /> Verified Credential
-                      </span>
-                      <span className="text-slate-500 font-bold text-[11px]">
-                        ID: {certId}
-                      </span>
-                    </div>
-
-                    <div>
-                      <h4 className="font-extrabold text-slate-900 font-sans text-lg">{c.projectTitle}</h4>
-                      <p className="text-slate-500 text-xs mt-1">Issued by Soham Sharma &bull; Botmartz AI Solutions</p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2 pt-2">
-                      <Link
-                        href={`/certificates?query=${certId}`}
-                        className="flex-1 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-colors shadow-xs"
-                      >
-                        View PDF
-                      </Link>
-                      
                       <button
-                        onClick={() => setShareModalData({
-                          isOpen: true,
-                          projectTitle: c.projectTitle,
-                          certId
-                        })}
-                        className="flex-1 py-2.5 rounded-xl bg-[#0077B5] hover:bg-[#006097] text-white font-bold text-center transition-colors shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                        onClick={() => setIsEditModalOpen(true)}
+                        className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-sm transition-all cursor-pointer shrink-0"
                       >
-                        <Linkedin size={14} />
-                        <span>Share on LinkedIn</span>
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                        />
+                        <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                          {score === 100 ? "Edit Profile" : "Complete Profile (+100 Coins)"}
+                        </span>
                       </button>
                     </div>
+
+                    {/* Progress Bar */}
+                    <div className="w-full h-3 bg-[#F4F6FB] rounded-full overflow-hidden mb-6 border border-slate-200">
+                      <div
+                        className="h-full transition-all duration-500 rounded-full bg-[#162774]"
+                        style={{ width: `${score}%` }}
+                      />
+                    </div>
+
+                    {/* 5 Verification Checkpoints (Icon-Free) */}
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-bold">
+                      {[
+                        { label: "Identity (20%)", ok: Boolean(studentProfile?.displayName) },
+                        { label: `${isProfessional ? "Company" : "College"} (20%)`, ok: Boolean(studentProfile?.collegeName || (studentProfile as any)?.companyName) },
+                        { label: "GitHub (20%)", ok: Boolean(studentProfile?.githubUsername) },
+                        { label: "LinkedIn (20%)", ok: Boolean(studentProfile?.linkedinUrl) },
+                        { label: "DPDP Consent (20%)", ok: studentProfile?.dpdpConsent !== false },
+                      ].map((cp, idx) => (
+                        <div
+                          key={cp.label}
+                          className={`p-3 rounded-2xl border flex items-center gap-2 ${cp.ok
+                              ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] text-slate-950"
+                              : "bg-[#F4F6FB] border-slate-200 text-slate-500"
+                            }`}
+                        >
+                          <span className={`w-5 h-5 rounded-full text-[9px] font-extrabold flex items-center justify-center shrink-0 ${cp.ok ? "bg-[#162774] text-[#D9F83B]" : "bg-slate-200 text-slate-500"
+                            }`}>
+                            0{idx + 1}
+                          </span>
+                          <span className="truncate">{cp.label}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
 
+                  {/* Platform Guide & Tour Banner (Icon-Free) */}
+                  <div
+                    className="p-6 rounded-3xl bg-[#162774] text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg font-sans"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+                      backgroundSize: "36px 36px",
+                    }}
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-extrabold text-base text-white">Explore the Botmartz Platform &amp; Product Tour</span>
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">Interactive Walkthrough</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-blue-100/90 font-medium">
+                        Discover what each page does ({TOTAL_SYSTEMS_COUNT} PRDs, daily logs, agile workspaces, karma wallet, squad matchmaking, conferences) and how to ship faster.
+                      </p>
+                    </div>
 
-        </>
-        )}
-
-        {activeProfileSection === "resume" && (
-        <>
-        {/* =========================================================================
-            SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR (ENROLLED ONLY)
-        ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
-                RECRUITER &amp; ATS OPTIMIZATION
-              </span>
-              <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
-                Project Resume Builder &amp; STAR Bullet Generator
-              </h3>
-              <p className="text-sm font-medium text-slate-600 mt-1">
-                Automatically generate metric-driven, recruiter-ready STAR bullet points for your applied Arena projects.
-              </p>
-            </div>
-
-            {/* Project Selector Dropdown - Strictly Enrolled Projects */}
-            <div className="w-full sm:w-72">
-              <select
-                value={selectedResumeId}
-                onChange={(e) => setSelectedResumeId(e.target.value)}
-                disabled={enrolledProjects.length === 0}
-                className="w-full bg-[#F4F6FB] border border-slate-200 rounded-full px-4 py-2.5 text-sm font-semibold text-[#162774] focus:bg-white focus:outline-none focus:border-[#162774] disabled:opacity-60"
-              >
-                {enrolledProjects.length > 0 ? (
-                  enrolledProjects.map((p) => (
-                    <option key={p.id || p.projectId} value={p.projectId}>
-                      {p.projectTitle || p.projectId}
-                    </option>
-                  ))
-                ) : (
-                  <option value="">No Active Enrollments</option>
-                )}
-              </select>
-            </div>
-          </div>
-
-          {/* Generated Bullets Display */}
-          {(() => {
-            if (enrolledProjects.length === 0) {
-              return (
-                <div className="p-8 sm:p-10 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-center space-y-3">
-                  <div className="text-[#162774] font-extrabold text-lg">Strict Enrolled-Only Proof-of-Work Gate</div>
-                  <p className="text-sm font-medium text-slate-600 max-w-md mx-auto leading-relaxed">
-                    To prevent unverified resume inflation, STAR bullet points are strictly generated only for projects you have enrolled in and actively logged.
-                  </p>
-                  <div className="pt-2">
                     <Link
-                      href="/arena"
-                      className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#162774] text-white font-bold text-sm hover:bg-[#1e3494] transition-all"
+                      href="/product-tour"
+                      className="group px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-white text-slate-950 text-xs font-extrabold transition-all shrink-0 flex items-center gap-2 shadow-sm"
                     >
-                      <span>Enroll in an Arena Track</span>
-                      <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
-                        <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
-                      </span>
+                      <span>Open Tour</span>
+                      <ArrowRight size={13} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
                     </Link>
                   </div>
-                </div>
-              );
-            }
+                </>
+              )}
 
-            const activeEnrolledId = selectedResumeId && enrolledProjects.some((ep) => ep.projectId === selectedResumeId)
-              ? selectedResumeId
-              : enrolledProjects[0]?.projectId;
+              {activeProfileSection === "countdown" && (
+                <>
 
-            const currentProj = ARENA_PROJECTS.find((p) => p.id === activeEnrolledId || p.slug === activeEnrolledId) || ARENA_PROJECTS[0];
-            const techList = currentProj.techStack.slice(0, 4).join(", ");
-            const bullets = [
-              `Architected and deployed a production ${currentProj.title} utilizing ${techList}, processing high-throughput payloads with sub-150ms p95 latency.`,
-              `Engineered multi-table relational schemas and vector embedding indexing with strict ACID transaction guarantees and zero data loss.`,
-              `Built automated test suites and SLA benchmark pipelines, achieving >85% code coverage and meeting strict production acceptance criteria (${currentProj.productionSla}).`,
-              `Containerized microservices via Docker and established automated GitHub CI/CD workflows for reproducible staging and cloud deployments.`
-            ];
+                  {/* =========================================================================
+            PERSONAL 45-DAY VIRTUAL AI INTERNSHIP COUNTDOWN & MILESTONES (ICON-FREE)
+        ========================================================================= */}
+                  <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans text-xs">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider mb-2">
+                          Rolling 45-Day Internship Sprint
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 font-sans">
+                          Personal 45-Day Progress &amp; Milestone Timer
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
+                          Every builder operates on their own 45-day window from the day of first enrollment.
+                        </p>
+                      </div>
 
-            const plainText = `• ${bullets.join("\n• ")}`;
-            const latexText = `\\resumeSubheading\n  {${currentProj.title}}{Indore, India}\n  {AI & Systems Engineering Fellow}{Sept 2026 -- Present}\n  \\resumeItemListStart\n    \\resumeItem{${bullets[0]}}\n    \\resumeItem{${bullets[1]}}\n    \\resumeItem{${bullets[2]}}\n    \\resumeItem{${bullets[3]}}\n  \\resumeItemListEnd`;
+                      <div className="flex items-center gap-2.5 shrink-0">
+                        <div className="px-4 py-2 rounded-full bg-[#162774] text-[#D9F83B] text-xs font-extrabold">
+                          Day {daysElapsed} / 45
+                        </div>
+                        <div className={`px-4 py-2 rounded-full text-xs font-extrabold border ${daysRemaining <= 7
+                            ? "bg-rose-50 text-rose-700 border-rose-200"
+                            : daysRemaining <= 15
+                              ? "bg-amber-50 text-amber-800 border-amber-200"
+                              : "bg-[#D9F83B] text-slate-950 border-[#D9F83B]"
+                          }`}>
+                          {daysRemaining > 0 ? `${daysRemaining} Days Left` : "Sprint Complete"}
+                        </div>
+                      </div>
+                    </div>
 
-            return (
-              <div className="space-y-4">
-                <div className="p-5 sm:p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 space-y-3">
-                  <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                    <span className="font-extrabold text-[#162774] text-base">{currentProj.title}</span>
-                    <span className="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-[#162774] font-bold uppercase tracking-wider">{currentProj.difficulty}</span>
+                    {/* Milestone Warnings */}
+                    {daysRemaining <= 7 && daysRemaining > 0 && (
+                      <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 border-l-4 border-l-rose-600 text-rose-900 mb-6">
+                        <div className="font-extrabold text-sm">Final Week Sprint Alert: Complete Cloud Deploy &amp; Audit</div>
+                        <p className="text-xs text-rose-700 mt-0.5 font-medium">
+                          You have less than 7 days remaining in your 45-day sprint. Ensure your QA test pass rate is 100%, deploy your Docker container to cloud, and push your final commit.
+                        </p>
+                      </div>
+                    )}
+
+                    {daysRemaining <= 15 && daysRemaining > 7 && (
+                      <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 border-l-4 border-l-amber-500 text-amber-900 mb-6">
+                        <div className="font-extrabold text-sm">15-Day Milestone Warning: Finalize Core APIs &amp; QA Test Suite</div>
+                        <p className="text-xs text-amber-800 mt-0.5 font-medium">
+                          You have 15 days left. Make sure all core microservices are built and your k6 load test scripts demonstrate &lt;150ms p95 latency.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Progress Bar */}
+                    <div className="space-y-2 mb-6">
+                      <div className="flex justify-between text-xs text-slate-700 font-bold">
+                        <span>Overall Sprint Completion: {percentComplete}%</span>
+                        <span>{45 - daysRemaining} / 45 Days Logged</span>
+                      </div>
+                      <div className="h-3 w-full bg-[#F4F6FB] rounded-full overflow-hidden border border-slate-200">
+                        <div
+                          className="h-full bg-[#162774] rounded-full transition-all duration-500"
+                          style={{ width: `${percentComplete}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* 4-Stage Milestone Matrix */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
+                      {[
+                        { phase: "Stage 1: Days 1–10", title: "Architecture & HLD/LLD", status: daysElapsed >= 10 ? "PASSED" : daysElapsed >= 1 ? "IN_PROGRESS" : "PENDING", desc: "System PRD, schemas & design matrices" },
+                        { phase: "Stage 2: Days 11–25", title: "Core Microservices & APIs", status: daysElapsed >= 25 ? "PASSED" : daysElapsed >= 11 ? "IN_PROGRESS" : "PENDING", desc: "Pipeline logic, SLM/agent swarms & Redis" },
+                        { phase: "Stage 3: Days 26–35", title: "QA Suite & SLA Benchmarking", status: daysElapsed >= 35 ? "PASSED" : daysElapsed >= 26 ? "IN_PROGRESS" : "PENDING", desc: "k6 load assertions & edge failure tests" },
+                        { phase: "Stage 4: Days 36–45", title: "Cloud Deploy & Founder Audit", status: daysElapsed >= 45 ? "PASSED" : daysElapsed >= 36 ? "IN_PROGRESS" : "PENDING", desc: "Container deploy & referral verification" }
+                      ].map((stg, idx) => (
+                        <div
+                          key={idx}
+                          className={`p-4 rounded-2xl border transition-all ${stg.status === "PASSED"
+                              ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 text-slate-950"
+                              : stg.status === "IN_PROGRESS"
+                                ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-sm text-slate-950"
+                                : "bg-[#F4F6FB] border-slate-200 text-slate-600"
+                            }`}
+                        >
+                          <div className="flex items-center justify-between text-[10px] font-extrabold mb-1.5">
+                            <span className="text-[#162774] uppercase">{stg.phase}</span>
+                            <span className={`px-2 py-0.5 rounded-full ${stg.status === "PASSED"
+                                ? "bg-emerald-100 text-emerald-800"
+                                : stg.status === "IN_PROGRESS"
+                                  ? "bg-[#D9F83B] text-slate-950"
+                                  : "bg-white text-slate-500 border border-slate-200"
+                              }`}>
+                              {stg.status === "PASSED" ? "Done" : stg.status === "IN_PROGRESS" ? "Active" : "Upcoming"}
+                            </span>
+                          </div>
+                          <div className="font-extrabold text-sm text-slate-950 mb-1">{stg.title}</div>
+                          <div className="text-xs text-slate-600 font-medium leading-relaxed">{stg.desc}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-6 flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-slate-100">
+                      <div className="text-xs text-slate-600 font-medium">
+                        Submit daily GitHub commits to keep your streak unbroken and earn +20 to +70 Karma Coins every day.
+                      </div>
+                      <Link
+                        href="/arena/daily-log"
+                        className="group relative overflow-hidden px-5 py-2.5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold text-xs transition-all flex items-center gap-2 shadow-sm"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                        />
+                        <span className="relative z-10 group-hover:text-white transition-colors duration-500">Log Daily Commit</span>
+                        <span className="relative z-10 w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                          <ArrowRight size={11} />
+                        </span>
+                      </Link>
+                    </div>
                   </div>
 
-                  {bullets.map((b, bi) => (
-                    <div key={bi} className="flex items-start gap-2.5 text-slate-700 text-sm font-medium leading-relaxed">
-                      <span className="text-[#162774] font-extrabold shrink-0">&bull;</span>
-                      <span>{b}</span>
+                </>
+              )}
+
+              {activeProfileSection === "projects" && (
+                <>
+                  {/* =========================================================================
+            ENROLLED ARENA BLUEPRINTS (ICON-FREE)
+        ========================================================================= */}
+                  <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+                          Active System Tracks
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                          My Enrolled Production PRDs
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
+                          Active engineering systems assigned to your proof-of-work streak.
+                        </p>
+                      </div>
+
+                      <Link
+                        href="/arena"
+                        className="px-4 py-2 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold hover:bg-[#162774] hover:text-white transition-colors self-start sm:self-auto"
+                      >
+                        Browse {TOTAL_SYSTEMS_COUNT} Systems
+                      </Link>
                     </div>
-                  ))}
-                </div>
 
-                <div className="flex flex-wrap items-center gap-3 pt-2">
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(plainText);
-                      setCopiedResumePlain(true);
-                      setTimeout(() => setCopiedResumePlain(false), 2000);
-                    }}
-                    className="px-5 py-2.5 rounded-full bg-[#162774] hover:bg-[#1e3494] text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shadow-xs"
-                  >
-                    <span>{copiedResumePlain ? "Plain Text Copied!" : "Copy Plain Text Bullets"}</span>
-                  </button>
+                    {loadingEnrollments ? (
+                      <div className="py-12 text-center text-slate-500 font-sans text-xs font-semibold">
+                        Loading enrolled blueprints...
+                      </div>
+                    ) : enrolledProjects.length === 0 ? (
+                      <div className="p-8 sm:p-10 text-center rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] space-y-3">
+                        <span className="inline-block px-3 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                          Ready to Enroll
+                        </span>
+                        <div className="font-extrabold text-slate-950 text-lg">No Active PRD Enrollments Yet</div>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
+                          Explore the {TOTAL_SYSTEMS_COUNT} production AI blueprints in the Arena catalog and enroll in your first track to begin shipping.
+                        </p>
+                        <Link
+                          href="/arena"
+                          className="group relative overflow-hidden inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D9F83B] text-slate-950 text-xs font-extrabold shadow-sm"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
+                          />
+                          <span className="relative z-10 group-hover:text-white transition-colors duration-500">Enroll in a Project</span>
+                          <span className="relative z-10 w-5 h-5 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg]">
+                            <ArrowRight size={10} />
+                          </span>
+                        </Link>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
+                        {enrolledProjects.map((ep) => {
+                          const completedDays = Math.min(45, Math.max(ep.lastDayLogged || 0, ep.streak || 0));
+                          const progressPct = Math.min(100, Math.round((completedDays / 45) * 100));
 
-                  <button
-                    onClick={() => {
-                      navigator.clipboard.writeText(latexText);
-                      setCopiedResumeLatex(true);
-                      setTimeout(() => setCopiedResumeLatex(false), 2000);
-                    }}
-                    className="px-5 py-2.5 rounded-full bg-[#F4F6FB] hover:bg-[#D9F83B] text-[#162774] border border-slate-200 font-bold text-xs sm:text-sm transition-all cursor-pointer"
-                  >
-                    <span>{copiedResumeLatex ? "LaTeX Code Copied!" : "Copy LaTeX (Overleaf) Block"}</span>
-                  </button>
-                </div>
-              </div>
-            );
-          })()}
-        </div>
+                          return (
+                            <div
+                              key={ep.id || ep.projectId}
+                              className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-blue-300 transition-all flex flex-col justify-between space-y-4"
+                            >
+                              <div>
+                                <div className="flex items-center justify-between text-[10px] font-bold mb-2">
+                                  <span className="px-2 py-0.5 rounded-md bg-blue-100 text-[#0066FF]">
+                                    {ep.teamType || "Solo"} Track
+                                  </span>
+                                  <span className="text-emerald-700 font-bold">
+                                    {ep.status || "Active"}
+                                  </span>
+                                </div>
+                                <h4 className="text-sm font-bold text-slate-900 font-sans mb-1">
+                                  {ep.projectTitle || "Production AI System"}
+                                </h4>
+                                <div className="text-[11px] text-slate-500 mb-3">
+                                  Role: <strong>{ep.role || "AI Engineer"}</strong>
+                                </div>
 
-        </>
-        )}
+                                {/* 45-Day Progress Bar */}
+                                <div className="p-3 rounded-xl bg-white border border-slate-200/80 space-y-1.5">
+                                  <div className="flex items-center justify-between text-[10px]">
+                                    <span className="font-bold text-slate-700 font-sans">
+                                      Day {completedDays} / 45 Completed
+                                    </span>
+                                    <span className="font-mono font-bold text-[#0066FF]">{progressPct}%</span>
+                                  </div>
+                                  <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-gradient-to-r from-[#0066FF] to-cyan-400 rounded-full transition-all duration-300"
+                                      style={{ width: `${progressPct}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
 
-        {activeProfileSection === "linkedin" && (
-        <>
-        {/* =========================================================================
+                              <div className="flex flex-col gap-2 pt-3 border-t border-slate-200/80">
+                                <div className="flex items-center gap-2">
+                                  <Link
+                                    href={`/arena/${ep.projectId}`}
+                                    className="flex-1 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 font-bold text-center hover:bg-slate-100 transition-colors"
+                                  >
+                                    Open PRD
+                                  </Link>
+                                  <Link
+                                    href={`/arena/daily-log?projectId=${ep.projectId}`}
+                                    className="flex-1 py-2 rounded-xl bg-[#0066FF] text-white font-bold text-center hover:bg-blue-600 transition-colors"
+                                  >
+                                    Log Commit
+                                  </Link>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleUnenroll(ep.id, ep.projectId, ep.projectTitle)}
+                                    disabled={unenrollingId === (ep.id || ep.projectId)}
+                                    className="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-rose-50 hover:text-rose-600 border border-slate-200 text-slate-500 font-bold transition-colors cursor-pointer shrink-0"
+                                    title="Unenroll / Leave this project track"
+                                  >
+                                    {unenrollingId === (ep.id || ep.projectId) ? (
+                                      <Loader2 size={13} className="animate-spin text-rose-500" />
+                                    ) : (
+                                      <span className="text-[10px] text-rose-600">Leave</span>
+                                    )}
+                                  </button>
+                                </div>
+
+                                <Link
+                                  href={`/showcase?autoOpen=true&title=${encodeURIComponent(ep.projectTitle || "Production AI System")}&desc=${encodeURIComponent(`Autonomous production build for ${ep.projectTitle}`)}&github=${encodeURIComponent(ep.githubRepoUrl || ep.github || "")}`}
+                                  className="w-full py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 font-bold text-center flex items-center justify-center gap-1.5 transition-colors"
+                                >
+                                  <Sparkles size={12} />
+                                  <span>Publish to Community Showcase &rarr;</span>
+                                </Link>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+
+                </>
+              )}
+
+              {activeProfileSection === "badges" && (
+                <>
+                  {/* =========================================================================
+            SECTION BADGES: GAMIFIED CANDIDATE BADGES & STREAKS (ICON-FREE)
+        ========================================================================= */}
+                  <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+                          Earned Badges &amp; Production Milestones
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-extrabold font-sans text-slate-950">
+                          Gamified Candidate Badges &amp; Streaks
+                        </h3>
+                        <p className="text-xs sm:text-sm font-sans font-medium text-slate-600 mt-1">
+                          Unlock and claim streak badges (10, 20, 45 days) &amp; project milestones (1, 2, 4 projects).
+                        </p>
+                      </div>
+
+                      <div className="flex items-center gap-2.5 flex-wrap self-start sm:self-auto">
+                        {badgeStatuses.some((b) => b.canClaim) && (
+                          <button
+                            type="button"
+                            onClick={handleClaimAllBadges}
+                            className="px-4 py-2 rounded-full bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-sans text-xs font-extrabold transition-all shadow-sm cursor-pointer"
+                          >
+                            Claim All Unlocked Badges
+                          </button>
+                        )}
+                        <span className="px-4 py-1.5 rounded-full bg-[#F4F6FB] text-[#162774] font-sans text-xs font-extrabold border border-slate-200">
+                          {claimedBadges.length} Badges Claimed
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-sans text-xs">
+                      {badgeStatuses.map((b, idx) => (
+                        <div
+                          key={b.id}
+                          className={`p-5 rounded-3xl border flex flex-col justify-between space-y-4 transition-all ${b.isClaimed
+                              ? "bg-white border-emerald-300 border-l-4 border-l-emerald-600 shadow-xs"
+                              : b.isEligible
+                                ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-md"
+                                : "bg-[#F4F6FB] border-slate-200 border-l-4 border-l-[#162774]"
+                            }`}
+                        >
+                          <div className="space-y-2.5">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center shrink-0">
+                                {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                              </span>
+
+                              <div className="flex items-center gap-1.5">
+                                <span
+                                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${b.isClaimed
+                                      ? "bg-emerald-100 text-emerald-800"
+                                      : b.isEligible
+                                        ? "bg-[#D9F83B] text-slate-950"
+                                        : "bg-white text-slate-600 border border-slate-200"
+                                    }`}
+                                >
+                                  {b.isClaimed ? "Claimed" : b.isEligible ? "Unlocked" : "Locked"}
+                                </span>
+                                <span className="px-2 py-0.5 rounded-full bg-white border border-slate-200 text-[10px] text-[#162774] font-extrabold uppercase">
+                                  {b.category}
+                                </span>
+                              </div>
+                            </div>
+
+                            <h4 className="font-extrabold text-slate-950 font-sans text-base leading-snug">{b.title}</h4>
+                            <p className="text-xs sm:text-[13px] text-slate-600 font-sans font-medium leading-relaxed">{b.description}</p>
+                          </div>
+
+                          <div>
+                            {b.isClaimed ? (
+                              <div className="w-full py-2.5 rounded-xl bg-emerald-100 text-emerald-900 text-center font-extrabold text-xs">
+                                Active Verified Badge on Profile
+                              </div>
+                            ) : b.canClaim ? (
+                              <button
+                                onClick={() => handleClaimBadge(b.id)}
+                                disabled={claimingId === b.id}
+                                className="w-full py-2.5 rounded-xl bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-extrabold text-center transition-all shadow-sm cursor-pointer"
+                              >
+                                {claimingId === b.id ? "Claiming..." : "Claim Badge Now"}
+                              </button>
+                            ) : (
+                              <div className="w-full py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 text-center font-bold text-xs">
+                                Need {b.requiredCount} {b.category === "streak" ? "Days" : "Projects"}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                </>
+              )}
+
+              {activeProfileSection === "certificates" && (
+                <>
+                  {/* =========================================================================
+            SECTION CERTIFICATES: OFFICIAL VERIFIED COMPLETION CERTIFICATES (ICON-FREE)
+        ========================================================================= */}
+                  <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider mb-1.5">
+                          Official Credentials
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                          Verified Completion Certificates &amp; Passes
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
+                          Issued by Botmartz AI Solutions upon completing 45 days of proof-of-work.
+                        </p>
+                      </div>
+
+                      <Link
+                        href="/certificates"
+                        className="px-4 py-2 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold hover:bg-[#162774] hover:text-white transition-colors self-start sm:self-auto"
+                      >
+                        Verify Desk
+                      </Link>
+                    </div>
+
+                    {completedEnrollments.length === 0 ? (
+                      <div className="p-8 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] text-center space-y-2.5">
+                        <span className="inline-block px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold uppercase tracking-wider">
+                          Day {daysElapsed}/45 Logged
+                        </span>
+                        <h4 className="font-extrabold text-slate-950 text-lg">Certificate Locked</h4>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
+                          Your official certificate will generate automatically once you complete 45 days of daily standup logs or mark your project complete.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+                        {completedEnrollments.map((c) => {
+                          const certId = c.certificateId || `CERT-BM-${(c.projectId || "888").toUpperCase()}-98231`;
+                          return (
+                            <div
+                              key={c.id || c.projectId}
+                              className="rounded-3xl bg-gradient-to-br from-emerald-50/80 via-white to-blue-50/50 border-2 border-emerald-300 p-6 space-y-4 shadow-md"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold uppercase text-[10px] flex items-center gap-1">
+                                  <CheckCircle2 size={13} className="text-emerald-600" /> Verified Credential
+                                </span>
+                                <span className="text-slate-500 font-bold text-[11px]">
+                                  ID: {certId}
+                                </span>
+                              </div>
+
+                              <div>
+                                <h4 className="font-extrabold text-slate-900 font-sans text-lg">{c.projectTitle}</h4>
+                                <p className="text-slate-500 text-xs mt-1">Issued by Soham Sharma &bull; Botmartz AI Solutions</p>
+                              </div>
+
+                              <div className="flex flex-wrap items-center gap-2 pt-2">
+                                <Link
+                                  href={`/certificates?query=${certId}`}
+                                  className="flex-1 py-2.5 rounded-xl bg-[#0066FF] hover:bg-blue-600 text-white font-bold text-center transition-colors shadow-xs"
+                                >
+                                  View PDF
+                                </Link>
+
+                                <button
+                                  onClick={() => setShareModalData({
+                                    isOpen: true,
+                                    projectTitle: c.projectTitle,
+                                    certId
+                                  })}
+                                  className="flex-1 py-2.5 rounded-xl bg-[#0077B5] hover:bg-[#006097] text-white font-bold text-center transition-colors shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                                >
+                                  <Linkedin size={14} />
+                                  <span>Share on LinkedIn</span>
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+
+                </>
+              )}
+
+              {activeProfileSection === "resume" && (
+                <>
+                  {/* =========================================================================
+            SECTION A: AUTOMATED PROJECT RESUME STAR BULLET GENERATOR (ENROLLED ONLY)
+        ========================================================================= */}
+                  <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
+                          RECRUITER &amp; ATS OPTIMIZATION
+                        </span>
+                        <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
+                          Project Resume Builder &amp; STAR Bullet Generator
+                        </h3>
+                        <p className="text-sm font-medium text-slate-600 mt-1">
+                          Automatically generate metric-driven, recruiter-ready STAR bullet points for your applied Arena projects.
+                        </p>
+                      </div>
+
+                      {/* Project Selector Dropdown - Strictly Enrolled Projects */}
+                      <div className="w-full sm:w-72">
+                        <select
+                          value={selectedResumeId}
+                          onChange={(e) => setSelectedResumeId(e.target.value)}
+                          disabled={enrolledProjects.length === 0}
+                          className="w-full bg-[#F4F6FB] border border-slate-200 rounded-full px-4 py-2.5 text-sm font-semibold text-[#162774] focus:bg-white focus:outline-none focus:border-[#162774] disabled:opacity-60"
+                        >
+                          {enrolledProjects.length > 0 ? (
+                            enrolledProjects.map((p) => (
+                              <option key={p.id || p.projectId} value={p.projectId}>
+                                {p.projectTitle || p.projectId}
+                              </option>
+                            ))
+                          ) : (
+                            <option value="">No Active Enrollments</option>
+                          )}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Generated Bullets Display */}
+                    {(() => {
+                      if (enrolledProjects.length === 0) {
+                        return (
+                          <div className="p-8 sm:p-10 rounded-2xl bg-[#F4F6FB] border border-slate-200 text-center space-y-3">
+                            <div className="text-[#162774] font-extrabold text-lg">Strict Enrolled-Only Proof-of-Work Gate</div>
+                            <p className="text-sm font-medium text-slate-600 max-w-md mx-auto leading-relaxed">
+                              To prevent unverified resume inflation, STAR bullet points are strictly generated only for projects you have enrolled in and actively logged.
+                            </p>
+                            <div className="pt-2">
+                              <Link
+                                href="/arena"
+                                className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#162774] text-white font-bold text-sm hover:bg-[#1e3494] transition-all"
+                              >
+                                <span>Enroll in an Arena Track</span>
+                                <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
+                                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                                </span>
+                              </Link>
+                            </div>
+                          </div>
+                        );
+                      }
+
+                      const activeEnrolledId = selectedResumeId && enrolledProjects.some((ep) => ep.projectId === selectedResumeId)
+                        ? selectedResumeId
+                        : enrolledProjects[0]?.projectId;
+
+                      const currentProj = ARENA_PROJECTS.find((p) => p.id === activeEnrolledId || p.slug === activeEnrolledId) || ARENA_PROJECTS[0];
+                      const techList = currentProj.techStack.slice(0, 4).join(", ");
+                      const bullets = [
+                        `Architected and deployed a production ${currentProj.title} utilizing ${techList}, processing high-throughput payloads with sub-150ms p95 latency.`,
+                        `Engineered multi-table relational schemas and vector embedding indexing with strict ACID transaction guarantees and zero data loss.`,
+                        `Built automated test suites and SLA benchmark pipelines, achieving >85% code coverage and meeting strict production acceptance criteria (${currentProj.productionSla}).`,
+                        `Containerized microservices via Docker and established automated GitHub CI/CD workflows for reproducible staging and cloud deployments.`
+                      ];
+
+                      const plainText = `• ${bullets.join("\n• ")}`;
+                      const latexText = `\\resumeSubheading\n  {${currentProj.title}}{Indore, India}\n  {AI & Systems Engineering Fellow}{Sept 2026 -- Present}\n  \\resumeItemListStart\n    \\resumeItem{${bullets[0]}}\n    \\resumeItem{${bullets[1]}}\n    \\resumeItem{${bullets[2]}}\n    \\resumeItem{${bullets[3]}}\n  \\resumeItemListEnd`;
+
+                      return (
+                        <div className="space-y-4">
+                          <div className="p-5 sm:p-6 rounded-2xl bg-[#F4F6FB] border border-slate-200 space-y-3">
+                            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+                              <span className="font-extrabold text-[#162774] text-base">{currentProj.title}</span>
+                              <span className="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs text-[#162774] font-bold uppercase tracking-wider">{currentProj.difficulty}</span>
+                            </div>
+
+                            {bullets.map((b, bi) => (
+                              <div key={bi} className="flex items-start gap-2.5 text-slate-700 text-sm font-medium leading-relaxed">
+                                <span className="text-[#162774] font-extrabold shrink-0">&bull;</span>
+                                <span>{b}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-3 pt-2">
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(plainText);
+                                setCopiedResumePlain(true);
+                                setTimeout(() => setCopiedResumePlain(false), 2000);
+                              }}
+                              className="px-5 py-2.5 rounded-full bg-[#162774] hover:bg-[#1e3494] text-white font-bold text-xs sm:text-sm transition-all cursor-pointer shadow-xs"
+                            >
+                              <span>{copiedResumePlain ? "Plain Text Copied!" : "Copy Plain Text Bullets"}</span>
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(latexText);
+                                setCopiedResumeLatex(true);
+                                setTimeout(() => setCopiedResumeLatex(false), 2000);
+                              }}
+                              className="px-5 py-2.5 rounded-full bg-[#F4F6FB] hover:bg-[#D9F83B] text-[#162774] border border-slate-200 font-bold text-xs sm:text-sm transition-all cursor-pointer"
+                            >
+                              <span>{copiedResumeLatex ? "LaTeX Code Copied!" : "Copy LaTeX (Overleaf) Block"}</span>
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                </>
+              )}
+
+              {activeProfileSection === "linkedin" && (
+                <>
+                  {/* =========================================================================
             SECTION B: INTERACTIVE LINKEDIN BUILDER CHECKLIST
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
-                LINKEDIN VISIBILITY &amp; REACH
-              </span>
-              <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
-                LinkedIn Builder Optimization Checklist
-              </h3>
-              <p className="text-sm font-medium text-slate-600 mt-1">
-                Convert your daily proof-of-work into inbound engineering interview invites.
-              </p>
-            </div>
+                  <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
+                          LINKEDIN VISIBILITY &amp; REACH
+                        </span>
+                        <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
+                          LinkedIn Builder Optimization Checklist
+                        </h3>
+                        <p className="text-sm font-medium text-slate-600 mt-1">
+                          Convert your daily proof-of-work into inbound engineering interview invites.
+                        </p>
+                      </div>
 
-            <Link
-              href="/arena/career-checklist"
-              className="group inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-[#F4F6FB] hover:bg-[#162774] text-[#162774] hover:text-white border border-slate-200 hover:border-[#162774] font-bold text-xs sm:text-sm transition-all shrink-0"
-            >
-              <span>Full Career Checklist</span>
-              <span className="w-7 h-7 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] text-white group-hover:text-[#162774] flex items-center justify-center transition-colors">
-                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
-              </span>
-            </Link>
-          </div>
+                      <Link
+                        href="/arena/career-checklist"
+                        className="group inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-[#F4F6FB] hover:bg-[#162774] text-[#162774] hover:text-white border border-slate-200 hover:border-[#162774] font-bold text-xs sm:text-sm transition-all shrink-0"
+                      >
+                        <span>Full Career Checklist</span>
+                        <span className="w-7 h-7 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] text-white group-hover:text-[#162774] flex items-center justify-center transition-colors">
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                        </span>
+                      </Link>
+                    </div>
 
-          {/* Checklist Items */}
-          <div className="space-y-3">
-            {[
-              {
-                key: "headline",
-                label: "Optimized Headline (e.g. AI & Distributed Systems Builder @ Botmartz Arena | PyTorch • LangGraph • FastAPI)",
-                action: () => {
-                  navigator.clipboard.writeText("AI & Systems Engineering Builder @ Botmartz Arena | PyTorch • LangGraph • FastAPI • Rust");
-                  setCopiedHeadline(true);
-                  setTimeout(() => setCopiedHeadline(false), 2000);
-                },
-                actionLabel: copiedHeadline ? "Headline Copied!" : "Copy Headline"
-              },
-              {
-                key: "githubInFeatured",
-                label: "Pinned Active GitHub Repository in Featured Section",
-                action: null,
-                actionLabel: null
-              },
-              {
-                key: "day1Post",
-                label: "Published Day 1 / Milestone Proof-of-Work Post with #BotmartzAI",
-                action: () => {
-                  const postText = `🚀 Excited to announce I am building production systems in the Botmartz Arena!\n\nTackling industrial PRD blueprints with strict <150ms SLA latency gates and daily GitHub proof-of-work commits.\n\nCheck out my builder profile: https://community.botmartz.com${publicProfileUrl}\n\n#BotmartzAI #SystemsEngineering #AI #FullStack`;
-                  navigator.clipboard.writeText(postText);
-                  setCopiedPostTemplate(true);
-                  setTimeout(() => setCopiedPostTemplate(false), 2000);
-                },
-                actionLabel: copiedPostTemplate ? "Post Template Copied!" : "Copy Post Template"
-              },
-              {
-                key: "skillTags",
-                label: "Added Top 5 Technical Skills (Python, FastAPI, PyTorch, Vector DBs, Docker)",
-                action: null,
-                actionLabel: null
-              },
-              {
-                key: "portfolioLink",
-                label: `Attached Verified Botmartz Profile Link (community.botmartz.com${publicProfileUrl}) in Bio`,
-                action: handleCopyPublicProfile,
-                actionLabel: copiedLink ? "Link Copied!" : "Copy Link"
-              },
-              {
-                key: "peerConnect",
-                label: "Connected with 10+ Fellow Builders in the Community",
-                action: null,
-                actionLabel: null
-              }
-            ].map((item, idx) => {
-              const isDone = (linkedinTasks as any)[item.key];
-              return (
-                <div
-                  key={idx}
-                  className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${
-                    isDone ? "bg-[#D9F83B]/15 border-[#162774]/30 text-[#162774]" : "bg-[#F4F6FB] border-slate-200 text-slate-700"
-                  }`}
-                >
-                  <label className="flex items-center gap-3 cursor-pointer select-none text-sm font-semibold">
-                    <input
-                      type="checkbox"
-                      checked={Boolean(isDone)}
-                      onChange={() => {
-                        setLinkedinTasks((prev) => ({
-                          ...prev,
-                          [item.key]: !isDone
-                        }));
-                      }}
-                      className="w-4 h-4 rounded accent-[#162774] border-slate-300 focus:ring-[#162774] cursor-pointer"
-                    />
-                    <span className={isDone ? "font-bold text-[#162774]" : "font-semibold text-slate-800"}>{item.label}</span>
-                  </label>
+                    {/* Checklist Items */}
+                    <div className="space-y-3">
+                      {[
+                        {
+                          key: "headline",
+                          label: "Optimized Headline (e.g. AI & Distributed Systems Builder @ Botmartz Arena | PyTorch • LangGraph • FastAPI)",
+                          action: () => {
+                            navigator.clipboard.writeText("AI & Systems Engineering Builder @ Botmartz Arena | PyTorch • LangGraph • FastAPI • Rust");
+                            setCopiedHeadline(true);
+                            setTimeout(() => setCopiedHeadline(false), 2000);
+                          },
+                          actionLabel: copiedHeadline ? "Headline Copied!" : "Copy Headline"
+                        },
+                        {
+                          key: "githubInFeatured",
+                          label: "Pinned Active GitHub Repository in Featured Section",
+                          action: null,
+                          actionLabel: null
+                        },
+                        {
+                          key: "day1Post",
+                          label: "Published Day 1 / Milestone Proof-of-Work Post with #BotmartzAI",
+                          action: () => {
+                            const postText = `🚀 Excited to announce I am building production systems in the Botmartz Arena!\n\nTackling industrial PRD blueprints with strict <150ms SLA latency gates and daily GitHub proof-of-work commits.\n\nCheck out my builder profile: https://community.botmartz.com${publicProfileUrl}\n\n#BotmartzAI #SystemsEngineering #AI #FullStack`;
+                            navigator.clipboard.writeText(postText);
+                            setCopiedPostTemplate(true);
+                            setTimeout(() => setCopiedPostTemplate(false), 2000);
+                          },
+                          actionLabel: copiedPostTemplate ? "Post Template Copied!" : "Copy Post Template"
+                        },
+                        {
+                          key: "skillTags",
+                          label: "Added Top 5 Technical Skills (Python, FastAPI, PyTorch, Vector DBs, Docker)",
+                          action: null,
+                          actionLabel: null
+                        },
+                        {
+                          key: "portfolioLink",
+                          label: `Attached Verified Botmartz Profile Link (community.botmartz.com${publicProfileUrl}) in Bio`,
+                          action: handleCopyPublicProfile,
+                          actionLabel: copiedLink ? "Link Copied!" : "Copy Link"
+                        },
+                        {
+                          key: "peerConnect",
+                          label: "Connected with 10+ Fellow Builders in the Community",
+                          action: null,
+                          actionLabel: null
+                        }
+                      ].map((item, idx) => {
+                        const isDone = (linkedinTasks as any)[item.key];
+                        return (
+                          <div
+                            key={idx}
+                            className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all ${isDone ? "bg-[#D9F83B]/15 border-[#162774]/30 text-[#162774]" : "bg-[#F4F6FB] border-slate-200 text-slate-700"
+                              }`}
+                          >
+                            <label className="flex items-center gap-3 cursor-pointer select-none text-sm font-semibold">
+                              <input
+                                type="checkbox"
+                                checked={Boolean(isDone)}
+                                onChange={() => {
+                                  setLinkedinTasks((prev) => ({
+                                    ...prev,
+                                    [item.key]: !isDone
+                                  }));
+                                }}
+                                className="w-4 h-4 rounded accent-[#162774] border-slate-300 focus:ring-[#162774] cursor-pointer"
+                              />
+                              <span className={isDone ? "font-bold text-[#162774]" : "font-semibold text-slate-800"}>{item.label}</span>
+                            </label>
 
-                  {item.action && (
-                    <button
-                      onClick={item.action}
-                      className="px-3.5 py-2 rounded-full bg-white border border-slate-200 hover:border-[#162774] hover:bg-[#162774] hover:text-white text-[#162774] font-bold text-xs shrink-0 transition-all cursor-pointer"
-                    >
-                      {item.actionLabel}
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                            {item.action && (
+                              <button
+                                onClick={item.action}
+                                className="px-3.5 py-2 rounded-full bg-white border border-slate-200 hover:border-[#162774] hover:bg-[#162774] hover:text-white text-[#162774] font-bold text-xs shrink-0 transition-all cursor-pointer"
+                              >
+                                {item.actionLabel}
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
 
-          <div className="mt-5 p-4 rounded-2xl bg-[#162774] text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="text-sm font-medium text-white/90">
-              <strong className="text-[#D9F83B] font-extrabold">Tip:</strong> Submitting your live LinkedIn post URL on the Daily Log awards an instant <strong className="text-white font-bold">+50 Karma Coins</strong>!
-            </div>
-            <Link
-              href="/arena/daily-log"
-              className="group inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] font-extrabold text-xs sm:text-sm shrink-0 hover:bg-[#cff227] transition-all"
-            >
-              <span>Submit Post Link (+50)</span>
-              <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center">
-                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
-              </span>
-            </Link>
-          </div>
-        </div>
+                    <div className="mt-5 p-4 rounded-2xl bg-[#162774] text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="text-sm font-medium text-white/90">
+                        <strong className="text-[#D9F83B] font-extrabold">Tip:</strong> Submitting your live LinkedIn post URL on the Daily Log awards an instant <strong className="text-white font-bold">+50 Karma Coins</strong>!
+                      </div>
+                      <Link
+                        href="/arena/daily-log"
+                        className="group inline-flex items-center gap-3 pl-4 pr-1.5 py-1.5 rounded-full bg-[#D9F83B] text-[#162774] font-extrabold text-xs sm:text-sm shrink-0 hover:bg-[#cff227] transition-all"
+                      >
+                        <span>Submit Post Link (+50)</span>
+                        <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center">
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
 
-        </>
-        )}
+                </>
+              )}
 
-        {activeProfileSection === "notifications" && (
-        <>
-        {/* =========================================================================
+              {activeProfileSection === "notifications" && (
+                <>
+                  {/* =========================================================================
             SECTION B2: EMAIL NOTIFICATIONS & SPRINT ALERT PREFERENCES (ICON-FREE)
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans text-xs">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider mb-1.5">
-                Communications &amp; Dispatch Control
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
-                Email Notification &amp; Milestone Alerts
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
-                Choose exactly which email notifications and reminders you want to receive. No spam — only critical sprint alerts.
-              </p>
-            </div>
+                  <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xs font-sans text-xs">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[10px] uppercase tracking-wider mb-1.5">
+                          Communications &amp; Dispatch Control
+                        </span>
+                        <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950">
+                          Email Notification &amp; Milestone Alerts
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-600 font-medium mt-0.5">
+                          Choose exactly which email notifications and reminders you want to receive. No spam — only critical sprint alerts.
+                        </p>
+                      </div>
 
-            <button
-              onClick={handleSaveNotificationPrefs}
-              disabled={savingPrefs}
-              className="px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-extrabold transition-all shadow-xs cursor-pointer shrink-0 disabled:opacity-50"
-            >
-              {savingPrefs ? "Saving..." : "Save Preferences"}
-            </button>
-          </div>
+                      <button
+                        onClick={handleSaveNotificationPrefs}
+                        disabled={savingPrefs}
+                        className="px-5 py-2.5 rounded-full bg-[#D9F83B] hover:bg-[#162774] text-slate-950 hover:text-white font-extrabold transition-all shadow-xs cursor-pointer shrink-0 disabled:opacity-50"
+                      >
+                        {savingPrefs ? "Saving..." : "Save Preferences"}
+                      </button>
+                    </div>
 
-          {prefsSuccessMsg && (
-            <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] font-bold text-xs mb-6">
-              {prefsSuccessMsg}
-            </div>
-          )}
+                    {prefsSuccessMsg && (
+                      <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] font-bold text-xs mb-6">
+                        {prefsSuccessMsg}
+                      </div>
+                    )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              {
-                key: "deadlineWarnings",
-                title: "45-Day Milestone & Deadline Warnings",
-                desc: "Receive automated alerts at Day 30 (15 days left) and Day 38 (7 days left) to keep your internship sprint on track."
-              },
-              {
-                key: "dailyStandupReminder",
-                title: "Daily Proof-of-Work Logging Reminder (8:00 PM IST)",
-                desc: "Gentle daily ping to submit your GitHub commit, build your streak, and claim daily Karma Coins."
-              },
-              {
-                key: "walletAlerts",
-                title: "Karma Coins & Wallet Activity",
-                desc: "Instant notifications when coins are credited for PoW logs, tips from squad mates, or hint purchases."
-              },
-              {
-                key: "discussionAlerts",
-                title: "Discussion Replies & Solution Mentions",
-                desc: "Get notified when another engineer answers your question or replies to your technical thread."
-              },
-              {
-                key: "saturdayMeetups",
-                title: "Saturday Indore AI Lab & Wednesday Stage",
-                desc: "Notifications for in-person Indore teardowns (50+ RSVPs) and weekly online live stages."
-              },
-              {
-                key: "recruiterAlerts",
-                title: "Founder & Partner Job Referrals",
-                desc: "Direct interview dispatches from hiring partners looking for top-ranking 45-day internship graduates."
-              }
-            ].map((pref) => {
-              const isChecked = (notificationPrefs as any)[pref.key];
-              return (
-                <div
-                  key={pref.key}
-                  className={`p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
-                    isChecked
-                      ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-2xs"
-                      : "bg-[#F4F6FB] border-slate-200 opacity-75"
-                  }`}
-                >
-                  <div className="space-y-1">
-                    <div className="font-extrabold text-slate-950 text-sm">{pref.title}</div>
-                    <p className="text-xs text-slate-600 leading-relaxed font-medium">{pref.desc}</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {[
+                        {
+                          key: "deadlineWarnings",
+                          title: "45-Day Milestone & Deadline Warnings",
+                          desc: "Receive automated alerts at Day 30 (15 days left) and Day 38 (7 days left) to keep your internship sprint on track."
+                        },
+                        {
+                          key: "dailyStandupReminder",
+                          title: "Daily Proof-of-Work Logging Reminder (8:00 PM IST)",
+                          desc: "Gentle daily ping to submit your GitHub commit, build your streak, and claim daily Karma Coins."
+                        },
+                        {
+                          key: "walletAlerts",
+                          title: "Karma Coins & Wallet Activity",
+                          desc: "Instant notifications when coins are credited for PoW logs, tips from squad mates, or hint purchases."
+                        },
+                        {
+                          key: "discussionAlerts",
+                          title: "Discussion Replies & Solution Mentions",
+                          desc: "Get notified when another engineer answers your question or replies to your technical thread."
+                        },
+                        {
+                          key: "saturdayMeetups",
+                          title: "Saturday Indore AI Lab & Wednesday Stage",
+                          desc: "Notifications for in-person Indore teardowns (50+ RSVPs) and weekly online live stages."
+                        },
+                        {
+                          key: "recruiterAlerts",
+                          title: "Founder & Partner Job Referrals",
+                          desc: "Direct interview dispatches from hiring partners looking for top-ranking 45-day internship graduates."
+                        }
+                      ].map((pref) => {
+                        const isChecked = (notificationPrefs as any)[pref.key];
+                        return (
+                          <div
+                            key={pref.key}
+                            className={`p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${isChecked
+                                ? "bg-white border-[#162774] border-l-4 border-l-[#D9F83B] shadow-2xs"
+                                : "bg-[#F4F6FB] border-slate-200 opacity-75"
+                              }`}
+                          >
+                            <div className="space-y-1">
+                              <div className="font-extrabold text-slate-950 text-sm">{pref.title}</div>
+                              <p className="text-xs text-slate-600 leading-relaxed font-medium">{pref.desc}</p>
+                            </div>
+
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={(e) => {
+                                setNotificationPrefs({
+                                  ...notificationPrefs,
+                                  [pref.key]: e.target.checked
+                                });
+                              }}
+                              className="w-5 h-5 mt-0.5 rounded text-[#162774] border-slate-300 focus:ring-[#162774] cursor-pointer shrink-0"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
 
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={(e) => {
-                      setNotificationPrefs({
-                        ...notificationPrefs,
-                        [pref.key]: e.target.checked
-                      });
-                    }}
-                    className="w-5 h-5 mt-0.5 rounded text-[#162774] border-slate-300 focus:ring-[#162774] cursor-pointer shrink-0"
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+                </>
+              )}
 
-        </>
-        )}
-
-        {activeProfileSection === "tour" && (
-        <>
-        {/* =========================================================================
+              {activeProfileSection === "tour" && (
+                <>
+                  {/* =========================================================================
             SECTION C: BOTMARTZ PLATFORM TOUR & FEATURE SITEMAP
         ========================================================================= */}
-        <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-            <div>
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
-                PLATFORM ECOSYSTEM TOUR
-              </span>
-              <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
-                Guide to All Platform Features
-              </h3>
-              <p className="text-sm font-medium text-slate-600 mt-1">
-                Every page on Botmartz and how to make the most of it.
-              </p>
-            </div>
+                  <div className="bg-white border border-slate-200 rounded-[28px] p-6 sm:p-8 mb-8 shadow-sm font-sans">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                      <div>
+                        <span className="inline-block px-3.5 py-1 rounded-full bg-[#F4F6FB] border border-slate-200 text-[#162774] text-xs font-extrabold uppercase tracking-wider mb-2.5">
+                          PLATFORM ECOSYSTEM TOUR
+                        </span>
+                        <h3 className="text-2xl font-extrabold text-[#162774] tracking-tight">
+                          Guide to All Platform Features
+                        </h3>
+                        <p className="text-sm font-medium text-slate-600 mt-1">
+                          Every page on Botmartz and how to make the most of it.
+                        </p>
+                      </div>
 
-            <Link
-              href="/arena/antigravity-guide"
-              className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#162774] text-white font-bold text-xs sm:text-sm hover:bg-[#1e3494] transition-all shrink-0"
-            >
-              <span>Full Guide</span>
-              <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
-                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
-              </span>
-            </Link>
-          </div>
+                      <Link
+                        href="/arena/antigravity-guide"
+                        className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#162774] text-white font-bold text-xs sm:text-sm hover:bg-[#1e3494] transition-all shrink-0"
+                      >
+                        <span>Full Guide</span>
+                        <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-[#162774] flex items-center justify-center">
+                          <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                        </span>
+                      </Link>
+                    </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {[
-              { title: `The Arena (${TOTAL_SYSTEMS_COUNT} PRDs)`, desc: "Production system blueprints with SLA gates.", href: "/arena" },
-              { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log" },
-              { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship" },
-              { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet" },
-              { title: "Saturday Office Hours", desc: "Weekly live architecture clinics with founder.", href: "/arena/calendar" },
-              { title: "Discussion Channels", desc: "Community forum for code reviews & blockers.", href: "/discussions" }
-            ].map((card, ci) => (
-              <Link
-                key={ci}
-                href={card.href}
-                className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 hover:border-[#162774] hover:bg-white transition-all flex flex-col justify-between group shadow-xs"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="font-extrabold text-base text-[#162774] tracking-tight">{card.title}</span>
-                    <span className="text-[11px] font-extrabold text-slate-400">0{ci + 1}</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      {[
+                        { title: `The Arena (${TOTAL_SYSTEMS_COUNT} PRDs)`, desc: "Production system blueprints with SLA gates.", href: "/arena" },
+                        { title: "Daily PoW Logger", desc: "Submit daily GitHub commits & maintain streaks.", href: "/arena/daily-log" },
+                        { title: "Virtual AI Fellowship", desc: "45-day structured milestone cohort.", href: "/virtual-ai-internship" },
+                        { title: "Builder Karma Wallet", desc: "Redeem coins for clinics, swag & credits.", href: "/arena/wallet" },
+                        { title: "Saturday Office Hours", desc: "Weekly live architecture clinics with founder.", href: "/arena/calendar" },
+                        { title: "Discussion Channels", desc: "Community forum for code reviews & blockers.", href: "/discussions" }
+                      ].map((card, ci) => (
+                        <Link
+                          key={ci}
+                          href={card.href}
+                          className="p-5 rounded-2xl bg-[#F4F6FB] border border-slate-200 hover:border-[#162774] hover:bg-white transition-all flex flex-col justify-between group shadow-xs"
+                        >
+                          <div>
+                            <div className="flex items-center justify-between gap-2 mb-2">
+                              <span className="font-extrabold text-base text-[#162774] tracking-tight">{card.title}</span>
+                              <span className="text-[11px] font-extrabold text-slate-400">0{ci + 1}</span>
+                            </div>
+                            <p className="text-sm font-medium text-slate-600 leading-relaxed">{card.desc}</p>
+                          </div>
+                          <div className="mt-4 inline-flex items-center gap-2 text-xs font-extrabold text-[#162774]">
+                            <span>Open Page</span>
+                            <span className="w-6 h-6 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] text-white group-hover:text-[#162774] flex items-center justify-center transition-colors">
+                              <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-sm font-medium text-slate-600 leading-relaxed">{card.desc}</p>
-                </div>
-                <div className="mt-4 inline-flex items-center gap-2 text-xs font-extrabold text-[#162774]">
-                  <span>Open Page</span>
-                  <span className="w-6 h-6 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] text-white group-hover:text-[#162774] flex items-center justify-center transition-colors">
-                    <ArrowRight className="w-3 h-3 transition-transform duration-300 group-hover:rotate-[60deg]" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-        </>
-        )}
+                </>
+              )}
             </motion.div>
           </div>
         </div>
@@ -1838,7 +1826,7 @@ export default function StudentProfilePortal() {
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs">
           <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-2xl max-w-xl lg:max-w-2xl w-full max-h-[90vh] sm:max-h-[86vh] flex flex-col relative text-slate-900 overflow-hidden">
-            
+
             {/* Modal Header (Fixed at top) */}
             <div className="px-5 sm:px-6 pt-5 pb-4 border-b border-slate-100 flex items-start justify-between bg-white shrink-0">
               <div>
@@ -1865,7 +1853,7 @@ export default function StudentProfilePortal() {
 
             {/* Scrollable Form Body */}
             <form id="profile-edit-form" onSubmit={handleSaveProfile} className="flex-1 overflow-y-auto px-5 sm:px-6 py-4 space-y-4 font-mono text-xs">
-              
+
               {editSuccessMsg && (
                 <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-mono text-xs flex items-center gap-2">
                   <CheckCircle2 size={15} className="text-emerald-600 shrink-0" />
@@ -1887,11 +1875,10 @@ export default function StudentProfilePortal() {
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "STUDENT" })}
-                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${
-                      formData.personaType === "STUDENT"
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${formData.personaType === "STUDENT"
                         ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
                         : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
-                    }`}
+                      }`}
                   >
                     <GraduationCap size={15} className="mx-auto mb-0.5" />
                     <span className="text-[11px] block leading-tight">Student</span>
@@ -1900,11 +1887,10 @@ export default function StudentProfilePortal() {
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "WORKING_PROFESSIONAL" })}
-                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${
-                      formData.personaType === "WORKING_PROFESSIONAL"
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${formData.personaType === "WORKING_PROFESSIONAL"
                         ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
                         : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
-                    }`}
+                      }`}
                   >
                     <Briefcase size={15} className="mx-auto mb-0.5" />
                     <span className="text-[11px] block leading-tight">Professional</span>
@@ -1913,11 +1899,10 @@ export default function StudentProfilePortal() {
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, personaType: "FOUNDER_BUILDER" })}
-                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${
-                      formData.personaType === "FOUNDER_BUILDER"
+                    className={`py-2 px-2 rounded-xl border text-center transition-all cursor-pointer font-sans ${formData.personaType === "FOUNDER_BUILDER"
                         ? "bg-blue-50 border-[#0066FF] text-[#0066FF] font-bold shadow-xs"
                         : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
-                    }`}
+                      }`}
                   >
                     <Building size={15} className="mx-auto mb-0.5" />
                     <span className="text-[11px] block leading-tight">Founder / Solo</span>

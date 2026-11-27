@@ -455,41 +455,50 @@ export default function CommunityNavbar() {
               </button>
 
               {userDropdownOpen && (
-                <div className="absolute right-0 top-full mt-3 w-68 bg-white/98 backdrop-blur-2xl border-2 border-slate-200 rounded-3xl shadow-2xl p-2.5 z-50 font-sans text-xs animate-in fade-in slide-in-from-top-3 duration-200">
-                  <div className="p-3 border-b border-slate-100 mb-1 rounded-2xl bg-slate-50/80">
-                    <div className="font-black text-slate-900 font-sans">{user.displayName || "Student Builder"}</div>
-                    <div className="text-[11px] text-slate-500 font-mono truncate">{user.email}</div>
+                <div className="absolute right-0 top-full mt-3 w-72 bg-white border border-slate-200 rounded-[24px] shadow-2xl p-3 z-50 font-sans animate-in fade-in slide-in-from-top-3 duration-200">
+                  <div className="px-3.5 py-3 mb-2 rounded-2xl bg-[#F4F6FB] border border-slate-200/80">
+                    <div className="text-sm font-extrabold text-[#162774] tracking-tight truncate">
+                      {user.displayName || "Student Builder"}
+                    </div>
+                    <div className="text-xs font-medium text-slate-600 truncate mt-0.5">
+                      {user.email}
+                    </div>
                   </div>
 
-                  <Link
-                    href="/arena/my-learning"
-                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-blue-50 text-[#0066FF] transition-colors font-bold bg-blue-50/50 mb-1"
-                  >
-                    <BookOpen size={15} /> My Learning &amp; Projects
-                  </Link>
-
-                  <Link
-                    href="/profile"
-                    className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-blue-50 text-slate-700 hover:text-[#0066FF] transition-colors font-bold"
-                  >
-                    <User size={15} /> My Profile &amp; Passes
-                  </Link>
-
-                  {(user.email?.toLowerCase().includes("botmartz.com") || studentProfile?.role === "ADMIN") && (
+                  <div className="space-y-1">
                     <Link
-                      href="/admin"
-                      className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-purple-50 text-purple-700 transition-colors font-bold"
+                      href="/arena/my-learning"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="block px-3.5 py-2.5 rounded-xl bg-[#162774] text-white hover:bg-[#1e3494] transition-colors text-sm font-bold"
                     >
-                      <Lock size={15} /> Super Admin CMS
+                      My Learning &amp; Projects
                     </Link>
-                  )}
 
-                  <div className="border-t border-slate-100 mt-1 pt-1">
+                    <Link
+                      href="/profile"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="block px-3.5 py-2.5 rounded-xl text-[#162774] hover:bg-[#F4F6FB] transition-colors text-sm font-bold"
+                    >
+                      My Profile &amp; Passes
+                    </Link>
+
+                    {(user.email?.toLowerCase().includes("botmartz.com") || studentProfile?.role === "ADMIN") && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setUserDropdownOpen(false)}
+                        className="block px-3.5 py-2.5 rounded-xl text-[#162774] hover:bg-[#F4F6FB] transition-colors text-sm font-bold"
+                      >
+                        Super Admin CMS
+                      </Link>
+                    )}
+                  </div>
+
+                  <div className="border-t border-slate-200 mt-2 pt-2">
                     <button
                       onClick={() => logout()}
-                      className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl hover:bg-rose-50 text-rose-600 transition-colors text-left cursor-pointer font-bold"
+                      className="w-full px-3.5 py-2.5 rounded-xl hover:bg-rose-50 text-rose-600 transition-colors text-left cursor-pointer text-sm font-bold"
                     >
-                      <LogOut size={15} /> Sign Out
+                      Sign Out
                     </button>
                   </div>
                 </div>
