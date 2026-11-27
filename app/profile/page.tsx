@@ -638,136 +638,103 @@ export default function StudentProfilePortal() {
       <div className="w-full px-4 sm:px-8 lg:px-12 xl:px-16">
 
         {/* =========================================================================
-            HERO BANNER & BUILDER PROFILE CARD (#162774 ROYAL BLUE GRID)
+            HERO BANNER: 3 SEPARATE EQUAL #162774 BOXES WITH WHITE GAP
         ========================================================================= */}
         <motion.div
-          initial={{ opacity: 0, y: -20, filter: "blur(6px)" }}
+          initial={{ opacity: 0, y: -16, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="relative bg-[#162774] border border-white/15 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden text-white mb-10"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8"
         >
-          <div className="relative z-10 space-y-6">
-            {/* Top Bar: Subheader Badge & Search Builder Form */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-white/15 pb-6">
-              <div>
-                <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-2">
-                  Universal Builder Identity &bull; Global Verified Proof-of-Work
-                </div>
-                <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight font-sans">
-                  Builder Profile &amp; <span className="text-[#D9F83B]">Portfolio</span>
-                </h1>
+          {/* BOX 1: IDENTITY & BIO */}
+          <div
+            className="relative bg-[#162774] border border-white/15 rounded-3xl p-6 sm:p-7 shadow-xl overflow-hidden text-white flex flex-col justify-between gap-5"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          >
+            <div className="relative z-10 space-y-3">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                Universal Builder Identity
               </div>
-
-              <form onSubmit={handleSearch} className="w-full md:w-80">
-                <div className="relative font-sans text-xs">
-                  <input
-                    type="text"
-                    value={searchHandle}
-                    onChange={(e) => setSearchHandle(e.target.value)}
-                    placeholder="Lookup builder @handle..."
-                    className="w-full bg-white border border-white rounded-2xl px-4 py-2.5 text-slate-950 placeholder:text-slate-400 font-semibold focus:outline-none focus:ring-2 focus:ring-[#D9F83B] transition-all shadow-sm"
-                  />
-                </div>
-              </form>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans">
+                Builder Profile &amp; <span className="text-[#D9F83B]">Portfolio</span>
+              </h1>
             </div>
 
-            {/* Main Builder Profile: 3 Equal Divided Columns */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center lg:divide-x lg:divide-white/15">
-              {/* Part 1: Identity & Bio */}
-              <div className="flex items-center gap-4 lg:pr-6">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#D9F83B] text-slate-950 font-sans text-2xl sm:text-3xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border-2 border-white">
-                  {(studentProfile?.displayName || user?.displayName || "B")[0].toUpperCase()}
-                </div>
-
-                <div className="space-y-1.5 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="text-xl sm:text-2xl font-extrabold text-white font-sans tracking-tight">
-                      {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
-                    </h2>
-                    <span className="text-xs font-sans font-extrabold text-slate-950 bg-[#D9F83B] px-2.5 py-0.5 rounded-full">
-                      @{username}
-                    </span>
-                    {score >= 80 && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-white text-[#162774] font-sans text-[11px] font-extrabold uppercase tracking-wider">
-                        VERIFIED BUILDER
-                      </span>
-                    )}
-                  </div>
-
-                  <p className="text-xs sm:text-sm text-white/85 font-sans font-medium leading-relaxed">
-                    {(studentProfile as any)?.bio || "Building production AI systems, agent swarms, and high-frequency backend telemetry."}
-                  </p>
-                </div>
+            <div className="relative z-10 flex items-center gap-4 pt-3 border-t border-white/15">
+              <div className="w-16 h-16 rounded-2xl bg-[#D9F83B] text-slate-950 font-sans text-2xl font-extrabold flex items-center justify-center shadow-lg shrink-0 border-2 border-white">
+                {(studentProfile?.displayName || user?.displayName || "B")[0].toUpperCase()}
               </div>
-
-              {/* Part 2: Academic / Role, Location & Timezone */}
-              <div className="flex flex-col justify-center gap-2.5 lg:px-6 font-sans text-xs font-semibold text-white">
-                <div className="text-[11px] font-extrabold uppercase tracking-wider text-[#D9F83B]">
-                  Builder Credentials &amp; Location
-                </div>
+              <div className="space-y-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  {isProfessional ? (
-                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                      {(studentProfile as any)?.companyName || "Tech Professional"} &bull; {(studentProfile as any)?.designationRole || "Engineer"}
-                    </span>
-                  ) : (
-                    <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                      {studentProfile?.collegeName || "Engineering Student"} &bull; {studentProfile?.degreeBranch || "B.Tech CSE"} ({studentProfile?.graduationYear || "2026"})
-                    </span>
-                  )}
-                  <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                    {(studentProfile as any)?.cityLocation || "Indore / India"} ({(studentProfile as any)?.country || "India"})
-                  </span>
-                  <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
-                    {(studentProfile as any)?.timezone || "IST"}
+                  <h2 className="text-xl font-extrabold text-white font-sans tracking-tight truncate">
+                    {studentProfile?.displayName || user?.displayName || "Botmartz Builder"}
+                  </h2>
+                  <span className="text-[11px] font-sans font-extrabold text-slate-950 bg-[#D9F83B] px-2.5 py-0.5 rounded-full">
+                    @{username}
                   </span>
                 </div>
+                <p className="text-xs sm:text-sm text-white/85 font-sans font-medium leading-relaxed line-clamp-2">
+                  {(studentProfile as any)?.bio || "Building production AI systems, agent swarms, and high-frequency backend telemetry."}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* BOX 2: CREDENTIALS, LOCATION & SOCIALS */}
+          <div
+            className="relative bg-[#162774] border border-white/15 rounded-3xl p-6 sm:p-7 shadow-xl overflow-hidden text-white flex flex-col justify-between gap-5"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          >
+            <div className="relative z-10 space-y-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/15 border border-white/20 text-[#D9F83B] font-sans text-[11px] font-extrabold uppercase tracking-wider">
+                  Credentials &amp; Location
+                </span>
+                {score >= 80 && (
+                  <span className="px-2.5 py-0.5 rounded-full bg-white text-[#162774] font-sans text-[10px] font-extrabold uppercase tracking-wider">
+                    VERIFIED
+                  </span>
+                )}
               </div>
 
-              {/* Part 3: Karma Balance & Portfolio Actions */}
-              <div className="flex flex-col items-stretch sm:items-start lg:items-end justify-center gap-3 lg:pl-6">
-                <div className="flex items-center justify-center px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold shadow-xs">
-                  <span>Karma Balance: {coins} Coins</span>
-                </div>
-
-                <div className="flex items-center gap-2.5 flex-wrap">
-                  <button
-                    onClick={handleCopyPublicProfile}
-                    className="px-4 py-2.5 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#162774] border border-white/25 font-sans text-xs sm:text-sm font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs"
-                  >
-                    <span>{copiedLink ? "Link Copied!" : "Copy Link"}</span>
-                  </button>
-
-                  <Link
-                    href={publicProfileUrl}
-                    className="group pl-5 pr-2 py-2 rounded-full bg-[#D9F83B] hover:bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold transition-all flex items-center justify-center gap-2.5 shadow-lg"
-                  >
-                    <span>Public Portfolio</span>
-                    <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center">
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
-                    </span>
-                  </Link>
-                </div>
+              <div className="flex items-center gap-2 flex-wrap font-sans text-xs font-semibold text-white pt-1">
+                {isProfessional ? (
+                  <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                    {(studentProfile as any)?.companyName || "Tech Professional"} &bull; {(studentProfile as any)?.designationRole || "Engineer"}
+                  </span>
+                ) : (
+                  <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                    {studentProfile?.collegeName || "Engineering Student"} &bull; {studentProfile?.degreeBranch || "B.Tech CSE"} ({studentProfile?.graduationYear || "2026"})
+                  </span>
+                )}
+                <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                  {(studentProfile as any)?.cityLocation || "Indore / India"} ({(studentProfile as any)?.country || "India"})
+                </span>
+                <span className="bg-white/10 border border-white/20 px-3.5 py-1.5 rounded-full text-white">
+                  {(studentProfile as any)?.timezone || "IST"}
+                </span>
               </div>
             </div>
 
-            {/* Social Links Row */}
-            <div className="flex items-center justify-between gap-4 pt-4 border-t border-slate-800/80 flex-wrap font-mono text-xs">
-              <div className="flex items-center gap-4 flex-wrap">
+            <div className="relative z-10 pt-3 border-t border-white/15 flex items-center justify-between gap-3 flex-wrap font-sans text-xs font-bold">
+              <span className="text-white/75">Profile Score: <strong className="text-[#D9F83B]">{score}%</strong></span>
+              <div className="flex items-center gap-3">
                 {studentProfile?.githubUsername && (
                   <a
                     href={`https://github.com/${studentProfile.githubUsername}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-slate-300 hover:text-white font-bold transition-colors"
+                    className="text-white hover:text-[#D9F83B] transition-colors"
                   >
-                    <Github size={15} className="text-cyan-400" />
-                    <span>github.com/{studentProfile.githubUsername}</span>
+                    GitHub &rarr;
                   </a>
                 )}
                 {studentProfile?.linkedinUrl && (
@@ -775,59 +742,59 @@ export default function StudentProfilePortal() {
                     href={studentProfile.linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 font-bold transition-colors"
+                    className="text-[#D9F83B] hover:text-white transition-colors"
                   >
-                    <Linkedin size={15} />
-                    <span>LinkedIn Profile</span>
+                    LinkedIn &rarr;
                   </a>
                 )}
               </div>
             </div>
+          </div>
 
-            {/* Active Claimed Badges Showcase Row */}
-            {isMounted && claimedBadges.length > 0 && (
-              <div className="pt-4 border-t border-slate-800/80 space-y-2.5">
-                <div className="flex items-center justify-between text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-                  <span className="flex items-center gap-1.5">
-                    <Award size={15} className="text-amber-400" />
-                    <span>Verified Profile Badges &amp; Emblems ({badgeStatuses.filter((b) => b.isClaimed).length})</span>
-                  </span>
-                  <span className="text-[10px] text-slate-400 font-sans hidden sm:inline">Active Developer Portfolio</span>
-                </div>
+          {/* BOX 3: SEARCH, KARMA BALANCE & PORTFOLIO ACTIONS */}
+          <div
+            className="relative bg-[#162774] border border-white/15 rounded-3xl p-6 sm:p-7 shadow-xl overflow-hidden text-white flex flex-col justify-between gap-5"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px)",
+              backgroundSize: "48px 48px",
+            }}
+          >
+            <form onSubmit={handleSearch} className="relative z-10 w-full">
+              <input
+                type="text"
+                value={searchHandle}
+                onChange={(e) => setSearchHandle(e.target.value)}
+                placeholder="Lookup builder @handle..."
+                className="w-full bg-white border border-white rounded-2xl px-4 py-2.5 text-sm text-slate-950 placeholder:text-slate-400 font-semibold focus:outline-none focus:ring-2 focus:ring-[#D9F83B] transition-all shadow-sm"
+              />
+            </form>
 
-                <div className="flex items-center gap-3 flex-wrap pt-1">
-                  {badgeStatuses.filter((b) => b.isClaimed).map((b) => {
-                    const IconComp = BADGE_ICON_MAP[b.iconName] || Trophy;
-                    return (
-                      <div
-                        key={b.id}
-                        title={`${b.title}: ${b.description}`}
-                        className="group relative flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-slate-900/90 border border-slate-700/80 hover:border-amber-400/80 transition-all duration-300 shadow-lg cursor-pointer"
-                      >
-                        {/* Metallic Badge Graphic Logo Box */}
-                        <div className={`relative w-8 h-8 rounded-xl bg-gradient-to-br ${b.badgeBg} flex items-center justify-center text-white shadow-md shadow-amber-500/10 ring-2 ring-white/20 group-hover:scale-110 transition-transform`}>
-                          <IconComp size={16} className="text-white drop-shadow-md stroke-[2.2]" />
-                          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 ring-1 ring-white flex items-center justify-center text-white">
-                            <CheckCircle2 size={8} className="stroke-[3]" />
-                          </div>
-                        </div>
-
-                        {/* Badge Title & Category Tag */}
-                        <div className="flex flex-col min-w-0 font-sans">
-                          <span className="text-xs font-extrabold text-white group-hover:text-amber-300 transition-colors leading-tight">
-                            {b.title}
-                          </span>
-                          <span className="text-[9px] font-mono text-slate-400 uppercase tracking-tight">
-                            {b.category} &bull; Verified
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+            <div className="relative z-10 space-y-3 pt-3 border-t border-white/15">
+              <div className="flex items-center justify-between px-4 py-2 rounded-full bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold shadow-xs">
+                <span>Karma Balance</span>
+                <span>{coins} Coins</span>
               </div>
-            )}
 
+              <div className="flex items-center gap-2.5">
+                <button
+                  onClick={handleCopyPublicProfile}
+                  className="flex-1 px-4 py-2.5 rounded-full bg-white/15 hover:bg-white text-white hover:text-[#162774] border border-white/25 font-sans text-xs sm:text-sm font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs"
+                >
+                  <span>{copiedLink ? "Copied!" : "Copy Link"}</span>
+                </button>
+
+                <Link
+                  href={publicProfileUrl}
+                  className="group flex-1 pl-4 pr-2 py-2 rounded-full bg-[#D9F83B] hover:bg-white text-[#162774] font-sans text-xs sm:text-sm font-extrabold transition-all flex items-center justify-between gap-2 shadow-lg"
+                >
+                  <span>Portfolio</span>
+                  <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center shrink-0">
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-[60deg]" />
+                  </span>
+                </Link>
+              </div>
+            </div>
           </div>
         </motion.div>
 
