@@ -292,14 +292,7 @@ export default function CareerRoadmapsPage() {
   };
 
   return (
-    <div
-      className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans selection:bg-[#D9F83B] selection:text-slate-950"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="min-h-screen bg-white text-slate-900 pt-24 pb-24 font-sans">
       {/* Print Block */}
       <style>{`@media print { body { display: none !important; } }`}</style>
 
@@ -315,9 +308,6 @@ export default function CareerRoadmapsPage() {
         >
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div className="max-w-3xl">
-              <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[11px] font-extrabold uppercase tracking-wider mb-3">
-                Domain-Wise Progressive Roadmaps
-              </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
                 Career Roadmaps Catalog
               </h1>
@@ -328,10 +318,10 @@ export default function CareerRoadmapsPage() {
 
             <Link
               href="/arena"
-              className="px-5 py-3 rounded-2xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-bold text-xs transition-all shadow-md shrink-0 flex items-center gap-2 group w-fit"
+              className="px-5 py-3 rounded-2xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold text-xs transition-all shadow-md shrink-0 flex items-center gap-2 group w-fit"
             >
               <span>Internship Playground</span>
-              <span className="w-6 h-6 rounded-full bg-slate-950 text-[#D9F83B] flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
+              <span className="w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-transform duration-300 group-hover:rotate-45">
                 <ArrowRight size={12} />
               </span>
             </Link>
@@ -346,12 +336,12 @@ export default function CareerRoadmapsPage() {
                   value={codeInput}
                   onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
                   placeholder="Enter Roadmap Unique Code (e.g. BM-ROAD-9A4K2M) to Unlock..."
-                  className="flex-1 px-4 py-3 rounded-xl bg-white text-slate-950 placeholder:text-slate-400 font-bold text-xs uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-[#D9F83B]"
+                  className="flex-1 px-4 py-3 rounded-xl bg-white text-slate-950 placeholder:text-slate-400 font-bold text-xs uppercase tracking-wider focus:outline-none focus:ring-2 focus:ring-blue-300"
                 />
                 <button
                   type="submit"
                   disabled={verifyingCode}
-                  className="px-6 py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-extrabold text-xs transition-all cursor-pointer disabled:opacity-50 shrink-0"
+                  className="px-6 py-3 rounded-xl bg-white hover:bg-blue-50 text-[#162774] font-extrabold text-xs transition-all cursor-pointer disabled:opacity-50 shrink-0"
                 >
                   {verifyingCode ? "Verifying..." : "Unlock with Code"}
                 </button>
@@ -416,7 +406,7 @@ export default function CareerRoadmapsPage() {
                     }}
                     className={`px-3 py-1.5 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
                       active
-                        ? "bg-[#070E54] text-[#D9F83B] shadow-sm"
+                        ? "bg-[#162774] text-white shadow-sm"
                         : "bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900"
                     }`}
                   >
@@ -448,7 +438,7 @@ export default function CareerRoadmapsPage() {
                   <div
                     key={rm.id}
                     onClick={() => handleCardClick(rm)}
-                    className="relative overflow-hidden bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#1D3189] rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between cursor-pointer group"
+                    className="relative overflow-hidden bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#1D3189] rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between cursor-pointer group"
                   >
                     <div className="p-6 pb-4 flex-1">
                       <div className="flex items-center justify-between gap-2 mb-3">
@@ -458,7 +448,7 @@ export default function CareerRoadmapsPage() {
                               {!rm.isPaid ? "Free Access" : "Unlocked"}
                             </span>
                           ) : (
-                            <span className="px-3 py-1 rounded-full bg-[#070E54] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                            <span className="px-3 py-1 rounded-full bg-[#162774] text-white text-[10px] font-extrabold uppercase tracking-wider">
                               ₹{rm.price} • {rm.validityDays} Days
                             </span>
                           )}
@@ -466,7 +456,7 @@ export default function CareerRoadmapsPage() {
                             {rm.category || "Core Engineering"}
                           </span>
                         </div>
-                        <span className="w-8 h-8 shrink-0 rounded-full bg-slate-100 group-hover:bg-[#D9F83B] text-slate-900 flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
+                        <span className="w-8 h-8 shrink-0 rounded-full bg-slate-100 group-hover:bg-[#162774] text-slate-900 group-hover:text-white flex items-center justify-center transition-all duration-500 group-hover:rotate-45">
                           <ArrowRight size={13} />
                         </span>
                       </div>
@@ -491,15 +481,15 @@ export default function CareerRoadmapsPage() {
                       <span className="relative z-10 text-slate-500 group-hover:text-blue-200 transition-colors duration-500">
                         {rm.stages?.length || 0} Stages
                       </span>
-                      <span
-                        className={`relative z-10 transition-colors duration-500 ${
-                          isUnlocked
-                            ? "text-emerald-700 group-hover:text-[#D9F83B]"
-                            : "text-[#1D3189] group-hover:text-[#D9F83B]"
-                        }`}
-                      >
-                        {isUnlocked ? "View Full Roadmap →" : `Unlock (₹${rm.price}) →`}
-                      </span>
+                      {isUnlocked ? (
+                        <span className="relative z-10 text-emerald-700 group-hover:text-white transition-colors duration-500">
+                          View Full Roadmap →
+                        </span>
+                      ) : (
+                        <span className="relative z-10 px-3.5 py-1.5 rounded-xl bg-[#D9F83B] text-slate-950 font-extrabold shadow-xs transition-all duration-300">
+                          Unlock (₹{rm.price}) →
+                        </span>
+                      )}
                     </div>
                   </div>
                 );
@@ -530,7 +520,7 @@ export default function CareerRoadmapsPage() {
                     }}
                     className={`w-9 h-9 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
                       pageNum === safePage
-                        ? "bg-[#070E54] text-[#D9F83B] shadow-md"
+                        ? "bg-[#162774] text-white shadow-md"
                         : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50"
                     }`}
                   >
