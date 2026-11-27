@@ -257,9 +257,9 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ duration: 0.6, delay: idx * 0.08, ease: "easeOut" }}
-                  className="p-5 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#D9F83B] space-y-2.5 shadow-xs"
+                  className="p-5 rounded-3xl bg-[#F4F6FB] border border-slate-200 border-l-4 border-l-[#162774] space-y-2.5 shadow-xs"
                 >
-                  <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-[11px] flex items-center justify-center">
+                  <span className="w-7 h-7 rounded-full bg-[#162774] text-white font-extrabold text-[11px] flex items-center justify-center">
                     {story.num}
                   </span>
                   <h3 className="text-base font-extrabold text-slate-950">{story.title}</h3>
@@ -363,11 +363,11 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
                 viewport={{ once: true, amount: 0.12 }}
                 transition={{ duration: 0.6, delay: colMod * 0.08, ease: "easeOut" }}
-                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#D9F83B] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
+                className="relative overflow-hidden rounded-3xl bg-[#F4F6FB] hover:bg-white border border-slate-200 border-l-4 border-l-[#162774] hover:border-[#162774] shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between group"
               >
                 <div className="p-6 pb-4 space-y-4">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="w-8 h-8 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-slate-950 group-hover:text-[#D9F83B] font-extrabold text-xs flex items-center justify-center transition-colors duration-500">
+                    <span className="w-8 h-8 rounded-full bg-[#162774] text-white font-extrabold text-xs flex items-center justify-center transition-colors duration-500">
                       {item.num}
                     </span>
                     <span className="px-3 py-1 rounded-full bg-white border border-slate-200 text-[#162774] text-[10px] font-extrabold uppercase tracking-wider">
@@ -385,14 +385,14 @@ export default function AboutPage() {
                     }}
                   >
                     <div>
-                      <h3 className="text-base font-extrabold text-white group-hover:text-[#D9F83B] transition-colors leading-snug">
+                      <h3 className="text-base font-extrabold text-white transition-colors leading-snug">
                         {item.title}
                       </h3>
                       <div className="text-[11px] text-blue-200/90 font-semibold mt-0.5">
                         {item.subtitle}
                       </div>
                     </div>
-                    <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-[60deg]">
+                    <span className="w-7 h-7 rounded-full bg-white text-[#162774] flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:rotate-[60deg]">
                       <ArrowRight size={13} />
                     </span>
                   </Link>
@@ -405,18 +405,18 @@ export default function AboutPage() {
                 <div className="px-6 py-4 border-t border-slate-200/80 bg-white/70">
                   <Link
                     href={item.href}
-                    className="group/btn relative overflow-hidden w-full py-2.5 px-4 rounded-xl bg-[#D9F83B] text-slate-950 font-extrabold text-xs flex items-center justify-between transition-all"
+                    className="group/btn relative overflow-hidden w-full py-2.5 px-4 rounded-xl bg-[#162774] text-white font-extrabold text-xs flex items-center justify-between transition-all"
                   >
                     <span
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-700 ease-in-out"
+                      className="pointer-events-none absolute inset-0 bg-[#070E54] -translate-y-full group-hover/btn:translate-y-0 transition-transform duration-700 ease-in-out"
                     />
-                    <span className="relative z-10 group-hover/btn:text-white transition-colors duration-500">
+                    <span className="relative z-10 text-white transition-colors duration-500">
                       {item.cta}
                     </span>
                     <ArrowRight
                       size={13}
-                      className="relative z-10 group-hover/btn:text-[#D9F83B] transition-all duration-300 group-hover/btn:rotate-[60deg]"
+                      className="relative z-10 text-white transition-all duration-300 group-hover/btn:rotate-[60deg]"
                     />
                   </Link>
                 </div>
@@ -472,7 +472,7 @@ export default function AboutPage() {
                     className="p-4 rounded-2xl bg-white border border-slate-200 border-l-4 border-l-[#162774] space-y-1.5"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 text-[10px] font-extrabold flex items-center justify-center">
+                      <span className="w-6 h-6 rounded-full bg-[#162774] text-white text-[10px] font-extrabold flex items-center justify-center">
                         {a.step}
                       </span>
                       <h3 className="text-sm font-extrabold text-slate-950">{a.title}</h3>
@@ -497,7 +497,7 @@ export default function AboutPage() {
                   className="w-full h-64 sm:h-96 object-cover"
                 />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/90 via-slate-950/45 to-transparent p-4 sm:p-5">
-                  <div className="text-xs font-extrabold text-[#D9F83B] uppercase tracking-wider">
+                  <div className="text-xs font-extrabold text-white uppercase tracking-wider">
                     Hands-On Engineering Cohort
                   </div>
                   <div className="text-xs text-white/90 font-medium mt-0.5">
@@ -554,7 +554,7 @@ export default function AboutPage() {
                 transition={{ duration: 0.55, delay: idx * 0.06, ease: "easeOut" }}
                 className="p-5 rounded-3xl bg-white border border-slate-200 border-t-4 border-t-[#162774] shadow-xs space-y-2"
               >
-                <span className="w-7 h-7 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold flex items-center justify-center">
+                <span className="w-7 h-7 rounded-full bg-[#162774] text-white text-[11px] font-extrabold flex items-center justify-center">
                   {who.num}
                 </span>
                 <h3 className="text-sm font-extrabold text-slate-950">{who.title}</h3>
@@ -575,7 +575,7 @@ export default function AboutPage() {
                   backgroundSize: "28px 28px",
                 }}
               />
-              <div className="relative z-10 text-xs font-extrabold uppercase tracking-wider text-[#162774] group-hover:text-[#D9F83B] transition-colors duration-500">
+              <div className="relative z-10 text-xs font-extrabold uppercase tracking-wider text-[#162774] group-hover:text-white transition-colors duration-500">
                 Our Core Values
               </div>
               <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -602,20 +602,20 @@ export default function AboutPage() {
                   backgroundSize: "28px 28px",
                 }}
               />
-              <div className="relative z-10 text-xs font-extrabold uppercase tracking-wider text-[#162774] group-hover:text-[#D9F83B] transition-colors duration-500">
+              <div className="relative z-10 text-xs font-extrabold uppercase tracking-wider text-[#162774] group-hover:text-white transition-colors duration-500">
                 Community Guidelines
               </div>
               <ul className="relative z-10 space-y-2 text-xs text-slate-700 group-hover:text-blue-50 font-medium transition-colors duration-500">
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] mt-1.5 shrink-0 transition-colors duration-500" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-white mt-1.5 shrink-0 transition-colors duration-500" />
                   <span>Respectful, constructive technical discussions and zero spam or self-promotion abuse.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] mt-1.5 shrink-0 transition-colors duration-500" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-white mt-1.5 shrink-0 transition-colors duration-500" />
                   <span>Authentic Proof-of-Work only — plagiarized code or fake metrics result in immediate removal.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-[#D9F83B] mt-1.5 shrink-0 transition-colors duration-500" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#162774] group-hover:bg-white mt-1.5 shrink-0 transition-colors duration-500" />
                   <span>Help peers debug cleanly and share reproducible logs, repos, and benchmarks.</span>
                 </li>
               </ul>
@@ -757,7 +757,7 @@ export default function AboutPage() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-4">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-slate-950 text-[11px] font-extrabold uppercase tracking-wider">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-white/15 border border-white/20 text-white text-[11px] font-extrabold uppercase tracking-wider">
                 09 &bull; For Companies &amp; Partners
               </span>
               <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
@@ -797,9 +797,9 @@ export default function AboutPage() {
               ].map((collab, idx) => (
                 <div
                   key={collab}
-                  className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#D9F83B] flex items-center gap-3 shadow-sm"
+                  className="p-4 rounded-2xl bg-white text-slate-950 border-l-4 border-l-[#162774] flex items-center gap-3 shadow-sm"
                 >
-                  <span className="w-6 h-6 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold flex items-center justify-center shrink-0">
+                  <span className="w-6 h-6 rounded-full bg-[#162774] text-white text-[10px] font-extrabold flex items-center justify-center shrink-0">
                     0{idx + 1}
                   </span>
                   <span className="text-xs font-extrabold text-slate-950">{collab}</span>
