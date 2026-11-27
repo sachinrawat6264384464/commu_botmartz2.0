@@ -149,7 +149,7 @@ export default function ThreeStepPathGrid({ totalSystemsCount }: { totalSystemsC
         </div>
 
         <div className="relative z-10 pt-5 mt-7 border-t border-white/15 flex items-center justify-between gap-3 font-sans text-sm font-extrabold">
-          <span className="px-4 py-2 rounded-xl bg-white text-[#162774] font-extrabold shadow-sm">
+          <span className="px-4 py-2 rounded-xl bg-white/15 border border-white/25 text-white font-bold">
             View Plans (Free / ₹299 / ₹1,999)
           </span>
           <span className="w-8 h-8 rounded-full bg-white text-[#162774] flex items-center justify-center group-hover:scale-105 transition-all duration-300 shrink-0">

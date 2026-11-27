@@ -618,18 +618,18 @@ export default function ArenaPage() {
                       {project.overview}
                     </p>
 
-                    {/* Tech Stack Pills (Color Fill on Hover) */}
+                    {/* Tech Stack Pills (No Hover Color Fill) */}
                     <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
                       {techList.slice(0, 4).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-800 border border-slate-200 group-hover:bg-[#070E54] group-hover:text-[#D9F83B] group-hover:border-[#070E54] font-sans text-[11px] font-semibold transition-all duration-500"
+                          className="px-2.5 py-1 rounded-lg bg-white text-slate-800 border border-slate-200 font-sans text-[11px] font-semibold"
                         >
                           {tech}
                         </span>
                       ))}
                       {techList.length > 4 && (
-                        <span className="px-2 py-1 rounded-lg bg-slate-100 text-slate-500 border border-slate-200 group-hover:bg-[#1D3189] group-hover:text-white group-hover:border-[#1D3189] font-sans text-[10px] font-semibold transition-all duration-500">
+                        <span className="px-2 py-1 rounded-lg bg-white text-slate-600 border border-slate-200 font-sans text-[10px] font-semibold">
                           +{techList.length - 4}
                         </span>
                       )}
