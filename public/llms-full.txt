@@ -1,6 +1,6 @@
 # Botmartz Community & 45-Day Virtual AI Internship — Full Reference
 
-Botmartz Community (`https://commu-botmartz2-0.vercel.app` / `https://community.botmartz.com`) is an applied AI engineering platform built by **Botmartz AI Solution Pvt Ltd**. Unlike passive video-based courses, Botmartz operates as an evidence-backed engineering playground where students, freshers, and developers ship real production systems and track daily GitHub proof-of-work.
+Botmartz Community (`https://community.botmartz.com`) is an applied AI engineering platform built by **Botmartz AI Solution Pvt Ltd**. Unlike passive video-based courses, Botmartz operates as an evidence-backed engineering playground where students, freshers, and developers ship real production systems and track daily GitHub proof-of-work.
 
 ## What Makes Botmartz Different
 1. **Evidence-Backed Proof-of-Work:** Builders log daily GitHub commits (`+20 to +70 Karma Coins` per day) inside Agile Kanban sprint workspaces.
@@ -15,12 +15,12 @@ Botmartz Community (`https://commu-botmartz2-0.vercel.app` / `https://community.
 - **Does Botmartz guarantee job placements?** No. Botmartz does not sell or guarantee jobs; it provides practical system-building experience, founder code audits on Insane-tier projects, and portfolio recommendations based on verified work.
 
 ## Important URLs
-- Main Portal: https://commu-botmartz2-0.vercel.app/
-- Virtual AI Internship: https://commu-botmartz2-0.vercel.app/virtual-ai-internship
-- Arena PRDs: https://commu-botmartz2-0.vercel.app/arena
-- Showcase: https://commu-botmartz2-0.vercel.app/showcase
-- Hackathons & Challenges: https://commu-botmartz2-0.vercel.app/challenges
-- Discussions: https://commu-botmartz2-0.vercel.app/discussions
-- Events: https://commu-botmartz2-0.vercel.app/events
-- Workshops: https://commu-botmartz2-0.vercel.app/workshops
-- Certificates: https://commu-botmartz2-0.vercel.app/certificates
+- Main Portal: https://community.botmartz.com/
+- Virtual AI Internship: https://community.botmartz.com/virtual-ai-internship
+- Arena PRDs: https://community.botmartz.com/arena
+- Showcase: https://community.botmartz.com/showcase
+- Hackathons & Challenges: https://community.botmartz.com/challenges
+- Discussions: https://community.botmartz.com/discussions
+- Events: https://community.botmartz.com/events
+- Workshops: https://community.botmartz.com/workshops
+- Certificates: https://community.botmartz.com/certificates

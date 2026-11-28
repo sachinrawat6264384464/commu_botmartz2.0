@@ -18,7 +18,7 @@ const DEFAULT_CORE_PATHS = [
 ];
 
 function getSiteConfig() {
-  const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || "https://commu-botmartz2-0.vercel.app").replace(/\/+$/, "");
+  const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || "https://community.botmartz.com").replace(/\/+$/, "");
   const key = process.env.INDEXNOW_KEY || DEFAULT_INDEXNOW_KEY;
   const host = new URL(baseUrl).host;
   const keyLocation = `${baseUrl}/${key}.txt`;
