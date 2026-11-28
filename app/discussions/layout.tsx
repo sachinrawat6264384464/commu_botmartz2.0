@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   keywords: [
     "AI builder community",
     "student developer community",
+    "best tech community in Indore",
+    "Indore tech community",
+    "Indore software developer community",
+    "central India developer community",
+    "developer networking",
     "AI developer discussions",
     "RAG forum",
     "LangGraph community",

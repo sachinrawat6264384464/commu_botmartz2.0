@@ -19,4 +19,4 @@
 - **Duration:** 45-Day rolling project-based virtual AI internship.
 - **Verification:** Daily GitHub commit logger, automated SLA benchmarks, and QR-verifiable PDF certificates.
 - **Tech Stack Focus:** Python, TypeScript, Next.js, LangGraph, RAG, Vector Databases, PostGIS, eBPF, MCP.
-- **Organization:** Botmartz AI Solution Pvt Ltd (India).
+- **Organization & Hub:** Botmartz AI Solution Pvt Ltd — Indore Tech & AI Developer Community Hub (Madhya Pradesh, India) & Global Remote Arena.
