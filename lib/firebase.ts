@@ -4,13 +4,13 @@ import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyB5BVm1s8uMLWq6ZD9qGwvTpe_DtQaUaSQ",
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "botmartz-community.firebaseapp.com",
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "botmartz-community",
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "botmartz-community.firebasestorage.app",
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "429911370385",
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:429911370385:web:8dccca90c4f3730c8ead30",
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-85BJ8BEJLF"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyAES0qcaBxihzNmUAv8ZJSi9SvWCPukZUI",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "community-4727e.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "community-4727e",
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "community-4727e.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "20755277194",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:20755277194:web:4397f097dd8d36ba771473",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-3GC88VL42X"
 };
 
 const app = getApps().length > 0 ? getApps()[0] : initializeApp(firebaseConfig);
