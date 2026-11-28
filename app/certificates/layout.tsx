@@ -7,7 +7,11 @@ export const metadata: Metadata = {
   keywords: [
     "verify Botmartz certificate",
     "AI internship certificate verification",
+    "verified AI engineering certificate",
+    "AI engineer course with certificate",
+    "best AI certifications for resume",
     "verifiable AI credentials",
+    "QR verifiable PDF certificate",
     "Botmartz credential lookup",
   ],
   alternates: { canonical: "/certificates" },

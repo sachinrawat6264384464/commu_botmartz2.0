@@ -29,16 +29,31 @@ import VirtualInternshipPricingClient from "./VirtualInternshipClient";
 import InternshipJourneyClient from "./InternshipJourneyClient";
 import { InsaneMatrixClient, FounderAuditPolicyClient } from "./InternshipLowerSectionsClient";
 
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://community.botmartz.com";
+
 export const metadata: Metadata = {
   title: "45-Day Virtual AI Engineering Fellowship — Project-Based Simulator | Botmartz",
   description:
-    "Build production-grade AI systems, conquer high-difficulty SLA benchmarks, log daily GitHub proof-of-work, and earn Founder Soham Sharma's code audit and portfolio recommendation. Plans from Free to ₹299 & ₹1,999.",
+    "Join India's project-based Virtual AI Internship & Engineering Fellowship. Build production LLM & LangGraph RAG projects, log daily GitHub proof-of-work, and earn QR-verifiable certificates.",
   keywords: [
+    "virtual AI internship",
     "virtual AI internship India",
+    "virtual AI internship for students",
+    "virtual AI internship for freshers",
+    "virtual software engineering internship India for freshers",
+    "free virtual job simulations",
+    "software engineer internship remote no experience",
+    "project based AI internship India",
     "project based AI fellowship",
+    "online internship with certificate",
+    "AI internship work from home",
+    "AI summer internship 2026 India",
     "AI engineering portfolio projects",
+    "multi AI agent project GitHub",
     "LangGraph multi agent projects",
-    "system design portfolio projects",
+    "LangGraph RAG pipelines",
+    "evidence-backed proof of work",
+    "BCA MCA BTech AI internship",
     "Botmartz arena fellowship",
   ],
   alternates: {
@@ -48,7 +63,7 @@ export const metadata: Metadata = {
     title: "45-Day Virtual AI Engineering Fellowship | Botmartz",
     description:
       "Build real production AI systems. Conquer the Insane Project milestone to unlock Founder Code Audits, Verified Proof-of-Work, and Portfolio Recommendations.",
-    url: "https://community.botmartz.com/virtual-ai-internship",
+    url: `${SITE_URL}/virtual-ai-internship`,
     images: [{ url: "/logo.png", width: 1200, height: 630 }],
   },
 };
@@ -118,6 +133,30 @@ const jsonLdProgram = {
           acceptedAnswer: {
             "@type": "Answer",
             text: "No. We strictly do not sell or guarantee job placements. We provide an intensive practical simulator with real multi-table database schemas, daily GitHub commit tracking, and rigorous founder code teardowns so you can build an undeniable proof-of-work portfolio.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Is a virtual AI internship real and worth it for students and freshers?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes, when it is project-based and evidence-backed. Unlike passive video courses, Botmartz requires daily GitHub commits, production system PRDs (LangGraph, RAG, eBPF, PostGIS), and automated SLA verification so recruiters can inspect your actual code.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Does this online AI internship provide a verifiable certificate?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Verified builders who complete their project milestones and daily proof-of-work logs receive a QR-verifiable cryptographic PDF certificate backed by their public GitHub commit history.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How do I build an AI engineering portfolio with LangGraph and RAG?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Inside the Botmartz Engineering Playground, you can pick production system PRDs covering LangGraph multi-agent workflows, enterprise RAG pipelines, and vector databases, then ship daily commits in an Agile sprint workspace.",
           },
         },
       ],

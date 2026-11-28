@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   description:
     "Join discussions on AI Agents, Enterprise RAG, LangGraph state machines, MCP plugins, and prompt evaluation benchmarks with senior AI engineers and builders.",
   keywords: [
+    "AI builder community",
+    "student developer community",
     "AI developer discussions",
     "RAG forum",
     "LangGraph community",

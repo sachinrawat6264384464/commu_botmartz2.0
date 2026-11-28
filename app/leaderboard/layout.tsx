@@ -7,8 +7,10 @@ export const metadata: Metadata = {
   keywords: [
     "AI builder leaderboard",
     "top open source contributors",
+    "GitHub open-source AI projects",
     "Botmartz hall of fame",
     "developer karma ranking",
+    "student developer community",
   ],
   alternates: { canonical: "/leaderboard" },
   openGraph: {

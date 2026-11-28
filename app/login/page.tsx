@@ -317,14 +317,7 @@ function StudentLoginInner() {
   }
 
   return (
-    <div
-      className="min-h-[calc(100vh-80px)] bg-white text-slate-900 py-4 sm:py-5 font-sans selection:bg-[#D9F83B] selection:text-slate-950 flex flex-col justify-center relative overflow-hidden"
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(29, 49, 137, 0.11) 1px, transparent 1px), linear-gradient(to bottom, rgba(29, 49, 137, 0.11) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-      }}
-    >
+    <div className="min-h-[calc(100vh-80px)] bg-white text-slate-900 py-4 sm:py-5 font-sans flex flex-col justify-center relative overflow-hidden">
       <div id="recaptcha-container" suppressHydrationWarning={true}></div>
 
       {/* Dynamic 100% Full-Width Container */}
@@ -339,18 +332,18 @@ function StudentLoginInner() {
             <div className="relative z-10 space-y-3.5">
               {/* Top Row: Badge + Top-Right 180deg Rotating Circle Arrow */}
               <div className="flex items-center justify-between gap-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#D9F83B] text-slate-950 font-sans text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white border border-white/25 font-sans text-[10px] font-extrabold uppercase tracking-wider shadow-xs">
                   <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-950 opacity-60"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-950"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-60"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                   </span>
                   <span>Virtual AI Internship &amp; Builder Network</span>
                 </div>
 
-                <div className="w-10 h-10 rounded-full bg-white/10 border border-white/25 group-hover:bg-[#D9F83B] group-hover:border-[#D9F83B] flex items-center justify-center shrink-0 transition-all duration-700 ease-in-out">
+                <div className="w-10 h-10 rounded-full bg-white/10 border border-white/25 group-hover:bg-white group-hover:border-white flex items-center justify-center shrink-0 transition-all duration-700 ease-in-out">
                   <ArrowRight
                     size={17}
-                    className="text-[#D9F83B] group-hover:text-slate-950 transition-transform duration-700 ease-in-out group-hover:rotate-180"
+                    className="text-white group-hover:text-[#070E54] transition-transform duration-700 ease-in-out group-hover:rotate-180"
                   />
                 </div>
               </div>
@@ -358,7 +351,7 @@ function StudentLoginInner() {
               {/* Heading */}
               <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight font-sans leading-tight">
                 Build Real Systems with{" "}
-                <span className="text-[#D9F83B]">Verifiable Proof-of-Work</span>
+                <span className="text-blue-200">Verifiable Proof-of-Work</span>
               </h1>
 
               <p className="text-xs sm:text-[13px] text-blue-100/85 font-sans leading-relaxed font-normal">
@@ -369,28 +362,28 @@ function StudentLoginInner() {
 
               {/* 4 Feature Cards Grid (Clean Editorial Structure, No Icons) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-0.5 font-sans">
-                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 hover:bg-white hover:text-slate-950 transition-all duration-300">
                   <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">01</span>
                   <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">Daily Git Commit Logger</div>
-                  <div className="text-[#D9F83B] group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">+20 to +70 Coins Every Day</div>
+                  <div className="text-blue-200 group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">+20 to +70 Coins Every Day</div>
                 </div>
 
-                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 hover:bg-white hover:text-slate-950 transition-all duration-300">
                   <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">02</span>
                   <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">{TOTAL_SYSTEMS_COUNT} Production System PRDs</div>
                   <div className="text-blue-200/80 group-hover/feat:text-slate-600 text-[11px] transition-colors">LangGraph, eBPF, PostGIS</div>
                 </div>
 
-                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 hover:bg-white hover:text-slate-950 transition-all duration-300">
                   <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">03</span>
                   <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">Agile Workspaces &amp; Chat</div>
                   <div className="text-blue-200/80 group-hover/feat:text-slate-600 text-[11px] transition-colors">Jira/Linear Boards &amp; Live Squad</div>
                 </div>
 
-                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 border-l-4 border-l-[#D9F83B] hover:bg-white hover:text-slate-950 transition-all duration-300">
+                <div className="group/feat relative overflow-hidden p-3 rounded-xl bg-white/[0.06] border border-white/15 hover:bg-white hover:text-slate-950 transition-all duration-300">
                   <span className="absolute top-2 right-3 text-lg font-black text-white/15 group-hover/feat:text-[#1D3189]/15 select-none">04</span>
                   <div className="text-white group-hover/feat:text-slate-950 font-bold text-xs mb-0.5 transition-colors">Cryptographic Credentials</div>
-                  <div className="text-[#D9F83B] group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">QR Verifiable PDF Certificates</div>
+                  <div className="text-blue-200 group-hover/feat:text-[#1D3189] text-[11px] font-semibold transition-colors">QR Verifiable PDF Certificates</div>
                 </div>
               </div>
 
@@ -400,22 +393,22 @@ function StudentLoginInner() {
                   <span className="text-[11px] font-extrabold text-white font-sans uppercase tracking-wider">
                     Active Cohort Architecture Pipeline
                   </span>
-                  <span className="text-[10px] font-sans text-slate-950 font-bold px-2.5 py-0.5 rounded-full bg-[#D9F83B]">
+                  <span className="text-[10px] font-sans text-white font-bold px-2.5 py-0.5 rounded-full bg-white/15 border border-white/25">
                     Live Telemetry: Active
                   </span>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 text-[11px] font-sans">
                   <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                    <div className="text-[#D9F83B] font-bold">Week 1</div>
+                    <div className="text-white font-bold">Week 1</div>
                     <div className="text-blue-100/80 text-[10px]">PRD &amp; Setup</div>
                   </div>
                   <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                    <div className="text-[#D9F83B] font-bold">Week 2–3</div>
+                    <div className="text-white font-bold">Week 2–3</div>
                     <div className="text-blue-100/80 text-[10px]">Core Build</div>
                   </div>
                   <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                    <div className="text-[#D9F83B] font-bold">Week 4</div>
+                    <div className="text-white font-bold">Week 4</div>
                     <div className="text-blue-100/80 text-[10px]">SLA &amp; Review</div>
                   </div>
                 </div>
@@ -436,7 +429,7 @@ function StudentLoginInner() {
               <span className="font-semibold text-white">
                 Zero-Trust Authenticated Sessions
               </span>
-              <span className="text-slate-950 font-bold px-3 py-0.5 rounded-full bg-[#D9F83B] text-[11px]">
+              <span className="text-white font-bold px-3 py-0.5 rounded-full bg-white/15 border border-white/25 text-[11px]">
                 100 Free Welcome Coins
               </span>
             </div>
@@ -448,15 +441,15 @@ function StudentLoginInner() {
             {/* REGISTRATION SUCCESS CARD VIEW */}
             {registrationSuccess ? (
               <div className="h-full bg-white rounded-3xl border-2 border-[#162774] shadow-2xl p-6 sm:p-8 space-y-5 font-sans text-xs relative overflow-hidden flex flex-col justify-between animate-fadeIn">
-                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#162774] via-[#1D3189] to-[#D9F83B]" />
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#162774] via-[#1D3189] to-[#3B5BDB]" />
 
                 <div className="space-y-4 pt-2 text-center">
-                  <div className="w-16 h-16 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center mx-auto border-4 border-[#D9F83B] shadow-md">
+                  <div className="w-16 h-16 rounded-full bg-[#162774] text-white flex items-center justify-center mx-auto border-4 border-blue-200 shadow-md">
                     <CheckCircle2 size={34} />
                   </div>
 
                   <div>
-                    <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-[#D9F83B] text-[10px] font-extrabold uppercase tracking-wider">
+                    <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-white text-[10px] font-extrabold uppercase tracking-wider">
                       Account Registered &amp; Ticket Generated
                     </span>
                     <h2 className="text-2xl font-extrabold text-slate-950 mt-2 tracking-tight">
@@ -478,10 +471,10 @@ function StudentLoginInner() {
                   >
                     <div className="flex items-center justify-between text-xs border-b border-white/15 pb-2.5">
                       <span className="flex items-center gap-1.5 font-extrabold text-white">
-                        <Ticket size={14} className="text-[#D9F83B]" />
+                        <Ticket size={14} className="text-blue-200" />
                         <span>Sign-In Passcode</span>
                       </span>
-                      <span className="bg-[#D9F83B] text-slate-950 font-extrabold px-3 py-1 rounded-full text-[11px] font-mono tracking-wider shadow-xs">
+                      <span className="bg-white text-[#162774] font-extrabold px-3 py-1 rounded-full text-[11px] font-mono tracking-wider shadow-xs">
                         {registrationSuccess.passcode || registrationSuccess.checkInCode}
                       </span>
                     </div>
@@ -493,13 +486,13 @@ function StudentLoginInner() {
                       </div>
                       <div>
                         <span className="text-blue-200/80 text-[10px] font-bold block uppercase">Track Plan</span>
-                        <span className="font-extrabold text-[#D9F83B] block uppercase">{registrationSuccess.plan}</span>
+                        <span className="font-extrabold text-blue-200 block uppercase">{registrationSuccess.plan}</span>
                       </div>
                     </div>
 
                     <div className="pt-2.5 border-t border-white/15 flex items-center justify-between text-[11px]">
                       <span className="text-blue-100 font-medium">Welcome Bonus:</span>
-                      <span className="text-[#D9F83B] font-extrabold flex items-center gap-1">
+                      <span className="text-blue-200 font-extrabold flex items-center gap-1">
                         <Coins size={14} /> +100 Karma Coins Allocated
                       </span>
                     </div>
@@ -516,16 +509,12 @@ function StudentLoginInner() {
                 <div className="space-y-2.5 pt-2 font-sans text-xs">
                   <Link
                     href="/arena"
-                    className="group relative overflow-hidden w-full py-3 px-5 rounded-full bg-[#D9F83B] text-slate-950 font-extrabold tracking-wide transition-all flex items-center justify-between gap-2 shadow-md cursor-pointer"
+                    className="group relative overflow-hidden w-full py-3 px-5 rounded-full bg-[#162774] hover:bg-[#1D3189] text-white font-extrabold tracking-wide transition-all flex items-center justify-between gap-2 shadow-md cursor-pointer"
                   >
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 bg-[#162774] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                    />
-                    <span className="relative z-10 group-hover:text-white transition-colors duration-500">
+                    <span className="relative z-10">
                       Enter AI Builder Arena &amp; PRDs
                     </span>
-                    <span className="relative z-10 w-7 h-7 rounded-full bg-slate-950 text-[#D9F83B] group-hover:bg-[#D9F83B] group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg] shrink-0">
+                    <span className="relative z-10 w-7 h-7 rounded-full bg-white text-[#162774] flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg] shrink-0">
                       <ArrowRight size={13} />
                     </span>
                   </Link>
@@ -542,16 +531,12 @@ function StudentLoginInner() {
                       setError("");
                       setInfoMsg("Registration completed! Sign in with your Passcode below.");
                     }}
-                    className="group relative overflow-hidden w-full py-3 px-5 rounded-full bg-[#162774] text-white font-extrabold transition-all flex items-center justify-between gap-2 shadow-sm cursor-pointer"
+                    className="group relative overflow-hidden w-full py-3 px-5 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-[#162774] font-extrabold transition-all flex items-center justify-between gap-2 shadow-sm cursor-pointer"
                   >
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out"
-                    />
-                    <span className="relative z-10 group-hover:text-slate-950 transition-colors duration-500">
+                    <span className="relative z-10">
                       Sign In with Passcode
                     </span>
-                    <span className="relative z-10 w-6 h-6 rounded-full bg-[#D9F83B] text-slate-950 group-hover:bg-slate-950 group-hover:text-[#D9F83B] flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg] shrink-0">
+                    <span className="relative z-10 w-6 h-6 rounded-full bg-[#162774] text-white flex items-center justify-center transition-all duration-300 group-hover:rotate-[60deg] shrink-0">
                       <ArrowRight size={12} />
                     </span>
                   </button>
@@ -572,9 +557,9 @@ function StudentLoginInner() {
               </div>
             ) : user ? (
               /* ALREADY LOGGED IN STATE */
-              <div className="h-full bg-white rounded-[28px] border border-slate-200 border-l-4 border-l-[#D9F83B] shadow-xl p-8 sm:p-10 text-center space-y-6 font-sans relative overflow-hidden flex flex-col justify-between hover:border-[#162774] transition-all">
+              <div className="h-full bg-white rounded-[28px] border border-slate-200 border-l-4 border-l-[#162774] shadow-xl p-8 sm:p-10 text-center space-y-6 font-sans relative overflow-hidden flex flex-col justify-between hover:border-[#162774] transition-all">
                 <div className="space-y-4 pt-2">
-                  <div className="w-20 h-20 rounded-full bg-[#162774] text-[#D9F83B] font-extrabold text-2xl flex items-center justify-center mx-auto overflow-hidden border-4 border-[#D9F83B] shadow-md">
+                  <div className="w-20 h-20 rounded-full bg-[#162774] text-white font-extrabold text-2xl flex items-center justify-center mx-auto overflow-hidden border-4 border-blue-200 shadow-md">
                     {user.photoURL ? (
                       <img src={user.photoURL} alt={user.displayName || "User"} className="w-full h-full object-cover" />
                     ) : (
@@ -583,7 +568,7 @@ function StudentLoginInner() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <span className="inline-block px-3.5 py-1 rounded-full bg-[#D9F83B] text-[#162774] text-xs font-extrabold uppercase tracking-wider">
+                    <span className="inline-block px-3.5 py-1 rounded-full bg-[#162774] text-white text-xs font-extrabold uppercase tracking-wider">
                       Authenticated Session Active
                     </span>
                     <h3 className="text-2xl sm:text-3xl font-extrabold text-[#162774] tracking-tight pt-1">
@@ -611,16 +596,12 @@ function StudentLoginInner() {
                 <div className="space-y-3 font-sans">
                   <Link
                     href={redirectUrl}
-                    className="group relative overflow-hidden w-full py-3.5 pl-6 pr-2.5 rounded-full bg-[#162774] text-white font-extrabold text-sm flex items-center justify-between gap-3 shadow-lg transition-colors cursor-pointer"
+                    className="group relative overflow-hidden w-full py-3.5 pl-6 pr-2.5 rounded-full bg-[#162774] hover:bg-[#1D3189] text-white font-extrabold text-sm flex items-center justify-between gap-3 shadow-lg transition-colors cursor-pointer"
                   >
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 bg-[#D9F83B] -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"
-                    />
-                    <span className="relative z-10 group-hover:text-[#162774] transition-colors duration-300">
+                    <span className="relative z-10">
                       Continue to Workspace
                     </span>
-                    <span className="relative z-10 w-8 h-8 rounded-full bg-[#D9F83B] group-hover:bg-[#162774] text-[#162774] group-hover:text-[#D9F83B] flex items-center justify-center transition-colors duration-300">
+                    <span className="relative z-10 w-8 h-8 rounded-full bg-white text-[#162774] flex items-center justify-center transition-colors duration-300">
                       <ArrowRight size={15} className="transition-transform duration-300 group-hover:rotate-[60deg]" />
                     </span>
                   </Link>
@@ -648,7 +629,7 @@ function StudentLoginInner() {
             ) : (
               /* MAIN AUTH CARD (SIGN UP / SIGN IN) */
               <div className="h-full bg-white rounded-3xl border border-slate-200/90 shadow-xl p-5 sm:p-6 space-y-3.5 relative overflow-hidden flex flex-col justify-between">
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9F83B] z-10" />
+                <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#162774] z-10" />
 
                 <div className="relative z-10 space-y-4">
 
@@ -733,7 +714,7 @@ function StudentLoginInner() {
 
                   {infoMsg && (
                     <div className="p-3.5 rounded-2xl bg-[#F4F6FB] border border-[#162774]/20 border-l-4 border-l-[#162774] text-[#162774] text-xs font-sans font-bold flex items-center gap-3 shadow-xs">
-                      <span className="w-7 h-7 rounded-full bg-[#162774] text-[#D9F83B] flex items-center justify-center shrink-0">
+                      <span className="w-7 h-7 rounded-full bg-[#162774] text-white flex items-center justify-center shrink-0">
                         <CheckCircle2 size={15} />
                       </span>
                       <span className="leading-snug">{infoMsg}</span>
@@ -841,7 +822,7 @@ function StudentLoginInner() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full py-3 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-sm font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
+                        className="w-full py-3 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-sans text-sm font-bold transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
                       >
                         {submitting ? (
                           <>
@@ -985,7 +966,7 @@ function StudentLoginInner() {
                             data-testid="signin-btn"
                             type="submit"
                             disabled={submitting}
-                            className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-sm font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
+                            className="w-full py-3.5 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-sans text-sm font-bold transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
                           >
                             {submitting ? (
                               <>
@@ -1076,7 +1057,7 @@ function StudentLoginInner() {
                               <button
                                 type="submit"
                                 disabled={submitting}
-                                className="w-full py-3.5 rounded-xl bg-[#D9F83B] hover:bg-[#e5ff59] text-slate-950 font-sans text-sm font-bold transition-all shadow-lg shadow-lime-400/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                                className="w-full py-3.5 rounded-xl bg-[#162774] hover:bg-[#1D3189] text-white font-sans text-sm font-bold transition-all shadow-lg shadow-blue-900/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                               >
                                 {submitting ? (
                                   <>

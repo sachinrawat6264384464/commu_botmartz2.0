@@ -6,6 +6,10 @@ export const metadata: Metadata = {
     "Intensive, hands-on live coding workshops on LangGraph agent state machines, hybrid dense/sparse RAG indexing, and LLMOps production deployments.",
   keywords: [
     "AI workshops 2026",
+    "AI workshops webinars for students India",
+    "online workshop with certificate",
+    "free online workshops for engineering students",
+    "AI training in India online",
     "LangGraph bootcamp",
     "RAG live coding cohort",
     "AI engineering workshops",

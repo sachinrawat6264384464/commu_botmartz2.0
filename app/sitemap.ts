@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { ARENA_PROJECTS } from "@/lib/arena-projects";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://community.botmartz.com";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://community.botmartz.com";
   const now = new Date();
 
   // Core Static Routes

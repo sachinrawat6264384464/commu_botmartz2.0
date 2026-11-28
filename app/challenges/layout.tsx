@@ -6,6 +6,11 @@ export const metadata: Metadata = {
     "Compete in 48-hour AI hackathons, prompt battles, and production engineering challenges. Win cash prizes, GPU cloud credits, and unlock partner company job referrals.",
   keywords: [
     "AI hackathons 2026",
+    "online virtual hackathons",
+    "upcoming AI hackathons",
+    "AI builders hackathon",
+    "AI hackathon winning projects",
+    "student hackathons",
     "online AI engineering challenges",
     "prompt engineering battles",
     "LangGraph hackathon",

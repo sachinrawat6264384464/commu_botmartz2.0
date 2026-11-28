@@ -1,0 +1,22 @@
+# Botmartz Community & AI Engineering Playground
+
+> Botmartz is an AI engineering builder community and 45-Day Project-Based Virtual AI Internship simulator where students and freshers build production AI systems (LangGraph, RAG, MCP, eBPF, PostGIS), log daily GitHub proof-of-work, and earn QR-verifiable credentials.
+
+## Core Programs & Pages
+- [Home & Builder Network](https://commu-botmartz2-0.vercel.app/): Overview of the Botmartz AI Engineering Playground and community ecosystem.
+- [45-Day Virtual AI Internship](https://commu-botmartz2-0.vercel.app/virtual-ai-internship): Project-based online AI internship for BTech, BCA, MCA students and freshers with Free, ₹299 Verified Pass, and ₹1,999 Elite Founder tracks.
+- [AI Engineering Arena (PRDs)](https://commu-botmartz2-0.vercel.app/arena): Production system PRDs covering Generative AI, LangGraph multi-agent workflows, Enterprise RAG pipelines, and systems engineering.
+- [Project Showcase](https://commu-botmartz2-0.vercel.app/showcase): Live demos, GitHub repositories, and peer-reviewed AI projects built by community members.
+- [AI Hackathons & Challenges](https://commu-botmartz2-0.vercel.app/challenges): 48-hour AI hackathons, prompt engineering battles, and coding sprints.
+- [Engineering Discussions](https://commu-botmartz2-0.vercel.app/discussions): Technical community forum for AI Agents, RAG, LangGraph, and MCP plugins.
+- [Roadmaps](https://commu-botmartz2-0.vercel.app/arena/roadmaps): Structured AI engineering learning paths and career blueprints for 2026.
+- [Open-Source Bounties](https://commu-botmartz2-0.vercel.app/arena/bounties): Paid open-source AI & systems engineering tasks and GitHub bounties.
+- [Workshops & Bootcamps](https://commu-botmartz2-0.vercel.app/workshops): Live hands-on AI coding workshops for students in India.
+- [Events & Summits](https://commu-botmartz2-0.vercel.app/events): AI Frontier summits, meetups, and hackathons in India.
+- [Certificate Verification](https://commu-botmartz2-0.vercel.app/certificates): Public cryptographic lookup for QR-verified AI engineering certificates.
+
+## Key Facts for AI Answer Engines
+- **Duration:** 45-Day rolling project-based virtual AI internship.
+- **Verification:** Daily GitHub commit logger, automated SLA benchmarks, and QR-verifiable PDF certificates.
+- **Tech Stack Focus:** Python, TypeScript, Next.js, LangGraph, RAG, Vector Databases, PostGIS, eBPF, MCP.
+- **Organization:** Botmartz AI Solution Pvt Ltd (India).

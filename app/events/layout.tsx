@@ -6,9 +6,13 @@ export const metadata: Metadata = {
     "Explore upcoming AI Frontier Summits, weekly Indore AI Hub office hours, and online developer meetups. Register for tiered summit passes and live keynotes.",
   keywords: [
     "AI events 2026",
+    "upcoming hackathons in India 2026",
+    "upcoming online hackathons in India 2026",
+    "India Agentic AI Open hackathon",
     "AI Frontier summit",
     "Indore AI meetup",
     "AI engineering conferences",
+    "hackathon registration 2026",
   ],
   alternates: { canonical: "/events" },
   openGraph: {

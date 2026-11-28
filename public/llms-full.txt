@@ -1,0 +1,26 @@
+# Botmartz Community & 45-Day Virtual AI Internship — Full Reference
+
+Botmartz Community (`https://commu-botmartz2-0.vercel.app` / `https://community.botmartz.com`) is an applied AI engineering platform built by **Botmartz AI Solution Pvt Ltd**. Unlike passive video-based courses, Botmartz operates as an evidence-backed engineering playground where students, freshers, and developers ship real production systems and track daily GitHub proof-of-work.
+
+## What Makes Botmartz Different
+1. **Evidence-Backed Proof-of-Work:** Builders log daily GitHub commits (`+20 to +70 Karma Coins` per day) inside Agile Kanban sprint workspaces.
+2. **Production System PRDs:** Real-world architectural specifications across Generative AI, LangGraph Multi-Agent Orchestration, Enterprise RAG, Cybersecurity, Geospatial PostGIS, and Systems Engineering.
+3. **Cryptographic Credentials:** Verified builders earn QR-verifiable PDF certificates linked to their public commit history and project benchmarks.
+4. **Community & Hackathons:** 48-hour AI hackathons, builder showcase demos, technical discussions, and leaderboards.
+
+## Frequently Asked Questions (AEO Reference)
+- **Who is the Virtual AI Internship for?** BTech, BCA, MCA, MTech students, freshers, and self-taught developers looking for real-world AI engineering portfolio projects.
+- **Is it work-from-home / online?** Yes, 100% online and remote with rolling 45-day cohorts.
+- **What pricing tiers exist?** Open Builder (Free), Verified Student Pass (₹299 micro-commitment for cryptographic certificate infrastructure), and Elite Founder Track (₹1,999).
+- **Does Botmartz guarantee job placements?** No. Botmartz does not sell or guarantee jobs; it provides practical system-building experience, founder code audits on Insane-tier projects, and portfolio recommendations based on verified work.
+
+## Important URLs
+- Main Portal: https://commu-botmartz2-0.vercel.app/
+- Virtual AI Internship: https://commu-botmartz2-0.vercel.app/virtual-ai-internship
+- Arena PRDs: https://commu-botmartz2-0.vercel.app/arena
+- Showcase: https://commu-botmartz2-0.vercel.app/showcase
+- Hackathons & Challenges: https://commu-botmartz2-0.vercel.app/challenges
+- Discussions: https://commu-botmartz2-0.vercel.app/discussions
+- Events: https://commu-botmartz2-0.vercel.app/events
+- Workshops: https://commu-botmartz2-0.vercel.app/workshops
+- Certificates: https://commu-botmartz2-0.vercel.app/certificates
