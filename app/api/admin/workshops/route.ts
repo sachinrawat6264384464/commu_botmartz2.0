@@ -7,7 +7,15 @@ import { DEFAULT_WORKSHOPS, ManagedWorkshop, WorkshopRegistration } from "@/lib/
 export async function GET() {
   try {
     if (!adminDb) {
-      return NextResponse.json({ success: false, error: "Database unavailable." }, { status: 500 });
+      return NextResponse.json({
+        success: true,
+        fallback: true,
+        workshops: DEFAULT_WORKSHOPS.map((ws) => ({
+          ...ws,
+          registrations: [],
+          revenueCollected: 0,
+        })),
+      });
     }
 
     const colRef = adminDb.collection("managed_workshops");

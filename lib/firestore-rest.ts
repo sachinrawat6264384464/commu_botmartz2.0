@@ -1,4 +1,4 @@
-const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "botmartz-community";
+const PROJECT_ID = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "community-4727e";
 const FIRESTORE_BASE_URL = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents`;
 
 /**
